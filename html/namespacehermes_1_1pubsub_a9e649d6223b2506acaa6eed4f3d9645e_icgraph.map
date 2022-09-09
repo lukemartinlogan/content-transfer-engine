@@ -1,0 +1,5 @@
+<map id="hermes::pubsub::attach" name="hermes::pubsub::attach">
+<area shape="rect" id="node1" title="Attaches to a topic, creating it if it doesnt exists." alt="" coords="249,31,424,57"/>
+<area shape="rect" id="node2" href="$namespacehermes_1_1pubsub.html#a42527ee736b716c787a8d46879cbd960" title="Puts a message to a topic." alt="" coords="13,5,194,32"/>
+<area shape="rect" id="node3" href="$namespacehermes_1_1pubsub.html#accd2f84f568f2ef6cdbf79fdf32aaa5b" title="Retrieves the next message from the topic." alt="" coords="5,56,201,83"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="hermes::adapter::Singleton::GetInstance" name="hermes::adapter::Singleton::GetInstance">
+<area shape="rect" id="node1" title=" " alt="" coords="228,71,427,112"/>
+<area shape="rect" id="node2" href="$classhermes_1_1adapter_1_1mpiio_1_1_mapper_factory.html#ad88702927b2a7549e1d1416d7d0db5e4" title=" " alt="" coords="5,5,180,47"/>
+<area shape="rect" id="node3" href="$classhermes_1_1adapter_1_1posix_1_1_mapper_factory.html#a9054045e55f3344d3011411fa3e76bb6" title=" " alt="" coords="7,71,179,112"/>
+<area shape="rect" id="node4" href="$classhermes_1_1adapter_1_1stdio_1_1_mapper_factory.html#a18dc570603d6d7e583cd66950198d09b" title=" " alt="" coords="8,136,177,177"/>
+</map>
