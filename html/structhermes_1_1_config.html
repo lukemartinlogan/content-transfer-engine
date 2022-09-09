@@ -142,8 +142,12 @@ Public Attributes</h2></td></tr>
 <tr class="separator:ade9f12eca7406edbadf611fa9fd49fa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67dd6ae978d1fb5821750f462217afe4"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_config.html#a67dd6ae978d1fb5821750f462217afe4">rpc_server_base_name</a></td></tr>
 <tr class="separator:a67dd6ae978d1fb5821750f462217afe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad78adbdc7ff09ae101ce2851c1948728"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_config.html#ad78adbdc7ff09ae101ce2851c1948728">host_numbers</a></td></tr>
+<tr class="separator:ad78adbdc7ff09ae101ce2851c1948728"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d74871a970591bfaf6dac4b3427e8a7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_config.html#a8d74871a970591bfaf6dac4b3427e8a7">rpc_server_suffix</a></td></tr>
 <tr class="separator:a8d74871a970591bfaf6dac4b3427e8a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65cd3ee7707425f8291c1618da23d899"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_config.html#a65cd3ee7707425f8291c1618da23d899">host_names</a></td></tr>
+<tr class="separator:a65cd3ee7707425f8291c1618da23d899"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc876cfb62763cd57c27b1074dea419e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_config.html#adc876cfb62763cd57c27b1074dea419e">rpc_protocol</a></td></tr>
 <tr class="separator:adc876cfb62763cd57c27b1074dea419e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54d162eb1c75a8de2029412b0c2102d9"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_config.html#a54d162eb1c75a8de2029412b0c2102d9">rpc_domain</a></td></tr>
@@ -152,8 +156,6 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a575d39cde8052151a0fcd566ead69379"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99c1ce065340327294612c9fc80e8453"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_config.html#a99c1ce065340327294612c9fc80e8453">buffer_organizer_port</a></td></tr>
 <tr class="separator:a99c1ce065340327294612c9fc80e8453"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4fea76e357db0d1ef29031535d47c4e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_config.html#af4fea76e357db0d1ef29031535d47c4e">host_numbers</a></td></tr>
-<tr class="separator:af4fea76e357db0d1ef29031535d47c4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a024be4dda0c6a9b4a0097bfdc3b16ebd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_config.html#a024be4dda0c6a9b4a0097bfdc3b16ebd">rpc_num_threads</a></td></tr>
 <tr class="separator:a024be4dda0c6a9b4a0097bfdc3b16ebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9fb4ccb10ce4dd4e3a4887dbb41b61ea"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_config.html#a9fb4ccb10ce4dd4e3a4887dbb41b61ea">bo_num_threads</a></td></tr>
@@ -339,14 +341,29 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="af4fea76e357db0d1ef29031535d47c4e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4fea76e357db0d1ef29031535d47c4e">&#9670;&nbsp;</a></span>host_numbers</h2>
+<a id="a65cd3ee7707425f8291c1618da23d899"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65cd3ee7707425f8291c1618da23d899">&#9670;&nbsp;</a></span>host_names</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;int&gt; hermes::Config::host_numbers</td>
+          <td class="memname">std::vector&lt;std::string&gt; hermes::Config::host_names</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The parsed hostnames from the hermes conf </p>
+
+</div>
+</div>
+<a id="ad78adbdc7ff09ae101ce2851c1948728"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad78adbdc7ff09ae101ce2851c1948728">&#9670;&nbsp;</a></span>host_numbers</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; hermes::Config::host_numbers</td>
         </tr>
       </table>
 </div><div class="memdoc">

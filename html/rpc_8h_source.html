@@ -127,55 +127,49 @@ $(document).ready(function(){initNavTree('rpc_8h_source.html',''); initResizable
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <a class="code" href="structhermes_1_1_client_rpc_context.html">ClientRpcContext</a> client_rpc;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">void</span> *state;</div>
 <div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="structhermes_1_1_rpc_context.html#aaa5705eac3bc8fc7224dae3308caa31d">   41</a></span>&#160;  <span class="keywordtype">size_t</span> <a class="code" href="structhermes_1_1_rpc_context.html#aaa5705eac3bc8fc7224dae3308caa31d">state_size</a>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="structhermes_1_1_rpc_context.html#a376b9ae54db1360bb613bb015c8cc5c0">   44</a></span>&#160;  <span class="keywordtype">int</span> *<a class="code" href="structhermes_1_1_rpc_context.html#a376b9ae54db1360bb613bb015c8cc5c0">host_numbers</a>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="structhermes_1_1_rpc_context.html#abae8ef8bc4fb69600593bcaaa42a9ee3">   47</a></span>&#160;  <span class="keywordtype">size_t</span> <a class="code" href="structhermes_1_1_rpc_context.html#abae8ef8bc4fb69600593bcaaa42a9ee3">num_host_numbers</a>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="structhermes_1_1_rpc_context.html#acea9588d66540597a933623c17d0ce32">   50</a></span>&#160;  <a class="code" href="structhermes_1_1_shmem_string.html">ShmemString</a> *<a class="code" href="structhermes_1_1_rpc_context.html#acea9588d66540597a933623c17d0ce32">host_names</a>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  u32 node_id;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  u32 num_nodes;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordtype">int</span> port;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordtype">bool</span> use_host_file;</div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="structhermes_1_1_rpc_context.html#aba2ad4232f1c94d3eab0b05c6e8fd8d6">   58</a></span>&#160;  <span class="keywordtype">char</span> <a class="code" href="structhermes_1_1_rpc_context.html#aba2ad4232f1c94d3eab0b05c6e8fd8d6">base_hostname</a>[kMaxServerNameSize];</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keywordtype">char</span> hostname_suffix[kMaxServerSuffixSize];</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="comment">// TODO(chogan): Also allow reading hostnames from a file for heterogeneous or</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="comment">// non-contiguous hostnames (e.g., compute-node-20, compute-node-30,</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="comment">// storage-node-16, storage-node-24)</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="comment">// char *host_file_name;</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  StartFunc start_server;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;};</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keywordtype">void</span> InitRpcContext(<a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc, u32 num_nodes, u32 node_id,</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                    <a class="code" href="structhermes_1_1_config.html">Config</a> *config);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keywordtype">void</span> *CreateRpcState(<a class="code" href="structhermes_1_1_arena.html">Arena</a> *arena);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keywordtype">void</span> InitRpcClients(<a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keywordtype">void</span> ShutdownRpcClients(<a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keywordtype">void</span> RunDaemon(<a class="code" href="structhermes_1_1_shared_memory_context.html">SharedMemoryContext</a> *context, <a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc,</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;               <a class="code" href="structhermes_1_1_communication_context.html">CommunicationContext</a> *comm, <a class="code" href="structhermes_1_1_arena.html">Arena</a> *trans_arena,</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;               <span class="keyword">const</span> <span class="keywordtype">char</span> *shmem_name);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keywordtype">void</span> FinalizeClient(<a class="code" href="structhermes_1_1_shared_memory_context.html">SharedMemoryContext</a> *context, <a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc,</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                    <a class="code" href="structhermes_1_1_communication_context.html">CommunicationContext</a> *comm, <a class="code" href="structhermes_1_1_arena.html">Arena</a> *trans_arena,</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                    <span class="keywordtype">bool</span> stop_daemon);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keywordtype">void</span> FinalizeRpcContext(<a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc, <span class="keywordtype">bool</span> is_daemon);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;std::string GetHostNumberAsString(<a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc, u32 node_id);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;std::string GetServerName(<a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc, u32 node_id,</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                          <span class="keywordtype">bool</span> is_buffer_organizer = <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;std::string GetProtocol(<a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keywordtype">void</span> StartBufferOrganizer(<a class="code" href="structhermes_1_1_shared_memory_context.html">SharedMemoryContext</a> *context, <a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc,</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                          <a class="code" href="structhermes_1_1_arena.html">Arena</a> *arena, <span class="keyword">const</span> <span class="keywordtype">char</span> *addr, <span class="keywordtype">int</span> num_threads,</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                          <span class="keywordtype">int</span> port);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;}  <span class="comment">// namespace hermes</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">// TODO(chogan): I don&#39;t like that code similar to this is in buffer_pool.cc.</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment">// I&#39;d like to only have it in one place.</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#if defined(HERMES_RPC_THALLIUM)</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor">#include &quot;rpc_thallium.h&quot;</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor">#error &quot;RPC implementation required (e.g., -DHERMES_RPC_THALLIUM).&quot;</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">#endif  // HERMES_RPC_H_</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="structhermes_1_1_rpc_context.html#acea9588d66540597a933623c17d0ce32">   44</a></span>&#160;  <a class="code" href="structhermes_1_1_shmem_string.html">ShmemString</a> *<a class="code" href="structhermes_1_1_rpc_context.html#acea9588d66540597a933623c17d0ce32">host_names</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  u32 node_id;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  u32 num_nodes;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordtype">int</span> port;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordtype">bool</span> use_host_file;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="comment">// TODO(chogan): Also allow reading hostnames from a file for heterogeneous or</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="comment">// non-contiguous hostnames (e.g., compute-node-20, compute-node-30,</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="comment">// storage-node-16, storage-node-24)</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="comment">// char *host_file_name;</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  StartFunc start_server;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keywordtype">void</span> InitRpcContext(<a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc, u32 num_nodes, u32 node_id,</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                    <a class="code" href="structhermes_1_1_config.html">Config</a> *config);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keywordtype">void</span> *CreateRpcState(<a class="code" href="structhermes_1_1_arena.html">Arena</a> *arena);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keywordtype">void</span> InitRpcClients(<a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keywordtype">void</span> ShutdownRpcClients(<a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keywordtype">void</span> RunDaemon(<a class="code" href="structhermes_1_1_shared_memory_context.html">SharedMemoryContext</a> *context, <a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc,</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;               <a class="code" href="structhermes_1_1_communication_context.html">CommunicationContext</a> *comm, <a class="code" href="structhermes_1_1_arena.html">Arena</a> *trans_arena,</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;               <span class="keyword">const</span> <span class="keywordtype">char</span> *shmem_name);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keywordtype">void</span> FinalizeClient(<a class="code" href="structhermes_1_1_shared_memory_context.html">SharedMemoryContext</a> *context, <a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc,</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    <a class="code" href="structhermes_1_1_communication_context.html">CommunicationContext</a> *comm, <a class="code" href="structhermes_1_1_arena.html">Arena</a> *trans_arena,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    <span class="keywordtype">bool</span> stop_daemon);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordtype">void</span> FinalizeRpcContext(<a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc, <span class="keywordtype">bool</span> is_daemon);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;std::string GetServerName(<a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc, u32 node_id,</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                          <span class="keywordtype">bool</span> is_buffer_organizer = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;std::string GetProtocol(<a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keywordtype">void</span> StartBufferOrganizer(<a class="code" href="structhermes_1_1_shared_memory_context.html">SharedMemoryContext</a> *context, <a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc,</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                          <a class="code" href="structhermes_1_1_arena.html">Arena</a> *arena, <span class="keyword">const</span> <span class="keywordtype">char</span> *addr, <span class="keywordtype">int</span> num_threads,</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                          <span class="keywordtype">int</span> port);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}  <span class="comment">// namespace hermes</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment">// TODO(chogan): I don&#39;t like that code similar to this is in buffer_pool.cc.</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">// I&#39;d like to only have it in one place.</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#if defined(HERMES_RPC_THALLIUM)</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">#include &quot;rpc_thallium.h&quot;</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor">#error &quot;RPC implementation required (e.g., -DHERMES_RPC_THALLIUM).&quot;</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#endif  // HERMES_RPC_H_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructhermes_1_1_arena_html"><div class="ttname"><a href="structhermes_1_1_arena.html">hermes::Arena</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:74</div></div>
@@ -184,16 +178,13 @@ $(document).ready(function(){initNavTree('rpc_8h_source.html',''); initResizable
 <div class="ttc" id="abuffer__pool__internal_8h_html"><div class="ttname"><a href="buffer__pool__internal_8h.html">buffer_pool_internal.h</a></div></div>
 <div class="ttc" id="astructhermes_1_1_blob_info_map_html"><div class="ttname"><a href="structhermes_1_1_blob_info_map.html">hermes::BlobInfoMap</a></div><div class="ttdef"><b>Definition:</b> metadata_storage_stb_ds.cc:29</div></div>
 <div class="ttc" id="astructhermes_1_1_shmem_string_html"><div class="ttname"><a href="structhermes_1_1_shmem_string.html">hermes::ShmemString</a></div><div class="ttdef"><b>Definition:</b> metadata_management.h:45</div></div>
-<div class="ttc" id="astructhermes_1_1_rpc_context_html_abae8ef8bc4fb69600593bcaaa42a9ee3"><div class="ttname"><a href="structhermes_1_1_rpc_context.html#abae8ef8bc4fb69600593bcaaa42a9ee3">hermes::RpcContext::num_host_numbers</a></div><div class="ttdeci">size_t num_host_numbers</div><div class="ttdef"><b>Definition:</b> rpc.h:47</div></div>
-<div class="ttc" id="astructhermes_1_1_rpc_context_html_acea9588d66540597a933623c17d0ce32"><div class="ttname"><a href="structhermes_1_1_rpc_context.html#acea9588d66540597a933623c17d0ce32">hermes::RpcContext::host_names</a></div><div class="ttdeci">ShmemString * host_names</div><div class="ttdef"><b>Definition:</b> rpc.h:50</div></div>
+<div class="ttc" id="astructhermes_1_1_rpc_context_html_acea9588d66540597a933623c17d0ce32"><div class="ttname"><a href="structhermes_1_1_rpc_context.html#acea9588d66540597a933623c17d0ce32">hermes::RpcContext::host_names</a></div><div class="ttdeci">ShmemString * host_names</div><div class="ttdef"><b>Definition:</b> rpc.h:44</div></div>
 <div class="ttc" id="astructhermes_1_1_communication_context_html"><div class="ttname"><a href="structhermes_1_1_communication_context.html">hermes::CommunicationContext</a></div><div class="ttdef"><b>Definition:</b> communication.h:32</div></div>
 <div class="ttc" id="astructhermes_1_1_shared_memory_context_html"><div class="ttname"><a href="structhermes_1_1_shared_memory_context.html">hermes::SharedMemoryContext</a></div><div class="ttdef"><b>Definition:</b> buffer_pool.h:254</div></div>
 <div class="ttc" id="astructhermes_1_1_client_rpc_context_html"><div class="ttname"><a href="structhermes_1_1_client_rpc_context.html">hermes::ClientRpcContext</a></div><div class="ttdef"><b>Definition:</b> rpc.h:32</div></div>
-<div class="ttc" id="astructhermes_1_1_rpc_context_html_aba2ad4232f1c94d3eab0b05c6e8fd8d6"><div class="ttname"><a href="structhermes_1_1_rpc_context.html#aba2ad4232f1c94d3eab0b05c6e8fd8d6">hermes::RpcContext::base_hostname</a></div><div class="ttdeci">char base_hostname[kMaxServerNameSize]</div><div class="ttdef"><b>Definition:</b> rpc.h:58</div></div>
-<div class="ttc" id="aunionhermes_1_1_blob_i_d_html"><div class="ttname"><a href="unionhermes_1_1_blob_i_d.html">hermes::BlobID</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:320</div></div>
+<div class="ttc" id="aunionhermes_1_1_blob_i_d_html"><div class="ttname"><a href="unionhermes_1_1_blob_i_d.html">hermes::BlobID</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:321</div></div>
 <div class="ttc" id="astructhermes_1_1_id_map_html"><div class="ttname"><a href="structhermes_1_1_id_map.html">hermes::IdMap</a></div><div class="ttdef"><b>Definition:</b> metadata_storage_stb_ds.cc:24</div></div>
 <div class="ttc" id="astructhermes_1_1_blob_info_html"><div class="ttname"><a href="structhermes_1_1_blob_info.html">hermes::BlobInfo</a></div><div class="ttdef"><b>Definition:</b> metadata_management.h:94</div></div>
-<div class="ttc" id="astructhermes_1_1_rpc_context_html_a376b9ae54db1360bb613bb015c8cc5c0"><div class="ttname"><a href="structhermes_1_1_rpc_context.html#a376b9ae54db1360bb613bb015c8cc5c0">hermes::RpcContext::host_numbers</a></div><div class="ttdeci">int * host_numbers</div><div class="ttdef"><b>Definition:</b> rpc.h:44</div></div>
 <div class="ttc" id="astructhermes_1_1_metadata_manager_html"><div class="ttname"><a href="structhermes_1_1_metadata_manager.html">hermes::MetadataManager</a></div><div class="ttdef"><b>Definition:</b> metadata_management.h:180</div></div>
 <div class="ttc" id="astructhermes_1_1_config_html"><div class="ttname"><a href="structhermes_1_1_config.html">hermes::Config</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:190</div></div>
 <!-- start footer part -->
