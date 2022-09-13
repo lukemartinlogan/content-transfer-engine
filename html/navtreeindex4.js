@@ -1,5 +1,7 @@
 var NAVTREEINDEX4 =
 {
+"structhermes_1_1_ticket.html#acbe0bc6fa9d610f19a57c8ffb1e0a38c":[3,0,1,59,1],
+"structhermes_1_1_ticket_mutex.html":[3,0,1,60],
 "structhermes_1_1_ticket_mutex.html#a0fb4a3aaff155df9ab738a66661cf7cf":[3,0,1,60,0],
 "structhermes_1_1_ticket_mutex.html#a644af165606911da8ec12649a14f935e":[3,0,1,60,1],
 "structhermes_1_1_v_bucket_info.html":[3,0,1,62],
@@ -247,7 +249,5 @@ var NAVTREEINDEX4 =
 "structhermes_1_1api_1_1_write_only_trait.html#a844c67345a7a87a769cfee71a7097895":[3,0,1,1,10,4],
 "structhermes_1_1api_1_1_write_only_trait.html#a9df20b7cd0ade3a8a4947232aa818fc5":[3,0,1,1,10,0],
 "structhermes_1_1testing_1_1_target_view_state.html":[3,0,1,2,0],
-"structhermes_1_1testing_1_1_target_view_state.html#a069107c1a230dea68e30e51dafc4cfca":[3,0,1,2,0,1],
-"structhermes_1_1testing_1_1_target_view_state.html#a06c78fb9b9e8867c759edc134be1c2a2":[3,0,1,2,0,3],
-"structhermes_1_1testing_1_1_target_view_state.html#a97c2ba1e2f1612d384f6cf5b012be02f":[3,0,1,2,0,0]
+"structhermes_1_1testing_1_1_target_view_state.html#a069107c1a230dea68e30e51dafc4cfca":[3,0,1,2,0,1]
 };

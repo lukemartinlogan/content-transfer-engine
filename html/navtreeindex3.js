@@ -1,5 +1,7 @@
 var NAVTREEINDEX3 =
 {
+"structhermes_1_1_buffer_id_array.html":[3,0,1,16],
+"structhermes_1_1_buffer_id_array.html#a4ac355300681dedb3142535b4bf3a15d":[3,0,1,16,0],
 "structhermes_1_1_buffer_id_array.html#a9d9c3803aab0ee0f25a8fd2554bfeb8f":[3,0,1,16,1],
 "structhermes_1_1_buffer_id_hash.html":[3,0,1,17],
 "structhermes_1_1_buffer_id_hash.html#a3c916ad7d9130c7cd307110a34aca488":[3,0,1,17,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX3 =
 "structhermes_1_1_thresholds.html#a029f620b7a5a438903487bdd049a0894":[3,0,1,58,0],
 "structhermes_1_1_thresholds.html#acfd2bdebf2d63985cb96f64b519fab92":[3,0,1,58,1],
 "structhermes_1_1_ticket.html":[3,0,1,59],
-"structhermes_1_1_ticket.html#a6842e2526eb73e195501213d90b6361b":[3,0,1,59,0],
-"structhermes_1_1_ticket.html#acbe0bc6fa9d610f19a57c8ffb1e0a38c":[3,0,1,59,1],
-"structhermes_1_1_ticket_mutex.html":[3,0,1,60]
+"structhermes_1_1_ticket.html#a6842e2526eb73e195501213d90b6361b":[3,0,1,59,0]
 };
