@@ -1,10 +1,10 @@
 var hierarchy =
 [
-    [ "hermes::adapter::mpiio::AbstractMapper", "classhermes_1_1adapter_1_1mpiio_1_1_abstract_mapper.html", [
-      [ "hermes::adapter::mpiio::BalancedMapper", "classhermes_1_1adapter_1_1mpiio_1_1_balanced_mapper.html", null ]
-    ] ],
     [ "hermes::adapter::posix::AbstractMapper", "classhermes_1_1adapter_1_1posix_1_1_abstract_mapper.html", [
       [ "hermes::adapter::posix::BalancedMapper", "classhermes_1_1adapter_1_1posix_1_1_balanced_mapper.html", null ]
+    ] ],
+    [ "hermes::adapter::mpiio::AbstractMapper", "classhermes_1_1adapter_1_1mpiio_1_1_abstract_mapper.html", [
+      [ "hermes::adapter::mpiio::BalancedMapper", "classhermes_1_1adapter_1_1mpiio_1_1_balanced_mapper.html", null ]
     ] ],
     [ "hermes::adapter::stdio::AbstractMapper", "classhermes_1_1adapter_1_1stdio_1_1_abstract_mapper.html", [
       [ "hermes::adapter::stdio::BalancedMapper", "classhermes_1_1adapter_1_1stdio_1_1_balanced_mapper.html", null ]
@@ -15,6 +15,7 @@ var hierarchy =
     [ "hermes::Arena", "structhermes_1_1_arena.html", null ],
     [ "hermes::ArenaInfo", "structhermes_1_1_arena_info.html", null ],
     [ "hermes::adapter::vfd::test::Arguments", "structhermes_1_1adapter_1_1vfd_1_1test_1_1_arguments.html", null ],
+    [ "hermes::Array2DIdx", "structhermes_1_1_array2_d_idx.html", null ],
     [ "hermes::Blob", "structhermes_1_1_blob.html", null ],
     [ "hermes::BlobID", "unionhermes_1_1_blob_i_d.html", null ],
     [ "hermes::api::BlobInfo", "structhermes_1_1api_1_1_blob_info.html", null ],
@@ -42,6 +43,12 @@ var hierarchy =
     [ "hermes::DebugHeapAllocation", "structhermes_1_1_debug_heap_allocation.html", null ],
     [ "hermes::DebugState", "structhermes_1_1_debug_state.html", null ],
     [ "hermes::Device", "structhermes_1_1_device.html", null ],
+    [ "hermes::DPE", "classhermes_1_1_d_p_e.html", [
+      [ "hermes::MinimizeIoTime", "classhermes_1_1_minimize_io_time.html", null ],
+      [ "hermes::Random", "classhermes_1_1_random.html", null ],
+      [ "hermes::RoundRobin", "classhermes_1_1_round_robin.html", null ]
+    ] ],
+    [ "hermes::DPEFactory", "classhermes_1_1_d_p_e_factory.html", null ],
     [ "hermes::adapter::posix::FileID", "structhermes_1_1adapter_1_1posix_1_1_file_i_d.html", null ],
     [ "hermes::adapter::stdio::FileID", "structhermes_1_1adapter_1_1stdio_1_1_file_i_d.html", null ],
     [ "hermes::adapter::mpiio::FileStruct", "structhermes_1_1adapter_1_1mpiio_1_1_file_struct.html", null ],
@@ -57,13 +64,14 @@ var hierarchy =
     [ "HeapMetadata", "struct_heap_metadata.html", null ],
     [ "hermes::api::Hermes", "classhermes_1_1api_1_1_hermes.html", null ],
     [ "hermes::adapter::mpiio::HermesRequest", "structhermes_1_1adapter_1_1mpiio_1_1_hermes_request.html", null ],
-    [ "hermes::adapter::mpiio::HermesStruct", "structhermes_1_1adapter_1_1mpiio_1_1_hermes_struct.html", null ],
     [ "hermes::adapter::stdio::HermesStruct", "structhermes_1_1adapter_1_1stdio_1_1_hermes_struct.html", null ],
+    [ "hermes::adapter::mpiio::HermesStruct", "structhermes_1_1adapter_1_1mpiio_1_1_hermes_struct.html", null ],
     [ "hermes::adapter::posix::HermesStruct", "structhermes_1_1adapter_1_1posix_1_1_hermes_struct.html", null ],
     [ "hermes::api::ID< Tag, T, default_value >", "classhermes_1_1api_1_1_i_d.html", null ],
     [ "hermes::IdList", "structhermes_1_1_id_list.html", null ],
     [ "hermes::IdMap", "structhermes_1_1_id_map.html", null ],
     [ "hermes::adapter::InterceptorList", "structhermes_1_1adapter_1_1_interceptor_list.html", null ],
+    [ "hermes::LinearProgram", "classhermes_1_1_linear_program.html", null ],
     [ "hermes::adapter::posix::MapperFactory", "classhermes_1_1adapter_1_1posix_1_1_mapper_factory.html", null ],
     [ "hermes::adapter::mpiio::MapperFactory", "classhermes_1_1adapter_1_1mpiio_1_1_mapper_factory.html", null ],
     [ "hermes::adapter::stdio::MapperFactory", "classhermes_1_1adapter_1_1stdio_1_1_mapper_factory.html", null ],
@@ -76,9 +84,9 @@ var hierarchy =
     [ "hermes::api::MinimizeIoTimeOptions", "structhermes_1_1api_1_1_minimize_io_time_options.html", null ],
     [ "hermes::MPIState", "structhermes_1_1_m_p_i_state.html", null ],
     [ "hermes::adapter::vfd::test::MuteHdf5Errors", "classhermes_1_1adapter_1_1vfd_1_1test_1_1_mute_hdf5_errors.html", null ],
+    [ "hermes::api::PlacementPolicyConv", "classhermes_1_1api_1_1_placement_policy_conv.html", null ],
     [ "Point", "struct_point.html", null ],
     [ "Range", "struct_range.html", null ],
-    [ "hermes::RoundRobinState", "classhermes_1_1_round_robin_state.html", null ],
     [ "hermes::RpcContext", "structhermes_1_1_rpc_context.html", null ],
     [ "hermes::adapter::vfd::test::RwIds", "structhermes_1_1adapter_1_1vfd_1_1test_1_1_rw_ids.html", null ],
     [ "hermes::RwLock", "structhermes_1_1_rw_lock.html", null ],

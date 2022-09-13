@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classhermes_1_1api_1_1_v_bucket.html" title=" " alt="" coords="5,5,165,32"/>
+<area shape="rect" id="node1" href="$structhermes_1_1api_1_1_trait.html" title=" " alt="" coords="5,31,140,57"/>
+<area shape="rect" id="node2" href="$structhermes_1_1api_1_1_persist_trait.html" title=" " alt="" coords="199,5,377,32"/>
+<area shape="rect" id="node3" href="$structhermes_1_1api_1_1_write_only_trait.html" title=" " alt="" coords="188,56,388,83"/>
 </map>

@@ -1,52 +1,52 @@
 <map id="/home/runner/work/hermes/hermes/src/buffer_pool_internal.h" name="/home/runner/work/hermes/hermes/src/buffer_pool_internal.h">
-<area shape="rect" id="node1" title=" " alt="" coords="438,5,637,61"/>
-<area shape="rect" id="node2" href="$buffer__pool_8h.html" title=" " alt="" coords="484,109,591,136"/>
-<area shape="rect" id="node24" href="$memory__management_8h.html" title=" " alt="" coords="273,796,455,823"/>
-<area shape="rect" id="node3" title=" " alt="" coords="1184,871,1259,897"/>
-<area shape="rect" id="node4" title=" " alt="" coords="600,184,675,211"/>
-<area shape="rect" id="node5" href="$stdio_8h_source.html" title=" " alt="" coords="1263,184,1329,211"/>
-<area shape="rect" id="node13" title=" " alt="" coords="959,945,1017,972"/>
-<area shape="rect" id="node16" title=" " alt="" coords="1457,945,1519,972"/>
-<area shape="rect" id="node17" href="$hermes__types_8h_source.html" title=" " alt="" coords="761,871,887,897"/>
-<area shape="rect" id="node19" title=" " alt="" coords="2182,945,2242,972"/>
-<area shape="rect" id="node23" title=" " alt="" coords="331,871,397,897"/>
-<area shape="rect" id="node31" href="$hermes__status_8h_source.html" title=" " alt="" coords="1677,572,1808,599"/>
-<area shape="rect" id="node50" href="$communication_8h.html" title=" " alt="" coords="297,721,431,748"/>
-<area shape="rect" id="node6" title=" " alt="" coords="1171,259,1234,285"/>
-<area shape="rect" id="node7" title=" " alt="" coords="1259,259,1333,285"/>
-<area shape="rect" id="node8" title=" " alt="" coords="1357,259,1432,285"/>
-<area shape="rect" id="node9" title=" " alt="" coords="1456,259,1637,285"/>
-<area shape="rect" id="node10" title=" " alt="" coords="1845,945,1960,972"/>
-<area shape="rect" id="node11" href="$hermes_8h_source.html" title=" " alt="" coords="916,572,1023,599"/>
-<area shape="rect" id="node27" href="$bucket_8h_source.html" title=" " alt="" coords="752,423,853,449"/>
-<area shape="rect" id="node33" href="$vbucket_8h_source.html" title=" " alt="" coords="1585,423,1695,449"/>
-<area shape="rect" id="node36" href="$stdio_2constants_8h_source.html" title=" " alt="" coords="1725,341,1822,367"/>
-<area shape="rect" id="node39" href="$interceptor_8h_source.html" title=" " alt="" coords="1051,341,1155,367"/>
-<area shape="rect" id="node46" href="$singleton_8h_source.html" title=" " alt="" coords="2045,423,2139,449"/>
-<area shape="rect" id="node47" href="$stdio_2datastructures_8h_source.html" title=" " alt="" coords="658,341,822,367"/>
-<area shape="rect" id="node48" href="$stdio_2mapper_2mapper__factory_8h_source.html" title=" " alt="" coords="1859,333,2021,375"/>
-<area shape="rect" id="node49" href="$stdio_2metadata__manager_8h_source.html" title=" " alt="" coords="949,259,1147,285"/>
-<area shape="rect" id="node12" title=" " alt="" coords="1029,647,1096,673"/>
-<area shape="rect" id="node14" title=" " alt="" coords="891,647,933,673"/>
-<area shape="rect" id="node15" title=" " alt="" coords="1703,647,1783,673"/>
-<area shape="rect" id="node22" href="$metadata__management_8h_source.html" title=" " alt="" coords="507,721,698,748"/>
-<area shape="rect" id="node25" href="$rpc_8h_source.html" title=" " alt="" coords="811,647,866,673"/>
-<area shape="rect" id="node26" href="$id_8h_source.html" title=" " alt="" coords="958,647,1005,673"/>
-<area shape="rect" id="node18" title=" " alt="" coords="753,945,823,972"/>
-<area shape="rect" id="node20" title=" " alt="" coords="847,945,934,972"/>
-<area shape="rect" id="node21" title=" " alt="" coords="589,945,728,972"/>
-<area shape="rect" id="node28" title=" " alt="" coords="1744,497,1821,524"/>
-<area shape="rect" id="node29" title=" " alt="" coords="1171,572,1295,599"/>
-<area shape="rect" id="node30" href="$data__placement__engine_8h_source.html" title=" " alt="" coords="709,497,899,524"/>
-<area shape="rect" id="node32" href="$utils_8h.html" title=" " alt="" coords="1185,796,1247,823"/>
-<area shape="rect" id="node34" title=" " alt="" coords="1677,497,1720,524"/>
-<area shape="rect" id="node35" href="$traits_8h_source.html" title=" " alt="" coords="923,497,991,524"/>
-<area shape="rect" id="node37" title=" " alt="" coords="1770,423,1835,449"/>
-<area shape="rect" id="node38" href="$stdio_2enumerations_8h_source.html" title=" " alt="" coords="1860,423,2020,449"/>
-<area shape="rect" id="node40" title=" " alt="" coords="928,423,995,449"/>
-<area shape="rect" id="node41" title=" " alt="" coords="1019,423,1090,449"/>
-<area shape="rect" id="node42" title=" " alt="" coords="1114,423,1187,449"/>
-<area shape="rect" id="node43" title=" " alt="" coords="1212,423,1327,449"/>
-<area shape="rect" id="node44" title=" " alt="" coords="1351,423,1409,449"/>
-<area shape="rect" id="node45" href="$constants_8h_source.html" title=" " alt="" coords="2078,721,2175,748"/>
+<area shape="rect" id="node1" title=" " alt="" coords="534,5,733,61"/>
+<area shape="rect" id="node2" href="$buffer__pool_8h.html" title=" " alt="" coords="580,109,687,136"/>
+<area shape="rect" id="node24" href="$memory__management_8h.html" title=" " alt="" coords="145,721,327,748"/>
+<area shape="rect" id="node3" title=" " alt="" coords="227,796,301,823"/>
+<area shape="rect" id="node4" title=" " alt="" coords="633,184,708,211"/>
+<area shape="rect" id="node5" href="$stdio_8h_source.html" title=" " alt="" coords="1511,184,1577,211"/>
+<area shape="rect" id="node13" title=" " alt="" coords="1035,871,1093,897"/>
+<area shape="rect" id="node16" title=" " alt="" coords="1470,871,1533,897"/>
+<area shape="rect" id="node17" href="$hermes__types_8h_source.html" title=" " alt="" coords="825,796,951,823"/>
+<area shape="rect" id="node19" title=" " alt="" coords="2217,871,2277,897"/>
+<area shape="rect" id="node23" title=" " alt="" coords="136,796,203,823"/>
+<area shape="rect" id="node49" href="$hermes__status_8h_source.html" title=" " alt="" coords="1024,184,1155,211"/>
+<area shape="rect" id="node50" href="$communication_8h.html" title=" " alt="" coords="297,647,431,673"/>
+<area shape="rect" id="node6" title=" " alt="" coords="1321,259,1383,285"/>
+<area shape="rect" id="node7" title=" " alt="" coords="1408,259,1483,285"/>
+<area shape="rect" id="node8" title=" " alt="" coords="1507,259,1581,285"/>
+<area shape="rect" id="node9" title=" " alt="" coords="1605,259,1787,285"/>
+<area shape="rect" id="node10" title=" " alt="" coords="1737,871,1852,897"/>
+<area shape="rect" id="node11" href="$hermes_8h_source.html" title=" " alt="" coords="1199,497,1305,524"/>
+<area shape="rect" id="node27" href="$bucket_8h_source.html" title=" " alt="" coords="803,423,904,449"/>
+<area shape="rect" id="node32" href="$vbucket_8h_source.html" title=" " alt="" coords="1199,341,1308,367"/>
+<area shape="rect" id="node35" href="$stdio_2constants_8h_source.html" title=" " alt="" coords="1997,341,2094,367"/>
+<area shape="rect" id="node38" href="$interceptor_8h_source.html" title=" " alt="" coords="2201,341,2305,367"/>
+<area shape="rect" id="node45" href="$singleton_8h_source.html" title=" " alt="" coords="1595,423,1690,449"/>
+<area shape="rect" id="node46" href="$stdio_2datastructures_8h_source.html" title=" " alt="" coords="771,341,935,367"/>
+<area shape="rect" id="node47" href="$stdio_2mapper_2mapper__factory_8h_source.html" title=" " alt="" coords="1759,333,1921,375"/>
+<area shape="rect" id="node48" href="$stdio_2metadata__manager_8h_source.html" title=" " alt="" coords="1912,259,2109,285"/>
+<area shape="rect" id="node12" title=" " alt="" coords="1347,572,1413,599"/>
+<area shape="rect" id="node14" title=" " alt="" coords="1208,572,1251,599"/>
+<area shape="rect" id="node15" title=" " alt="" coords="1691,572,1771,599"/>
+<area shape="rect" id="node22" href="$metadata__management_8h_source.html" title=" " alt="" coords="507,647,698,673"/>
+<area shape="rect" id="node25" href="$rpc_8h_source.html" title=" " alt="" coords="1078,572,1133,599"/>
+<area shape="rect" id="node26" href="$id_8h_source.html" title=" " alt="" coords="1275,572,1322,599"/>
+<area shape="rect" id="node18" title=" " alt="" coords="829,871,899,897"/>
+<area shape="rect" id="node20" title=" " alt="" coords="923,871,1010,897"/>
+<area shape="rect" id="node21" title=" " alt="" coords="665,871,804,897"/>
+<area shape="rect" id="node28" title=" " alt="" coords="1527,497,1604,524"/>
+<area shape="rect" id="node29" title=" " alt="" coords="949,497,1073,524"/>
+<area shape="rect" id="node30" href="$round__robin_8h_source.html" title=" " alt="" coords="785,497,924,524"/>
+<area shape="rect" id="node31" href="$utils_8h.html" title=" " alt="" coords="610,721,673,748"/>
+<area shape="rect" id="node33" title=" " alt="" coords="1173,423,1216,449"/>
+<area shape="rect" id="node34" href="$traits_8h_source.html" title=" " alt="" coords="979,423,1047,449"/>
+<area shape="rect" id="node36" title=" " alt="" coords="1899,423,1965,449"/>
+<area shape="rect" id="node37" href="$stdio_2enumerations_8h_source.html" title=" " alt="" coords="1715,423,1875,449"/>
+<area shape="rect" id="node39" title=" " alt="" coords="2040,423,2107,449"/>
+<area shape="rect" id="node40" title=" " alt="" coords="2131,423,2202,449"/>
+<area shape="rect" id="node41" title=" " alt="" coords="2226,423,2299,449"/>
+<area shape="rect" id="node42" title=" " alt="" coords="2324,423,2439,449"/>
+<area shape="rect" id="node43" title=" " alt="" coords="2463,423,2521,449"/>
+<area shape="rect" id="node44" href="$constants_8h_source.html" title=" " alt="" coords="2167,647,2265,673"/>
 </map>
