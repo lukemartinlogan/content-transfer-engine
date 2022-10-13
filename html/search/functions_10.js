@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['waitforbackgroundflush_619',['WaitForBackgroundFlush',['../classhermes_1_1api_1_1_v_bucket.html#a11a7ff7793da6932ce67f035ad9e8a26',1,'hermes::api::VBucket']]],
-  ['writeblobtobuffers_620',['WriteBlobToBuffers',['../buffer__pool_8cc.html#ad9163d10dd9f730c3bb00fb480138c6c',1,'hermes']]],
-  ['writepartial1d_621',['WritePartial1d',['../structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#adf0098b0cf034fbcda942a92e5992259',1,'hermes::adapter::vfd::test::Hdf5Api']]]
+  ['unlink_629',['Unlink',['../classhermes_1_1api_1_1_v_bucket.html#af1ea7cd685b2264a405e1ced612088a9',1,'hermes::api::VBucket::Unlink(std::string blob_name, std::string bucket_name, Context &amp;ctx)'],['../classhermes_1_1api_1_1_v_bucket.html#a6329f7c88429dc6563eaee71318b3a1a',1,'hermes::api::VBucket::Unlink(std::string blob_name, std::string bucket_name)']]],
+  ['update_630',['Update',['../classhermes_1_1adapter_1_1fs_1_1_metadata_manager.html#a921c1f23b278bd87b8ce06c2665abef5',1,'hermes::adapter::fs::MetadataManager::Update()'],['../classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html#aaaa53e1509fdcc8eb9eac03f04855861',1,'hermes::adapter::pubsub::MetadataManager::Update()']]]
 ];

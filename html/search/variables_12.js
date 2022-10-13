@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['vbucket_5fmap_5fmutex_766',['vbucket_map_mutex',['../structhermes_1_1_metadata_manager.html#ad1b87dc2dbacbbf77fbb1c91ab13a788',1,'hermes::MetadataManager']]],
-  ['vbucket_5fmutex_767',['vbucket_mutex',['../structhermes_1_1_metadata_manager.html#adf620aa8b1533f943a4fdfba19dab1b2',1,'hermes::MetadataManager']]]
+  ['used_782',['used',['../structhermes_1_1_buffer_header.html#a9bc65551cd0187c86a4941c6d54768a5',1,'hermes::BufferHeader::used()'],['../structhermes_1_1_arena.html#ab2ba6b537c627c2d55a2d4203be55fe5',1,'hermes::Arena::used()'],['../structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba',1,'hermes::ScopedTemporaryMemory::used()']]]
 ];

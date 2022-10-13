@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -133,21 +133,6 @@ StartFunc&#160;</td><td class="memItemRight" valign="bottom"><b>start_server</b>
 <tr class="separator:a6ff5ae0cc94a2ed99210d92faf3930f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="acea9588d66540597a933623c17d0ce32"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acea9588d66540597a933623c17d0ce32">&#9670;&nbsp;</a></span>host_names</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structhermes_1_1_shmem_string.html">ShmemString</a>* hermes::RpcContext::host_names</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Array of host names stored in shared memory. This array size is RpcContext::num_nodes. </p>
-
-</div>
-</div>
 <a id="aaa5705eac3bc8fc7224dae3308caa31d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaa5705eac3bc8fc7224dae3308caa31d">&#9670;&nbsp;</a></span>state_size</h2>
 
@@ -160,6 +145,21 @@ StartFunc&#160;</td><td class="memItemRight" valign="bottom"><b>start_server</b>
       </table>
 </div><div class="memdoc">
 <p>The size of the internal rpc state. </p>
+
+</div>
+</div>
+<a id="acea9588d66540597a933623c17d0ce32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acea9588d66540597a933623c17d0ce32">&#9670;&nbsp;</a></span>host_names</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhermes_1_1_shmem_string.html">ShmemString</a>* hermes::RpcContext::host_names</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Array of host names stored in shared memory. This array size is RpcContext::num_nodes. </p>
 
 </div>
 </div>

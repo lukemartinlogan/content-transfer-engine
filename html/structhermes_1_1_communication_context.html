@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -118,102 +118,12 @@ FinalizeFunc&#160;</td><td class="memItemRight" valign="bottom"><b>finalize</b><
 <tr class="separator:ae731641f4776f27ebf22bcfb6e812fa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ee75c70b8c29ae4ac38ad80d111766b"><td class="memItemLeft" align="right" valign="top">i32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_communication_context.html#a6ee75c70b8c29ae4ac38ad80d111766b">node_id</a></td></tr>
 <tr class="separator:a6ee75c70b8c29ae4ac38ad80d111766b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41de3edded73879fbf8a750761c9111c"><td class="memItemLeft" align="right" valign="top">ProcessKind&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_communication_context.html#a41de3edded73879fbf8a750761c9111c">proc_kind</a></td></tr>
+<tr class="memitem:a41de3edded73879fbf8a750761c9111c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="hermes__types_8h.html#ae9d9c6dc6ad00f09a7d78b5db7e106cb">ProcessKind</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_communication_context.html#a41de3edded73879fbf8a750761c9111c">proc_kind</a></td></tr>
 <tr class="separator:a41de3edded73879fbf8a750761c9111c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b9990bb3d90653fc4b18d8fa31f9546"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_communication_context.html#a9b9990bb3d90653fc4b18d8fa31f9546">first_on_node</a></td></tr>
 <tr class="separator:a9b9990bb3d90653fc4b18d8fa31f9546"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a4fa1a1fe1b900ebac978efd68eb03e14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4fa1a1fe1b900ebac978efd68eb03e14">&#9670;&nbsp;</a></span>app_size</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">i32 hermes::CommunicationContext::app_size</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The total number of application cores. Currently this is only defined on ranks that have ProcessKind::kApp </p>
-
-</div>
-</div>
-<a id="a9b9990bb3d90653fc4b18d8fa31f9546"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b9990bb3d90653fc4b18d8fa31f9546">&#9670;&nbsp;</a></span>first_on_node</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hermes::CommunicationContext::first_on_node</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>True if this rank is the lowest numbered rank on the current node. Lowest is not relative to all ranks, but to each ProcessKind. This is useful for operations that only need to happen once per node. </p>
-
-</div>
-</div>
-<a id="a06d87493716a999f81cc5d386662218a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06d87493716a999f81cc5d386662218a">&#9670;&nbsp;</a></span>hermes_size</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">i32 hermes::CommunicationContext::hermes_size</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The total number of Hermes cores. Currently this is only defined on ranks that have ProcessKind::kHermes </p>
-
-</div>
-</div>
-<a id="a6ee75c70b8c29ae4ac38ad80d111766b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ee75c70b8c29ae4ac38ad80d111766b">&#9670;&nbsp;</a></span>node_id</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">i32 hermes::CommunicationContext::node_id</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>A unique index for each node. Starts at 1, not 0. </p>
-
-</div>
-</div>
-<a id="ae731641f4776f27ebf22bcfb6e812fa5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae731641f4776f27ebf22bcfb6e812fa5">&#9670;&nbsp;</a></span>num_nodes</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">i32 hermes::CommunicationContext::num_nodes</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The total number of nodes. </p>
-
-</div>
-</div>
-<a id="a41de3edded73879fbf8a750761c9111c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a41de3edded73879fbf8a750761c9111c">&#9670;&nbsp;</a></span>proc_kind</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ProcessKind hermes::CommunicationContext::proc_kind</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Distinguishes between Hermes ranks and application ranks. </p>
-
-</div>
-</div>
 <a id="a37bcda3812f92afdbfe744f6bcce073f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a37bcda3812f92afdbfe744f6bcce073f">&#9670;&nbsp;</a></span>state</h2>
 
@@ -226,21 +136,6 @@ FinalizeFunc&#160;</td><td class="memItemRight" valign="bottom"><b>finalize</b><
       </table>
 </div><div class="memdoc">
 <p>Details relative to the backing communciation implementation. </p>
-
-</div>
-</div>
-<a id="a54be8058026242042840e39437502269"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54be8058026242042840e39437502269">&#9670;&nbsp;</a></span>sub_proc_id</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">i32 hermes::CommunicationContext::sub_proc_id</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>a unique identifier for each rank, releative to each ProcessKind. </p>
 
 </div>
 </div>
@@ -259,6 +154,21 @@ FinalizeFunc&#160;</td><td class="memItemRight" valign="bottom"><b>finalize</b><
 
 </div>
 </div>
+<a id="a54be8058026242042840e39437502269"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54be8058026242042840e39437502269">&#9670;&nbsp;</a></span>sub_proc_id</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">i32 hermes::CommunicationContext::sub_proc_id</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>a unique identifier for each rank, releative to each ProcessKind. </p>
+
+</div>
+</div>
 <a id="a2bae5018f74b1ae650c901af166e7625"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2bae5018f74b1ae650c901af166e7625">&#9670;&nbsp;</a></span>world_size</h2>
 
@@ -271,6 +181,96 @@ FinalizeFunc&#160;</td><td class="memItemRight" valign="bottom"><b>finalize</b><
       </table>
 </div><div class="memdoc">
 <p>The total number of ranks. </p>
+
+</div>
+</div>
+<a id="a06d87493716a999f81cc5d386662218a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06d87493716a999f81cc5d386662218a">&#9670;&nbsp;</a></span>hermes_size</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">i32 hermes::CommunicationContext::hermes_size</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The total number of Hermes cores. Currently this is only defined on ranks that have ProcessKind::kHermes </p>
+
+</div>
+</div>
+<a id="a4fa1a1fe1b900ebac978efd68eb03e14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fa1a1fe1b900ebac978efd68eb03e14">&#9670;&nbsp;</a></span>app_size</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">i32 hermes::CommunicationContext::app_size</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The total number of application cores. Currently this is only defined on ranks that have ProcessKind::kApp </p>
+
+</div>
+</div>
+<a id="ae731641f4776f27ebf22bcfb6e812fa5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae731641f4776f27ebf22bcfb6e812fa5">&#9670;&nbsp;</a></span>num_nodes</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">i32 hermes::CommunicationContext::num_nodes</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The total number of nodes. </p>
+
+</div>
+</div>
+<a id="a6ee75c70b8c29ae4ac38ad80d111766b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ee75c70b8c29ae4ac38ad80d111766b">&#9670;&nbsp;</a></span>node_id</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">i32 hermes::CommunicationContext::node_id</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>A unique index for each node. Starts at 1, not 0. </p>
+
+</div>
+</div>
+<a id="a41de3edded73879fbf8a750761c9111c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41de3edded73879fbf8a750761c9111c">&#9670;&nbsp;</a></span>proc_kind</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="hermes__types_8h.html#ae9d9c6dc6ad00f09a7d78b5db7e106cb">ProcessKind</a> hermes::CommunicationContext::proc_kind</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Distinguishes between Hermes ranks and application ranks. </p>
+
+</div>
+</div>
+<a id="a9b9990bb3d90653fc4b18d8fa31f9546"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b9990bb3d90653fc4b18d8fa31f9546">&#9670;&nbsp;</a></span>first_on_node</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hermes::CommunicationContext::first_on_node</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>True if this rank is the lowest numbered rank on the current node. Lowest is not relative to all ranks, but to each ProcessKind. This is useful for operations that only need to happen once per node. </p>
 
 </div>
 </div>

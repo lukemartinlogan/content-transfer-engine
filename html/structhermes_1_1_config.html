@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -160,7 +160,7 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a024be4dda0c6a9b4a0097bfdc3b16ebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9fb4ccb10ce4dd4e3a4887dbb41b61ea"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_config.html#a9fb4ccb10ce4dd4e3a4887dbb41b61ea">bo_num_threads</a></td></tr>
 <tr class="separator:a9fb4ccb10ce4dd4e3a4887dbb41b61ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68111ffd2be14d48aa83478d437ecb9d"><td class="memItemLeft" align="right" valign="top">api::PlacementPolicy&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_config.html#a68111ffd2be14d48aa83478d437ecb9d">default_placement_policy</a></td></tr>
+<tr class="memitem:a68111ffd2be14d48aa83478d437ecb9d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="hermes__types_8h.html#a66b9a7dd528375b0f2f0e77f72d66b67">api::PlacementPolicy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_config.html#a68111ffd2be14d48aa83478d437ecb9d">default_placement_policy</a></td></tr>
 <tr class="separator:a68111ffd2be14d48aa83478d437ecb9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3d93544ed949e0256fe03131ec8831c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_config.html#ae3d93544ed949e0256fe03131ec8831c">default_rr_split</a></td></tr>
 <tr class="separator:ae3d93544ed949e0256fe03131ec8831c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -176,33 +176,18 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>System and user configuration that is used to initialize Hermes. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a5fc3ed59ffae768749fabce3351a4bb4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5fc3ed59ffae768749fabce3351a4bb4">&#9670;&nbsp;</a></span>arena_percentages</h2>
+<a id="abfd5eff09385a7ac6bb537ac15f0861a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfd5eff09385a7ac6bb537ac15f0861a">&#9670;&nbsp;</a></span>capacities</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">f32 hermes::Config::arena_percentages[kArenaType_Count]</td>
+          <td class="memname">size_t hermes::Config::capacities[kMaxDevices]</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The percentages of the total available Hermes memory allotted for each <code>ArenaType</code> </p>
-
-</div>
-</div>
-<a id="afa952d94dcbfc37afb714e754585342f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa952d94dcbfc37afb714e754585342f">&#9670;&nbsp;</a></span>bandwidths</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">f32 hermes::Config::bandwidths[kMaxDevices]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The bandwidth of each <a class="el" href="structhermes_1_1_device.html">Device</a> </p>
+<p>The total capacity of each buffering <a class="el" href="structhermes_1_1_device.html">Device</a> </p>
 
 </div>
 </div>
@@ -221,108 +206,33 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a23ac3652efd83091f820405b9edc7e01"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23ac3652efd83091f820405b9edc7e01">&#9670;&nbsp;</a></span>bo_capacity_thresholds</h2>
+<a id="a7be959755e4cad44534f957cdb40c158"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7be959755e4cad44534f957cdb40c158">&#9670;&nbsp;</a></span>num_slabs</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structhermes_1_1_thresholds.html">Thresholds</a> hermes::Config::bo_capacity_thresholds[kMaxDevices]</td>
+          <td class="memname">int hermes::Config::num_slabs[kMaxDevices]</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The min and max capacity threshold in MiB for each device at which the <a class="el" href="structhermes_1_1_buffer_organizer.html">BufferOrganizer</a> will trigger. </p>
+<p>The number of slabs that each <a class="el" href="structhermes_1_1_device.html">Device</a> has </p>
 
 </div>
 </div>
-<a id="a9fb4ccb10ce4dd4e3a4887dbb41b61ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9fb4ccb10ce4dd4e3a4887dbb41b61ea">&#9670;&nbsp;</a></span>bo_num_threads</h2>
+<a id="a8cb8053713f812cce9c0f64da4d8f153"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cb8053713f812cce9c0f64da4d8f153">&#9670;&nbsp;</a></span>slab_unit_sizes</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int hermes::Config::bo_num_threads</td>
+          <td class="memname">int hermes::Config::slab_unit_sizes[kMaxDevices][kMaxBufferPoolSlabs]</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The number of buffer organizer threads. </p>
-
-</div>
-</div>
-<a id="a99c1ce065340327294612c9fc80e8453"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a99c1ce065340327294612c9fc80e8453">&#9670;&nbsp;</a></span>buffer_organizer_port</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int hermes::Config::buffer_organizer_port</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The RPC port number for the buffer organizer. </p>
-
-</div>
-</div>
-<a id="a8be1aaa735d468b1df3041a8c9367ed9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8be1aaa735d468b1df3041a8c9367ed9">&#9670;&nbsp;</a></span>buffer_pool_shmem_name</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char hermes::Config::buffer_pool_shmem_name[kMaxBufferPoolShmemNameLength]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>A base name for the <a class="el" href="structhermes_1_1_buffer_pool.html">BufferPool</a> shared memory segement. Hermes appends the value of the USER environment variable to this string. </p>
-
-</div>
-</div>
-<a id="abfd5eff09385a7ac6bb537ac15f0861a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abfd5eff09385a7ac6bb537ac15f0861a">&#9670;&nbsp;</a></span>capacities</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t hermes::Config::capacities[kMaxDevices]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The total capacity of each buffering <a class="el" href="structhermes_1_1_device.html">Device</a> </p>
-
-</div>
-</div>
-<a id="a68111ffd2be14d48aa83478d437ecb9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68111ffd2be14d48aa83478d437ecb9d">&#9670;&nbsp;</a></span>default_placement_policy</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">api::PlacementPolicy hermes::Config::default_placement_policy</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The default blob placement policy. </p>
-
-</div>
-</div>
-<a id="ae3d93544ed949e0256fe03131ec8831c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3d93544ed949e0256fe03131ec8831c">&#9670;&nbsp;</a></span>default_rr_split</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hermes::Config::default_rr_split</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Whether blob splitting is enabled for Round-Robin blob placement. </p>
+<p>The unit of each slab, a multiple of the <a class="el" href="structhermes_1_1_device.html">Device</a>'s block size </p>
 
 </div>
 </div>
@@ -341,48 +251,18 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a65cd3ee7707425f8291c1618da23d899"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65cd3ee7707425f8291c1618da23d899">&#9670;&nbsp;</a></span>host_names</h2>
+<a id="afa952d94dcbfc37afb714e754585342f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa952d94dcbfc37afb714e754585342f">&#9670;&nbsp;</a></span>bandwidths</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;std::string&gt; hermes::Config::host_names</td>
+          <td class="memname">f32 hermes::Config::bandwidths[kMaxDevices]</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The parsed hostnames from the hermes conf </p>
-
-</div>
-</div>
-<a id="ad78adbdc7ff09ae101ce2851c1948728"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad78adbdc7ff09ae101ce2851c1948728">&#9670;&nbsp;</a></span>host_numbers</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;std::string&gt; hermes::Config::host_numbers</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The list of numbers from all server names. E.g., '{1, 3}' if your servers are named ares-comp-1 and ares-comp-3 </p>
-
-</div>
-</div>
-<a id="a693d05ae2a5d7a8192fcaf806458c3c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a693d05ae2a5d7a8192fcaf806458c3c8">&#9670;&nbsp;</a></span>is_shared_device</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int hermes::Config::is_shared_device[kMaxDevices]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>If non-zero, the device is shared among all nodes (e.g., burst buffs) </p>
+<p>The bandwidth of each <a class="el" href="structhermes_1_1_device.html">Device</a> </p>
 
 </div>
 </div>
@@ -398,6 +278,51 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>The latency of each <a class="el" href="structhermes_1_1_device.html">Device</a> </p>
+
+</div>
+</div>
+<a id="a5fc3ed59ffae768749fabce3351a4bb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fc3ed59ffae768749fabce3351a4bb4">&#9670;&nbsp;</a></span>arena_percentages</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">f32 hermes::Config::arena_percentages[kArenaType_Count]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The percentages of the total available Hermes memory allotted for each <code>ArenaType</code> </p>
+
+</div>
+</div>
+<a id="a84f4ed233fb630c7e3fb844f5491d040"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84f4ed233fb630c7e3fb844f5491d040">&#9670;&nbsp;</a></span>num_devices</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hermes::Config::num_devices</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The number of Devices </p>
+
+</div>
+</div>
+<a id="a512abea6d6878bf2335a0e07ac6b5bd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a512abea6d6878bf2335a0e07ac6b5bd7">&#9670;&nbsp;</a></span>num_targets</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hermes::Config::num_targets</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The number of Targets </p>
 
 </div>
 </div>
@@ -431,6 +356,21 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a067445eef7f84df5246d82cebdb1bd4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a067445eef7f84df5246d82cebdb1bd4d">&#9670;&nbsp;</a></span>system_view_state_update_interval_ms</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">u32 hermes::Config::system_view_state_update_interval_ms</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The length of a view state epoch </p>
+
+</div>
+</div>
 <a id="a9703f47309e0fcfe42a9f092a6b355ea"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9703f47309e0fcfe42a9f092a6b355ea">&#9670;&nbsp;</a></span>mount_points</h2>
 
@@ -443,6 +383,21 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>The mount point or desired directory for each <a class="el" href="structhermes_1_1_device.html">Device</a>. RAM <a class="el" href="structhermes_1_1_device.html">Device</a> should be the empty string. </p>
+
+</div>
+</div>
+<a id="ae173732b283874f5282c639a987d8dbd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae173732b283874f5282c639a987d8dbd">&#9670;&nbsp;</a></span>swap_mount</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hermes::Config::swap_mount</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The mount point of the swap target. </p>
 
 </div>
 </div>
@@ -461,48 +416,243 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a84f4ed233fb630c7e3fb844f5491d040"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84f4ed233fb630c7e3fb844f5491d040">&#9670;&nbsp;</a></span>num_devices</h2>
+<a id="a693d05ae2a5d7a8192fcaf806458c3c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a693d05ae2a5d7a8192fcaf806458c3c8">&#9670;&nbsp;</a></span>is_shared_device</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int hermes::Config::num_devices</td>
+          <td class="memname">int hermes::Config::is_shared_device[kMaxDevices]</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The number of Devices </p>
+<p>If non-zero, the device is shared among all nodes (e.g., burst buffs) </p>
 
 </div>
 </div>
-<a id="a7be959755e4cad44534f957cdb40c158"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7be959755e4cad44534f957cdb40c158">&#9670;&nbsp;</a></span>num_slabs</h2>
+<a id="ade9f12eca7406edbadf611fa9fd49fa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade9f12eca7406edbadf611fa9fd49fa9">&#9670;&nbsp;</a></span>rpc_server_host_file</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int hermes::Config::num_slabs[kMaxDevices]</td>
+          <td class="memname">std::string hermes::Config::rpc_server_host_file</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The number of slabs that each <a class="el" href="structhermes_1_1_device.html">Device</a> has </p>
+<p>The name of a file that contains host names, 1 per line </p>
 
 </div>
 </div>
-<a id="a512abea6d6878bf2335a0e07ac6b5bd7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a512abea6d6878bf2335a0e07ac6b5bd7">&#9670;&nbsp;</a></span>num_targets</h2>
+<a id="a67dd6ae978d1fb5821750f462217afe4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67dd6ae978d1fb5821750f462217afe4">&#9670;&nbsp;</a></span>rpc_server_base_name</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int hermes::Config::num_targets</td>
+          <td class="memname">std::string hermes::Config::rpc_server_base_name</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The number of Targets </p>
+<p>The hostname of the RPC server, minus any numbers that Hermes may auto-generate when the rpc_hostNumber_range is specified. </p>
+
+</div>
+</div>
+<a id="ad78adbdc7ff09ae101ce2851c1948728"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad78adbdc7ff09ae101ce2851c1948728">&#9670;&nbsp;</a></span>host_numbers</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; hermes::Config::host_numbers</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The list of numbers from all server names. E.g., '{1, 3}' if your servers are named ares-comp-1 and ares-comp-3 </p>
+
+</div>
+</div>
+<a id="a8d74871a970591bfaf6dac4b3427e8a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d74871a970591bfaf6dac4b3427e8a7">&#9670;&nbsp;</a></span>rpc_server_suffix</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hermes::Config::rpc_server_suffix</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The RPC server name suffix. This is appended to the base name plus host number. </p>
+
+</div>
+</div>
+<a id="a65cd3ee7707425f8291c1618da23d899"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65cd3ee7707425f8291c1618da23d899">&#9670;&nbsp;</a></span>host_names</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; hermes::Config::host_names</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The parsed hostnames from the hermes conf </p>
+
+</div>
+</div>
+<a id="adc876cfb62763cd57c27b1074dea419e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc876cfb62763cd57c27b1074dea419e">&#9670;&nbsp;</a></span>rpc_protocol</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hermes::Config::rpc_protocol</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The RPC protocol to be used. </p>
+
+</div>
+</div>
+<a id="a54d162eb1c75a8de2029412b0c2102d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54d162eb1c75a8de2029412b0c2102d9">&#9670;&nbsp;</a></span>rpc_domain</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hermes::Config::rpc_domain</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The RPC domain name for verbs transport. </p>
+
+</div>
+</div>
+<a id="a575d39cde8052151a0fcd566ead69379"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a575d39cde8052151a0fcd566ead69379">&#9670;&nbsp;</a></span>rpc_port</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hermes::Config::rpc_port</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The RPC port number. </p>
+
+</div>
+</div>
+<a id="a99c1ce065340327294612c9fc80e8453"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99c1ce065340327294612c9fc80e8453">&#9670;&nbsp;</a></span>buffer_organizer_port</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hermes::Config::buffer_organizer_port</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The RPC port number for the buffer organizer. </p>
+
+</div>
+</div>
+<a id="a024be4dda0c6a9b4a0097bfdc3b16ebd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a024be4dda0c6a9b4a0097bfdc3b16ebd">&#9670;&nbsp;</a></span>rpc_num_threads</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hermes::Config::rpc_num_threads</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The number of handler threads per RPC server. </p>
+
+</div>
+</div>
+<a id="a9fb4ccb10ce4dd4e3a4887dbb41b61ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fb4ccb10ce4dd4e3a4887dbb41b61ea">&#9670;&nbsp;</a></span>bo_num_threads</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hermes::Config::bo_num_threads</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The number of buffer organizer threads. </p>
+
+</div>
+</div>
+<a id="a68111ffd2be14d48aa83478d437ecb9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68111ffd2be14d48aa83478d437ecb9d">&#9670;&nbsp;</a></span>default_placement_policy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="hermes__types_8h.html#a66b9a7dd528375b0f2f0e77f72d66b67">api::PlacementPolicy</a> hermes::Config::default_placement_policy</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The default blob placement policy. </p>
+
+</div>
+</div>
+<a id="ae3d93544ed949e0256fe03131ec8831c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3d93544ed949e0256fe03131ec8831c">&#9670;&nbsp;</a></span>default_rr_split</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hermes::Config::default_rr_split</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Whether blob splitting is enabled for Round-Robin blob placement. </p>
+
+</div>
+</div>
+<a id="a23ac3652efd83091f820405b9edc7e01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23ac3652efd83091f820405b9edc7e01">&#9670;&nbsp;</a></span>bo_capacity_thresholds</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhermes_1_1_thresholds.html">Thresholds</a> hermes::Config::bo_capacity_thresholds[kMaxDevices]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The min and max capacity threshold in MiB for each device at which the <a class="el" href="structhermes_1_1_buffer_organizer.html">BufferOrganizer</a> will trigger. </p>
+
+</div>
+</div>
+<a id="a8be1aaa735d468b1df3041a8c9367ed9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8be1aaa735d468b1df3041a8c9367ed9">&#9670;&nbsp;</a></span>buffer_pool_shmem_name</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char hermes::Config::buffer_pool_shmem_name[kMaxBufferPoolShmemNameLength]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>A base name for the <a class="el" href="structhermes_1_1_buffer_pool.html">BufferPool</a> shared memory segement. Hermes appends the value of the USER environment variable to this string. </p>
 
 </div>
 </div>
@@ -533,156 +683,6 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Paths prefixed with the following directories are tracked by Hermes even if they share a root with a path listed in path_exclusions </p>
-
-</div>
-</div>
-<a id="a54d162eb1c75a8de2029412b0c2102d9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54d162eb1c75a8de2029412b0c2102d9">&#9670;&nbsp;</a></span>rpc_domain</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string hermes::Config::rpc_domain</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The RPC domain name for verbs transport. </p>
-
-</div>
-</div>
-<a id="a024be4dda0c6a9b4a0097bfdc3b16ebd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a024be4dda0c6a9b4a0097bfdc3b16ebd">&#9670;&nbsp;</a></span>rpc_num_threads</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int hermes::Config::rpc_num_threads</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The number of handler threads per RPC server. </p>
-
-</div>
-</div>
-<a id="a575d39cde8052151a0fcd566ead69379"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a575d39cde8052151a0fcd566ead69379">&#9670;&nbsp;</a></span>rpc_port</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int hermes::Config::rpc_port</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The RPC port number. </p>
-
-</div>
-</div>
-<a id="adc876cfb62763cd57c27b1074dea419e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc876cfb62763cd57c27b1074dea419e">&#9670;&nbsp;</a></span>rpc_protocol</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string hermes::Config::rpc_protocol</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The RPC protocol to be used. </p>
-
-</div>
-</div>
-<a id="a67dd6ae978d1fb5821750f462217afe4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67dd6ae978d1fb5821750f462217afe4">&#9670;&nbsp;</a></span>rpc_server_base_name</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string hermes::Config::rpc_server_base_name</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The hostname of the RPC server, minus any numbers that Hermes may auto-generate when the rpc_hostNumber_range is specified. </p>
-
-</div>
-</div>
-<a id="ade9f12eca7406edbadf611fa9fd49fa9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade9f12eca7406edbadf611fa9fd49fa9">&#9670;&nbsp;</a></span>rpc_server_host_file</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string hermes::Config::rpc_server_host_file</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The name of a file that contains host names, 1 per line </p>
-
-</div>
-</div>
-<a id="a8d74871a970591bfaf6dac4b3427e8a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8d74871a970591bfaf6dac4b3427e8a7">&#9670;&nbsp;</a></span>rpc_server_suffix</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string hermes::Config::rpc_server_suffix</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The RPC server name suffix. This is appended to the base name plus host number. </p>
-
-</div>
-</div>
-<a id="a8cb8053713f812cce9c0f64da4d8f153"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8cb8053713f812cce9c0f64da4d8f153">&#9670;&nbsp;</a></span>slab_unit_sizes</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int hermes::Config::slab_unit_sizes[kMaxDevices][kMaxBufferPoolSlabs]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The unit of each slab, a multiple of the <a class="el" href="structhermes_1_1_device.html">Device</a>'s block size </p>
-
-</div>
-</div>
-<a id="ae173732b283874f5282c639a987d8dbd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae173732b283874f5282c639a987d8dbd">&#9670;&nbsp;</a></span>swap_mount</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string hermes::Config::swap_mount</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The mount point of the swap target. </p>
-
-</div>
-</div>
-<a id="a067445eef7f84df5246d82cebdb1bd4d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a067445eef7f84df5246d82cebdb1bd4d">&#9670;&nbsp;</a></span>system_view_state_update_interval_ms</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">u32 hermes::Config::system_view_state_update_interval_ms</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The length of a view state epoch </p>
 
 </div>
 </div>

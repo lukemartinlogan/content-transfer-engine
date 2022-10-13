@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -214,7 +214,9 @@ $(document).ready(function(){initNavTree('buffer__organizer_8h_source.html','');
 <div class="ttc" id="astructhermes_1_1_violation_info_html"><div class="ttname"><a href="structhermes_1_1_violation_info.html">hermes::ViolationInfo</a></div><div class="ttdef"><b>Definition:</b> metadata_management.h:71</div></div>
 <div class="ttc" id="astructhermes_1_1_rpc_context_html"><div class="ttname"><a href="structhermes_1_1_rpc_context.html">hermes::RpcContext</a></div><div class="ttdef"><b>Definition:</b> rpc.h:37</div></div>
 <div class="ttc" id="abuffer__pool_8cc_html_a3a16d19dbc6aa057e14961538cd3d933"><div class="ttname"><a href="buffer__pool_8cc.html#a3a16d19dbc6aa057e14961538cd3d933">hermes::GetBufferPoolFromContext</a></div><div class="ttdeci">BufferPool * GetBufferPoolFromContext(SharedMemoryContext *context)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:133</div></div>
-<div class="ttc" id="aunionhermes_1_1_bucket_i_d_html"><div class="ttname"><a href="unionhermes_1_1_bucket_i_d.html">hermes::BucketID</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:306</div></div>
+<div class="ttc" id="ahermes__types_8h_html_aa29a80eb3b2f5a1f59bc16dbf24c1274"><div class="ttname"><a href="hermes__types_8h.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">hermes::PlacementSchema</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; size_t, TargetID &gt; &gt; PlacementSchema</div><div class="ttdef"><b>Definition:</b> hermes_types.h:211</div></div>
+<div class="ttc" id="ahermes_8h_html"><div class="ttname"><a href="hermes_8h.html">hermes.h</a></div></div>
+<div class="ttc" id="aunionhermes_1_1_bucket_i_d_html"><div class="ttname"><a href="unionhermes_1_1_bucket_i_d.html">hermes::BucketID</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:338</div></div>
 <div class="ttc" id="abuffer__pool_8cc_html_a42d7d04421227f822bdaa0344654409f"><div class="ttname"><a href="buffer__pool_8cc.html#a42d7d04421227f822bdaa0344654409f">hermes::GetHeaderByBufferId</a></div><div class="ttdeci">BufferHeader * GetHeaderByBufferId(SharedMemoryContext *context, BufferID id)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:206</div></div>
 <div class="ttc" id="abuffer__pool_8cc_html_a4fdaa605948d7982a2b0e046c452f84f"><div class="ttname"><a href="buffer__pool_8cc.html#a4fdaa605948d7982a2b0e046c452f84f">hermes::ReleaseBuffers</a></div><div class="ttdeci">void ReleaseBuffers(SharedMemoryContext *context, RpcContext *rpc, const std::vector&lt; BufferID &gt; &amp;buffer_ids)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:531</div></div>
 <div class="ttc" id="astructhermes_1_1_target_info_html"><div class="ttname"><a href="structhermes_1_1_target_info.html">hermes::TargetInfo</a></div><div class="ttdef"><b>Definition:</b> buffer_organizer.cc:32</div></div>
@@ -224,11 +226,12 @@ $(document).ready(function(){initNavTree('buffer__organizer_8h_source.html','');
 <div class="ttc" id="abuffer__pool_8cc_html_a02a03c2aa41e4113f2ef9e0d877c15b2"><div class="ttname"><a href="buffer__pool_8cc.html#a02a03c2aa41e4113f2ef9e0d877c15b2">hermes::GetBandwidths</a></div><div class="ttdeci">std::vector&lt; f32 &gt; GetBandwidths(SharedMemoryContext *context, const std::vector&lt; TargetID &gt; &amp;targets)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:163</div></div>
 <div class="ttc" id="amemory__management_8cc_html_af5d3174c5dc80367ddfa913d7685e666"><div class="ttname"><a href="memory__management_8cc.html#af5d3174c5dc80367ddfa913d7685e666">hermes::InitArena</a></div><div class="ttdeci">void InitArena(Arena *arena, size_t bytes, u8 *base)</div><div class="ttdef"><b>Definition:</b> memory_management.cc:59</div></div>
 <div class="ttc" id="aunionhermes_1_1_buffer_i_d_html"><div class="ttname"><a href="unionhermes_1_1_buffer_i_d.html">hermes::BufferID</a></div><div class="ttdef"><b>Definition:</b> buffer_pool.h:90</div></div>
-<div class="ttc" id="aunionhermes_1_1_v_bucket_i_d_html"><div class="ttname"><a href="unionhermes_1_1_v_bucket_i_d.html">hermes::VBucketID</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:326</div></div>
-<div class="ttc" id="aunionhermes_1_1_blob_i_d_html"><div class="ttname"><a href="unionhermes_1_1_blob_i_d.html">hermes::BlobID</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:340</div></div>
+<div class="ttc" id="aunionhermes_1_1_v_bucket_i_d_html"><div class="ttname"><a href="unionhermes_1_1_v_bucket_i_d.html">hermes::VBucketID</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:361</div></div>
+<div class="ttc" id="aunionhermes_1_1_blob_i_d_html"><div class="ttname"><a href="unionhermes_1_1_blob_i_d.html">hermes::BlobID</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:375</div></div>
 <div class="ttc" id="astructhermes_1_1_buffer_info_html"><div class="ttname"><a href="structhermes_1_1_buffer_info.html">hermes::BufferInfo</a></div><div class="ttdef"><b>Definition:</b> buffer_organizer.h:56</div></div>
 <div class="ttc" id="aunionhermes_1_1_bo_args_html"><div class="ttname"><a href="unionhermes_1_1_bo_args.html">hermes::BoArgs</a></div><div class="ttdef"><b>Definition:</b> buffer_organizer.h:37</div></div>
-<div class="ttc" id="aunionhermes_1_1_target_i_d_html"><div class="ttname"><a href="unionhermes_1_1_target_i_d.html">hermes::TargetID</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:154</div></div>
+<div class="ttc" id="ahermes__types_8h_html_a2524128a957393840374aa59c93cf8b5"><div class="ttname"><a href="hermes__types_8h.html#a2524128a957393840374aa59c93cf8b5">hermes::api::Blob</a></div><div class="ttdeci">std::vector&lt; unsigned char &gt; Blob</div><div class="ttdef"><b>Definition:</b> hermes_types.h:68</div></div>
+<div class="ttc" id="aunionhermes_1_1_target_i_d_html"><div class="ttname"><a href="unionhermes_1_1_target_i_d.html">hermes::TargetID</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:186</div></div>
 <div class="ttc" id="astructhermes_1_1_bo_task_html"><div class="ttname"><a href="structhermes_1_1_bo_task.html">hermes::BoTask</a></div><div class="ttdef"><b>Definition:</b> buffer_organizer.h:51</div></div>
 <div class="ttc" id="astructhermes_1_1_buffer_organizer_html"><div class="ttname"><a href="structhermes_1_1_buffer_organizer.html">hermes::BufferOrganizer</a></div><div class="ttdef"><b>Definition:</b> buffer_organizer.h:64</div></div>
 <!-- start footer part -->

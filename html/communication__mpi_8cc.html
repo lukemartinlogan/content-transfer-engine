@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -100,7 +100,7 @@ Include dependency graph for communication_mpi.cc:</div>
 <area shape="rect" title=" " alt="" coords="247,5,501,47"/>
 <area shape="rect" href="communication_8h.html" title=" " alt="" coords="255,95,389,121"/>
 <area shape="rect" href="memory__management_8h.html" title=" " alt="" coords="336,169,519,196"/>
-<area shape="rect" href="hermes__types_8h_source.html" title=" " alt="" coords="236,244,363,271"/>
+<area shape="rect" href="hermes__types_8h.html" title=" " alt="" coords="236,244,363,271"/>
 <area shape="rect" title=" " alt="" coords="5,319,76,345"/>
 <area shape="rect" title=" " alt="" coords="101,319,159,345"/>
 <area shape="rect" title=" " alt="" coords="184,319,244,345"/>
@@ -161,6 +161,41 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::InitCommuni
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An implementation of the Hermes communication interface in MPI. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a59b5a1ff74a0ab24cdec9207b2ee0b24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59b5a1ff74a0ab24cdec9207b2ee0b24">&#9670;&nbsp;</a></span>MpiFirstOnNode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hermes::MpiFirstOnNode </td>
+          <td>(</td>
+          <td class="paramtype">MPI_Comm&#160;</td>
+          <td class="paramname"><em>comm</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns true if the calling rank is the lowest numbered rank on its node in communicator <code>comm</code>. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_cgraph.png" border="0" usemap="#communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_cgraph" alt=""/></div>
+<map name="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_cgraph" id="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,188,56"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_icgraph.png" border="0" usemap="#communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_icgraph" alt=""/></div>
+<map name="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_icgraph" id="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_icgraph">
+<area shape="rect" title=" " alt="" coords="5,29,188,56"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="ac08b6a0677f8d21fae9fe6614c77a601"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac08b6a0677f8d21fae9fe6614c77a601">&#9670;&nbsp;</a></span>MpiAssignIDsToNodes()</h2>
 
@@ -202,41 +237,6 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="communication__mpi_8cc_ac08b6a0677f8d21fae9fe6614c77a601_icgraph.png" border="0" usemap="#communication__mpi_8cc_ac08b6a0677f8d21fae9fe6614c77a601_icgraph" alt=""/></div>
 <map name="communication__mpi_8cc_ac08b6a0677f8d21fae9fe6614c77a601_icgraph" id="communication__mpi_8cc_ac08b6a0677f8d21fae9fe6614c77a601_icgraph">
 <area shape="rect" title=" " alt="" coords="5,29,228,56"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a59b5a1ff74a0ab24cdec9207b2ee0b24"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59b5a1ff74a0ab24cdec9207b2ee0b24">&#9670;&nbsp;</a></span>MpiFirstOnNode()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hermes::MpiFirstOnNode </td>
-          <td>(</td>
-          <td class="paramtype">MPI_Comm&#160;</td>
-          <td class="paramname"><em>comm</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns true if the calling rank is the lowest numbered rank on its node in communicator <code>comm</code>. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_cgraph.png" border="0" usemap="#communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_cgraph" alt=""/></div>
-<map name="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_cgraph" id="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,188,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_icgraph.png" border="0" usemap="#communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_icgraph" alt=""/></div>
-<map name="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_icgraph" id="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_icgraph">
-<area shape="rect" title=" " alt="" coords="5,29,188,56"/>
 </map>
 </div>
 

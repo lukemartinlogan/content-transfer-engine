@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -129,18 +129,18 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ab91f4ee780a5c2a2ef15cd1d39bb4702"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab91f4ee780a5c2a2ef15cd1d39bb4702">&#9670;&nbsp;</a></span>has_fallocate</h2>
+<a id="a436057d76f6e0c415e60d6dfa9950931"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a436057d76f6e0c415e60d6dfa9950931">&#9670;&nbsp;</a></span>latency_ns</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool hermes::Device::has_fallocate</td>
+          <td class="memname">f32 hermes::Device::latency_ns</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>True if the functionality of <code>posix_fallocate</code> is available on this <a class="el" href="structhermes_1_1_device.html">Device</a> </p>
+<p>The device's theoretical latency in nanoseconds. </p>
 
 </div>
 </div>
@@ -174,6 +174,21 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ab91f4ee780a5c2a2ef15cd1d39bb4702"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab91f4ee780a5c2a2ef15cd1d39bb4702">&#9670;&nbsp;</a></span>has_fallocate</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hermes::Device::has_fallocate</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>True if the functionality of <code>posix_fallocate</code> is available on this <a class="el" href="structhermes_1_1_device.html">Device</a> </p>
+
+</div>
+</div>
 <a id="a35dd52e3ef9fe3099ba2e4d73366dc23"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a35dd52e3ef9fe3099ba2e4d73366dc23">&#9670;&nbsp;</a></span>is_shared</h2>
 
@@ -186,21 +201,6 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>True if the device is shared among multiple ranks (e.g., burst buffers) </p>
-
-</div>
-</div>
-<a id="a436057d76f6e0c415e60d6dfa9950931"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a436057d76f6e0c415e60d6dfa9950931">&#9670;&nbsp;</a></span>latency_ns</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">f32 hermes::Device::latency_ns</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The device's theoretical latency in nanoseconds. </p>
 
 </div>
 </div>

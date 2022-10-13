@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -102,14 +102,14 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a7628ad540d84a0e62635e0e3f2f71ad6"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
-<tr class="memitem:a7628ad540d84a0e62635e0e3f2f71ad6"><td class="memTemplItemLeft" align="right" valign="top">static std::shared_ptr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhermes_1_1adapter_1_1_singleton.html#a7628ad540d84a0e62635e0e3f2f71ad6">GetInstance</a> (Args... args)</td></tr>
-<tr class="separator:a7628ad540d84a0e62635e0e3f2f71ad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed9b54b3005706380641f995f11271b2"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:aed9b54b3005706380641f995f11271b2"><td class="memTemplItemLeft" align="right" valign="top">static T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhermes_1_1adapter_1_1_singleton.html#aed9b54b3005706380641f995f11271b2">GetInstance</a> (Args... args)</td></tr>
+<tr class="separator:aed9b54b3005706380641f995f11271b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
 Static Protected Attributes</h2></td></tr>
-<tr class="memitem:a2a1286dbaa70d2090605827bab44cfe9"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1adapter_1_1_singleton.html#a2a1286dbaa70d2090605827bab44cfe9">instance</a> = nullptr</td></tr>
-<tr class="separator:a2a1286dbaa70d2090605827bab44cfe9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeec0208064a440a2910d6dcdfe25352e"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1adapter_1_1_singleton.html#aeec0208064a440a2910d6dcdfe25352e">instance</a> = nullptr</td></tr>
+<tr class="separator:aeec0208064a440a2910d6dcdfe25352e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="acb9aa864d45b7d030c98f7f4eae7a106"></a>
@@ -142,8 +142,8 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a7628ad540d84a0e62635e0e3f2f71ad6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7628ad540d84a0e62635e0e3f2f71ad6">&#9670;&nbsp;</a></span>GetInstance()</h2>
+<a id="aed9b54b3005706380641f995f11271b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed9b54b3005706380641f995f11271b2">&#9670;&nbsp;</a></span>GetInstance()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -156,7 +156,7 @@ template&lt;typename... Args&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static std::shared_ptr&lt;T&gt; <a class="el" href="classhermes_1_1adapter_1_1_singleton.html">hermes::adapter::Singleton</a>&lt; T &gt;::GetInstance </td>
+          <td class="memname">static T* <a class="el" href="classhermes_1_1adapter_1_1_singleton.html">hermes::adapter::Singleton</a>&lt; T &gt;::GetInstance </td>
           <td>(</td>
           <td class="paramtype">Args...&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
@@ -179,12 +179,12 @@ template&lt;typename... Args&gt; </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classhermes_1_1adapter_1_1_singleton_a7628ad540d84a0e62635e0e3f2f71ad6_icgraph.png" border="0" usemap="#classhermes_1_1adapter_1_1_singleton_a7628ad540d84a0e62635e0e3f2f71ad6_icgraph" alt=""/></div>
-<map name="classhermes_1_1adapter_1_1_singleton_a7628ad540d84a0e62635e0e3f2f71ad6_icgraph" id="classhermes_1_1adapter_1_1_singleton_a7628ad540d84a0e62635e0e3f2f71ad6_icgraph">
-<area shape="rect" title=" " alt="" coords="228,71,427,112"/>
-<area shape="rect" href="classhermes_1_1adapter_1_1mpiio_1_1_mapper_factory.html#ad88702927b2a7549e1d1416d7d0db5e4" title=" " alt="" coords="5,5,180,47"/>
-<area shape="rect" href="classhermes_1_1adapter_1_1posix_1_1_mapper_factory.html#a9054045e55f3344d3011411fa3e76bb6" title=" " alt="" coords="7,71,179,112"/>
-<area shape="rect" href="classhermes_1_1adapter_1_1stdio_1_1_mapper_factory.html#a18dc570603d6d7e583cd66950198d09b" title=" " alt="" coords="8,136,177,177"/>
+<div class="center"><img src="classhermes_1_1adapter_1_1_singleton_aed9b54b3005706380641f995f11271b2_icgraph.png" border="0" usemap="#classhermes_1_1adapter_1_1_singleton_aed9b54b3005706380641f995f11271b2_icgraph" alt=""/></div>
+<map name="classhermes_1_1adapter_1_1_singleton_aed9b54b3005706380641f995f11271b2_icgraph" id="classhermes_1_1adapter_1_1_singleton_aed9b54b3005706380641f995f11271b2_icgraph">
+<area shape="rect" title=" " alt="" coords="316,57,515,98"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1_mapper_factory.html#ad2db9c5a8fe3fee3b06643219e26199b" title=" " alt="" coords="5,5,268,32"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1mpiio_1_1_mpiio_f_s.html#a23d5133dbd9796cf2150627e40aa71b3" title=" " alt="" coords="49,57,224,98"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#abd25540ff367f4d866870292603ca569" title=" " alt="" coords="62,122,211,163"/>
 </map>
 </div>
 
@@ -220,8 +220,8 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a2a1286dbaa70d2090605827bab44cfe9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a1286dbaa70d2090605827bab44cfe9">&#9670;&nbsp;</a></span>instance</h2>
+<a id="aeec0208064a440a2910d6dcdfe25352e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeec0208064a440a2910d6dcdfe25352e">&#9670;&nbsp;</a></span>instance</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -232,7 +232,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; T &gt; <a class="el" href="classhermes_1_1adapter_1_1_singleton.html">hermes::adapter::Singleton</a>&lt; T &gt;::instance = nullptr</td>
+          <td class="memname">std::unique_ptr&lt; T &gt; <a class="el" href="classhermes_1_1adapter_1_1_singleton.html">hermes::adapter::Singleton</a>&lt; T &gt;::instance = nullptr</td>
         </tr>
       </table>
   </td>

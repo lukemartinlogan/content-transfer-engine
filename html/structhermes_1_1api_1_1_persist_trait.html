@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -92,14 +92,17 @@ $(document).ready(function(){initNavTree('structhermes_1_1api_1_1_persist_trait.
 </div><!--header-->
 <div class="contents">
 
+<p>Engable persisting a <code><a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a></code>'s linked <a class="el" href="structhermes_1_1_blob.html">Blob</a>s to permanent storage.  
+ <a href="structhermes_1_1api_1_1_persist_trait.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="traits_8h_source.html">traits.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for hermes::api::PersistTrait:</div>
 <div class="dyncontent">
 <div class="center"><img src="structhermes_1_1api_1_1_persist_trait__inherit__graph.png" border="0" usemap="#hermes_1_1api_1_1_persist_trait_inherit__map" alt="Inheritance graph"/></div>
 <map name="hermes_1_1api_1_1_persist_trait_inherit__map" id="hermes_1_1api_1_1_persist_trait_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,80,184,107"/>
-<area shape="rect" href="structhermes_1_1api_1_1_trait.html" title=" " alt="" coords="27,5,162,32"/>
+<area shape="rect" title="Engable persisting a VBucket&#39;s linked Blobs to permanent storage." alt="" coords="5,80,184,107"/>
+<area shape="rect" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets." alt="" coords="27,5,162,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -107,53 +110,55 @@ Collaboration diagram for hermes::api::PersistTrait:</div>
 <div class="dyncontent">
 <div class="center"><img src="structhermes_1_1api_1_1_persist_trait__coll__graph.png" border="0" usemap="#hermes_1_1api_1_1_persist_trait_coll__map" alt="Collaboration graph"/></div>
 <map name="hermes_1_1api_1_1_persist_trait_coll__map" id="hermes_1_1api_1_1_persist_trait_coll__map">
-<area shape="rect" title=" " alt="" coords="5,80,184,107"/>
-<area shape="rect" href="structhermes_1_1api_1_1_trait.html" title=" " alt="" coords="27,5,162,32"/>
+<area shape="rect" title="Engable persisting a VBucket&#39;s linked Blobs to permanent storage." alt="" coords="5,80,184,107"/>
+<area shape="rect" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets." alt="" coords="27,5,162,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a699a33bdb31cfc967f7df1fa0ab1c9c5"><td class="memItemLeft" align="right" valign="top"><a id="a699a33bdb31cfc967f7df1fa0ab1c9c5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>PersistTrait</b> (bool synchronous)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>PersistTrait</b> (bool <a class="el" href="structhermes_1_1api_1_1_persist_trait.html#a42bb900e5bf5fc4f1fe6a522c0c4c352">synchronous</a>)</td></tr>
 <tr class="separator:a699a33bdb31cfc967f7df1fa0ab1c9c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3db8731e198ee73ad01ed7fc15727630"><td class="memItemLeft" align="right" valign="top"><a id="a3db8731e198ee73ad01ed7fc15727630"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>PersistTrait</b> (const std::string &amp;filename, const std::unordered_map&lt; std::string, u64 &gt; &amp;offset_map, bool synchronous=false)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>PersistTrait</b> (const std::string &amp;<a class="el" href="structhermes_1_1api_1_1_persist_trait.html#a125d1111625e0f3c2073fca0003f5455">filename</a>, const std::unordered_map&lt; std::string, u64 &gt; &amp;<a class="el" href="structhermes_1_1api_1_1_persist_trait.html#a940073a3dfc8fc6d0eda3f9f37b26ad1">offset_map</a>, bool <a class="el" href="structhermes_1_1api_1_1_persist_trait.html#a42bb900e5bf5fc4f1fe6a522c0c4c352">synchronous</a>=false)</td></tr>
 <tr class="separator:a3db8731e198ee73ad01ed7fc15727630"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c43b56e6a5d2cad64a9e4d684d5d7dd"><td class="memItemLeft" align="right" valign="top"><a id="a6c43b56e6a5d2cad64a9e4d684d5d7dd"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>onAttach</b> (HermesPtr hermes, <a class="el" href="unionhermes_1_1_v_bucket_i_d.html">VBucketID</a> <a class="el" href="structhermes_1_1api_1_1_trait.html#ab0e13fe834bba47d6f69451305117a6b">id</a>, <a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *trait)</td></tr>
 <tr class="separator:a6c43b56e6a5d2cad64a9e4d684d5d7dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad60d96f48e6ecd4e0493b0b1f2886a12"><td class="memItemLeft" align="right" valign="top"><a id="ad60d96f48e6ecd4e0493b0b1f2886a12"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>onDetach</b> (HermesPtr hermes, <a class="el" href="unionhermes_1_1_v_bucket_i_d.html">VBucketID</a> <a class="el" href="structhermes_1_1api_1_1_trait.html#ab0e13fe834bba47d6f69451305117a6b">id</a>, <a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *trait)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_persist_trait.html#ad60d96f48e6ecd4e0493b0b1f2886a12">onDetach</a> (HermesPtr hermes, <a class="el" href="unionhermes_1_1_v_bucket_i_d.html">VBucketID</a> <a class="el" href="structhermes_1_1api_1_1_trait.html#ab0e13fe834bba47d6f69451305117a6b">id</a>, <a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *trait)</td></tr>
+<tr class="memdesc:ad60d96f48e6ecd4e0493b0b1f2886a12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Currently a no-op. <br /></td></tr>
 <tr class="separator:ad60d96f48e6ecd4e0493b0b1f2886a12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af50642a21d8ceaae98ad814a5d11d2a8"><td class="memItemLeft" align="right" valign="top"><a id="af50642a21d8ceaae98ad814a5d11d2a8"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>onLink</b> (HermesPtr hermes, <a class="el" href="structhermes_1_1api_1_1_blob_info.html">TraitInput</a> &amp;input, <a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *trait)</td></tr>
 <tr class="separator:af50642a21d8ceaae98ad814a5d11d2a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15937621717fb7efc736fdeb027d3e03"><td class="memItemLeft" align="right" valign="top"><a id="a15937621717fb7efc736fdeb027d3e03"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>onUnlink</b> (HermesPtr hermes, <a class="el" href="structhermes_1_1api_1_1_blob_info.html">TraitInput</a> &amp;input, <a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *trait)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_persist_trait.html#a15937621717fb7efc736fdeb027d3e03">onUnlink</a> (HermesPtr hermes, <a class="el" href="structhermes_1_1api_1_1_blob_info.html">TraitInput</a> &amp;input, <a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *trait)</td></tr>
+<tr class="memdesc:a15937621717fb7efc736fdeb027d3e03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Currently a no-op. <br /></td></tr>
 <tr class="separator:a15937621717fb7efc736fdeb027d3e03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_structhermes_1_1api_1_1_trait"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structhermes_1_1api_1_1_trait')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structhermes_1_1api_1_1_trait.html">hermes::api::Trait</a></td></tr>
-<tr class="memitem:a5844cec76e08b696edc28b9176483f81 inherit pub_methods_structhermes_1_1api_1_1_trait"><td class="memItemLeft" align="right" valign="top"><a id="a5844cec76e08b696edc28b9176483f81"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Trait</b> (TraitID <a class="el" href="structhermes_1_1api_1_1_trait.html#ab0e13fe834bba47d6f69451305117a6b">id</a>, const std::vector&lt; TraitID &gt; &amp;<a class="el" href="structhermes_1_1api_1_1_trait.html#aea0060d306735bf86e5924932fb3301b">conflict_traits</a>, TraitType <a class="el" href="structhermes_1_1api_1_1_trait.html#a83cc4d203a5a2c1f076dd996b80e1461">type</a>)</td></tr>
+<tr class="memitem:ad9d8db7946ca59dda5fc44894693ad3c inherit pub_methods_structhermes_1_1api_1_1_trait"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#ad9d8db7946ca59dda5fc44894693ad3c">Trait</a> ()</td></tr>
+<tr class="memdesc:ad9d8db7946ca59dda5fc44894693ad3c inherit pub_methods_structhermes_1_1api_1_1_trait"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="structhermes_1_1api_1_1_trait.html#ad9d8db7946ca59dda5fc44894693ad3c">More...</a><br /></td></tr>
+<tr class="separator:ad9d8db7946ca59dda5fc44894693ad3c inherit pub_methods_structhermes_1_1api_1_1_trait"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5844cec76e08b696edc28b9176483f81 inherit pub_methods_structhermes_1_1api_1_1_trait"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#a5844cec76e08b696edc28b9176483f81">Trait</a> (<a class="el" href="hermes__types_8h.html#ae27c1b24942f49623940c4777f724a51">TraitID</a> <a class="el" href="structhermes_1_1api_1_1_trait.html#ab0e13fe834bba47d6f69451305117a6b">id</a>, const std::vector&lt; <a class="el" href="hermes__types_8h.html#ae27c1b24942f49623940c4777f724a51">TraitID</a> &gt; &amp;<a class="el" href="structhermes_1_1api_1_1_trait.html#aea0060d306735bf86e5924932fb3301b">conflict_traits</a>, <a class="el" href="hermes__types_8h.html#a9986546c3c718bfe0d411b7935349ae1">TraitType</a> <a class="el" href="structhermes_1_1api_1_1_trait.html#a83cc4d203a5a2c1f076dd996b80e1461">type</a>)</td></tr>
+<tr class="memdesc:a5844cec76e08b696edc28b9176483f81 inherit pub_methods_structhermes_1_1api_1_1_trait"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a>.  <a href="structhermes_1_1api_1_1_trait.html#a5844cec76e08b696edc28b9176483f81">More...</a><br /></td></tr>
 <tr class="separator:a5844cec76e08b696edc28b9176483f81 inherit pub_methods_structhermes_1_1api_1_1_trait"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a125d1111625e0f3c2073fca0003f5455"><td class="memItemLeft" align="right" valign="top"><a id="a125d1111625e0f3c2073fca0003f5455"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>filename</b></td></tr>
+<tr class="memitem:a125d1111625e0f3c2073fca0003f5455"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_persist_trait.html#a125d1111625e0f3c2073fca0003f5455">filename</a></td></tr>
 <tr class="separator:a125d1111625e0f3c2073fca0003f5455"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a940073a3dfc8fc6d0eda3f9f37b26ad1"><td class="memItemLeft" align="right" valign="top"><a id="a940073a3dfc8fc6d0eda3f9f37b26ad1"></a>
-std::unordered_map&lt; std::string, u64 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>offset_map</b></td></tr>
+<tr class="memitem:a940073a3dfc8fc6d0eda3f9f37b26ad1"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, u64 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_persist_trait.html#a940073a3dfc8fc6d0eda3f9f37b26ad1">offset_map</a></td></tr>
 <tr class="separator:a940073a3dfc8fc6d0eda3f9f37b26ad1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42bb900e5bf5fc4f1fe6a522c0c4c352"><td class="memItemLeft" align="right" valign="top"><a id="a42bb900e5bf5fc4f1fe6a522c0c4c352"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>synchronous</b></td></tr>
+<tr class="memitem:a42bb900e5bf5fc4f1fe6a522c0c4c352"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_persist_trait.html#a42bb900e5bf5fc4f1fe6a522c0c4c352">synchronous</a></td></tr>
 <tr class="separator:a42bb900e5bf5fc4f1fe6a522c0c4c352"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_structhermes_1_1api_1_1_trait"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_structhermes_1_1api_1_1_trait')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="structhermes_1_1api_1_1_trait.html">hermes::api::Trait</a></td></tr>
-<tr class="memitem:ab0e13fe834bba47d6f69451305117a6b inherit pub_attribs_structhermes_1_1api_1_1_trait"><td class="memItemLeft" align="right" valign="top">TraitID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#ab0e13fe834bba47d6f69451305117a6b">id</a></td></tr>
+<tr class="memitem:ab0e13fe834bba47d6f69451305117a6b inherit pub_attribs_structhermes_1_1api_1_1_trait"><td class="memItemLeft" align="right" valign="top"><a class="el" href="hermes__types_8h.html#ae27c1b24942f49623940c4777f724a51">TraitID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#ab0e13fe834bba47d6f69451305117a6b">id</a></td></tr>
 <tr class="separator:ab0e13fe834bba47d6f69451305117a6b inherit pub_attribs_structhermes_1_1api_1_1_trait"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea0060d306735bf86e5924932fb3301b inherit pub_attribs_structhermes_1_1api_1_1_trait"><td class="memItemLeft" align="right" valign="top">std::vector&lt; TraitID &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#aea0060d306735bf86e5924932fb3301b">conflict_traits</a></td></tr>
+<tr class="memitem:aea0060d306735bf86e5924932fb3301b inherit pub_attribs_structhermes_1_1api_1_1_trait"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="hermes__types_8h.html#ae27c1b24942f49623940c4777f724a51">TraitID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#aea0060d306735bf86e5924932fb3301b">conflict_traits</a></td></tr>
 <tr class="separator:aea0060d306735bf86e5924932fb3301b inherit pub_attribs_structhermes_1_1api_1_1_trait"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83cc4d203a5a2c1f076dd996b80e1461 inherit pub_attribs_structhermes_1_1api_1_1_trait"><td class="memItemLeft" align="right" valign="top">TraitType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#a83cc4d203a5a2c1f076dd996b80e1461">type</a></td></tr>
+<tr class="memitem:a83cc4d203a5a2c1f076dd996b80e1461 inherit pub_attribs_structhermes_1_1api_1_1_trait"><td class="memItemLeft" align="right" valign="top"><a class="el" href="hermes__types_8h.html#a9986546c3c718bfe0d411b7935349ae1">TraitType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#a83cc4d203a5a2c1f076dd996b80e1461">type</a></td></tr>
 <tr class="separator:a83cc4d203a5a2c1f076dd996b80e1461 inherit pub_attribs_structhermes_1_1api_1_1_trait"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fa98dc6045501b210d1a57a4539115c inherit pub_attribs_structhermes_1_1api_1_1_trait"><td class="memItemLeft" align="right" valign="top">OnAttachCallback&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#a6fa98dc6045501b210d1a57a4539115c">onAttachFn</a></td></tr>
 <tr class="separator:a6fa98dc6045501b210d1a57a4539115c inherit pub_attribs_structhermes_1_1api_1_1_trait"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,8 +172,54 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>synchronous</b></td><
 <tr class="separator:a58c300542aeb634e6430f5ea0cc3b8b3 inherit pub_attribs_structhermes_1_1api_1_1_trait"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>(File) Persistence trait </p>
-</div><hr/>The documentation for this struct was generated from the following files:<ul>
+<div class="textblock"><p>Engable persisting a <code><a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a></code>'s linked <a class="el" href="structhermes_1_1_blob.html">Blob</a>s to permanent storage. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a125d1111625e0f3c2073fca0003f5455"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a125d1111625e0f3c2073fca0003f5455">&#9670;&nbsp;</a></span>filename</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hermes::api::PersistTrait::filename</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The name of the file to flush the <a class="el" href="structhermes_1_1_blob.html">Blob</a>s to. </p>
+
+</div>
+</div>
+<a id="a940073a3dfc8fc6d0eda3f9f37b26ad1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a940073a3dfc8fc6d0eda3f9f37b26ad1">&#9670;&nbsp;</a></span>offset_map</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, u64&gt; hermes::api::PersistTrait::offset_map</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Maps <a class="el" href="structhermes_1_1_blob.html">Blob</a> names to offsets within a file. </p>
+
+</div>
+</div>
+<a id="a42bb900e5bf5fc4f1fe6a522c0c4c352"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42bb900e5bf5fc4f1fe6a522c0c4c352">&#9670;&nbsp;</a></span>synchronous</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hermes::api::PersistTrait::synchronous</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>true if flushing data should block until finished, otherwise false. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following files:<ul>
 <li>/home/runner/work/hermes/hermes/src/api/<a class="el" href="traits_8h_source.html">traits.h</a></li>
 <li>/home/runner/work/hermes/hermes/src/api/traits.cc</li>
 </ul>

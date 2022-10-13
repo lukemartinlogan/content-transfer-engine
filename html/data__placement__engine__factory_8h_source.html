@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -108,7 +108,7 @@ $(document).ready(function(){initNavTree('data__placement__engine__factory_8h_so
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span>hermes {</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">using</span> hermes::api::PlacementPolicy;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">using</span> <a class="code" href="hermes__types_8h.html#a66b9a7dd528375b0f2f0e77f72d66b67">hermes::api::PlacementPolicy</a>;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classhermes_1_1_d_p_e_factory.html">   24</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhermes_1_1_d_p_e_factory.html">DPEFactory</a> {</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; <span class="keyword">public</span>:</div>
@@ -123,21 +123,23 @@ $(document).ready(function(){initNavTree('data__placement__engine__factory_8h_so
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      <span class="keywordflow">case</span> PlacementPolicy::kMinimizeIoTime: {</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">return</span> std::make_unique&lt;MinimizeIoTime&gt;();</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordflow">default</span>: {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="comment">// TODO(luke): @errorhandling not implemented</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        LOG(FATAL) &lt;&lt; <span class="stringliteral">&quot;PlacementPolicy not implemented&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      }</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;};</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}  <span class="comment">// namespace hermes</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#endif  // HERMES_SRC_DPE_DATA_PLACEMENT_ENGINE_FACTORY_H_</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordflow">case</span> PlacementPolicy::kNone:</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keywordflow">default</span>: {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="comment">// TODO(luke): @errorhandling not implemented</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        LOG(FATAL) &lt;&lt; <span class="stringliteral">&quot;PlacementPolicy not implemented&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;};</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}  <span class="comment">// namespace hermes</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#endif  // HERMES_SRC_DPE_DATA_PLACEMENT_ENGINE_FACTORY_H_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclasshermes_1_1_d_p_e_factory_html"><div class="ttname"><a href="classhermes_1_1_d_p_e_factory.html">hermes::DPEFactory</a></div><div class="ttdef"><b>Definition:</b> data_placement_engine_factory.h:24</div></div>
+<div class="ttc" id="ahermes__types_8h_html_a66b9a7dd528375b0f2f0e77f72d66b67"><div class="ttname"><a href="hermes__types_8h.html#a66b9a7dd528375b0f2f0e77f72d66b67">hermes::api::PlacementPolicy</a></div><div class="ttdeci">PlacementPolicy</div><div class="ttdef"><b>Definition:</b> hermes_types.h:71</div></div>
 <div class="ttc" id="aclasshermes_1_1_d_p_e_factory_html_a6894612fc0d57be85041eb4bb757e769"><div class="ttname"><a href="classhermes_1_1_d_p_e_factory.html#a6894612fc0d57be85041eb4bb757e769">hermes::DPEFactory::Get</a></div><div class="ttdeci">std::unique_ptr&lt; DPE &gt; Get(const PlacementPolicy &amp;type)</div><div class="ttdef"><b>Definition:</b> data_placement_engine_factory.h:32</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

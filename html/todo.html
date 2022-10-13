@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -88,41 +88,18 @@ $(document).ready(function(){initNavTree('todo.html',''); initResizable(); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><dl class="reflist">
-<dt>Member <a class="el" href="classhermes_1_1api_1_1_bucket.html#ab4672afc313bb81fdc71189d10f4b29f">hermes::api::Bucket::ctx_</a>  </dt>
-<dd><a class="anchor" id="_todo000001"></a>Why does a bucket need a context?  </dd>
-<dt>Member <a class="el" href="classhermes_1_1api_1_1_bucket.html#a90ac5c8ab3fc47ccc51566e722d3ca66">hermes::api::Bucket::PlaceBlobs</a>  (std::vector&lt; PlacementSchema &gt; &amp;schemas, const std::vector&lt; std::vector&lt; T &gt;&gt; &amp;blobs, const std::vector&lt; std::string &gt; &amp;names, const <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</dt>
-<dd><a class="anchor" id="_todo000007"></a>PlaceBlobs  </dd>
-<dt>Member <a class="el" href="classhermes_1_1api_1_1_bucket.html#a025d344918acf90a60ba9efb978e6f6d">hermes::api::Bucket::Put</a>  (const std::string &amp;name, const std::vector&lt; T &gt; &amp;data)</dt>
-<dd><a class="anchor" id="_todo000002"></a>Why isn't this a context-free case? <br  />
-  </dd>
-<dt>Member <a class="el" href="classhermes_1_1api_1_1_bucket.html#a18180399c351be737c889ccaee8ff04f">hermes::api::Bucket::Put</a>  (const std::vector&lt; std::string &gt; &amp;names, const std::vector&lt; std::vector&lt; T &gt;&gt; &amp;blobs, const <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</dt>
-<dd><a class="anchor" id="_todo000004"></a>Put  </dd>
-<dt>Member <a class="el" href="classhermes_1_1api_1_1_bucket.html#ae0d9fa3ea5186faa4b2f62a313346aae">hermes::api::Bucket::Put</a>  (const std::vector&lt; std::string &gt; &amp;names, const std::vector&lt; std::vector&lt; T &gt;&gt; &amp;blobs)</dt>
-<dd><a class="anchor" id="_todo000005"></a>Put  </dd>
-<dt>Member <a class="el" href="classhermes_1_1api_1_1_bucket.html#a4ed62830212955f77e4b5e31918c1648">hermes::api::Bucket::Put</a>  (const std::string &amp;name, const u8 *data, size_t size)</dt>
-<dd><a class="anchor" id="_todo000003"></a>Put  </dd>
-<dt>Member <a class="el" href="classhermes_1_1api_1_1_bucket.html#a409f78fc50a74d26d2623cde27a9a1ad">hermes::api::Bucket::PutInternal</a>  (const std::vector&lt; std::string &gt; &amp;names, const std::vector&lt; size_t &gt; &amp;sizes, const std::vector&lt; std::vector&lt; T &gt;&gt; &amp;blobs, const <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</dt>
-<dd><a class="anchor" id="_todo000006"></a>PutInternal  </dd>
-<dt>Member <a class="el" href="classhermes_1_1api_1_1_hermes.html#a37a6512a0d20bf8ed0e5c2ef4238d807">hermes::api::Hermes::Finalize</a>  (bool force_rpc_shutdown=false)</dt>
-<dd><a class="anchor" id="_todo000013"></a><a class="el" href="classhermes_1_1api_1_1_hermes.html#a37a6512a0d20bf8ed0e5c2ef4238d807">Hermes::Finalize</a>  </dd>
-<dt>Member <a class="el" href="classhermes_1_1api_1_1_hermes.html#aca7ea39b90693a4e8ff39ef47286b075">hermes::api::Hermes::FinalizeClient</a>  (bool stop_daemon=true)</dt>
-<dd><a class="anchor" id="_todo000014"></a><a class="el" href="classhermes_1_1api_1_1_hermes.html#aca7ea39b90693a4e8ff39ef47286b075">Hermes::FinalizeClient</a>  </dd>
+<dt>Member <a class="el" href="classhermes_1_1api_1_1_bucket.html#ab4b92a3d45767c4a1f77ee5a8124babb">hermes::api::Bucket::GetBlobNames</a>  (Predicate pred, <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</dt>
+<dd><a class="anchor" id="_todo000002"></a>Not implemented yet.  </dd>
+<dt>Member <a class="el" href="classhermes_1_1api_1_1_bucket.html#a0a5f2021842bc6633bb8d20ea03df9d0">hermes::api::Bucket::GetV</a>  (void *user_blob, Predicate pred, <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</dt>
+<dd><a class="anchor" id="_todo000001"></a>Not implemented yet. </dd>
 <dt>Member <a class="el" href="classhermes_1_1api_1_1_hermes.html#a9c9a950cf51161341788bad35198d1a5">hermes::api::Hermes::RemoteFinalize</a>  ()</dt>
-<dd><a class="anchor" id="_todo000015"></a><a class="el" href="classhermes_1_1api_1_1_hermes.html#a9c9a950cf51161341788bad35198d1a5">Hermes::RemoteFinalize</a>  </dd>
-<dt>Member <a class="el" href="classhermes_1_1api_1_1_hermes.html#a7f9700051f64b2c3d51e3ff30c323154">hermes::api::Hermes::RunDaemon</a>  ()</dt>
-<dd><a class="anchor" id="_todo000016"></a><a class="el" href="classhermes_1_1api_1_1_hermes.html#a7f9700051f64b2c3d51e3ff30c323154">Hermes::RunDaemon</a>  </dd>
-<dt>Member <a class="el" href="structhermes_1_1api_1_1_trait.html#aea0060d306735bf86e5924932fb3301b">hermes::api::Trait::conflict_traits</a>  </dt>
-<dd><a class="anchor" id="_todo000017"></a>???  </dd>
-<dt>Member <a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a2e7781519d81a04d5ad5ef168b8d6c74">hermes::api::VBucket::ctx_</a>  </dt>
-<dd><a class="anchor" id="_todo000018"></a>Why do we need that?  </dd>
-<dt>Member <a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a14a2e0804ef0d64a6a58156af4d85ede">hermes::api::VBucket::Destroy</a>  ()</dt>
-<dd><a class="anchor" id="_todo000022"></a>Destroy  </dd>
-<dt>Member <a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a9a2d3b0743c29f8e4636e871e2911da3">hermes::api::VBucket::Link</a>  (std::string blob_name, std::string bucket_name)</dt>
-<dd><a class="anchor" id="_todo000019"></a>Link  </dd>
-<dt>Member <a class="el" href="classhermes_1_1api_1_1_v_bucket.html#ac02c11309661262ccba581193ad57e17">hermes::api::VBucket::Release</a>  ()</dt>
-<dd><a class="anchor" id="_todo000021"></a>Release  </dd>
+<dd><a class="anchor" id="_todo000004"></a>Is this still necessary? </dd>
+<dt>Member <a class="el" href="classhermes_1_1api_1_1_v_bucket.html#ad0bd79f91ce66a07de6e176fc3f4abcb">hermes::api::VBucket::GetTraits</a>  (Predicate pred, <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</dt>
+<dd><p class="startdd"><a class="anchor" id="_todo000006"></a><code>pred</code> is curently ignored and this function returns all attached traits.</p>
+<p class="enddd"><a class="anchor" id="_todo000007"></a>  </p>
+</dd>
 <dt>Member <a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a6329f7c88429dc6563eaee71318b3a1a">hermes::api::VBucket::Unlink</a>  (std::string blob_name, std::string bucket_name)</dt>
-<dd><a class="anchor" id="_todo000020"></a>Unlink </dd>
+<dd><a class="anchor" id="_todo000005"></a>Unlink </dd>
 </dl>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

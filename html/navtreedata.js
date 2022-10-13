@@ -43,8 +43,7 @@ var NAVTREE =
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", null ],
-        [ "Variables", "functions_vars.html", "functions_vars" ],
-        [ "Related Functions", "functions_rela.html", null ]
+        [ "Variables", "functions_vars.html", null ]
       ] ]
     ] ],
     [ "Files", "files.html", [
@@ -56,11 +55,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"classhermes_1_1adapter_1_1_singleton.html#ae7d017b32bfd9f89279c66031318536b",
-"functions_e.html",
-"structhermes_1_1_buffer_id_array.html",
-"structhermes_1_1_ticket.html#acbe0bc6fa9d610f19a57c8ffb1e0a38c",
-"structhermes_1_1testing_1_1_target_view_state.html#a06c78fb9b9e8867c759edc134be1c2a2"
+"classhermes_1_1adapter_1_1_metadata_manager.html",
+"classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html#ad7ffb678f222e3084ddbd2e7958f04e9",
+"functions_w.html",
+"structhermes_1_1_blob_info.html#aad953be3b1ff2fe6bca3dc97bd35e018",
+"structhermes_1_1_target.html#a6802ccdb855aafbdb0da1cdf65285d5e",
+"unionhermes_1_1_blob_i_d.html#a393800f9885719123253f3d039125864"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -119,7 +119,7 @@ Collaboration diagram for hermes::RoundRobin:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2b074a38bd99d1e34f252dbbacaa78d0"><td class="memItemLeft" align="right" valign="top"><a id="a2b074a38bd99d1e34f252dbbacaa78d0"></a>
-<a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Placement</b> (const std::vector&lt; size_t &gt; &amp;blob_sizes, const std::vector&lt; u64 &gt; &amp;node_state, const std::vector&lt; <a class="el" href="unionhermes_1_1_target_i_d.html">TargetID</a> &gt; &amp;targets, const <a class="el" href="structhermes_1_1api_1_1_context.html">api::Context</a> &amp;ctx, std::vector&lt; PlacementSchema &gt; &amp;output)</td></tr>
+<a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Placement</b> (const std::vector&lt; size_t &gt; &amp;blob_sizes, const std::vector&lt; u64 &gt; &amp;node_state, const std::vector&lt; <a class="el" href="unionhermes_1_1_target_i_d.html">TargetID</a> &gt; &amp;targets, const <a class="el" href="structhermes_1_1api_1_1_context.html">api::Context</a> &amp;ctx, std::vector&lt; <a class="el" href="hermes__types_8h.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">PlacementSchema</a> &gt; &amp;output)</td></tr>
 <tr class="separator:a2b074a38bd99d1e34f252dbbacaa78d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8030aa767764adcde3d440fdd06e0ac9"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_round_robin.html#a8030aa767764adcde3d440fdd06e0ac9">GetNumDevices</a> () const</td></tr>
 <tr class="separator:a8030aa767764adcde3d440fdd06e0ac9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,7 +145,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>InitDevices</b
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a1e62e4415e17fa0a716113c6850b657d"><td class="memItemLeft" align="right" valign="top"><a id="a1e62e4415e17fa0a716113c6850b657d"></a>
-<a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><b>AddSchema</b> (size_t index, std::vector&lt; u64 &gt; &amp;node_state, const std::vector&lt; size_t &gt; &amp;blob_sizes, const std::vector&lt; <a class="el" href="unionhermes_1_1_target_i_d.html">TargetID</a> &gt; &amp;targets, PlacementSchema &amp;output)</td></tr>
+<a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><b>AddSchema</b> (size_t index, std::vector&lt; u64 &gt; &amp;node_state, const std::vector&lt; size_t &gt; &amp;blob_sizes, const std::vector&lt; <a class="el" href="unionhermes_1_1_target_i_d.html">TargetID</a> &gt; &amp;targets, <a class="el" href="hermes__types_8h.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">PlacementSchema</a> &amp;output)</td></tr>
 <tr class="separator:a1e62e4415e17fa0a716113c6850b657d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
@@ -187,6 +187,24 @@ PlacementPolicy&#160;</td><td class="memItemRight" valign="bottom"><b>policy_</b
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents the state of a Round-Robin data placement strategy </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a8030aa767764adcde3d440fdd06e0ac9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8030aa767764adcde3d440fdd06e0ac9">&#9670;&nbsp;</a></span>GetNumDevices()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t hermes::RoundRobin::GetNumDevices </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retrieves the number of devices </p>
+
+</div>
+</div>
 <a id="a5bd28432ea190b26581e3a1517788368"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5bd28432ea190b26581e3a1517788368">&#9670;&nbsp;</a></span>GetCurrentDeviceIndex()</h2>
 
@@ -202,15 +220,6 @@ PlacementPolicy&#160;</td><td class="memItemRight" valign="bottom"><b>policy_</b
       </table>
 </div><div class="memdoc">
 <p>Retrieves the current device index </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classhermes_1_1_round_robin_a5bd28432ea190b26581e3a1517788368_icgraph.png" border="0" usemap="#classhermes_1_1_round_robin_a5bd28432ea190b26581e3a1517788368_icgraph" alt=""/></div>
-<map name="classhermes_1_1_round_robin_a5bd28432ea190b26581e3a1517788368_icgraph" id="classhermes_1_1_round_robin_a5bd28432ea190b26581e3a1517788368_icgraph">
-<area shape="rect" title=" " alt="" coords="233,5,416,47"/>
-<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a18180399c351be737c889ccaee8ff04f" title=" " alt="" coords="5,13,185,39"/>
-</map>
-</div>
 
 </div>
 </div>
@@ -233,21 +242,22 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a8030aa767764adcde3d440fdd06e0ac9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8030aa767764adcde3d440fdd06e0ac9">&#9670;&nbsp;</a></span>GetNumDevices()</h2>
+<a id="a9896b8a9e011e2e92780242bf9cdafd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9896b8a9e011e2e92780242bf9cdafd8">&#9670;&nbsp;</a></span>SetCurrentDeviceIndex()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t hermes::RoundRobin::GetNumDevices </td>
+          <td class="memname">void hermes::RoundRobin::SetCurrentDeviceIndex </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>new_device_index</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Retrieves the number of devices </p>
+<p>Re-/Sets the current device index </p>
 
 </div>
 </div>
@@ -288,34 +298,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a9896b8a9e011e2e92780242bf9cdafd8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9896b8a9e011e2e92780242bf9cdafd8">&#9670;&nbsp;</a></span>SetCurrentDeviceIndex()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::RoundRobin::SetCurrentDeviceIndex </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>new_device_index</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Re-/Sets the current device index </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classhermes_1_1_round_robin_a9896b8a9e011e2e92780242bf9cdafd8_icgraph.png" border="0" usemap="#classhermes_1_1_round_robin_a9896b8a9e011e2e92780242bf9cdafd8_icgraph" alt=""/></div>
-<map name="classhermes_1_1_round_robin_a9896b8a9e011e2e92780242bf9cdafd8_icgraph" id="classhermes_1_1_round_robin_a9896b8a9e011e2e92780242bf9cdafd8_icgraph">
-<area shape="rect" title=" " alt="" coords="233,5,413,47"/>
-<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a18180399c351be737c889ccaee8ff04f" title=" " alt="" coords="5,13,185,39"/>
-</map>
-</div>
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="ac2dd73614f78cac663d913efc6e469e6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac2dd73614f78cac663d913efc6e469e6">&#9670;&nbsp;</a></span>current_device_index_</h2>
@@ -340,29 +322,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ac0863b38e703f829e31e2ac461c4fadb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac0863b38e703f829e31e2ac461c4fadb">&#9670;&nbsp;</a></span>device_index_mutex_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::mutex hermes::RoundRobin::device_index_mutex_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Protect index updates </p>
-
-</div>
-</div>
 <a id="a523f029d7046a4d52fe00e32518432a2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a523f029d7046a4d52fe00e32518432a2">&#9670;&nbsp;</a></span>devices_</h2>
 
@@ -383,6 +342,29 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 <p>A list of device targets </p>
+
+</div>
+</div>
+<a id="ac0863b38e703f829e31e2ac461c4fadb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0863b38e703f829e31e2ac461c4fadb">&#9670;&nbsp;</a></span>device_index_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex hermes::RoundRobin::device_index_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Protect index updates </p>
 
 </div>
 </div>

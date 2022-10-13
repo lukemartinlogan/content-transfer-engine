@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -110,21 +110,6 @@ struct {</td></tr>
 <div class="textblock"><p>A unique identifier for any buffer in the system.</p>
 <p>This number is unique for each buffer when read as a 64 bit integer. The top 32 bits signify the node that "owns" the buffer, and the bottom 32 bits form in index into the array of BufferHeaders in the <a class="el" href="structhermes_1_1_buffer_pool.html">BufferPool</a> on that node. Node indexing begins at 1 so that a <a class="el" href="unionhermes_1_1_buffer_i_d.html">BufferID</a> of 0 represents the NULL <a class="el" href="unionhermes_1_1_buffer_i_d.html">BufferID</a>. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a9984807fe75e37d0e409ae7c6bc1e43d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9984807fe75e37d0e409ae7c6bc1e43d">&#9670;&nbsp;</a></span>as_int</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">u64 hermes::BufferID::as_int</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>A single integer that uniquely identifies a buffer. </p>
-
-</div>
-</div>
 <a id="ac5e9087ac164d17bfc056723a0d1cab6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac5e9087ac164d17bfc056723a0d1cab6">&#9670;&nbsp;</a></span>header_index</h2>
 
@@ -152,6 +137,21 @@ struct {</td></tr>
       </table>
 </div><div class="memdoc">
 <p>The node identifier where this <a class="el" href="unionhermes_1_1_buffer_i_d.html">BufferID</a>'s <a class="el" href="structhermes_1_1_buffer_header.html">BufferHeader</a> resides (1-based index). </p>
+
+</div>
+</div>
+<a id="a9984807fe75e37d0e409ae7c6bc1e43d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9984807fe75e37d0e409ae7c6bc1e43d">&#9670;&nbsp;</a></span>as_int</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">u64 hermes::BufferID::as_int</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>A single integer that uniquely identifies a buffer. </p>
 
 </div>
 </div>

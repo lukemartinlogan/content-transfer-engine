@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['path_5fexclusions_728',['path_exclusions',['../structhermes_1_1_config.html#a034c3075cf5959b0cd7d195c9d0096d5',1,'hermes::Config']]],
-  ['path_5finclusions_729',['path_inclusions',['../structhermes_1_1_config.html#a28548adbe7a769a342779dd218a1b5b0',1,'hermes::Config']]],
-  ['policy_730',['policy',['../structhermes_1_1api_1_1_context.html#a38439f5337dc4f0623d8f94e9aa33f03',1,'hermes::api::Context']]],
-  ['proc_5fkind_731',['proc_kind',['../structhermes_1_1_communication_context.html#a41de3edded73879fbf8a750761c9111c',1,'hermes::CommunicationContext']]]
+  ['offset_736',['offset',['../structhermes_1_1_shmem_string.html#a0196d57c69696a5a7d350a396b608363',1,'hermes::ShmemString']]],
+  ['offset_5fmap_737',['offset_map',['../structhermes_1_1api_1_1_persist_trait.html#a940073a3dfc8fc6d0eda3f9f37b26ad1',1,'hermes::api::PersistTrait']]],
+  ['onattachfn_738',['onAttachFn',['../structhermes_1_1api_1_1_trait.html#a6fa98dc6045501b210d1a57a4539115c',1,'hermes::api::Trait']]],
+  ['ondetachfn_739',['onDetachFn',['../structhermes_1_1api_1_1_trait.html#a4137bf5d6efdae82a894d020efda38c4',1,'hermes::api::Trait']]],
+  ['ongetfn_740',['onGetFn',['../structhermes_1_1api_1_1_trait.html#a58c300542aeb634e6430f5ea0cc3b8b3',1,'hermes::api::Trait']]],
+  ['onlinkfn_741',['onLinkFn',['../structhermes_1_1api_1_1_trait.html#ab69dab2f0fdb5fb19923146bd6227eeb',1,'hermes::api::Trait']]],
+  ['onunlinkfn_742',['onUnlinkFn',['../structhermes_1_1api_1_1_trait.html#a10aab21e381eefb44e9a7d4aaf0b0104',1,'hermes::api::Trait']]]
 ];

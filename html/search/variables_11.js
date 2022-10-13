@@ -1,4 +1,8 @@
 var searchData=
 [
-  ['used_765',['used',['../structhermes_1_1_buffer_header.html#a9bc65551cd0187c86a4941c6d54768a5',1,'hermes::BufferHeader::used()'],['../structhermes_1_1_arena.html#ab2ba6b537c627c2d55a2d4203be55fe5',1,'hermes::Arena::used()'],['../structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba',1,'hermes::ScopedTemporaryMemory::used()']]]
+  ['temp_5fcount_777',['temp_count',['../structhermes_1_1_arena.html#a2a73789f44ff22eb1efea7f6325d256b',1,'hermes::Arena']]],
+  ['ticket_5fmutex_778',['ticket_mutex',['../structhermes_1_1_buffer_pool.html#a96fe7f73ea65edc5b646319c8f176cb4',1,'hermes::BufferPool']]],
+  ['total_5fheaders_779',['total_headers',['../structhermes_1_1_buffer_pool.html#aab01646b253e1e9523c397293c520b43',1,'hermes::BufferPool']]],
+  ['traits_780',['traits',['../structhermes_1_1_v_bucket_info.html#a4155c89ca04af63b97af2bcdcc9eb8ac',1,'hermes::VBucketInfo']]],
+  ['type_781',['type',['../structhermes_1_1api_1_1_trait.html#a83cc4d203a5a2c1f076dd996b80e1461',1,'hermes::api::Trait']]]
 ];

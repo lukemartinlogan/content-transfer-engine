@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -112,18 +112,18 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a1e048fb07236cac24578dbd9f9847c5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="ac09c39304dc6765073aa8fada9826555"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac09c39304dc6765073aa8fada9826555">&#9670;&nbsp;</a></span>bo_capacity_thresholds</h2>
+<a id="a448a6046ac7d3b05ef8468c253b4f216"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a448a6046ac7d3b05ef8468c253b4f216">&#9670;&nbsp;</a></span>capacities</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structhermes_1_1_thresholds.html">Thresholds</a> hermes::SystemViewState::bo_capacity_thresholds[kMaxDevices]</td>
+          <td class="memname">u64 hermes::SystemViewState::capacities[kMaxDevices]</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The min and max threshold (percentage) for each device at which the <a class="el" href="structhermes_1_1_buffer_organizer.html">BufferOrganizer</a> will trigger. </p>
+<p>Total capacities of each device. </p>
 
 </div>
 </div>
@@ -142,18 +142,18 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a448a6046ac7d3b05ef8468c253b4f216"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a448a6046ac7d3b05ef8468c253b4f216">&#9670;&nbsp;</a></span>capacities</h2>
+<a id="ac09c39304dc6765073aa8fada9826555"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac09c39304dc6765073aa8fada9826555">&#9670;&nbsp;</a></span>bo_capacity_thresholds</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">u64 hermes::SystemViewState::capacities[kMaxDevices]</td>
+          <td class="memname"><a class="el" href="structhermes_1_1_thresholds.html">Thresholds</a> hermes::SystemViewState::bo_capacity_thresholds[kMaxDevices]</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Total capacities of each device. </p>
+<p>The min and max threshold (percentage) for each device at which the <a class="el" href="structhermes_1_1_buffer_organizer.html">BufferOrganizer</a> will trigger. </p>
 
 </div>
 </div>

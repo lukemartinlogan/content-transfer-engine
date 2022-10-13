@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mappertype_770',['MapperType',['../namespacehermes_1_1adapter_1_1mpiio.html#a836c49abd0162b4727fe79e846ccca0d',1,'hermes::adapter::mpiio::MapperType()'],['../namespacehermes_1_1adapter_1_1posix.html#a8080810720ab1e993c5e7ba7bb3a05e3',1,'hermes::adapter::posix::MapperType()'],['../namespacehermes_1_1adapter_1_1stdio.html#a3362b03a94ff0115f2d3465907261968',1,'hermes::adapter::stdio::MapperType()']]]
+  ['arenatype_790',['ArenaType',['../hermes__types_8h.html#a62c3f0a639ff72d4ea54e6aee25a7e8d',1,'hermes']]]
 ];

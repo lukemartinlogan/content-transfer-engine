@@ -12,8 +12,8 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "data_placement_engine.h", "data__placement__engine_8h_source.html", null ],
     [ "data_placement_engine_factory.h", "data__placement__engine__factory_8h_source.html", null ],
     [ "debug_state.h", "debug__state_8h_source.html", null ],
-    [ "hermes_status.h", "hermes__status_8h_source.html", null ],
-    [ "hermes_types.h", "hermes__types_8h_source.html", null ],
+    [ "hermes_status.h", "hermes__status_8h.html", "hermes__status_8h" ],
+    [ "hermes_types.h", "hermes__types_8h.html", "hermes__types_8h" ],
     [ "memory_management.cc", "memory__management_8cc.html", "memory__management_8cc" ],
     [ "memory_management.h", "memory__management_8h.html", "memory__management_8h" ],
     [ "metadata_management.h", "metadata__management_8h_source.html", null ],
@@ -21,7 +21,6 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "metadata_storage.h", "metadata__storage_8h_source.html", null ],
     [ "rpc.h", "rpc_8h_source.html", null ],
     [ "rpc_thallium.h", "rpc__thallium_8h_source.html", null ],
-    [ "stb_ds.h", "stb__ds_8h_source.html", null ],
     [ "thread_pool.h", "thread__pool_8h_source.html", null ],
     [ "utils.h", "utils_8h.html", "utils_8h" ]
 ];

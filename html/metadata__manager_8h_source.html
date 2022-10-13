@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -107,9 +107,9 @@ $(document).ready(function(){initNavTree('metadata__manager_8h_source.html','');
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;enumerations.h&quot;</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;interceptor.h&quot;</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;bucket.h&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="bucket_8h.html">bucket.h</a>&gt;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="buffer__pool_8h.html">buffer_pool.h</a>&gt;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;hermes_types.h&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="hermes__types_8h.html">hermes_types.h</a>&gt;</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">namespace </span>hapi = hermes::api;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
@@ -175,9 +175,11 @@ $(document).ready(function(){initNavTree('metadata__manager_8h_source.html','');
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="abuffer__pool_8h_html"><div class="ttname"><a href="buffer__pool_8h.html">buffer_pool.h</a></div></div>
+<div class="ttc" id="abucket_8h_html"><div class="ttname"><a href="bucket_8h.html">bucket.h</a></div></div>
 <div class="ttc" id="aclasshermes_1_1adapter_1_1_metadata_manager_html_a31f23d972af1269ea588bb33f3c218e9"><div class="ttname"><a href="classhermes_1_1adapter_1_1_metadata_manager.html#a31f23d972af1269ea588bb33f3c218e9">hermes::adapter::MetadataManager::InitializeHermes</a></div><div class="ttdeci">void InitializeHermes(bool is_mpi)</div><div class="ttdef"><b>Definition:</b> metadata_manager.h:47</div></div>
 <div class="ttc" id="aclasshermes_1_1adapter_1_1_metadata_manager_html"><div class="ttname"><a href="classhermes_1_1adapter_1_1_metadata_manager.html">hermes::adapter::MetadataManager</a></div><div class="ttdef"><b>Definition:</b> metadata_manager.h:31</div></div>
-<div class="ttc" id="anamespacehermes_1_1adapter_html"><div class="ttname"><a href="namespacehermes_1_1adapter.html">hermes::adapter</a></div><div class="ttdef"><b>Definition:</b> adapter_utils.cc:34</div></div>
+<div class="ttc" id="anamespacehermes_1_1adapter_html"><div class="ttname"><a href="namespacehermes_1_1adapter.html">hermes::adapter</a></div><div class="ttdef"><b>Definition:</b> adapter_utils.cc:36</div></div>
+<div class="ttc" id="ahermes__types_8h_html"><div class="ttname"><a href="hermes__types_8h.html">hermes_types.h</a></div></div>
 <div class="ttc" id="aclasshermes_1_1adapter_1_1_metadata_manager_html_acb7163b12dab22b7f4799d87e94545cf"><div class="ttname"><a href="classhermes_1_1adapter_1_1_metadata_manager.html#acb7163b12dab22b7f4799d87e94545cf">hermes::adapter::MetadataManager::FinalizeHermes</a></div><div class="ttdeci">void FinalizeHermes()</div><div class="ttdef"><b>Definition:</b> metadata_manager.h:84</div></div>
 <div class="ttc" id="aclasshermes_1_1adapter_1_1_metadata_manager_html_a86a94749818bb26ef0b992547c6505cc"><div class="ttname"><a href="classhermes_1_1adapter_1_1_metadata_manager.html#a86a94749818bb26ef0b992547c6505cc">hermes::adapter::MetadataManager::GetHermes</a></div><div class="ttdeci">std::shared_ptr&lt; hapi::Hermes &gt; &amp; GetHermes()</div><div class="ttdef"><b>Definition:</b> metadata_manager.h:95</div></div>
 <!-- start footer part -->

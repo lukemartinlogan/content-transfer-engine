@@ -1,0 +1,4 @@
+<map id="hermes::api::Bucket::GetNext" name="hermes::api::Bucket::GetNext">
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,156,47"/>
+<area shape="rect" id="node2" href="$classhermes_1_1api_1_1_bucket.html#aff75409766b2e0aa8b159ec4cf42170a" title="Given an ordering of Blobs, retrieves the Blob at index blob_index + 1." alt="" coords="204,5,355,47"/>
+</map>

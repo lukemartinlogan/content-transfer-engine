@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -110,10 +110,10 @@ $(document).ready(function(){initNavTree('singleton_8h_source.html',''); initRes
 <div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classhermes_1_1adapter_1_1_singleton.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhermes_1_1adapter_1_1_singleton.html">Singleton</a> {</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Args&gt;</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classhermes_1_1adapter_1_1_singleton.html#a7628ad540d84a0e62635e0e3f2f71ad6">   34</a></span>&#160;  <span class="keyword">static</span> std::shared_ptr&lt;T&gt; <a class="code" href="classhermes_1_1adapter_1_1_singleton.html#a7628ad540d84a0e62635e0e3f2f71ad6">GetInstance</a>(Args... args) {</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="classhermes_1_1adapter_1_1_singleton.html#a2a1286dbaa70d2090605827bab44cfe9">instance</a> == <span class="keyword">nullptr</span>)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      <a class="code" href="classhermes_1_1adapter_1_1_singleton.html#a2a1286dbaa70d2090605827bab44cfe9">instance</a> = std::make_shared&lt;T&gt;(std::forward&lt;Args&gt;(args)...);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="classhermes_1_1adapter_1_1_singleton.html#a2a1286dbaa70d2090605827bab44cfe9">instance</a>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classhermes_1_1adapter_1_1_singleton.html#aed9b54b3005706380641f995f11271b2">   34</a></span>&#160;  <span class="keyword">static</span> T* <a class="code" href="classhermes_1_1adapter_1_1_singleton.html#aed9b54b3005706380641f995f11271b2">GetInstance</a>(Args... args) {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="classhermes_1_1adapter_1_1_singleton.html#aeec0208064a440a2910d6dcdfe25352e">instance</a> == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      <a class="code" href="classhermes_1_1adapter_1_1_singleton.html#aeec0208064a440a2910d6dcdfe25352e">instance</a> = std::make_unique&lt;T&gt;(std::forward&lt;Args&gt;(args)...);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="classhermes_1_1adapter_1_1_singleton.html#aeec0208064a440a2910d6dcdfe25352e">instance</a>.get();</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  }</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <a class="code" href="classhermes_1_1adapter_1_1_singleton.html">Singleton</a>&amp; <a class="code" href="classhermes_1_1adapter_1_1_singleton.html#a427ca41d58d6941c1fd937d63364e31e">operator=</a>(<span class="keyword">const</span> <a class="code" href="classhermes_1_1adapter_1_1_singleton.html">Singleton</a>) = <span class="keyword">delete</span>; <span class="comment">/* deleting = operators*/</span></div>
@@ -122,21 +122,21 @@ $(document).ready(function(){initNavTree('singleton_8h_source.html',''); initRes
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <a class="code" href="classhermes_1_1adapter_1_1_singleton.html">Singleton</a>(<span class="keyword">const</span> <a class="code" href="classhermes_1_1adapter_1_1_singleton.html">Singleton</a>&amp;) = <span class="keyword">delete</span>; <span class="comment">/* deleting copy constructor. */</span></div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classhermes_1_1adapter_1_1_singleton.html#a2a1286dbaa70d2090605827bab44cfe9">   55</a></span>&#160;  <span class="keyword">static</span> std::shared_ptr&lt;T&gt; <a class="code" href="classhermes_1_1adapter_1_1_singleton.html#a2a1286dbaa70d2090605827bab44cfe9">instance</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classhermes_1_1adapter_1_1_singleton.html#aeec0208064a440a2910d6dcdfe25352e">   55</a></span>&#160;  <span class="keyword">static</span> std::unique_ptr&lt;T&gt; <a class="code" href="classhermes_1_1adapter_1_1_singleton.html#aeec0208064a440a2910d6dcdfe25352e">instance</a>;</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <a class="code" href="classhermes_1_1adapter_1_1_singleton.html">Singleton</a>() {} <span class="comment">/* hidden default constructor. */</span></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;std::shared_ptr&lt;T&gt; <a class="code" href="classhermes_1_1adapter_1_1_singleton.html#a2a1286dbaa70d2090605827bab44cfe9">Singleton&lt;T&gt;::instance</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;std::unique_ptr&lt;T&gt; <a class="code" href="classhermes_1_1adapter_1_1_singleton.html#aeec0208064a440a2910d6dcdfe25352e">Singleton&lt;T&gt;::instance</a> = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}  <span class="comment">// namespace hermes::adapter</span></div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#endif  // HERMES_ADAPTER_SINGLETON_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="aclasshermes_1_1adapter_1_1_singleton_html_aed9b54b3005706380641f995f11271b2"><div class="ttname"><a href="classhermes_1_1adapter_1_1_singleton.html#aed9b54b3005706380641f995f11271b2">hermes::adapter::Singleton::GetInstance</a></div><div class="ttdeci">static T * GetInstance(Args... args)</div><div class="ttdef"><b>Definition:</b> singleton.h:34</div></div>
 <div class="ttc" id="aclasshermes_1_1adapter_1_1_singleton_html_a427ca41d58d6941c1fd937d63364e31e"><div class="ttname"><a href="classhermes_1_1adapter_1_1_singleton.html#a427ca41d58d6941c1fd937d63364e31e">hermes::adapter::Singleton::operator=</a></div><div class="ttdeci">Singleton &amp; operator=(const Singleton)=delete</div></div>
-<div class="ttc" id="aclasshermes_1_1adapter_1_1_singleton_html_a7628ad540d84a0e62635e0e3f2f71ad6"><div class="ttname"><a href="classhermes_1_1adapter_1_1_singleton.html#a7628ad540d84a0e62635e0e3f2f71ad6">hermes::adapter::Singleton::GetInstance</a></div><div class="ttdeci">static std::shared_ptr&lt; T &gt; GetInstance(Args... args)</div><div class="ttdef"><b>Definition:</b> singleton.h:34</div></div>
 <div class="ttc" id="aclasshermes_1_1adapter_1_1_singleton_html"><div class="ttname"><a href="classhermes_1_1adapter_1_1_singleton.html">hermes::adapter::Singleton</a></div><div class="ttdef"><b>Definition:</b> singleton.h:26</div></div>
-<div class="ttc" id="aclasshermes_1_1adapter_1_1_singleton_html_a2a1286dbaa70d2090605827bab44cfe9"><div class="ttname"><a href="classhermes_1_1adapter_1_1_singleton.html#a2a1286dbaa70d2090605827bab44cfe9">hermes::adapter::Singleton::instance</a></div><div class="ttdeci">static std::shared_ptr&lt; T &gt; instance</div><div class="ttdef"><b>Definition:</b> singleton.h:55</div></div>
-<div class="ttc" id="anamespacehermes_1_1adapter_html"><div class="ttname"><a href="namespacehermes_1_1adapter.html">hermes::adapter</a></div><div class="ttdef"><b>Definition:</b> adapter_utils.cc:34</div></div>
+<div class="ttc" id="aclasshermes_1_1adapter_1_1_singleton_html_aeec0208064a440a2910d6dcdfe25352e"><div class="ttname"><a href="classhermes_1_1adapter_1_1_singleton.html#aeec0208064a440a2910d6dcdfe25352e">hermes::adapter::Singleton::instance</a></div><div class="ttdeci">static std::unique_ptr&lt; T &gt; instance</div><div class="ttdef"><b>Definition:</b> singleton.h:55</div></div>
+<div class="ttc" id="anamespacehermes_1_1adapter_html"><div class="ttname"><a href="namespacehermes_1_1adapter.html">hermes::adapter</a></div><div class="ttdef"><b>Definition:</b> adapter_utils.cc:36</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

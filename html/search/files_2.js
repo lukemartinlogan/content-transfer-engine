@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['memory_5fmanagement_2ecc_490',['memory_management.cc',['../memory__management_8cc.html',1,'']]],
-  ['memory_5fmanagement_2eh_491',['memory_management.h',['../memory__management_8h.html',1,'']]]
+  ['hermes_2eh_505',['hermes.h',['../hermes_8h.html',1,'']]],
+  ['hermes_5fstatus_2eh_506',['hermes_status.h',['../hermes__status_8h.html',1,'']]],
+  ['hermes_5ftypes_2eh_507',['hermes_types.h',['../hermes__types_8h.html',1,'']]]
 ];

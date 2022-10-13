@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -149,33 +149,18 @@ f32&#160;</td><td class="memItemRight" valign="bottom"><b>max_device_bw_mbps</b>
 <p>Some terminology: block - A contiguous range of buffer space of the smallest unit for a given <a class="el" href="structhermes_1_1_device.html">Device</a>. The size for each <a class="el" href="structhermes_1_1_device.html">Device</a> is specified by <a class="el" href="structhermes_1_1_config.html#a7a19d3289477423ab62958bc56f9b535">Config::block_sizes</a>[device_id]. RAM is typically 4K, for example. buffer - Made up of 1 or more blocks: 1-block buffer, 4-block buffer, etc. slab - The collection of all buffers of a particular size. e.g., the 4-block slab is made up of all the 4-block buffers.</p>
 <p>When Hermes initializes, the <a class="el" href="structhermes_1_1_buffer_pool.html">BufferPool</a> is created and initialized in a shared memory segment, which is then closed when Hermes shuts down. A pointer to the <a class="el" href="structhermes_1_1_buffer_pool.html">BufferPool</a> can be retrieved with the function GetBufferPoolFromContext. All pointer values are stored as offsets from the beginning of shared memory. The layout of the <a class="el" href="structhermes_1_1_buffer_pool.html">BufferPool</a> is determined by the <a class="el" href="structhermes_1_1_config.html">Config</a> struct that is passed to InitBufferPool. Multiple BufferPools can be instantiated, but each must have a different buffer_pool_shmem_name, which is a member of <a class="el" href="structhermes_1_1_config.html">Config</a>. Each <a class="el" href="structhermes_1_1_buffer_pool.html">BufferPool</a> will then exist in its own shared memory segment. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="af2cecf8bea3aeb7db5ccc9de2b792ec5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af2cecf8bea3aeb7db5ccc9de2b792ec5">&#9670;&nbsp;</a></span>block_sizes</h2>
+<a id="a104047c422de63a9ae579d798b5ecfca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a104047c422de63a9ae579d798b5ecfca">&#9670;&nbsp;</a></span>headers_offset</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">i32 hermes::BufferPool::block_sizes[kMaxDevices]</td>
+          <td class="memname">ptrdiff_t hermes::BufferPool::headers_offset</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The block size for each <a class="el" href="structhermes_1_1_device.html">Device</a>. </p>
-
-</div>
-</div>
-<a id="ad5a9de4b6c9eaa049ac7d10aee570e1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad5a9de4b6c9eaa049ac7d10aee570e1c">&#9670;&nbsp;</a></span>buffers_available_offsets</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ptrdiff_t hermes::BufferPool::buffers_available_offsets[kMaxDevices]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The offset from the base of shared memory where each <a class="el" href="structhermes_1_1_device.html">Device</a>'s list of available buffers per slab is stored. Each offset can be converted to a pointer to an arry of N (num_slabs[device_id]) std::atomic&lt;u32&gt;. </p>
+<p>The offset from the base of shared memory where the <a class="el" href="structhermes_1_1_buffer_header.html">BufferHeader</a> array begins. </p>
 
 </div>
 </div>
@@ -209,63 +194,18 @@ f32&#160;</td><td class="memItemRight" valign="bottom"><b>max_device_bw_mbps</b>
 
 </div>
 </div>
-<a id="a104047c422de63a9ae579d798b5ecfca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a104047c422de63a9ae579d798b5ecfca">&#9670;&nbsp;</a></span>headers_offset</h2>
+<a id="a15671cd8ae6bab5b8de9cb97edb61cab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15671cd8ae6bab5b8de9cb97edb61cab">&#9670;&nbsp;</a></span>slab_unit_sizes_offsets</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ptrdiff_t hermes::BufferPool::headers_offset</td>
+          <td class="memname">ptrdiff_t hermes::BufferPool::slab_unit_sizes_offsets[kMaxDevices]</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The offset from the base of shared memory where the <a class="el" href="structhermes_1_1_buffer_header.html">BufferHeader</a> array begins. </p>
-
-</div>
-</div>
-<a id="a3a8573cd2348aa2b39d4a678e22eca11"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a8573cd2348aa2b39d4a678e22eca11">&#9670;&nbsp;</a></span>num_devices</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">i32 hermes::BufferPool::num_devices</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The total number of Devices. </p>
-
-</div>
-</div>
-<a id="aad9ef89dd11da05ed9c543898f8ee52e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad9ef89dd11da05ed9c543898f8ee52e">&#9670;&nbsp;</a></span>num_headers</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">u32 hermes::BufferPool::num_headers[kMaxDevices]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The number of BufferHeaders for each <a class="el" href="structhermes_1_1_device.html">Device</a>. </p>
-
-</div>
-</div>
-<a id="aec7666673ec1ed1d556575a807a7ea35"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec7666673ec1ed1d556575a807a7ea35">&#9670;&nbsp;</a></span>num_slabs</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">i32 hermes::BufferPool::num_slabs[kMaxDevices]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The number of slabs for each <a class="el" href="structhermes_1_1_device.html">Device</a>. </p>
+<p>The offset from the base of shared memory where each <a class="el" href="structhermes_1_1_device.html">Device</a>'s list of slab unit sizes is stored. Each offset can be converted to a pointer to an array of N ints where N is the number of slabs in that <a class="el" href="structhermes_1_1_device.html">Device</a>. Each slab has its own unit size x, where x is the number of blocks that make up a buffer. </p>
 
 </div>
 </div>
@@ -284,18 +224,18 @@ f32&#160;</td><td class="memItemRight" valign="bottom"><b>max_device_bw_mbps</b>
 
 </div>
 </div>
-<a id="a15671cd8ae6bab5b8de9cb97edb61cab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15671cd8ae6bab5b8de9cb97edb61cab">&#9670;&nbsp;</a></span>slab_unit_sizes_offsets</h2>
+<a id="ad5a9de4b6c9eaa049ac7d10aee570e1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5a9de4b6c9eaa049ac7d10aee570e1c">&#9670;&nbsp;</a></span>buffers_available_offsets</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ptrdiff_t hermes::BufferPool::slab_unit_sizes_offsets[kMaxDevices]</td>
+          <td class="memname">ptrdiff_t hermes::BufferPool::buffers_available_offsets[kMaxDevices]</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The offset from the base of shared memory where each <a class="el" href="structhermes_1_1_device.html">Device</a>'s list of slab unit sizes is stored. Each offset can be converted to a pointer to an array of N ints where N is the number of slabs in that <a class="el" href="structhermes_1_1_device.html">Device</a>. Each slab has its own unit size x, where x is the number of blocks that make up a buffer. </p>
+<p>The offset from the base of shared memory where each <a class="el" href="structhermes_1_1_device.html">Device</a>'s list of available buffers per slab is stored. Each offset can be converted to a pointer to an arry of N (num_slabs[device_id]) std::atomic&lt;u32&gt;. </p>
 
 </div>
 </div>
@@ -311,6 +251,66 @@ f32&#160;</td><td class="memItemRight" valign="bottom"><b>max_device_bw_mbps</b>
       </table>
 </div><div class="memdoc">
 <p>A ticket lock to syncrhonize access to free lists TODO(chogan): @optimization One mutex per free list. </p>
+
+</div>
+</div>
+<a id="af2cecf8bea3aeb7db5ccc9de2b792ec5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2cecf8bea3aeb7db5ccc9de2b792ec5">&#9670;&nbsp;</a></span>block_sizes</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">i32 hermes::BufferPool::block_sizes[kMaxDevices]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The block size for each <a class="el" href="structhermes_1_1_device.html">Device</a>. </p>
+
+</div>
+</div>
+<a id="aec7666673ec1ed1d556575a807a7ea35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec7666673ec1ed1d556575a807a7ea35">&#9670;&nbsp;</a></span>num_slabs</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">i32 hermes::BufferPool::num_slabs[kMaxDevices]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The number of slabs for each <a class="el" href="structhermes_1_1_device.html">Device</a>. </p>
+
+</div>
+</div>
+<a id="aad9ef89dd11da05ed9c543898f8ee52e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad9ef89dd11da05ed9c543898f8ee52e">&#9670;&nbsp;</a></span>num_headers</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">u32 hermes::BufferPool::num_headers[kMaxDevices]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The number of BufferHeaders for each <a class="el" href="structhermes_1_1_device.html">Device</a>. </p>
+
+</div>
+</div>
+<a id="a3a8573cd2348aa2b39d4a678e22eca11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a8573cd2348aa2b39d4a678e22eca11">&#9670;&nbsp;</a></span>num_devices</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">i32 hermes::BufferPool::num_devices</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The total number of Devices. </p>
 
 </div>
 </div>

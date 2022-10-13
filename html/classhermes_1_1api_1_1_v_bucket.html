@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -107,59 +107,67 @@ Collaboration diagram for hermes::api::VBucket:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4b62979b2623b7fc5c8840af3236e839"><td class="memItemLeft" align="right" valign="top"><a id="a4b62979b2623b7fc5c8840af3236e839"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>VBucket</b> (std::string initial_name, std::shared_ptr&lt; <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> &gt; const &amp;h, <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> ctx=<a class="el" href="structhermes_1_1api_1_1_context.html">Context</a>())</td></tr>
-<tr class="separator:a4b62979b2623b7fc5c8840af3236e839"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afeba35fbbfdd9a2cf97dfea19dc846c2"><td class="memItemLeft" align="right" valign="top"><a id="afeba35fbbfdd9a2cf97dfea19dc846c2"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsValid</b> () const</td></tr>
+<tr class="memitem:a94b344d00db3915e69945a3a9ceba2a3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a94b344d00db3915e69945a3a9ceba2a3">VBucket</a> (std::string initial_name, std::shared_ptr&lt; <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> &gt; const &amp;hermes, <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> ctx=<a class="el" href="structhermes_1_1api_1_1_context.html">Context</a>())</td></tr>
+<tr class="memdesc:a94b344d00db3915e69945a3a9ceba2a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create or open a <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>.  <a href="classhermes_1_1api_1_1_v_bucket.html#a94b344d00db3915e69945a3a9ceba2a3">More...</a><br /></td></tr>
+<tr class="separator:a94b344d00db3915e69945a3a9ceba2a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf39d797323f3bc55caf315ce455d00f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#adf39d797323f3bc55caf315ce455d00f">~VBucket</a> ()</td></tr>
+<tr class="memdesc:adf39d797323f3bc55caf315ce455d00f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close a <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>.  <a href="classhermes_1_1api_1_1_v_bucket.html#adf39d797323f3bc55caf315ce455d00f">More...</a><br /></td></tr>
+<tr class="separator:adf39d797323f3bc55caf315ce455d00f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afeba35fbbfdd9a2cf97dfea19dc846c2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#afeba35fbbfdd9a2cf97dfea19dc846c2">IsValid</a> () const</td></tr>
+<tr class="memdesc:afeba35fbbfdd9a2cf97dfea19dc846c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return bool{this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a> is valid}.  <a href="classhermes_1_1api_1_1_v_bucket.html#afeba35fbbfdd9a2cf97dfea19dc846c2">More...</a><br /></td></tr>
 <tr class="separator:afeba35fbbfdd9a2cf97dfea19dc846c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af520851d6c4382ebc470e99beb1e49ea"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#af520851d6c4382ebc470e99beb1e49ea">GetName</a> () const</td></tr>
+<tr class="memdesc:af520851d6c4382ebc470e99beb1e49ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the name of this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>.  <a href="classhermes_1_1api_1_1_v_bucket.html#af520851d6c4382ebc470e99beb1e49ea">More...</a><br /></td></tr>
 <tr class="separator:af520851d6c4382ebc470e99beb1e49ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11a7ff7793da6932ce67f035ad9e8a26"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a11a7ff7793da6932ce67f035ad9e8a26">WaitForBackgroundFlush</a> ()</td></tr>
 <tr class="separator:a11a7ff7793da6932ce67f035ad9e8a26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d086cfdcec3a6195bb59f99d0b992b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a6d086cfdcec3a6195bb59f99d0b992b6">Link</a> (std::string blob_name, std::string bucket_name, <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</td></tr>
-<tr class="separator:a6d086cfdcec3a6195bb59f99d0b992b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a2d3b0743c29f8e4636e871e2911da3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a9a2d3b0743c29f8e4636e871e2911da3">Link</a> (std::string blob_name, std::string bucket_name)</td></tr>
 <tr class="separator:a9a2d3b0743c29f8e4636e871e2911da3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d086cfdcec3a6195bb59f99d0b992b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a6d086cfdcec3a6195bb59f99d0b992b6">Link</a> (std::string blob_name, std::string bucket_name, <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</td></tr>
+<tr class="separator:a6d086cfdcec3a6195bb59f99d0b992b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1ea7cd685b2264a405e1ced612088a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#af1ea7cd685b2264a405e1ced612088a9">Unlink</a> (std::string blob_name, std::string bucket_name, <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</td></tr>
 <tr class="separator:af1ea7cd685b2264a405e1ced612088a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6329f7c88429dc6563eaee71318b3a1a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a6329f7c88429dc6563eaee71318b3a1a">Unlink</a> (std::string blob_name, std::string bucket_name)</td></tr>
 <tr class="separator:a6329f7c88429dc6563eaee71318b3a1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e89b46dc3aca4f5bcf780c81c7850e4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a5e89b46dc3aca4f5bcf780c81c7850e4">ContainsBlob</a> (std::string blob_name, std::string bucket_name)</td></tr>
 <tr class="separator:a5e89b46dc3aca4f5bcf780c81c7850e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09fb36f4994f0c7613073e187c113491"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a09fb36f4994f0c7613073e187c113491">Get</a> (const std::string &amp;name, <a class="el" href="classhermes_1_1api_1_1_bucket.html">Bucket</a> &amp;bkt, Blob &amp;user_blob, const <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</td></tr>
+<tr class="memitem:a09fb36f4994f0c7613073e187c113491"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a09fb36f4994f0c7613073e187c113491">Get</a> (const std::string &amp;name, <a class="el" href="classhermes_1_1api_1_1_bucket.html">Bucket</a> &amp;bkt, <a class="el" href="hermes__types_8h.html#a2524128a957393840374aa59c93cf8b5">Blob</a> &amp;user_blob, const <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</td></tr>
 <tr class="separator:a09fb36f4994f0c7613073e187c113491"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae95ad5701d55ec47bff9eec20ba15a6b"><td class="memItemLeft" align="right" valign="top"><a id="ae95ad5701d55ec47bff9eec20ba15a6b"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>Get</b> (const std::string &amp;name, <a class="el" href="classhermes_1_1api_1_1_bucket.html">Bucket</a> &amp;bkt, Blob &amp;user_blob)</td></tr>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>Get</b> (const std::string &amp;name, <a class="el" href="classhermes_1_1api_1_1_bucket.html">Bucket</a> &amp;bkt, <a class="el" href="hermes__types_8h.html#a2524128a957393840374aa59c93cf8b5">Blob</a> &amp;user_blob)</td></tr>
 <tr class="separator:ae95ad5701d55ec47bff9eec20ba15a6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab78f48f981b799ee68e5e9507a27ec66"><td class="memItemLeft" align="right" valign="top"><a id="ab78f48f981b799ee68e5e9507a27ec66"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>Get</b> (const std::string &amp;name, <a class="el" href="classhermes_1_1api_1_1_bucket.html">Bucket</a> &amp;bkt, void *user_blob, size_t blob_size, const <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</td></tr>
 <tr class="separator:ab78f48f981b799ee68e5e9507a27ec66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a279a396e728307fa96e0103d480b0aa7"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a279a396e728307fa96e0103d480b0aa7">GetLinks</a> (<a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</td></tr>
 <tr class="separator:a279a396e728307fa96e0103d480b0aa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26a6f00e07cdc495206c15314186a060"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a26a6f00e07cdc495206c15314186a060">Attach</a> (<a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *trait)</td></tr>
+<tr class="memdesc:a26a6f00e07cdc495206c15314186a060"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attach a <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a> to this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>.  <a href="classhermes_1_1api_1_1_v_bucket.html#a26a6f00e07cdc495206c15314186a060">More...</a><br /></td></tr>
+<tr class="separator:a26a6f00e07cdc495206c15314186a060"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82eaa7e8e2c25c96bf9aef5f6f8914ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a82eaa7e8e2c25c96bf9aef5f6f8914ee">Attach</a> (<a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *trait, <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</td></tr>
 <tr class="separator:a82eaa7e8e2c25c96bf9aef5f6f8914ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26a6f00e07cdc495206c15314186a060"><td class="memItemLeft" align="right" valign="top"><a id="a26a6f00e07cdc495206c15314186a060"></a>
-<a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Attach</b> (<a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *trait)</td></tr>
-<tr class="separator:a26a6f00e07cdc495206c15314186a060"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cc7da678a88a47c6860f5eb5a55ac9f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a4cc7da678a88a47c6860f5eb5a55ac9f">Detach</a> (<a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *trait)</td></tr>
+<tr class="memdesc:a4cc7da678a88a47c6860f5eb5a55ac9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detach a trait from this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>.  <a href="classhermes_1_1api_1_1_v_bucket.html#a4cc7da678a88a47c6860f5eb5a55ac9f">More...</a><br /></td></tr>
+<tr class="separator:a4cc7da678a88a47c6860f5eb5a55ac9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae257c6f39661bbd9fce0655cf4fb49ed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#ae257c6f39661bbd9fce0655cf4fb49ed">Detach</a> (<a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *trait, <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</td></tr>
 <tr class="separator:ae257c6f39661bbd9fce0655cf4fb49ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4cc7da678a88a47c6860f5eb5a55ac9f"><td class="memItemLeft" align="right" valign="top"><a id="a4cc7da678a88a47c6860f5eb5a55ac9f"></a>
-<a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Detach</b> (<a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *trait)</td></tr>
-<tr class="separator:a4cc7da678a88a47c6860f5eb5a55ac9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0bd79f91ce66a07de6e176fc3f4abcb"><td class="memTemplParams" colspan="2">template&lt;class Predicate &gt; </td></tr>
-<tr class="memitem:ad0bd79f91ce66a07de6e176fc3f4abcb"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; TraitID &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#ad0bd79f91ce66a07de6e176fc3f4abcb">GetTraits</a> (Predicate pred, <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</td></tr>
+<tr class="memitem:ad0bd79f91ce66a07de6e176fc3f4abcb"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="hermes__types_8h.html#ae27c1b24942f49623940c4777f724a51">TraitID</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#ad0bd79f91ce66a07de6e176fc3f4abcb">GetTraits</a> (Predicate pred, <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</td></tr>
+<tr class="memdesc:ad0bd79f91ce66a07de6e176fc3f4abcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the subset of attached traits satisfying the Predicate <code>pred</code>.  <a href="classhermes_1_1api_1_1_v_bucket.html#ad0bd79f91ce66a07de6e176fc3f4abcb">More...</a><br /></td></tr>
 <tr class="separator:ad0bd79f91ce66a07de6e176fc3f4abcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad63013be0dc6ac50d161a271c6f5dafa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#ad63013be0dc6ac50d161a271c6f5dafa">GetTrait</a> (TraitType type)</td></tr>
+<tr class="memitem:ad63013be0dc6ac50d161a271c6f5dafa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#ad63013be0dc6ac50d161a271c6f5dafa">GetTrait</a> (<a class="el" href="hermes__types_8h.html#a9986546c3c718bfe0d411b7935349ae1">TraitType</a> type)</td></tr>
+<tr class="memdesc:ad63013be0dc6ac50d161a271c6f5dafa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get's an attached <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a> that matches <code>type</code>.  <a href="classhermes_1_1api_1_1_v_bucket.html#ad63013be0dc6ac50d161a271c6f5dafa">More...</a><br /></td></tr>
 <tr class="separator:ad63013be0dc6ac50d161a271c6f5dafa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac02c11309661262ccba581193ad57e17"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#ac02c11309661262ccba581193ad57e17">Release</a> ()</td></tr>
+<tr class="memdesc:ac02c11309661262ccba581193ad57e17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release this vBucket.  <a href="classhermes_1_1api_1_1_v_bucket.html#ac02c11309661262ccba581193ad57e17">More...</a><br /></td></tr>
+<tr class="separator:ac02c11309661262ccba581193ad57e17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a7b40cc56d2b57c36d921cd1ec5b989"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a5a7b40cc56d2b57c36d921cd1ec5b989">Release</a> (<a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</td></tr>
 <tr class="separator:a5a7b40cc56d2b57c36d921cd1ec5b989"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac02c11309661262ccba581193ad57e17"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#ac02c11309661262ccba581193ad57e17">Release</a> ()</td></tr>
-<tr class="separator:ac02c11309661262ccba581193ad57e17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14a2e0804ef0d64a6a58156af4d85ede"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a14a2e0804ef0d64a6a58156af4d85ede">Destroy</a> ()</td></tr>
+<tr class="memdesc:a14a2e0804ef0d64a6a58156af4d85ede"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>.  <a href="classhermes_1_1api_1_1_v_bucket.html#a14a2e0804ef0d64a6a58156af4d85ede">More...</a><br /></td></tr>
+<tr class="separator:a14a2e0804ef0d64a6a58156af4d85ede"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b392b4d30c1118a80e41f37e58ebc0a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a8b392b4d30c1118a80e41f37e58ebc0a">Destroy</a> (<a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</td></tr>
 <tr class="separator:a8b392b4d30c1118a80e41f37e58ebc0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14a2e0804ef0d64a6a58156af4d85ede"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a14a2e0804ef0d64a6a58156af4d85ede">Destroy</a> ()</td></tr>
-<tr class="separator:a14a2e0804ef0d64a6a58156af4d85ede"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -175,19 +183,219 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a2e7781519d81a04d5ad5ef168b8d6c74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Virtual buckets (vbuckets) capture relationships between blobs across bucket boundaries. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a82eaa7e8e2c25c96bf9aef5f6f8914ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82eaa7e8e2c25c96bf9aef5f6f8914ee">&#9670;&nbsp;</a></span>Attach()</h2>
+<div class="textblock"><p>Virtual buckets (<a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>s) capture relationships between <a class="el" href="structhermes_1_1_blob.html">Blob</a>s across <a class="el" href="classhermes_1_1api_1_1_bucket.html" title="A container for Blobs.">Bucket</a> boundaries. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a94b344d00db3915e69945a3a9ceba2a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94b344d00db3915e69945a3a9ceba2a3">&#9670;&nbsp;</a></span>VBucket()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Attach </td>
+          <td class="memname">hermes::api::VBucket::VBucket </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *&#160;</td>
-          <td class="paramname"><em>trait</em>, </td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>initial_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>hermes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structhermes_1_1api_1_1_context.html">Context</a>&#160;</td>
+          <td class="paramname"><em>ctx</em> = <code><a class="el" href="structhermes_1_1api_1_1_context.html">Context</a>()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create or open a <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>. </p>
+<p>If the <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a> <code>initial_name</code> doesn't already exist, it is created and registered in <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a>. If it does exists, it is opened and its reference count is incremented. Once a <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a> is created, it can be opened on any rank or node.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">initial_name</td><td>The desired name of the <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>. </td></tr>
+    <tr><td class="paramname">hermes</td><td>An initialized <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> instance. </td></tr>
+    <tr><td class="paramname">ctx</td><td>The <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> for this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section pre"><dt>Precondition</dt><dd>The <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> instance <code>hermes</code> must be be initialized. </dd></dl>
+
+</div>
+</div>
+<a id="adf39d797323f3bc55caf315ce455d00f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf39d797323f3bc55caf315ce455d00f">&#9670;&nbsp;</a></span>~VBucket()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">hermes::api::VBucket::~VBucket </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Close a <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>. </p>
+<p>This does not delete the <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a> from <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a>, it merely decrements the reference count. To delete the <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a> and all associated metadata use <a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a14a2e0804ef0d64a6a58156af4d85ede" title="Destroy this VBucket.">VBucket::Destroy</a>. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_adf39d797323f3bc55caf315ce455d00f_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_adf39d797323f3bc55caf315ce455d00f_cgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_v_bucket_adf39d797323f3bc55caf315ce455d00f_cgraph" id="classhermes_1_1api_1_1_v_bucket_adf39d797323f3bc55caf315ce455d00f_cgraph">
+<area shape="rect" title="Close a VBucket." alt="" coords="5,39,165,80"/>
+<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#afeba35fbbfdd9a2cf97dfea19dc846c2" title="Return bool{this VBucket is valid}." alt="" coords="213,5,373,47"/>
+<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#ac02c11309661262ccba581193ad57e17" title="Release this vBucket." alt="" coords="213,71,373,112"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="afeba35fbbfdd9a2cf97dfea19dc846c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afeba35fbbfdd9a2cf97dfea19dc846c2">&#9670;&nbsp;</a></span>IsValid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hermes::api::VBucket::IsValid </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return bool{this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a> is valid}. </p>
+<p>A <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a> is valid if it has a non-NULL ID, meaning it has been registered in the <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> system.</p>
+<dl class="section return"><dt>Returns</dt><dd>true if this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a> is valid, otherwise false. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_afeba35fbbfdd9a2cf97dfea19dc846c2_icgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_afeba35fbbfdd9a2cf97dfea19dc846c2_icgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_v_bucket_afeba35fbbfdd9a2cf97dfea19dc846c2_icgraph" id="classhermes_1_1api_1_1_v_bucket_afeba35fbbfdd9a2cf97dfea19dc846c2_icgraph">
+<area shape="rect" title="Return bool{this VBucket is valid}." alt="" coords="213,71,373,112"/>
+<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a8b392b4d30c1118a80e41f37e58ebc0a" title=" " alt="" coords="5,5,165,47"/>
+<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a5a7b40cc56d2b57c36d921cd1ec5b989" title=" " alt="" coords="5,71,165,112"/>
+<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#adf39d797323f3bc55caf315ce455d00f" title="Close a VBucket." alt="" coords="5,136,165,177"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af520851d6c4382ebc470e99beb1e49ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af520851d6c4382ebc470e99beb1e49ea">&#9670;&nbsp;</a></span>GetName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hermes::api::VBucket::GetName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the name of this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The name of this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>. </dd></dl>
+
+</div>
+</div>
+<a id="a11a7ff7793da6932ce67f035ad9e8a26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11a7ff7793da6932ce67f035ad9e8a26">&#9670;&nbsp;</a></span>WaitForBackgroundFlush()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::api::VBucket::WaitForBackgroundFlush </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Blocks until all outstanding asynchronous flushing tasks associated with this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a> are complete. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_a11a7ff7793da6932ce67f035ad9e8a26_icgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_a11a7ff7793da6932ce67f035ad9e8a26_icgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_v_bucket_a11a7ff7793da6932ce67f035ad9e8a26_icgraph" id="classhermes_1_1api_1_1_v_bucket_a11a7ff7793da6932ce67f035ad9e8a26_icgraph">
+<area shape="rect" title=" " alt="" coords="213,5,404,47"/>
+<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a8b392b4d30c1118a80e41f37e58ebc0a" title=" " alt="" coords="5,5,165,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a9a2d3b0743c29f8e4636e871e2911da3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a2d3b0743c29f8e4636e871e2911da3">&#9670;&nbsp;</a></span>Link() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Link </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>blob_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>bucket_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Link a <a class="el" href="structhermes_1_1_blob.html">Blob</a> to this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>.</p>
+<p>Adds <a class="el" href="structhermes_1_1_blob.html">Blob</a> <code>blob_name</code> in <a class="el" href="classhermes_1_1api_1_1_bucket.html" title="A container for Blobs.">Bucket</a> <code>bucket_name</code> to this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>'s list of Blobs. Additional calls the Trait::OnLinkFn function on the <a class="el" href="structhermes_1_1_blob.html">Blob</a> for each attached <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">blob_name</td><td>The name of the <a class="el" href="structhermes_1_1_blob.html">Blob</a> to link. </td></tr>
+    <tr><td class="paramname">bucket_name</td><td>The name of the <a class="el" href="classhermes_1_1api_1_1_bucket.html" title="A container for Blobs.">Bucket</a> containing the <a class="el" href="structhermes_1_1_blob.html">Blob</a> to link.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Status object. </dd></dl>
+
+</div>
+</div>
+<a id="a6d086cfdcec3a6195bb59f99d0b992b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d086cfdcec3a6195bb59f99d0b992b6">&#9670;&nbsp;</a></span>Link() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Link </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>blob_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>bucket_name</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -202,23 +410,110 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Attach a trait to this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>.</p>
-<p>Calls the <a class="el" href="structhermes_1_1api_1_1_trait.html#a6fa98dc6045501b210d1a57a4539115c">Trait::onAttachFn</a> function of <code>trait</code> on each <a class="el" href="structhermes_1_1_blob.html">Blob</a> that's linked to this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>.</p>
+<p>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">trait</td><td>The <a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> to attach. </td></tr>
-    <tr><td class="paramname">ctx</td><td>Currently unused.</td></tr>
+    <tr><td class="paramname">ctx</td><td>Currently unused. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Status. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_a82eaa7e8e2c25c96bf9aef5f6f8914ee_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_a82eaa7e8e2c25c96bf9aef5f6f8914ee_cgraph" alt=""/></div>
-<map name="classhermes_1_1api_1_1_v_bucket_a82eaa7e8e2c25c96bf9aef5f6f8914ee_cgraph" id="classhermes_1_1api_1_1_v_bucket_a82eaa7e8e2c25c96bf9aef5f6f8914ee_cgraph">
+<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_a6d086cfdcec3a6195bb59f99d0b992b6_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_a6d086cfdcec3a6195bb59f99d0b992b6_cgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_v_bucket_a6d086cfdcec3a6195bb59f99d0b992b6_cgraph" id="classhermes_1_1api_1_1_v_bucket_a6d086cfdcec3a6195bb59f99d0b992b6_cgraph">
 <area shape="rect" title=" " alt="" coords="5,5,165,47"/>
-<area shape="rect" href="classapi_1_1_status.html#ac896de1ec4175376237ca1088e901f23" title=" " alt="" coords="213,13,340,39"/>
+<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a5e89b46dc3aca4f5bcf780c81c7850e4" title=" " alt="" coords="213,5,373,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af1ea7cd685b2264a405e1ced612088a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1ea7cd685b2264a405e1ced612088a9">&#9670;&nbsp;</a></span>Unlink() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Unlink </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>blob_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>bucket_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;&#160;</td>
+          <td class="paramname"><em>ctx</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Unlink a <a class="el" href="structhermes_1_1_blob.html">Blob</a> from this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">blob_name</td><td>The name of the <a class="el" href="structhermes_1_1_blob.html">Blob</a> to unlink. </td></tr>
+    <tr><td class="paramname">bucket_name</td><td>The name of the <a class="el" href="classhermes_1_1api_1_1_bucket.html" title="A container for Blobs.">Bucket</a> containing the <a class="el" href="structhermes_1_1_blob.html">Blob</a> to unlink.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Status object. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_af1ea7cd685b2264a405e1ced612088a9_icgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_af1ea7cd685b2264a405e1ced612088a9_icgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_v_bucket_af1ea7cd685b2264a405e1ced612088a9_icgraph" id="classhermes_1_1api_1_1_v_bucket_af1ea7cd685b2264a405e1ced612088a9_icgraph">
+<area shape="rect" title=" " alt="" coords="213,5,373,47"/>
+<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a6329f7c88429dc6563eaee71318b3a1a" title=" " alt="" coords="5,5,165,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a6329f7c88429dc6563eaee71318b3a1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6329f7c88429dc6563eaee71318b3a1a">&#9670;&nbsp;</a></span>Unlink() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Unlink </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>blob_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>bucket_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Unlink </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_a6329f7c88429dc6563eaee71318b3a1a_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_a6329f7c88429dc6563eaee71318b3a1a_cgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_v_bucket_a6329f7c88429dc6563eaee71318b3a1a_cgraph" id="classhermes_1_1api_1_1_v_bucket_a6329f7c88429dc6563eaee71318b3a1a_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,165,47"/>
+<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#af1ea7cd685b2264a405e1ced612088a9" title=" " alt="" coords="213,5,373,47"/>
 </map>
 </div>
 
@@ -255,102 +550,8 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classhermes_1_1api_1_1_v_bucket_a5e89b46dc3aca4f5bcf780c81c7850e4_icgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_a5e89b46dc3aca4f5bcf780c81c7850e4_icgraph" alt=""/></div>
 <map name="classhermes_1_1api_1_1_v_bucket_a5e89b46dc3aca4f5bcf780c81c7850e4_icgraph" id="classhermes_1_1api_1_1_v_bucket_a5e89b46dc3aca4f5bcf780c81c7850e4_icgraph">
-<area shape="rect" title=" " alt="" coords="421,5,581,47"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a6d086cfdcec3a6195bb59f99d0b992b6" title=" " alt="" coords="213,5,373,47"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a9a2d3b0743c29f8e4636e871e2911da3" title=" " alt="" coords="5,5,165,47"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a14a2e0804ef0d64a6a58156af4d85ede"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a14a2e0804ef0d64a6a58156af4d85ede">&#9670;&nbsp;</a></span>Destroy() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Destroy </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>Destroy </dd></dl>
-
-</div>
-</div>
-<a id="a8b392b4d30c1118a80e41f37e58ebc0a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8b392b4d30c1118a80e41f37e58ebc0a">&#9670;&nbsp;</a></span>Destroy() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Destroy </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;&#160;</td>
-          <td class="paramname"><em>ctx</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Destroy this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>.</p>
-<p>Releases all resources associated with this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>. If it is opened again, it will be created from scratch. Unlinks all linked Blobs (which will invoke each attached <a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a>'s <a class="el" href="structhermes_1_1api_1_1_trait.html#a10aab21e381eefb44e9a7d4aaf0b0104">Trait::onUnlinkFn</a> function), and detaches all attached Traits, invoking <a class="el" href="structhermes_1_1api_1_1_trait.html#a4137bf5d6efdae82a894d020efda38c4">Trait::onDetachFn</a>.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ctx</td><td>Currently unused.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Status. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_a8b392b4d30c1118a80e41f37e58ebc0a_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_a8b392b4d30c1118a80e41f37e58ebc0a_cgraph" alt=""/></div>
-<map name="classhermes_1_1api_1_1_v_bucket_a8b392b4d30c1118a80e41f37e58ebc0a_cgraph" id="classhermes_1_1api_1_1_v_bucket_a8b392b4d30c1118a80e41f37e58ebc0a_cgraph">
-<area shape="rect" title=" " alt="" coords="5,27,165,69"/>
-<area shape="rect" href="classapi_1_1_status.html#ac896de1ec4175376237ca1088e901f23" title=" " alt="" coords="245,5,372,32"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a11a7ff7793da6932ce67f035ad9e8a26" title=" " alt="" coords="213,57,404,98"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="ae257c6f39661bbd9fce0655cf4fb49ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae257c6f39661bbd9fce0655cf4fb49ed">&#9670;&nbsp;</a></span>Detach()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Detach </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *&#160;</td>
-          <td class="paramname"><em>trait</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;&#160;</td>
-          <td class="paramname"><em>ctx</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>detach a trait to this vbucket </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_ae257c6f39661bbd9fce0655cf4fb49ed_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_ae257c6f39661bbd9fce0655cf4fb49ed_cgraph" alt=""/></div>
-<map name="classhermes_1_1api_1_1_v_bucket_ae257c6f39661bbd9fce0655cf4fb49ed_cgraph" id="classhermes_1_1api_1_1_v_bucket_ae257c6f39661bbd9fce0655cf4fb49ed_cgraph">
-<area shape="rect" title=" " alt="" coords="5,5,165,47"/>
-<area shape="rect" href="classapi_1_1_status.html#ac896de1ec4175376237ca1088e901f23" title=" " alt="" coords="213,13,340,39"/>
+<area shape="rect" title=" " alt="" coords="213,5,373,47"/>
+<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a6d086cfdcec3a6195bb59f99d0b992b6" title=" " alt="" coords="5,5,165,47"/>
 </map>
 </div>
 
@@ -377,7 +578,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Blob &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="hermes__types_8h.html#a2524128a957393840374aa59c93cf8b5">Blob</a> &amp;&#160;</td>
           <td class="paramname"><em>user_blob</em>, </td>
         </tr>
         <tr>
@@ -394,7 +595,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 <p>Get a <a class="el" href="structhermes_1_1_blob.html">Blob</a>, calling any OnGet callbacks of attached Traits.</p>
-<p>Exactly like <a class="el" href="classhermes_1_1api_1_1_bucket.html#a938d7c3e150a937c8639d7eb5cbba395">Bucket::Get</a>, except this function invokes the OnGet callback of any attached Traits. </p>
+<p>Exactly like <a class="el" href="classhermes_1_1api_1_1_bucket.html#ae9f4e17e1ca771271429449de6d7b881" title="Get a blob from this Bucket.">Bucket::Get</a>, except this function invokes the OnGet callback of any attached Traits. </p>
 
 </div>
 </div>
@@ -417,55 +618,128 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="af520851d6c4382ebc470e99beb1e49ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af520851d6c4382ebc470e99beb1e49ea">&#9670;&nbsp;</a></span>GetName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string hermes::api::VBucket::GetName </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>get the name of vbucket </p>
-
-</div>
-</div>
-<a id="ad63013be0dc6ac50d161a271c6f5dafa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad63013be0dc6ac50d161a271c6f5dafa">&#9670;&nbsp;</a></span>GetTrait()</h2>
+<a id="a26a6f00e07cdc495206c15314186a060"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26a6f00e07cdc495206c15314186a060">&#9670;&nbsp;</a></span>Attach() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> * hermes::api::VBucket::GetTrait </td>
+          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Attach </td>
           <td>(</td>
-          <td class="paramtype">TraitType&#160;</td>
-          <td class="paramname"><em>type</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *&#160;</td>
+          <td class="paramname"><em>trait</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get's an attached <a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> that matches <code>type</code>.</p>
+
+<p>Attach a <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a> to this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>. </p>
+<p>Calls the <a class="el" href="structhermes_1_1api_1_1_trait.html#a6fa98dc6045501b210d1a57a4539115c">Trait::onAttachFn</a> function of <code>trait</code> on each <a class="el" href="structhermes_1_1_blob.html">Blob</a> that's linked to this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">type</td><td>The type of <a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> to retrieve.</td></tr>
+    <tr><td class="paramname">trait</td><td>The <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a> to attach.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The first attached trait that matches <code>type</code>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Status object. </dd></dl>
+
+</div>
+</div>
+<a id="a82eaa7e8e2c25c96bf9aef5f6f8914ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82eaa7e8e2c25c96bf9aef5f6f8914ee">&#9670;&nbsp;</a></span>Attach() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Attach </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *&#160;</td>
+          <td class="paramname"><em>trait</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;&#160;</td>
+          <td class="paramname"><em>ctx</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ctx</td><td>Currently unused. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4cc7da678a88a47c6860f5eb5a55ac9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cc7da678a88a47c6860f5eb5a55ac9f">&#9670;&nbsp;</a></span>Detach() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Detach </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *&#160;</td>
+          <td class="paramname"><em>trait</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Detach a trait from this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">trait</td><td>The <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a> to detach.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Status object. </dd></dl>
+
+</div>
+</div>
+<a id="ae257c6f39661bbd9fce0655cf4fb49ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae257c6f39661bbd9fce0655cf4fb49ed">&#9670;&nbsp;</a></span>Detach() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Detach </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *&#160;</td>
+          <td class="paramname"><em>trait</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;&#160;</td>
+          <td class="paramname"><em>ctx</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ctx</td><td>Currently unused. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -478,7 +752,7 @@ Here is the call graph for this function:</div>
 template&lt;class Predicate &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; TraitID &gt; hermes::api::VBucket::GetTraits </td>
+          <td class="memname">std::vector&lt; <a class="el" href="hermes__types_8h.html#ae27c1b24942f49623940c4777f724a51">TraitID</a> &gt; hermes::api::VBucket::GetTraits </td>
           <td>(</td>
           <td class="paramtype">Predicate&#160;</td>
           <td class="paramname"><em>pred</em>, </td>
@@ -496,111 +770,49 @@ template&lt;class Predicate &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>retrieves the subset of attached traits satisfying pred </p>
 
-</div>
-</div>
-<a id="a9a2d3b0743c29f8e4636e871e2911da3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9a2d3b0743c29f8e4636e871e2911da3">&#9670;&nbsp;</a></span>Link() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Link </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>blob_name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>bucket_name</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>Link </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_a9a2d3b0743c29f8e4636e871e2911da3_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_a9a2d3b0743c29f8e4636e871e2911da3_cgraph" alt=""/></div>
-<map name="classhermes_1_1api_1_1_v_bucket_a9a2d3b0743c29f8e4636e871e2911da3_cgraph" id="classhermes_1_1api_1_1_v_bucket_a9a2d3b0743c29f8e4636e871e2911da3_cgraph">
-<area shape="rect" title=" " alt="" coords="5,35,165,76"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a6d086cfdcec3a6195bb59f99d0b992b6" title=" " alt="" coords="213,35,373,76"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a5e89b46dc3aca4f5bcf780c81c7850e4" title=" " alt="" coords="421,5,581,47"/>
-<area shape="rect" href="classapi_1_1_status.html#ac896de1ec4175376237ca1088e901f23" title=" " alt="" coords="438,71,565,98"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a6d086cfdcec3a6195bb59f99d0b992b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d086cfdcec3a6195bb59f99d0b992b6">&#9670;&nbsp;</a></span>Link() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Link </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>blob_name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>bucket_name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;&#160;</td>
-          <td class="paramname"><em>ctx</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Link a <a class="el" href="structhermes_1_1_blob.html">Blob</a> to this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>.</p>
-<p>Adds <a class="el" href="structhermes_1_1_blob.html">Blob</a> <code>blob_name</code> in <a class="el" href="classhermes_1_1api_1_1_bucket.html">Bucket</a> <code>bucket_name</code> to this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>'s list of Blobs. Additional calls the Trait::OnLinkFn function on the <a class="el" href="structhermes_1_1_blob.html">Blob</a> for each attached <a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a>.</p>
+<p>Retrieves the subset of attached traits satisfying the Predicate <code>pred</code>. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd><code>pred</code> is curently ignored and this function returns all attached traits.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">blob_name</td><td>The name of the <a class="el" href="structhermes_1_1_blob.html">Blob</a> to link. </td></tr>
-    <tr><td class="paramname">bucket_name</td><td>The name of the <a class="el" href="classhermes_1_1api_1_1_bucket.html">Bucket</a> containing the <a class="el" href="structhermes_1_1_blob.html">Blob</a> to link. </td></tr>
-    <tr><td class="paramname">ctx</td><td>Currently unused.</td></tr>
+    <tr><td class="paramname">pred</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Status. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_a6d086cfdcec3a6195bb59f99d0b992b6_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_a6d086cfdcec3a6195bb59f99d0b992b6_cgraph" alt=""/></div>
-<map name="classhermes_1_1api_1_1_v_bucket_a6d086cfdcec3a6195bb59f99d0b992b6_cgraph" id="classhermes_1_1api_1_1_v_bucket_a6d086cfdcec3a6195bb59f99d0b992b6_cgraph">
-<area shape="rect" title=" " alt="" coords="5,35,165,76"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a5e89b46dc3aca4f5bcf780c81c7850e4" title=" " alt="" coords="213,5,373,47"/>
-<area shape="rect" href="classapi_1_1_status.html#ac896de1ec4175376237ca1088e901f23" title=" " alt="" coords="230,71,357,98"/>
-</map>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ctx</td><td>Currently unused; </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_a6d086cfdcec3a6195bb59f99d0b992b6_icgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_a6d086cfdcec3a6195bb59f99d0b992b6_icgraph" alt=""/></div>
-<map name="classhermes_1_1api_1_1_v_bucket_a6d086cfdcec3a6195bb59f99d0b992b6_icgraph" id="classhermes_1_1api_1_1_v_bucket_a6d086cfdcec3a6195bb59f99d0b992b6_icgraph">
-<area shape="rect" title=" " alt="" coords="213,5,373,47"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a9a2d3b0743c29f8e4636e871e2911da3" title=" " alt="" coords="5,5,165,47"/>
-</map>
 </div>
+<a id="ad63013be0dc6ac50d161a271c6f5dafa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad63013be0dc6ac50d161a271c6f5dafa">&#9670;&nbsp;</a></span>GetTrait()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> * hermes::api::VBucket::GetTrait </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="hermes__types_8h.html#a9986546c3c718bfe0d411b7935349ae1">TraitType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get's an attached <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a> that matches <code>type</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>The type of <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a> to retrieve.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The first attached trait that matches <code>type</code>. </dd></dl>
 
 </div>
 </div>
@@ -618,7 +830,19 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd>Release </dd></dl>
+
+<p>Release this vBucket. </p>
+<p>This function does not result in any <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a> callbacks being invoked or any <a class="el" href="structhermes_1_1_blob.html">Blob</a> links to be deleted. It simply decrements the reference count on this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>. A <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a> can only be destroyed (<a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a14a2e0804ef0d64a6a58156af4d85ede" title="Destroy this VBucket.">VBucket::Destroy</a>) when it's reference count is 1. I.e., each rank that is not destroying the <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a> must release it.</p>
+<dl class="section return"><dt>Returns</dt><dd>A Status. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_ac02c11309661262ccba581193ad57e17_icgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_ac02c11309661262ccba581193ad57e17_icgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_v_bucket_ac02c11309661262ccba581193ad57e17_icgraph" id="classhermes_1_1api_1_1_v_bucket_ac02c11309661262ccba581193ad57e17_icgraph">
+<area shape="rect" title="Release this vBucket." alt="" coords="213,5,373,47"/>
+<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#adf39d797323f3bc55caf315ce455d00f" title="Close a VBucket." alt="" coords="5,5,165,47"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -637,148 +861,84 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Release this vBucket.</p>
-<p>This function does not result in any <a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> callbacks being invoked or any <a class="el" href="structhermes_1_1_blob.html">Blob</a> links to be deleted. It simply decrements the reference count on this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>. A <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a> can only be destroyed (<a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a8b392b4d30c1118a80e41f37e58ebc0a">VBucket::Destroy</a>) when it's reference count is 1. I.e., each rank that is not destroying the <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a> must release it.</p>
+<p>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ctx</td><td>Currently unused.</td></tr>
+    <tr><td class="paramname">ctx</td><td>Currently unused. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Status. </dd></dl>
-
-</div>
-</div>
-<a id="a6329f7c88429dc6563eaee71318b3a1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6329f7c88429dc6563eaee71318b3a1a">&#9670;&nbsp;</a></span>Unlink() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Unlink </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>blob_name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>bucket_name</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd>Unlink </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_a6329f7c88429dc6563eaee71318b3a1a_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_a6329f7c88429dc6563eaee71318b3a1a_cgraph" alt=""/></div>
-<map name="classhermes_1_1api_1_1_v_bucket_a6329f7c88429dc6563eaee71318b3a1a_cgraph" id="classhermes_1_1api_1_1_v_bucket_a6329f7c88429dc6563eaee71318b3a1a_cgraph">
+<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_a5a7b40cc56d2b57c36d921cd1ec5b989_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_a5a7b40cc56d2b57c36d921cd1ec5b989_cgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_v_bucket_a5a7b40cc56d2b57c36d921cd1ec5b989_cgraph" id="classhermes_1_1api_1_1_v_bucket_a5a7b40cc56d2b57c36d921cd1ec5b989_cgraph">
 <area shape="rect" title=" " alt="" coords="5,5,165,47"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#af1ea7cd685b2264a405e1ced612088a9" title=" " alt="" coords="213,5,373,47"/>
-<area shape="rect" href="classapi_1_1_status.html#ac896de1ec4175376237ca1088e901f23" title=" " alt="" coords="421,13,548,39"/>
+<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#afeba35fbbfdd9a2cf97dfea19dc846c2" title="Return bool{this VBucket is valid}." alt="" coords="213,5,373,47"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="af1ea7cd685b2264a405e1ced612088a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1ea7cd685b2264a405e1ced612088a9">&#9670;&nbsp;</a></span>Unlink() <span class="overload">[2/2]</span></h2>
+<a id="a14a2e0804ef0d64a6a58156af4d85ede"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14a2e0804ef0d64a6a58156af4d85ede">&#9670;&nbsp;</a></span>Destroy() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Unlink </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>blob_name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>bucket_name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;&#160;</td>
-          <td class="paramname"><em>ctx</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Unlink a <a class="el" href="structhermes_1_1_blob.html">Blob</a> from this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">blob_name</td><td>The name of the <a class="el" href="structhermes_1_1_blob.html">Blob</a> to unlink. </td></tr>
-    <tr><td class="paramname">bucket_name</td><td>The name of the <a class="el" href="classhermes_1_1api_1_1_bucket.html">Bucket</a> containing the <a class="el" href="structhermes_1_1_blob.html">Blob</a> to unlink.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Status. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_af1ea7cd685b2264a405e1ced612088a9_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_af1ea7cd685b2264a405e1ced612088a9_cgraph" alt=""/></div>
-<map name="classhermes_1_1api_1_1_v_bucket_af1ea7cd685b2264a405e1ced612088a9_cgraph" id="classhermes_1_1api_1_1_v_bucket_af1ea7cd685b2264a405e1ced612088a9_cgraph">
-<area shape="rect" title=" " alt="" coords="5,5,165,47"/>
-<area shape="rect" href="classapi_1_1_status.html#ac896de1ec4175376237ca1088e901f23" title=" " alt="" coords="213,13,340,39"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_af1ea7cd685b2264a405e1ced612088a9_icgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_af1ea7cd685b2264a405e1ced612088a9_icgraph" alt=""/></div>
-<map name="classhermes_1_1api_1_1_v_bucket_af1ea7cd685b2264a405e1ced612088a9_icgraph" id="classhermes_1_1api_1_1_v_bucket_af1ea7cd685b2264a405e1ced612088a9_icgraph">
-<area shape="rect" title=" " alt="" coords="213,5,373,47"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a6329f7c88429dc6563eaee71318b3a1a" title=" " alt="" coords="5,5,165,47"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a11a7ff7793da6932ce67f035ad9e8a26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11a7ff7793da6932ce67f035ad9e8a26">&#9670;&nbsp;</a></span>WaitForBackgroundFlush()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::api::VBucket::WaitForBackgroundFlush </td>
+          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Destroy </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Blocks until all outstanding asynchronous flushing tasks associated with this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a> are complete. </p>
+
+<p>Destroy this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>. </p>
+<p>Releases all resources associated with this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>. If it is opened again, it will be created from scratch. Unlinks all linked Blobs (which will invoke each attached <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a>'s <a class="el" href="structhermes_1_1api_1_1_trait.html#a10aab21e381eefb44e9a7d4aaf0b0104">Trait::onUnlinkFn</a> function), and detaches all attached Traits, invoking <a class="el" href="structhermes_1_1api_1_1_trait.html#a4137bf5d6efdae82a894d020efda38c4">Trait::onDetachFn</a>.</p>
+<dl class="section return"><dt>Returns</dt><dd>A Status object. </dd></dl>
+
+</div>
+</div>
+<a id="a8b392b4d30c1118a80e41f37e58ebc0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b392b4d30c1118a80e41f37e58ebc0a">&#9670;&nbsp;</a></span>Destroy() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::VBucket::Destroy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;&#160;</td>
+          <td class="paramname"><em>ctx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ctx</td><td>Currently unused. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
-Here is the caller graph for this function:</div>
+Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_a11a7ff7793da6932ce67f035ad9e8a26_icgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_a11a7ff7793da6932ce67f035ad9e8a26_icgraph" alt=""/></div>
-<map name="classhermes_1_1api_1_1_v_bucket_a11a7ff7793da6932ce67f035ad9e8a26_icgraph" id="classhermes_1_1api_1_1_v_bucket_a11a7ff7793da6932ce67f035ad9e8a26_icgraph">
-<area shape="rect" title=" " alt="" coords="213,5,404,47"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a8b392b4d30c1118a80e41f37e58ebc0a" title=" " alt="" coords="5,5,165,47"/>
+<div class="center"><img src="classhermes_1_1api_1_1_v_bucket_a8b392b4d30c1118a80e41f37e58ebc0a_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_v_bucket_a8b392b4d30c1118a80e41f37e58ebc0a_cgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_v_bucket_a8b392b4d30c1118a80e41f37e58ebc0a_cgraph" id="classhermes_1_1api_1_1_v_bucket_a8b392b4d30c1118a80e41f37e58ebc0a_cgraph">
+<area shape="rect" title=" " alt="" coords="5,39,165,80"/>
+<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#afeba35fbbfdd9a2cf97dfea19dc846c2" title="Return bool{this VBucket is valid}." alt="" coords="229,5,389,47"/>
+<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a11a7ff7793da6932ce67f035ad9e8a26" title=" " alt="" coords="213,71,404,112"/>
 </map>
 </div>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="ad410d177149fec0dd149c63fbfc3dde0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad410d177149fec0dd149c63fbfc3dde0">&#9670;&nbsp;</a></span>attached_traits_</h2>
+<a id="a517416726168bfe3a38d9978c04daa27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a517416726168bfe3a38d9978c04daa27">&#9670;&nbsp;</a></span>name_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -787,7 +947,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::list&lt;<a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *&gt; hermes::api::VBucket::attached_traits_</td>
+          <td class="memname">std::string hermes::api::VBucket::name_</td>
         </tr>
       </table>
   </td>
@@ -796,53 +956,7 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Traits attached to this vbucket </p>
-
-</div>
-</div>
-<a id="a2e7781519d81a04d5ad5ef168b8d6c74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e7781519d81a04d5ad5ef168b8d6c74">&#9670;&nbsp;</a></span>ctx_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> hermes::api::VBucket::ctx_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>The <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> for this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>. </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd>Why do we need that? </dd></dl>
-
-</div>
-</div>
-<a id="a0b7d75ad4d2e0792b65370ae764d1127"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b7d75ad4d2e0792b65370ae764d1127">&#9670;&nbsp;</a></span>hermes_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::shared_ptr&lt;<a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a>&gt; hermes::api::VBucket::hermes_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>internal <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> object owned by vbucket </p>
+<p>The user-facing name of this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>. </p>
 
 </div>
 </div>
@@ -865,12 +979,12 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>vbucket <a class="el" href="classhermes_1_1api_1_1_i_d.html">ID</a> </p>
+<p>The internal ID of this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>. </p>
 
 </div>
 </div>
-<a id="a517416726168bfe3a38d9978c04daa27"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a517416726168bfe3a38d9978c04daa27">&#9670;&nbsp;</a></span>name_</h2>
+<a id="ad410d177149fec0dd149c63fbfc3dde0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad410d177149fec0dd149c63fbfc3dde0">&#9670;&nbsp;</a></span>attached_traits_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -879,7 +993,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string hermes::api::VBucket::name_</td>
+          <td class="memname">std::list&lt;<a class="el" href="structhermes_1_1api_1_1_trait.html">Trait</a> *&gt; hermes::api::VBucket::attached_traits_</td>
         </tr>
       </table>
   </td>
@@ -888,7 +1002,53 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>vbucket name </p>
+<p>Traits attached to this vbucket. </p>
+
+</div>
+</div>
+<a id="a0b7d75ad4d2e0792b65370ae764d1127"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b7d75ad4d2e0792b65370ae764d1127">&#9670;&nbsp;</a></span>hermes_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a>&gt; hermes::api::VBucket::hermes_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> instance this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a> is stored in. </p>
+
+</div>
+</div>
+<a id="a2e7781519d81a04d5ad5ef168b8d6c74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e7781519d81a04d5ad5ef168b8d6c74">&#9670;&nbsp;</a></span>ctx_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> hermes::api::VBucket::ctx_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> for this <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>. Overrides the global default <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a>. </p>
 
 </div>
 </div>

@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -120,33 +120,18 @@ u64&#160;</td><td class="memItemRight" valign="bottom"><b>capacities</b> [kMaxDe
 <div class="textblock"><p>A snapshot view of the entire system's Targets' available capacities.</p>
 <p>This information is only stored on 1 node, designated by MetadataManager::global_system_view_state_node_id, and is only updated by 1 rank (the Hermes process on that node). Hence, it does not need to be stored in shared memory and we are able to use normal std containers. However, since multiple RPC handler threads can potentially update the <code>bytes_available</code> field concurrently, we must not do any operations on the vector itself. We can only do operations on the atomics within. The vector is created in StartGlobalSystemViewStateUpdateThread, and thereafter we can only call functions on the individual atomics (e.g., bytes_available[i].fetch_add), which is thread safe. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a270e9f046c930850f483bca5d3e14c31"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a270e9f046c930850f483bca5d3e14c31">&#9670;&nbsp;</a></span>bo_capacity_thresholds</h2>
+<a id="ae749e5178abb720bf0da460026ca0dfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae749e5178abb720bf0da460026ca0dfc">&#9670;&nbsp;</a></span>num_targets</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structhermes_1_1_thresholds.html">Thresholds</a> hermes::GlobalSystemViewState::bo_capacity_thresholds[kMaxDevices]</td>
+          <td class="memname">u64 hermes::GlobalSystemViewState::num_targets</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The min and max capacity thresholds (percentage) for each <a class="el" href="structhermes_1_1_target.html">Target</a> in the system </p>
-
-</div>
-</div>
-<a id="a6a1669389d616566c8f9efbc903ae369"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a1669389d616566c8f9efbc903ae369">&#9670;&nbsp;</a></span>bytes_available</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::atomic&lt;u64&gt;* hermes::GlobalSystemViewState::bytes_available</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The remaining capacity of each <a class="el" href="structhermes_1_1_target.html">Target</a> in the system </p>
+<p>The total number of buffering Targets in the system </p>
 
 </div>
 </div>
@@ -165,18 +150,33 @@ u64&#160;</td><td class="memItemRight" valign="bottom"><b>capacities</b> [kMaxDe
 
 </div>
 </div>
-<a id="ae749e5178abb720bf0da460026ca0dfc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae749e5178abb720bf0da460026ca0dfc">&#9670;&nbsp;</a></span>num_targets</h2>
+<a id="a6a1669389d616566c8f9efbc903ae369"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a1669389d616566c8f9efbc903ae369">&#9670;&nbsp;</a></span>bytes_available</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">u64 hermes::GlobalSystemViewState::num_targets</td>
+          <td class="memname">std::atomic&lt;u64&gt;* hermes::GlobalSystemViewState::bytes_available</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The total number of buffering Targets in the system </p>
+<p>The remaining capacity of each <a class="el" href="structhermes_1_1_target.html">Target</a> in the system </p>
+
+</div>
+</div>
+<a id="a270e9f046c930850f483bca5d3e14c31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a270e9f046c930850f483bca5d3e14c31">&#9670;&nbsp;</a></span>bo_capacity_thresholds</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhermes_1_1_thresholds.html">Thresholds</a> hermes::GlobalSystemViewState::bo_capacity_thresholds[kMaxDevices]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The min and max capacity thresholds (percentage) for each <a class="el" href="structhermes_1_1_target.html">Target</a> in the system </p>
 
 </div>
 </div>

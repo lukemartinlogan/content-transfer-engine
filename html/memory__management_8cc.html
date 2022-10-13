@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -102,7 +102,7 @@ Include dependency graph for memory_management.cc:</div>
 <area shape="rect" title=" " alt="" coords="293,95,356,121"/>
 <area shape="rect" title=" " alt="" coords="46,169,121,196"/>
 <area shape="rect" title=" " alt="" coords="145,169,211,196"/>
-<area shape="rect" href="hermes__types_8h_source.html" title=" " alt="" coords="236,169,363,196"/>
+<area shape="rect" href="hermes__types_8h.html" title=" " alt="" coords="236,169,363,196"/>
 <area shape="rect" title=" " alt="" coords="5,244,76,271"/>
 <area shape="rect" title=" " alt="" coords="101,244,159,271"/>
 <area shape="rect" title=" " alt="" coords="184,244,244,271"/>
@@ -199,9 +199,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::CoalesceFreeB
 <tr class="memitem:a47b33a3c8b790c22e0b05cf2d78a064c"><td class="memItemLeft" align="right" valign="top"><a id="a47b33a3c8b790c22e0b05cf2d78a064c"></a>
 Ticket&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::TryBeginTicketMutex</b> (TicketMutex *mutex, Ticket *existing_ticket)</td></tr>
 <tr class="separator:a47b33a3c8b790c22e0b05cf2d78a064c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0eb934a0429adfeac04160e6c8422b3"><td class="memItemLeft" align="right" valign="top"><a id="af0eb934a0429adfeac04160e6c8422b3"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::BeginTicketMutexIfNoWait</b> (TicketMutex *mutex)</td></tr>
-<tr class="separator:af0eb934a0429adfeac04160e6c8422b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa154212f668ee2159c0b51ad134c7ffb"><td class="memItemLeft" align="right" valign="top"><a id="aa154212f668ee2159c0b51ad134c7ffb"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::BeginTicketMutex</b> (TicketMutex *mutex)</td></tr>
 <tr class="separator:aa154212f668ee2159c0b51ad134c7ffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -230,6 +227,108 @@ const int&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::kAttempt
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Basic Arena implementation. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="af5d3174c5dc80367ddfa913d7685e666"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5d3174c5dc80367ddfa913d7685e666">&#9670;&nbsp;</a></span>InitArena()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::InitArena </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structhermes_1_1_arena.html">Arena</a> *&#160;</td>
+          <td class="paramname"><em>arena</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>bytes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>base</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Initializes an Arena with a starting size and base pointer. The <code>base</code> parameter must point to a contiguous region of allocated memory of at least <code>bytes</code> bytes.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">arena</td><td>The Arena to initialize. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bytes</td><td>The desired size in bytes of the Arena's backing memory. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">base</td><td>A pointer to the beginning of the Arena's backing memory. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph.png" border="0" usemap="#memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph" alt=""/></div>
+<map name="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph" id="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,144,56"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph.png" border="0" usemap="#memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph" alt=""/></div>
+<map name="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph" id="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph">
+<area shape="rect" title=" " alt="" coords="5,29,144,56"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad344fd4f2e60298d0b78945625b16d4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad344fd4f2e60298d0b78945625b16d4a">&#9670;&nbsp;</a></span>InitArenaAndAllocate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Arena hermes::InitArenaAndAllocate </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>bytes</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Initializes an Arena with a starting size. This function uses malloc to allocate a contiguous region of length <code>bytes</code> for the arena.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">bytes</td><td>The desired size in bytes to allocate.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An arena with capacity <code>bytes</code>. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph.png" border="0" usemap="#memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph" alt=""/></div>
+<map name="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph" id="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,221,56"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph.png" border="0" usemap="#memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph" alt=""/></div>
+<map name="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph" id="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph">
+<area shape="rect" title=" " alt="" coords="276,29,492,56"/>
+<area shape="rect" href="communication__mpi_8cc.html#ac08b6a0677f8d21fae9fe6614c77a601" title=" " alt="" coords="5,29,228,56"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="ac64963cdb2aef85ac002f4b8634cd2fc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac64963cdb2aef85ac002f4b8634cd2fc">&#9670;&nbsp;</a></span>DestroyArena()</h2>
 
@@ -364,108 +463,6 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="memory__management_8cc_ab9632f771628051dbd740bbb21b6b771_icgraph.png" border="0" usemap="#memory__management_8cc_ab9632f771628051dbd740bbb21b6b771_icgraph" alt=""/></div>
 <map name="memory__management_8cc_ab9632f771628051dbd740bbb21b6b771_icgraph" id="memory__management_8cc_ab9632f771628051dbd740bbb21b6b771_icgraph">
 <area shape="rect" title="The maximum capacity of arena becomes new_size." alt="" coords="5,29,156,56"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="af5d3174c5dc80367ddfa913d7685e666"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5d3174c5dc80367ddfa913d7685e666">&#9670;&nbsp;</a></span>InitArena()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::InitArena </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1_arena.html">Arena</a> *&#160;</td>
-          <td class="paramname"><em>arena</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>bytes</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>base</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Initializes an Arena with a starting size and base pointer. The <code>base</code> parameter must point to a contiguous region of allocated memory of at least <code>bytes</code> bytes.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">arena</td><td>The Arena to initialize. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">bytes</td><td>The desired size in bytes of the Arena's backing memory. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">base</td><td>A pointer to the beginning of the Arena's backing memory. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph.png" border="0" usemap="#memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph" alt=""/></div>
-<map name="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph" id="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,144,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph.png" border="0" usemap="#memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph" alt=""/></div>
-<map name="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph" id="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph">
-<area shape="rect" title=" " alt="" coords="5,29,144,56"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="ad344fd4f2e60298d0b78945625b16d4a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad344fd4f2e60298d0b78945625b16d4a">&#9670;&nbsp;</a></span>InitArenaAndAllocate()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Arena hermes::InitArenaAndAllocate </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>bytes</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Initializes an Arena with a starting size. This function uses malloc to allocate a contiguous region of length <code>bytes</code> for the arena.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">bytes</td><td>The desired size in bytes to allocate.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>An arena with capacity <code>bytes</code>. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph.png" border="0" usemap="#memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph" alt=""/></div>
-<map name="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph" id="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,221,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph.png" border="0" usemap="#memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph" alt=""/></div>
-<map name="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph" id="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph">
-<area shape="rect" title=" " alt="" coords="276,29,492,56"/>
-<area shape="rect" href="communication__mpi_8cc.html#ac08b6a0677f8d21fae9fe6614c77a601" title=" " alt="" coords="5,29,228,56"/>
 </map>
 </div>
 

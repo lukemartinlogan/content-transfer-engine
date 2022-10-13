@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -106,7 +106,7 @@ $(document).ready(function(){initNavTree('memory__management_8h_source.html','')
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;atomic&gt;</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;hermes_types.h&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hermes__types_8h.html">hermes_types.h</a>&quot;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>hermes {</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
@@ -120,206 +120,209 @@ $(document).ready(function(){initNavTree('memory__management_8h_source.html','')
 <div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="structhermes_1_1_ticket.html">   41</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_ticket.html">Ticket</a> {</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  u32 ticket;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordtype">bool</span> acquired;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;};</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="structhermes_1_1_rw_lock.html">   46</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_rw_lock.html">RwLock</a> {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <a class="code" href="structhermes_1_1_ticket_mutex.html">TicketMutex</a> mutex;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  std::atomic&lt;u32&gt; readers;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  std::atomic&lt;bool&gt; writer_waiting;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;};</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="structhermes_1_1_arena_info.html">   52</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_arena_info.html">ArenaInfo</a> {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordtype">size_t</span> sizes[kArenaType_Count];</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordtype">size_t</span> total;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;};</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="structhermes_1_1_arena.html">   74</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_arena.html">Arena</a> {</div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="structhermes_1_1_arena.html#aba3fc1f263ab099439fabdca9c782204">   76</a></span>&#160;  u8 *<a class="code" href="structhermes_1_1_arena.html#aba3fc1f263ab099439fabdca9c782204">base</a>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="structhermes_1_1_arena.html#ab2ba6b537c627c2d55a2d4203be55fe5">   78</a></span>&#160;  <span class="keywordtype">size_t</span> <a class="code" href="structhermes_1_1_arena.html#ab2ba6b537c627c2d55a2d4203be55fe5">used</a>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="structhermes_1_1_arena.html#a6793b3b25e00ea97866add6170bca6e3">   80</a></span>&#160;  <span class="keywordtype">size_t</span> <a class="code" href="structhermes_1_1_arena.html#a6793b3b25e00ea97866add6170bca6e3">capacity</a>;</div>
-<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="structhermes_1_1_arena.html#a430f30fb23571afde63972cfe31d4a9a">   82</a></span>&#160;  ArenaErrorFunc *<a class="code" href="structhermes_1_1_arena.html#a430f30fb23571afde63972cfe31d4a9a">error_handler</a>;</div>
-<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="structhermes_1_1_arena.html#a2a73789f44ff22eb1efea7f6325d256b">   84</a></span>&#160;  i32 <a class="code" href="structhermes_1_1_arena.html#a2a73789f44ff22eb1efea7f6325d256b">temp_count</a>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;};</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="structhermes_1_1_heap.html">   87</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_heap.html">Heap</a> {</div>
-<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="structhermes_1_1_heap.html#a5b043f15e02a1d33511bf09df320a9f4">   89</a></span>&#160;  ArenaErrorFunc *<a class="code" href="structhermes_1_1_heap.html#a5b043f15e02a1d33511bf09df320a9f4">error_handler</a>;</div>
-<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="structhermes_1_1_heap.html#a84f50982a2fba97e0577f418261c3284">   91</a></span>&#160;  <a class="code" href="structhermes_1_1_ticket_mutex.html">TicketMutex</a> <a class="code" href="structhermes_1_1_heap.html#a84f50982a2fba97e0577f418261c3284">mutex</a>;</div>
-<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="structhermes_1_1_heap.html#a6242d911b97e9db5ced894b5e704af1c">   93</a></span>&#160;  u32 <a class="code" href="structhermes_1_1_heap.html#a6242d911b97e9db5ced894b5e704af1c">base_offset</a>;</div>
-<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="structhermes_1_1_heap.html#a8de2dd8500c107ec816ada7e472a3e26">   95</a></span>&#160;  u32 <a class="code" href="structhermes_1_1_heap.html#a8de2dd8500c107ec816ada7e472a3e26">free_list_offset</a>;</div>
-<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="structhermes_1_1_heap.html#a9f2cb46031a4d37e1a8b891f6d2bbecb">  100</a></span>&#160;  u32 <a class="code" href="structhermes_1_1_heap.html#a9f2cb46031a4d37e1a8b891f6d2bbecb">extent</a>;</div>
-<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="structhermes_1_1_heap.html#aa94525cba13ccc4f7066454e417e4bb1">  103</a></span>&#160;  u16 <a class="code" href="structhermes_1_1_heap.html#aa94525cba13ccc4f7066454e417e4bb1">alignment</a>;</div>
-<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="structhermes_1_1_heap.html#a1ab5bfcced13454da5171445e693e8db">  105</a></span>&#160;  u16 <a class="code" href="structhermes_1_1_heap.html#a1ab5bfcced13454da5171445e693e8db">grows_up</a>;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;};</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="structhermes_1_1_free_block_header.html">  108</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_free_block_header.html">FreeBlockHeader</a> {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  <span class="keywordtype">size_t</span> size;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;};</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="structhermes_1_1_free_block.html">  112</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_free_block.html">FreeBlock</a> {</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  <span class="comment">/* The offset of the next FreeBlock in the list. Offset 0 represents NULL */</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  u32 next_offset;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  <span class="comment">/* The size of the next FreeBlock in the list. */</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  u32 size;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;};</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
-<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="structhermes_1_1_temporary_memory.html">  119</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_temporary_memory.html">TemporaryMemory</a> {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  <a class="code" href="structhermes_1_1_arena.html">Arena</a> *arena;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  <span class="keywordtype">size_t</span> used;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;};</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
-<div class="line"><a name="l00146"></a><span class="lineno"><a class="line" href="structhermes_1_1_scoped_temporary_memory.html">  146</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_scoped_temporary_memory.html">ScopedTemporaryMemory</a> {</div>
-<div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">  148</a></span>&#160;  <a class="code" href="structhermes_1_1_arena.html">Arena</a> *<a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">arena</a>;</div>
-<div class="line"><a name="l00150"></a><span class="lineno"><a class="line" href="structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba">  150</a></span>&#160;  <span class="keywordtype">size_t</span> <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba">used</a>;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  <a class="code" href="structhermes_1_1_scoped_temporary_memory.html">ScopedTemporaryMemory</a>() = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  <a class="code" href="structhermes_1_1_scoped_temporary_memory.html">ScopedTemporaryMemory</a>(<span class="keyword">const</span> <a class="code" href="structhermes_1_1_scoped_temporary_memory.html">ScopedTemporaryMemory</a> &amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  <a class="code" href="structhermes_1_1_scoped_temporary_memory.html">ScopedTemporaryMemory</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="structhermes_1_1_scoped_temporary_memory.html">ScopedTemporaryMemory</a> &amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
-<div class="line"><a name="l00161"></a><span class="lineno"><a class="line" href="structhermes_1_1_scoped_temporary_memory.html#a19bd49ca137b58259db63509423abd36">  161</a></span>&#160;  <span class="keyword">explicit</span> <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a19bd49ca137b58259db63509423abd36">ScopedTemporaryMemory</a>(<a class="code" href="structhermes_1_1_arena.html">Arena</a> *backing_arena)</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;      : <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">arena</a>(backing_arena), <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba">used</a>(backing_arena-&gt;<a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba">used</a>) {</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="comment">// TODO(chogan): Currently not threadsafe unless each thread has a different</span></div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="comment">// `backing_arena`</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keywordflow">if</span> (++backing_arena-&gt;<a class="code" href="structhermes_1_1_arena.html#a2a73789f44ff22eb1efea7f6325d256b">temp_count</a> &gt; 1) {</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;      HERMES_NOT_IMPLEMENTED_YET;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    }</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;  }</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
-<div class="line"><a name="l00174"></a><span class="lineno"><a class="line" href="structhermes_1_1_scoped_temporary_memory.html#ad3d6513353dcf82ec9390975b3a042b4">  174</a></span>&#160;  <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#ad3d6513353dcf82ec9390975b3a042b4">~ScopedTemporaryMemory</a>() {</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    assert(<a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">arena</a>-&gt;<a class="code" href="structhermes_1_1_arena.html#ab2ba6b537c627c2d55a2d4203be55fe5">used</a> &gt;= <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba">used</a>);</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">arena</a>-&gt;<a class="code" href="structhermes_1_1_arena.html#ab2ba6b537c627c2d55a2d4203be55fe5">used</a> = <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba">used</a>;</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    assert(<a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">arena</a>-&gt;<a class="code" href="structhermes_1_1_arena.html#a2a73789f44ff22eb1efea7f6325d256b">temp_count</a> &gt; 0);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">arena</a>-&gt;<a class="code" href="structhermes_1_1_arena.html#a2a73789f44ff22eb1efea7f6325d256b">temp_count</a>--;</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  }</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
-<div class="line"><a name="l00185"></a><span class="lineno"><a class="line" href="structhermes_1_1_scoped_temporary_memory.html#a5270d2d43f96ee4917e08671c540dbbd">  185</a></span>&#160;  <span class="keyword">operator</span> <a class="code" href="structhermes_1_1_arena.html">Arena</a>*() {</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">arena</a>;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;  }</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;};</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;TemporaryMemory BeginTemporaryMemory(Arena *arena);</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160; </div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="keywordtype">void</span> EndTemporaryMemory(TemporaryMemory *temp_memory);</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="keywordtype">void</span> InitArena(Arena *arena, <span class="keywordtype">size_t</span> bytes, u8 *base);</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;Arena InitArenaAndAllocate(<span class="keywordtype">size_t</span> bytes);</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160; </div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="keywordtype">void</span> DestroyArena(Arena *arena);</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="keywordtype">size_t</span> GetRemainingCapacity(Arena *arena);</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160; </div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="keywordtype">void</span> GrowArena(Arena *arena, <span class="keywordtype">size_t</span> new_size);</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; </div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;u8 *PushSize(Arena *arena, <span class="keywordtype">size_t</span> size, <span class="keywordtype">size_t</span> alignment = 8);</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160; </div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;u8 *PushSizeAndClear(Arena *arena, <span class="keywordtype">size_t</span> size, <span class="keywordtype">size_t</span> alignment = 8);</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00293"></a><span class="lineno"><a class="line" href="memory__management_8h.html#ac37a162ed266d8f186e43f5d06b4f748">  293</a></span>&#160;<span class="keyword">inline</span> T *<a class="code" href="memory__management_8h.html#ac37a162ed266d8f186e43f5d06b4f748">PushStruct</a>(<a class="code" href="structhermes_1_1_arena.html">Arena</a> *arena, <span class="keywordtype">size_t</span> alignment = 8) {</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;  T *result = <span class="keyword">reinterpret_cast&lt;</span>T *<span class="keyword">&gt;</span>(<a class="code" href="memory__management_8cc.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce">PushSize</a>(arena, <span class="keyword">sizeof</span>(T), alignment));</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160; </div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;  <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;}</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160; </div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00311"></a><span class="lineno"><a class="line" href="memory__management_8h.html#a0b920cd44bd75f39129699a69ebcf15d">  311</a></span>&#160;<span class="keyword">inline</span> T *<a class="code" href="memory__management_8h.html#a0b920cd44bd75f39129699a69ebcf15d">PushClearedStruct</a>(<a class="code" href="structhermes_1_1_arena.html">Arena</a> *arena, <span class="keywordtype">size_t</span> alignment = 8) {</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;  T *result = <span class="keyword">reinterpret_cast&lt;</span>T *<span class="keyword">&gt;</span>(<a class="code" href="memory__management_8cc.html#a3af04b76abe44434f1648c42fca15794">PushSizeAndClear</a>(arena, <span class="keyword">sizeof</span>(T),</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;                                                     alignment));</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160; </div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;  <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;}</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160; </div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00331"></a><span class="lineno"><a class="line" href="memory__management_8h.html#a43ad59a28476e0276c14d97f3cca75a4">  331</a></span>&#160;<span class="keyword">inline</span> T *<a class="code" href="memory__management_8h.html#a43ad59a28476e0276c14d97f3cca75a4">PushArray</a>(<a class="code" href="structhermes_1_1_arena.html">Arena</a> *arena, <span class="keywordtype">int</span> count, <span class="keywordtype">size_t</span> alignment = 8) {</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;  T *result = <span class="keyword">reinterpret_cast&lt;</span>T *<span class="keyword">&gt;</span>(<a class="code" href="memory__management_8cc.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce">PushSize</a>(arena, <span class="keyword">sizeof</span>(T) * count,</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;                                             alignment));</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160; </div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;  <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;}</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160; </div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00349"></a><span class="lineno"><a class="line" href="memory__management_8h.html#af7df055d8c62e55527ac01e6c1e3d2e0">  349</a></span>&#160;<span class="keyword">inline</span> T *<a class="code" href="memory__management_8h.html#af7df055d8c62e55527ac01e6c1e3d2e0">PushClearedArray</a>(<a class="code" href="structhermes_1_1_arena.html">Arena</a> *arena, <span class="keywordtype">int</span> count, <span class="keywordtype">size_t</span> alignment = 8) {</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;  T *result = <span class="keyword">reinterpret_cast&lt;</span>T *<span class="keyword">&gt;</span>(<a class="code" href="memory__management_8cc.html#a3af04b76abe44434f1648c42fca15794">PushSizeAndClear</a>(arena, <span class="keyword">sizeof</span>(T) * count,</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;                                                     alignment));</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160; </div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;  <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;}</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;u8 *HeapPushSize(Heap *heap, u32 size);</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160; </div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="keyword">inline</span> T *HeapPushStruct(Heap *heap) {</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;  T *result = <span class="keyword">reinterpret_cast&lt;</span>T *<span class="keyword">&gt;</span>(HeapPushSize(heap, <span class="keyword">sizeof</span>(T)));</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160; </div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;  <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;}</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160; </div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="keyword">inline</span> T *HeapPushArray(Heap *heap, u32 count) {</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  T *result = <span class="keyword">reinterpret_cast&lt;</span>T *<span class="keyword">&gt;</span>(HeapPushSize(heap, count * <span class="keyword">sizeof</span>(T)));</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160; </div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;}</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160; </div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;Heap *InitHeapInArena(Arena *arena, <span class="keywordtype">bool</span> grows_up = <span class="keyword">true</span>, u16 alignment = 8);</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="keywordtype">void</span> HeapFree(Heap *heap, <span class="keywordtype">void</span> *ptr);</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="keywordtype">void</span> *HeapRealloc(Heap *heap, <span class="keywordtype">void</span> *ptr, <span class="keywordtype">size_t</span> size);</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;u32 GetHeapOffset(Heap *heap, u8 *ptr);</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;FreeBlock *NextFreeBlock(Heap *heap, FreeBlock *block);</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;FreeBlock *GetHeapFreeList(Heap *heap);</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;u8 *HeapOffsetToPtr(Heap *heap, u32 offset);</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;u8 *HeapExtentToPtr(Heap *heap);</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160; </div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="keywordtype">void</span> BeginTicketMutex(TicketMutex *mutex);</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="keywordtype">void</span> EndTicketMutex(TicketMutex *mutex);</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160; </div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;<span class="keywordtype">bool</span> BeginReaderLock(RwLock *lock);</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;<span class="keywordtype">void</span> EndReaderLock(RwLock *lock);</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="keywordtype">void</span> BeginWriterLock(RwLock *lock);</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="keywordtype">void</span> EndWriterLock(RwLock *lock);</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160; </div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;}  <span class="comment">// namespace hermes</span></div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160; </div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="preprocessor">#endif  // HERMES_MEMORY_MANAGEMENT_H_</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <a class="code" href="structhermes_1_1_ticket.html">Ticket</a>() : ticket(-1), acquired(<span class="keyword">false</span>) {}</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="structhermes_1_1_rw_lock.html">   47</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_rw_lock.html">RwLock</a> {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <a class="code" href="structhermes_1_1_ticket_mutex.html">TicketMutex</a> mutex;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  std::atomic&lt;u32&gt; readers;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  std::atomic&lt;bool&gt; writer_waiting;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;};</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="structhermes_1_1_arena_info.html">   53</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_arena_info.html">ArenaInfo</a> {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordtype">size_t</span> sizes[<a class="code" href="hermes__types_8h.html#a62c3f0a639ff72d4ea54e6aee25a7e8da06bea029a0a1327d43c0da2f1db41bc0">kArenaType_Count</a>];</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordtype">size_t</span> total;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="structhermes_1_1_arena.html">   75</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_arena.html">Arena</a> {</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="structhermes_1_1_arena.html#aba3fc1f263ab099439fabdca9c782204">   77</a></span>&#160;  u8 *<a class="code" href="structhermes_1_1_arena.html#aba3fc1f263ab099439fabdca9c782204">base</a>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="structhermes_1_1_arena.html#ab2ba6b537c627c2d55a2d4203be55fe5">   79</a></span>&#160;  <span class="keywordtype">size_t</span> <a class="code" href="structhermes_1_1_arena.html#ab2ba6b537c627c2d55a2d4203be55fe5">used</a>;</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="structhermes_1_1_arena.html#a6793b3b25e00ea97866add6170bca6e3">   81</a></span>&#160;  <span class="keywordtype">size_t</span> <a class="code" href="structhermes_1_1_arena.html#a6793b3b25e00ea97866add6170bca6e3">capacity</a>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="structhermes_1_1_arena.html#a430f30fb23571afde63972cfe31d4a9a">   83</a></span>&#160;  ArenaErrorFunc *<a class="code" href="structhermes_1_1_arena.html#a430f30fb23571afde63972cfe31d4a9a">error_handler</a>;</div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="structhermes_1_1_arena.html#a2a73789f44ff22eb1efea7f6325d256b">   85</a></span>&#160;  i32 <a class="code" href="structhermes_1_1_arena.html#a2a73789f44ff22eb1efea7f6325d256b">temp_count</a>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;};</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="structhermes_1_1_heap.html">   88</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_heap.html">Heap</a> {</div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="structhermes_1_1_heap.html#a5b043f15e02a1d33511bf09df320a9f4">   90</a></span>&#160;  ArenaErrorFunc *<a class="code" href="structhermes_1_1_heap.html#a5b043f15e02a1d33511bf09df320a9f4">error_handler</a>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="structhermes_1_1_heap.html#a84f50982a2fba97e0577f418261c3284">   92</a></span>&#160;  <a class="code" href="structhermes_1_1_ticket_mutex.html">TicketMutex</a> <a class="code" href="structhermes_1_1_heap.html#a84f50982a2fba97e0577f418261c3284">mutex</a>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="structhermes_1_1_heap.html#a6242d911b97e9db5ced894b5e704af1c">   94</a></span>&#160;  u32 <a class="code" href="structhermes_1_1_heap.html#a6242d911b97e9db5ced894b5e704af1c">base_offset</a>;</div>
+<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="structhermes_1_1_heap.html#a8de2dd8500c107ec816ada7e472a3e26">   96</a></span>&#160;  u32 <a class="code" href="structhermes_1_1_heap.html#a8de2dd8500c107ec816ada7e472a3e26">free_list_offset</a>;</div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="structhermes_1_1_heap.html#a9f2cb46031a4d37e1a8b891f6d2bbecb">  101</a></span>&#160;  u32 <a class="code" href="structhermes_1_1_heap.html#a9f2cb46031a4d37e1a8b891f6d2bbecb">extent</a>;</div>
+<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="structhermes_1_1_heap.html#aa94525cba13ccc4f7066454e417e4bb1">  104</a></span>&#160;  u16 <a class="code" href="structhermes_1_1_heap.html#aa94525cba13ccc4f7066454e417e4bb1">alignment</a>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="structhermes_1_1_heap.html#a1ab5bfcced13454da5171445e693e8db">  106</a></span>&#160;  u16 <a class="code" href="structhermes_1_1_heap.html#a1ab5bfcced13454da5171445e693e8db">grows_up</a>;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;};</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="structhermes_1_1_free_block_header.html">  109</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_free_block_header.html">FreeBlockHeader</a> {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <span class="keywordtype">size_t</span> size;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;};</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="structhermes_1_1_free_block.html">  113</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_free_block.html">FreeBlock</a> {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  <span class="comment">/* The offset of the next FreeBlock in the list. Offset 0 represents NULL */</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  u32 next_offset;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  <span class="comment">/* The size of the next FreeBlock in the list. */</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  u32 size;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;};</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno"><a class="line" href="structhermes_1_1_temporary_memory.html">  120</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_temporary_memory.html">TemporaryMemory</a> {</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  <a class="code" href="structhermes_1_1_arena.html">Arena</a> *arena;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;  <span class="keywordtype">size_t</span> used;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;};</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00147"></a><span class="lineno"><a class="line" href="structhermes_1_1_scoped_temporary_memory.html">  147</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_scoped_temporary_memory.html">ScopedTemporaryMemory</a> {</div>
+<div class="line"><a name="l00149"></a><span class="lineno"><a class="line" href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">  149</a></span>&#160;  <a class="code" href="structhermes_1_1_arena.html">Arena</a> *<a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">arena</a>;</div>
+<div class="line"><a name="l00151"></a><span class="lineno"><a class="line" href="structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba">  151</a></span>&#160;  <span class="keywordtype">size_t</span> <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba">used</a>;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  <a class="code" href="structhermes_1_1_scoped_temporary_memory.html">ScopedTemporaryMemory</a>() = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  <a class="code" href="structhermes_1_1_scoped_temporary_memory.html">ScopedTemporaryMemory</a>(<span class="keyword">const</span> <a class="code" href="structhermes_1_1_scoped_temporary_memory.html">ScopedTemporaryMemory</a> &amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  <a class="code" href="structhermes_1_1_scoped_temporary_memory.html">ScopedTemporaryMemory</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="structhermes_1_1_scoped_temporary_memory.html">ScopedTemporaryMemory</a> &amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
+<div class="line"><a name="l00162"></a><span class="lineno"><a class="line" href="structhermes_1_1_scoped_temporary_memory.html#a19bd49ca137b58259db63509423abd36">  162</a></span>&#160;  <span class="keyword">explicit</span> <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a19bd49ca137b58259db63509423abd36">ScopedTemporaryMemory</a>(<a class="code" href="structhermes_1_1_arena.html">Arena</a> *backing_arena)</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;      : <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">arena</a>(backing_arena), <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba">used</a>(backing_arena-&gt;<a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba">used</a>) {</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="comment">// TODO(chogan): Currently not threadsafe unless each thread has a different</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="comment">// `backing_arena`</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordflow">if</span> (++backing_arena-&gt;<a class="code" href="structhermes_1_1_arena.html#a2a73789f44ff22eb1efea7f6325d256b">temp_count</a> &gt; 1) {</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;      HERMES_NOT_IMPLEMENTED_YET;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    }</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  }</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
+<div class="line"><a name="l00175"></a><span class="lineno"><a class="line" href="structhermes_1_1_scoped_temporary_memory.html#ad3d6513353dcf82ec9390975b3a042b4">  175</a></span>&#160;  <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#ad3d6513353dcf82ec9390975b3a042b4">~ScopedTemporaryMemory</a>() {</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    assert(<a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">arena</a>-&gt;<a class="code" href="structhermes_1_1_arena.html#ab2ba6b537c627c2d55a2d4203be55fe5">used</a> &gt;= <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba">used</a>);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">arena</a>-&gt;<a class="code" href="structhermes_1_1_arena.html#ab2ba6b537c627c2d55a2d4203be55fe5">used</a> = <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba">used</a>;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    assert(<a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">arena</a>-&gt;<a class="code" href="structhermes_1_1_arena.html#a2a73789f44ff22eb1efea7f6325d256b">temp_count</a> &gt; 0);</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">arena</a>-&gt;<a class="code" href="structhermes_1_1_arena.html#a2a73789f44ff22eb1efea7f6325d256b">temp_count</a>--;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;  }</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
+<div class="line"><a name="l00186"></a><span class="lineno"><a class="line" href="structhermes_1_1_scoped_temporary_memory.html#a5270d2d43f96ee4917e08671c540dbbd">  186</a></span>&#160;  <span class="keyword">operator</span> <a class="code" href="structhermes_1_1_arena.html">Arena</a>*() {</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">arena</a>;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  }</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;};</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;TemporaryMemory BeginTemporaryMemory(Arena *arena);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="keywordtype">void</span> EndTemporaryMemory(TemporaryMemory *temp_memory);</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160; </div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="keywordtype">void</span> InitArena(Arena *arena, <span class="keywordtype">size_t</span> bytes, u8 *base);</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;Arena InitArenaAndAllocate(<span class="keywordtype">size_t</span> bytes);</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160; </div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="keywordtype">void</span> DestroyArena(Arena *arena);</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160; </div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;<span class="keywordtype">size_t</span> GetRemainingCapacity(Arena *arena);</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160; </div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="keywordtype">void</span> GrowArena(Arena *arena, <span class="keywordtype">size_t</span> new_size);</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160; </div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;u8 *PushSize(Arena *arena, <span class="keywordtype">size_t</span> size, <span class="keywordtype">size_t</span> alignment = 8);</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160; </div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;u8 *PushSizeAndClear(Arena *arena, <span class="keywordtype">size_t</span> size, <span class="keywordtype">size_t</span> alignment = 8);</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160; </div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00294"></a><span class="lineno"><a class="line" href="memory__management_8h.html#ac37a162ed266d8f186e43f5d06b4f748">  294</a></span>&#160;<span class="keyword">inline</span> T *<a class="code" href="memory__management_8h.html#ac37a162ed266d8f186e43f5d06b4f748">PushStruct</a>(<a class="code" href="structhermes_1_1_arena.html">Arena</a> *arena, <span class="keywordtype">size_t</span> alignment = 8) {</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;  T *result = <span class="keyword">reinterpret_cast&lt;</span>T *<span class="keyword">&gt;</span>(<a class="code" href="memory__management_8cc.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce">PushSize</a>(arena, <span class="keyword">sizeof</span>(T), alignment));</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160; </div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;  <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;}</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160; </div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00312"></a><span class="lineno"><a class="line" href="memory__management_8h.html#a0b920cd44bd75f39129699a69ebcf15d">  312</a></span>&#160;<span class="keyword">inline</span> T *<a class="code" href="memory__management_8h.html#a0b920cd44bd75f39129699a69ebcf15d">PushClearedStruct</a>(<a class="code" href="structhermes_1_1_arena.html">Arena</a> *arena, <span class="keywordtype">size_t</span> alignment = 8) {</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;  T *result = <span class="keyword">reinterpret_cast&lt;</span>T *<span class="keyword">&gt;</span>(<a class="code" href="memory__management_8cc.html#a3af04b76abe44434f1648c42fca15794">PushSizeAndClear</a>(arena, <span class="keyword">sizeof</span>(T),</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                                                     alignment));</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160; </div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;  <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;}</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160; </div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00332"></a><span class="lineno"><a class="line" href="memory__management_8h.html#a43ad59a28476e0276c14d97f3cca75a4">  332</a></span>&#160;<span class="keyword">inline</span> T *<a class="code" href="memory__management_8h.html#a43ad59a28476e0276c14d97f3cca75a4">PushArray</a>(<a class="code" href="structhermes_1_1_arena.html">Arena</a> *arena, <span class="keywordtype">int</span> count, <span class="keywordtype">size_t</span> alignment = 8) {</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;  T *result = <span class="keyword">reinterpret_cast&lt;</span>T *<span class="keyword">&gt;</span>(<a class="code" href="memory__management_8cc.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce">PushSize</a>(arena, <span class="keyword">sizeof</span>(T) * count,</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                                             alignment));</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160; </div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;  <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;}</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160; </div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00350"></a><span class="lineno"><a class="line" href="memory__management_8h.html#af7df055d8c62e55527ac01e6c1e3d2e0">  350</a></span>&#160;<span class="keyword">inline</span> T *<a class="code" href="memory__management_8h.html#af7df055d8c62e55527ac01e6c1e3d2e0">PushClearedArray</a>(<a class="code" href="structhermes_1_1_arena.html">Arena</a> *arena, <span class="keywordtype">int</span> count, <span class="keywordtype">size_t</span> alignment = 8) {</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;  T *result = <span class="keyword">reinterpret_cast&lt;</span>T *<span class="keyword">&gt;</span>(<a class="code" href="memory__management_8cc.html#a3af04b76abe44434f1648c42fca15794">PushSizeAndClear</a>(arena, <span class="keyword">sizeof</span>(T) * count,</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;                                                     alignment));</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160; </div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;  <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;}</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;u8 *HeapPushSize(Heap *heap, u32 size);</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160; </div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="keyword">inline</span> T *HeapPushStruct(Heap *heap) {</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;  T *result = <span class="keyword">reinterpret_cast&lt;</span>T *<span class="keyword">&gt;</span>(HeapPushSize(heap, <span class="keyword">sizeof</span>(T)));</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160; </div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;  <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;}</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160; </div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="keyword">inline</span> T *HeapPushArray(Heap *heap, u32 count) {</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;  T *result = <span class="keyword">reinterpret_cast&lt;</span>T *<span class="keyword">&gt;</span>(HeapPushSize(heap, count * <span class="keyword">sizeof</span>(T)));</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160; </div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;}</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160; </div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;Heap *InitHeapInArena(Arena *arena, <span class="keywordtype">bool</span> grows_up = <span class="keyword">true</span>, u16 alignment = 8);</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="keywordtype">void</span> HeapFree(Heap *heap, <span class="keywordtype">void</span> *ptr);</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="keywordtype">void</span> *HeapRealloc(Heap *heap, <span class="keywordtype">void</span> *ptr, <span class="keywordtype">size_t</span> size);</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;u32 GetHeapOffset(Heap *heap, u8 *ptr);</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;FreeBlock *NextFreeBlock(Heap *heap, FreeBlock *block);</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;FreeBlock *GetHeapFreeList(Heap *heap);</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;u8 *HeapOffsetToPtr(Heap *heap, u32 offset);</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;u8 *HeapExtentToPtr(Heap *heap);</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160; </div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="keywordtype">void</span> BeginTicketMutex(TicketMutex *mutex);</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="keywordtype">void</span> EndTicketMutex(TicketMutex *mutex);</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160; </div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;<span class="keywordtype">bool</span> BeginReaderLock(RwLock *lock);</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="keywordtype">void</span> EndReaderLock(RwLock *lock);</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="keywordtype">void</span> BeginWriterLock(RwLock *lock);</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;<span class="keywordtype">void</span> EndWriterLock(RwLock *lock);</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160; </div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;}  <span class="comment">// namespace hermes</span></div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160; </div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;<span class="preprocessor">#endif  // HERMES_MEMORY_MANAGEMENT_H_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructhermes_1_1_scoped_temporary_memory_html_a12a5d9bd9137562e9321ac033caf126b"><div class="ttname"><a href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">hermes::ScopedTemporaryMemory::arena</a></div><div class="ttdeci">Arena * arena</div><div class="ttdef"><b>Definition:</b> memory_management.h:148</div></div>
-<div class="ttc" id="astructhermes_1_1_free_block_html"><div class="ttname"><a href="structhermes_1_1_free_block.html">hermes::FreeBlock</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:112</div></div>
+<div class="ttc" id="astructhermes_1_1_scoped_temporary_memory_html_a12a5d9bd9137562e9321ac033caf126b"><div class="ttname"><a href="structhermes_1_1_scoped_temporary_memory.html#a12a5d9bd9137562e9321ac033caf126b">hermes::ScopedTemporaryMemory::arena</a></div><div class="ttdeci">Arena * arena</div><div class="ttdef"><b>Definition:</b> memory_management.h:149</div></div>
+<div class="ttc" id="astructhermes_1_1_free_block_html"><div class="ttname"><a href="structhermes_1_1_free_block.html">hermes::FreeBlock</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:113</div></div>
 <div class="ttc" id="astructhermes_1_1_ticket_html"><div class="ttname"><a href="structhermes_1_1_ticket.html">hermes::Ticket</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:41</div></div>
-<div class="ttc" id="astructhermes_1_1_scoped_temporary_memory_html_a304b15921f746ae4bb7db06022e992ba"><div class="ttname"><a href="structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba">hermes::ScopedTemporaryMemory::used</a></div><div class="ttdeci">size_t used</div><div class="ttdef"><b>Definition:</b> memory_management.h:150</div></div>
-<div class="ttc" id="amemory__management_8h_html_a43ad59a28476e0276c14d97f3cca75a4"><div class="ttname"><a href="memory__management_8h.html#a43ad59a28476e0276c14d97f3cca75a4">hermes::PushArray</a></div><div class="ttdeci">T * PushArray(Arena *arena, int count, size_t alignment=8)</div><div class="ttdef"><b>Definition:</b> memory_management.h:331</div></div>
-<div class="ttc" id="astructhermes_1_1_arena_html"><div class="ttname"><a href="structhermes_1_1_arena.html">hermes::Arena</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:74</div></div>
+<div class="ttc" id="astructhermes_1_1_scoped_temporary_memory_html_a304b15921f746ae4bb7db06022e992ba"><div class="ttname"><a href="structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba">hermes::ScopedTemporaryMemory::used</a></div><div class="ttdeci">size_t used</div><div class="ttdef"><b>Definition:</b> memory_management.h:151</div></div>
+<div class="ttc" id="amemory__management_8h_html_a43ad59a28476e0276c14d97f3cca75a4"><div class="ttname"><a href="memory__management_8h.html#a43ad59a28476e0276c14d97f3cca75a4">hermes::PushArray</a></div><div class="ttdeci">T * PushArray(Arena *arena, int count, size_t alignment=8)</div><div class="ttdef"><b>Definition:</b> memory_management.h:332</div></div>
+<div class="ttc" id="astructhermes_1_1_arena_html"><div class="ttname"><a href="structhermes_1_1_arena.html">hermes::Arena</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:75</div></div>
 <div class="ttc" id="amemory__management_8h_html"><div class="ttname"><a href="memory__management_8h.html">memory_management.h</a></div></div>
 <div class="ttc" id="amemory__management_8cc_html_ab9632f771628051dbd740bbb21b6b771"><div class="ttname"><a href="memory__management_8cc.html#ab9632f771628051dbd740bbb21b6b771">hermes::GrowArena</a></div><div class="ttdeci">void GrowArena(Arena *arena, size_t new_size)</div><div class="ttdoc">The maximum capacity of arena becomes new_size.</div><div class="ttdef"><b>Definition:</b> memory_management.cc:91</div></div>
-<div class="ttc" id="astructhermes_1_1_heap_html_a1ab5bfcced13454da5171445e693e8db"><div class="ttname"><a href="structhermes_1_1_heap.html#a1ab5bfcced13454da5171445e693e8db">hermes::Heap::grows_up</a></div><div class="ttdeci">u16 grows_up</div><div class="ttdef"><b>Definition:</b> memory_management.h:105</div></div>
-<div class="ttc" id="astructhermes_1_1_rw_lock_html"><div class="ttname"><a href="structhermes_1_1_rw_lock.html">hermes::RwLock</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:46</div></div>
+<div class="ttc" id="astructhermes_1_1_heap_html_a1ab5bfcced13454da5171445e693e8db"><div class="ttname"><a href="structhermes_1_1_heap.html#a1ab5bfcced13454da5171445e693e8db">hermes::Heap::grows_up</a></div><div class="ttdeci">u16 grows_up</div><div class="ttdef"><b>Definition:</b> memory_management.h:106</div></div>
+<div class="ttc" id="astructhermes_1_1_rw_lock_html"><div class="ttname"><a href="structhermes_1_1_rw_lock.html">hermes::RwLock</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:47</div></div>
 <div class="ttc" id="amemory__management_8cc_html_ac64963cdb2aef85ac002f4b8634cd2fc"><div class="ttname"><a href="memory__management_8cc.html#ac64963cdb2aef85ac002f4b8634cd2fc">hermes::DestroyArena</a></div><div class="ttdeci">void DestroyArena(Arena *arena)</div><div class="ttdef"><b>Definition:</b> memory_management.cc:74</div></div>
-<div class="ttc" id="astructhermes_1_1_heap_html"><div class="ttname"><a href="structhermes_1_1_heap.html">hermes::Heap</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:87</div></div>
-<div class="ttc" id="astructhermes_1_1_arena_html_a430f30fb23571afde63972cfe31d4a9a"><div class="ttname"><a href="structhermes_1_1_arena.html#a430f30fb23571afde63972cfe31d4a9a">hermes::Arena::error_handler</a></div><div class="ttdeci">ArenaErrorFunc * error_handler</div><div class="ttdef"><b>Definition:</b> memory_management.h:82</div></div>
-<div class="ttc" id="astructhermes_1_1_arena_info_html"><div class="ttname"><a href="structhermes_1_1_arena_info.html">hermes::ArenaInfo</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:52</div></div>
+<div class="ttc" id="astructhermes_1_1_heap_html"><div class="ttname"><a href="structhermes_1_1_heap.html">hermes::Heap</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:88</div></div>
+<div class="ttc" id="astructhermes_1_1_arena_html_a430f30fb23571afde63972cfe31d4a9a"><div class="ttname"><a href="structhermes_1_1_arena.html#a430f30fb23571afde63972cfe31d4a9a">hermes::Arena::error_handler</a></div><div class="ttdeci">ArenaErrorFunc * error_handler</div><div class="ttdef"><b>Definition:</b> memory_management.h:83</div></div>
+<div class="ttc" id="astructhermes_1_1_arena_info_html"><div class="ttname"><a href="structhermes_1_1_arena_info.html">hermes::ArenaInfo</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:53</div></div>
+<div class="ttc" id="ahermes__types_8h_html_a62c3f0a639ff72d4ea54e6aee25a7e8da06bea029a0a1327d43c0da2f1db41bc0"><div class="ttname"><a href="hermes__types_8h.html#a62c3f0a639ff72d4ea54e6aee25a7e8da06bea029a0a1327d43c0da2f1db41bc0">hermes::kArenaType_Count</a></div><div class="ttdeci">@ kArenaType_Count</div><div class="ttdef"><b>Definition:</b> hermes_types.h:230</div></div>
 <div class="ttc" id="amemory__management_8cc_html_abc4a3f05d273d7eacbd2cd8e1ad5e9ce"><div class="ttname"><a href="memory__management_8cc.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce">hermes::PushSize</a></div><div class="ttdeci">u8 * PushSize(Arena *arena, size_t size, size_t alignment)</div><div class="ttdef"><b>Definition:</b> memory_management.cc:124</div></div>
-<div class="ttc" id="astructhermes_1_1_heap_html_a5b043f15e02a1d33511bf09df320a9f4"><div class="ttname"><a href="structhermes_1_1_heap.html#a5b043f15e02a1d33511bf09df320a9f4">hermes::Heap::error_handler</a></div><div class="ttdeci">ArenaErrorFunc * error_handler</div><div class="ttdef"><b>Definition:</b> memory_management.h:89</div></div>
-<div class="ttc" id="astructhermes_1_1_heap_html_a9f2cb46031a4d37e1a8b891f6d2bbecb"><div class="ttname"><a href="structhermes_1_1_heap.html#a9f2cb46031a4d37e1a8b891f6d2bbecb">hermes::Heap::extent</a></div><div class="ttdeci">u32 extent</div><div class="ttdef"><b>Definition:</b> memory_management.h:100</div></div>
+<div class="ttc" id="astructhermes_1_1_heap_html_a5b043f15e02a1d33511bf09df320a9f4"><div class="ttname"><a href="structhermes_1_1_heap.html#a5b043f15e02a1d33511bf09df320a9f4">hermes::Heap::error_handler</a></div><div class="ttdeci">ArenaErrorFunc * error_handler</div><div class="ttdef"><b>Definition:</b> memory_management.h:90</div></div>
+<div class="ttc" id="astructhermes_1_1_heap_html_a9f2cb46031a4d37e1a8b891f6d2bbecb"><div class="ttname"><a href="structhermes_1_1_heap.html#a9f2cb46031a4d37e1a8b891f6d2bbecb">hermes::Heap::extent</a></div><div class="ttdeci">u32 extent</div><div class="ttdef"><b>Definition:</b> memory_management.h:101</div></div>
 <div class="ttc" id="amemory__management_8cc_html_a1ef28877549d5c7c061d0b606ed38cd0"><div class="ttname"><a href="memory__management_8cc.html#a1ef28877549d5c7c061d0b606ed38cd0">hermes::GetRemainingCapacity</a></div><div class="ttdeci">size_t GetRemainingCapacity(Arena *arena)</div><div class="ttdef"><b>Definition:</b> memory_management.cc:82</div></div>
 <div class="ttc" id="amemory__management_8cc_html_ad344fd4f2e60298d0b78945625b16d4a"><div class="ttname"><a href="memory__management_8cc.html#ad344fd4f2e60298d0b78945625b16d4a">hermes::InitArenaAndAllocate</a></div><div class="ttdeci">Arena InitArenaAndAllocate(size_t bytes)</div><div class="ttdef"><b>Definition:</b> memory_management.cc:66</div></div>
-<div class="ttc" id="astructhermes_1_1_free_block_header_html"><div class="ttname"><a href="structhermes_1_1_free_block_header.html">hermes::FreeBlockHeader</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:108</div></div>
+<div class="ttc" id="astructhermes_1_1_free_block_header_html"><div class="ttname"><a href="structhermes_1_1_free_block_header.html">hermes::FreeBlockHeader</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:109</div></div>
 <div class="ttc" id="astructhermes_1_1_ticket_mutex_html"><div class="ttname"><a href="structhermes_1_1_ticket_mutex.html">hermes::TicketMutex</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:36</div></div>
-<div class="ttc" id="astructhermes_1_1_scoped_temporary_memory_html_a19bd49ca137b58259db63509423abd36"><div class="ttname"><a href="structhermes_1_1_scoped_temporary_memory.html#a19bd49ca137b58259db63509423abd36">hermes::ScopedTemporaryMemory::ScopedTemporaryMemory</a></div><div class="ttdeci">ScopedTemporaryMemory(Arena *backing_arena)</div><div class="ttdef"><b>Definition:</b> memory_management.h:161</div></div>
+<div class="ttc" id="astructhermes_1_1_scoped_temporary_memory_html_a19bd49ca137b58259db63509423abd36"><div class="ttname"><a href="structhermes_1_1_scoped_temporary_memory.html#a19bd49ca137b58259db63509423abd36">hermes::ScopedTemporaryMemory::ScopedTemporaryMemory</a></div><div class="ttdeci">ScopedTemporaryMemory(Arena *backing_arena)</div><div class="ttdef"><b>Definition:</b> memory_management.h:162</div></div>
 <div class="ttc" id="amemory__management_8cc_html_a3af04b76abe44434f1648c42fca15794"><div class="ttname"><a href="memory__management_8cc.html#a3af04b76abe44434f1648c42fca15794">hermes::PushSizeAndClear</a></div><div class="ttdeci">u8 * PushSizeAndClear(Arena *arena, size_t size, size_t alignment)</div><div class="ttdef"><b>Definition:</b> memory_management.cc:149</div></div>
 <div class="ttc" id="amemory__management_8cc_html_af5d3174c5dc80367ddfa913d7685e666"><div class="ttname"><a href="memory__management_8cc.html#af5d3174c5dc80367ddfa913d7685e666">hermes::InitArena</a></div><div class="ttdeci">void InitArena(Arena *arena, size_t bytes, u8 *base)</div><div class="ttdef"><b>Definition:</b> memory_management.cc:59</div></div>
-<div class="ttc" id="astructhermes_1_1_arena_html_a6793b3b25e00ea97866add6170bca6e3"><div class="ttname"><a href="structhermes_1_1_arena.html#a6793b3b25e00ea97866add6170bca6e3">hermes::Arena::capacity</a></div><div class="ttdeci">size_t capacity</div><div class="ttdef"><b>Definition:</b> memory_management.h:80</div></div>
-<div class="ttc" id="astructhermes_1_1_heap_html_a84f50982a2fba97e0577f418261c3284"><div class="ttname"><a href="structhermes_1_1_heap.html#a84f50982a2fba97e0577f418261c3284">hermes::Heap::mutex</a></div><div class="ttdeci">TicketMutex mutex</div><div class="ttdef"><b>Definition:</b> memory_management.h:91</div></div>
-<div class="ttc" id="amemory__management_8h_html_af7df055d8c62e55527ac01e6c1e3d2e0"><div class="ttname"><a href="memory__management_8h.html#af7df055d8c62e55527ac01e6c1e3d2e0">hermes::PushClearedArray</a></div><div class="ttdeci">T * PushClearedArray(Arena *arena, int count, size_t alignment=8)</div><div class="ttdef"><b>Definition:</b> memory_management.h:349</div></div>
-<div class="ttc" id="astructhermes_1_1_heap_html_a8de2dd8500c107ec816ada7e472a3e26"><div class="ttname"><a href="structhermes_1_1_heap.html#a8de2dd8500c107ec816ada7e472a3e26">hermes::Heap::free_list_offset</a></div><div class="ttdeci">u32 free_list_offset</div><div class="ttdef"><b>Definition:</b> memory_management.h:95</div></div>
-<div class="ttc" id="astructhermes_1_1_arena_html_aba3fc1f263ab099439fabdca9c782204"><div class="ttname"><a href="structhermes_1_1_arena.html#aba3fc1f263ab099439fabdca9c782204">hermes::Arena::base</a></div><div class="ttdeci">u8 * base</div><div class="ttdef"><b>Definition:</b> memory_management.h:76</div></div>
-<div class="ttc" id="astructhermes_1_1_arena_html_a2a73789f44ff22eb1efea7f6325d256b"><div class="ttname"><a href="structhermes_1_1_arena.html#a2a73789f44ff22eb1efea7f6325d256b">hermes::Arena::temp_count</a></div><div class="ttdeci">i32 temp_count</div><div class="ttdef"><b>Definition:</b> memory_management.h:84</div></div>
-<div class="ttc" id="astructhermes_1_1_heap_html_aa94525cba13ccc4f7066454e417e4bb1"><div class="ttname"><a href="structhermes_1_1_heap.html#aa94525cba13ccc4f7066454e417e4bb1">hermes::Heap::alignment</a></div><div class="ttdeci">u16 alignment</div><div class="ttdef"><b>Definition:</b> memory_management.h:103</div></div>
-<div class="ttc" id="astructhermes_1_1_temporary_memory_html"><div class="ttname"><a href="structhermes_1_1_temporary_memory.html">hermes::TemporaryMemory</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:119</div></div>
-<div class="ttc" id="astructhermes_1_1_scoped_temporary_memory_html_ad3d6513353dcf82ec9390975b3a042b4"><div class="ttname"><a href="structhermes_1_1_scoped_temporary_memory.html#ad3d6513353dcf82ec9390975b3a042b4">hermes::ScopedTemporaryMemory::~ScopedTemporaryMemory</a></div><div class="ttdeci">~ScopedTemporaryMemory()</div><div class="ttdef"><b>Definition:</b> memory_management.h:174</div></div>
-<div class="ttc" id="astructhermes_1_1_heap_html_a6242d911b97e9db5ced894b5e704af1c"><div class="ttname"><a href="structhermes_1_1_heap.html#a6242d911b97e9db5ced894b5e704af1c">hermes::Heap::base_offset</a></div><div class="ttdeci">u32 base_offset</div><div class="ttdef"><b>Definition:</b> memory_management.h:93</div></div>
-<div class="ttc" id="amemory__management_8h_html_a0b920cd44bd75f39129699a69ebcf15d"><div class="ttname"><a href="memory__management_8h.html#a0b920cd44bd75f39129699a69ebcf15d">hermes::PushClearedStruct</a></div><div class="ttdeci">T * PushClearedStruct(Arena *arena, size_t alignment=8)</div><div class="ttdef"><b>Definition:</b> memory_management.h:311</div></div>
-<div class="ttc" id="amemory__management_8h_html_ac37a162ed266d8f186e43f5d06b4f748"><div class="ttname"><a href="memory__management_8h.html#ac37a162ed266d8f186e43f5d06b4f748">hermes::PushStruct</a></div><div class="ttdeci">T * PushStruct(Arena *arena, size_t alignment=8)</div><div class="ttdef"><b>Definition:</b> memory_management.h:293</div></div>
-<div class="ttc" id="astructhermes_1_1_scoped_temporary_memory_html"><div class="ttname"><a href="structhermes_1_1_scoped_temporary_memory.html">hermes::ScopedTemporaryMemory</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:146</div></div>
-<div class="ttc" id="astructhermes_1_1_arena_html_ab2ba6b537c627c2d55a2d4203be55fe5"><div class="ttname"><a href="structhermes_1_1_arena.html#ab2ba6b537c627c2d55a2d4203be55fe5">hermes::Arena::used</a></div><div class="ttdeci">size_t used</div><div class="ttdef"><b>Definition:</b> memory_management.h:78</div></div>
+<div class="ttc" id="astructhermes_1_1_arena_html_a6793b3b25e00ea97866add6170bca6e3"><div class="ttname"><a href="structhermes_1_1_arena.html#a6793b3b25e00ea97866add6170bca6e3">hermes::Arena::capacity</a></div><div class="ttdeci">size_t capacity</div><div class="ttdef"><b>Definition:</b> memory_management.h:81</div></div>
+<div class="ttc" id="astructhermes_1_1_heap_html_a84f50982a2fba97e0577f418261c3284"><div class="ttname"><a href="structhermes_1_1_heap.html#a84f50982a2fba97e0577f418261c3284">hermes::Heap::mutex</a></div><div class="ttdeci">TicketMutex mutex</div><div class="ttdef"><b>Definition:</b> memory_management.h:92</div></div>
+<div class="ttc" id="amemory__management_8h_html_af7df055d8c62e55527ac01e6c1e3d2e0"><div class="ttname"><a href="memory__management_8h.html#af7df055d8c62e55527ac01e6c1e3d2e0">hermes::PushClearedArray</a></div><div class="ttdeci">T * PushClearedArray(Arena *arena, int count, size_t alignment=8)</div><div class="ttdef"><b>Definition:</b> memory_management.h:350</div></div>
+<div class="ttc" id="astructhermes_1_1_heap_html_a8de2dd8500c107ec816ada7e472a3e26"><div class="ttname"><a href="structhermes_1_1_heap.html#a8de2dd8500c107ec816ada7e472a3e26">hermes::Heap::free_list_offset</a></div><div class="ttdeci">u32 free_list_offset</div><div class="ttdef"><b>Definition:</b> memory_management.h:96</div></div>
+<div class="ttc" id="astructhermes_1_1_arena_html_aba3fc1f263ab099439fabdca9c782204"><div class="ttname"><a href="structhermes_1_1_arena.html#aba3fc1f263ab099439fabdca9c782204">hermes::Arena::base</a></div><div class="ttdeci">u8 * base</div><div class="ttdef"><b>Definition:</b> memory_management.h:77</div></div>
+<div class="ttc" id="astructhermes_1_1_arena_html_a2a73789f44ff22eb1efea7f6325d256b"><div class="ttname"><a href="structhermes_1_1_arena.html#a2a73789f44ff22eb1efea7f6325d256b">hermes::Arena::temp_count</a></div><div class="ttdeci">i32 temp_count</div><div class="ttdef"><b>Definition:</b> memory_management.h:85</div></div>
+<div class="ttc" id="ahermes__types_8h_html"><div class="ttname"><a href="hermes__types_8h.html">hermes_types.h</a></div></div>
+<div class="ttc" id="astructhermes_1_1_heap_html_aa94525cba13ccc4f7066454e417e4bb1"><div class="ttname"><a href="structhermes_1_1_heap.html#aa94525cba13ccc4f7066454e417e4bb1">hermes::Heap::alignment</a></div><div class="ttdeci">u16 alignment</div><div class="ttdef"><b>Definition:</b> memory_management.h:104</div></div>
+<div class="ttc" id="astructhermes_1_1_temporary_memory_html"><div class="ttname"><a href="structhermes_1_1_temporary_memory.html">hermes::TemporaryMemory</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:120</div></div>
+<div class="ttc" id="astructhermes_1_1_scoped_temporary_memory_html_ad3d6513353dcf82ec9390975b3a042b4"><div class="ttname"><a href="structhermes_1_1_scoped_temporary_memory.html#ad3d6513353dcf82ec9390975b3a042b4">hermes::ScopedTemporaryMemory::~ScopedTemporaryMemory</a></div><div class="ttdeci">~ScopedTemporaryMemory()</div><div class="ttdef"><b>Definition:</b> memory_management.h:175</div></div>
+<div class="ttc" id="astructhermes_1_1_heap_html_a6242d911b97e9db5ced894b5e704af1c"><div class="ttname"><a href="structhermes_1_1_heap.html#a6242d911b97e9db5ced894b5e704af1c">hermes::Heap::base_offset</a></div><div class="ttdeci">u32 base_offset</div><div class="ttdef"><b>Definition:</b> memory_management.h:94</div></div>
+<div class="ttc" id="amemory__management_8h_html_a0b920cd44bd75f39129699a69ebcf15d"><div class="ttname"><a href="memory__management_8h.html#a0b920cd44bd75f39129699a69ebcf15d">hermes::PushClearedStruct</a></div><div class="ttdeci">T * PushClearedStruct(Arena *arena, size_t alignment=8)</div><div class="ttdef"><b>Definition:</b> memory_management.h:312</div></div>
+<div class="ttc" id="amemory__management_8h_html_ac37a162ed266d8f186e43f5d06b4f748"><div class="ttname"><a href="memory__management_8h.html#ac37a162ed266d8f186e43f5d06b4f748">hermes::PushStruct</a></div><div class="ttdeci">T * PushStruct(Arena *arena, size_t alignment=8)</div><div class="ttdef"><b>Definition:</b> memory_management.h:294</div></div>
+<div class="ttc" id="astructhermes_1_1_scoped_temporary_memory_html"><div class="ttname"><a href="structhermes_1_1_scoped_temporary_memory.html">hermes::ScopedTemporaryMemory</a></div><div class="ttdef"><b>Definition:</b> memory_management.h:147</div></div>
+<div class="ttc" id="astructhermes_1_1_arena_html_ab2ba6b537c627c2d55a2d4203be55fe5"><div class="ttname"><a href="structhermes_1_1_arena.html#ab2ba6b537c627c2d55a2d4203be55fe5">hermes::Arena::used</a></div><div class="ttdeci">size_t used</div><div class="ttdef"><b>Definition:</b> memory_management.h:79</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

@@ -1,0 +1,4 @@
+<map id="hermes::api::Bucket::Release" name="hermes::api::Bucket::Release">
+<area shape="rect" id="node1" title="Release this Bucket." alt="" coords="204,5,355,47"/>
+<area shape="rect" id="node2" href="$classhermes_1_1api_1_1_bucket.html#a3a037c47b1c62a8829d1dbebf09bbe2d" title="Releases the Bucket, decrementing its reference count." alt="" coords="5,5,156,47"/>
+</map>

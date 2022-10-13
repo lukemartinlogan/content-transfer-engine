@@ -10,7 +10,6 @@ var annotated_dup =
         [ "Bucket", "classhermes_1_1api_1_1_bucket.html", "classhermes_1_1api_1_1_bucket" ],
         [ "Context", "structhermes_1_1api_1_1_context.html", "structhermes_1_1api_1_1_context" ],
         [ "Hermes", "classhermes_1_1api_1_1_hermes.html", "classhermes_1_1api_1_1_hermes" ],
-        [ "ID", "classhermes_1_1api_1_1_i_d.html", "classhermes_1_1api_1_1_i_d" ],
         [ "MinimizeIoTimeOptions", "structhermes_1_1api_1_1_minimize_io_time_options.html", "structhermes_1_1api_1_1_minimize_io_time_options" ],
         [ "PersistTrait", "structhermes_1_1api_1_1_persist_trait.html", "structhermes_1_1api_1_1_persist_trait" ],
         [ "PlacementPolicyConv", "classhermes_1_1api_1_1_placement_policy_conv.html", "classhermes_1_1api_1_1_placement_policy_conv" ],
@@ -83,12 +82,11 @@ var annotated_dup =
       [ "VBucketInfo", "structhermes_1_1_v_bucket_info.html", "structhermes_1_1_v_bucket_info" ],
       [ "ViolationInfo", "structhermes_1_1_violation_info.html", "structhermes_1_1_violation_info" ]
     ] ],
-    [ "std", "namespacestd.html", "namespacestd" ],
+    [ "std", null, [
+      [ "hash< hermes::adapter::fs::File >", "structstd_1_1hash_3_01hermes_1_1adapter_1_1fs_1_1_file_01_4.html", "structstd_1_1hash_3_01hermes_1_1adapter_1_1fs_1_1_file_01_4" ]
+    ] ],
     [ "HeapMetadata", "struct_heap_metadata.html", "struct_heap_metadata" ],
     [ "Point", "struct_point.html", "struct_point" ],
     [ "Range", "struct_range.html", "struct_range" ],
-    [ "stbds_array_header", "structstbds__array__header.html", "structstbds__array__header" ],
-    [ "stbds_string_arena", "structstbds__string__arena.html", "structstbds__string__arena" ],
-    [ "stbds_string_block", "structstbds__string__block.html", "structstbds__string__block" ],
     [ "WindowData", "struct_window_data.html", "struct_window_data" ]
 ];

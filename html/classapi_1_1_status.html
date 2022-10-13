@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -151,6 +151,32 @@ return Unknown&#160;</td><td class="memItemRight" valign="bottom"><b>error</b></
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a12ac0a86f097a9c62a01fca4dbed7e55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12ac0a86f097a9c62a01fca4dbed7e55">&#9670;&nbsp;</a></span>Succeeded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool api::Status::Succeeded </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns true if the call did exactly what the user expected </p>
+
+</div>
+</div>
 <a id="a614badfd271231991ed2e7664b09031a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a614badfd271231991ed2e7664b09031a">&#9670;&nbsp;</a></span>Acceptable()</h2>
 
@@ -200,15 +226,60 @@ return Unknown&#160;</td><td class="memItemRight" valign="bottom"><b>error</b></
 </table>
 </div><div class="memdoc">
 <p>Returns true if the call failed with error. </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classapi_1_1_status_a76bfec0bbcd53e1c3904e0d619021162_icgraph.png" border="0" usemap="#classapi_1_1_status_a76bfec0bbcd53e1c3904e0d619021162_icgraph" alt=""/></div>
-<map name="classapi_1_1_status_a76bfec0bbcd53e1c3904e0d619021162_icgraph" id="classapi_1_1_status_a76bfec0bbcd53e1c3904e0d619021162_icgraph">
-<area shape="rect" title=" " alt="" coords="233,5,371,32"/>
-<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a18180399c351be737c889ccaee8ff04f" title=" " alt="" coords="5,5,185,32"/>
-</map>
+
 </div>
+</div>
+<a id="af5c3b33dedea2851917d928a08fc1f21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5c3b33dedea2851917d928a08fc1f21">&#9670;&nbsp;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool api::Status::operator== </td>
+          <td>(</td>
+          <td class="paramtype">StatusCode&#160;</td>
+          <td class="paramname"><em>code</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Custom equality check against a StatusCode </p>
+
+</div>
+</div>
+<a id="aa07ab2da93eec3ff49e84775f413ba8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa07ab2da93eec3ff49e84775f413ba8b">&#9670;&nbsp;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void api::Status::operator= </td>
+          <td>(</td>
+          <td class="paramtype">StatusCode&#160;</td>
+          <td class="paramname"><em>code</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Custom assignment operator from StatusCode </p>
 
 </div>
 </div>
@@ -261,114 +332,6 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 <p>Returns a message string </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classapi_1_1_status_ac896de1ec4175376237ca1088e901f23_icgraph.png" border="0" usemap="#classapi_1_1_status_ac896de1ec4175376237ca1088e901f23_icgraph" alt=""/></div>
-<map name="classapi_1_1_status_ac896de1ec4175376237ca1088e901f23_icgraph" id="classapi_1_1_status_ac896de1ec4175376237ca1088e901f23_icgraph">
-<area shape="rect" title=" " alt="" coords="441,274,568,301"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a82eaa7e8e2c25c96bf9aef5f6f8914ee" title=" " alt="" coords="223,5,383,47"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a8b392b4d30c1118a80e41f37e58ebc0a" title=" " alt="" coords="223,71,383,112"/>
-<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a46360aedcfc50832303609b0fd541049" title=" " alt="" coords="228,136,379,177"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#ae257c6f39661bbd9fce0655cf4fb49ed" title=" " alt="" coords="223,201,383,243"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a6d086cfdcec3a6195bb59f99d0b992b6" title=" " alt="" coords="223,267,383,308"/>
-<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a441867ba2ca8319268104316b46966d4" title="Puts a blob to a bucket." alt="" coords="213,333,393,359"/>
-<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a527ed9f0ab1d1382c149e864332b68ab" title=" " alt="" coords="228,384,379,425"/>
-<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a2ad35d22977d50c7a1cafa64693e49e4" title=" " alt="" coords="228,449,379,491"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#af1ea7cd685b2264a405e1ced612088a9" title=" " alt="" coords="223,515,383,556"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a9a2d3b0743c29f8e4636e871e2911da3" title=" " alt="" coords="5,267,165,308"/>
-<area shape="rect" href="classhermes_1_1api_1_1_v_bucket.html#a6329f7c88429dc6563eaee71318b3a1a" title=" " alt="" coords="5,515,165,556"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="aa07ab2da93eec3ff49e84775f413ba8b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa07ab2da93eec3ff49e84775f413ba8b">&#9670;&nbsp;</a></span>operator=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void api::Status::operator= </td>
-          <td>(</td>
-          <td class="paramtype">StatusCode&#160;</td>
-          <td class="paramname"><em>code</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Custom assignment operator from StatusCode </p>
-
-</div>
-</div>
-<a id="af5c3b33dedea2851917d928a08fc1f21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5c3b33dedea2851917d928a08fc1f21">&#9670;&nbsp;</a></span>operator==()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool api::Status::operator== </td>
-          <td>(</td>
-          <td class="paramtype">StatusCode&#160;</td>
-          <td class="paramname"><em>code</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Custom equality check against a StatusCode </p>
-
-</div>
-</div>
-<a id="a12ac0a86f097a9c62a01fca4dbed7e55"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12ac0a86f097a9c62a01fca4dbed7e55">&#9670;&nbsp;</a></span>Succeeded()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool api::Status::Succeeded </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Returns true if the call did exactly what the user expected </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classapi_1_1_status_a12ac0a86f097a9c62a01fca4dbed7e55_icgraph.png" border="0" usemap="#classapi_1_1_status_a12ac0a86f097a9c62a01fca4dbed7e55_icgraph" alt=""/></div>
-<map name="classapi_1_1_status_a12ac0a86f097a9c62a01fca4dbed7e55_icgraph" id="classapi_1_1_status_a12ac0a86f097a9c62a01fca4dbed7e55_icgraph">
-<area shape="rect" title=" " alt="" coords="233,5,403,32"/>
-<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a441867ba2ca8319268104316b46966d4" title="Puts a blob to a bucket." alt="" coords="5,5,185,32"/>
-</map>
-</div>
 
 </div>
 </div>

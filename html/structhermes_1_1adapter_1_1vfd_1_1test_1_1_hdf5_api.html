@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -128,135 +128,6 @@ Public Attributes</h2></td></tr>
 <div class="textblock"><p>The I/O API for this adapter layer.</p>
 <p>Ideally we would have a high level Adapter I/O API that each adapter inherits from so that the adapter tests can reuse more code. This is a step in that direction. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="aa638170b43508cc2580f9a613b11f8e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa638170b43508cc2580f9a613b11f8e5">&#9670;&nbsp;</a></span>Create()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">hid_t hermes::adapter::vfd::test::Hdf5Api::Create </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>fname</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned&#160;</td>
-          <td class="paramname"><em>flags</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Create a file using the default VFD. </p>
-
-</div>
-</div>
-<a id="a315b27672a064e003bc41dc63da2003c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a315b27672a064e003bc41dc63da2003c">&#9670;&nbsp;</a></span>CreatePosix()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">hid_t hermes::adapter::vfd::test::Hdf5Api::CreatePosix </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>fname</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned&#160;</td>
-          <td class="paramname"><em>flags</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Create a file using the POSIX VFD. </p>
-
-</div>
-</div>
-<a id="a38b5fa713d7f5b309c7cd2c1ac23bb0f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a38b5fa713d7f5b309c7cd2c1ac23bb0f">&#9670;&nbsp;</a></span>MakeDataset()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::adapter::vfd::test::Hdf5Api::MakeDataset </td>
-          <td>(</td>
-          <td class="paramtype">hid_t&#160;</td>
-          <td class="paramname"><em>hid</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>dset_name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const f32 *&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">hsize_t&#160;</td>
-          <td class="paramname"><em>nelems</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>compact</em> = <code>false</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Create a 1-dimensional dataset named @pdset_name in object <code>hid</code> with <code>nelems</code> elements from the array <code>data</code>. </p>
-
-</div>
-</div>
 <a id="aa3b9ff73d67676ea4c293b6f16ecb698"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa3b9ff73d67676ea4c293b6f16ecb698">&#9670;&nbsp;</a></span>Open()</h2>
 
@@ -331,8 +202,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ae176cc36885691ffbd936b5835691276"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae176cc36885691ffbd936b5835691276">&#9670;&nbsp;</a></span>Read()</h2>
+<a id="aa638170b43508cc2580f9a613b11f8e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa638170b43508cc2580f9a613b11f8e5">&#9670;&nbsp;</a></span>Create()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -341,34 +212,16 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hermes::adapter::vfd::test::Hdf5Api::Read </td>
+          <td class="memname">hid_t hermes::adapter::vfd::test::Hdf5Api::Create </td>
           <td>(</td>
-          <td class="paramtype">hid_t&#160;</td>
-          <td class="paramname"><em>hid</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>dset_name</em>, </td>
+          <td class="paramname"><em>fname</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; f32 &gt; &amp;&#160;</td>
-          <td class="paramname"><em>buf</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">hsize_t&#160;</td>
-          <td class="paramname"><em>offset</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">hsize_t&#160;</td>
-          <td class="paramname"><em>nelems</em>&#160;</td>
+          <td class="paramtype">unsigned&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -382,22 +235,12 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Reads <code>nelems</code> elements from the object represented by <code>hid</code> into <code>buf</code>, starting at element <code>offset</code>. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api_ae176cc36885691ffbd936b5835691276_cgraph.png" border="0" usemap="#structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api_ae176cc36885691ffbd936b5835691276_cgraph" alt=""/></div>
-<map name="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api_ae176cc36885691ffbd936b5835691276_cgraph" id="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api_ae176cc36885691ffbd936b5835691276_cgraph">
-<area shape="rect" title=" " alt="" coords="5,39,164,80"/>
-<area shape="rect" href="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#a2fb9139fa2fedc5bfe14747dd9ac1f2e" title=" " alt="" coords="217,5,413,47"/>
-<area shape="rect" href="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#af24102d7a357ad10ee3663b71a0555c0" title=" " alt="" coords="212,71,417,112"/>
-</map>
-</div>
+<p>Create a file using the default VFD. </p>
 
 </div>
 </div>
-<a id="a2fb9139fa2fedc5bfe14747dd9ac1f2e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2fb9139fa2fedc5bfe14747dd9ac1f2e">&#9670;&nbsp;</a></span>RwCleanup()</h2>
+<a id="a315b27672a064e003bc41dc63da2003c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a315b27672a064e003bc41dc63da2003c">&#9670;&nbsp;</a></span>CreatePosix()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -406,11 +249,21 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hermes::adapter::vfd::test::Hdf5Api::RwCleanup </td>
+          <td class="memname">hid_t hermes::adapter::vfd::test::Hdf5Api::CreatePosix </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1adapter_1_1vfd_1_1test_1_1_rw_ids.html">RwIds</a> *&#160;</td>
-          <td class="paramname"><em>ids</em></td><td>)</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>fname</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">unsigned&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -419,17 +272,7 @@ Here is the call graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Cleanup code required after H5Dread and H5Dwrite. </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api_a2fb9139fa2fedc5bfe14747dd9ac1f2e_icgraph.png" border="0" usemap="#structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api_a2fb9139fa2fedc5bfe14747dd9ac1f2e_icgraph" alt=""/></div>
-<map name="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api_a2fb9139fa2fedc5bfe14747dd9ac1f2e_icgraph" id="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api_a2fb9139fa2fedc5bfe14747dd9ac1f2e_icgraph">
-<area shape="rect" title=" " alt="" coords="268,39,464,80"/>
-<area shape="rect" href="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#ae176cc36885691ffbd936b5835691276" title=" " alt="" coords="33,5,192,47"/>
-<area shape="rect" href="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#adf0098b0cf034fbcda942a92e5992259" title=" " alt="" coords="5,71,220,112"/>
-</map>
-</div>
+<p>Create a file using the POSIX VFD. </p>
 
 </div>
 </div>
@@ -495,6 +338,163 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#adf0098b0cf034fbcda942a92e5992259" title=" " alt="" coords="5,71,220,112"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="a2fb9139fa2fedc5bfe14747dd9ac1f2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fb9139fa2fedc5bfe14747dd9ac1f2e">&#9670;&nbsp;</a></span>RwCleanup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::adapter::vfd::test::Hdf5Api::RwCleanup </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structhermes_1_1adapter_1_1vfd_1_1test_1_1_rw_ids.html">RwIds</a> *&#160;</td>
+          <td class="paramname"><em>ids</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Cleanup code required after H5Dread and H5Dwrite. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api_a2fb9139fa2fedc5bfe14747dd9ac1f2e_icgraph.png" border="0" usemap="#structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api_a2fb9139fa2fedc5bfe14747dd9ac1f2e_icgraph" alt=""/></div>
+<map name="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api_a2fb9139fa2fedc5bfe14747dd9ac1f2e_icgraph" id="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api_a2fb9139fa2fedc5bfe14747dd9ac1f2e_icgraph">
+<area shape="rect" title=" " alt="" coords="268,39,464,80"/>
+<area shape="rect" href="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#ae176cc36885691ffbd936b5835691276" title=" " alt="" coords="33,5,192,47"/>
+<area shape="rect" href="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#adf0098b0cf034fbcda942a92e5992259" title=" " alt="" coords="5,71,220,112"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ae176cc36885691ffbd936b5835691276"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae176cc36885691ffbd936b5835691276">&#9670;&nbsp;</a></span>Read()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::adapter::vfd::test::Hdf5Api::Read </td>
+          <td>(</td>
+          <td class="paramtype">hid_t&#160;</td>
+          <td class="paramname"><em>hid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>dset_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; f32 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">hsize_t&#160;</td>
+          <td class="paramname"><em>offset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">hsize_t&#160;</td>
+          <td class="paramname"><em>nelems</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Reads <code>nelems</code> elements from the object represented by <code>hid</code> into <code>buf</code>, starting at element <code>offset</code>. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api_ae176cc36885691ffbd936b5835691276_cgraph.png" border="0" usemap="#structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api_ae176cc36885691ffbd936b5835691276_cgraph" alt=""/></div>
+<map name="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api_ae176cc36885691ffbd936b5835691276_cgraph" id="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api_ae176cc36885691ffbd936b5835691276_cgraph">
+<area shape="rect" title=" " alt="" coords="5,39,164,80"/>
+<area shape="rect" href="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#a2fb9139fa2fedc5bfe14747dd9ac1f2e" title=" " alt="" coords="217,5,413,47"/>
+<area shape="rect" href="structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#af24102d7a357ad10ee3663b71a0555c0" title=" " alt="" coords="212,71,417,112"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a38b5fa713d7f5b309c7cd2c1ac23bb0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38b5fa713d7f5b309c7cd2c1ac23bb0f">&#9670;&nbsp;</a></span>MakeDataset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::adapter::vfd::test::Hdf5Api::MakeDataset </td>
+          <td>(</td>
+          <td class="paramtype">hid_t&#160;</td>
+          <td class="paramname"><em>hid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>dset_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const f32 *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">hsize_t&#160;</td>
+          <td class="paramname"><em>nelems</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>compact</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Create a 1-dimensional dataset named <code>dset_name</code> in object <code>hid</code> with <code>nelems</code> elements from the array <code>data</code>. </p>
 
 </div>
 </div>

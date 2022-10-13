@@ -1,4 +1,9 @@
 <map id="hermes::api::Bucket::IsValid" name="hermes::api::Bucket::IsValid">
-<area shape="rect" id="node1" title=" " alt="" coords="233,5,384,47"/>
-<area shape="rect" id="node2" href="$classhermes_1_1api_1_1_bucket.html#a18180399c351be737c889ccaee8ff04f" title=" " alt="" coords="5,13,185,39"/>
+<area shape="rect" id="node1" title="Return true if the Bucket is valid." alt="" coords="236,156,387,197"/>
+<area shape="rect" id="node2" href="$classhermes_1_1api_1_1_bucket.html#a46360aedcfc50832303609b0fd541049" title=" " alt="" coords="21,5,172,47"/>
+<area shape="rect" id="node3" href="$classhermes_1_1api_1_1_bucket.html#af9f5af9df28f38112ee819328c7cdb30" title=" " alt="" coords="5,71,188,98"/>
+<area shape="rect" id="node4" href="$classhermes_1_1api_1_1_bucket.html#a345819d2ff8557cf1e9b38bc89cddabc" title=" " alt="" coords="21,123,172,164"/>
+<area shape="rect" id="node5" href="$classhermes_1_1api_1_1_bucket.html#a740415304c0975c39826de6041013642" title=" " alt="" coords="21,188,172,229"/>
+<area shape="rect" id="node6" href="$classhermes_1_1api_1_1_bucket.html#afffebf51756e2e6c3bc1d05ab4496726" title=" " alt="" coords="21,253,172,295"/>
+<area shape="rect" id="node7" href="$classhermes_1_1api_1_1_bucket.html#a3a037c47b1c62a8829d1dbebf09bbe2d" title="Releases the Bucket, decrementing its reference count." alt="" coords="21,319,172,360"/>
 </map>

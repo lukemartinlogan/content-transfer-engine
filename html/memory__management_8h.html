@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -93,7 +93,7 @@ $(document).ready(function(){initNavTree('memory__management_8h.html',''); initR
 <div class="contents">
 <div class="textblock"><code>#include &lt;assert.h&gt;</code><br />
 <code>#include &lt;atomic&gt;</code><br />
-<code>#include &quot;hermes_types.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="hermes__types_8h_source.html">hermes_types.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for memory_management.h:</div>
 <div class="dyncontent">
@@ -102,7 +102,7 @@ Include dependency graph for memory_management.h:</div>
 <area shape="rect" title=" " alt="" coords="47,5,309,47"/>
 <area shape="rect" title=" " alt="" coords="46,95,121,121"/>
 <area shape="rect" title=" " alt="" coords="145,95,211,121"/>
-<area shape="rect" href="hermes__types_8h_source.html" title=" " alt="" coords="236,95,363,121"/>
+<area shape="rect" href="hermes__types_8h.html" title=" " alt="" coords="236,95,363,121"/>
 <area shape="rect" title=" " alt="" coords="5,169,76,196"/>
 <area shape="rect" title=" " alt="" coords="101,169,159,196"/>
 <area shape="rect" title=" " alt="" coords="184,169,244,196"/>
@@ -117,49 +117,40 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="memory__management_8h__dep__incl.png" border="0" usemap="#_2home_2runner_2work_2hermes_2hermes_2src_2memory__management_8hdep" alt=""/></div>
 <map name="_2home_2runner_2work_2hermes_2hermes_2src_2memory__management_8hdep" id="_2home_2runner_2work_2hermes_2hermes_2src_2memory__management_8hdep">
-<area shape="rect" title=" " alt="" coords="2370,5,2633,47"/>
-<area shape="rect" href="buffer__pool_8h.html" title=" " alt="" coords="1851,184,2050,225"/>
-<area shape="rect" href="buffer__pool__internal_8h.html" title=" " alt="" coords="2530,363,2729,419"/>
-<area shape="rect" href="metadata__management_8h_source.html" title=" " alt="" coords="1945,273,2215,315"/>
-<area shape="rect" href="communication_8h.html" title=" " alt="" coords="2198,95,2413,136"/>
-<area shape="rect" href="communication__mpi_8cc.html" title=" " alt="" coords="2195,184,2448,225"/>
-<area shape="rect" href="memory__management_8cc.html" title=" " alt="" coords="2736,273,3005,315"/>
-<area shape="rect" href="config__parser_8h_source.html" title=" " alt="" coords="2683,95,2883,136"/>
-<area shape="rect" href="metadata__manager_8h_source.html" title=" " alt="" coords="1879,972,2078,1028"/>
-<area shape="rect" href="mpiio_2datastructures_8h_source.html" title=" " alt="" coords="1416,875,1696,917"/>
-<area shape="rect" href="posix_2datastructures_8h_source.html" title=" " alt="" coords="2405,875,2683,917"/>
-<area shape="rect" href="pubsub_2datastructures_8h_source.html" title=" " alt="" coords="1143,868,1342,924"/>
-<area shape="rect" href="stdio_2datastructures_8h_source.html" title=" " alt="" coords="423,875,697,917"/>
-<area shape="rect" href="buffer__pool_8cc.html" title=" " alt="" coords="2749,1373,2947,1415"/>
-<area shape="rect" href="hermes_8h_source.html" title=" " alt="" coords="1758,467,1957,508"/>
-<area shape="rect" href="mpiio_2mapper_2abstract__mapper_8h_source.html" title=" " alt="" coords="795,972,1019,1028"/>
-<area shape="rect" href="mpiio_2metadata__manager_8h_source.html" title=" " alt="" coords="1517,972,1755,1028"/>
-<area shape="rect" href="mpiio_2mapper_2balanced__mapper_8h_source.html" title=" " alt="" coords="845,1076,1069,1132"/>
-<area shape="rect" href="mpiio_2mapper_2mapper__factory_8h_source.html" title=" " alt="" coords="828,1180,1052,1236"/>
-<area shape="rect" href="mpiio_8h_source.html" title=" " alt="" coords="1369,1284,1591,1325"/>
-<area shape="rect" href="posix_2mapper_2abstract__mapper_8h_source.html" title=" " alt="" coords="2102,972,2325,1028"/>
-<area shape="rect" href="posix_8h_source.html" title=" " alt="" coords="2407,1284,2625,1325"/>
-<area shape="rect" href="posix_2metadata__manager_8h_source.html" title=" " alt="" coords="2399,972,2633,1028"/>
-<area shape="rect" href="posix_2mapper_2balanced__mapper_8h_source.html" title=" " alt="" coords="2002,1076,2225,1132"/>
-<area shape="rect" href="posix_2mapper_2mapper__factory_8h_source.html" title=" " alt="" coords="2102,1180,2325,1236"/>
-<area shape="rect" href="pubsub_2metadata__manager_8h_source.html" title=" " alt="" coords="1143,972,1342,1028"/>
-<area shape="rect" href="pubsub_8h_source.html" title=" " alt="" coords="1245,1076,1443,1132"/>
-<area shape="rect" href="stdio_2mapper_2abstract__mapper_8h_source.html" title=" " alt="" coords="144,972,363,1028"/>
-<area shape="rect" href="stdio_8h_source.html" title=" " alt="" coords="344,1284,557,1325"/>
-<area shape="rect" href="stdio_2metadata__manager_8h_source.html" title=" " alt="" coords="437,972,669,1028"/>
-<area shape="rect" href="stdio_2mapper_2balanced__mapper_8h_source.html" title=" " alt="" coords="144,1076,363,1132"/>
-<area shape="rect" href="stdio_2mapper_2mapper__factory_8h_source.html" title=" " alt="" coords="195,1180,413,1236"/>
-<area shape="rect" href="_h5_f_dhermes_8h_source.html" title=" " alt="" coords="323,1373,578,1415"/>
-<area shape="rect" href="bucket_8h_source.html" title=" " alt="" coords="1685,771,1883,813"/>
-<area shape="rect" href="traits_8h_source.html" title=" " alt="" coords="786,771,985,813"/>
-<area shape="rect" href="vbucket_8h_source.html" title=" " alt="" coords="1075,1187,1274,1229"/>
-<area shape="rect" href="data__placement__engine_8h_source.html" title=" " alt="" coords="1526,556,1733,612"/>
-<area shape="rect" href="random_8h_source.html" title=" " alt="" coords="1413,667,1611,709"/>
-<area shape="rect" href="minimize__io__time_8h_source.html" title=" " alt="" coords="1190,660,1389,716"/>
-<area shape="rect" href="round__robin_8h_source.html" title=" " alt="" coords="1636,667,1855,709"/>
-<area shape="rect" href="data__placement__engine__factory_8h_source.html" title=" " alt="" coords="1403,764,1610,820"/>
-<area shape="rect" href="interceptor_8h_source.html" title=" " alt="" coords="1873,875,2087,917"/>
-<area shape="rect" href="rpc_8h_source.html" title=" " alt="" coords="2030,370,2229,411"/>
+<area shape="rect" title=" " alt="" coords="1343,5,1606,47"/>
+<area shape="rect" href="buffer__pool_8h.html" title=" " alt="" coords="1030,184,1229,225"/>
+<area shape="rect" href="buffer__pool__internal_8h.html" title=" " alt="" coords="1599,273,1798,329"/>
+<area shape="rect" href="metadata__management_8h_source.html" title=" " alt="" coords="782,281,1053,322"/>
+<area shape="rect" href="communication_8h.html" title=" " alt="" coords="1222,95,1437,136"/>
+<area shape="rect" href="communication__mpi_8cc.html" title=" " alt="" coords="1253,184,1507,225"/>
+<area shape="rect" href="memory__management_8cc.html" title=" " alt="" coords="1256,281,1525,322"/>
+<area shape="rect" href="config__parser_8h_source.html" title=" " alt="" coords="1632,95,1832,136"/>
+<area shape="rect" href="filesystem_8h_source.html" title=" " alt="" coords="1462,868,1663,924"/>
+<area shape="rect" href="metadata__manager_8h_source.html" title=" " alt="" coords="1005,868,1203,924"/>
+<area shape="rect" href="datastructures_8h_source.html" title=" " alt="" coords="645,868,843,924"/>
+<area shape="rect" href="hermes_8h.html" title=" " alt="" coords="831,467,1030,508"/>
+<area shape="rect" href="buffer__pool_8cc.html" title=" " alt="" coords="1175,467,1374,508"/>
+<area shape="rect" href="filesystem_2metadata__manager_8h_source.html" title=" " alt="" coords="1489,972,1690,1028"/>
+<area shape="rect" href="mpiio_2fs__api_8h_source.html" title=" " alt="" coords="1503,1180,1729,1221"/>
+<area shape="rect" href="posix_2fs__api_8h_source.html" title=" " alt="" coords="1257,1180,1479,1221"/>
+<area shape="rect" href="posix_2real__api_8h_source.html" title=" " alt="" coords="1621,1083,1857,1125"/>
+<area shape="rect" href="stdio_2fs__api_8h_source.html" title=" " alt="" coords="1762,1180,1982,1221"/>
+<area shape="rect" href="stdio_2real__api_8h_source.html" title=" " alt="" coords="1931,979,2165,1021"/>
+<area shape="rect" href="pubsub_2metadata__manager_8h_source.html" title=" " alt="" coords="645,972,843,1028"/>
+<area shape="rect" href="pubsub_8h_source.html" title=" " alt="" coords="645,1076,843,1132"/>
+<area shape="rect" href="bucket_8h.html" title=" " alt="" coords="781,771,979,813"/>
+<area shape="rect" href="traits_8h_source.html" title=" " alt="" coords="1277,563,1475,605"/>
+<area shape="rect" href="vbucket_8h_source.html" title=" " alt="" coords="1327,667,1526,709"/>
+<area shape="rect" href="data__placement__engine_8h_source.html" title=" " alt="" coords="378,556,585,612"/>
+<area shape="rect" href="random_8h_source.html" title=" " alt="" coords="265,667,463,709"/>
+<area shape="rect" href="minimize__io__time_8h_source.html" title=" " alt="" coords="42,660,241,716"/>
+<area shape="rect" href="round__robin_8h_source.html" title=" " alt="" coords="488,667,707,709"/>
+<area shape="rect" href="data__placement__engine__factory_8h_source.html" title=" " alt="" coords="261,764,467,820"/>
+<area shape="rect" href="interceptor_8h_source.html" title=" " alt="" coords="1601,467,1815,508"/>
+<area shape="rect" href="abstract__mapper_8h_source.html" title=" " alt="" coords="1609,556,1807,612"/>
+<area shape="rect" href="balanced__mapper_8h_source.html" title=" " alt="" coords="1599,660,1798,716"/>
+<area shape="rect" href="mapper__factory_8h_source.html" title=" " alt="" coords="1599,764,1798,820"/>
+<area shape="rect" href="rpc_8h_source.html" title=" " alt="" coords="933,377,1131,419"/>
 </map>
 </div>
 </div>
@@ -286,6 +277,108 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::EndWriterLock
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Structures for memory management. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="af5d3174c5dc80367ddfa913d7685e666"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5d3174c5dc80367ddfa913d7685e666">&#9670;&nbsp;</a></span>InitArena()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::InitArena </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structhermes_1_1_arena.html">Arena</a> *&#160;</td>
+          <td class="paramname"><em>arena</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>bytes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>base</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Initializes an Arena with a starting size and base pointer. The <code>base</code> parameter must point to a contiguous region of allocated memory of at least <code>bytes</code> bytes.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">arena</td><td>The Arena to initialize. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bytes</td><td>The desired size in bytes of the Arena's backing memory. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">base</td><td>A pointer to the beginning of the Arena's backing memory. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph.png" border="0" usemap="#memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph" alt=""/></div>
+<map name="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph" id="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,144,56"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph.png" border="0" usemap="#memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph" alt=""/></div>
+<map name="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph" id="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph">
+<area shape="rect" title=" " alt="" coords="5,29,144,56"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad344fd4f2e60298d0b78945625b16d4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad344fd4f2e60298d0b78945625b16d4a">&#9670;&nbsp;</a></span>InitArenaAndAllocate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Arena hermes::InitArenaAndAllocate </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>bytes</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Initializes an Arena with a starting size. This function uses malloc to allocate a contiguous region of length <code>bytes</code> for the arena.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">bytes</td><td>The desired size in bytes to allocate.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An arena with capacity <code>bytes</code>. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph.png" border="0" usemap="#memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph" alt=""/></div>
+<map name="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph" id="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,221,56"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph.png" border="0" usemap="#memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph" alt=""/></div>
+<map name="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph" id="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph">
+<area shape="rect" title=" " alt="" coords="276,29,492,56"/>
+<area shape="rect" href="communication__mpi_8cc.html#ac08b6a0677f8d21fae9fe6614c77a601" title=" " alt="" coords="5,29,228,56"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="ac64963cdb2aef85ac002f4b8634cd2fc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac64963cdb2aef85ac002f4b8634cd2fc">&#9670;&nbsp;</a></span>DestroyArena()</h2>
 
@@ -420,318 +513,6 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="memory__management_8cc_ab9632f771628051dbd740bbb21b6b771_icgraph.png" border="0" usemap="#memory__management_8cc_ab9632f771628051dbd740bbb21b6b771_icgraph" alt=""/></div>
 <map name="memory__management_8cc_ab9632f771628051dbd740bbb21b6b771_icgraph" id="memory__management_8cc_ab9632f771628051dbd740bbb21b6b771_icgraph">
 <area shape="rect" title="The maximum capacity of arena becomes new_size." alt="" coords="5,29,156,56"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="af5d3174c5dc80367ddfa913d7685e666"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5d3174c5dc80367ddfa913d7685e666">&#9670;&nbsp;</a></span>InitArena()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::InitArena </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1_arena.html">Arena</a> *&#160;</td>
-          <td class="paramname"><em>arena</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>bytes</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>base</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Initializes an Arena with a starting size and base pointer. The <code>base</code> parameter must point to a contiguous region of allocated memory of at least <code>bytes</code> bytes.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">arena</td><td>The Arena to initialize. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">bytes</td><td>The desired size in bytes of the Arena's backing memory. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">base</td><td>A pointer to the beginning of the Arena's backing memory. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph.png" border="0" usemap="#memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph" alt=""/></div>
-<map name="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph" id="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,144,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph.png" border="0" usemap="#memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph" alt=""/></div>
-<map name="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph" id="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph">
-<area shape="rect" title=" " alt="" coords="5,29,144,56"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="ad344fd4f2e60298d0b78945625b16d4a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad344fd4f2e60298d0b78945625b16d4a">&#9670;&nbsp;</a></span>InitArenaAndAllocate()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Arena hermes::InitArenaAndAllocate </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>bytes</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Initializes an Arena with a starting size. This function uses malloc to allocate a contiguous region of length <code>bytes</code> for the arena.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">bytes</td><td>The desired size in bytes to allocate.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>An arena with capacity <code>bytes</code>. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph.png" border="0" usemap="#memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph" alt=""/></div>
-<map name="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph" id="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,221,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph.png" border="0" usemap="#memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph" alt=""/></div>
-<map name="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph" id="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph">
-<area shape="rect" title=" " alt="" coords="276,29,492,56"/>
-<area shape="rect" href="communication__mpi_8cc.html#ac08b6a0677f8d21fae9fe6614c77a601" title=" " alt="" coords="5,29,228,56"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a43ad59a28476e0276c14d97f3cca75a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a43ad59a28476e0276c14d97f3cca75a4">&#9670;&nbsp;</a></span>PushArray()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">T* hermes::PushArray </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1_arena.html">Arena</a> *&#160;</td>
-          <td class="paramname"><em>arena</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>count</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>alignment</em> = <code>8</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Reserves space for <code>count</code> <code>T</code> objects and returns a pointer to the first one.</p>
-<p>The objects will be uninitialized.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">arena</td><td>The backing Arena from which to reserve space. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">count</td><td>The number of objects to allocate. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">alignment</td><td>Align the result to a desired multiple.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the first <code>T</code> instance in the uninitialized array. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8h_a43ad59a28476e0276c14d97f3cca75a4_cgraph.png" border="0" usemap="#memory__management_8h_a43ad59a28476e0276c14d97f3cca75a4_cgraph" alt=""/></div>
-<map name="memory__management_8h_a43ad59a28476e0276c14d97f3cca75a4_cgraph" id="memory__management_8h_a43ad59a28476e0276c14d97f3cca75a4_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,151,56"/>
-<area shape="rect" href="memory__management_8cc.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce" title=" " alt="" coords="199,29,336,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8h_a43ad59a28476e0276c14d97f3cca75a4_icgraph.png" border="0" usemap="#memory__management_8h_a43ad59a28476e0276c14d97f3cca75a4_icgraph" alt=""/></div>
-<map name="memory__management_8h_a43ad59a28476e0276c14d97f3cca75a4_icgraph" id="memory__management_8h_a43ad59a28476e0276c14d97f3cca75a4_icgraph">
-<area shape="rect" title=" " alt="" coords="5,29,151,56"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="af7df055d8c62e55527ac01e6c1e3d2e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af7df055d8c62e55527ac01e6c1e3d2e0">&#9670;&nbsp;</a></span>PushClearedArray()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">T* hermes::PushClearedArray </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1_arena.html">Arena</a> *&#160;</td>
-          <td class="paramname"><em>arena</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>count</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>alignment</em> = <code>8</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Reserves space for <code>count</code> <code>T</code> objects, clears them to zero, and returns a pointer to the first one.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">arena</td><td>The backing Arena from which to reserve space. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">count</td><td>The number of objects to allocate. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">alignment</td><td>Align the result to a desired multiple.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the first <code>T</code> instance in the array. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8h_af7df055d8c62e55527ac01e6c1e3d2e0_cgraph.png" border="0" usemap="#memory__management_8h_af7df055d8c62e55527ac01e6c1e3d2e0_cgraph" alt=""/></div>
-<map name="memory__management_8h_af7df055d8c62e55527ac01e6c1e3d2e0_cgraph" id="memory__management_8h_af7df055d8c62e55527ac01e6c1e3d2e0_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,200,56"/>
-<area shape="rect" href="memory__management_8cc.html#a3af04b76abe44434f1648c42fca15794" title=" " alt="" coords="248,29,444,56"/>
-<area shape="rect" href="memory__management_8cc.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce" title=" " alt="" coords="492,29,629,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8h_af7df055d8c62e55527ac01e6c1e3d2e0_icgraph.png" border="0" usemap="#memory__management_8h_af7df055d8c62e55527ac01e6c1e3d2e0_icgraph" alt=""/></div>
-<map name="memory__management_8h_af7df055d8c62e55527ac01e6c1e3d2e0_icgraph" id="memory__management_8h_af7df055d8c62e55527ac01e6c1e3d2e0_icgraph">
-<area shape="rect" title=" " alt="" coords="5,29,200,56"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a0b920cd44bd75f39129699a69ebcf15d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b920cd44bd75f39129699a69ebcf15d">&#9670;&nbsp;</a></span>PushClearedStruct()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">T* hermes::PushClearedStruct </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1_arena.html">Arena</a> *&#160;</td>
-          <td class="paramname"><em>arena</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>alignment</em> = <code>8</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Reserves space for, clears to zero, and returns a pointer to a T instance.</p>
-<p>Like PushStruct, but all the object's members are initialized to zero. Note: assumes 0/NULL is a valid value for all the object's members.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">arena</td><td>The backing Arena from which to reserve space. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">alignment</td><td>Align the result to a desired multiple.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to a <code>T</code> instance with all members initialized to zero. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8h_a0b920cd44bd75f39129699a69ebcf15d_cgraph.png" border="0" usemap="#memory__management_8h_a0b920cd44bd75f39129699a69ebcf15d_cgraph" alt=""/></div>
-<map name="memory__management_8h_a0b920cd44bd75f39129699a69ebcf15d_cgraph" id="memory__management_8h_a0b920cd44bd75f39129699a69ebcf15d_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,204,56"/>
-<area shape="rect" href="memory__management_8cc.html#a3af04b76abe44434f1648c42fca15794" title=" " alt="" coords="252,29,448,56"/>
-<area shape="rect" href="memory__management_8cc.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce" title=" " alt="" coords="496,29,633,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8h_a0b920cd44bd75f39129699a69ebcf15d_icgraph.png" border="0" usemap="#memory__management_8h_a0b920cd44bd75f39129699a69ebcf15d_icgraph" alt=""/></div>
-<map name="memory__management_8h_a0b920cd44bd75f39129699a69ebcf15d_icgraph" id="memory__management_8h_a0b920cd44bd75f39129699a69ebcf15d_icgraph">
-<area shape="rect" title=" " alt="" coords="5,29,204,56"/>
 </map>
 </div>
 
@@ -927,6 +708,216 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="memory__management_8h_ac37a162ed266d8f186e43f5d06b4f748_icgraph.png" border="0" usemap="#memory__management_8h_ac37a162ed266d8f186e43f5d06b4f748_icgraph" alt=""/></div>
 <map name="memory__management_8h_ac37a162ed266d8f186e43f5d06b4f748_icgraph" id="memory__management_8h_ac37a162ed266d8f186e43f5d06b4f748_icgraph">
 <area shape="rect" title=" " alt="" coords="5,29,153,56"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a0b920cd44bd75f39129699a69ebcf15d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b920cd44bd75f39129699a69ebcf15d">&#9670;&nbsp;</a></span>PushClearedStruct()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T* hermes::PushClearedStruct </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structhermes_1_1_arena.html">Arena</a> *&#160;</td>
+          <td class="paramname"><em>arena</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>alignment</em> = <code>8</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Reserves space for, clears to zero, and returns a pointer to a T instance.</p>
+<p>Like PushStruct, but all the object's members are initialized to zero. Note: assumes 0/NULL is a valid value for all the object's members.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">arena</td><td>The backing Arena from which to reserve space. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">alignment</td><td>Align the result to a desired multiple.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to a <code>T</code> instance with all members initialized to zero. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="memory__management_8h_a0b920cd44bd75f39129699a69ebcf15d_cgraph.png" border="0" usemap="#memory__management_8h_a0b920cd44bd75f39129699a69ebcf15d_cgraph" alt=""/></div>
+<map name="memory__management_8h_a0b920cd44bd75f39129699a69ebcf15d_cgraph" id="memory__management_8h_a0b920cd44bd75f39129699a69ebcf15d_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,204,56"/>
+<area shape="rect" href="memory__management_8cc.html#a3af04b76abe44434f1648c42fca15794" title=" " alt="" coords="252,29,448,56"/>
+<area shape="rect" href="memory__management_8cc.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce" title=" " alt="" coords="496,29,633,56"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="memory__management_8h_a0b920cd44bd75f39129699a69ebcf15d_icgraph.png" border="0" usemap="#memory__management_8h_a0b920cd44bd75f39129699a69ebcf15d_icgraph" alt=""/></div>
+<map name="memory__management_8h_a0b920cd44bd75f39129699a69ebcf15d_icgraph" id="memory__management_8h_a0b920cd44bd75f39129699a69ebcf15d_icgraph">
+<area shape="rect" title=" " alt="" coords="5,29,204,56"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a43ad59a28476e0276c14d97f3cca75a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43ad59a28476e0276c14d97f3cca75a4">&#9670;&nbsp;</a></span>PushArray()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T* hermes::PushArray </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structhermes_1_1_arena.html">Arena</a> *&#160;</td>
+          <td class="paramname"><em>arena</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>alignment</em> = <code>8</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Reserves space for <code>count</code> <code>T</code> objects and returns a pointer to the first one.</p>
+<p>The objects will be uninitialized.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">arena</td><td>The backing Arena from which to reserve space. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">count</td><td>The number of objects to allocate. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">alignment</td><td>Align the result to a desired multiple.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the first <code>T</code> instance in the uninitialized array. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="memory__management_8h_a43ad59a28476e0276c14d97f3cca75a4_cgraph.png" border="0" usemap="#memory__management_8h_a43ad59a28476e0276c14d97f3cca75a4_cgraph" alt=""/></div>
+<map name="memory__management_8h_a43ad59a28476e0276c14d97f3cca75a4_cgraph" id="memory__management_8h_a43ad59a28476e0276c14d97f3cca75a4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,151,56"/>
+<area shape="rect" href="memory__management_8cc.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce" title=" " alt="" coords="199,29,336,56"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="memory__management_8h_a43ad59a28476e0276c14d97f3cca75a4_icgraph.png" border="0" usemap="#memory__management_8h_a43ad59a28476e0276c14d97f3cca75a4_icgraph" alt=""/></div>
+<map name="memory__management_8h_a43ad59a28476e0276c14d97f3cca75a4_icgraph" id="memory__management_8h_a43ad59a28476e0276c14d97f3cca75a4_icgraph">
+<area shape="rect" title=" " alt="" coords="5,29,151,56"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af7df055d8c62e55527ac01e6c1e3d2e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7df055d8c62e55527ac01e6c1e3d2e0">&#9670;&nbsp;</a></span>PushClearedArray()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T* hermes::PushClearedArray </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structhermes_1_1_arena.html">Arena</a> *&#160;</td>
+          <td class="paramname"><em>arena</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>alignment</em> = <code>8</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Reserves space for <code>count</code> <code>T</code> objects, clears them to zero, and returns a pointer to the first one.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">arena</td><td>The backing Arena from which to reserve space. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">count</td><td>The number of objects to allocate. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">alignment</td><td>Align the result to a desired multiple.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the first <code>T</code> instance in the array. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="memory__management_8h_af7df055d8c62e55527ac01e6c1e3d2e0_cgraph.png" border="0" usemap="#memory__management_8h_af7df055d8c62e55527ac01e6c1e3d2e0_cgraph" alt=""/></div>
+<map name="memory__management_8h_af7df055d8c62e55527ac01e6c1e3d2e0_cgraph" id="memory__management_8h_af7df055d8c62e55527ac01e6c1e3d2e0_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,200,56"/>
+<area shape="rect" href="memory__management_8cc.html#a3af04b76abe44434f1648c42fca15794" title=" " alt="" coords="248,29,444,56"/>
+<area shape="rect" href="memory__management_8cc.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce" title=" " alt="" coords="492,29,629,56"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="memory__management_8h_af7df055d8c62e55527ac01e6c1e3d2e0_icgraph.png" border="0" usemap="#memory__management_8h_af7df055d8c62e55527ac01e6c1e3d2e0_icgraph" alt=""/></div>
+<map name="memory__management_8h_af7df055d8c62e55527ac01e6c1e3d2e0_icgraph" id="memory__management_8h_af7df055d8c62e55527ac01e6c1e3d2e0_icgraph">
+<area shape="rect" title=" " alt="" coords="5,29,200,56"/>
 </map>
 </div>
 

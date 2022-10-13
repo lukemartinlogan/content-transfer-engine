@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -120,6 +120,123 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Standard header Dependent library headers Internal headers </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a00e499399e9c58f5c7b0f19e11d985ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00e499399e9c58f5c7b0f19e11d985ea">&#9670;&nbsp;</a></span>mpiInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">hapi::Status hermes::pubsub::mpiInit </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>argv</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Helper function to initialize MPI. </p>
+<dl class="section return"><dt>Returns</dt><dd>The return code/status </dd></dl>
+
+</div>
+</div>
+<a id="a0be60c8ac5a1505654ba083c57dbca81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0be60c8ac5a1505654ba083c57dbca81">&#9670;&nbsp;</a></span>connect() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">hapi::Status hermes::pubsub::connect </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>config_file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Connects to the Hermes instance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config_file</td><td>Path to the config file of Hermes</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The return code/status </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacehermes_1_1pubsub_a0be60c8ac5a1505654ba083c57dbca81_icgraph.png" border="0" usemap="#namespacehermes_1_1pubsub_a0be60c8ac5a1505654ba083c57dbca81_icgraph" alt=""/></div>
+<map name="namespacehermes_1_1pubsub_a0be60c8ac5a1505654ba083c57dbca81_icgraph" id="namespacehermes_1_1pubsub_a0be60c8ac5a1505654ba083c57dbca81_icgraph">
+<area shape="rect" title="Connects to the Hermes instance." alt="" coords="239,5,424,32"/>
+<area shape="rect" href="namespacehermes_1_1pubsub.html#a2bb9942867a58decef53cf80533540a6" title="Connects to the Hermes instance." alt="" coords="5,5,191,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a2bb9942867a58decef53cf80533540a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bb9942867a58decef53cf80533540a6">&#9670;&nbsp;</a></span>connect() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">hapi::Status hermes::pubsub::connect </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Connects to the Hermes instance. </p>
+<dl class="section return"><dt>Returns</dt><dd>The return code/status</dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>Assumes that the config file path is loaded into a environment variable defined in <a class="el" href="constants_8h_source.html">constants.h</a> under kHermesConf </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacehermes_1_1pubsub_a2bb9942867a58decef53cf80533540a6_cgraph.png" border="0" usemap="#namespacehermes_1_1pubsub_a2bb9942867a58decef53cf80533540a6_cgraph" alt=""/></div>
+<map name="namespacehermes_1_1pubsub_a2bb9942867a58decef53cf80533540a6_cgraph" id="namespacehermes_1_1pubsub_a2bb9942867a58decef53cf80533540a6_cgraph">
+<area shape="rect" title="Connects to the Hermes instance." alt="" coords="5,5,191,32"/>
+<area shape="rect" href="namespacehermes_1_1pubsub.html#a0be60c8ac5a1505654ba083c57dbca81" title="Connects to the Hermes instance." alt="" coords="239,5,424,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aa0c9138681d11c86b2786124cd133237"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0c9138681d11c86b2786124cd133237">&#9670;&nbsp;</a></span>disconnect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">hapi::Status hermes::pubsub::disconnect </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Connects from the Hermes instance. </p>
+<dl class="section return"><dt>Returns</dt><dd>The return code/status </dd></dl>
+
+</div>
+</div>
 <a id="a9e649d6223b2506acaa6eed4f3d9645e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9e649d6223b2506acaa6eed4f3d9645e">&#9670;&nbsp;</a></span>attach()</h2>
 
@@ -157,72 +274,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a2bb9942867a58decef53cf80533540a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2bb9942867a58decef53cf80533540a6">&#9670;&nbsp;</a></span>connect() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">hapi::Status hermes::pubsub::connect </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Connects to the Hermes instance. </p>
-<dl class="section return"><dt>Returns</dt><dd>The return code/status</dd></dl>
-<dl class="section pre"><dt>Precondition</dt><dd>Assumes that the config file path is loaded into a environment variable defined in constants.h under kHermesConf </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacehermes_1_1pubsub_a2bb9942867a58decef53cf80533540a6_cgraph.png" border="0" usemap="#namespacehermes_1_1pubsub_a2bb9942867a58decef53cf80533540a6_cgraph" alt=""/></div>
-<map name="namespacehermes_1_1pubsub_a2bb9942867a58decef53cf80533540a6_cgraph" id="namespacehermes_1_1pubsub_a2bb9942867a58decef53cf80533540a6_cgraph">
-<area shape="rect" title="Connects to the Hermes instance." alt="" coords="5,5,191,32"/>
-<area shape="rect" href="namespacehermes_1_1pubsub.html#a0be60c8ac5a1505654ba083c57dbca81" title="Connects to the Hermes instance." alt="" coords="239,5,424,32"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a0be60c8ac5a1505654ba083c57dbca81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0be60c8ac5a1505654ba083c57dbca81">&#9670;&nbsp;</a></span>connect() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">hapi::Status hermes::pubsub::connect </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>config_file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Connects to the Hermes instance. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">config_file</td><td>Path to the config file of Hermes</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The return code/status </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacehermes_1_1pubsub_a0be60c8ac5a1505654ba083c57dbca81_icgraph.png" border="0" usemap="#namespacehermes_1_1pubsub_a0be60c8ac5a1505654ba083c57dbca81_icgraph" alt=""/></div>
-<map name="namespacehermes_1_1pubsub_a0be60c8ac5a1505654ba083c57dbca81_icgraph" id="namespacehermes_1_1pubsub_a0be60c8ac5a1505654ba083c57dbca81_icgraph">
-<area shape="rect" title="Connects to the Hermes instance." alt="" coords="239,5,424,32"/>
-<area shape="rect" href="namespacehermes_1_1pubsub.html#a2bb9942867a58decef53cf80533540a6" title="Connects to the Hermes instance." alt="" coords="5,5,191,32"/>
-</map>
-</div>
-
-</div>
-</div>
 <a id="a8964ba744162a7a49805308874481bd8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8964ba744162a7a49805308874481bd8">&#9670;&nbsp;</a></span>detach()</h2>
 
@@ -248,57 +299,6 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The return code/status</dd></dl>
 <dl class="section pre"><dt>Precondition</dt><dd>Detaching doesnt delete the topic </dd></dl>
-
-</div>
-</div>
-<a id="aa0c9138681d11c86b2786124cd133237"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa0c9138681d11c86b2786124cd133237">&#9670;&nbsp;</a></span>disconnect()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">hapi::Status hermes::pubsub::disconnect </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Connects from the Hermes instance. </p>
-<dl class="section return"><dt>Returns</dt><dd>The return code/status </dd></dl>
-
-</div>
-</div>
-<a id="a00e499399e9c58f5c7b0f19e11d985ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a00e499399e9c58f5c7b0f19e11d985ea">&#9670;&nbsp;</a></span>mpiInit()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">hapi::Status hermes::pubsub::mpiInit </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>argc</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char **&#160;</td>
-          <td class="paramname"><em>argv</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Helper function to initialize MPI. </p>
-<dl class="section return"><dt>Returns</dt><dd>The return code/status </dd></dl>
 
 </div>
 </div>
@@ -357,7 +357,7 @@ Here is the call graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt; hapi::Blob, hapi::Status &gt; hermes::pubsub::subscribe </td>
+          <td class="memname">std::pair&lt; <a class="el" href="hermes__types_8h.html#a2524128a957393840374aa59c93cf8b5">hapi::Blob</a>, hapi::Status &gt; hermes::pubsub::subscribe </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>topic</em></td><td>)</td>

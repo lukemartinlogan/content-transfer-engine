@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -125,18 +125,33 @@ Public Attributes</h2></td></tr>
 <div class="textblock"><p>Metadata for a Hermes buffer.</p>
 <p>An array of BufferHeaders is initialized during <a class="el" href="structhermes_1_1_buffer_pool.html">BufferPool</a> initialization. For a RAM <a class="el" href="structhermes_1_1_device.html">Device</a>, one <a class="el" href="structhermes_1_1_buffer_header.html">BufferHeader</a> is created for each block. This is to facilitate splitting and merging. For non-RAM Devices, we only need one <a class="el" href="structhermes_1_1_buffer_header.html">BufferHeader</a> per buffer. A typical workflow is to retrieve a <a class="el" href="structhermes_1_1_buffer_header.html">BufferHeader</a> from a <a class="el" href="unionhermes_1_1_buffer_i_d.html">BufferID</a> using the GetHeaderByBufferId function. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a245bdb956f87552b376ce6f18edf5673"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a245bdb956f87552b376ce6f18edf5673">&#9670;&nbsp;</a></span>capacity</h2>
+<a id="abd90bcc40c3ad3f2f1c89ca2ece9eb15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd90bcc40c3ad3f2f1c89ca2ece9eb15">&#9670;&nbsp;</a></span>id</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">u32 hermes::BufferHeader::capacity</td>
+          <td class="memname"><a class="el" href="unionhermes_1_1_buffer_i_d.html">BufferID</a> hermes::BufferHeader::id</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The total capacity of this buffer. </p>
+<p>The unique identifier for this buffer. </p>
+
+</div>
+</div>
+<a id="af93940dc35543c572bcd8fe7f6dd99e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af93940dc35543c572bcd8fe7f6dd99e7">&#9670;&nbsp;</a></span>next_free</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="unionhermes_1_1_buffer_i_d.html">BufferID</a> hermes::BufferHeader::next_free</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The next free <a class="el" href="unionhermes_1_1_buffer_i_d.html">BufferID</a> on the free list. </p>
 
 </div>
 </div>
@@ -155,6 +170,36 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a9bc65551cd0187c86a4941c6d54768a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bc65551cd0187c86a4941c6d54768a5">&#9670;&nbsp;</a></span>used</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">u32 hermes::BufferHeader::used</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The number of bytes this buffer is actually using. </p>
+
+</div>
+</div>
+<a id="a245bdb956f87552b376ce6f18edf5673"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a245bdb956f87552b376ce6f18edf5673">&#9670;&nbsp;</a></span>capacity</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">u32 hermes::BufferHeader::capacity</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The total capacity of this buffer. </p>
+
+</div>
+</div>
 <a id="a70d35082373013a26f81b6d33a6d1086"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a70d35082373013a26f81b6d33a6d1086">&#9670;&nbsp;</a></span>device_id</h2>
 
@@ -167,21 +212,6 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>An index into the array of Devices in the <a class="el" href="structhermes_1_1_buffer_pool.html">BufferPool</a> that represents this buffer's <a class="el" href="structhermes_1_1_device.html">Device</a>. </p>
-
-</div>
-</div>
-<a id="abd90bcc40c3ad3f2f1c89ca2ece9eb15"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd90bcc40c3ad3f2f1c89ca2ece9eb15">&#9670;&nbsp;</a></span>id</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="unionhermes_1_1_buffer_i_d.html">BufferID</a> hermes::BufferHeader::id</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The unique identifier for this buffer. </p>
 
 </div>
 </div>
@@ -212,36 +242,6 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>A simple lock that is atomically set to true when the data in this buffer is being read or written by an I/O client or the <a class="el" href="structhermes_1_1_buffer_organizer.html">BufferOrganizer</a>. </p>
-
-</div>
-</div>
-<a id="af93940dc35543c572bcd8fe7f6dd99e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af93940dc35543c572bcd8fe7f6dd99e7">&#9670;&nbsp;</a></span>next_free</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="unionhermes_1_1_buffer_i_d.html">BufferID</a> hermes::BufferHeader::next_free</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The next free <a class="el" href="unionhermes_1_1_buffer_i_d.html">BufferID</a> on the free list. </p>
-
-</div>
-</div>
-<a id="a9bc65551cd0187c86a4941c6d54768a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bc65551cd0187c86a4941c6d54768a5">&#9670;&nbsp;</a></span>used</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">u32 hermes::BufferHeader::used</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The number of bytes this buffer is actually using. </p>
 
 </div>
 </div>

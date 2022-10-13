@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -115,45 +115,49 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acb45c1c44b10505d070264998650f3d7"><td class="memItemLeft" align="right" valign="top"><a id="acb45c1c44b10505d070264998650f3d7"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Hermes</b> (<a class="el" href="structhermes_1_1_shared_memory_context.html">SharedMemoryContext</a> context)</td></tr>
 <tr class="separator:acb45c1c44b10505d070264998650f3d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5e5c3d734635db08aae4bdf90d64075"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#ac5e5c3d734635db08aae4bdf90d64075">Display_bucket</a> ()</td></tr>
-<tr class="separator:ac5e5c3d734635db08aae4bdf90d64075"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb3132dd2af5918c6fd117e91a766f88"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#aeb3132dd2af5918c6fd117e91a766f88">Display_vbucket</a> ()</td></tr>
-<tr class="separator:aeb3132dd2af5918c6fd117e91a766f88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2bb69f41037cc5b7e4638d0ec4a6e57"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#ad2bb69f41037cc5b7e4638d0ec4a6e57">IsApplicationCore</a> ()</td></tr>
+<tr class="memdesc:ad2bb69f41037cc5b7e4638d0ec4a6e57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if this rank is an application core, otherwise false.  <a href="classhermes_1_1api_1_1_hermes.html#ad2bb69f41037cc5b7e4638d0ec4a6e57">More...</a><br /></td></tr>
 <tr class="separator:ad2bb69f41037cc5b7e4638d0ec4a6e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82f6bce58521204910e61ef2c5973108"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#a82f6bce58521204910e61ef2c5973108">IsFirstRankOnNode</a> ()</td></tr>
+<tr class="memdesc:a82f6bce58521204910e61ef2c5973108"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if this is the first MPI rank on this node, otherwise false.  <a href="classhermes_1_1api_1_1_hermes.html#a82f6bce58521204910e61ef2c5973108">More...</a><br /></td></tr>
 <tr class="separator:a82f6bce58521204910e61ef2c5973108"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a451f2bfb745a587e3ccfec736d992ffb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#a451f2bfb745a587e3ccfec736d992ffb">AppBarrier</a> ()</td></tr>
+<tr class="memdesc:a451f2bfb745a587e3ccfec736d992ffb"><td class="mdescLeft">&#160;</td><td class="mdescRight">A barrier across all application processes.  <a href="classhermes_1_1api_1_1_hermes.html#a451f2bfb745a587e3ccfec736d992ffb">More...</a><br /></td></tr>
 <tr class="separator:a451f2bfb745a587e3ccfec736d992ffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff3b2247193d70057b6951edf856f72e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#aff3b2247193d70057b6951edf856f72e">GetProcessRank</a> ()</td></tr>
+<tr class="memdesc:aff3b2247193d70057b6951edf856f72e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the rank of this process.  <a href="classhermes_1_1api_1_1_hermes.html#aff3b2247193d70057b6951edf856f72e">More...</a><br /></td></tr>
 <tr class="separator:aff3b2247193d70057b6951edf856f72e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff0bd1497415ed58211f6b4823f76df0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#aff0bd1497415ed58211f6b4823f76df0">GetNodeId</a> ()</td></tr>
+<tr class="memdesc:aff0bd1497415ed58211f6b4823f76df0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return ID of the node this process is running on.  <a href="classhermes_1_1api_1_1_hermes.html#aff0bd1497415ed58211f6b4823f76df0">More...</a><br /></td></tr>
 <tr class="separator:aff0bd1497415ed58211f6b4823f76df0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94c14d58bf77193e622d5a481af3d402"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#a94c14d58bf77193e622d5a481af3d402">GetNumProcesses</a> ()</td></tr>
+<tr class="memdesc:a94c14d58bf77193e622d5a481af3d402"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total number of application processes.  <a href="classhermes_1_1api_1_1_hermes.html#a94c14d58bf77193e622d5a481af3d402">More...</a><br /></td></tr>
 <tr class="separator:a94c14d58bf77193e622d5a481af3d402"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7977326df644c6e80cf38193add6c4c7"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#a7977326df644c6e80cf38193add6c4c7">GetAppCommunicator</a> ()</td></tr>
+<tr class="memdesc:a7977326df644c6e80cf38193add6c4c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an application communicator handle.  <a href="classhermes_1_1api_1_1_hermes.html#a7977326df644c6e80cf38193add6c4c7">More...</a><br /></td></tr>
 <tr class="separator:a7977326df644c6e80cf38193add6c4c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37a6512a0d20bf8ed0e5c2ef4238d807"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#a37a6512a0d20bf8ed0e5c2ef4238d807">Finalize</a> (bool force_rpc_shutdown=false)</td></tr>
+<tr class="memdesc:a37a6512a0d20bf8ed0e5c2ef4238d807"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shutdown <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a>.  <a href="classhermes_1_1api_1_1_hermes.html#a37a6512a0d20bf8ed0e5c2ef4238d807">More...</a><br /></td></tr>
 <tr class="separator:a37a6512a0d20bf8ed0e5c2ef4238d807"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca7ea39b90693a4e8ff39ef47286b075"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#aca7ea39b90693a4e8ff39ef47286b075">FinalizeClient</a> (bool stop_daemon=true)</td></tr>
+<tr class="memdesc:aca7ea39b90693a4e8ff39ef47286b075"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shutdown application cores.  <a href="classhermes_1_1api_1_1_hermes.html#aca7ea39b90693a4e8ff39ef47286b075">More...</a><br /></td></tr>
 <tr class="separator:aca7ea39b90693a4e8ff39ef47286b075"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c9a950cf51161341788bad35198d1a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#a9c9a950cf51161341788bad35198d1a5">RemoteFinalize</a> ()</td></tr>
 <tr class="separator:a9c9a950cf51161341788bad35198d1a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f9700051f64b2c3d51e3ff30c323154"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#a7f9700051f64b2c3d51e3ff30c323154">RunDaemon</a> ()</td></tr>
+<tr class="memdesc:a7f9700051f64b2c3d51e3ff30c323154"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> daemon.  <a href="classhermes_1_1api_1_1_hermes.html#a7f9700051f64b2c3d51e3ff30c323154">More...</a><br /></td></tr>
 <tr class="separator:a7f9700051f64b2c3d51e3ff30c323154"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ab56ab8d652f87ae789043089672e96"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#a9ab56ab8d652f87ae789043089672e96">BucketContainsBlob</a> (const std::string &amp;bucket_name, const std::string &amp;blob_name)</td></tr>
+<tr class="memdesc:a9ab56ab8d652f87ae789043089672e96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a given <a class="el" href="classhermes_1_1api_1_1_bucket.html" title="A container for Blobs.">Bucket</a> contains a <a class="el" href="structhermes_1_1_blob.html">Blob</a>.  <a href="classhermes_1_1api_1_1_hermes.html#a9ab56ab8d652f87ae789043089672e96">More...</a><br /></td></tr>
 <tr class="separator:a9ab56ab8d652f87ae789043089672e96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f9e3ee3470365ceeaad048b89aa4bbd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#a2f9e3ee3470365ceeaad048b89aa4bbd">BucketExists</a> (const std::string &amp;bucket_name)</td></tr>
+<tr class="memdesc:a2f9e3ee3470365ceeaad048b89aa4bbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if <code>bucket_name</code> exists in this <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> instance.  <a href="classhermes_1_1api_1_1_hermes.html#a2f9e3ee3470365ceeaad048b89aa4bbd">More...</a><br /></td></tr>
 <tr class="separator:a2f9e3ee3470365ceeaad048b89aa4bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a018003b1203dfc8cd5b352a4f34eeecb"><td class="memItemLeft" align="right" valign="top"><a id="a018003b1203dfc8cd5b352a4f34eeecb"></a>
-std::set&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>bucket_list_</b></td></tr>
-<tr class="separator:a018003b1203dfc8cd5b352a4f34eeecb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83e8be85cfc7fb7d9282b4cb3f7d1bee"><td class="memItemLeft" align="right" valign="top"><a id="a83e8be85cfc7fb7d9282b4cb3f7d1bee"></a>
-std::set&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>vbucket_list_</b></td></tr>
-<tr class="separator:a83e8be85cfc7fb7d9282b4cb3f7d1bee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42bee35608528e83e25a372103e4afb3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#a42bee35608528e83e25a372103e4afb3">is_initialized</a></td></tr>
+<tr class="separator:a42bee35608528e83e25a372103e4afb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f211027bb344f89b647593af4f1b592"><td class="memItemLeft" align="right" valign="top"><a id="a5f211027bb344f89b647593af4f1b592"></a>
 <a class="el" href="structhermes_1_1_shared_memory_context.html">hermes::SharedMemoryContext</a>&#160;</td><td class="memItemRight" valign="bottom"><b>context_</b></td></tr>
 <tr class="separator:a5f211027bb344f89b647593af4f1b592"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -166,21 +170,65 @@ std::set&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"
 <tr class="memitem:a28ccc499fe59755c96c7d7a156f78aa2"><td class="memItemLeft" align="right" valign="top"><a id="a28ccc499fe59755c96c7d7a156f78aa2"></a>
 <a class="el" href="structhermes_1_1_arena.html">hermes::Arena</a>&#160;</td><td class="memItemRight" valign="bottom"><b>trans_arena_</b></td></tr>
 <tr class="separator:a28ccc499fe59755c96c7d7a156f78aa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee35b2c6d67f941356911f7adb79255c"><td class="memItemLeft" align="right" valign="top"><a id="aee35b2c6d67f941356911f7adb79255c"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>shmem_name_</b></td></tr>
+<tr class="memitem:aee35b2c6d67f941356911f7adb79255c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#aee35b2c6d67f941356911f7adb79255c">shmem_name_</a></td></tr>
 <tr class="separator:aee35b2c6d67f941356911f7adb79255c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a827cba8124ee83b18e17431265bcc892"><td class="memItemLeft" align="right" valign="top"><a id="a827cba8124ee83b18e17431265bcc892"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>rpc_server_name_</b></td></tr>
+<tr class="memitem:a827cba8124ee83b18e17431265bcc892"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#a827cba8124ee83b18e17431265bcc892">rpc_server_name_</a></td></tr>
 <tr class="separator:a827cba8124ee83b18e17431265bcc892"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42bee35608528e83e25a372103e4afb3"><td class="memItemLeft" align="right" valign="top"><a id="a42bee35608528e83e25a372103e4afb3"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_initialized</b></td></tr>
-<tr class="separator:a42bee35608528e83e25a372103e4afb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad87aadbe6d2fe85e0df631ea86942036"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_hermes.html#ad87aadbe6d2fe85e0df631ea86942036">debug_mode_</a> = true</td></tr>
-<tr class="separator:ad87aadbe6d2fe85e0df631ea86942036"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> node state </p>
+<div class="textblock"><p>Class representing an instance of a <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> buffering system. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad2bb69f41037cc5b7e4638d0ec4a6e57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2bb69f41037cc5b7e4638d0ec4a6e57">&#9670;&nbsp;</a></span>IsApplicationCore()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hermes::api::Hermes::IsApplicationCore </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return true if this rank is an application core, otherwise false. </p>
+<p>An application core is a core or rank on which user code runs as opposed to the <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> core (or rank) which only runs <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> services.</p>
+<dl class="section return"><dt>Returns</dt><dd>true if this rank is an application core, otherwise false. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1api_1_1_hermes_ad2bb69f41037cc5b7e4638d0ec4a6e57_icgraph.png" border="0" usemap="#classhermes_1_1api_1_1_hermes_ad2bb69f41037cc5b7e4638d0ec4a6e57_icgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_hermes_ad2bb69f41037cc5b7e4638d0ec4a6e57_icgraph" id="classhermes_1_1api_1_1_hermes_ad2bb69f41037cc5b7e4638d0ec4a6e57_icgraph">
+<area shape="rect" title="Return true if this rank is an application core, otherwise false." alt="" coords="212,5,371,47"/>
+<area shape="rect" href="classhermes_1_1api_1_1_hermes.html#a37a6512a0d20bf8ed0e5c2ef4238d807" title="Shutdown Hermes." alt="" coords="5,5,164,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a82f6bce58521204910e61ef2c5973108"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82f6bce58521204910e61ef2c5973108">&#9670;&nbsp;</a></span>IsFirstRankOnNode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hermes::api::Hermes::IsFirstRankOnNode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns true if this is the first MPI rank on this node, otherwise false. </p>
+<p><a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> assigns numeric IDs to each rank. The first rank on the node is the lowest ID on that node.</p>
+<dl class="section return"><dt>Returns</dt><dd>true if this is the first MPI rank on this node, otherwise false. </dd></dl>
+
+</div>
+</div>
 <a id="a451f2bfb745a587e3ccfec736d992ffb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a451f2bfb745a587e3ccfec736d992ffb">&#9670;&nbsp;</a></span>AppBarrier()</h2>
 
@@ -195,7 +243,196 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_initialized</b></t
         </tr>
       </table>
 </div><div class="memdoc">
+
 <p>A barrier across all application processes. </p>
+<p>Like MPI_Barrier but only involves application ranks. </p>
+
+</div>
+</div>
+<a id="aff3b2247193d70057b6951edf856f72e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff3b2247193d70057b6951edf856f72e">&#9670;&nbsp;</a></span>GetProcessRank()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hermes::api::Hermes::GetProcessRank </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the rank of this process. </p>
+<p><a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> assigns each application core a unique rank.</p>
+<dl class="section return"><dt>Returns</dt><dd>The rank of this process. </dd></dl>
+
+</div>
+</div>
+<a id="aff0bd1497415ed58211f6b4823f76df0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff0bd1497415ed58211f6b4823f76df0">&#9670;&nbsp;</a></span>GetNodeId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hermes::api::Hermes::GetNodeId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return ID of the node this process is running on. </p>
+<p><a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> assigns each node a numeric ID.</p>
+<dl class="section return"><dt>Returns</dt><dd>The node's ID. </dd></dl>
+
+</div>
+</div>
+<a id="a94c14d58bf77193e622d5a481af3d402"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94c14d58bf77193e622d5a481af3d402">&#9670;&nbsp;</a></span>GetNumProcesses()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hermes::api::Hermes::GetNumProcesses </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the total number of application processes. </p>
+<p>Does not count <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> processes.</p>
+<dl class="section return"><dt>Returns</dt><dd>The number of application processes. </dd></dl>
+
+</div>
+</div>
+<a id="a7977326df644c6e80cf38193add6c4c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7977326df644c6e80cf38193add6c4c7">&#9670;&nbsp;</a></span>GetAppCommunicator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * hermes::api::Hermes::GetAppCommunicator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get an application communicator handle. </p>
+<p>The handle can be cast to the appropriate type for the communication backend and used in the backend's API calls. For example, when using the MPI communication backend (the default), this function returns a pointer to an MPI_Comm object, which can then be used in any MPI call.</p>
+<dl class="section return"><dt>Returns</dt><dd>A void pointer to a communicator handle. </dd></dl>
+
+</div>
+</div>
+<a id="a37a6512a0d20bf8ed0e5c2ef4238d807"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37a6512a0d20bf8ed0e5c2ef4238d807">&#9670;&nbsp;</a></span>Finalize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::api::Hermes::Finalize </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>force_rpc_shutdown</em> = <code>false</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shutdown <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a>. </p>
+<p>This should be called by every process (application and <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> cores) before shutting down the communication backend (e.g., MPI_Finalize).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">force_rpc_shutdown</td><td>This should be <code>true</code> if <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> was initialized as a daemon. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1api_1_1_hermes_a37a6512a0d20bf8ed0e5c2ef4238d807_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_hermes_a37a6512a0d20bf8ed0e5c2ef4238d807_cgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_hermes_a37a6512a0d20bf8ed0e5c2ef4238d807_cgraph" id="classhermes_1_1api_1_1_hermes_a37a6512a0d20bf8ed0e5c2ef4238d807_cgraph">
+<area shape="rect" title="Shutdown Hermes." alt="" coords="5,51,164,93"/>
+<area shape="rect" href="buffer__pool_8cc.html#aba276e3158ce278c8b895b936678b255" title=" " alt="" coords="227,29,356,56"/>
+<area shape="rect" href="classhermes_1_1api_1_1_hermes.html#ad2bb69f41037cc5b7e4638d0ec4a6e57" title="Return true if this rank is an application core, otherwise false." alt="" coords="212,81,371,122"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aca7ea39b90693a4e8ff39ef47286b075"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca7ea39b90693a4e8ff39ef47286b075">&#9670;&nbsp;</a></span>FinalizeClient()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::api::Hermes::FinalizeClient </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>stop_daemon</em> = <code>true</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shutdown application cores. </p>
+<p>To be called from application cores that were started separately from a <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> daemon. Normally this is called from adapters.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stop_daemon</td><td>By default this function will stop the daemon this client is connected to. Passing <code>false</code> here will keep it alive. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9c9a950cf51161341788bad35198d1a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c9a950cf51161341788bad35198d1a5">&#9670;&nbsp;</a></span>RemoteFinalize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::api::Hermes::RemoteFinalize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>Is this still necessary?</dd></dl>
+
+</div>
+</div>
+<a id="a7f9700051f64b2c3d51e3ff30c323154"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f9700051f64b2c3d51e3ff30c323154">&#9670;&nbsp;</a></span>RunDaemon()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::api::Hermes::RunDaemon </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts a <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> daemon. </p>
+<p>Starts all <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> services, then waits on the main thread to be finalized.</p>
+<dl class="section pre"><dt>Precondition</dt><dd>The <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> instance must be initialized with InitHermesDaemon. </dd></dl>
 
 </div>
 </div>
@@ -224,7 +461,16 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_initialized</b></t
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Check if a given bucket contains a blob. </p>
+
+<p>Check if a given <a class="el" href="classhermes_1_1api_1_1_bucket.html" title="A container for Blobs.">Bucket</a> contains a <a class="el" href="structhermes_1_1_blob.html">Blob</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bucket_name</td><td>The name of the <a class="el" href="classhermes_1_1api_1_1_bucket.html" title="A container for Blobs.">Bucket</a> to check. </td></tr>
+    <tr><td class="paramname">blob_name</td><td>The name of the <a class="el" href="structhermes_1_1_blob.html">Blob</a> to check.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the bucket <code>bucket_name</code> contains the <a class="el" href="structhermes_1_1_blob.html">Blob</a> <code>blob_name</code>, otherwise false. </dd></dl>
 
 </div>
 </div>
@@ -243,276 +489,61 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_initialized</b></t
         </tr>
       </table>
 </div><div class="memdoc">
+
 <p>Returns true if <code>bucket_name</code> exists in this <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> instance. </p>
-
-</div>
-</div>
-<a id="ac5e5c3d734635db08aae4bdf90d64075"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5e5c3d734635db08aae4bdf90d64075">&#9670;&nbsp;</a></span>Display_bucket()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::api::Hermes::Display_bucket </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Display the list of buckets in this node </p>
-
-</div>
-</div>
-<a id="aeb3132dd2af5918c6fd117e91a766f88"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb3132dd2af5918c6fd117e91a766f88">&#9670;&nbsp;</a></span>Display_vbucket()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::api::Hermes::Display_vbucket </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Display the list of vbuckets in this node </p>
-
-</div>
-</div>
-<a id="a37a6512a0d20bf8ed0e5c2ef4238d807"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37a6512a0d20bf8ed0e5c2ef4238d807">&#9670;&nbsp;</a></span>Finalize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::api::Hermes::Finalize </td>
-          <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>force_rpc_shutdown</em> = <code>false</code></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd><a class="el" href="classhermes_1_1api_1_1_hermes.html#a37a6512a0d20bf8ed0e5c2ef4238d807">Hermes::Finalize</a> </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classhermes_1_1api_1_1_hermes_a37a6512a0d20bf8ed0e5c2ef4238d807_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_hermes_a37a6512a0d20bf8ed0e5c2ef4238d807_cgraph" alt=""/></div>
-<map name="classhermes_1_1api_1_1_hermes_a37a6512a0d20bf8ed0e5c2ef4238d807_cgraph" id="classhermes_1_1api_1_1_hermes_a37a6512a0d20bf8ed0e5c2ef4238d807_cgraph">
-<area shape="rect" title=" " alt="" coords="5,51,164,93"/>
-<area shape="rect" href="buffer__pool_8cc.html#aba276e3158ce278c8b895b936678b255" title=" " alt="" coords="227,29,356,56"/>
-<area shape="rect" href="classhermes_1_1api_1_1_hermes.html#ad2bb69f41037cc5b7e4638d0ec4a6e57" title=" " alt="" coords="212,81,371,122"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="aca7ea39b90693a4e8ff39ef47286b075"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca7ea39b90693a4e8ff39ef47286b075">&#9670;&nbsp;</a></span>FinalizeClient()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::api::Hermes::FinalizeClient </td>
-          <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>stop_daemon</em> = <code>true</code></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd><a class="el" href="classhermes_1_1api_1_1_hermes.html#aca7ea39b90693a4e8ff39ef47286b075">Hermes::FinalizeClient</a> </dd></dl>
-
-</div>
-</div>
-<a id="a7977326df644c6e80cf38193add6c4c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7977326df644c6e80cf38193add6c4c7">&#9670;&nbsp;</a></span>GetAppCommunicator()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void * hermes::api::Hermes::GetAppCommunicator </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Get an application communicator handle </p>
-
-</div>
-</div>
-<a id="aff0bd1497415ed58211f6b4823f76df0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff0bd1497415ed58211f6b4823f76df0">&#9670;&nbsp;</a></span>GetNodeId()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int hermes::api::Hermes::GetNodeId </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Return the Node <a class="el" href="classhermes_1_1api_1_1_i_d.html">ID</a> of this process </p>
-
-</div>
-</div>
-<a id="a94c14d58bf77193e622d5a481af3d402"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a94c14d58bf77193e622d5a481af3d402">&#9670;&nbsp;</a></span>GetNumProcesses()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int hermes::api::Hermes::GetNumProcesses </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns the total number of application processes </p>
-
-</div>
-</div>
-<a id="aff3b2247193d70057b6951edf856f72e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff3b2247193d70057b6951edf856f72e">&#9670;&nbsp;</a></span>GetProcessRank()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int hermes::api::Hermes::GetProcessRank </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns the rank of this process </p>
-
-</div>
-</div>
-<a id="ad2bb69f41037cc5b7e4638d0ec4a6e57"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad2bb69f41037cc5b7e4638d0ec4a6e57">&#9670;&nbsp;</a></span>IsApplicationCore()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hermes::api::Hermes::IsApplicationCore </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns whether we are running on an application core. </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classhermes_1_1api_1_1_hermes_ad2bb69f41037cc5b7e4638d0ec4a6e57_icgraph.png" border="0" usemap="#classhermes_1_1api_1_1_hermes_ad2bb69f41037cc5b7e4638d0ec4a6e57_icgraph" alt=""/></div>
-<map name="classhermes_1_1api_1_1_hermes_ad2bb69f41037cc5b7e4638d0ec4a6e57_icgraph" id="classhermes_1_1api_1_1_hermes_ad2bb69f41037cc5b7e4638d0ec4a6e57_icgraph">
-<area shape="rect" title=" " alt="" coords="212,5,371,47"/>
-<area shape="rect" href="classhermes_1_1api_1_1_hermes.html#a37a6512a0d20bf8ed0e5c2ef4238d807" title=" " alt="" coords="5,5,164,47"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a82f6bce58521204910e61ef2c5973108"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82f6bce58521204910e61ef2c5973108">&#9670;&nbsp;</a></span>IsFirstRankOnNode()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hermes::api::Hermes::IsFirstRankOnNode </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns whether we are the first MPI rank on a given node </p>
-
-</div>
-</div>
-<a id="a9c9a950cf51161341788bad35198d1a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c9a950cf51161341788bad35198d1a5">&#9670;&nbsp;</a></span>RemoteFinalize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::api::Hermes::RemoteFinalize </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd><a class="el" href="classhermes_1_1api_1_1_hermes.html#a9c9a950cf51161341788bad35198d1a5">Hermes::RemoteFinalize</a> </dd></dl>
-
-</div>
-</div>
-<a id="a7f9700051f64b2c3d51e3ff30c323154"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f9700051f64b2c3d51e3ff30c323154">&#9670;&nbsp;</a></span>RunDaemon()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::api::Hermes::RunDaemon </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd><a class="el" href="classhermes_1_1api_1_1_hermes.html#a7f9700051f64b2c3d51e3ff30c323154">Hermes::RunDaemon</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bucket_name</td><td>The name of the <a class="el" href="classhermes_1_1api_1_1_bucket.html" title="A container for Blobs.">Bucket</a> to check.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if <code>bucket_name</code> exists in this <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> instance, otherwise false. </dd></dl>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="ad87aadbe6d2fe85e0df631ea86942036"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad87aadbe6d2fe85e0df631ea86942036">&#9670;&nbsp;</a></span>debug_mode_</h2>
+<a id="a42bee35608528e83e25a372103e4afb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42bee35608528e83e25a372103e4afb3">&#9670;&nbsp;</a></span>is_initialized</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const bool hermes::api::Hermes::debug_mode_ = true</td>
+          <td class="memname">bool hermes::api::Hermes::is_initialized</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>if true will do more checks, warnings, expect slower code </p>
+<p>true if <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> is initialized, otherwise false. </p>
+
+</div>
+</div>
+<a id="aee35b2c6d67f941356911f7adb79255c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee35b2c6d67f941356911f7adb79255c">&#9670;&nbsp;</a></span>shmem_name_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hermes::api::Hermes::shmem_name_</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The name of the shared memory segment in which all <a class="el" href="classhermes_1_1api_1_1_hermes.html">Hermes</a> data is stored. </p>
+
+</div>
+</div>
+<a id="a827cba8124ee83b18e17431265bcc892"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a827cba8124ee83b18e17431265bcc892">&#9670;&nbsp;</a></span>rpc_server_name_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hermes::api::Hermes::rpc_server_name_</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The name of the primary RPC server. </p>
 
 </div>
 </div>

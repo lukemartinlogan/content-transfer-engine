@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -110,33 +110,18 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A <a class="el" href="unionhermes_1_1_target_i_d.html">TargetID</a> uniquely identifies a buffering target within the system. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="af514498f4d6aea7792d89a8c60f8b999"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af514498f4d6aea7792d89a8c60f8b999">&#9670;&nbsp;</a></span>as_int</h2>
+<a id="a6f7ee7f574deb8618f9a7d6225fd991c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f7ee7f574deb8618f9a7d6225fd991c">&#9670;&nbsp;</a></span>node_id</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">u64 hermes::TargetID::as_int</td>
+          <td class="memname">u32 hermes::TargetID::node_id</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The <a class="el" href="unionhermes_1_1_target_i_d.html">TargetID</a> as a unsigned 64-bit integer </p>
-
-</div>
-</div>
-<a id="ae1efafffe97b98731f4cc6d692043671"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1efafffe97b98731f4cc6d692043671">&#9670;&nbsp;</a></span>bits</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct { ... }  hermes::TargetID::bits</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The <a class="el" href="structhermes_1_1_target.html">Target</a> ID as bitfield </p>
+<p>The ID of the node in charge of this target. </p>
 
 </div>
 </div>
@@ -170,18 +155,33 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a6f7ee7f574deb8618f9a7d6225fd991c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f7ee7f574deb8618f9a7d6225fd991c">&#9670;&nbsp;</a></span>node_id</h2>
+<a id="ae1efafffe97b98731f4cc6d692043671"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1efafffe97b98731f4cc6d692043671">&#9670;&nbsp;</a></span>bits</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">u32 hermes::TargetID::node_id</td>
+          <td class="memname">struct { ... }  hermes::TargetID::bits</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The ID of the node in charge of this target. </p>
+<p>The <a class="el" href="structhermes_1_1_target.html">Target</a> ID as bitfield </p>
+
+</div>
+</div>
+<a id="af514498f4d6aea7792d89a8c60f8b999"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af514498f4d6aea7792d89a8c60f8b999">&#9670;&nbsp;</a></span>as_int</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">u64 hermes::TargetID::as_int</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The <a class="el" href="unionhermes_1_1_target_i_d.html">TargetID</a> as a unsigned 64-bit integer </p>
 
 </div>
 </div>

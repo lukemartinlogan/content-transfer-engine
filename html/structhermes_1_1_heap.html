@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -118,18 +118,33 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a1ab5bfcced13454da5171445e693e8db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="aa94525cba13ccc4f7066454e417e4bb1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa94525cba13ccc4f7066454e417e4bb1">&#9670;&nbsp;</a></span>alignment</h2>
+<a id="a5b043f15e02a1d33511bf09df320a9f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b043f15e02a1d33511bf09df320a9f4">&#9670;&nbsp;</a></span>error_handler</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">u16 hermes::Heap::alignment</td>
+          <td class="memname">ArenaErrorFunc* hermes::Heap::error_handler</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Every allocation from this <a class="el" href="structhermes_1_1_heap.html">Heap</a> will result in an address aligned to this value </p>
+<p>Function called when this <a class="el" href="structhermes_1_1_heap.html">Heap</a> encounters and error </p>
+
+</div>
+</div>
+<a id="a84f50982a2fba97e0577f418261c3284"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84f50982a2fba97e0577f418261c3284">&#9670;&nbsp;</a></span>mutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhermes_1_1_ticket_mutex.html">TicketMutex</a> hermes::Heap::mutex</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Mutex for multi-threaded access to this <a class="el" href="structhermes_1_1_heap.html">Heap</a>'s members </p>
 
 </div>
 </div>
@@ -148,18 +163,18 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a5b043f15e02a1d33511bf09df320a9f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b043f15e02a1d33511bf09df320a9f4">&#9670;&nbsp;</a></span>error_handler</h2>
+<a id="a8de2dd8500c107ec816ada7e472a3e26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8de2dd8500c107ec816ada7e472a3e26">&#9670;&nbsp;</a></span>free_list_offset</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ArenaErrorFunc* hermes::Heap::error_handler</td>
+          <td class="memname">u32 hermes::Heap::free_list_offset</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function called when this <a class="el" href="structhermes_1_1_heap.html">Heap</a> encounters and error </p>
+<p>Offset of the head of the free list, relative to base_offset </p>
 
 </div>
 </div>
@@ -178,18 +193,18 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a8de2dd8500c107ec816ada7e472a3e26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8de2dd8500c107ec816ada7e472a3e26">&#9670;&nbsp;</a></span>free_list_offset</h2>
+<a id="aa94525cba13ccc4f7066454e417e4bb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa94525cba13ccc4f7066454e417e4bb1">&#9670;&nbsp;</a></span>alignment</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">u32 hermes::Heap::free_list_offset</td>
+          <td class="memname">u16 hermes::Heap::alignment</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Offset of the head of the free list, relative to base_offset </p>
+<p>Every allocation from this <a class="el" href="structhermes_1_1_heap.html">Heap</a> will result in an address aligned to this value </p>
 
 </div>
 </div>
@@ -205,21 +220,6 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>1 if allocating new memory returns higher memory addresses, else 0 </p>
-
-</div>
-</div>
-<a id="a84f50982a2fba97e0577f418261c3284"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84f50982a2fba97e0577f418261c3284">&#9670;&nbsp;</a></span>mutex</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structhermes_1_1_ticket_mutex.html">TicketMutex</a> hermes::Heap::mutex</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Mutex for multi-threaded access to this <a class="el" href="structhermes_1_1_heap.html">Heap</a>'s members </p>
 
 </div>
 </div>

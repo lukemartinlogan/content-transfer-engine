@@ -1,19 +1,14 @@
 var searchData=
 [
-  ['sec2_5ffapl_744',['sec2_fapl',['../structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#a173945aa585162438ace45e2f1b1ed96',1,'hermes::adapter::vfd::test::Hdf5Api']]],
-  ['shm_5fbase_745',['shm_base',['../structhermes_1_1_shared_memory_context.html#a5ca4af272d6beb16ed8d04231c4b56f4',1,'hermes::SharedMemoryContext']]],
-  ['shm_5fsize_746',['shm_size',['../structhermes_1_1_shared_memory_context.html#ab58320fc283944a3d5ae5d63d9e35846',1,'hermes::SharedMemoryContext']]],
-  ['size_747',['size',['../structhermes_1_1_blob.html#a12fdc35c66277ff10251048c6a2b78b1',1,'hermes::Blob::size()'],['../structhermes_1_1_shmem_string.html#a49536f8d0b1e75a1e23362bdf62bade8',1,'hermes::ShmemString::size()']]],
-  ['slab_5fbuffer_5fsizes_5foffsets_748',['slab_buffer_sizes_offsets',['../structhermes_1_1_buffer_pool.html#a5f95b3e98a7882718be78da41073f081',1,'hermes::BufferPool']]],
-  ['slab_5funit_5fsizes_749',['slab_unit_sizes',['../structhermes_1_1_config.html#a8cb8053713f812cce9c0f64da4d8f153',1,'hermes::Config']]],
-  ['slab_5funit_5fsizes_5foffsets_750',['slab_unit_sizes_offsets',['../structhermes_1_1_buffer_pool.html#a15671cd8ae6bab5b8de9cb97edb61cab',1,'hermes::BufferPool']]],
-  ['st_5fbkid_751',['st_bkid',['../structhermes_1_1adapter_1_1mpiio_1_1_adapter_stat.html#a8640b528ed4a038d65a56a824ef923f0',1,'hermes::adapter::mpiio::AdapterStat::st_bkid()'],['../structhermes_1_1adapter_1_1posix_1_1_adapter_stat.html#a81b602c19adcb9016dad1f22d9d48636',1,'hermes::adapter::posix::AdapterStat::st_bkid()'],['../structhermes_1_1adapter_1_1pubsub_1_1_client_metadata.html#abf045a82f29a27c9e6924586b973d8d9',1,'hermes::adapter::pubsub::ClientMetadata::st_bkid()'],['../structhermes_1_1adapter_1_1stdio_1_1_adapter_stat.html#a0167797ce0e7135eef4eea3bdb684758',1,'hermes::adapter::stdio::AdapterStat::st_bkid()']]],
-  ['st_5fpersist_752',['st_persist',['../structhermes_1_1adapter_1_1stdio_1_1_adapter_stat.html#a90c2ac70c4c21ee9480c6923a9abb35c',1,'hermes::adapter::stdio::AdapterStat']]],
-  ['st_5fvbkt_753',['st_vbkt',['../structhermes_1_1adapter_1_1stdio_1_1_adapter_stat.html#a85f90f2d40981c9f82252a7d2b4a5562',1,'hermes::adapter::stdio::AdapterStat']]],
-  ['state_754',['state',['../structhermes_1_1_communication_context.html#a37bcda3812f92afdbfe744f6bcce073f',1,'hermes::CommunicationContext']]],
-  ['state_5fsize_755',['state_size',['../structhermes_1_1_rpc_context.html#aaa5705eac3bc8fc7224dae3308caa31d',1,'hermes::RpcContext']]],
-  ['sub_5fcomm_756',['sub_comm',['../structhermes_1_1_m_p_i_state.html#a153e293a17c8cdf82d2f0c76d9fd09c3',1,'hermes::MPIState']]],
-  ['sub_5fproc_5fid_757',['sub_proc_id',['../structhermes_1_1_communication_context.html#a54be8058026242042840e39437502269',1,'hermes::CommunicationContext']]],
-  ['swap_5fmount_758',['swap_mount',['../structhermes_1_1_config.html#ae173732b283874f5282c639a987d8dbd',1,'hermes::Config']]],
-  ['system_5fview_5fstate_5fupdate_5finterval_5fms_759',['system_view_state_update_interval_ms',['../structhermes_1_1_config.html#a067445eef7f84df5246d82cebdb1bd4d',1,'hermes::Config']]]
+  ['ref_747',['ref',['../classhermes_1_1adapter_1_1fs_1_1_metadata_manager.html#a70d32bfe9b242454d9e6e7101eb4bb12',1,'hermes::adapter::fs::MetadataManager::ref()'],['../classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html#aca224c73cf06fe5a5c71e58181fe85e6',1,'hermes::adapter::pubsub::MetadataManager::ref()']]],
+  ['rpc_5fdomain_748',['rpc_domain',['../structhermes_1_1_config.html#a54d162eb1c75a8de2029412b0c2102d9',1,'hermes::Config']]],
+  ['rpc_5fnum_5fthreads_749',['rpc_num_threads',['../structhermes_1_1_config.html#a024be4dda0c6a9b4a0097bfdc3b16ebd',1,'hermes::Config']]],
+  ['rpc_5fport_750',['rpc_port',['../structhermes_1_1_config.html#a575d39cde8052151a0fcd566ead69379',1,'hermes::Config']]],
+  ['rpc_5fprotocol_751',['rpc_protocol',['../structhermes_1_1_config.html#adc876cfb62763cd57c27b1074dea419e',1,'hermes::Config']]],
+  ['rpc_5fserver_5fbase_5fname_752',['rpc_server_base_name',['../structhermes_1_1_config.html#a67dd6ae978d1fb5821750f462217afe4',1,'hermes::Config']]],
+  ['rpc_5fserver_5fhost_5ffile_753',['rpc_server_host_file',['../structhermes_1_1_config.html#ade9f12eca7406edbadf611fa9fd49fa9',1,'hermes::Config']]],
+  ['rpc_5fserver_5fname_5f_754',['rpc_server_name_',['../classhermes_1_1api_1_1_hermes.html#a827cba8124ee83b18e17431265bcc892',1,'hermes::api::Hermes']]],
+  ['rpc_5fserver_5fsuffix_755',['rpc_server_suffix',['../structhermes_1_1_config.html#a8d74871a970591bfaf6dac4b3427e8a7',1,'hermes::Config']]],
+  ['rr_5fretry_756',['rr_retry',['../structhermes_1_1api_1_1_context.html#aed2ef93f184aa1873370016eb641905b',1,'hermes::api::Context']]],
+  ['rr_5fsplit_757',['rr_split',['../structhermes_1_1api_1_1_context.html#aa40c2a5f6aee0dd09a2d049336a450bd',1,'hermes::api::Context']]]
 ];

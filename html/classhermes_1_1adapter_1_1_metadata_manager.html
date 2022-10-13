@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -120,6 +120,33 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_mpi_</b></td></tr>
 <tr class="separator:ab788396316c4b7b7e75700dbcae29ba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a31f23d972af1269ea588bb33f3c218e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31f23d972af1269ea588bb33f3c218e9">&#9670;&nbsp;</a></span>InitializeHermes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::adapter::MetadataManager::InitializeHermes </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>is_mpi</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Initialize hermes. Get the kHermesConf from environment else get_env returns NULL which is handled internally by hermes. Initialize hermes in daemon mode. Keep a reference of how many times Initialize is called. Within the adapter, Initialize is called from fopen. </p>
+
+</div>
+</div>
 <a id="acb7163b12dab22b7f4799d87e94545cf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acb7163b12dab22b7f4799d87e94545cf">&#9670;&nbsp;</a></span>FinalizeHermes()</h2>
 
@@ -169,33 +196,6 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_mpi_</b></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Get the instance of hermes. </p>
-
-</div>
-</div>
-<a id="a31f23d972af1269ea588bb33f3c218e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31f23d972af1269ea588bb33f3c218e9">&#9670;&nbsp;</a></span>InitializeHermes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::adapter::MetadataManager::InitializeHermes </td>
-          <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>is_mpi</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Initialize hermes. Get the kHermesConf from environment else get_env returns NULL which is handled internally by hermes. Initialize hermes in daemon mode. Keep a reference of how many times Initialize is called. Within the adapter, Initialize is called from fopen. </p>
 
 </div>
 </div>

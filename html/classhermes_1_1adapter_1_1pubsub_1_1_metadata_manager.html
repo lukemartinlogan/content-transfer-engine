@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -167,124 +167,6 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="af68c747e386847f9f484a147cc518901"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af68c747e386847f9f484a147cc518901">&#9670;&nbsp;</a></span>Create()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool MetadataManager::Create </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>topic</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="structhermes_1_1adapter_1_1pubsub_1_1_client_metadata.html">ClientMetadata</a> &amp;&#160;</td>
-          <td class="paramname"><em>stat</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Create a metadata entry for pubsub adapter for a given topic. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">topic,std::string&amp;,name</td><td>of the managed topic. </td></tr>
-    <tr><td class="paramname">stat,ClientMetadata&amp;,current</td><td>metadata of the topic. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true, if operation was successful. false, if operation was unsuccessful. </dd></dl>
-
-</div>
-</div>
-<a id="a8a21046a7526a6fccc52ef3ceb4cfa2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a21046a7526a6fccc52ef3ceb4cfa2d">&#9670;&nbsp;</a></span>Delete()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool MetadataManager::Delete </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>topic</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Delete existing metadata entry for pubsub adapter for a given file handler. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">topic,std::string&amp;,name</td><td>of the managed topic. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true, if operation was successful. false, if operation was unsuccessful. </dd></dl>
-
-</div>
-</div>
-<a id="afd032b4337a329356d3097b4a1701952"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afd032b4337a329356d3097b4a1701952">&#9670;&nbsp;</a></span>FinalizeHermes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::adapter::pubsub::MetadataManager::FinalizeHermes </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Finalize hermes if reference is equal to one. Else just decrement the ref counter. </p>
-
-</div>
-</div>
-<a id="a4c55f3b600193b5caaa20f38f4a0b82c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4c55f3b600193b5caaa20f38f4a0b82c">&#9670;&nbsp;</a></span>Find()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::pair&lt; <a class="el" href="structhermes_1_1adapter_1_1pubsub_1_1_client_metadata.html">ClientMetadata</a>, bool &gt; MetadataManager::Find </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>topic</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Find existing metadata entry for pubsub adapter for a given file handler. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">topic,std::string&amp;,name</td><td>of the managed topic. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The metadata entry if exist. The bool in pair indicated whether metadata entry exists. </dd></dl>
-
-</div>
-</div>
 <a id="a18cac4cd8820424110f1a80f6fe9d8a5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a18cac4cd8820424110f1a80f6fe9d8a5">&#9670;&nbsp;</a></span>GetHermes()</h2>
 
@@ -338,6 +220,70 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="afd032b4337a329356d3097b4a1701952"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd032b4337a329356d3097b4a1701952">&#9670;&nbsp;</a></span>FinalizeHermes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::adapter::pubsub::MetadataManager::FinalizeHermes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Finalize hermes if reference is equal to one. Else just decrement the ref counter. </p>
+
+</div>
+</div>
+<a id="af68c747e386847f9f484a147cc518901"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af68c747e386847f9f484a147cc518901">&#9670;&nbsp;</a></span>Create()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool MetadataManager::Create </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>topic</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhermes_1_1adapter_1_1pubsub_1_1_client_metadata.html">ClientMetadata</a> &amp;&#160;</td>
+          <td class="paramname"><em>stat</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a metadata entry for pubsub adapter for a given topic. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">topic,std::string&amp;,name</td><td>of the managed topic. </td></tr>
+    <tr><td class="paramname">stat,ClientMetadata&amp;,current</td><td>metadata of the topic. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true, if operation was successful. false, if operation was unsuccessful. </dd></dl>
+
+</div>
+</div>
 <a id="aaaa53e1509fdcc8eb9eac03f04855861"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaaa53e1509fdcc8eb9eac03f04855861">&#9670;&nbsp;</a></span>Update()</h2>
 
@@ -377,30 +323,61 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a93d4ba836f8a8317fdc725d463ad586c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93d4ba836f8a8317fdc725d463ad586c">&#9670;&nbsp;</a></span>hermes</h2>
+<a id="a8a21046a7526a6fccc52ef3ceb4cfa2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a21046a7526a6fccc52ef3ceb4cfa2d">&#9670;&nbsp;</a></span>Delete()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt;<a class="el" href="classhermes_1_1api_1_1_hermes.html">hapi::Hermes</a>&gt; hermes::adapter::pubsub::MetadataManager::hermes</td>
+          <td class="memname">bool MetadataManager::Delete </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>topic</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>hermes attribute to initialize Hermes </p>
+
+<p>Delete existing metadata entry for pubsub adapter for a given file handler. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">topic,std::string&amp;,name</td><td>of the managed topic. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true, if operation was successful. false, if operation was unsuccessful. </dd></dl>
 
 </div>
 </div>
+<a id="a4c55f3b600193b5caaa20f38f4a0b82c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c55f3b600193b5caaa20f38f4a0b82c">&#9670;&nbsp;</a></span>Find()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::pair&lt; <a class="el" href="structhermes_1_1adapter_1_1pubsub_1_1_client_metadata.html">ClientMetadata</a>, bool &gt; MetadataManager::Find </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>topic</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Find existing metadata entry for pubsub adapter for a given file handler. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">topic,std::string&amp;,name</td><td>of the managed topic. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The metadata entry if exist. The bool in pair indicated whether metadata entry exists. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
 <a id="aa24f2c8e7dd9d64efbdb55649a61de8d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa24f2c8e7dd9d64efbdb55649a61de8d">&#9670;&nbsp;</a></span>metadata</h2>
 
@@ -421,6 +398,29 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Private members </p>
+
+</div>
+</div>
+<a id="a93d4ba836f8a8317fdc725d463ad586c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93d4ba836f8a8317fdc725d463ad586c">&#9670;&nbsp;</a></span>hermes</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classhermes_1_1api_1_1_hermes.html">hapi::Hermes</a>&gt; hermes::adapter::pubsub::MetadataManager::hermes</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>hermes attribute to initialize Hermes </p>
 
 </div>
 </div>

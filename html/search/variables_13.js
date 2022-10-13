@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['world_5fproc_5fid_768',['world_proc_id',['../structhermes_1_1_communication_context.html#a55f196e759240784800fcf9c3ef39395',1,'hermes::CommunicationContext']]],
-  ['world_5fsize_769',['world_size',['../structhermes_1_1_communication_context.html#a2bae5018f74b1ae650c901af166e7625',1,'hermes::CommunicationContext']]]
+  ['vbucket_5fmap_5fmutex_783',['vbucket_map_mutex',['../structhermes_1_1_metadata_manager.html#ad1b87dc2dbacbbf77fbb1c91ab13a788',1,'hermes::MetadataManager']]],
+  ['vbucket_5fmutex_784',['vbucket_mutex',['../structhermes_1_1_metadata_manager.html#adf620aa8b1533f943a4fdfba19dab1b2',1,'hermes::MetadataManager']]]
 ];

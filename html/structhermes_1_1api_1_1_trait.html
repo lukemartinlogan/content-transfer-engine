@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -92,31 +92,37 @@ $(document).ready(function(){initNavTree('structhermes_1_1api_1_1_trait.html',''
 </div><!--header-->
 <div class="contents">
 
+<p>Base class for <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a>s, which can attach functionality to <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>s.  
+ <a href="structhermes_1_1api_1_1_trait.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="traits_8h_source.html">traits.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for hermes::api::Trait:</div>
 <div class="dyncontent">
 <div class="center"><img src="structhermes_1_1api_1_1_trait__inherit__graph.png" border="0" usemap="#hermes_1_1api_1_1_trait_inherit__map" alt="Inheritance graph"/></div>
 <map name="hermes_1_1api_1_1_trait_inherit__map" id="hermes_1_1api_1_1_trait_inherit__map">
-<area shape="rect" title=" " alt="" coords="134,5,269,32"/>
-<area shape="rect" href="structhermes_1_1api_1_1_persist_trait.html" title=" " alt="" coords="5,80,184,107"/>
-<area shape="rect" href="structhermes_1_1api_1_1_write_only_trait.html" title=" " alt="" coords="208,80,408,107"/>
+<area shape="rect" title="Base class for Traits, which can attach functionality to VBuckets." alt="" coords="134,5,269,32"/>
+<area shape="rect" href="structhermes_1_1api_1_1_persist_trait.html" title="Engable persisting a VBucket&#39;s linked Blobs to permanent storage." alt="" coords="5,80,184,107"/>
+<area shape="rect" href="structhermes_1_1api_1_1_write_only_trait.html" title="Marks the Blobs in a VBucket as write&#45;only." alt="" coords="208,80,408,107"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5844cec76e08b696edc28b9176483f81"><td class="memItemLeft" align="right" valign="top"><a id="a5844cec76e08b696edc28b9176483f81"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Trait</b> (TraitID <a class="el" href="structhermes_1_1api_1_1_trait.html#ab0e13fe834bba47d6f69451305117a6b">id</a>, const std::vector&lt; TraitID &gt; &amp;<a class="el" href="structhermes_1_1api_1_1_trait.html#aea0060d306735bf86e5924932fb3301b">conflict_traits</a>, TraitType <a class="el" href="structhermes_1_1api_1_1_trait.html#a83cc4d203a5a2c1f076dd996b80e1461">type</a>)</td></tr>
+<tr class="memitem:ad9d8db7946ca59dda5fc44894693ad3c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#ad9d8db7946ca59dda5fc44894693ad3c">Trait</a> ()</td></tr>
+<tr class="memdesc:ad9d8db7946ca59dda5fc44894693ad3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="structhermes_1_1api_1_1_trait.html#ad9d8db7946ca59dda5fc44894693ad3c">More...</a><br /></td></tr>
+<tr class="separator:ad9d8db7946ca59dda5fc44894693ad3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5844cec76e08b696edc28b9176483f81"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#a5844cec76e08b696edc28b9176483f81">Trait</a> (<a class="el" href="hermes__types_8h.html#ae27c1b24942f49623940c4777f724a51">TraitID</a> <a class="el" href="structhermes_1_1api_1_1_trait.html#ab0e13fe834bba47d6f69451305117a6b">id</a>, const std::vector&lt; <a class="el" href="hermes__types_8h.html#ae27c1b24942f49623940c4777f724a51">TraitID</a> &gt; &amp;<a class="el" href="structhermes_1_1api_1_1_trait.html#aea0060d306735bf86e5924932fb3301b">conflict_traits</a>, <a class="el" href="hermes__types_8h.html#a9986546c3c718bfe0d411b7935349ae1">TraitType</a> <a class="el" href="structhermes_1_1api_1_1_trait.html#a83cc4d203a5a2c1f076dd996b80e1461">type</a>)</td></tr>
+<tr class="memdesc:a5844cec76e08b696edc28b9176483f81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a>.  <a href="structhermes_1_1api_1_1_trait.html#a5844cec76e08b696edc28b9176483f81">More...</a><br /></td></tr>
 <tr class="separator:a5844cec76e08b696edc28b9176483f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ab0e13fe834bba47d6f69451305117a6b"><td class="memItemLeft" align="right" valign="top">TraitID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#ab0e13fe834bba47d6f69451305117a6b">id</a></td></tr>
+<tr class="memitem:ab0e13fe834bba47d6f69451305117a6b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="hermes__types_8h.html#ae27c1b24942f49623940c4777f724a51">TraitID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#ab0e13fe834bba47d6f69451305117a6b">id</a></td></tr>
 <tr class="separator:ab0e13fe834bba47d6f69451305117a6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea0060d306735bf86e5924932fb3301b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; TraitID &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#aea0060d306735bf86e5924932fb3301b">conflict_traits</a></td></tr>
+<tr class="memitem:aea0060d306735bf86e5924932fb3301b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="hermes__types_8h.html#ae27c1b24942f49623940c4777f724a51">TraitID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#aea0060d306735bf86e5924932fb3301b">conflict_traits</a></td></tr>
 <tr class="separator:aea0060d306735bf86e5924932fb3301b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83cc4d203a5a2c1f076dd996b80e1461"><td class="memItemLeft" align="right" valign="top">TraitType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#a83cc4d203a5a2c1f076dd996b80e1461">type</a></td></tr>
+<tr class="memitem:a83cc4d203a5a2c1f076dd996b80e1461"><td class="memItemLeft" align="right" valign="top"><a class="el" href="hermes__types_8h.html#a9986546c3c718bfe0d411b7935349ae1">TraitType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#a83cc4d203a5a2c1f076dd996b80e1461">type</a></td></tr>
 <tr class="separator:a83cc4d203a5a2c1f076dd996b80e1461"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fa98dc6045501b210d1a57a4539115c"><td class="memItemLeft" align="right" valign="top">OnAttachCallback&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1api_1_1_trait.html#a6fa98dc6045501b210d1a57a4539115c">onAttachFn</a></td></tr>
 <tr class="separator:a6fa98dc6045501b210d1a57a4539115c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -130,23 +136,81 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a58c300542aeb634e6430f5ea0cc3b8b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Traits represent vbucket behavior </p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="aea0060d306735bf86e5924932fb3301b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea0060d306735bf86e5924932fb3301b">&#9670;&nbsp;</a></span>conflict_traits</h2>
+<div class="textblock"><p>Base class for <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a>s, which can attach functionality to <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>s. </p>
+<p>To add functionality to a <a class="el" href="classhermes_1_1api_1_1_v_bucket.html">VBucket</a>, inherit from this class and implement the various callbacks. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ad9d8db7946ca59dda5fc44894693ad3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9d8db7946ca59dda5fc44894693ad3c">&#9670;&nbsp;</a></span>Trait() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">hermes::api::Trait::Trait </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default constructor. </p>
+
+</div>
+</div>
+<a id="a5844cec76e08b696edc28b9176483f81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5844cec76e08b696edc28b9176483f81">&#9670;&nbsp;</a></span>Trait() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;TraitID&gt; hermes::api::Trait::conflict_traits</td>
+          <td class="memname">hermes::api::Trait::Trait </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="hermes__types_8h.html#ae27c1b24942f49623940c4777f724a51">TraitID</a>&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="hermes__types_8h.html#ae27c1b24942f49623940c4777f724a51">TraitID</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>conflict_traits</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="hermes__types_8h.html#a9986546c3c718bfe0d411b7935349ae1">TraitType</a>&#160;</td>
+          <td class="paramname"><em>type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>??? </dd></dl>
+
+<p>Construct a <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>A unique identifier. </td></tr>
+    <tr><td class="paramname">conflict_traits</td><td>The IDs of the Traits that conflict with this <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a>. </td></tr>
+    <tr><td class="paramname">type</td><td>The type of <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
+<h2 class="groupheader">Member Data Documentation</h2>
 <a id="ab0e13fe834bba47d6f69451305117a6b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab0e13fe834bba47d6f69451305117a6b">&#9670;&nbsp;</a></span>id</h2>
 
@@ -154,11 +218,41 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">TraitID hermes::api::Trait::id</td>
+          <td class="memname"><a class="el" href="hermes__types_8h.html#ae27c1b24942f49623940c4777f724a51">TraitID</a> hermes::api::Trait::id</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The trait's <a class="el" href="classhermes_1_1api_1_1_i_d.html">ID</a> </p>
+<p>The trait's ID </p>
+
+</div>
+</div>
+<a id="aea0060d306735bf86e5924932fb3301b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea0060d306735bf86e5924932fb3301b">&#9670;&nbsp;</a></span>conflict_traits</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="hermes__types_8h.html#ae27c1b24942f49623940c4777f724a51">TraitID</a>&gt; hermes::api::Trait::conflict_traits</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>IDs of <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a>s whose functionality conflict with this <a class="el" href="structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets.">Trait</a>. </p>
+
+</div>
+</div>
+<a id="a83cc4d203a5a2c1f076dd996b80e1461"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83cc4d203a5a2c1f076dd996b80e1461">&#9670;&nbsp;</a></span>type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="hermes__types_8h.html#a9986546c3c718bfe0d411b7935349ae1">TraitType</a> hermes::api::Trait::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The trait's type. </p>
 
 </div>
 </div>
@@ -173,7 +267,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Callback for trait-&gt;vbucket attach events </p>
+<p>Callback for trait-&gt;vbucket attach events. </p>
 
 </div>
 </div>
@@ -188,22 +282,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Callback for trait-&lt;vbucket detach events </p>
-
-</div>
-</div>
-<a id="a58c300542aeb634e6430f5ea0cc3b8b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a58c300542aeb634e6430f5ea0cc3b8b3">&#9670;&nbsp;</a></span>onGetFn</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">OnLinkCallback hermes::api::Trait::onGetFn</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Callback for <a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a09fb36f4994f0c7613073e187c113491">VBucket::Get</a> events </p>
+<p>Callback for trait-&gt;vbucket detach events. </p>
 
 </div>
 </div>
@@ -218,7 +297,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Callback for blob-&gt;vbucket link events </p>
+<p>Callback for blob-&gt;vbucket link events. </p>
 
 </div>
 </div>
@@ -233,22 +312,22 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Callback for blob-&lt;vbucket unlink events </p>
+<p>Callback for blob-&lt;vbucket unlink events. </p>
 
 </div>
 </div>
-<a id="a83cc4d203a5a2c1f076dd996b80e1461"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83cc4d203a5a2c1f076dd996b80e1461">&#9670;&nbsp;</a></span>type</h2>
+<a id="a58c300542aeb634e6430f5ea0cc3b8b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58c300542aeb634e6430f5ea0cc3b8b3">&#9670;&nbsp;</a></span>onGetFn</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">TraitType hermes::api::Trait::type</td>
+          <td class="memname">OnLinkCallback hermes::api::Trait::onGetFn</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The trait's type </p>
+<p>Callback for <a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a09fb36f4994f0c7613073e187c113491">VBucket::Get</a> events. </p>
 
 </div>
 </div>

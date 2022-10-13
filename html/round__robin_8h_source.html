@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -153,8 +153,9 @@ $(document).ready(function(){initNavTree('round__robin_8h_source.html',''); init
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclasshermes_1_1_round_robin_html_a8030aa767764adcde3d440fdd06e0ac9"><div class="ttname"><a href="classhermes_1_1_round_robin.html#a8030aa767764adcde3d440fdd06e0ac9">hermes::RoundRobin::GetNumDevices</a></div><div class="ttdeci">size_t GetNumDevices() const</div><div class="ttdef"><b>Definition:</b> round_robin.cc:43</div></div>
-<div class="ttc" id="astructhermes_1_1_config_html_a84f4ed233fb630c7e3fb844f5491d040"><div class="ttname"><a href="structhermes_1_1_config.html#a84f4ed233fb630c7e3fb844f5491d040">hermes::Config::num_devices</a></div><div class="ttdeci">int num_devices</div><div class="ttdef"><b>Definition:</b> hermes_types.h:231</div></div>
-<div class="ttc" id="aclassapi_1_1_status_html"><div class="ttname"><a href="classapi_1_1_status.html">api::Status</a></div><div class="ttdef"><b>Definition:</b> hermes_status.h:66</div></div>
+<div class="ttc" id="astructhermes_1_1_config_html_a84f4ed233fb630c7e3fb844f5491d040"><div class="ttname"><a href="structhermes_1_1_config.html#a84f4ed233fb630c7e3fb844f5491d040">hermes::Config::num_devices</a></div><div class="ttdeci">int num_devices</div><div class="ttdef"><b>Definition:</b> hermes_types.h:263</div></div>
+<div class="ttc" id="ahermes__types_8h_html_aa29a80eb3b2f5a1f59bc16dbf24c1274"><div class="ttname"><a href="hermes__types_8h.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">hermes::PlacementSchema</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; size_t, TargetID &gt; &gt; PlacementSchema</div><div class="ttdef"><b>Definition:</b> hermes_types.h:211</div></div>
+<div class="ttc" id="aclassapi_1_1_status_html"><div class="ttname"><a href="classapi_1_1_status.html">api::Status</a></div><div class="ttdef"><b>Definition:</b> hermes_status.h:69</div></div>
 <div class="ttc" id="aclasshermes_1_1_d_p_e_html"><div class="ttname"><a href="classhermes_1_1_d_p_e.html">hermes::DPE</a></div><div class="ttdef"><b>Definition:</b> data_placement_engine.h:30</div></div>
 <div class="ttc" id="aclasshermes_1_1_round_robin_html_a9896b8a9e011e2e92780242bf9cdafd8"><div class="ttname"><a href="classhermes_1_1_round_robin.html#a9896b8a9e011e2e92780242bf9cdafd8">hermes::RoundRobin::SetCurrentDeviceIndex</a></div><div class="ttdeci">void SetCurrentDeviceIndex(int new_device_index)</div><div class="ttdef"><b>Definition:</b> round_robin.cc:55</div></div>
 <div class="ttc" id="aclasshermes_1_1_round_robin_html_ac0863b38e703f829e31e2ac461c4fadb"><div class="ttname"><a href="classhermes_1_1_round_robin.html#ac0863b38e703f829e31e2ac461c4fadb">hermes::RoundRobin::device_index_mutex_</a></div><div class="ttdeci">std::mutex device_index_mutex_</div><div class="ttdef"><b>Definition:</b> round_robin.h:28</div></div>
@@ -162,11 +163,11 @@ $(document).ready(function(){initNavTree('round__robin_8h_source.html',''); init
 <div class="ttc" id="aclasshermes_1_1_round_robin_html_a65d23952affd0b2adfd668c1db93d581"><div class="ttname"><a href="classhermes_1_1_round_robin.html#a65d23952affd0b2adfd668c1db93d581">hermes::RoundRobin::InitDevices</a></div><div class="ttdeci">static void InitDevices(hermes::Config *config, std::shared_ptr&lt; api::Hermes &gt; result)</div><div class="ttdef"><b>Definition:</b> round_robin.cc:27</div></div>
 <div class="ttc" id="aclasshermes_1_1_round_robin_html_a72b1006d2d7c1b643eac90477a550028"><div class="ttname"><a href="classhermes_1_1_round_robin.html#a72b1006d2d7c1b643eac90477a550028">hermes::RoundRobin::GetDeviceByIndex</a></div><div class="ttdeci">DeviceID GetDeviceByIndex(int i) const</div><div class="ttdef"><b>Definition:</b> round_robin.cc:47</div></div>
 <div class="ttc" id="aclasshermes_1_1_round_robin_html_a5bd28432ea190b26581e3a1517788368"><div class="ttname"><a href="classhermes_1_1_round_robin.html#a5bd28432ea190b26581e3a1517788368">hermes::RoundRobin::GetCurrentDeviceIndex</a></div><div class="ttdeci">int GetCurrentDeviceIndex() const</div><div class="ttdef"><b>Definition:</b> round_robin.cc:51</div></div>
-<div class="ttc" id="aclassapi_1_1_status_html_ac896de1ec4175376237ca1088e901f23"><div class="ttname"><a href="classapi_1_1_status.html#ac896de1ec4175376237ca1088e901f23">api::Status::Msg</a></div><div class="ttdeci">std::string Msg() const</div><div class="ttdef"><b>Definition:</b> hermes_status.h:100</div></div>
+<div class="ttc" id="aclassapi_1_1_status_html_ac896de1ec4175376237ca1088e901f23"><div class="ttname"><a href="classapi_1_1_status.html#ac896de1ec4175376237ca1088e901f23">api::Status::Msg</a></div><div class="ttdeci">std::string Msg() const</div><div class="ttdef"><b>Definition:</b> hermes_status.h:103</div></div>
 <div class="ttc" id="aclasshermes_1_1_round_robin_html"><div class="ttname"><a href="classhermes_1_1_round_robin.html">hermes::RoundRobin</a></div><div class="ttdef"><b>Definition:</b> round_robin.h:24</div></div>
-<div class="ttc" id="aunionhermes_1_1_target_i_d_html"><div class="ttname"><a href="unionhermes_1_1_target_i_d.html">hermes::TargetID</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:154</div></div>
+<div class="ttc" id="aunionhermes_1_1_target_i_d_html"><div class="ttname"><a href="unionhermes_1_1_target_i_d.html">hermes::TargetID</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:186</div></div>
 <div class="ttc" id="aclasshermes_1_1_round_robin_html_a523f029d7046a4d52fe00e32518432a2"><div class="ttname"><a href="classhermes_1_1_round_robin.html#a523f029d7046a4d52fe00e32518432a2">hermes::RoundRobin::devices_</a></div><div class="ttdeci">static std::vector&lt; DeviceID &gt; devices_</div><div class="ttdef"><b>Definition:</b> round_robin.h:27</div></div>
-<div class="ttc" id="astructhermes_1_1_config_html"><div class="ttname"><a href="structhermes_1_1_config.html">hermes::Config</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:209</div></div>
+<div class="ttc" id="astructhermes_1_1_config_html"><div class="ttname"><a href="structhermes_1_1_config.html">hermes::Config</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:241</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

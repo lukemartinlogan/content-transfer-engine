@@ -10,13 +10,13 @@ var utils_8h =
       [ "kXLarge", "utils_8h.html#a0c4b97f292ab271f341eb01ca82d526baae73844a13a4064e4d370a2196535241", null ],
       [ "kHuge", "utils_8h.html#a0c4b97f292ab271f341eb01ca82d526bad464fb18dfeee2966a78fd644162e011", null ]
     ] ],
-    [ "FailedLibraryCall", "utils_8h.html#a69b3dba2cfb7c9768be7dc61c5cde1ef", null ],
-    [ "GenFixedTotalBlobSize", "utils_8h.html#ab75850f276ee9e6b3cfa99fb6def39c6", null ],
-    [ "GetDefaultTargets", "utils_8h.html#a00336f51da667401e005b5527b56fe99", null ],
-    [ "InitDefaultConfig", "utils_8h.html#ad26bf0d941952ebe9e698d2de194bdf0", null ],
-    [ "InitDeviceState", "utils_8h.html#aa0baa8f78b8d5e7c61a4fc9689fbc6df", null ],
-    [ "PrintNodeState", "utils_8h.html#a5a59127bb5de277ad27c4d1b07ef43c7", null ],
-    [ "RoundDownToMultiple", "utils_8h.html#a80ba7a1f7c519563677ff407b365ba81", null ],
     [ "RoundUpToMultiple", "utils_8h.html#a29183997c8943362b7b5bff56ecd8222", null ],
-    [ "UpdateDeviceState", "utils_8h.html#a2bb26ff7b1eb1b786e67a133925fc58d", null ]
+    [ "RoundDownToMultiple", "utils_8h.html#a80ba7a1f7c519563677ff407b365ba81", null ],
+    [ "InitDefaultConfig", "utils_8h.html#ad26bf0d941952ebe9e698d2de194bdf0", null ],
+    [ "FailedLibraryCall", "utils_8h.html#a69b3dba2cfb7c9768be7dc61c5cde1ef", null ],
+    [ "InitDeviceState", "utils_8h.html#aa0baa8f78b8d5e7c61a4fc9689fbc6df", null ],
+    [ "UpdateDeviceState", "utils_8h.html#a2bb26ff7b1eb1b786e67a133925fc58d", null ],
+    [ "PrintNodeState", "utils_8h.html#a5a59127bb5de277ad27c4d1b07ef43c7", null ],
+    [ "GetDefaultTargets", "utils_8h.html#a00336f51da667401e005b5527b56fe99", null ],
+    [ "GenFixedTotalBlobSize", "utils_8h.html#ab75850f276ee9e6b3cfa99fb6def39c6", null ]
 ];

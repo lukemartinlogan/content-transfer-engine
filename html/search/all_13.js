@@ -1,11 +1,7 @@
 var searchData=
 [
-  ['welcome_20to_20hermes_21_370',['Welcome to Hermes!',['../index.html',1,'']]],
-  ['waitforbackgroundflush_371',['WaitForBackgroundFlush',['../classhermes_1_1api_1_1_v_bucket.html#a11a7ff7793da6932ce67f035ad9e8a26',1,'hermes::api::VBucket']]],
-  ['windowdata_372',['WindowData',['../struct_window_data.html',1,'']]],
-  ['world_5fproc_5fid_373',['world_proc_id',['../structhermes_1_1_communication_context.html#a55f196e759240784800fcf9c3ef39395',1,'hermes::CommunicationContext']]],
-  ['world_5fsize_374',['world_size',['../structhermes_1_1_communication_context.html#a2bae5018f74b1ae650c901af166e7625',1,'hermes::CommunicationContext']]],
-  ['writeblobtobuffers_375',['WriteBlobToBuffers',['../buffer__pool_8cc.html#ad9163d10dd9f730c3bb00fb480138c6c',1,'hermes']]],
-  ['writeonlytrait_376',['WriteOnlyTrait',['../structhermes_1_1api_1_1_write_only_trait.html',1,'hermes::api']]],
-  ['writepartial1d_377',['WritePartial1d',['../structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#adf0098b0cf034fbcda942a92e5992259',1,'hermes::adapter::vfd::test::Hdf5Api']]]
+  ['unlink_373',['Unlink',['../classhermes_1_1api_1_1_v_bucket.html#af1ea7cd685b2264a405e1ced612088a9',1,'hermes::api::VBucket::Unlink(std::string blob_name, std::string bucket_name, Context &amp;ctx)'],['../classhermes_1_1api_1_1_v_bucket.html#a6329f7c88429dc6563eaee71318b3a1a',1,'hermes::api::VBucket::Unlink(std::string blob_name, std::string bucket_name)']]],
+  ['update_374',['Update',['../classhermes_1_1adapter_1_1fs_1_1_metadata_manager.html#a921c1f23b278bd87b8ce06c2665abef5',1,'hermes::adapter::fs::MetadataManager::Update()'],['../classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html#aaaa53e1509fdcc8eb9eac03f04855861',1,'hermes::adapter::pubsub::MetadataManager::Update()']]],
+  ['used_375',['used',['../structhermes_1_1_buffer_header.html#a9bc65551cd0187c86a4941c6d54768a5',1,'hermes::BufferHeader::used()'],['../structhermes_1_1_arena.html#ab2ba6b537c627c2d55a2d4203be55fe5',1,'hermes::Arena::used()'],['../structhermes_1_1_scoped_temporary_memory.html#a304b15921f746ae4bb7db06022e992ba',1,'hermes::ScopedTemporaryMemory::used()']]],
+  ['utils_2eh_376',['utils.h',['../utils_8h.html',1,'']]]
 ];

@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -272,7 +272,7 @@ $(document).ready(function(){initNavTree('rpc__thallium_8h_source.html',''); ini
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;  <span class="keywordtype">int</span> val = 0;</div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  ar.read(&amp;ctx.buffer_organizer_retries, 1);</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  ar.read(&amp;val, 1);</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;  ctx.policy = (PlacementPolicy)val;</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;  ctx.policy = (<a class="code" href="hermes__types_8h.html#a66b9a7dd528375b0f2f0e77f72d66b67">PlacementPolicy</a>)val;</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;}</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;}  <span class="comment">// namespace api</span></div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160; </div>
@@ -345,16 +345,19 @@ $(document).ready(function(){initNavTree('rpc__thallium_8h_source.html',''); ini
 </div><!-- doc-content -->
 <div class="ttc" id="astructhermes_1_1_client_thallium_state_html"><div class="ttname"><a href="structhermes_1_1_client_thallium_state.html">hermes::ClientThalliumState</a></div><div class="ttdef"><b>Definition:</b> rpc_thallium.h:47</div></div>
 <div class="ttc" id="aunionhermes_1_1_buffer_i_d_html_a9984807fe75e37d0e409ae7c6bc1e43d"><div class="ttname"><a href="unionhermes_1_1_buffer_i_d.html#a9984807fe75e37d0e409ae7c6bc1e43d">hermes::BufferID::as_int</a></div><div class="ttdeci">u64 as_int</div><div class="ttdef"><b>Definition:</b> buffer_pool.h:103</div></div>
+<div class="ttc" id="ahermes__types_8h_html_aa29a80eb3b2f5a1f59bc16dbf24c1274"><div class="ttname"><a href="hermes__types_8h.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">hermes::PlacementSchema</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; size_t, TargetID &gt; &gt; PlacementSchema</div><div class="ttdef"><b>Definition:</b> hermes_types.h:211</div></div>
 <div class="ttc" id="amemory__management_8cc_html_ac64963cdb2aef85ac002f4b8634cd2fc"><div class="ttname"><a href="memory__management_8cc.html#ac64963cdb2aef85ac002f4b8634cd2fc">hermes::DestroyArena</a></div><div class="ttdeci">void DestroyArena(Arena *arena)</div><div class="ttdef"><b>Definition:</b> memory_management.cc:74</div></div>
-<div class="ttc" id="aclassapi_1_1_status_html_a12ac0a86f097a9c62a01fca4dbed7e55"><div class="ttname"><a href="classapi_1_1_status.html#a12ac0a86f097a9c62a01fca4dbed7e55">api::Status::Succeeded</a></div><div class="ttdeci">bool Succeeded() const</div><div class="ttdef"><b>Definition:</b> hermes_status.h:72</div></div>
+<div class="ttc" id="aclassapi_1_1_status_html_a12ac0a86f097a9c62a01fca4dbed7e55"><div class="ttname"><a href="classapi_1_1_status.html#a12ac0a86f097a9c62a01fca4dbed7e55">api::Status::Succeeded</a></div><div class="ttdeci">bool Succeeded() const</div><div class="ttdef"><b>Definition:</b> hermes_status.h:75</div></div>
 <div class="ttc" id="amemory__management_8cc_html_abc4a3f05d273d7eacbd2cd8e1ad5e9ce"><div class="ttname"><a href="memory__management_8cc.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce">hermes::PushSize</a></div><div class="ttdeci">u8 * PushSize(Arena *arena, size_t size, size_t alignment)</div><div class="ttdef"><b>Definition:</b> memory_management.cc:124</div></div>
-<div class="ttc" id="aclassapi_1_1_status_html"><div class="ttname"><a href="classapi_1_1_status.html">api::Status</a></div><div class="ttdef"><b>Definition:</b> hermes_status.h:66</div></div>
+<div class="ttc" id="aclassapi_1_1_status_html"><div class="ttname"><a href="classapi_1_1_status.html">api::Status</a></div><div class="ttdef"><b>Definition:</b> hermes_status.h:69</div></div>
 <div class="ttc" id="abuffer__pool_8cc_html_a42d7d04421227f822bdaa0344654409f"><div class="ttname"><a href="buffer__pool_8cc.html#a42d7d04421227f822bdaa0344654409f">hermes::GetHeaderByBufferId</a></div><div class="ttdeci">BufferHeader * GetHeaderByBufferId(SharedMemoryContext *context, BufferID id)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:206</div></div>
 <div class="ttc" id="abuffer__pool_8cc_html_a0594eaad6f55d0838ac754ce0aa8e53c"><div class="ttname"><a href="buffer__pool_8cc.html#a0594eaad6f55d0838ac754ce0aa8e53c">hermes::MergeRamBufferFreeList</a></div><div class="ttdeci">void MergeRamBufferFreeList(SharedMemoryContext *context, int slab_index)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:807</div></div>
 <div class="ttc" id="amemory__management_8cc_html_a1ef28877549d5c7c061d0b606ed38cd0"><div class="ttname"><a href="memory__management_8cc.html#a1ef28877549d5c7c061d0b606ed38cd0">hermes::GetRemainingCapacity</a></div><div class="ttdeci">size_t GetRemainingCapacity(Arena *arena)</div><div class="ttdef"><b>Definition:</b> memory_management.cc:82</div></div>
 <div class="ttc" id="abuffer__pool_8cc_html_ae3789d75221354e09f43fe8d1520b988"><div class="ttname"><a href="buffer__pool_8cc.html#ae3789d75221354e09f43fe8d1520b988">hermes::GetBuffers</a></div><div class="ttdeci">std::vector&lt; BufferID &gt; GetBuffers(SharedMemoryContext *context, const PlacementSchema &amp;schema)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:568</div></div>
 <div class="ttc" id="abuffer__pool_8cc_html_aa4aa1c5e87928e65cc3e16c8a2c1aa6e"><div class="ttname"><a href="buffer__pool_8cc.html#aa4aa1c5e87928e65cc3e16c8a2c1aa6e">hermes::SplitRamBufferFreeList</a></div><div class="ttdeci">void SplitRamBufferFreeList(SharedMemoryContext *context, int slab_index)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:943</div></div>
 <div class="ttc" id="aunionhermes_1_1_buffer_i_d_html"><div class="ttname"><a href="unionhermes_1_1_buffer_i_d.html">hermes::BufferID</a></div><div class="ttdef"><b>Definition:</b> buffer_pool.h:90</div></div>
+<div class="ttc" id="ahermes__types_8h_html_a66b9a7dd528375b0f2f0e77f72d66b67"><div class="ttname"><a href="hermes__types_8h.html#a66b9a7dd528375b0f2f0e77f72d66b67">hermes::api::PlacementPolicy</a></div><div class="ttdeci">PlacementPolicy</div><div class="ttdef"><b>Definition:</b> hermes_types.h:71</div></div>
+<div class="ttc" id="ahermes__types_8h_html_a2524128a957393840374aa59c93cf8b5"><div class="ttname"><a href="hermes__types_8h.html#a2524128a957393840374aa59c93cf8b5">hermes::api::Blob</a></div><div class="ttdeci">std::vector&lt; unsigned char &gt; Blob</div><div class="ttdef"><b>Definition:</b> hermes_types.h:68</div></div>
 <div class="ttc" id="astructhermes_1_1_thallium_state_html"><div class="ttname"><a href="structhermes_1_1_thallium_state.html">hermes::ThalliumState</a></div><div class="ttdef"><b>Definition:</b> rpc_thallium.h:37</div></div>
 <div class="ttc" id="abuffer__pool_8cc_html_a7f5a7088d0c67afec779b03060291180"><div class="ttname"><a href="buffer__pool_8cc.html#a7f5a7088d0c67afec779b03060291180">hermes::ReleaseSharedMemoryContext</a></div><div class="ttdeci">void ReleaseSharedMemoryContext(SharedMemoryContext *context)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:1475</div></div>
 <!-- start footer part -->

@@ -28,7 +28,7 @@
    <div id="projectname">Hermes
    &#160;<span id="projectnumber">0.8.0-beta</span>
    </div>
-   <div id="projectbrief">I/O Buffering System</div>
+   <div id="projectbrief">Hierarchical Distributed I/O Buffering System</div>
   </td>
  </tr>
  </tbody>
@@ -124,18 +124,18 @@ FILE *&#160;</td><td class="memItemRight" valign="bottom"><b>swap_file</b></td><
 <tr class="separator:a9259de3a909c6222ccdee93c43ad4272"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a208255f7280483907b22916106abb0e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a208255f7280483907b22916106abb0e4">&#9670;&nbsp;</a></span>bo</h2>
+<a id="a5ca4af272d6beb16ed8d04231c4b56f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ca4af272d6beb16ed8d04231c4b56f4">&#9670;&nbsp;</a></span>shm_base</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structhermes_1_1_buffer_organizer.html">BufferOrganizer</a>* hermes::SharedMemoryContext::bo</td>
+          <td class="memname">u8* hermes::SharedMemoryContext::shm_base</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This will only be valid on Hermes cores, and NULL on client cores. </p>
+<p>A pointer to the beginning of shared memory. </p>
 
 </div>
 </div>
@@ -169,21 +169,6 @@ FILE *&#160;</td><td class="memItemRight" valign="bottom"><b>swap_file</b></td><
 
 </div>
 </div>
-<a id="a5ca4af272d6beb16ed8d04231c4b56f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5ca4af272d6beb16ed8d04231c4b56f4">&#9670;&nbsp;</a></span>shm_base</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">u8* hermes::SharedMemoryContext::shm_base</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>A pointer to the beginning of shared memory. </p>
-
-</div>
-</div>
 <a id="ab58320fc283944a3d5ae5d63d9e35846"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab58320fc283944a3d5ae5d63d9e35846">&#9670;&nbsp;</a></span>shm_size</h2>
 
@@ -196,6 +181,21 @@ FILE *&#160;</td><td class="memItemRight" valign="bottom"><b>swap_file</b></td><
       </table>
 </div><div class="memdoc">
 <p>The total size of the shared memory (needed for munmap). </p>
+
+</div>
+</div>
+<a id="a208255f7280483907b22916106abb0e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a208255f7280483907b22916106abb0e4">&#9670;&nbsp;</a></span>bo</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhermes_1_1_buffer_organizer.html">BufferOrganizer</a>* hermes::SharedMemoryContext::bo</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This will only be valid on Hermes cores, and NULL on client cores. </p>
 
 </div>
 </div>
