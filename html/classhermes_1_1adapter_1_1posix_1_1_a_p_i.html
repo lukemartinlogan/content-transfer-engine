@@ -84,7 +84,6 @@ $(document).ready(function(){initNavTree('classhermes_1_1adapter_1_1posix_1_1_a_
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classhermes_1_1adapter_1_1posix_1_1_a_p_i-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -92,68 +91,14 @@ $(document).ready(function(){initNavTree('classhermes_1_1adapter_1_1posix_1_1_a_
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:aeaa51510a53903abd22160df859ab828"><td class="memItemLeft" align="right" valign="top"><a id="aeaa51510a53903abd22160df859ab828"></a>
-typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><b>open_t</b>) (const char *path, int flags,...)</td></tr>
-<tr class="separator:aeaa51510a53903abd22160df859ab828"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98f77d36fa180db10810d76fd5c08eaa"><td class="memItemLeft" align="right" valign="top"><a id="a98f77d36fa180db10810d76fd5c08eaa"></a>
-typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><b>open64_t</b>) (const char *path, int flags,...)</td></tr>
-<tr class="separator:a98f77d36fa180db10810d76fd5c08eaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8383f799ea1183315291c980f35d5bf"><td class="memItemLeft" align="right" valign="top"><a id="ac8383f799ea1183315291c980f35d5bf"></a>
-typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><b>__open_2_t</b>) (const char *path, int oflag)</td></tr>
-<tr class="separator:ac8383f799ea1183315291c980f35d5bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a551c25e35a95468bdf6138b83fdaf9"><td class="memItemLeft" align="right" valign="top"><a id="a5a551c25e35a95468bdf6138b83fdaf9"></a>
-typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><b>creat_t</b>) (const char *path, mode_t mode)</td></tr>
-<tr class="separator:a5a551c25e35a95468bdf6138b83fdaf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4216358331ab4bcb5058243f6a4cb0ab"><td class="memItemLeft" align="right" valign="top"><a id="a4216358331ab4bcb5058243f6a4cb0ab"></a>
-typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><b>creat64_t</b>) (const char *path, mode_t mode)</td></tr>
-<tr class="separator:a4216358331ab4bcb5058243f6a4cb0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a297147a0e390442c248f80e457679934"><td class="memItemLeft" align="right" valign="top"><a id="a297147a0e390442c248f80e457679934"></a>
-typedef ssize_t(*&#160;</td><td class="memItemRight" valign="bottom"><b>read_t</b>) (int fd, void *buf, size_t count)</td></tr>
-<tr class="separator:a297147a0e390442c248f80e457679934"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04c3c5c0b4d663f980edca2930b8cacd"><td class="memItemLeft" align="right" valign="top"><a id="a04c3c5c0b4d663f980edca2930b8cacd"></a>
-typedef ssize_t(*&#160;</td><td class="memItemRight" valign="bottom"><b>write_t</b>) (int fd, const void *buf, size_t count)</td></tr>
-<tr class="separator:a04c3c5c0b4d663f980edca2930b8cacd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a529b090e6ab758c24c47948a7e810681"><td class="memItemLeft" align="right" valign="top"><a id="a529b090e6ab758c24c47948a7e810681"></a>
-typedef ssize_t(*&#160;</td><td class="memItemRight" valign="bottom"><b>pread_t</b>) (int fd, void *buf, size_t count, off_t offset)</td></tr>
-<tr class="separator:a529b090e6ab758c24c47948a7e810681"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1129c43ddc7fb00b060ad67d17d934c"><td class="memItemLeft" align="right" valign="top"><a id="af1129c43ddc7fb00b060ad67d17d934c"></a>
-typedef ssize_t(*&#160;</td><td class="memItemRight" valign="bottom"><b>pwrite_t</b>) (int fd, const void *buf, size_t count, off_t offset)</td></tr>
-<tr class="separator:af1129c43ddc7fb00b060ad67d17d934c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac46f5a222d3de913eeed9b080d55bb28"><td class="memItemLeft" align="right" valign="top"><a id="ac46f5a222d3de913eeed9b080d55bb28"></a>
-typedef ssize_t(*&#160;</td><td class="memItemRight" valign="bottom"><b>pread64_t</b>) (int fd, void *buf, size_t count, off64_t offset)</td></tr>
-<tr class="separator:ac46f5a222d3de913eeed9b080d55bb28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5edf4f662812cfd77a6a4d00430ef7a"><td class="memItemLeft" align="right" valign="top"><a id="ad5edf4f662812cfd77a6a4d00430ef7a"></a>
-typedef ssize_t(*&#160;</td><td class="memItemRight" valign="bottom"><b>pwrite64_t</b>) (int fd, const void *buf, size_t count, off64_t offset)</td></tr>
-<tr class="separator:ad5edf4f662812cfd77a6a4d00430ef7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6b8a950a5a41d728cedd2ef3da73193"><td class="memItemLeft" align="right" valign="top"><a id="ac6b8a950a5a41d728cedd2ef3da73193"></a>
-typedef off_t(*&#160;</td><td class="memItemRight" valign="bottom"><b>lseek_t</b>) (int fd, off_t offset, int whence)</td></tr>
-<tr class="separator:ac6b8a950a5a41d728cedd2ef3da73193"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe464cbb2bfe576b53dd6dc01c7ac1a6"><td class="memItemLeft" align="right" valign="top"><a id="abe464cbb2bfe576b53dd6dc01c7ac1a6"></a>
-typedef off64_t(*&#160;</td><td class="memItemRight" valign="bottom"><b>lseek64_t</b>) (int fd, off64_t offset, int whence)</td></tr>
-<tr class="separator:abe464cbb2bfe576b53dd6dc01c7ac1a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa23c2cf742b5654e2948982afc29a8d"><td class="memItemLeft" align="right" valign="top"><a id="afa23c2cf742b5654e2948982afc29a8d"></a>
-typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><b>__fxstat_t</b>) (int version, int fd, struct stat *buf)</td></tr>
-<tr class="separator:afa23c2cf742b5654e2948982afc29a8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3d7265dc1f9085d208ecb5766ecab93"><td class="memItemLeft" align="right" valign="top"><a id="af3d7265dc1f9085d208ecb5766ecab93"></a>
-typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><b>fsync_t</b>) (int fd)</td></tr>
-<tr class="separator:af3d7265dc1f9085d208ecb5766ecab93"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c306e63c99dd2fdd8c9ddd88adf9395"><td class="memItemLeft" align="right" valign="top"><a id="a7c306e63c99dd2fdd8c9ddd88adf9395"></a>
-typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><b>fdatasync_t</b>) (int fd)</td></tr>
-<tr class="separator:a7c306e63c99dd2fdd8c9ddd88adf9395"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cbfee7ffbdfd32e9cf0e3d157b7d423"><td class="memItemLeft" align="right" valign="top"><a id="a5cbfee7ffbdfd32e9cf0e3d157b7d423"></a>
-typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><b>close_t</b>) (int fd)</td></tr>
-<tr class="separator:a5cbfee7ffbdfd32e9cf0e3d157b7d423"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7b94e8f3910eb5ba66c62f2c238a545"><td class="memItemLeft" align="right" valign="top"><a id="aa7b94e8f3910eb5ba66c62f2c238a545"></a>
-typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_Init_t</b>) (int *argc, char ***argv)</td></tr>
-<tr class="separator:aa7b94e8f3910eb5ba66c62f2c238a545"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1dab0aa997ac7f4b9ec389bcea937732"><td class="memItemLeft" align="right" valign="top"><a id="a1dab0aa997ac7f4b9ec389bcea937732"></a>
-typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_Finalize_t</b>) ()</td></tr>
-<tr class="separator:a1dab0aa997ac7f4b9ec389bcea937732"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:a19ea855f6d5255df7c10632de3d54dea"><td class="memItemLeft" align="right" valign="top"><a id="a19ea855f6d5255df7c10632de3d54dea"></a>
+int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_Init</b> )(int *argc, char ***argv) = nullptr</td></tr>
+<tr class="separator:a19ea855f6d5255df7c10632de3d54dea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abff75fa0eec116e83f119c26f8adfe25"><td class="memItemLeft" align="right" valign="top"><a id="abff75fa0eec116e83f119c26f8adfe25"></a>
+int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_Finalize</b> )(void) = nullptr</td></tr>
+<tr class="separator:abff75fa0eec116e83f119c26f8adfe25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac16358a9420ce11af4ceabe106ec5095"><td class="memItemLeft" align="right" valign="top"><a id="ac16358a9420ce11af4ceabe106ec5095"></a>
 int(*&#160;</td><td class="memItemRight" valign="bottom"><b>open</b> )(const char *path, int flags,...) = nullptr</td></tr>
 <tr class="separator:ac16358a9420ce11af4ceabe106ec5095"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,18 +144,9 @@ int(*&#160;</td><td class="memItemRight" valign="bottom"><b>__fxstat</b> )(int v
 <tr class="memitem:a32adf8c85be1f7d2dcaa2dccde083b26"><td class="memItemLeft" align="right" valign="top"><a id="a32adf8c85be1f7d2dcaa2dccde083b26"></a>
 int(*&#160;</td><td class="memItemRight" valign="bottom"><b>fsync</b> )(int fd) = nullptr</td></tr>
 <tr class="separator:a32adf8c85be1f7d2dcaa2dccde083b26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37bf5e7c573ef871864d3280969a6328"><td class="memItemLeft" align="right" valign="top"><a id="a37bf5e7c573ef871864d3280969a6328"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>fdatasync</b> )(int fd) = nullptr</td></tr>
-<tr class="separator:a37bf5e7c573ef871864d3280969a6328"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c4f667c0ae437a76ae52e753186da96"><td class="memItemLeft" align="right" valign="top"><a id="a7c4f667c0ae437a76ae52e753186da96"></a>
 int(*&#160;</td><td class="memItemRight" valign="bottom"><b>close</b> )(int fd) = nullptr</td></tr>
 <tr class="separator:a7c4f667c0ae437a76ae52e753186da96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19ea855f6d5255df7c10632de3d54dea"><td class="memItemLeft" align="right" valign="top"><a id="a19ea855f6d5255df7c10632de3d54dea"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_Init</b> )(int *argc, char ***argv) = nullptr</td></tr>
-<tr class="separator:a19ea855f6d5255df7c10632de3d54dea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22d29c955a74c0d495d26430d0f93453"><td class="memItemLeft" align="right" valign="top"><a id="a22d29c955a74c0d495d26430d0f93453"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_Finalize</b> )() = nullptr</td></tr>
-<tr class="separator:a22d29c955a74c0d495d26430d0f93453"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/hermes/hermes/adapter/posix/<a class="el" href="posix_2real__api_8h_source.html">real_api.h</a></li>

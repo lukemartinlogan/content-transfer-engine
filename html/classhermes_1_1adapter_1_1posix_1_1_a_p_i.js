@@ -1,25 +1,8 @@
 var classhermes_1_1adapter_1_1posix_1_1_a_p_i =
 [
-    [ "open_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#aeaa51510a53903abd22160df859ab828", null ],
-    [ "open64_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a98f77d36fa180db10810d76fd5c08eaa", null ],
-    [ "__open_2_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#ac8383f799ea1183315291c980f35d5bf", null ],
-    [ "creat_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a5a551c25e35a95468bdf6138b83fdaf9", null ],
-    [ "creat64_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a4216358331ab4bcb5058243f6a4cb0ab", null ],
-    [ "read_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a297147a0e390442c248f80e457679934", null ],
-    [ "write_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a04c3c5c0b4d663f980edca2930b8cacd", null ],
-    [ "pread_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a529b090e6ab758c24c47948a7e810681", null ],
-    [ "pwrite_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#af1129c43ddc7fb00b060ad67d17d934c", null ],
-    [ "pread64_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#ac46f5a222d3de913eeed9b080d55bb28", null ],
-    [ "pwrite64_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#ad5edf4f662812cfd77a6a4d00430ef7a", null ],
-    [ "lseek_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#ac6b8a950a5a41d728cedd2ef3da73193", null ],
-    [ "lseek64_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#abe464cbb2bfe576b53dd6dc01c7ac1a6", null ],
-    [ "__fxstat_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#afa23c2cf742b5654e2948982afc29a8d", null ],
-    [ "fsync_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#af3d7265dc1f9085d208ecb5766ecab93", null ],
-    [ "fdatasync_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a7c306e63c99dd2fdd8c9ddd88adf9395", null ],
-    [ "close_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a5cbfee7ffbdfd32e9cf0e3d157b7d423", null ],
-    [ "MPI_Init_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#aa7b94e8f3910eb5ba66c62f2c238a545", null ],
-    [ "MPI_Finalize_t", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a1dab0aa997ac7f4b9ec389bcea937732", null ],
     [ "API", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a7ff8c0548df8ebf0e4d0aa288026eb1e", null ],
+    [ "MPI_Init", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a19ea855f6d5255df7c10632de3d54dea", null ],
+    [ "MPI_Finalize", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#abff75fa0eec116e83f119c26f8adfe25", null ],
     [ "open", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#ac16358a9420ce11af4ceabe106ec5095", null ],
     [ "open64", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#aaf93174153d9a530b3eb701d43d2819a", null ],
     [ "__open_2", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a47a65b7806be787a408c76142e14505a", null ],
@@ -35,8 +18,5 @@ var classhermes_1_1adapter_1_1posix_1_1_a_p_i =
     [ "lseek64", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a12bf42e0acf6003a71ab9b3a60bf3125", null ],
     [ "__fxstat", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a1d6b584e323c2a54788abc28e1abb287", null ],
     [ "fsync", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a32adf8c85be1f7d2dcaa2dccde083b26", null ],
-    [ "fdatasync", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a37bf5e7c573ef871864d3280969a6328", null ],
-    [ "close", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a7c4f667c0ae437a76ae52e753186da96", null ],
-    [ "MPI_Init", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a19ea855f6d5255df7c10632de3d54dea", null ],
-    [ "MPI_Finalize", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a22d29c955a74c0d495d26430d0f93453", null ]
+    [ "close", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a7c4f667c0ae437a76ae52e753186da96", null ]
 ];
