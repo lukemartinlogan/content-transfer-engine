@@ -84,6 +84,7 @@ $(document).ready(function(){initNavTree('memory__management_8cc.html',''); init
 
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -122,6 +123,11 @@ This graph shows which files directly or indirectly include this file:</div>
 </map>
 </div>
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespacehermes"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html">hermes</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ab0540547920ce06d86e36a9022ec35e4"><td class="memItemLeft" align="right" valign="top"><a id="ab0540547920ce06d86e36a9022ec35e4"></a>
@@ -133,16 +139,16 @@ uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::AlignFor
 <tr class="memitem:a44f5b611f252c397974f44ebb7989a54"><td class="memItemLeft" align="right" valign="top"><a id="a44f5b611f252c397974f44ebb7989a54"></a>
 uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::AlignBackward</b> (uintptr_t addr, size_t alignment)</td></tr>
 <tr class="separator:a44f5b611f252c397974f44ebb7989a54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5d3174c5dc80367ddfa913d7685e666"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__management_8cc.html#af5d3174c5dc80367ddfa913d7685e666">hermes::InitArena</a> (Arena *arena, size_t bytes, u8 *base)</td></tr>
+<tr class="memitem:af5d3174c5dc80367ddfa913d7685e666"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#af5d3174c5dc80367ddfa913d7685e666">hermes::InitArena</a> (Arena *arena, size_t bytes, u8 *base)</td></tr>
 <tr class="separator:af5d3174c5dc80367ddfa913d7685e666"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad344fd4f2e60298d0b78945625b16d4a"><td class="memItemLeft" align="right" valign="top">Arena&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__management_8cc.html#ad344fd4f2e60298d0b78945625b16d4a">hermes::InitArenaAndAllocate</a> (size_t bytes)</td></tr>
+<tr class="memitem:ad344fd4f2e60298d0b78945625b16d4a"><td class="memItemLeft" align="right" valign="top">Arena&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#ad344fd4f2e60298d0b78945625b16d4a">hermes::InitArenaAndAllocate</a> (size_t bytes)</td></tr>
 <tr class="separator:ad344fd4f2e60298d0b78945625b16d4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac64963cdb2aef85ac002f4b8634cd2fc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__management_8cc.html#ac64963cdb2aef85ac002f4b8634cd2fc">hermes::DestroyArena</a> (Arena *arena)</td></tr>
+<tr class="memitem:ac64963cdb2aef85ac002f4b8634cd2fc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#ac64963cdb2aef85ac002f4b8634cd2fc">hermes::DestroyArena</a> (Arena *arena)</td></tr>
 <tr class="separator:ac64963cdb2aef85ac002f4b8634cd2fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ef28877549d5c7c061d0b606ed38cd0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__management_8cc.html#a1ef28877549d5c7c061d0b606ed38cd0">hermes::GetRemainingCapacity</a> (Arena *arena)</td></tr>
+<tr class="memitem:a1ef28877549d5c7c061d0b606ed38cd0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a1ef28877549d5c7c061d0b606ed38cd0">hermes::GetRemainingCapacity</a> (Arena *arena)</td></tr>
 <tr class="separator:a1ef28877549d5c7c061d0b606ed38cd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9632f771628051dbd740bbb21b6b771"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__management_8cc.html#ab9632f771628051dbd740bbb21b6b771">hermes::GrowArena</a> (Arena *arena, size_t new_size)</td></tr>
-<tr class="memdesc:ab9632f771628051dbd740bbb21b6b771"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum capacity of <code>arena</code> becomes <code>new_size</code>.  <a href="memory__management_8cc.html#ab9632f771628051dbd740bbb21b6b771">More...</a><br /></td></tr>
+<tr class="memitem:ab9632f771628051dbd740bbb21b6b771"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#ab9632f771628051dbd740bbb21b6b771">hermes::GrowArena</a> (Arena *arena, size_t new_size)</td></tr>
+<tr class="memdesc:ab9632f771628051dbd740bbb21b6b771"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum capacity of <code>arena</code> becomes <code>new_size</code>.  <a href="namespacehermes.html#ab9632f771628051dbd740bbb21b6b771">More...</a><br /></td></tr>
 <tr class="separator:ab9632f771628051dbd740bbb21b6b771"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a455f4bde497798667e412e71bb9ddd06"><td class="memItemLeft" align="right" valign="top"><a id="a455f4bde497798667e412e71bb9ddd06"></a>
 TemporaryMemory&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::BeginTemporaryMemory</b> (Arena *arena)</td></tr>
@@ -150,9 +156,9 @@ TemporaryMemory&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::Be
 <tr class="memitem:aa4c5b3d89d8359249a1422f855f57435"><td class="memItemLeft" align="right" valign="top"><a id="aa4c5b3d89d8359249a1422f855f57435"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::EndTemporaryMemory</b> (TemporaryMemory *temp_memory)</td></tr>
 <tr class="separator:aa4c5b3d89d8359249a1422f855f57435"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc4a3f05d273d7eacbd2cd8e1ad5e9ce"><td class="memItemLeft" align="right" valign="top">u8 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__management_8cc.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce">hermes::PushSize</a> (Arena *arena, size_t size, size_t alignment)</td></tr>
+<tr class="memitem:abc4a3f05d273d7eacbd2cd8e1ad5e9ce"><td class="memItemLeft" align="right" valign="top">u8 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce">hermes::PushSize</a> (Arena *arena, size_t size, size_t alignment)</td></tr>
 <tr class="separator:abc4a3f05d273d7eacbd2cd8e1ad5e9ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3af04b76abe44434f1648c42fca15794"><td class="memItemLeft" align="right" valign="top">u8 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__management_8cc.html#a3af04b76abe44434f1648c42fca15794">hermes::PushSizeAndClear</a> (Arena *arena, size_t size, size_t alignment)</td></tr>
+<tr class="memitem:a3af04b76abe44434f1648c42fca15794"><td class="memItemLeft" align="right" valign="top">u8 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a3af04b76abe44434f1648c42fca15794">hermes::PushSizeAndClear</a> (Arena *arena, size_t size, size_t alignment)</td></tr>
 <tr class="separator:a3af04b76abe44434f1648c42fca15794"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d2fceb70714bf22335312486e62991d"><td class="memItemLeft" align="right" valign="top"><a id="a0d2fceb70714bf22335312486e62991d"></a>
 u8 *&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::GetHeapMemory</b> (Heap *heap)</td></tr>
@@ -226,379 +232,7 @@ const int&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::kAttempt
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Basic Arena implementation. </p>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a id="af5d3174c5dc80367ddfa913d7685e666"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5d3174c5dc80367ddfa913d7685e666">&#9670;&nbsp;</a></span>InitArena()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::InitArena </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1_arena.html">Arena</a> *&#160;</td>
-          <td class="paramname"><em>arena</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>bytes</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>base</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Initializes an Arena with a starting size and base pointer. The <code>base</code> parameter must point to a contiguous region of allocated memory of at least <code>bytes</code> bytes.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">arena</td><td>The Arena to initialize. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">bytes</td><td>The desired size in bytes of the Arena's backing memory. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">base</td><td>A pointer to the beginning of the Arena's backing memory. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph.png" border="0" usemap="#memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph" alt=""/></div>
-<map name="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph" id="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,144,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph.png" border="0" usemap="#memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph" alt=""/></div>
-<map name="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph" id="memory__management_8cc_af5d3174c5dc80367ddfa913d7685e666_icgraph">
-<area shape="rect" title=" " alt="" coords="5,29,144,56"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="ad344fd4f2e60298d0b78945625b16d4a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad344fd4f2e60298d0b78945625b16d4a">&#9670;&nbsp;</a></span>InitArenaAndAllocate()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Arena hermes::InitArenaAndAllocate </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>bytes</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Initializes an Arena with a starting size. This function uses malloc to allocate a contiguous region of length <code>bytes</code> for the arena.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">bytes</td><td>The desired size in bytes to allocate.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>An arena with capacity <code>bytes</code>. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph.png" border="0" usemap="#memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph" alt=""/></div>
-<map name="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph" id="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,221,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph.png" border="0" usemap="#memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph" alt=""/></div>
-<map name="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph" id="memory__management_8cc_ad344fd4f2e60298d0b78945625b16d4a_icgraph">
-<area shape="rect" title=" " alt="" coords="276,29,492,56"/>
-<area shape="rect" href="communication__mpi_8cc.html#ac08b6a0677f8d21fae9fe6614c77a601" title=" " alt="" coords="5,29,228,56"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="ac64963cdb2aef85ac002f4b8634cd2fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac64963cdb2aef85ac002f4b8634cd2fc">&#9670;&nbsp;</a></span>DestroyArena()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::DestroyArena </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1_arena.html">Arena</a> *&#160;</td>
-          <td class="paramname"><em>arena</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Frees the memory backing the Arena, and zeros out all its fields.</p>
-<p>Only Arenas whose backing memory was created by malloc should be destroyed with this function. Arenas using shared memory as the backing store should not be destroyed. The backing memory is reclaimed when the shared memory is unlinked.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">arena</td><td>The Arena to destroy. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_ac64963cdb2aef85ac002f4b8634cd2fc_cgraph.png" border="0" usemap="#memory__management_8cc_ac64963cdb2aef85ac002f4b8634cd2fc_cgraph" alt=""/></div>
-<map name="memory__management_8cc_ac64963cdb2aef85ac002f4b8634cd2fc_cgraph" id="memory__management_8cc_ac64963cdb2aef85ac002f4b8634cd2fc_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,173,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_ac64963cdb2aef85ac002f4b8634cd2fc_icgraph.png" border="0" usemap="#memory__management_8cc_ac64963cdb2aef85ac002f4b8634cd2fc_icgraph" alt=""/></div>
-<map name="memory__management_8cc_ac64963cdb2aef85ac002f4b8634cd2fc_icgraph" id="memory__management_8cc_ac64963cdb2aef85ac002f4b8634cd2fc_icgraph">
-<area shape="rect" title=" " alt="" coords="5,29,173,56"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a1ef28877549d5c7c061d0b606ed38cd0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ef28877549d5c7c061d0b606ed38cd0">&#9670;&nbsp;</a></span>GetRemainingCapacity()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t hermes::GetRemainingCapacity </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1_arena.html">Arena</a> *&#160;</td>
-          <td class="paramname"><em>arena</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns the amount of free space left in an Arena.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">arena</td><td>The Arena to query.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The number of free bytes remaining </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_a1ef28877549d5c7c061d0b606ed38cd0_cgraph.png" border="0" usemap="#memory__management_8cc_a1ef28877549d5c7c061d0b606ed38cd0_cgraph" alt=""/></div>
-<map name="memory__management_8cc_a1ef28877549d5c7c061d0b606ed38cd0_cgraph" id="memory__management_8cc_a1ef28877549d5c7c061d0b606ed38cd0_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,235,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_a1ef28877549d5c7c061d0b606ed38cd0_icgraph.png" border="0" usemap="#memory__management_8cc_a1ef28877549d5c7c061d0b606ed38cd0_icgraph" alt=""/></div>
-<map name="memory__management_8cc_a1ef28877549d5c7c061d0b606ed38cd0_icgraph" id="memory__management_8cc_a1ef28877549d5c7c061d0b606ed38cd0_icgraph">
-<area shape="rect" title=" " alt="" coords="5,29,235,56"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="ab9632f771628051dbd740bbb21b6b771"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9632f771628051dbd740bbb21b6b771">&#9670;&nbsp;</a></span>GrowArena()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::GrowArena </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1_arena.html">Arena</a> *&#160;</td>
-          <td class="paramname"><em>arena</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>new_size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The maximum capacity of <code>arena</code> becomes <code>new_size</code>. </p>
-<p>Expands the backing memory for an arena to be <code>new_size</code> bytes.</p>
-<p>Becuase this function uses <code>realloc</code>, it will only work for Arenas whose backing store was created with malloc. It cannot be used with Arenas whose backing store is shared memory (e.g., the BufferPool arena).</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">arena</td><td>The arena to expand. </td></tr>
-    <tr><td class="paramname">new_size</td><td>The new (larger) size that the Arena should occupy. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_ab9632f771628051dbd740bbb21b6b771_cgraph.png" border="0" usemap="#memory__management_8cc_ab9632f771628051dbd740bbb21b6b771_cgraph" alt=""/></div>
-<map name="memory__management_8cc_ab9632f771628051dbd740bbb21b6b771_cgraph" id="memory__management_8cc_ab9632f771628051dbd740bbb21b6b771_cgraph">
-<area shape="rect" title="The maximum capacity of arena becomes new_size." alt="" coords="5,29,156,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_ab9632f771628051dbd740bbb21b6b771_icgraph.png" border="0" usemap="#memory__management_8cc_ab9632f771628051dbd740bbb21b6b771_icgraph" alt=""/></div>
-<map name="memory__management_8cc_ab9632f771628051dbd740bbb21b6b771_icgraph" id="memory__management_8cc_ab9632f771628051dbd740bbb21b6b771_icgraph">
-<area shape="rect" title="The maximum capacity of arena becomes new_size." alt="" coords="5,29,156,56"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="abc4a3f05d273d7eacbd2cd8e1ad5e9ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc4a3f05d273d7eacbd2cd8e1ad5e9ce">&#9670;&nbsp;</a></span>PushSize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">u8 * hermes::PushSize </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1_arena.html">Arena</a> *&#160;</td>
-          <td class="paramname"><em>arena</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>alignment</em> = <code>8</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns a pointer to a raw region of <code>size</code> bytes.</p>
-<p>This is the lower level Arena allocation function. The higher level PushStruct and PushArray should be used by clients.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">arena</td><td>The Arena to allocate from. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>The requested memory size in bytes. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">alignment</td><td>Align the result to a desired multiple.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the beginning of a contiguous region of <code>size</code> bytes. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_abc4a3f05d273d7eacbd2cd8e1ad5e9ce_cgraph.png" border="0" usemap="#memory__management_8cc_abc4a3f05d273d7eacbd2cd8e1ad5e9ce_cgraph" alt=""/></div>
-<map name="memory__management_8cc_abc4a3f05d273d7eacbd2cd8e1ad5e9ce_cgraph" id="memory__management_8cc_abc4a3f05d273d7eacbd2cd8e1ad5e9ce_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,143,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_abc4a3f05d273d7eacbd2cd8e1ad5e9ce_icgraph.png" border="0" usemap="#memory__management_8cc_abc4a3f05d273d7eacbd2cd8e1ad5e9ce_icgraph" alt=""/></div>
-<map name="memory__management_8cc_abc4a3f05d273d7eacbd2cd8e1ad5e9ce_icgraph" id="memory__management_8cc_abc4a3f05d273d7eacbd2cd8e1ad5e9ce_icgraph">
-<area shape="rect" title=" " alt="" coords="496,104,633,131"/>
-<area shape="rect" href="memory__management_8h.html#a43ad59a28476e0276c14d97f3cca75a4" title=" " alt="" coords="277,29,423,56"/>
-<area shape="rect" href="memory__management_8cc.html#a3af04b76abe44434f1648c42fca15794" title=" " alt="" coords="252,104,448,131"/>
-<area shape="rect" href="memory__management_8h.html#ac37a162ed266d8f186e43f5d06b4f748" title=" " alt="" coords="276,179,424,205"/>
-<area shape="rect" href="memory__management_8h.html#af7df055d8c62e55527ac01e6c1e3d2e0" title=" " alt="" coords="7,67,202,93"/>
-<area shape="rect" href="memory__management_8h.html#a0b920cd44bd75f39129699a69ebcf15d" title=" " alt="" coords="5,141,204,168"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a3af04b76abe44434f1648c42fca15794"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3af04b76abe44434f1648c42fca15794">&#9670;&nbsp;</a></span>PushSizeAndClear()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">u8 * hermes::PushSizeAndClear </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1_arena.html">Arena</a> *&#160;</td>
-          <td class="paramname"><em>arena</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>alignment</em> = <code>8</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns a pointer to a raw region of bytes that are cleared to zero.</p>
-<p>Like PushSize, but clears the requested region to zero.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">arena</td><td>The Arena to allocate from. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>The requested memory size in bytes. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">alignment</td><td>Align the result to a desired multiple.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the beginning of a contiguous region of <code>size</code> zeros. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_a3af04b76abe44434f1648c42fca15794_cgraph.png" border="0" usemap="#memory__management_8cc_a3af04b76abe44434f1648c42fca15794_cgraph" alt=""/></div>
-<map name="memory__management_8cc_a3af04b76abe44434f1648c42fca15794_cgraph" id="memory__management_8cc_a3af04b76abe44434f1648c42fca15794_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,201,56"/>
-<area shape="rect" href="memory__management_8cc.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce" title=" " alt="" coords="249,29,387,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="memory__management_8cc_a3af04b76abe44434f1648c42fca15794_icgraph.png" border="0" usemap="#memory__management_8cc_a3af04b76abe44434f1648c42fca15794_icgraph" alt=""/></div>
-<map name="memory__management_8cc_a3af04b76abe44434f1648c42fca15794_icgraph" id="memory__management_8cc_a3af04b76abe44434f1648c42fca15794_icgraph">
-<area shape="rect" title=" " alt="" coords="252,67,448,93"/>
-<area shape="rect" href="memory__management_8h.html#af7df055d8c62e55527ac01e6c1e3d2e0" title=" " alt="" coords="7,29,202,56"/>
-<area shape="rect" href="memory__management_8h.html#a0b920cd44bd75f39129699a69ebcf15d" title=" " alt="" coords="5,104,204,131"/>
-</map>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

@@ -102,7 +102,7 @@ $(document).ready(function(){initNavTree('metadata__storage_8h_source.html','');
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#ifndef HERMES_METADATA_STORAGE_H_</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#define HERMES_METADATA_STORAGE_H_</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span>hermes {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacehermes.html">hermes</a> {</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">void</span> PutToStorage(MetadataManager *mdm, <span class="keyword">const</span> <span class="keywordtype">char</span> *key, u64 val,</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                  MapType map_type);</div>
@@ -131,21 +131,25 @@ $(document).ready(function(){initNavTree('metadata__storage_8h_source.html','');
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;std::vector&lt;BlobID&gt; LocalGetBlobIds(SharedMemoryContext *context,</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                                    BucketID bucket_id);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;BlobInfo *GetBlobInfoPtr(MetadataManager *mdm, BlobID blob_id);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;BlobInfo *<a class="code" href="namespacehermes.html#aa7aea97f0418fdb6ff086a99b14b542d">GetBlobInfoPtr</a>(MetadataManager *mdm, BlobID blob_id);</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keywordtype">void</span> ReleaseBlobInfoPtr(MetadataManager *mdm);</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;u64 *GetIdsPtr(MetadataManager *mdm, IdList id_list);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;u64 *GetIdsPtr(MetadataManager *mdm, ChunkedIdList id_list);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;u64 *<a class="code" href="namespacehermes.html#aa4ab933ed7218ef846bb3a4c972ffae7">GetIdsPtr</a>(MetadataManager *mdm, IdList id_list);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;u64 *<a class="code" href="namespacehermes.html#aa4ab933ed7218ef846bb3a4c972ffae7">GetIdsPtr</a>(MetadataManager *mdm, ChunkedIdList id_list);</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="keywordtype">void</span> ReleaseIdsPtr(MetadataManager *mdm);</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;std::vector&lt;u64&gt; GetChunkedIdList(MetadataManager *mdm, ChunkedIdList id_list);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;std::vector&lt;u64&gt; <a class="code" href="namespacehermes.html#aaba1c94c26e2da3724bfaedc03f5093a">GetChunkedIdList</a>(MetadataManager *mdm, ChunkedIdList id_list);</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}  <span class="comment">// namespace hermes</span></div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor">#endif  // HERMES_METADATA_STORAGE_H_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="anamespacehermes_html_aa7aea97f0418fdb6ff086a99b14b542d"><div class="ttname"><a href="namespacehermes.html#aa7aea97f0418fdb6ff086a99b14b542d">hermes::GetBlobInfoPtr</a></div><div class="ttdeci">BlobInfo * GetBlobInfoPtr(MetadataManager *mdm, BlobID blob_id)</div><div class="ttdef"><b>Definition:</b> metadata_storage_stb_ds.cc:191</div></div>
+<div class="ttc" id="anamespacehermes_html"><div class="ttname"><a href="namespacehermes.html">hermes</a></div><div class="ttdef"><b>Definition:</b> adapter_utils.cc:35</div></div>
+<div class="ttc" id="anamespacehermes_html_aa4ab933ed7218ef846bb3a4c972ffae7"><div class="ttname"><a href="namespacehermes.html#aa4ab933ed7218ef846bb3a4c972ffae7">hermes::GetIdsPtr</a></div><div class="ttdeci">u64 * GetIdsPtr(MetadataManager *mdm, IdList id_list)</div><div class="ttdef"><b>Definition:</b> metadata_storage_stb_ds.cc:229</div></div>
+<div class="ttc" id="anamespacehermes_html_aaba1c94c26e2da3724bfaedc03f5093a"><div class="ttname"><a href="namespacehermes.html#aaba1c94c26e2da3724bfaedc03f5093a">hermes::GetChunkedIdList</a></div><div class="ttdeci">std::vector&lt; u64 &gt; GetChunkedIdList(MetadataManager *mdm, ChunkedIdList id_list)</div><div class="ttdef"><b>Definition:</b> metadata_storage_stb_ds.cc:373</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

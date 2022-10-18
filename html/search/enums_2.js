@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['placementpolicy_792',['PlacementPolicy',['../hermes__types_8h.html#a66b9a7dd528375b0f2f0e77f72d66b67',1,'hermes::api']]],
-  ['processkind_793',['ProcessKind',['../hermes__types_8h.html#ae9d9c6dc6ad00f09a7d78b5db7e106cb',1,'hermes']]]
+  ['statuscode_844',['StatusCode',['../namespacehermes.html#a3a6adca7017201b6df17734c368f0c33',1,'hermes']]]
 ];

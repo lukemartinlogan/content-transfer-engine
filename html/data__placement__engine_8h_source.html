@@ -108,7 +108,7 @@ $(document).ready(function(){initNavTree('data__placement__engine_8h_source.html
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hermes__status_8h.html">hermes_status.h</a>&quot;</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hermes_8h.html">hermes.h</a>&quot;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span>hermes {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacehermes.html">hermes</a> {</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#define VERIFY_DPE_POLICY(ctx) \</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">  if (ctx.policy != policy_) { return Status(); }</span></div>
@@ -136,7 +136,7 @@ $(document).ready(function(){initNavTree('data__placement__engine_8h_source.html
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordtype">void</span> GetSplitSizes(<span class="keywordtype">size_t</span> blob_size, std::vector&lt;size_t&gt; &amp;output);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;};</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<a class="code" href="hermes__types_8h.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">PlacementSchema</a> AggregateBlobSchema(<a class="code" href="hermes__types_8h.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">PlacementSchema</a> &amp;schema);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<a class="code" href="namespacehermes.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">PlacementSchema</a> AggregateBlobSchema(<a class="code" href="namespacehermes.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">PlacementSchema</a> &amp;schema);</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<a class="code" href="classapi_1_1_status.html">Status</a> CalculatePlacement(<a class="code" href="structhermes_1_1_shared_memory_context.html">SharedMemoryContext</a> *context, <a class="code" href="structhermes_1_1_rpc_context.html">RpcContext</a> *rpc,</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                          <span class="keyword">const</span> std::vector&lt;size_t&gt; &amp;blob_size,</div>
@@ -148,13 +148,14 @@ $(document).ready(function(){initNavTree('data__placement__engine_8h_source.html
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructhermes_1_1_rpc_context_html"><div class="ttname"><a href="structhermes_1_1_rpc_context.html">hermes::RpcContext</a></div><div class="ttdef"><b>Definition:</b> rpc.h:37</div></div>
-<div class="ttc" id="ahermes__types_8h_html_aa29a80eb3b2f5a1f59bc16dbf24c1274"><div class="ttname"><a href="hermes__types_8h.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">hermes::PlacementSchema</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; size_t, TargetID &gt; &gt; PlacementSchema</div><div class="ttdef"><b>Definition:</b> hermes_types.h:211</div></div>
+<div class="ttc" id="anamespacehermes_html_a02a03c2aa41e4113f2ef9e0d877c15b2"><div class="ttname"><a href="namespacehermes.html#a02a03c2aa41e4113f2ef9e0d877c15b2">hermes::GetBandwidths</a></div><div class="ttdeci">std::vector&lt; f32 &gt; GetBandwidths(SharedMemoryContext *context, const std::vector&lt; TargetID &gt; &amp;targets)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:163</div></div>
 <div class="ttc" id="astructhermes_1_1api_1_1_context_html"><div class="ttname"><a href="structhermes_1_1api_1_1_context.html">hermes::api::Context</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:128</div></div>
 <div class="ttc" id="ahermes_8h_html"><div class="ttname"><a href="hermes_8h.html">hermes.h</a></div></div>
+<div class="ttc" id="anamespacehermes_html"><div class="ttname"><a href="namespacehermes.html">hermes</a></div><div class="ttdef"><b>Definition:</b> adapter_utils.cc:35</div></div>
 <div class="ttc" id="aclassapi_1_1_status_html"><div class="ttname"><a href="classapi_1_1_status.html">api::Status</a></div><div class="ttdef"><b>Definition:</b> hermes_status.h:69</div></div>
 <div class="ttc" id="aclasshermes_1_1_d_p_e_html"><div class="ttname"><a href="classhermes_1_1_d_p_e.html">hermes::DPE</a></div><div class="ttdef"><b>Definition:</b> data_placement_engine.h:30</div></div>
 <div class="ttc" id="astructhermes_1_1_shared_memory_context_html"><div class="ttname"><a href="structhermes_1_1_shared_memory_context.html">hermes::SharedMemoryContext</a></div><div class="ttdef"><b>Definition:</b> buffer_pool.h:254</div></div>
-<div class="ttc" id="abuffer__pool_8cc_html_a02a03c2aa41e4113f2ef9e0d877c15b2"><div class="ttname"><a href="buffer__pool_8cc.html#a02a03c2aa41e4113f2ef9e0d877c15b2">hermes::GetBandwidths</a></div><div class="ttdeci">std::vector&lt; f32 &gt; GetBandwidths(SharedMemoryContext *context, const std::vector&lt; TargetID &gt; &amp;targets)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:163</div></div>
+<div class="ttc" id="anamespacehermes_html_aa29a80eb3b2f5a1f59bc16dbf24c1274"><div class="ttname"><a href="namespacehermes.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">hermes::PlacementSchema</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; size_t, TargetID &gt; &gt; PlacementSchema</div><div class="ttdef"><b>Definition:</b> hermes_types.h:211</div></div>
 <div class="ttc" id="ahermes__types_8h_html_a66b9a7dd528375b0f2f0e77f72d66b67"><div class="ttname"><a href="hermes__types_8h.html#a66b9a7dd528375b0f2f0e77f72d66b67">hermes::api::PlacementPolicy</a></div><div class="ttdeci">PlacementPolicy</div><div class="ttdef"><b>Definition:</b> hermes_types.h:71</div></div>
 <div class="ttc" id="ahermes__status_8h_html"><div class="ttname"><a href="hermes__status_8h.html">hermes_status.h</a></div></div>
 <div class="ttc" id="ahermes__types_8h_html"><div class="ttname"><a href="hermes__types_8h.html">hermes_types.h</a></div></div>

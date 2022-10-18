@@ -1,5 +1,7 @@
 <map id="hermes::api::Hermes::Finalize" name="hermes::api::Hermes::Finalize">
-<area shape="rect" id="node1" title="Shutdown Hermes." alt="" coords="5,51,164,93"/>
-<area shape="rect" id="node2" href="$buffer__pool_8cc.html#aba276e3158ce278c8b895b936678b255" title=" " alt="" coords="227,29,356,56"/>
-<area shape="rect" id="node3" href="$classhermes_1_1api_1_1_hermes.html#ad2bb69f41037cc5b7e4638d0ec4a6e57" title="Return true if this rank is an application core, otherwise false." alt="" coords="212,81,371,122"/>
+<area shape="rect" id="node1" title="Shutdown Hermes." alt="" coords="5,57,164,98"/>
+<area shape="rect" id="node2" href="$namespacehermes.html#aba276e3158ce278c8b895b936678b255" title=" " alt="" coords="227,35,356,61"/>
+<area shape="rect" id="node5" href="$classhermes_1_1api_1_1_hermes.html#ad2bb69f41037cc5b7e4638d0ec4a6e57" title="Return true if this rank is an application core, otherwise false." alt="" coords="212,86,371,127"/>
+<area shape="rect" id="node3" href="$namespacehermes.html#ac64963cdb2aef85ac002f4b8634cd2fc" title=" " alt="" coords="450,5,618,32"/>
+<area shape="rect" id="node4" href="$namespacehermes.html#a7f5a7088d0c67afec779b03060291180" title=" " alt="" coords="419,57,649,98"/>
 </map>

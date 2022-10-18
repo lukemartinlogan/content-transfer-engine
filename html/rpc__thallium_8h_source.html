@@ -116,7 +116,7 @@ $(document).ready(function(){initNavTree('rpc__thallium_8h_source.html',''); ini
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>tl = thallium;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>hermes {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacehermes.html">hermes</a> {</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">const</span> <span class="keywordtype">int</span> kMaxServerNamePrefix = 32;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">const</span> <span class="keywordtype">int</span> kMaxServerNamePostfix = 8;</div>
@@ -138,32 +138,32 @@ $(document).ready(function(){initNavTree('rpc__thallium_8h_source.html',''); ini
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;};</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keywordtype">void</span> serialize(A &amp;ar, <a class="code" href="unionhermes_1_1_buffer_i_d.html">BufferID</a> &amp;buffer_id) {</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="namespacehermes.html#a0b5b43de038ab2b60cac1987bd12663a">   60</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a0b5b43de038ab2b60cac1987bd12663a">serialize</a>(A &amp;ar, <a class="code" href="unionhermes_1_1_buffer_i_d.html">BufferID</a> &amp;buffer_id) {</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  ar &amp; buffer_id.<a class="code" href="unionhermes_1_1_buffer_i_d.html#a9984807fe75e37d0e409ae7c6bc1e43d">as_int</a>;</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keywordtype">void</span> serialize(A &amp;ar, BucketID &amp;bucket_id) {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  ar &amp; bucket_id.as_int;</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="namespacehermes.html#a96c468fd634bf13b30911a5da5d22b70">   73</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a0b5b43de038ab2b60cac1987bd12663a">serialize</a>(A &amp;ar, <a class="code" href="unionhermes_1_1_bucket_i_d.html">BucketID</a> &amp;bucket_id) {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  ar &amp; bucket_id.<a class="code" href="unionhermes_1_1_bucket_i_d.html#a8e781d003afe8f8afa1ff031d72bf326">as_int</a>;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keywordtype">void</span> serialize(A &amp;ar, VBucketID &amp;vbucket_id) {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  ar &amp;vbucket_id.as_int;</div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="namespacehermes.html#a46673373f35bd7aa5790237bab06daf5">   86</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a0b5b43de038ab2b60cac1987bd12663a">serialize</a>(A &amp;ar, <a class="code" href="unionhermes_1_1_v_bucket_i_d.html">VBucketID</a> &amp;vbucket_id) {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  ar &amp;vbucket_id.<a class="code" href="unionhermes_1_1_v_bucket_i_d.html#abc9943d77a9d3eea9a01bf60084c4f6b">as_int</a>;</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="keywordtype">void</span> serialize(A &amp;ar, BlobID &amp;blob_id) {</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  ar &amp; blob_id.as_int;</div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="namespacehermes.html#a02d158156d45aafa1ebd273fc27da215">   99</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a0b5b43de038ab2b60cac1987bd12663a">serialize</a>(A &amp;ar, <a class="code" href="unionhermes_1_1_blob_i_d.html">BlobID</a> &amp;blob_id) {</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  ar &amp; blob_id.<a class="code" href="unionhermes_1_1_blob_i_d.html#a92379a8eb5df4f91b2d5b69d263576bf">as_int</a>;</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="keywordtype">void</span> serialize(A &amp;ar, TargetID &amp;target_id) {</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  ar &amp; target_id.as_int;</div>
+<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="namespacehermes.html#ab60aa8619a8020685fa4366360bb8893">  112</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a0b5b43de038ab2b60cac1987bd12663a">serialize</a>(A &amp;ar, <a class="code" href="unionhermes_1_1_target_i_d.html">TargetID</a> &amp;target_id) {</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  ar &amp; target_id.<a class="code" href="unionhermes_1_1_target_i_d.html#af514498f4d6aea7792d89a8c60f8b999">as_int</a>;</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="keywordtype">void</span> serialize(A &amp;ar, SwapBlob &amp;swap_blob) {</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a0b5b43de038ab2b60cac1987bd12663a">serialize</a>(A &amp;ar, SwapBlob &amp;swap_blob) {</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  ar &amp; swap_blob.node_id;</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  ar &amp; swap_blob.offset;</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  ar &amp; swap_blob.size;</div>
@@ -171,7 +171,7 @@ $(document).ready(function(){initNavTree('rpc__thallium_8h_source.html',''); ini
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;}</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="keywordtype">void</span> serialize(A &amp;ar, BufferInfo &amp;info) {</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a0b5b43de038ab2b60cac1987bd12663a">serialize</a>(A &amp;ar, BufferInfo &amp;info) {</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  ar &amp; info.id;</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  ar &amp; info.bandwidth_mbps;</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  ar &amp; info.size;</div>
@@ -184,39 +184,39 @@ $(document).ready(function(){initNavTree('rpc__thallium_8h_source.html',''); ini
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment">// using cereal.</span></div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="keywordtype">void</span> save(A &amp;ar, MapType &amp;map_type) {</div>
+<div class="line"><a name="l00146"></a><span class="lineno"><a class="line" href="namespacehermes.html#a34cdc75e5b37b9d479fc14e52767113f">  146</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a34cdc75e5b37b9d479fc14e52767113f">save</a>(A &amp;ar, MapType &amp;map_type) {</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  <span class="keywordtype">int</span> val = (int)map_type;</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  ar.write(&amp;val, 1);</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;}</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="keywordtype">void</span> load(A &amp;ar, MapType &amp;map_type) {</div>
+<div class="line"><a name="l00160"></a><span class="lineno"><a class="line" href="namespacehermes.html#a239e5b0ef224056a8e435753a7e5eea9">  160</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a239e5b0ef224056a8e435753a7e5eea9">load</a>(A &amp;ar, MapType &amp;map_type) {</div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  <span class="keywordtype">int</span> val = 0;</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  ar.read(&amp;val, 1);</div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;  map_type = (MapType)val;</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;}</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="keywordtype">void</span> save(A &amp;ar, BoPriority &amp;priority) {</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a34cdc75e5b37b9d479fc14e52767113f">save</a>(A &amp;ar, BoPriority &amp;priority) {</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;  <span class="keywordtype">int</span> val = (int)priority;</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  ar.write(&amp;val, 1);</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;}</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="keywordtype">void</span> load(A &amp;ar, BoPriority &amp;priority) {</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a239e5b0ef224056a8e435753a7e5eea9">load</a>(A &amp;ar, BoPriority &amp;priority) {</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;  <span class="keywordtype">int</span> val = 0;</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;  ar.read(&amp;val, 1);</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  priority = (BoPriority)val;</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;}</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160; </div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="keywordtype">void</span> save(A &amp;ar, ThresholdViolation &amp;violation) {</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a34cdc75e5b37b9d479fc14e52767113f">save</a>(A &amp;ar, ThresholdViolation &amp;violation) {</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  <span class="keywordtype">int</span> val = (int)violation;</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  ar.write(&amp;val, 1);</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;}</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="keywordtype">void</span> load(A &amp;ar, ThresholdViolation &amp;violation) {</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a239e5b0ef224056a8e435753a7e5eea9">load</a>(A &amp;ar, ThresholdViolation &amp;violation) {</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;  <span class="keywordtype">int</span> val = 0;</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  ar.read(&amp;val, 1);</div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  violation = (ThresholdViolation)val;</div>
@@ -225,32 +225,32 @@ $(document).ready(function(){initNavTree('rpc__thallium_8h_source.html',''); ini
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160; </div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="keywordtype">void</span> save(A &amp;ar, BoOperation &amp;op) {</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a34cdc75e5b37b9d479fc14e52767113f">save</a>(A &amp;ar, BoOperation &amp;op) {</div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;  <span class="keywordtype">int</span> val = (int)op;</div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  ar.write(&amp;val, 1);</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;}</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="keywordtype">void</span> load(A &amp;ar, BoOperation &amp;op) {</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a239e5b0ef224056a8e435753a7e5eea9">load</a>(A &amp;ar, BoOperation &amp;op) {</div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;  <span class="keywordtype">int</span> val = 0;</div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  ar.read(&amp;val, 1);</div>
 <div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;  op = (BoOperation)val;</div>
 <div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;}</div>
 <div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160; </div>
 <div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="keywordtype">void</span> serialize(A &amp;ar, BoArgs &amp;bo_args) {</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a0b5b43de038ab2b60cac1987bd12663a">serialize</a>(A &amp;ar, BoArgs &amp;bo_args) {</div>
 <div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;  ar &amp; bo_args.move_args.src;</div>
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;  ar &amp; bo_args.move_args.dest;</div>
 <div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;}</div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160; </div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="keywordtype">void</span> serialize(A &amp;ar, BoTask &amp;bo_task) {</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a0b5b43de038ab2b60cac1987bd12663a">serialize</a>(A &amp;ar, BoTask &amp;bo_task) {</div>
 <div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;  ar &amp; bo_task.op;</div>
 <div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;  ar &amp; bo_task.args;</div>
 <div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;}</div>
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160; </div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="keywordtype">void</span> serialize(A &amp;ar, ViolationInfo &amp;info) {</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a0b5b43de038ab2b60cac1987bd12663a">serialize</a>(A &amp;ar, ViolationInfo &amp;info) {</div>
 <div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;  ar &amp; info.target_id;</div>
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;  ar &amp; info.violation;</div>
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;  ar &amp; info.violation_size;</div>
@@ -259,16 +259,16 @@ $(document).ready(function(){initNavTree('rpc__thallium_8h_source.html',''); ini
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="keyword">namespace </span>api {</div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;<span class="preprocessor">#ifndef THALLIUM_USE_CEREAL</span></div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;<span class="keywordtype">void</span> save(A &amp;ar, api::Context &amp;ctx) {</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a34cdc75e5b37b9d479fc14e52767113f">save</a>(A &amp;ar, api::Context &amp;ctx) {</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="keywordtype">void</span> save(A &amp;ar, <span class="keyword">const</span> api::Context &amp;ctx) {</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a34cdc75e5b37b9d479fc14e52767113f">save</a>(A &amp;ar, <span class="keyword">const</span> api::Context &amp;ctx) {</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="preprocessor">#endif  // #ifndef THALLIUM_USE_CEREAL</span></div>
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;  ar.write(&amp;ctx.buffer_organizer_retries, 1);</div>
 <div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;  <span class="keywordtype">int</span> val = (int)ctx.policy;</div>
 <div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;  ar.write(&amp;val, 1);</div>
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;}</div>
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> A&gt;</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="keywordtype">void</span> load(A &amp;ar, api::Context &amp;ctx) {</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacehermes.html#a239e5b0ef224056a8e435753a7e5eea9">load</a>(A &amp;ar, api::Context &amp;ctx) {</div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;  <span class="keywordtype">int</span> val = 0;</div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  ar.read(&amp;ctx.buffer_organizer_retries, 1);</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  ar.read(&amp;val, 1);</div>
@@ -345,21 +345,34 @@ $(document).ready(function(){initNavTree('rpc__thallium_8h_source.html',''); ini
 </div><!-- doc-content -->
 <div class="ttc" id="astructhermes_1_1_client_thallium_state_html"><div class="ttname"><a href="structhermes_1_1_client_thallium_state.html">hermes::ClientThalliumState</a></div><div class="ttdef"><b>Definition:</b> rpc_thallium.h:47</div></div>
 <div class="ttc" id="aunionhermes_1_1_buffer_i_d_html_a9984807fe75e37d0e409ae7c6bc1e43d"><div class="ttname"><a href="unionhermes_1_1_buffer_i_d.html#a9984807fe75e37d0e409ae7c6bc1e43d">hermes::BufferID::as_int</a></div><div class="ttdeci">u64 as_int</div><div class="ttdef"><b>Definition:</b> buffer_pool.h:103</div></div>
-<div class="ttc" id="ahermes__types_8h_html_aa29a80eb3b2f5a1f59bc16dbf24c1274"><div class="ttname"><a href="hermes__types_8h.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">hermes::PlacementSchema</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; size_t, TargetID &gt; &gt; PlacementSchema</div><div class="ttdef"><b>Definition:</b> hermes_types.h:211</div></div>
-<div class="ttc" id="amemory__management_8cc_html_ac64963cdb2aef85ac002f4b8634cd2fc"><div class="ttname"><a href="memory__management_8cc.html#ac64963cdb2aef85ac002f4b8634cd2fc">hermes::DestroyArena</a></div><div class="ttdeci">void DestroyArena(Arena *arena)</div><div class="ttdef"><b>Definition:</b> memory_management.cc:74</div></div>
+<div class="ttc" id="anamespacehermes_html_ae3789d75221354e09f43fe8d1520b988"><div class="ttname"><a href="namespacehermes.html#ae3789d75221354e09f43fe8d1520b988">hermes::GetBuffers</a></div><div class="ttdeci">std::vector&lt; BufferID &gt; GetBuffers(SharedMemoryContext *context, const PlacementSchema &amp;schema)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:568</div></div>
+<div class="ttc" id="anamespacehermes_html_a42d7d04421227f822bdaa0344654409f"><div class="ttname"><a href="namespacehermes.html#a42d7d04421227f822bdaa0344654409f">hermes::GetHeaderByBufferId</a></div><div class="ttdeci">BufferHeader * GetHeaderByBufferId(SharedMemoryContext *context, BufferID id)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:206</div></div>
+<div class="ttc" id="anamespacehermes_html_a1ef28877549d5c7c061d0b606ed38cd0"><div class="ttname"><a href="namespacehermes.html#a1ef28877549d5c7c061d0b606ed38cd0">hermes::GetRemainingCapacity</a></div><div class="ttdeci">size_t GetRemainingCapacity(Arena *arena)</div><div class="ttdef"><b>Definition:</b> memory_management.cc:82</div></div>
+<div class="ttc" id="anamespacehermes_html"><div class="ttname"><a href="namespacehermes.html">hermes</a></div><div class="ttdef"><b>Definition:</b> adapter_utils.cc:35</div></div>
+<div class="ttc" id="aunionhermes_1_1_bucket_i_d_html"><div class="ttname"><a href="unionhermes_1_1_bucket_i_d.html">hermes::BucketID</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:338</div></div>
 <div class="ttc" id="aclassapi_1_1_status_html_a12ac0a86f097a9c62a01fca4dbed7e55"><div class="ttname"><a href="classapi_1_1_status.html#a12ac0a86f097a9c62a01fca4dbed7e55">api::Status::Succeeded</a></div><div class="ttdeci">bool Succeeded() const</div><div class="ttdef"><b>Definition:</b> hermes_status.h:75</div></div>
-<div class="ttc" id="amemory__management_8cc_html_abc4a3f05d273d7eacbd2cd8e1ad5e9ce"><div class="ttname"><a href="memory__management_8cc.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce">hermes::PushSize</a></div><div class="ttdeci">u8 * PushSize(Arena *arena, size_t size, size_t alignment)</div><div class="ttdef"><b>Definition:</b> memory_management.cc:124</div></div>
 <div class="ttc" id="aclassapi_1_1_status_html"><div class="ttname"><a href="classapi_1_1_status.html">api::Status</a></div><div class="ttdef"><b>Definition:</b> hermes_status.h:69</div></div>
-<div class="ttc" id="abuffer__pool_8cc_html_a42d7d04421227f822bdaa0344654409f"><div class="ttname"><a href="buffer__pool_8cc.html#a42d7d04421227f822bdaa0344654409f">hermes::GetHeaderByBufferId</a></div><div class="ttdeci">BufferHeader * GetHeaderByBufferId(SharedMemoryContext *context, BufferID id)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:206</div></div>
-<div class="ttc" id="abuffer__pool_8cc_html_a0594eaad6f55d0838ac754ce0aa8e53c"><div class="ttname"><a href="buffer__pool_8cc.html#a0594eaad6f55d0838ac754ce0aa8e53c">hermes::MergeRamBufferFreeList</a></div><div class="ttdeci">void MergeRamBufferFreeList(SharedMemoryContext *context, int slab_index)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:807</div></div>
-<div class="ttc" id="amemory__management_8cc_html_a1ef28877549d5c7c061d0b606ed38cd0"><div class="ttname"><a href="memory__management_8cc.html#a1ef28877549d5c7c061d0b606ed38cd0">hermes::GetRemainingCapacity</a></div><div class="ttdeci">size_t GetRemainingCapacity(Arena *arena)</div><div class="ttdef"><b>Definition:</b> memory_management.cc:82</div></div>
-<div class="ttc" id="abuffer__pool_8cc_html_ae3789d75221354e09f43fe8d1520b988"><div class="ttname"><a href="buffer__pool_8cc.html#ae3789d75221354e09f43fe8d1520b988">hermes::GetBuffers</a></div><div class="ttdeci">std::vector&lt; BufferID &gt; GetBuffers(SharedMemoryContext *context, const PlacementSchema &amp;schema)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:568</div></div>
-<div class="ttc" id="abuffer__pool_8cc_html_aa4aa1c5e87928e65cc3e16c8a2c1aa6e"><div class="ttname"><a href="buffer__pool_8cc.html#aa4aa1c5e87928e65cc3e16c8a2c1aa6e">hermes::SplitRamBufferFreeList</a></div><div class="ttdeci">void SplitRamBufferFreeList(SharedMemoryContext *context, int slab_index)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:943</div></div>
+<div class="ttc" id="anamespacehermes_html_a7f5a7088d0c67afec779b03060291180"><div class="ttname"><a href="namespacehermes.html#a7f5a7088d0c67afec779b03060291180">hermes::ReleaseSharedMemoryContext</a></div><div class="ttdeci">void ReleaseSharedMemoryContext(SharedMemoryContext *context)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:1475</div></div>
+<div class="ttc" id="anamespacehermes_html_ac64963cdb2aef85ac002f4b8634cd2fc"><div class="ttname"><a href="namespacehermes.html#ac64963cdb2aef85ac002f4b8634cd2fc">hermes::DestroyArena</a></div><div class="ttdeci">void DestroyArena(Arena *arena)</div><div class="ttdef"><b>Definition:</b> memory_management.cc:74</div></div>
+<div class="ttc" id="aunionhermes_1_1_bucket_i_d_html_a8e781d003afe8f8afa1ff031d72bf326"><div class="ttname"><a href="unionhermes_1_1_bucket_i_d.html#a8e781d003afe8f8afa1ff031d72bf326">hermes::BucketID::as_int</a></div><div class="ttdeci">u64 as_int</div><div class="ttdef"><b>Definition:</b> hermes_types.h:349</div></div>
+<div class="ttc" id="anamespacehermes_html_a34cdc75e5b37b9d479fc14e52767113f"><div class="ttname"><a href="namespacehermes.html#a34cdc75e5b37b9d479fc14e52767113f">hermes::save</a></div><div class="ttdeci">void save(A &amp;ar, MapType &amp;map_type)</div><div class="ttdef"><b>Definition:</b> rpc_thallium.h:146</div></div>
+<div class="ttc" id="aunionhermes_1_1_v_bucket_i_d_html_abc9943d77a9d3eea9a01bf60084c4f6b"><div class="ttname"><a href="unionhermes_1_1_v_bucket_i_d.html#abc9943d77a9d3eea9a01bf60084c4f6b">hermes::VBucketID::as_int</a></div><div class="ttdeci">u64 as_int</div><div class="ttdef"><b>Definition:</b> hermes_types.h:372</div></div>
+<div class="ttc" id="anamespacehermes_html_aa4aa1c5e87928e65cc3e16c8a2c1aa6e"><div class="ttname"><a href="namespacehermes.html#aa4aa1c5e87928e65cc3e16c8a2c1aa6e">hermes::SplitRamBufferFreeList</a></div><div class="ttdeci">void SplitRamBufferFreeList(SharedMemoryContext *context, int slab_index)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:943</div></div>
+<div class="ttc" id="anamespacehermes_html_abc4a3f05d273d7eacbd2cd8e1ad5e9ce"><div class="ttname"><a href="namespacehermes.html#abc4a3f05d273d7eacbd2cd8e1ad5e9ce">hermes::PushSize</a></div><div class="ttdeci">u8 * PushSize(Arena *arena, size_t size, size_t alignment)</div><div class="ttdef"><b>Definition:</b> memory_management.cc:124</div></div>
+<div class="ttc" id="anamespacehermes_html_aeead20c73463fedaadfc2473f71340a1"><div class="ttname"><a href="namespacehermes.html#aeead20c73463fedaadfc2473f71340a1">hermes::GetShmemString</a></div><div class="ttdeci">std::string GetShmemString(ShmemString *sms)</div><div class="ttdef"><b>Definition:</b> metadata_management.cc:1608</div></div>
+<div class="ttc" id="anamespacehermes_html_aa29a80eb3b2f5a1f59bc16dbf24c1274"><div class="ttname"><a href="namespacehermes.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">hermes::PlacementSchema</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; size_t, TargetID &gt; &gt; PlacementSchema</div><div class="ttdef"><b>Definition:</b> hermes_types.h:211</div></div>
 <div class="ttc" id="aunionhermes_1_1_buffer_i_d_html"><div class="ttname"><a href="unionhermes_1_1_buffer_i_d.html">hermes::BufferID</a></div><div class="ttdef"><b>Definition:</b> buffer_pool.h:90</div></div>
+<div class="ttc" id="aunionhermes_1_1_v_bucket_i_d_html"><div class="ttname"><a href="unionhermes_1_1_v_bucket_i_d.html">hermes::VBucketID</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:361</div></div>
+<div class="ttc" id="aunionhermes_1_1_blob_i_d_html"><div class="ttname"><a href="unionhermes_1_1_blob_i_d.html">hermes::BlobID</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:375</div></div>
+<div class="ttc" id="anamespacehermes_html_a0594eaad6f55d0838ac754ce0aa8e53c"><div class="ttname"><a href="namespacehermes.html#a0594eaad6f55d0838ac754ce0aa8e53c">hermes::MergeRamBufferFreeList</a></div><div class="ttdeci">void MergeRamBufferFreeList(SharedMemoryContext *context, int slab_index)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:807</div></div>
 <div class="ttc" id="ahermes__types_8h_html_a66b9a7dd528375b0f2f0e77f72d66b67"><div class="ttname"><a href="hermes__types_8h.html#a66b9a7dd528375b0f2f0e77f72d66b67">hermes::api::PlacementPolicy</a></div><div class="ttdeci">PlacementPolicy</div><div class="ttdef"><b>Definition:</b> hermes_types.h:71</div></div>
 <div class="ttc" id="ahermes__types_8h_html_a2524128a957393840374aa59c93cf8b5"><div class="ttname"><a href="hermes__types_8h.html#a2524128a957393840374aa59c93cf8b5">hermes::api::Blob</a></div><div class="ttdeci">std::vector&lt; unsigned char &gt; Blob</div><div class="ttdef"><b>Definition:</b> hermes_types.h:68</div></div>
 <div class="ttc" id="astructhermes_1_1_thallium_state_html"><div class="ttname"><a href="structhermes_1_1_thallium_state.html">hermes::ThalliumState</a></div><div class="ttdef"><b>Definition:</b> rpc_thallium.h:37</div></div>
-<div class="ttc" id="abuffer__pool_8cc_html_a7f5a7088d0c67afec779b03060291180"><div class="ttname"><a href="buffer__pool_8cc.html#a7f5a7088d0c67afec779b03060291180">hermes::ReleaseSharedMemoryContext</a></div><div class="ttdeci">void ReleaseSharedMemoryContext(SharedMemoryContext *context)</div><div class="ttdef"><b>Definition:</b> buffer_pool.cc:1475</div></div>
+<div class="ttc" id="aunionhermes_1_1_target_i_d_html_af514498f4d6aea7792d89a8c60f8b999"><div class="ttname"><a href="unionhermes_1_1_target_i_d.html#af514498f4d6aea7792d89a8c60f8b999">hermes::TargetID::as_int</a></div><div class="ttdeci">u64 as_int</div><div class="ttdef"><b>Definition:</b> hermes_types.h:201</div></div>
+<div class="ttc" id="aunionhermes_1_1_target_i_d_html"><div class="ttname"><a href="unionhermes_1_1_target_i_d.html">hermes::TargetID</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:186</div></div>
+<div class="ttc" id="anamespacehermes_html_a239e5b0ef224056a8e435753a7e5eea9"><div class="ttname"><a href="namespacehermes.html#a239e5b0ef224056a8e435753a7e5eea9">hermes::load</a></div><div class="ttdeci">void load(A &amp;ar, MapType &amp;map_type)</div><div class="ttdef"><b>Definition:</b> rpc_thallium.h:160</div></div>
+<div class="ttc" id="anamespacehermes_html_a0b5b43de038ab2b60cac1987bd12663a"><div class="ttname"><a href="namespacehermes.html#a0b5b43de038ab2b60cac1987bd12663a">hermes::serialize</a></div><div class="ttdeci">void serialize(A &amp;ar, BufferID &amp;buffer_id)</div><div class="ttdef"><b>Definition:</b> rpc_thallium.h:60</div></div>
+<div class="ttc" id="aunionhermes_1_1_blob_i_d_html_a92379a8eb5df4f91b2d5b69d263576bf"><div class="ttname"><a href="unionhermes_1_1_blob_i_d.html#a92379a8eb5df4f91b2d5b69d263576bf">hermes::BlobID::as_int</a></div><div class="ttdeci">u64 as_int</div><div class="ttdef"><b>Definition:</b> hermes_types.h:387</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

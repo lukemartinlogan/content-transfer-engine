@@ -85,6 +85,7 @@ $(document).ready(function(){initNavTree('communication__mpi_8cc.html',''); init
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">communication_mpi.cc File Reference</div>  </div>
@@ -118,6 +119,11 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_m_p_i_state.html">hermes::MPIState</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespacehermes"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html">hermes</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a162d3180b098ebc40f5638117fcc9cb2"><td class="memItemLeft" align="right" valign="top"><a id="a162d3180b098ebc40f5638117fcc9cb2"></a>
@@ -147,9 +153,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::MpiWorldBarri
 <tr class="memitem:aefe0d3a3ce13097ab61070665da00ca4"><td class="memItemLeft" align="right" valign="top"><a id="aefe0d3a3ce13097ab61070665da00ca4"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::MpiSubBarrier</b> (void *state)</td></tr>
 <tr class="separator:aefe0d3a3ce13097ab61070665da00ca4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59b5a1ff74a0ab24cdec9207b2ee0b24"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="communication__mpi_8cc.html#a59b5a1ff74a0ab24cdec9207b2ee0b24">hermes::MpiFirstOnNode</a> (MPI_Comm comm)</td></tr>
+<tr class="memitem:a59b5a1ff74a0ab24cdec9207b2ee0b24"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a59b5a1ff74a0ab24cdec9207b2ee0b24">hermes::MpiFirstOnNode</a> (MPI_Comm comm)</td></tr>
 <tr class="separator:a59b5a1ff74a0ab24cdec9207b2ee0b24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac08b6a0677f8d21fae9fe6614c77a601"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="communication__mpi_8cc.html#ac08b6a0677f8d21fae9fe6614c77a601">hermes::MpiAssignIDsToNodes</a> (CommunicationContext *comm, size_t trans_arena_size_per_node)</td></tr>
+<tr class="memitem:ac08b6a0677f8d21fae9fe6614c77a601"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#ac08b6a0677f8d21fae9fe6614c77a601">hermes::MpiAssignIDsToNodes</a> (CommunicationContext *comm, size_t trans_arena_size_per_node)</td></tr>
 <tr class="separator:ac08b6a0677f8d21fae9fe6614c77a601"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75b8b50fae9f886d864f437ff09f61c0"><td class="memItemLeft" align="right" valign="top"><a id="a75b8b50fae9f886d864f437ff09f61c0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::MpiFinalize</b> (void *state)</td></tr>
@@ -160,89 +166,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::InitCommuni
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An implementation of the Hermes communication interface in MPI. </p>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a id="a59b5a1ff74a0ab24cdec9207b2ee0b24"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59b5a1ff74a0ab24cdec9207b2ee0b24">&#9670;&nbsp;</a></span>MpiFirstOnNode()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hermes::MpiFirstOnNode </td>
-          <td>(</td>
-          <td class="paramtype">MPI_Comm&#160;</td>
-          <td class="paramname"><em>comm</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns true if the calling rank is the lowest numbered rank on its node in communicator <code>comm</code>. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_cgraph.png" border="0" usemap="#communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_cgraph" alt=""/></div>
-<map name="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_cgraph" id="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,188,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_icgraph.png" border="0" usemap="#communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_icgraph" alt=""/></div>
-<map name="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_icgraph" id="communication__mpi_8cc_a59b5a1ff74a0ab24cdec9207b2ee0b24_icgraph">
-<area shape="rect" title=" " alt="" coords="5,29,188,56"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="ac08b6a0677f8d21fae9fe6614c77a601"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac08b6a0677f8d21fae9fe6614c77a601">&#9670;&nbsp;</a></span>MpiAssignIDsToNodes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t hermes::MpiAssignIDsToNodes </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1_communication_context.html">CommunicationContext</a> *&#160;</td>
-          <td class="paramname"><em>comm</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>trans_arena_size_per_node</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Assigns each node an ID and returns the size in bytes of the transient arena for the calling rank. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="communication__mpi_8cc_ac08b6a0677f8d21fae9fe6614c77a601_cgraph.png" border="0" usemap="#communication__mpi_8cc_ac08b6a0677f8d21fae9fe6614c77a601_cgraph" alt=""/></div>
-<map name="communication__mpi_8cc_ac08b6a0677f8d21fae9fe6614c77a601_cgraph" id="communication__mpi_8cc_ac08b6a0677f8d21fae9fe6614c77a601_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,228,56"/>
-<area shape="rect" href="memory__management_8cc.html#ad344fd4f2e60298d0b78945625b16d4a" title=" " alt="" coords="276,29,492,56"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="communication__mpi_8cc_ac08b6a0677f8d21fae9fe6614c77a601_icgraph.png" border="0" usemap="#communication__mpi_8cc_ac08b6a0677f8d21fae9fe6614c77a601_icgraph" alt=""/></div>
-<map name="communication__mpi_8cc_ac08b6a0677f8d21fae9fe6614c77a601_icgraph" id="communication__mpi_8cc_ac08b6a0677f8d21fae9fe6614c77a601_icgraph">
-<area shape="rect" title=" " alt="" coords="5,29,228,56"/>
-</map>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

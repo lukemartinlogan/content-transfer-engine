@@ -12,6 +12,5 @@ var dir_e1e69ce930e022c3a1e6db9f4102a095 =
     [ "constants.h", "constants_8h_source.html", null ],
     [ "enumerations.h", "enumerations_8h_source.html", null ],
     [ "interceptor.h", "interceptor_8h_source.html", null ],
-    [ "metadata_manager.h", "metadata__manager_8h_source.html", null ],
-    [ "singleton.h", "singleton_8h_source.html", null ]
+    [ "metadata_manager.h", "metadata__manager_8h_source.html", null ]
 ];

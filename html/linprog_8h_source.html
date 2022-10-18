@@ -107,7 +107,7 @@ $(document).ready(function(){initNavTree('linprog_8h_source.html',''); initResiz
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">namespace </span>hermes {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacehermes.html">hermes</a> {</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="structhermes_1_1_array2_d_idx.html">   23</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1_array2_d_idx.html">Array2DIdx</a> {</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="keywordtype">int</span> nrow_, ncol_;</div>
@@ -123,7 +123,7 @@ $(document).ready(function(){initNavTree('linprog_8h_source.html',''); initResiz
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  }</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;};</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> kDefaultCoeffs = 1000 + 1;</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="namespacehermes.html#a3a6c4131b6b0c30a80daeb8ca7ff5c7c">   41</a></span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> <a class="code" href="namespacehermes.html#a3a6c4131b6b0c30a80daeb8ca7ff5c7c">kDefaultCoeffs</a> = 1000 + 1;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
 <div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classhermes_1_1_linear_program.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhermes_1_1_linear_program.html">LinearProgram</a> {</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; <span class="keyword">private</span>:</div>
@@ -151,9 +151,9 @@ $(document).ready(function(){initNavTree('linprog_8h_source.html',''); initResiz
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">// NOTE(llogan): GLPK requires arrays start from &quot;1&quot; instead of &quot;0&quot;</span></div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    glp_add_rows(lp_, num_constraints);</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    glp_add_cols(lp_, num_vars);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    ia_.reserve(kDefaultCoeffs); ia_.emplace_back(0);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    ja_.reserve(kDefaultCoeffs); ja_.emplace_back(0);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    ar_.reserve(kDefaultCoeffs); ar_.emplace_back(0.0);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    ia_.reserve(<a class="code" href="namespacehermes.html#a3a6c4131b6b0c30a80daeb8ca7ff5c7c">kDefaultCoeffs</a>); ia_.emplace_back(0);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    ja_.reserve(<a class="code" href="namespacehermes.html#a3a6c4131b6b0c30a80daeb8ca7ff5c7c">kDefaultCoeffs</a>); ja_.emplace_back(0);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    ar_.reserve(<a class="code" href="namespacehermes.html#a3a6c4131b6b0c30a80daeb8ca7ff5c7c">kDefaultCoeffs</a>); ar_.emplace_back(0.0);</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    num_vars_ = num_vars;</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    num_constraints_ = num_constraints;</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  }</div>
@@ -228,6 +228,8 @@ $(document).ready(function(){initNavTree('linprog_8h_source.html',''); initResiz
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructhermes_1_1_array2_d_idx_html"><div class="ttname"><a href="structhermes_1_1_array2_d_idx.html">hermes::Array2DIdx</a></div><div class="ttdef"><b>Definition:</b> linprog.h:23</div></div>
+<div class="ttc" id="anamespacehermes_html"><div class="ttname"><a href="namespacehermes.html">hermes</a></div><div class="ttdef"><b>Definition:</b> adapter_utils.cc:35</div></div>
+<div class="ttc" id="anamespacehermes_html_a3a6c4131b6b0c30a80daeb8ca7ff5c7c"><div class="ttname"><a href="namespacehermes.html#a3a6c4131b6b0c30a80daeb8ca7ff5c7c">hermes::kDefaultCoeffs</a></div><div class="ttdeci">const size_t kDefaultCoeffs</div><div class="ttdef"><b>Definition:</b> linprog.h:41</div></div>
 <div class="ttc" id="aclasshermes_1_1_linear_program_html"><div class="ttname"><a href="classhermes_1_1_linear_program.html">hermes::LinearProgram</a></div><div class="ttdef"><b>Definition:</b> linprog.h:43</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

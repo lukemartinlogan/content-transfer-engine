@@ -239,7 +239,7 @@ Private Member Functions</h2></td></tr>
 <tr class="memdesc:a409f78fc50a74d26d2623cde27a9a1ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal version of Put, called by all overloads.  <a href="classhermes_1_1api_1_1_bucket.html#a409f78fc50a74d26d2623cde27a9a1ad">More...</a><br /></td></tr>
 <tr class="separator:a409f78fc50a74d26d2623cde27a9a1ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90ac5c8ab3fc47ccc51566e722d3ca66"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a90ac5c8ab3fc47ccc51566e722d3ca66"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_bucket.html#a90ac5c8ab3fc47ccc51566e722d3ca66">PlaceBlobs</a> (std::vector&lt; <a class="el" href="hermes__types_8h.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">PlacementSchema</a> &gt; &amp;schemas, const std::vector&lt; std::vector&lt; T &gt;&gt; &amp;blobs, const std::vector&lt; std::string &gt; &amp;names, const <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</td></tr>
+<tr class="memitem:a90ac5c8ab3fc47ccc51566e722d3ca66"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classapi_1_1_status.html">Status</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhermes_1_1api_1_1_bucket.html#a90ac5c8ab3fc47ccc51566e722d3ca66">PlaceBlobs</a> (std::vector&lt; <a class="el" href="namespacehermes.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">PlacementSchema</a> &gt; &amp;schemas, const std::vector&lt; std::vector&lt; T &gt;&gt; &amp;blobs, const std::vector&lt; std::string &gt; &amp;names, const <a class="el" href="structhermes_1_1api_1_1_context.html">Context</a> &amp;ctx)</td></tr>
 <tr class="memdesc:a90ac5c8ab3fc47ccc51566e722d3ca66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Low-level version of Put.  <a href="classhermes_1_1api_1_1_bucket.html#a90ac5c8ab3fc47ccc51566e722d3ca66">More...</a><br /></td></tr>
 <tr class="separator:a90ac5c8ab3fc47ccc51566e722d3ca66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -323,6 +323,15 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1api_1_1_bucket_a7f38bdd3f6c04d1ddea7de495efddc5d_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_bucket_a7f38bdd3f6c04d1ddea7de495efddc5d_cgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_bucket_a7f38bdd3f6c04d1ddea7de495efddc5d_cgraph" id="classhermes_1_1api_1_1_bucket_a7f38bdd3f6c04d1ddea7de495efddc5d_cgraph">
+<area shape="rect" title="Constructor." alt="" coords="5,5,156,47"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#ab0f3448f247972e09644d405e84b71f7" title="Return true if the Bucket is valid." alt="" coords="204,5,355,47"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -421,13 +430,15 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classhermes_1_1api_1_1_bucket_ab0f3448f247972e09644d405e84b71f7_icgraph.png" border="0" usemap="#classhermes_1_1api_1_1_bucket_ab0f3448f247972e09644d405e84b71f7_icgraph" alt=""/></div>
 <map name="classhermes_1_1api_1_1_bucket_ab0f3448f247972e09644d405e84b71f7_icgraph" id="classhermes_1_1api_1_1_bucket_ab0f3448f247972e09644d405e84b71f7_icgraph">
-<area shape="rect" title="Return true if the Bucket is valid." alt="" coords="236,156,387,197"/>
-<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a46360aedcfc50832303609b0fd541049" title=" " alt="" coords="21,5,172,47"/>
-<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#af9f5af9df28f38112ee819328c7cdb30" title=" " alt="" coords="5,71,188,98"/>
-<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a345819d2ff8557cf1e9b38bc89cddabc" title=" " alt="" coords="21,123,172,164"/>
-<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a740415304c0975c39826de6041013642" title=" " alt="" coords="21,188,172,229"/>
-<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#afffebf51756e2e6c3bc1d05ab4496726" title=" " alt="" coords="21,253,172,295"/>
-<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a3a037c47b1c62a8829d1dbebf09bbe2d" title="Releases the Bucket, decrementing its reference count." alt="" coords="21,319,172,360"/>
+<area shape="rect" title="Return true if the Bucket is valid." alt="" coords="236,221,387,263"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a7f38bdd3f6c04d1ddea7de495efddc5d" title="Constructor." alt="" coords="21,5,172,47"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a46360aedcfc50832303609b0fd541049" title=" " alt="" coords="21,71,172,112"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#af9f5af9df28f38112ee819328c7cdb30" title=" " alt="" coords="5,137,188,163"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a345819d2ff8557cf1e9b38bc89cddabc" title=" " alt="" coords="21,188,172,229"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a740415304c0975c39826de6041013642" title=" " alt="" coords="21,253,172,295"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a18180399c351be737c889ccaee8ff04f" title=" " alt="" coords="7,319,187,346"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#afffebf51756e2e6c3bc1d05ab4496726" title=" " alt="" coords="21,371,172,412"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a3a037c47b1c62a8829d1dbebf09bbe2d" title="Releases the Bucket, decrementing its reference count." alt="" coords="21,436,172,477"/>
 </map>
 </div>
 
@@ -497,7 +508,7 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="classhermes_1_1api_1_1_bucket_a025d344918acf90a60ba9efb978e6f6d_icgraph.png" border="0" usemap="#classhermes_1_1api_1_1_bucket_a025d344918acf90a60ba9efb978e6f6d_icgraph" alt=""/></div>
 <map name="classhermes_1_1api_1_1_bucket_a025d344918acf90a60ba9efb978e6f6d_icgraph" id="classhermes_1_1api_1_1_bucket_a025d344918acf90a60ba9efb978e6f6d_icgraph">
 <area shape="rect" title="Put a Blob in this Bucket." alt="" coords="233,5,413,32"/>
-<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a4ed62830212955f77e4b5e31918c1648" title="Put a Blob in this Bucket." alt="" coords="5,5,185,32"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a441867ba2ca8319268104316b46966d4" title=" " alt="" coords="5,5,185,32"/>
 </map>
 </div>
 
@@ -660,6 +671,17 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1api_1_1_bucket_a441867ba2ca8319268104316b46966d4_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_bucket_a441867ba2ca8319268104316b46966d4_cgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_bucket_a441867ba2ca8319268104316b46966d4_cgraph" id="classhermes_1_1api_1_1_bucket_a441867ba2ca8319268104316b46966d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,56,185,83"/>
+<area shape="rect" href="classapi_1_1_status.html#ac896de1ec4175376237ca1088e901f23" title=" " alt="" coords="260,5,387,32"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a025d344918acf90a60ba9efb978e6f6d" title="Put a Blob in this Bucket." alt="" coords="233,56,413,83"/>
+<area shape="rect" href="classapi_1_1_status.html#a12ac0a86f097a9c62a01fca4dbed7e55" title=" " alt="" coords="239,107,408,133"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -753,6 +775,20 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1api_1_1_bucket_a18180399c351be737c889ccaee8ff04f_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_bucket_a18180399c351be737c889ccaee8ff04f_cgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_bucket_a18180399c351be737c889ccaee8ff04f_cgraph" id="classhermes_1_1api_1_1_bucket_a18180399c351be737c889ccaee8ff04f_cgraph">
+<area shape="rect" title=" " alt="" coords="5,159,185,185"/>
+<area shape="rect" href="classapi_1_1_status.html#a76bfec0bbcd53e1c3904e0d619021162" title=" " alt="" coords="256,5,393,32"/>
+<area shape="rect" href="classhermes_1_1_round_robin.html#a5bd28432ea190b26581e3a1517788368" title=" " alt="" coords="233,57,416,98"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#ab0f3448f247972e09644d405e84b71f7" title="Return true if the Bucket is valid." alt="" coords="249,122,400,163"/>
+<area shape="rect" href="classapi_1_1_status.html#ac896de1ec4175376237ca1088e901f23" title=" " alt="" coords="261,188,388,215"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a409f78fc50a74d26d2623cde27a9a1ad" title="Internal version of Put, called by all overloads." alt="" coords="249,239,400,281"/>
+<area shape="rect" href="classhermes_1_1_round_robin.html#a9896b8a9e011e2e92780242bf9cdafd8" title=" " alt="" coords="235,305,415,346"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -790,6 +826,15 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1api_1_1_bucket_a0681d850e03cf0a31acc43df2464336a_icgraph.png" border="0" usemap="#classhermes_1_1api_1_1_bucket_a0681d850e03cf0a31acc43df2464336a_icgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_bucket_a0681d850e03cf0a31acc43df2464336a_icgraph" id="classhermes_1_1api_1_1_bucket_a0681d850e03cf0a31acc43df2464336a_icgraph">
+<area shape="rect" title="Get the size in bytes of the Blob referred to by name." alt="" coords="236,5,387,47"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#af9f5af9df28f38112ee819328c7cdb30" title=" " alt="" coords="5,13,188,39"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -1038,8 +1083,9 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classhermes_1_1api_1_1_bucket_af9f5af9df28f38112ee819328c7cdb30_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_bucket_af9f5af9df28f38112ee819328c7cdb30_cgraph" alt=""/></div>
 <map name="classhermes_1_1api_1_1_bucket_af9f5af9df28f38112ee819328c7cdb30_cgraph" id="classhermes_1_1api_1_1_bucket_af9f5af9df28f38112ee819328c7cdb30_cgraph">
-<area shape="rect" title=" " alt="" coords="5,13,188,39"/>
-<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#ab0f3448f247972e09644d405e84b71f7" title="Return true if the Bucket is valid." alt="" coords="236,5,387,47"/>
+<area shape="rect" title=" " alt="" coords="5,46,188,73"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a0681d850e03cf0a31acc43df2464336a" title="Get the size in bytes of the Blob referred to by name." alt="" coords="236,5,387,47"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#ab0f3448f247972e09644d405e84b71f7" title="Return true if the Bucket is valid." alt="" coords="236,71,387,112"/>
 </map>
 </div>
 
@@ -1431,6 +1477,15 @@ template&lt;class Predicate &gt; </div>
   </table>
   </dd>
 </dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1api_1_1_bucket_a2ad35d22977d50c7a1cafa64693e49e4_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_bucket_a2ad35d22977d50c7a1cafa64693e49e4_cgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_bucket_a2ad35d22977d50c7a1cafa64693e49e4_cgraph" id="classhermes_1_1api_1_1_bucket_a2ad35d22977d50c7a1cafa64693e49e4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,156,47"/>
+<area shape="rect" href="classapi_1_1_status.html#ac896de1ec4175376237ca1088e901f23" title=" " alt="" coords="204,13,331,39"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -1581,6 +1636,15 @@ template&lt;class Predicate &gt; </div>
   </table>
   </dd>
 </dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1api_1_1_bucket_a527ed9f0ab1d1382c149e864332b68ab_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_bucket_a527ed9f0ab1d1382c149e864332b68ab_cgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_bucket_a527ed9f0ab1d1382c149e864332b68ab_cgraph" id="classhermes_1_1api_1_1_bucket_a527ed9f0ab1d1382c149e864332b68ab_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,156,47"/>
+<area shape="rect" href="classapi_1_1_status.html#ac896de1ec4175376237ca1088e901f23" title=" " alt="" coords="204,13,331,39"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -1804,8 +1868,9 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classhermes_1_1api_1_1_bucket_a46360aedcfc50832303609b0fd541049_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_bucket_a46360aedcfc50832303609b0fd541049_cgraph" alt=""/></div>
 <map name="classhermes_1_1api_1_1_bucket_a46360aedcfc50832303609b0fd541049_cgraph" id="classhermes_1_1api_1_1_bucket_a46360aedcfc50832303609b0fd541049_cgraph">
-<area shape="rect" title=" " alt="" coords="5,5,156,47"/>
+<area shape="rect" title=" " alt="" coords="5,35,156,76"/>
 <area shape="rect" href="classhermes_1_1api_1_1_bucket.html#ab0f3448f247972e09644d405e84b71f7" title="Return true if the Bucket is valid." alt="" coords="204,5,355,47"/>
+<area shape="rect" href="classapi_1_1_status.html#ac896de1ec4175376237ca1088e901f23" title=" " alt="" coords="216,71,343,98"/>
 </map>
 </div>
 
@@ -1861,6 +1926,15 @@ template&lt;typename T &gt; </div>
 
 <p>Internal version of Put, called by all overloads. </p>
 <dl class="section return"><dt>Returns</dt><dd>A Status object. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1api_1_1_bucket_a409f78fc50a74d26d2623cde27a9a1ad_icgraph.png" border="0" usemap="#classhermes_1_1api_1_1_bucket_a409f78fc50a74d26d2623cde27a9a1ad_icgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_bucket_a409f78fc50a74d26d2623cde27a9a1ad_icgraph" id="classhermes_1_1api_1_1_bucket_a409f78fc50a74d26d2623cde27a9a1ad_icgraph">
+<area shape="rect" title="Internal version of Put, called by all overloads." alt="" coords="233,5,384,47"/>
+<area shape="rect" href="classhermes_1_1api_1_1_bucket.html#a18180399c351be737c889ccaee8ff04f" title=" " alt="" coords="5,13,185,39"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -1878,7 +1952,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classapi_1_1_status.html">Status</a> hermes::api::Bucket::PlaceBlobs </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="hermes__types_8h.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">PlacementSchema</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="namespacehermes.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">PlacementSchema</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>schemas</em>, </td>
         </tr>
         <tr>
@@ -1914,6 +1988,15 @@ template&lt;typename T &gt; </div>
 
 <p>Low-level version of Put. </p>
 <dl class="section return"><dt>Returns</dt><dd>A Status object. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1api_1_1_bucket_a90ac5c8ab3fc47ccc51566e722d3ca66_cgraph.png" border="0" usemap="#classhermes_1_1api_1_1_bucket_a90ac5c8ab3fc47ccc51566e722d3ca66_cgraph" alt=""/></div>
+<map name="classhermes_1_1api_1_1_bucket_a90ac5c8ab3fc47ccc51566e722d3ca66_cgraph" id="classhermes_1_1api_1_1_bucket_a90ac5c8ab3fc47ccc51566e722d3ca66_cgraph">
+<area shape="rect" title="Low&#45;level version of Put." alt="" coords="5,5,156,47"/>
+<area shape="rect" href="classapi_1_1_status.html#a76bfec0bbcd53e1c3904e0d619021162" title=" " alt="" coords="204,13,341,39"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -2003,7 +2086,7 @@ template&lt;typename T &gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>hermes</b></li><li class="navelem"><b>api</b></li><li class="navelem"><a class="el" href="classhermes_1_1api_1_1_bucket.html">Bucket</a></li>
+    <li class="navelem"><a class="el" href="namespacehermes.html">hermes</a></li><li class="navelem"><b>api</b></li><li class="navelem"><a class="el" href="classhermes_1_1api_1_1_bucket.html">Bucket</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

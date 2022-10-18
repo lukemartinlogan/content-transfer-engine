@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['statuscode_794',['StatusCode',['../hermes__status_8h.html#a3a6adca7017201b6df17734c368f0c33',1,'hermes']]]
+  ['traittype_845',['TraitType',['../hermes__types_8h.html#a9986546c3c718bfe0d411b7935349ae1',1,'hermes::api']]]
 ];

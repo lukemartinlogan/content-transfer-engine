@@ -85,6 +85,7 @@ $(document).ready(function(){initNavTree('utils_8h.html',''); initResizable(); }
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
@@ -143,6 +144,11 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1testing_1_1_target_view_state.html">hermes::testing::TargetViewState</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespacehermes"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html">hermes</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a04ec504a04aac1745c3e17447415599f"><td class="memItemLeft" align="right" valign="top"><a id="a04ec504a04aac1745c3e17447415599f"></a>
@@ -167,11 +173,11 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a29183997c8943362b7b5bff56ecd8222"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::RoundUpToMultiple</b> (size_t val, size_t multiple)</td></tr>
+<tr class="memitem:a29183997c8943362b7b5bff56ecd8222"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a29183997c8943362b7b5bff56ecd8222">hermes::RoundUpToMultiple</a> (size_t val, size_t multiple)</td></tr>
 <tr class="separator:a29183997c8943362b7b5bff56ecd8222"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80ba7a1f7c519563677ff407b365ba81"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::RoundDownToMultiple</b> (size_t val, size_t multiple)</td></tr>
+<tr class="memitem:a80ba7a1f7c519563677ff407b365ba81"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a80ba7a1f7c519563677ff407b365ba81">hermes::RoundDownToMultiple</a> (size_t val, size_t multiple)</td></tr>
 <tr class="separator:a80ba7a1f7c519563677ff407b365ba81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad26bf0d941952ebe9e698d2de194bdf0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::InitDefaultConfig</b> (Config *config)</td></tr>
+<tr class="memitem:ad26bf0d941952ebe9e698d2de194bdf0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#ad26bf0d941952ebe9e698d2de194bdf0">hermes::InitDefaultConfig</a> (Config *config)</td></tr>
 <tr class="separator:ad26bf0d941952ebe9e698d2de194bdf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69b3dba2cfb7c9768be7dc61c5cde1ef"><td class="memItemLeft" align="right" valign="top"><a id="a69b3dba2cfb7c9768be7dc61c5cde1ef"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::FailedLibraryCall</b> (std::string func)</td></tr>
@@ -190,111 +196,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::FailedLibrary
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Utility classes and functions for Hermes. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a29183997c8943362b7b5bff56ecd8222"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29183997c8943362b7b5bff56ecd8222">&#9670;&nbsp;</a></span>RoundUpToMultiple()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t hermes::RoundUpToMultiple </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>val</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>multiple</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Rounds a value up to the next given multiple.</p>
-<p>Returns the original value if it is already divisible by multiple.</p>
-<p>Example: </p><div class="fragment"><div class="line"><span class="keywordtype">size_t</span> result = RoundUpToMultiple(2000, 4096);</div>
-<div class="line">assert(result == 4096);</div>
-</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">val</td><td>The initial value to round. </td></tr>
-    <tr><td class="paramname">multiple</td><td>The multiple to round up to.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The next multiple of multiple that is greater than or equal to val. </dd></dl>
-
-</div>
-</div>
-<a id="a80ba7a1f7c519563677ff407b365ba81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80ba7a1f7c519563677ff407b365ba81">&#9670;&nbsp;</a></span>RoundDownToMultiple()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t hermes::RoundDownToMultiple </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>val</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>multiple</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Rounds a value down to the previous given multiple.</p>
-<p>Returns the original value if it is already divisible by multiple.</p>
-<p>Example: </p><div class="fragment"><div class="line"><span class="keywordtype">size_t</span> result = RoundDownToMultiple(4097, 4096);</div>
-<div class="line">assert(result == 4096);</div>
-</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">val</td><td>The initial value to round. </td></tr>
-    <tr><td class="paramname">multiple</td><td>The multiple to round down to.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The previous multiple of multiple that is less than or equal to val. </dd></dl>
-
-</div>
-</div>
-<a id="ad26bf0d941952ebe9e698d2de194bdf0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad26bf0d941952ebe9e698d2de194bdf0">&#9670;&nbsp;</a></span>InitDefaultConfig()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::InitDefaultConfig </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1_config.html">Config</a> *&#160;</td>
-          <td class="paramname"><em>config</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Fills out a Config struct with default values.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">config</td><td>The Config to populate. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="aa0baa8f78b8d5e7c61a4fc9689fbc6df"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa0baa8f78b8d5e7c61a4fc9689fbc6df">&#9670;&nbsp;</a></span>InitDeviceState()</h2>
 
@@ -343,7 +244,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::FailedLibrary
         <tr>
           <td class="memname">u64 hermes::testing::UpdateDeviceState </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="hermes__types_8h.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">PlacementSchema</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacehermes.html#aa29a80eb3b2f5a1f59bc16dbf24c1274">PlacementSchema</a> &amp;&#160;</td>
           <td class="paramname"><em>schema</em>, </td>
         </tr>
         <tr>

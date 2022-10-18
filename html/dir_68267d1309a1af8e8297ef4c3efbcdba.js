@@ -21,6 +21,7 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "metadata_storage.h", "metadata__storage_8h_source.html", null ],
     [ "rpc.h", "rpc_8h_source.html", null ],
     [ "rpc_thallium.h", "rpc__thallium_8h_source.html", null ],
+    [ "singleton.h", "singleton_8h_source.html", null ],
     [ "thread_pool.h", "thread__pool_8h_source.html", null ],
     [ "utils.h", "utils_8h.html", "utils_8h" ]
 ];

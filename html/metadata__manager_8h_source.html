@@ -113,7 +113,7 @@ $(document).ready(function(){initNavTree('metadata__manager_8h_source.html','');
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">namespace </span>hapi = hermes::api;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacehermes_1_1adapter.html">hermes::adapter</a> {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span>hermes::adapter {</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;FlushingMode global_flushing_mode;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
@@ -122,7 +122,7 @@ $(document).ready(function(){initNavTree('metadata__manager_8h_source.html','');
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keywordtype">int</span> rank;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  <span class="keywordtype">int</span> comm_size;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  std::atomic&lt;size_t&gt; ref;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  std::shared_ptr&lt;hapi::Hermes&gt; hermes;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  std::shared_ptr&lt;hapi::Hermes&gt; <a class="code" href="namespacehermes.html">hermes</a>;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordtype">bool</span> is_mpi_;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; <span class="keyword">public</span>:</div>
@@ -145,13 +145,13 @@ $(document).ready(function(){initNavTree('metadata__manager_8h_source.html','');
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="comment">// TODO(chogan): Need a better way to distinguish between client and</span></div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="comment">// daemon. https://github.com/HDFGroup/hermes/issues/206</span></div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">if</span> (comm_size &gt; 1) {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;          hermes = hermes::InitHermesClient(hermes_config);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;          <a class="code" href="namespacehermes.html">hermes</a> = <a class="code" href="namespacehermes.html#a1d0bf4f35f33ba763fcf79fc22cc197c">hermes::InitHermesClient</a>(hermes_config);</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        } <span class="keywordflow">else</span> {</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;          is_mpi_ = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;          hermes = hermes::InitHermesDaemon(hermes_config);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;          <a class="code" href="namespacehermes.html">hermes</a> = <a class="code" href="namespacehermes.html#a9869b5584e78dccc917b3f2f68242d61">hermes::InitHermesDaemon</a>(hermes_config);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        }</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        hermes = hermes::InitHermesDaemon(hermes_config);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <a class="code" href="namespacehermes.html">hermes</a> = <a class="code" href="namespacehermes.html#a9869b5584e78dccc917b3f2f68242d61">hermes::InitHermesDaemon</a>(hermes_config);</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      }</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    ref++;</div>
@@ -160,12 +160,12 @@ $(document).ready(function(){initNavTree('metadata__manager_8h_source.html','');
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
 <div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="classhermes_1_1adapter_1_1_metadata_manager.html#acb7163b12dab22b7f4799d87e94545cf">   84</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classhermes_1_1adapter_1_1_metadata_manager.html#acb7163b12dab22b7f4799d87e94545cf">FinalizeHermes</a>() {</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">if</span> (ref == 1) {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      hermes-&gt;FinalizeClient();</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      <a class="code" href="namespacehermes.html">hermes</a>-&gt;FinalizeClient();</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    }</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    ref--;</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  }</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="classhermes_1_1adapter_1_1_metadata_manager.html#a86a94749818bb26ef0b992547c6505cc">   95</a></span>&#160;  std::shared_ptr&lt;hapi::Hermes&gt;&amp; <a class="code" href="classhermes_1_1adapter_1_1_metadata_manager.html#a86a94749818bb26ef0b992547c6505cc">GetHermes</a>() { <span class="keywordflow">return</span> hermes; }</div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="classhermes_1_1adapter_1_1_metadata_manager.html#a86a94749818bb26ef0b992547c6505cc">   95</a></span>&#160;  std::shared_ptr&lt;hapi::Hermes&gt;&amp; <a class="code" href="classhermes_1_1adapter_1_1_metadata_manager.html#a86a94749818bb26ef0b992547c6505cc">GetHermes</a>() { <span class="keywordflow">return</span> <a class="code" href="namespacehermes.html">hermes</a>; }</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;};</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;}  <span class="comment">// namespace hermes::adapter</span></div>
@@ -174,11 +174,13 @@ $(document).ready(function(){initNavTree('metadata__manager_8h_source.html','');
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="preprocessor">#endif  // HERMES_ADAPTER_METADATA_MANAGER_H_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="anamespacehermes_html"><div class="ttname"><a href="namespacehermes.html">hermes</a></div><div class="ttdef"><b>Definition:</b> adapter_utils.cc:35</div></div>
 <div class="ttc" id="abuffer__pool_8h_html"><div class="ttname"><a href="buffer__pool_8h.html">buffer_pool.h</a></div></div>
+<div class="ttc" id="anamespacehermes_html_a1d0bf4f35f33ba763fcf79fc22cc197c"><div class="ttname"><a href="namespacehermes.html#a1d0bf4f35f33ba763fcf79fc22cc197c">hermes::InitHermesClient</a></div><div class="ttdeci">std::shared_ptr&lt; api::Hermes &gt; InitHermesClient(const char *config_file)</div><div class="ttdoc">Initialize a Hermes instance as a client or adapter.</div><div class="ttdef"><b>Definition:</b> hermes.cc:427</div></div>
 <div class="ttc" id="abucket_8h_html"><div class="ttname"><a href="bucket_8h.html">bucket.h</a></div></div>
 <div class="ttc" id="aclasshermes_1_1adapter_1_1_metadata_manager_html_a31f23d972af1269ea588bb33f3c218e9"><div class="ttname"><a href="classhermes_1_1adapter_1_1_metadata_manager.html#a31f23d972af1269ea588bb33f3c218e9">hermes::adapter::MetadataManager::InitializeHermes</a></div><div class="ttdeci">void InitializeHermes(bool is_mpi)</div><div class="ttdef"><b>Definition:</b> metadata_manager.h:47</div></div>
 <div class="ttc" id="aclasshermes_1_1adapter_1_1_metadata_manager_html"><div class="ttname"><a href="classhermes_1_1adapter_1_1_metadata_manager.html">hermes::adapter::MetadataManager</a></div><div class="ttdef"><b>Definition:</b> metadata_manager.h:31</div></div>
-<div class="ttc" id="anamespacehermes_1_1adapter_html"><div class="ttname"><a href="namespacehermes_1_1adapter.html">hermes::adapter</a></div><div class="ttdef"><b>Definition:</b> adapter_utils.cc:36</div></div>
+<div class="ttc" id="anamespacehermes_html_a9869b5584e78dccc917b3f2f68242d61"><div class="ttname"><a href="namespacehermes.html#a9869b5584e78dccc917b3f2f68242d61">hermes::InitHermesDaemon</a></div><div class="ttdeci">std::shared_ptr&lt; api::Hermes &gt; InitHermesDaemon(char *config_file)</div><div class="ttdoc">Initialize a Hermes instance as a daemon.</div><div class="ttdef"><b>Definition:</b> hermes.cc:434</div></div>
 <div class="ttc" id="ahermes__types_8h_html"><div class="ttname"><a href="hermes__types_8h.html">hermes_types.h</a></div></div>
 <div class="ttc" id="aclasshermes_1_1adapter_1_1_metadata_manager_html_acb7163b12dab22b7f4799d87e94545cf"><div class="ttname"><a href="classhermes_1_1adapter_1_1_metadata_manager.html#acb7163b12dab22b7f4799d87e94545cf">hermes::adapter::MetadataManager::FinalizeHermes</a></div><div class="ttdeci">void FinalizeHermes()</div><div class="ttdef"><b>Definition:</b> metadata_manager.h:84</div></div>
 <div class="ttc" id="aclasshermes_1_1adapter_1_1_metadata_manager_html_a86a94749818bb26ef0b992547c6505cc"><div class="ttname"><a href="classhermes_1_1adapter_1_1_metadata_manager.html#a86a94749818bb26ef0b992547c6505cc">hermes::adapter::MetadataManager::GetHermes</a></div><div class="ttdeci">std::shared_ptr&lt; hapi::Hermes &gt; &amp; GetHermes()</div><div class="ttdef"><b>Definition:</b> metadata_manager.h:95</div></div>

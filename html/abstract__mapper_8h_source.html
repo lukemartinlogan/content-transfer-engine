@@ -108,9 +108,9 @@ $(document).ready(function(){initNavTree('abstract__mapper_8h_source.html',''); 
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;interceptor.h&quot;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacehermes_1_1adapter.html">hermes::adapter</a> {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span>hermes::adapter {</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="namespacehermes_1_1adapter.html#a564b139287e1bcf3231a83d3f3bd6936">   28</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="namespacehermes_1_1adapter.html#a564b139287e1bcf3231a83d3f3bd6936">MapperType</a> {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">enum</span> MapperType {</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  BALANCED = 0 <span class="comment">/* Balanced Mapping */</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;};</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
@@ -142,7 +142,7 @@ $(document).ready(function(){initNavTree('abstract__mapper_8h_source.html',''); 
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordtype">void</span> DecodeBlobNamePerProc(<span class="keyword">const</span> std::string &amp;blob_name) {</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">auto</span> str_split =</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <a class="code" href="namespacehermes_1_1adapter.html#a8fb58b849797272f0c066216a6d31bea">hermes::adapter::StringSplit</a>(blob_name.data(), <span class="charliteral">&#39;#&#39;</span>);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        hermes::adapter::StringSplit(blob_name.data(), <span class="charliteral">&#39;#&#39;</span>);</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    std::stringstream(str_split[0]) &gt;&gt; page_;</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    std::stringstream(str_split[1]) &gt;&gt; blob_off_;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    std::stringstream(str_split[2]) &gt;&gt; blob_size_;</div>
@@ -165,9 +165,6 @@ $(document).ready(function(){initNavTree('abstract__mapper_8h_source.html',''); 
 <div class="ttc" id="astructhermes_1_1adapter_1_1_blob_placement_html"><div class="ttname"><a href="structhermes_1_1adapter_1_1_blob_placement.html">hermes::adapter::BlobPlacement</a></div><div class="ttdef"><b>Definition:</b> abstract_mapper.h:32</div></div>
 <div class="ttc" id="aclasshermes_1_1adapter_1_1_abstract_mapper_html_adb96f0ea08851a9a39ef6891ad9b1a58"><div class="ttname"><a href="classhermes_1_1adapter_1_1_abstract_mapper.html#adb96f0ea08851a9a39ef6891ad9b1a58">hermes::adapter::AbstractMapper::map</a></div><div class="ttdeci">virtual void map(size_t off, size_t size, BlobPlacements &amp;ps)=0</div></div>
 <div class="ttc" id="aclasshermes_1_1adapter_1_1_abstract_mapper_html"><div class="ttname"><a href="classhermes_1_1adapter_1_1_abstract_mapper.html">hermes::adapter::AbstractMapper</a></div><div class="ttdef"><b>Definition:</b> abstract_mapper.h:71</div></div>
-<div class="ttc" id="anamespacehermes_1_1adapter_html_a564b139287e1bcf3231a83d3f3bd6936"><div class="ttname"><a href="namespacehermes_1_1adapter.html#a564b139287e1bcf3231a83d3f3bd6936">hermes::adapter::MapperType</a></div><div class="ttdeci">MapperType</div><div class="ttdef"><b>Definition:</b> abstract_mapper.h:28</div></div>
-<div class="ttc" id="anamespacehermes_1_1adapter_html_a8fb58b849797272f0c066216a6d31bea"><div class="ttname"><a href="namespacehermes_1_1adapter.html#a8fb58b849797272f0c066216a6d31bea">hermes::adapter::StringSplit</a></div><div class="ttdeci">std::vector&lt; std::string &gt; StringSplit(const char *str, char delimiter)</div><div class="ttdef"><b>Definition:</b> interceptor.h:48</div></div>
-<div class="ttc" id="anamespacehermes_1_1adapter_html"><div class="ttname"><a href="namespacehermes_1_1adapter.html">hermes::adapter</a></div><div class="ttdef"><b>Definition:</b> adapter_utils.cc:36</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

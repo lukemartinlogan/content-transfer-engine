@@ -104,7 +104,7 @@ $(document).ready(function(){initNavTree('metadata__management__internal_8h_sour
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hermes__types_8h.html">hermes_types.h</a>&quot;</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>hermes {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacehermes.html">hermes</a> {</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keywordtype">bool</span> IsNullBucketId(BucketID <span class="keywordtype">id</span>);</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">bool</span> IsNullVBucketId(VBucketID <span class="keywordtype">id</span>);</div>
@@ -143,7 +143,7 @@ $(document).ready(function(){initNavTree('metadata__management__internal_8h_sour
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keywordtype">void</span> LocalDestroyBlobByName(SharedMemoryContext *context, RpcContext *rpc,</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                            <span class="keyword">const</span> <span class="keywordtype">char</span> *blob_name, BlobID blob_id,</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                            BucketID bucket_id);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;BucketID LocalGetNextFreeBucketId(SharedMemoryContext *context,</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;BucketID <a class="code" href="namespacehermes.html#a6a02fffa893725ff401ec7232db9c3e8">LocalGetNextFreeBucketId</a>(SharedMemoryContext *context,</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                                  <span class="keyword">const</span> std::string &amp;name);</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;u32 LocalAllocateBufferIdList(MetadataManager *mdm,</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                              <span class="keyword">const</span> std::vector&lt;BufferID&gt; &amp;buffer_ids);</div>
@@ -196,7 +196,7 @@ $(document).ready(function(){initNavTree('metadata__management__internal_8h_sour
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                                    <span class="keyword">const</span> std::string &amp;name);</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;f32 LocalGetBlobImportanceScore(SharedMemoryContext *context, BlobID blob_id);</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;u64 HexStringToU64(<span class="keyword">const</span> std::string &amp;s);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;u64 <a class="code" href="namespacehermes.html#a7b523f2a9c62ac45bb8a4b39056d4d7d">HexStringToU64</a>(<span class="keyword">const</span> std::string &amp;s);</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;std::string MakeInternalBlobName(<span class="keyword">const</span> std::string &amp;name, BucketID <span class="keywordtype">id</span>);</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="keywordtype">void</span> LocalRemoveBlobFromVBucketInfo(SharedMemoryContext *context,</div>
@@ -219,12 +219,16 @@ $(document).ready(function(){initNavTree('metadata__management__internal_8h_sour
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;Heap *GetMapHeap(MetadataManager *mdm);</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;IdList AllocateIdList(MetadataManager *mdm, u32 length);</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="keywordtype">void</span> FreeIdList(MetadataManager *mdm, IdList id_list);</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;u32 AppendToChunkedIdList(MetadataManager *mdm, ChunkedIdList *id_list, u64 <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;u32 <a class="code" href="namespacehermes.html#a0d20b5031e6c81bf1fb779981e9d97dc">AppendToChunkedIdList</a>(MetadataManager *mdm, ChunkedIdList *id_list, u64 <span class="keywordtype">id</span>);</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;}  <span class="comment">// namespace hermes</span></div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="preprocessor">#endif  // HERMES_METADATA_MANAGEMENT_INTERNAL_H_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="anamespacehermes_html"><div class="ttname"><a href="namespacehermes.html">hermes</a></div><div class="ttdef"><b>Definition:</b> adapter_utils.cc:35</div></div>
+<div class="ttc" id="anamespacehermes_html_a7b523f2a9c62ac45bb8a4b39056d4d7d"><div class="ttname"><a href="namespacehermes.html#a7b523f2a9c62ac45bb8a4b39056d4d7d">hermes::HexStringToU64</a></div><div class="ttdeci">u64 HexStringToU64(const std::string &amp;s)</div><div class="ttdef"><b>Definition:</b> metadata_management.cc:339</div></div>
+<div class="ttc" id="anamespacehermes_html_a6a02fffa893725ff401ec7232db9c3e8"><div class="ttname"><a href="namespacehermes.html#a6a02fffa893725ff401ec7232db9c3e8">hermes::LocalGetNextFreeBucketId</a></div><div class="ttdeci">BucketID LocalGetNextFreeBucketId(SharedMemoryContext *context, const std::string &amp;name)</div><div class="ttdef"><b>Definition:</b> metadata_management.cc:407</div></div>
 <div class="ttc" id="ahermes__types_8h_html"><div class="ttname"><a href="hermes__types_8h.html">hermes_types.h</a></div></div>
+<div class="ttc" id="anamespacehermes_html_a0d20b5031e6c81bf1fb779981e9d97dc"><div class="ttname"><a href="namespacehermes.html#a0d20b5031e6c81bf1fb779981e9d97dc">hermes::AppendToChunkedIdList</a></div><div class="ttdeci">u32 AppendToChunkedIdList(MetadataManager *mdm, ChunkedIdList *id_list, u64 id)</div><div class="ttdef"><b>Definition:</b> metadata_storage_stb_ds.cc:354</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

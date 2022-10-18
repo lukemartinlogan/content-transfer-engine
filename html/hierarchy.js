@@ -4,8 +4,8 @@ var hierarchy =
       [ "hermes::adapter::BalancedMapper", "classhermes_1_1adapter_1_1_balanced_mapper.html", null ]
     ] ],
     [ "hermes::adapter::fs::AdapterStat", "structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html", null ],
-    [ "hermes::adapter::posix::API", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html", null ],
     [ "hermes::adapter::mpiio::API", "classhermes_1_1adapter_1_1mpiio_1_1_a_p_i.html", null ],
+    [ "hermes::adapter::posix::API", "classhermes_1_1adapter_1_1posix_1_1_a_p_i.html", null ],
     [ "hermes::adapter::stdio::API", "classhermes_1_1adapter_1_1stdio_1_1_a_p_i.html", null ],
     [ "hermes::Arena", "structhermes_1_1_arena.html", null ],
     [ "hermes::ArenaInfo", "structhermes_1_1_arena_info.html", null ],
@@ -86,7 +86,7 @@ var hierarchy =
     [ "hermes::SharedMemoryContext", "structhermes_1_1_shared_memory_context.html", null ],
     [ "hermes::ShmemClientInfo", "structhermes_1_1_shmem_client_info.html", null ],
     [ "hermes::ShmemString", "structhermes_1_1_shmem_string.html", null ],
-    [ "hermes::adapter::Singleton< T >", "classhermes_1_1adapter_1_1_singleton.html", null ],
+    [ "hermes::Singleton< T >", "classhermes_1_1_singleton.html", null ],
     [ "hermes::Stats", "structhermes_1_1_stats.html", null ],
     [ "api::Status", "classapi_1_1_status.html", null ],
     [ "hermes::SwapBlob", "structhermes_1_1_swap_blob.html", null ],
