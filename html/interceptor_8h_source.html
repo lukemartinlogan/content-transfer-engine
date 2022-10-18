@@ -255,18 +255,19 @@ $(document).ready(function(){initNavTree('interceptor_8h_source.html',''); initR
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="keyword">namespace </span>hermes::adapter {</div>
 <div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="keywordtype">void</span> PopulateBufferingPath();</div>
 <div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160; </div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="keywordtype">bool</span> IsTracked(<span class="keyword">const</span> std::string&amp; path);</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="keywordtype">bool</span> IsTracked(<span class="keyword">const</span> std::string&amp; path, <span class="keywordtype">bool</span> log = <span class="keyword">false</span>);</div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160; </div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="keywordtype">bool</span> IsTracked(FILE* fh);</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;}  <span class="comment">// namespace hermes::adapter</span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160; </div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="preprocessor">#define HERMES_FORWARD_DECL(name_, ret_, args_) \</span></div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="preprocessor">  extern ret_ real_##name_##_ args_;</span></div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="preprocessor">#define HERMES_DECL(name_) wrap_##name_##_</span></div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="preprocessor">#define MAP_OR_FAIL(func_)</span></div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="preprocessor">#endif  // HERMES_INTERCEPTOR_H</span></div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="keywordtype">bool</span> IsTracked(FILE* fh, <span class="keywordtype">bool</span> log = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="keywordtype">bool</span> IsTracked(<span class="keywordtype">int</span> fd, <span class="keywordtype">bool</span> log = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;}  <span class="comment">// namespace hermes::adapter</span></div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160; </div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="preprocessor">#define HERMES_FORWARD_DECL(name_, ret_, args_) \</span></div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="preprocessor">  extern ret_ real_##name_##_ args_;</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="preprocessor">#define HERMES_DECL(name_) wrap_##name_##_</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="preprocessor">#define MAP_OR_FAIL(func_)</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="preprocessor">#endif  // HERMES_INTERCEPTOR_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructhermes_1_1adapter_1_1_interceptor_list_html"><div class="ttname"><a href="structhermes_1_1adapter_1_1_interceptor_list.html">hermes::adapter::InterceptorList</a></div><div class="ttdef"><b>Definition:</b> interceptor.h:81</div></div>
