@@ -12,7 +12,7 @@ var structhermes_1_1adapter_1_1fs_1_1_adapter_stat =
     [ "st_mode", "structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html#a08bc0cbb86e4393e3c0acd078c57211f", null ],
     [ "st_uid", "structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html#a82883bd1f1dc56d88f3d6e3d3025afb9", null ],
     [ "st_gid", "structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html#a5294e07c2dc97dff27cbb15d9b224bd8", null ],
-    [ "st_size", "structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html#a81e94f38eed1fef46262a627a3a80eff", null ],
+    [ "st_size", "structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html#a665d947565c011f4766db4a83bcb8d23", null ],
     [ "st_ptr", "structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html#a0297216b1e124db78e199e35d0899f44", null ],
     [ "st_blksize", "structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html#ad7470c9e88ced8b16ab66106fb8ce9f9", null ],
     [ "st_atim", "structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html#a64094914ab44fb29172da60569f5d050", null ],

@@ -40,7 +40,7 @@ var classhermes_1_1adapter_1_1mpiio_1_1_mpiio_f_s =
     [ "WriteAll", "classhermes_1_1adapter_1_1mpiio_1_1_mpiio_f_s.html#abbb30760132800c3886a21c49d8f6341", null ],
     [ "Seek", "classhermes_1_1adapter_1_1mpiio_1_1_mpiio_f_s.html#a9f7cda8447af8433b393a356abee2dc6", null ],
     [ "SeekShared", "classhermes_1_1adapter_1_1mpiio_1_1_mpiio_f_s.html#acc9331a0006e46c64909780c169556eb", null ],
-    [ "_OpenInitStats", "classhermes_1_1adapter_1_1mpiio_1_1_mpiio_f_s.html#a61c14fa40946061b9086396f7920c91a", null ],
+    [ "_OpenInitStats", "classhermes_1_1adapter_1_1mpiio_1_1_mpiio_f_s.html#a827727bcb26c4943cab2d872d09c6b4c", null ],
     [ "_RealOpen", "classhermes_1_1adapter_1_1mpiio_1_1_mpiio_f_s.html#a95e04d8cec1330148bf434a17154c111", null ],
     [ "_RealWrite", "classhermes_1_1adapter_1_1mpiio_1_1_mpiio_f_s.html#a5920ff6573b2b8f2edfd1799812e30d3", null ],
     [ "_RealRead", "classhermes_1_1adapter_1_1mpiio_1_1_mpiio_f_s.html#a325a40b4bcc882838c3c8823bb7d5040", null ],

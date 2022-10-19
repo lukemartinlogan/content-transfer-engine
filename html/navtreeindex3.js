@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"hermes__types_8h.html#a7b383ce9550094138409ea748419330b":[4,0,2,13,35],
 "hermes__types_8h.html#a7c07257f8f1cbec7c1a7678bcc7f4181":[4,0,2,13,22],
 "hermes__types_8h.html#a7ed10d74c2c33f9b76051420b6bdd608":[4,0,2,13,42],
 "hermes__types_8h.html#a8ba52be34dd263021aef92b27274d68c":[4,0,2,13,25],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "structhermes_1_1_communication_context.html#a4fa1a1fe1b900ebac978efd68eb03e14":[3,0,1,24,8],
 "structhermes_1_1_communication_context.html#a54be8058026242042840e39437502269":[3,0,1,24,5],
 "structhermes_1_1_communication_context.html#a55f196e759240784800fcf9c3ef39395":[3,0,1,24,4],
-"structhermes_1_1_communication_context.html#a6ee75c70b8c29ae4ac38ad80d111766b":[3,0,1,24,10],
-"structhermes_1_1_communication_context.html#a731da0512a52664d87276b44bdd20e04":[3,0,1,24,0]
+"structhermes_1_1_communication_context.html#a6ee75c70b8c29ae4ac38ad80d111766b":[3,0,1,24,10]
 };

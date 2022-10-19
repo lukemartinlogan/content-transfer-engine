@@ -223,9 +223,11 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>_ReadExistingPartia
 <tr class="memitem:a3256b979cc5a6d0ace09e8cf887d21f7"><td class="memItemLeft" align="right" valign="top"><a id="a3256b979cc5a6d0ace09e8cf887d21f7"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>_ReadNew</b> (<a class="el" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;read_iter)</td></tr>
 <tr class="separator:a3256b979cc5a6d0ace09e8cf887d21f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78dea157ad881f87ea4315a0b6053548"><td class="memItemLeft" align="right" valign="top"><a id="a78dea157ad881f87ea4315a0b6053548"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>_OpenInitStats</b> (<a class="el" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="el" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, bool bucket_exists)=0</td></tr>
-<tr class="separator:a78dea157ad881f87ea4315a0b6053548"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38b55d90730ea53b4501f739042abaeb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a38b55d90730ea53b4501f739042abaeb">_OpenInitStatsInternal</a> (<a class="el" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, bool bucket_exists)</td></tr>
+<tr class="separator:a38b55d90730ea53b4501f739042abaeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f3c88947c3b62c5cae549cf7df18cec"><td class="memItemLeft" align="right" valign="top"><a id="a2f3c88947c3b62c5cae549cf7df18cec"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>_OpenInitStats</b> (<a class="el" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="el" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat)=0</td></tr>
+<tr class="separator:a2f3c88947c3b62c5cae549cf7df18cec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68d5a5c4e4bd737e44b2a21c677e8162"><td class="memItemLeft" align="right" valign="top"><a id="a68d5a5c4e4bd737e44b2a21c677e8162"></a>
 virtual <a class="el" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a>&#160;</td><td class="memItemRight" valign="bottom"><b>_RealOpen</b> (<a class="el" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, const std::string &amp;path)=0</td></tr>
 <tr class="separator:a68d5a5c4e4bd737e44b2a21c677e8162"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -246,6 +248,44 @@ virtual int&#160;</td><td class="memItemRight" valign="bottom"><b>_RealClose</b>
 <tr class="separator:aa960065244f8ec50af9b7072e34f0433"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a38b55d90730ea53b4501f739042abaeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38b55d90730ea53b4501f739042abaeb">&#9670;&nbsp;</a></span>_OpenInitStatsInternal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::adapter::fs::Filesystem::_OpenInitStatsInternal </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;&#160;</td>
+          <td class="paramname"><em>stat</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bucket_exists</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Here we assume that the file size can only be growing. If the bucket already exists and has content not already in the file (e.g., when using ADAPTER_MODE=SCRATCH), we should use the size of the bucket instead.</p>
+<p>There are other concerns with what happens during multi-tenancy. What happens if one process is opening a file, while another process is adding content? The mechanics here aren't well-defined.</p>
+
+</div>
+</div>
 <a id="a219cabda3b86c9348741d7c925f5ccd2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a219cabda3b86c9348741d7c925f5ccd2">&#9670;&nbsp;</a></span>Write() <span class="overload">[1/2]</span></h2>
 

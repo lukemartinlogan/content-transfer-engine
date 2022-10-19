@@ -317,8 +317,8 @@ static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>GetFile
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a61c14fa40946061b9086396f7920c91a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1adapter_1_1mpiio_1_1_mpiio_f_s.html#a61c14fa40946061b9086396f7920c91a">_OpenInitStats</a> (<a class="el" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="el" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, bool bucket_exists) override</td></tr>
-<tr class="separator:a61c14fa40946061b9086396f7920c91a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a827727bcb26c4943cab2d872d09c6b4c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1adapter_1_1mpiio_1_1_mpiio_f_s.html#a827727bcb26c4943cab2d872d09c6b4c">_OpenInitStats</a> (<a class="el" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="el" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat) override</td></tr>
+<tr class="separator:a827727bcb26c4943cab2d872d09c6b4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95e04d8cec1330148bf434a17154c111"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1adapter_1_1mpiio_1_1_mpiio_f_s.html#a95e04d8cec1330148bf434a17154c111">_RealOpen</a> (<a class="el" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, const std::string &amp;path) override</td></tr>
 <tr class="separator:a95e04d8cec1330148bf434a17154c111"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5920ff6573b2b8f2edfd1799812e30d3"><td class="memItemLeft" align="right" valign="top"><a id="a5920ff6573b2b8f2edfd1799812e30d3"></a>
@@ -468,8 +468,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a61c14fa40946061b9086396f7920c91a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a61c14fa40946061b9086396f7920c91a">&#9670;&nbsp;</a></span>_OpenInitStats()</h2>
+<a id="a827727bcb26c4943cab2d872d09c6b4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a827727bcb26c4943cab2d872d09c6b4c">&#9670;&nbsp;</a></span>_OpenInitStats()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -487,13 +487,7 @@ Here is the call graph for this function:</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;&#160;</td>
-          <td class="paramname"><em>stat</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>bucket_exists</em>&#160;</td>
+          <td class="paramname"><em>stat</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -508,7 +502,6 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 <p>Internal overrides </p>
-<p>Here, we assume that when bkt_size is 0, then the bucket was just created and the true size of the file being opened is the size of the file on the PFS. However, if the user truncated the file at runtime, this will now be incorrect. Need a better way to determine what the true size of the file should be.</p>
 
 <p>Implements <a class="el" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html">hermes::adapter::fs::Filesystem</a>.</p>
 

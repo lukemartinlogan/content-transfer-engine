@@ -204,8 +204,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>Close</b> (<a class="e
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a71045d18f775caa3eb59975e35fa9ff9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1adapter_1_1stdio_1_1_stdio_f_s.html#a71045d18f775caa3eb59975e35fa9ff9">_OpenInitStats</a> (<a class="el" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="el" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, bool bucket_exists) override</td></tr>
-<tr class="separator:a71045d18f775caa3eb59975e35fa9ff9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb0f8bf8fa351edaafbf8ccbaecaa8bd"><td class="memItemLeft" align="right" valign="top"><a id="aeb0f8bf8fa351edaafbf8ccbaecaa8bd"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>_OpenInitStats</b> (<a class="el" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="el" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat) override</td></tr>
+<tr class="separator:aeb0f8bf8fa351edaafbf8ccbaecaa8bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95ba82dcd01cf0db2549456196b69f9a"><td class="memItemLeft" align="right" valign="top"><a id="a95ba82dcd01cf0db2549456196b69f9a"></a>
 <a class="el" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a>&#160;</td><td class="memItemRight" valign="bottom"><b>_RealOpen</b> (<a class="el" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, const std::string &amp;path) override</td></tr>
 <tr class="separator:a95ba82dcd01cf0db2549456196b69f9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -231,52 +232,6 @@ Private Attributes</h2></td></tr>
 <a class="el" href="classhermes_1_1adapter_1_1posix_1_1_a_p_i.html">hermes::adapter::posix::API</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>posix_api</b></td></tr>
 <tr class="separator:a5df49a908889852b57fdff427e1ba7ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a71045d18f775caa3eb59975e35fa9ff9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71045d18f775caa3eb59975e35fa9ff9">&#9670;&nbsp;</a></span>_OpenInitStats()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hermes::adapter::stdio::StdioFS::_OpenInitStats </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;&#160;</td>
-          <td class="paramname"><em>f</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;&#160;</td>
-          <td class="paramname"><em>stat</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>bucket_exists</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Here, we assume that when bkt_size is 0, then the bucket was just created and the true size of the file being opened is the size of the file on the PFS. However, if the user truncated the file at runtime, this will now be incorrect. Need a better way to determine what the true size of the file should be.</p>
-
-<p>Implements <a class="el" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html">hermes::adapter::fs::Filesystem</a>.</p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/runner/work/hermes/hermes/adapter/stdio/<a class="el" href="stdio_2fs__api_8h_source.html">fs_api.h</a></li>
 <li>/home/runner/work/hermes/hermes/adapter/stdio/fs_api.cc</li>
