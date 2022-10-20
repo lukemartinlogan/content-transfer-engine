@@ -93,90 +93,90 @@ $(document).ready(function(){initNavTree('classhermes_1_1adapter_1_1mpiio_1_1_a_
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a672c235a3227af8ec3a3d6e8755e1b14"><td class="memItemLeft" align="right" valign="top"><a id="a672c235a3227af8ec3a3d6e8755e1b14"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_Init</b> )(int *argc, char ***argv) = nullptr</td></tr>
-<tr class="separator:a672c235a3227af8ec3a3d6e8755e1b14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46bc77f3978ca5ccfd52d6b550c7dca6"><td class="memItemLeft" align="right" valign="top"><a id="a46bc77f3978ca5ccfd52d6b550c7dca6"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_Finalize</b> )(void) = nullptr</td></tr>
-<tr class="separator:a46bc77f3978ca5ccfd52d6b550c7dca6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c9ffc883f93e12efc47282cfe5fac18"><td class="memItemLeft" align="right" valign="top"><a id="a1c9ffc883f93e12efc47282cfe5fac18"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_Wait</b> )(MPI_Request *req, MPI_Status *status) = nullptr</td></tr>
-<tr class="separator:a1c9ffc883f93e12efc47282cfe5fac18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62a037246302475058d5e7afbd9177ec"><td class="memItemLeft" align="right" valign="top"><a id="a62a037246302475058d5e7afbd9177ec"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_Waitall</b> )(int count, MPI_Request *req, MPI_Status *status) = nullptr</td></tr>
-<tr class="separator:a62a037246302475058d5e7afbd9177ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63108d25e89fcffd59b06c05c4ecb901"><td class="memItemLeft" align="right" valign="top"><a id="a63108d25e89fcffd59b06c05c4ecb901"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_open</b> )(MPI_Comm comm, const char *filename, int amode, MPI_Info info, MPI_File *fh) = nullptr</td></tr>
-<tr class="separator:a63108d25e89fcffd59b06c05c4ecb901"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a60b8476c1f519d810863f1423f647c"><td class="memItemLeft" align="right" valign="top"><a id="a8a60b8476c1f519d810863f1423f647c"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_close</b> )(MPI_File *fh) = nullptr</td></tr>
-<tr class="separator:a8a60b8476c1f519d810863f1423f647c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f01f5f028841e4720c8e509ba1a0428"><td class="memItemLeft" align="right" valign="top"><a id="a9f01f5f028841e4720c8e509ba1a0428"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_seek_shared</b> )(MPI_File fh, MPI_Offset offset, int whence) = nullptr</td></tr>
-<tr class="separator:a9f01f5f028841e4720c8e509ba1a0428"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a954e312f1a30c5c62e48689729259195"><td class="memItemLeft" align="right" valign="top"><a id="a954e312f1a30c5c62e48689729259195"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_seek</b> )(MPI_File fh, MPI_Offset offset, int whence) = nullptr</td></tr>
-<tr class="separator:a954e312f1a30c5c62e48689729259195"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3da133d84dd8ec00534ac7286d0a183"><td class="memItemLeft" align="right" valign="top"><a id="ad3da133d84dd8ec00534ac7286d0a183"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_get_position</b> )(MPI_File fh, MPI_Offset *offset) = nullptr</td></tr>
-<tr class="separator:ad3da133d84dd8ec00534ac7286d0a183"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf4fc6db2d1db9abd8a06f871f1ffb2c"><td class="memItemLeft" align="right" valign="top"><a id="acf4fc6db2d1db9abd8a06f871f1ffb2c"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_read_all</b> )(MPI_File fh, void *buf, int count, MPI_Datatype datatype, MPI_Status *status) = nullptr</td></tr>
-<tr class="separator:acf4fc6db2d1db9abd8a06f871f1ffb2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace13c336a6c12dcce9b94e5e711ce102"><td class="memItemLeft" align="right" valign="top"><a id="ace13c336a6c12dcce9b94e5e711ce102"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_read_at_all</b> )(MPI_File fh, MPI_Offset offset, void *buf, int count, MPI_Datatype datatype, MPI_Status *status) = nullptr</td></tr>
-<tr class="separator:ace13c336a6c12dcce9b94e5e711ce102"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f960f6ba042a14f786e0a00b89865f5"><td class="memItemLeft" align="right" valign="top"><a id="a1f960f6ba042a14f786e0a00b89865f5"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_read_at</b> )(MPI_File fh, MPI_Offset offset, void *buf, int count, MPI_Datatype datatype, MPI_Status *status) = nullptr</td></tr>
-<tr class="separator:a1f960f6ba042a14f786e0a00b89865f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4a5a5653ed495d178c8461fa0eeb191"><td class="memItemLeft" align="right" valign="top"><a id="af4a5a5653ed495d178c8461fa0eeb191"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_read</b> )(MPI_File fh, void *buf, int count, MPI_Datatype datatype, MPI_Status *status) = nullptr</td></tr>
-<tr class="separator:af4a5a5653ed495d178c8461fa0eeb191"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0eb0ee6e5626534d63ff1839a375f62"><td class="memItemLeft" align="right" valign="top"><a id="ad0eb0ee6e5626534d63ff1839a375f62"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_read_ordered</b> )(MPI_File fh, void *buf, int count, MPI_Datatype datatype, MPI_Status *status) = nullptr</td></tr>
-<tr class="separator:ad0eb0ee6e5626534d63ff1839a375f62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a8d4f7e34bb652deead4cad1b1cbf43"><td class="memItemLeft" align="right" valign="top"><a id="a3a8d4f7e34bb652deead4cad1b1cbf43"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_read_shared</b> )(MPI_File fh, void *buf, int count, MPI_Datatype datatype, MPI_Status *status) = nullptr</td></tr>
-<tr class="separator:a3a8d4f7e34bb652deead4cad1b1cbf43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afef04b77e4345e73fd6a0ca2d6fafa73"><td class="memItemLeft" align="right" valign="top"><a id="afef04b77e4345e73fd6a0ca2d6fafa73"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_write_all</b> )(MPI_File fh, const void *buf, int count, MPI_Datatype datatype, MPI_Status *status) = nullptr</td></tr>
-<tr class="separator:afef04b77e4345e73fd6a0ca2d6fafa73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7de24e2687e704f23fdd15d9825a42df"><td class="memItemLeft" align="right" valign="top"><a id="a7de24e2687e704f23fdd15d9825a42df"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_write_at_all</b> )(MPI_File fh, MPI_Offset offset, const void *buf, int count, MPI_Datatype datatype, MPI_Status *status) = nullptr</td></tr>
-<tr class="separator:a7de24e2687e704f23fdd15d9825a42df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a215ba07de5f0f12fc5d219fcb010d1c9"><td class="memItemLeft" align="right" valign="top"><a id="a215ba07de5f0f12fc5d219fcb010d1c9"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_write_at</b> )(MPI_File fh, MPI_Offset offset, const void *buf, int count, MPI_Datatype datatype, MPI_Status *status) = nullptr</td></tr>
-<tr class="separator:a215ba07de5f0f12fc5d219fcb010d1c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1db0d3568ad8bc293107e8c384ed766a"><td class="memItemLeft" align="right" valign="top"><a id="a1db0d3568ad8bc293107e8c384ed766a"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_write</b> )(MPI_File fh, const void *buf, int count, MPI_Datatype datatype, MPI_Status *status) = nullptr</td></tr>
-<tr class="separator:a1db0d3568ad8bc293107e8c384ed766a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a035c1c4d15b94888d4557dd327371d69"><td class="memItemLeft" align="right" valign="top"><a id="a035c1c4d15b94888d4557dd327371d69"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_write_ordered</b> )(MPI_File fh, const void *buf, int count, MPI_Datatype datatype, MPI_Status *status) = nullptr</td></tr>
-<tr class="separator:a035c1c4d15b94888d4557dd327371d69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ab235992b5e1c05f02f9d988583c47a"><td class="memItemLeft" align="right" valign="top"><a id="a5ab235992b5e1c05f02f9d988583c47a"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_write_shared</b> )(MPI_File fh, const void *buf, int count, MPI_Datatype datatype, MPI_Status *status) = nullptr</td></tr>
-<tr class="separator:a5ab235992b5e1c05f02f9d988583c47a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6f7df2b1f9a68a8095b806133dbe74a"><td class="memItemLeft" align="right" valign="top"><a id="ae6f7df2b1f9a68a8095b806133dbe74a"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_iread_at</b> )(MPI_File fh, MPI_Offset offset, void *buf, int count, MPI_Datatype datatype, MPI_Request *request) = nullptr</td></tr>
-<tr class="separator:ae6f7df2b1f9a68a8095b806133dbe74a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70c50b7de51a3dcd0a9b39872bf3f368"><td class="memItemLeft" align="right" valign="top"><a id="a70c50b7de51a3dcd0a9b39872bf3f368"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_iread</b> )(MPI_File fh, void *buf, int count, MPI_Datatype datatype, MPI_Request *request) = nullptr</td></tr>
-<tr class="separator:a70c50b7de51a3dcd0a9b39872bf3f368"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad18adb2169d35205170b69f6eaa099a0"><td class="memItemLeft" align="right" valign="top"><a id="ad18adb2169d35205170b69f6eaa099a0"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_iread_shared</b> )(MPI_File fh, void *buf, int count, MPI_Datatype datatype, MPI_Request *request) = nullptr</td></tr>
-<tr class="separator:ad18adb2169d35205170b69f6eaa099a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab863c5190ec118b31a54fc5ba799e2e6"><td class="memItemLeft" align="right" valign="top"><a id="ab863c5190ec118b31a54fc5ba799e2e6"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_iwrite_at</b> )(MPI_File fh, MPI_Offset offset, const void *buf, int count, MPI_Datatype datatype, MPI_Request *request) = nullptr</td></tr>
-<tr class="separator:ab863c5190ec118b31a54fc5ba799e2e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e67cbbb435c8c5ba2550ee14a692988"><td class="memItemLeft" align="right" valign="top"><a id="a8e67cbbb435c8c5ba2550ee14a692988"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_iwrite</b> )(MPI_File fh, const void *buf, int count, MPI_Datatype datatype, MPI_Request *request) = nullptr</td></tr>
-<tr class="separator:a8e67cbbb435c8c5ba2550ee14a692988"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf801fe64e99d166c2c6cfa65a09ba85"><td class="memItemLeft" align="right" valign="top"><a id="acf801fe64e99d166c2c6cfa65a09ba85"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_iwrite_shared</b> )(MPI_File fh, const void *buf, int count, MPI_Datatype datatype, MPI_Request *request) = nullptr</td></tr>
-<tr class="separator:acf801fe64e99d166c2c6cfa65a09ba85"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad47ad6e09972e529deacd0b60412ac8f"><td class="memItemLeft" align="right" valign="top"><a id="ad47ad6e09972e529deacd0b60412ac8f"></a>
-int(*&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_sync</b> )(MPI_File fh) = nullptr</td></tr>
-<tr class="separator:ad47ad6e09972e529deacd0b60412ac8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03ceb7db25ec594827a54ab130cb2193"><td class="memItemLeft" align="right" valign="top"><a id="a03ceb7db25ec594827a54ab130cb2193"></a>
+MPI_Init_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_Init</b> = nullptr</td></tr>
+<tr class="separator:a03ceb7db25ec594827a54ab130cb2193"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7688cc2957ad5366765cff0c38e6e57"><td class="memItemLeft" align="right" valign="top"><a id="ac7688cc2957ad5366765cff0c38e6e57"></a>
+MPI_Finalize_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_Finalize</b> = nullptr</td></tr>
+<tr class="separator:ac7688cc2957ad5366765cff0c38e6e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d04fa4344e7efea317390dca26de016"><td class="memItemLeft" align="right" valign="top"><a id="a6d04fa4344e7efea317390dca26de016"></a>
+MPI_Wait_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_Wait</b> = nullptr</td></tr>
+<tr class="separator:a6d04fa4344e7efea317390dca26de016"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade9d6e215e90181404711cf59f0259d1"><td class="memItemLeft" align="right" valign="top"><a id="ade9d6e215e90181404711cf59f0259d1"></a>
+MPI_Waitall_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_Waitall</b> = nullptr</td></tr>
+<tr class="separator:ade9d6e215e90181404711cf59f0259d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad611491e414ff50bbe62168163245b91"><td class="memItemLeft" align="right" valign="top"><a id="ad611491e414ff50bbe62168163245b91"></a>
+MPI_File_open_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_open</b> = nullptr</td></tr>
+<tr class="separator:ad611491e414ff50bbe62168163245b91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89ea14bbf24979dd5ea18b9ef83b3558"><td class="memItemLeft" align="right" valign="top"><a id="a89ea14bbf24979dd5ea18b9ef83b3558"></a>
+MPI_File_close_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_close</b> = nullptr</td></tr>
+<tr class="separator:a89ea14bbf24979dd5ea18b9ef83b3558"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a561f3ce846bb59d61557927fc7ee0ce8"><td class="memItemLeft" align="right" valign="top"><a id="a561f3ce846bb59d61557927fc7ee0ce8"></a>
+MPI_File_seek_shared_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_seek_shared</b> = nullptr</td></tr>
+<tr class="separator:a561f3ce846bb59d61557927fc7ee0ce8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addb50f6b79f57bce370cc4f6c13c722b"><td class="memItemLeft" align="right" valign="top"><a id="addb50f6b79f57bce370cc4f6c13c722b"></a>
+MPI_File_seek_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_seek</b> = nullptr</td></tr>
+<tr class="separator:addb50f6b79f57bce370cc4f6c13c722b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a79cbb8cba1f563ed040a0a40eb6835"><td class="memItemLeft" align="right" valign="top"><a id="a2a79cbb8cba1f563ed040a0a40eb6835"></a>
+MPI_File_get_position_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_get_position</b> = nullptr</td></tr>
+<tr class="separator:a2a79cbb8cba1f563ed040a0a40eb6835"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a297b5e12c373fcbee639686d02bd2c83"><td class="memItemLeft" align="right" valign="top"><a id="a297b5e12c373fcbee639686d02bd2c83"></a>
+MPI_File_read_all_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_read_all</b> = nullptr</td></tr>
+<tr class="separator:a297b5e12c373fcbee639686d02bd2c83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62be41466913e7c0f9ed7010b9c072ba"><td class="memItemLeft" align="right" valign="top"><a id="a62be41466913e7c0f9ed7010b9c072ba"></a>
+MPI_File_read_at_all_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_read_at_all</b> = nullptr</td></tr>
+<tr class="separator:a62be41466913e7c0f9ed7010b9c072ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8898e902d0eb54a89782fa60fd8e86e"><td class="memItemLeft" align="right" valign="top"><a id="ae8898e902d0eb54a89782fa60fd8e86e"></a>
+MPI_File_read_at_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_read_at</b> = nullptr</td></tr>
+<tr class="separator:ae8898e902d0eb54a89782fa60fd8e86e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68a61db808c1da037dfeeb250544f943"><td class="memItemLeft" align="right" valign="top"><a id="a68a61db808c1da037dfeeb250544f943"></a>
+MPI_File_read_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_read</b> = nullptr</td></tr>
+<tr class="separator:a68a61db808c1da037dfeeb250544f943"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18540b0f261614904a22a8876f7869fa"><td class="memItemLeft" align="right" valign="top"><a id="a18540b0f261614904a22a8876f7869fa"></a>
+MPI_File_read_ordered_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_read_ordered</b> = nullptr</td></tr>
+<tr class="separator:a18540b0f261614904a22a8876f7869fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7422a940b1cc3c4285e415c59c2acfd"><td class="memItemLeft" align="right" valign="top"><a id="ac7422a940b1cc3c4285e415c59c2acfd"></a>
+MPI_File_read_shared_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_read_shared</b> = nullptr</td></tr>
+<tr class="separator:ac7422a940b1cc3c4285e415c59c2acfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a819750cd0e5f78019fc0c9216b8990b7"><td class="memItemLeft" align="right" valign="top"><a id="a819750cd0e5f78019fc0c9216b8990b7"></a>
+MPI_File_write_all_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_write_all</b> = nullptr</td></tr>
+<tr class="separator:a819750cd0e5f78019fc0c9216b8990b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed65a1def65962d83c266380796de306"><td class="memItemLeft" align="right" valign="top"><a id="aed65a1def65962d83c266380796de306"></a>
+MPI_File_write_at_all_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_write_at_all</b> = nullptr</td></tr>
+<tr class="separator:aed65a1def65962d83c266380796de306"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab576bcadf2a05120d41be0c9ec2bf9cb"><td class="memItemLeft" align="right" valign="top"><a id="ab576bcadf2a05120d41be0c9ec2bf9cb"></a>
+MPI_File_write_at_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_write_at</b> = nullptr</td></tr>
+<tr class="separator:ab576bcadf2a05120d41be0c9ec2bf9cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c8c68dc4dd4b7dfe8f8c0201497ed5e"><td class="memItemLeft" align="right" valign="top"><a id="a6c8c68dc4dd4b7dfe8f8c0201497ed5e"></a>
+MPI_File_write_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_write</b> = nullptr</td></tr>
+<tr class="separator:a6c8c68dc4dd4b7dfe8f8c0201497ed5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0975f0b8dc97dab5e3a8888f4b0c373e"><td class="memItemLeft" align="right" valign="top"><a id="a0975f0b8dc97dab5e3a8888f4b0c373e"></a>
+MPI_File_write_ordered_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_write_ordered</b> = nullptr</td></tr>
+<tr class="separator:a0975f0b8dc97dab5e3a8888f4b0c373e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b5fdabd21f083834cd4fcc98448a829"><td class="memItemLeft" align="right" valign="top"><a id="a2b5fdabd21f083834cd4fcc98448a829"></a>
+MPI_File_write_shared_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_write_shared</b> = nullptr</td></tr>
+<tr class="separator:a2b5fdabd21f083834cd4fcc98448a829"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b01fed278423e780a63986a542655d2"><td class="memItemLeft" align="right" valign="top"><a id="a3b01fed278423e780a63986a542655d2"></a>
+MPI_File_iread_at_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_iread_at</b> = nullptr</td></tr>
+<tr class="separator:a3b01fed278423e780a63986a542655d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e765a8471998c6e18986cf9d611ebd8"><td class="memItemLeft" align="right" valign="top"><a id="a0e765a8471998c6e18986cf9d611ebd8"></a>
+MPI_File_iread_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_iread</b> = nullptr</td></tr>
+<tr class="separator:a0e765a8471998c6e18986cf9d611ebd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8458d637b9bd7386d45f8158728e826e"><td class="memItemLeft" align="right" valign="top"><a id="a8458d637b9bd7386d45f8158728e826e"></a>
+MPI_File_iread_shared_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_iread_shared</b> = nullptr</td></tr>
+<tr class="separator:a8458d637b9bd7386d45f8158728e826e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89bbe9862cffb05d29022848401dcb40"><td class="memItemLeft" align="right" valign="top"><a id="a89bbe9862cffb05d29022848401dcb40"></a>
+MPI_File_iwrite_at_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_iwrite_at</b> = nullptr</td></tr>
+<tr class="separator:a89bbe9862cffb05d29022848401dcb40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fb201b118d21302446597b7f8b60c03"><td class="memItemLeft" align="right" valign="top"><a id="a4fb201b118d21302446597b7f8b60c03"></a>
+MPI_File_iwrite_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_iwrite</b> = nullptr</td></tr>
+<tr class="separator:a4fb201b118d21302446597b7f8b60c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dbc62c62dc734d8574450e4d69e6533"><td class="memItemLeft" align="right" valign="top"><a id="a5dbc62c62dc734d8574450e4d69e6533"></a>
+MPI_File_iwrite_shared_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_iwrite_shared</b> = nullptr</td></tr>
+<tr class="separator:a5dbc62c62dc734d8574450e4d69e6533"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dbf00ef262233eccadd0e4803acc997"><td class="memItemLeft" align="right" valign="top"><a id="a6dbf00ef262233eccadd0e4803acc997"></a>
+MPI_File_sync_t&#160;</td><td class="memItemRight" valign="bottom"><b>MPI_File_sync</b> = nullptr</td></tr>
+<tr class="separator:a6dbf00ef262233eccadd0e4803acc997"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/hermes/hermes/adapter/mpiio/<a class="el" href="mpiio_2real__api_8h_source.html">real_api.h</a></li>
