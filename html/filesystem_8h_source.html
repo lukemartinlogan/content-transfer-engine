@@ -266,214 +266,221 @@ $(document).ready(function(){initNavTree('filesystem_8h_source.html',''); initRe
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    opts.seek_ = seek;</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keywordflow">return</span> opts;</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  }</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;};</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
-<div class="line"><a name="l00185"></a><span class="lineno"><a class="line" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">  185</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> {</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  <span class="keywordtype">int</span> mpi_ret_;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;  MPI_Status mpi_status_;</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  MPI_Status *mpi_status_ptr_;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a>() : mpi_ret_(MPI_SUCCESS), mpi_status_ptr_(&amp;mpi_status_) {}</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;};</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
-<div class="line"><a name="l00193"></a><span class="lineno"><a class="line" href="structhermes_1_1adapter_1_1fs_1_1_hermes_request.html">  193</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1adapter_1_1fs_1_1_hermes_request.html">HermesRequest</a> {</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  std::future&lt;size_t&gt; return_future;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> io_status;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;};</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; </div>
-<div class="line"><a name="l00198"></a><span class="lineno"><a class="line" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">  198</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> {</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f_;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat_;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  <span class="keyword">const</span> std::string &amp;filename_;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;  <span class="keyword">const</span> <a class="code" href="structhermes_1_1adapter_1_1_blob_placement.html">BlobPlacement</a> &amp;p_;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  std::shared_ptr&lt;hapi::Bucket&gt; &amp;bkt_;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status_;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts_;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160; </div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;  std::string blob_name_;</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;  u8 *mem_ptr_;</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;  <span class="keywordtype">size_t</span> blob_start_;</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;  <a class="code" href="structhermes_1_1api_1_1_context.html">hapi::Context</a> ctx_;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;  <a class="code" href="hermes__types_8h.html#a2524128a957393840374aa59c93cf8b5">hapi::Blob</a> blob_;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;  <span class="keywordtype">int</span> rank_;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;  <span class="keywordtype">int</span> nprocs_;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;  <span class="keywordtype">bool</span> blob_exists_;</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160; </div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;  <span class="keyword">explicit</span> <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a>(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat,</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                             <span class="keyword">const</span> std::string &amp;filename,</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                             <span class="keyword">const</span> <a class="code" href="structhermes_1_1adapter_1_1_blob_placement.html">BlobPlacement</a> &amp;p,</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                             std::shared_ptr&lt;hapi::Bucket&gt; &amp;bkt,</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                             <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status,</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                             <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts) :</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        f_(f), stat_(stat), filename_(filename),</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        p_(p), bkt_(bkt), io_status_(io_status), opts_(opts) {}</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;};</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160; </div>
-<div class="line"><a name="l00226"></a><span class="lineno"><a class="line" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html">  226</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html">Filesystem</a> {</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> Open(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keyword">const</span> std::string &amp;path);</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;  <span class="keywordtype">void</span> Open(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <span class="keyword">const</span> std::string &amp;path);</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;  <span class="keywordtype">size_t</span> Write(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;               <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status,</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;               <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> opts = <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a>());</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;  <span class="keywordtype">size_t</span> Read(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;              <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status,</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;              <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> opts = <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a>());</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_hermes_request.html">HermesRequest</a>* AWrite(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;             <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;             <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> opts = <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a>());</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_hermes_request.html">HermesRequest</a>* ARead(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> opts = <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a>());</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;  <span class="keywordtype">size_t</span> Wait(uint64_t req_id);</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  <span class="keywordtype">void</span> Wait(std::vector&lt;uint64_t&gt; &amp;req_id, std::vector&lt;size_t&gt; &amp;ret);</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  off_t Seek(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, SeekMode whence, off_t offset);</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;  off_t Tell(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat);</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  <span class="keywordtype">int</span> Sync(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat);</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;  <span class="keywordtype">int</span> Close(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keywordtype">bool</span> destroy = <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  <span class="comment">/*</span></div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="comment">   * APIs used internally</span></div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="comment">   * */</span></div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160; </div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;  <span class="keywordtype">void</span> _CoordinatedPut(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;wi);</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;  <span class="keywordtype">void</span> _UncoordinatedPut(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;wi);</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;  <span class="keywordtype">void</span> _WriteToNewAligned(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;write_iter);</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;  <span class="keywordtype">void</span> _WriteToNewUnaligned(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;write_iter);</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;  <span class="keywordtype">void</span> _WriteToExistingAligned(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;write_iter);</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;  <span class="keywordtype">void</span> _WriteToExistingUnaligned(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;write_iter);</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;  <span class="keywordtype">void</span> _PutWithFallback(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keyword">const</span> std::string &amp;blob_name,</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                        <span class="keyword">const</span> std::string &amp;filename, u8 *data, <span class="keywordtype">size_t</span> size,</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                        <span class="keywordtype">size_t</span> offset, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status_, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts);</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;  <span class="keywordtype">size_t</span> _ReadExistingContained(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;read_iter);</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;  <span class="keywordtype">size_t</span> _ReadExistingPartial(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;read_iter);</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;  <span class="keywordtype">size_t</span> _ReadNew(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;read_iter);</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160; </div>
-<div class="line"><a name="l00267"></a><span class="lineno"><a class="line" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a38b55d90730ea53b4501f739042abaeb">  267</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a38b55d90730ea53b4501f739042abaeb">_OpenInitStatsInternal</a>(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keywordtype">bool</span> bucket_exists) {</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="comment">// TODO(llogan): This isn&#39;t really parallel-safe.</span></div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="comment"></span>    <span class="keywordflow">if</span> (bucket_exists) {</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;      <span class="keywordtype">size_t</span> bkt_size = stat.st_bkid-&gt;GetTotalBlobSize();</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;      stat.st_size = std::max(bkt_size, stat.st_size);</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;      LOG(INFO) &lt;&lt; <span class="stringliteral">&quot;Since bucket exists, should reset its size to: &quot;</span></div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                &lt;&lt; stat.st_size &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    }</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    <span class="keywordflow">if</span> (stat.is_append) {</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;      stat.st_ptr = stat.st_size;</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    }</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;  }</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160; </div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;  <span class="comment">/*</span></div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;<span class="comment">   * The APIs to overload</span></div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="comment">   * */</span></div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> _InitFile(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f) = 0;</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160; </div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> _OpenInitStats(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat) = 0;</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;  <span class="keyword">virtual</span> <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> _RealOpen(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keyword">const</span> std::string &amp;path) = 0;</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> _RealWrite(<span class="keyword">const</span> std::string &amp;filename, off_t offset,</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                            <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> u8 *data_ptr,</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;                            <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts) = 0;</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> _RealRead(<span class="keyword">const</span> std::string &amp;filename, off_t offset,</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                           <span class="keywordtype">size_t</span> size, u8 *data_ptr,</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                           <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts) = 0;</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> _IoStats(<span class="keywordtype">size_t</span> count, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts) {</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    (void) count; (void) io_status; (void) opts;</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;  }</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> _RealSync(File &amp;f) = 0;</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> _RealClose(File &amp;f) = 0;</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160; </div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;  <span class="comment">/*</span></div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="comment">   * I/O APIs which seek based on the internal AdapterStat st_ptr,</span></div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="comment">   * instead of taking an offset as input.</span></div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="comment">   * */</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;  <span class="keywordtype">size_t</span> Write(File &amp;f, AdapterStat &amp;stat, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;               <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status, IoOptions opts);</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;  <span class="keywordtype">size_t</span> Read(File &amp;f, AdapterStat &amp;stat, <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;              <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status, IoOptions opts);</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;  HermesRequest* AWrite(File &amp;f, AdapterStat &amp;stat, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;             <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;             IoStatus &amp;io_status, IoOptions opts);</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;  HermesRequest* ARead(File &amp;f, AdapterStat &amp;stat, <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;            <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;            IoStatus &amp;io_status, IoOptions opts);</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160; </div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;  <span class="comment">/*</span></div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="comment">   * Locates the AdapterStat data structure internally, and</span></div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;<span class="comment">   * call the underlying APIs which take AdapterStat as input.</span></div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="comment">   * */</span></div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160; </div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;  <span class="keywordtype">size_t</span> Write(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;               <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status,</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;               IoOptions opts = IoOptions());</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;  <span class="keywordtype">size_t</span> Read(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;              <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status,</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;              IoOptions opts = IoOptions());</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;  <span class="keywordtype">size_t</span> Write(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;               <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status,</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;               IoOptions opts = IoOptions());</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;  <span class="keywordtype">size_t</span> Read(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;              <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status,</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;              IoOptions opts = IoOptions());</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160; </div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;  HermesRequest* AWrite(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;             <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;             IoStatus &amp;io_status, IoOptions opts);</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;  HermesRequest* ARead(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;            <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;            IoStatus &amp;io_status, IoOptions opts);</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;  HermesRequest* AWrite(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;             <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;             IoStatus &amp;io_status, IoOptions opts);</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;  HermesRequest* ARead(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;            <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;            IoStatus &amp;io_status, IoOptions opts);</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160; </div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;  off_t Seek(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, SeekMode whence, off_t offset);</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;  off_t Tell(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists);</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;  <span class="keywordtype">int</span> Sync(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists);</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;  <span class="keywordtype">int</span> Close(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">bool</span> destroy = <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;};</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160; </div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;  <span class="keyword">static</span> <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> PlaceInHermes(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;orig_opts) {</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> opts(orig_opts);</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    opts.seek_ = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    opts.with_fallback_ = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keywordflow">return</span> opts;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  }</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;};</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
+<div class="line"><a name="l00192"></a><span class="lineno"><a class="line" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">  192</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> {</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;  <span class="keywordtype">int</span> mpi_ret_;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  MPI_Status mpi_status_;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  MPI_Status *mpi_status_ptr_;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a>() : mpi_ret_(MPI_SUCCESS), mpi_status_ptr_(&amp;mpi_status_) {}</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;};</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
+<div class="line"><a name="l00200"></a><span class="lineno"><a class="line" href="structhermes_1_1adapter_1_1fs_1_1_hermes_request.html">  200</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1adapter_1_1fs_1_1_hermes_request.html">HermesRequest</a> {</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  std::future&lt;size_t&gt; return_future;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> io_status;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;};</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
+<div class="line"><a name="l00205"></a><span class="lineno"><a class="line" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">  205</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> {</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f_;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat_;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;  <span class="keyword">const</span> std::string &amp;filename_;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;  <span class="keyword">const</span> <a class="code" href="structhermes_1_1adapter_1_1_blob_placement.html">BlobPlacement</a> &amp;p_;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;  std::shared_ptr&lt;hapi::Bucket&gt; &amp;bkt_;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status_;</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts_;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160; </div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;  std::string blob_name_;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;  u8 *mem_ptr_;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;  <span class="keywordtype">size_t</span> blob_start_;</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;  <a class="code" href="structhermes_1_1api_1_1_context.html">hapi::Context</a> ctx_;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;  <a class="code" href="hermes__types_8h.html#a2524128a957393840374aa59c93cf8b5">hapi::Blob</a> blob_;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;  <span class="keywordtype">int</span> rank_;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;  <span class="keywordtype">int</span> nprocs_;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;  <span class="keywordtype">bool</span> blob_exists_;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160; </div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;  <span class="keyword">explicit</span> <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a>(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat,</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                             <span class="keyword">const</span> std::string &amp;filename,</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                             <span class="keyword">const</span> <a class="code" href="structhermes_1_1adapter_1_1_blob_placement.html">BlobPlacement</a> &amp;p,</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                             std::shared_ptr&lt;hapi::Bucket&gt; &amp;bkt,</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                             <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status,</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                             <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts) :</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        f_(f), stat_(stat), filename_(filename),</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        p_(p), bkt_(bkt), io_status_(io_status), opts_(opts) {}</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;};</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
+<div class="line"><a name="l00233"></a><span class="lineno"><a class="line" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html">  233</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html">Filesystem</a> {</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> Open(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keyword">const</span> std::string &amp;path);</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  <span class="keywordtype">void</span> Open(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <span class="keyword">const</span> std::string &amp;path);</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  <span class="keywordtype">size_t</span> Write(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;               <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status,</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;               <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> opts = <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a>());</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  <span class="keywordtype">size_t</span> Read(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;              <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status,</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;              <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> opts = <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a>());</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_hermes_request.html">HermesRequest</a>* AWrite(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;             <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;             <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> opts = <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a>());</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_hermes_request.html">HermesRequest</a>* ARead(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> opts = <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a>());</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  <span class="keywordtype">size_t</span> Wait(uint64_t req_id);</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;  <span class="keywordtype">void</span> Wait(std::vector&lt;uint64_t&gt; &amp;req_id, std::vector&lt;size_t&gt; &amp;ret);</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;  off_t Seek(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, SeekMode whence, off_t offset);</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;  off_t Tell(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat);</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;  <span class="keywordtype">int</span> Sync(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat);</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;  <span class="keywordtype">int</span> Close(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keywordtype">bool</span> destroy = <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160; </div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;  <span class="comment">/*</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="comment">   * APIs used internally</span></div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="comment">   * */</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160; </div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;  <span class="keywordtype">void</span> _CoordinatedPut(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;wi);</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;  <span class="keywordtype">void</span> _UncoordinatedPut(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;wi);</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;  <span class="keywordtype">void</span> _WriteToNewAligned(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;write_iter);</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;  <span class="keywordtype">void</span> _WriteToNewUnaligned(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;write_iter);</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;  <span class="keywordtype">void</span> _WriteToExistingAligned(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;write_iter);</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;  <span class="keywordtype">void</span> _WriteToExistingUnaligned(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;write_iter);</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;  <span class="keywordtype">void</span> _PutWithFallback(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keyword">const</span> std::string &amp;blob_name,</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                        <span class="keyword">const</span> std::string &amp;filename, u8 *data, <span class="keywordtype">size_t</span> size,</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                        <span class="keywordtype">size_t</span> offset, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status_, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts);</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;  <span class="keywordtype">size_t</span> _ReadExistingContained(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;read_iter);</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;  <span class="keywordtype">size_t</span> _ReadExistingPartial(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;read_iter);</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;  <span class="keywordtype">size_t</span> _ReadNew(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">BlobPlacementIter</a> &amp;read_iter);</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160; </div>
+<div class="line"><a name="l00274"></a><span class="lineno"><a class="line" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a38b55d90730ea53b4501f739042abaeb">  274</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a38b55d90730ea53b4501f739042abaeb">_OpenInitStatsInternal</a>(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keywordtype">bool</span> bucket_exists) {</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="comment">// TODO(llogan): This isn&#39;t really parallel-safe.</span></div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="comment"></span>    <span class="keywordflow">if</span> (bucket_exists) {</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;      <span class="keywordtype">size_t</span> bkt_size = stat.st_bkid-&gt;GetTotalBlobSize();</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;      stat.st_size = std::max(bkt_size, stat.st_size);</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;      LOG(INFO) &lt;&lt; <span class="stringliteral">&quot;Since bucket exists, should reset its size to: &quot;</span></div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                &lt;&lt; stat.st_size &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    }</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    <span class="keywordflow">if</span> (stat.is_append) {</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;      stat.st_ptr = stat.st_size;</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    }</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;  }</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160; </div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;  <span class="comment">/*</span></div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="comment">   * The APIs to overload</span></div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="comment">   * */</span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> _InitFile(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f) = 0;</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160; </div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> _OpenInitStats(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat) = 0;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;  <span class="keyword">virtual</span> <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> _RealOpen(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keyword">const</span> std::string &amp;path) = 0;</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> _RealWrite(<span class="keyword">const</span> std::string &amp;filename, off_t offset,</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                            <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> u8 *data_ptr,</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;                            <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts) = 0;</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> _RealRead(<span class="keyword">const</span> std::string &amp;filename, off_t offset,</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                           <span class="keywordtype">size_t</span> size, u8 *data_ptr,</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;                           <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts) = 0;</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> _IoStats(<span class="keywordtype">size_t</span> count, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts) {</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    (void) count; (void) io_status; (void) opts;</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;  }</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> _RealSync(File &amp;f) = 0;</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> _RealClose(File &amp;f) = 0;</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160; </div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;  <span class="comment">/*</span></div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="comment">   * I/O APIs which seek based on the internal AdapterStat st_ptr,</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="comment">   * instead of taking an offset as input.</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="comment">   * */</span></div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160; </div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;  <span class="keywordtype">size_t</span> Write(File &amp;f, AdapterStat &amp;stat, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;               <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status, IoOptions opts);</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;  <span class="keywordtype">size_t</span> Read(File &amp;f, AdapterStat &amp;stat, <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;              <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status, IoOptions opts);</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;  HermesRequest* AWrite(File &amp;f, AdapterStat &amp;stat, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;             <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;             IoStatus &amp;io_status, IoOptions opts);</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;  HermesRequest* ARead(File &amp;f, AdapterStat &amp;stat, <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;            <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;            IoStatus &amp;io_status, IoOptions opts);</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160; </div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;  <span class="comment">/*</span></div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="comment">   * Locates the AdapterStat data structure internally, and</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;<span class="comment">   * call the underlying APIs which take AdapterStat as input.</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;<span class="comment">   * */</span></div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160; </div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;  <span class="keywordtype">size_t</span> Write(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;               <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status,</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;               IoOptions opts = IoOptions());</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;  <span class="keywordtype">size_t</span> Read(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;              <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status,</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;              IoOptions opts = IoOptions());</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;  <span class="keywordtype">size_t</span> Write(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;               <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status,</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;               IoOptions opts = IoOptions());</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;  <span class="keywordtype">size_t</span> Read(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;              <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status,</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;              IoOptions opts = IoOptions());</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160; </div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;  HermesRequest* AWrite(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;             <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;             IoStatus &amp;io_status, IoOptions opts);</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;  HermesRequest* ARead(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;            <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;            IoStatus &amp;io_status, IoOptions opts);</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;  HermesRequest* AWrite(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;             <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;             IoStatus &amp;io_status, IoOptions opts);</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;  HermesRequest* ARead(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;            <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;            IoStatus &amp;io_status, IoOptions opts);</div>
 <div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160; </div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;}  <span class="comment">// namespace hermes::adapter::fs</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160; </div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="keyword">namespace </span>std {</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><a name="l00372"></a><span class="lineno"><a class="line" href="structstd_1_1hash_3_01hermes_1_1adapter_1_1fs_1_1_file_01_4.html">  372</a></span>&#160;<span class="keyword">struct </span>hash&lt;<a class="code" href="namespacehermes.html">hermes</a>::adapter::fs::File&gt; {</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;  std::size_t operator()(<span class="keyword">const</span> <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">hermes::adapter::fs::File</a> &amp;key)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    <span class="keywordflow">return</span> key.hash();</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;  }</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;};</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;}  <span class="comment">// namespace std</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160; </div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="preprocessor">#endif  // HERMES_ADAPTER_FILESYSTEM_FILESYSTEM_H_</span></div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  off_t Seek(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, SeekMode whence, off_t offset);</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  off_t Tell(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists);</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;  <span class="keywordtype">int</span> Sync(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists);</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;  <span class="keywordtype">int</span> Close(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">bool</span> destroy = <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;};</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160; </div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160; </div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;}  <span class="comment">// namespace hermes::adapter::fs</span></div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160; </div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="keyword">namespace </span>std {</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><a name="l00379"></a><span class="lineno"><a class="line" href="structstd_1_1hash_3_01hermes_1_1adapter_1_1fs_1_1_file_01_4.html">  379</a></span>&#160;<span class="keyword">struct </span>hash&lt;<a class="code" href="namespacehermes.html">hermes</a>::adapter::fs::File&gt; {</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;  std::size_t operator()(<span class="keyword">const</span> <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">hermes::adapter::fs::File</a> &amp;key)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    <span class="keywordflow">return</span> key.hash();</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;  }</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;};</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;}  <span class="comment">// namespace std</span></div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160; </div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="preprocessor">#endif  // HERMES_ADAPTER_FILESYSTEM_FILESYSTEM_H_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructhermes_1_1adapter_1_1_blob_placement_html"><div class="ttname"><a href="structhermes_1_1adapter_1_1_blob_placement.html">hermes::adapter::BlobPlacement</a></div><div class="ttdef"><b>Definition:</b> abstract_mapper.h:32</div></div>
 <div class="ttc" id="astructhermes_1_1api_1_1_context_html_aed2ef93f184aa1873370016eb641905b"><div class="ttname"><a href="structhermes_1_1api_1_1_context.html#aed2ef93f184aa1873370016eb641905b">hermes::api::Context::rr_retry</a></div><div class="ttdeci">bool rr_retry</div><div class="ttdef"><b>Definition:</b> hermes_types.h:153</div></div>
 <div class="ttc" id="aclasshermes_1_1api_1_1_v_bucket_html"><div class="ttname"><a href="classhermes_1_1api_1_1_v_bucket.html">hermes::api::VBucket</a></div><div class="ttdef"><b>Definition:</b> vbucket.h:34</div></div>
 <div class="ttc" id="astructhermes_1_1api_1_1_context_html_ab0ce61062b93b9d46b3ebd7296b03bcb"><div class="ttname"><a href="structhermes_1_1api_1_1_context.html#ab0ce61062b93b9d46b3ebd7296b03bcb">hermes::api::Context::disable_swap</a></div><div class="ttdeci">bool disable_swap</div><div class="ttdef"><b>Definition:</b> hermes_types.h:156</div></div>
-<div class="ttc" id="aclasshermes_1_1adapter_1_1fs_1_1_filesystem_html"><div class="ttname"><a href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html">hermes::adapter::fs::Filesystem</a></div><div class="ttdef"><b>Definition:</b> filesystem.h:226</div></div>
+<div class="ttc" id="aclasshermes_1_1adapter_1_1fs_1_1_filesystem_html"><div class="ttname"><a href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html">hermes::adapter::fs::Filesystem</a></div><div class="ttdef"><b>Definition:</b> filesystem.h:233</div></div>
 <div class="ttc" id="astructhermes_1_1api_1_1_context_html"><div class="ttname"><a href="structhermes_1_1api_1_1_context.html">hermes::api::Context</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:128</div></div>
-<div class="ttc" id="astructhermes_1_1adapter_1_1fs_1_1_io_status_html"><div class="ttname"><a href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">hermes::adapter::fs::IoStatus</a></div><div class="ttdef"><b>Definition:</b> filesystem.h:185</div></div>
+<div class="ttc" id="astructhermes_1_1adapter_1_1fs_1_1_io_status_html"><div class="ttname"><a href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">hermes::adapter::fs::IoStatus</a></div><div class="ttdef"><b>Definition:</b> filesystem.h:192</div></div>
 <div class="ttc" id="aclasshermes_1_1_singleton_html_aba32c5c9da663ea2606a7f36fdc3044c"><div class="ttname"><a href="classhermes_1_1_singleton.html#aba32c5c9da663ea2606a7f36fdc3044c">hermes::Singleton::GetInstance</a></div><div class="ttdeci">static T * GetInstance(Args... args)</div><div class="ttdef"><b>Definition:</b> singleton.h:34</div></div>
 <div class="ttc" id="anamespacehermes_html"><div class="ttname"><a href="namespacehermes.html">hermes</a></div><div class="ttdef"><b>Definition:</b> adapter_utils.cc:35</div></div>
 <div class="ttc" id="abuffer__pool_8h_html"><div class="ttname"><a href="buffer__pool_8h.html">buffer_pool.h</a></div></div>
 <div class="ttc" id="astructhermes_1_1adapter_1_1fs_1_1_adapter_stat_html_ac4b71b4909935e641e2628d4c8b30623"><div class="ttname"><a href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html#ac4b71b4909935e641e2628d4c8b30623">hermes::adapter::fs::AdapterStat::st_persist</a></div><div class="ttdeci">std::shared_ptr&lt; hapi::PersistTrait &gt; st_persist</div><div class="ttdef"><b>Definition:</b> filesystem.h:51</div></div>
-<div class="ttc" id="astructhermes_1_1adapter_1_1fs_1_1_hermes_request_html"><div class="ttname"><a href="structhermes_1_1adapter_1_1fs_1_1_hermes_request.html">hermes::adapter::fs::HermesRequest</a></div><div class="ttdef"><b>Definition:</b> filesystem.h:193</div></div>
+<div class="ttc" id="astructhermes_1_1adapter_1_1fs_1_1_hermes_request_html"><div class="ttname"><a href="structhermes_1_1adapter_1_1fs_1_1_hermes_request.html">hermes::adapter::fs::HermesRequest</a></div><div class="ttdef"><b>Definition:</b> filesystem.h:200</div></div>
 <div class="ttc" id="abucket_8h_html"><div class="ttname"><a href="bucket_8h.html">bucket.h</a></div></div>
 <div class="ttc" id="astructhermes_1_1adapter_1_1fs_1_1_io_options_html"><div class="ttname"><a href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">hermes::adapter::fs::IoOptions</a></div><div class="ttdef"><b>Definition:</b> filesystem.h:148</div></div>
 <div class="ttc" id="astructhermes_1_1adapter_1_1fs_1_1_file_html"><div class="ttname"><a href="structhermes_1_1adapter_1_1fs_1_1_file.html">hermes::adapter::fs::File</a></div><div class="ttdef"><b>Definition:</b> filesystem.h:97</div></div>
 <div class="ttc" id="astructhermes_1_1api_1_1_trait_html"><div class="ttname"><a href="structhermes_1_1api_1_1_trait.html">hermes::api::Trait</a></div><div class="ttdoc">Base class for Traits, which can attach functionality to VBuckets.</div><div class="ttdef"><b>Definition:</b> traits.h:52</div></div>
 <div class="ttc" id="astructhermes_1_1api_1_1_persist_trait_html_a940073a3dfc8fc6d0eda3f9f37b26ad1"><div class="ttname"><a href="structhermes_1_1api_1_1_persist_trait.html#a940073a3dfc8fc6d0eda3f9f37b26ad1">hermes::api::PersistTrait::offset_map</a></div><div class="ttdeci">std::unordered_map&lt; std::string, u64 &gt; offset_map</div><div class="ttdef"><b>Definition:</b> traits.h:93</div></div>
 <div class="ttc" id="ahermes__types_8h_html_a2524128a957393840374aa59c93cf8b5"><div class="ttname"><a href="hermes__types_8h.html#a2524128a957393840374aa59c93cf8b5">hermes::api::Blob</a></div><div class="ttdeci">std::vector&lt; unsigned char &gt; Blob</div><div class="ttdef"><b>Definition:</b> hermes_types.h:68</div></div>
-<div class="ttc" id="astructhermes_1_1adapter_1_1fs_1_1_blob_placement_iter_html"><div class="ttname"><a href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">hermes::adapter::fs::BlobPlacementIter</a></div><div class="ttdef"><b>Definition:</b> filesystem.h:198</div></div>
-<div class="ttc" id="aclasshermes_1_1adapter_1_1fs_1_1_filesystem_html_a38b55d90730ea53b4501f739042abaeb"><div class="ttname"><a href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a38b55d90730ea53b4501f739042abaeb">hermes::adapter::fs::Filesystem::_OpenInitStatsInternal</a></div><div class="ttdeci">void _OpenInitStatsInternal(AdapterStat &amp;stat, bool bucket_exists)</div><div class="ttdef"><b>Definition:</b> filesystem.h:267</div></div>
+<div class="ttc" id="astructhermes_1_1adapter_1_1fs_1_1_blob_placement_iter_html"><div class="ttname"><a href="structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html">hermes::adapter::fs::BlobPlacementIter</a></div><div class="ttdef"><b>Definition:</b> filesystem.h:205</div></div>
+<div class="ttc" id="aclasshermes_1_1adapter_1_1fs_1_1_filesystem_html_a38b55d90730ea53b4501f739042abaeb"><div class="ttname"><a href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a38b55d90730ea53b4501f739042abaeb">hermes::adapter::fs::Filesystem::_OpenInitStatsInternal</a></div><div class="ttdeci">void _OpenInitStatsInternal(AdapterStat &amp;stat, bool bucket_exists)</div><div class="ttdef"><b>Definition:</b> filesystem.h:274</div></div>
 <div class="ttc" id="astructhermes_1_1adapter_1_1fs_1_1_adapter_stat_html"><div class="ttname"><a href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">hermes::adapter::fs::AdapterStat</a></div><div class="ttdef"><b>Definition:</b> filesystem.h:44</div></div>
 <div class="ttc" id="astructhermes_1_1api_1_1_persist_trait_html"><div class="ttname"><a href="structhermes_1_1api_1_1_persist_trait.html">hermes::api::PersistTrait</a></div><div class="ttdoc">Engable persisting a VBucket's linked Blobs to permanent storage.</div><div class="ttdef"><b>Definition:</b> traits.h:89</div></div>
 <div class="ttc" id="ahermes__types_8h_html"><div class="ttname"><a href="hermes__types_8h.html">hermes_types.h</a></div></div>
