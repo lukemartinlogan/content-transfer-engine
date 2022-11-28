@@ -94,26 +94,26 @@ $(document).ready(function(){initNavTree('hermes__types_8h.html',''); initResiza
 <div class="title">hermes_types.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;glog/logging.h&gt;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
+<code>#include &lt;functional&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;functional&gt;</code><br />
-<code>#include &lt;glog/logging.h&gt;</code><br />
 <code>#include &quot;hermes_version.h&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for hermes_types.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="hermes__types_8h__incl.png" border="0" usemap="#_2home_2runner_2work_2hermes_2hermes_2src_2hermes__types_8h" alt=""/></div>
 <map name="_2home_2runner_2work_2hermes_2hermes_2src_2hermes__types_8h" id="_2home_2runner_2work_2hermes_2hermes_2src_2hermes__types_8h">
-<area shape="rect" title=" " alt="" coords="196,5,403,47"/>
-<area shape="rect" title=" " alt="" coords="5,95,76,121"/>
-<area shape="rect" title=" " alt="" coords="101,95,159,121"/>
-<area shape="rect" title=" " alt="" coords="184,95,244,121"/>
-<area shape="rect" title=" " alt="" coords="268,95,331,121"/>
-<area shape="rect" title=" " alt="" coords="355,95,441,121"/>
-<area shape="rect" title=" " alt="" coords="466,95,581,121"/>
-<area shape="rect" title=" " alt="" coords="605,95,743,121"/>
+<area shape="rect" title=" " alt="" coords="277,5,483,47"/>
+<area shape="rect" title=" " alt="" coords="5,95,120,121"/>
+<area shape="rect" title=" " alt="" coords="145,95,215,121"/>
+<area shape="rect" title=" " alt="" coords="239,95,326,121"/>
+<area shape="rect" title=" " alt="" coords="351,95,409,121"/>
+<area shape="rect" title=" " alt="" coords="434,95,494,121"/>
+<area shape="rect" title=" " alt="" coords="518,95,581,121"/>
+<area shape="rect" title=" " alt="" coords="605,95,744,121"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -121,44 +121,44 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="hermes__types_8h__dep__incl.png" border="0" usemap="#_2home_2runner_2work_2hermes_2hermes_2src_2hermes__types_8hdep" alt=""/></div>
 <map name="_2home_2runner_2work_2hermes_2hermes_2src_2hermes__types_8hdep" id="_2home_2runner_2work_2hermes_2hermes_2src_2hermes__types_8hdep">
-<area shape="rect" title=" " alt="" coords="1002,5,1209,47"/>
-<area shape="rect" href="filesystem_8h_source.html" title=" " alt="" coords="1353,972,1554,1028"/>
-<area shape="rect" href="metadata__manager_8h_source.html" title=" " alt="" coords="746,972,945,1028"/>
-<area shape="rect" href="datastructures_8h_source.html" title=" " alt="" coords="241,972,439,1028"/>
+<area shape="rect" title=" " alt="" coords="1026,5,1233,47"/>
+<area shape="rect" href="filesystem_8h_source.html" title=" " alt="" coords="1570,972,1771,1028"/>
+<area shape="rect" href="metadata__manager_8h_source.html" title=" " alt="" coords="721,972,919,1028"/>
+<area shape="rect" href="datastructures_8h_source.html" title=" " alt="" coords="215,972,414,1028"/>
 <area shape="rect" href="hermes_8h.html" title=" " alt="" coords="983,571,1182,612"/>
-<area shape="rect" href="traits_8h_source.html" title=" " alt="" coords="1306,667,1505,709"/>
-<area shape="rect" href="data__placement__engine_8h_source.html" title=" " alt="" coords="369,660,575,716"/>
-<area shape="rect" href="buffer__pool_8h.html" title=" " alt="" coords="791,288,990,329"/>
-<area shape="rect" href="rpc_8h_source.html" title=" " alt="" coords="1193,481,1391,523"/>
-<area shape="rect" href="memory__management_8h.html" title=" " alt="" coords="1157,102,1419,143"/>
-<area shape="rect" href="communication_8h.html" title=" " alt="" coords="998,199,1213,240"/>
-<area shape="rect" href="config__parser_8h_source.html" title=" " alt="" coords="1440,199,1640,240"/>
-<area shape="rect" href="utils_8h.html" title=" " alt="" coords="610,385,809,426"/>
-<area shape="rect" href="metadata__management__internal_8h_source.html" title=" " alt="" coords="2053,95,2312,151"/>
-<area shape="rect" href="filesystem_2metadata__manager_8h_source.html" title=" " alt="" coords="1625,1076,1826,1132"/>
-<area shape="rect" href="mpiio_2fs__api_8h_source.html" title=" " alt="" coords="1849,1284,2074,1325"/>
-<area shape="rect" href="mpiio_2real__api_8h_source.html" title=" " alt="" coords="2057,1187,2295,1229"/>
-<area shape="rect" href="posix_2fs__api_8h_source.html" title=" " alt="" coords="1302,1284,1525,1325"/>
-<area shape="rect" href="posix_2real__api_8h_source.html" title=" " alt="" coords="1335,1187,1571,1229"/>
-<area shape="rect" href="stdio_2fs__api_8h_source.html" title=" " alt="" coords="1549,1284,1769,1325"/>
-<area shape="rect" href="stdio_2real__api_8h_source.html" title=" " alt="" coords="1747,1187,1981,1229"/>
-<area shape="rect" href="pubsub_2metadata__manager_8h_source.html" title=" " alt="" coords="635,1076,834,1132"/>
-<area shape="rect" href="pubsub_8h_source.html" title=" " alt="" coords="882,1180,1081,1236"/>
-<area shape="rect" href="bucket_8h.html" title=" " alt="" coords="882,875,1081,917"/>
+<area shape="rect" href="traits_8h_source.html" title=" " alt="" coords="1255,667,1454,709"/>
+<area shape="rect" href="data__placement__engine_8h_source.html" title=" " alt="" coords="387,660,594,716"/>
+<area shape="rect" href="communication_8h.html" title=" " alt="" coords="1022,199,1237,240"/>
+<area shape="rect" href="buffer__pool_8h.html" title=" " alt="" coords="869,288,1067,329"/>
+<area shape="rect" href="rpc_8h_source.html" title=" " alt="" coords="1186,481,1385,523"/>
+<area shape="rect" href="memory__management_8h.html" title=" " alt="" coords="1219,102,1482,143"/>
+<area shape="rect" href="config__parser_8h_source.html" title=" " alt="" coords="1515,199,1715,240"/>
+<area shape="rect" href="utils_8h.html" title=" " alt="" coords="527,385,726,426"/>
+<area shape="rect" href="metadata__management__internal_8h_source.html" title=" " alt="" coords="2121,95,2380,151"/>
+<area shape="rect" href="filesystem_2metadata__manager_8h_source.html" title=" " alt="" coords="1678,1076,1879,1132"/>
+<area shape="rect" href="mpiio_2fs__api_8h_source.html" title=" " alt="" coords="1369,1284,1594,1325"/>
+<area shape="rect" href="mpiio_2real__api_8h_source.html" title=" " alt="" coords="1357,1187,1595,1229"/>
+<area shape="rect" href="posix_2fs__api_8h_source.html" title=" " alt="" coords="1623,1284,1846,1325"/>
+<area shape="rect" href="posix_2real__api_8h_source.html" title=" " alt="" coords="1822,1187,2058,1229"/>
+<area shape="rect" href="stdio_2fs__api_8h_source.html" title=" " alt="" coords="1927,1284,2147,1325"/>
+<area shape="rect" href="stdio_2real__api_8h_source.html" title=" " alt="" coords="2133,1187,2366,1229"/>
+<area shape="rect" href="pubsub_2metadata__manager_8h_source.html" title=" " alt="" coords="610,1076,809,1132"/>
+<area shape="rect" href="pubsub_8h_source.html" title=" " alt="" coords="857,1180,1055,1236"/>
+<area shape="rect" href="bucket_8h.html" title=" " alt="" coords="857,875,1055,917"/>
 <area shape="rect" href="vbucket_8h_source.html" title=" " alt="" coords="1255,771,1454,813"/>
-<area shape="rect" href="random_8h_source.html" title=" " alt="" coords="93,771,291,813"/>
-<area shape="rect" href="minimize__io__time_8h_source.html" title=" " alt="" coords="315,764,514,820"/>
-<area shape="rect" href="round__robin_8h_source.html" title=" " alt="" coords="539,771,757,813"/>
-<area shape="rect" href="data__placement__engine__factory_8h_source.html" title=" " alt="" coords="311,868,518,924"/>
-<area shape="rect" href="buffer__pool_8cc.html" title=" " alt="" coords="1329,571,1527,612"/>
-<area shape="rect" href="buffer__pool__internal_8h.html" title=" " alt="" coords="1515,377,1714,433"/>
-<area shape="rect" href="metadata__management_8h_source.html" title=" " alt="" coords="1035,385,1306,426"/>
-<area shape="rect" href="interceptor_8h_source.html" title=" " alt="" coords="1763,571,1978,612"/>
+<area shape="rect" href="minimize__io__time_8h_source.html" title=" " alt="" coords="366,764,565,820"/>
+<area shape="rect" href="random_8h_source.html" title=" " alt="" coords="143,771,342,813"/>
+<area shape="rect" href="round__robin_8h_source.html" title=" " alt="" coords="589,771,808,813"/>
+<area shape="rect" href="data__placement__engine__factory_8h_source.html" title=" " alt="" coords="362,868,569,924"/>
+<area shape="rect" href="communication__mpi_8cc.html" title=" " alt="" coords="1092,288,1345,329"/>
+<area shape="rect" href="buffer__pool_8cc.html" title=" " alt="" coords="1373,571,1571,612"/>
+<area shape="rect" href="buffer__pool__internal_8h.html" title=" " alt="" coords="1593,377,1791,433"/>
+<area shape="rect" href="metadata__management_8h_source.html" title=" " alt="" coords="1143,385,1414,426"/>
+<area shape="rect" href="interceptor_8h_source.html" title=" " alt="" coords="1819,571,2034,612"/>
 <area shape="rect" href="abstract__mapper_8h_source.html" title=" " alt="" coords="1679,660,1878,716"/>
-<area shape="rect" href="balanced__mapper_8h_source.html" title=" " alt="" coords="1629,764,1827,820"/>
+<area shape="rect" href="balanced__mapper_8h_source.html" title=" " alt="" coords="1679,764,1878,820"/>
 <area shape="rect" href="mapper__factory_8h_source.html" title=" " alt="" coords="1629,868,1827,924"/>
-<area shape="rect" href="communication__mpi_8cc.html" title=" " alt="" coords="1015,288,1268,329"/>
-<area shape="rect" href="memory__management_8cc.html" title=" " alt="" coords="1393,288,1663,329"/>
+<area shape="rect" href="memory__management_8cc.html" title=" " alt="" coords="1420,288,1689,329"/>
 </map>
 </div>
 </div>
@@ -194,56 +194,40 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a9d8b546e2fbbdfae536a432fd9c914e6"><td class="memItemLeft" align="right" valign="top"><a id="a9d8b546e2fbbdfae536a432fd9c914e6"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>KILOBYTES</b>(n)&#160;&#160;&#160;(((size_t)n) * 1024)</td></tr>
+<tr class="memitem:a9d8b546e2fbbdfae536a432fd9c914e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hermes__types_8h.html#a9d8b546e2fbbdfae536a432fd9c914e6">KILOBYTES</a>(n)&#160;&#160;&#160;(((size_t)n) * 1024)</td></tr>
 <tr class="separator:a9d8b546e2fbbdfae536a432fd9c914e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a675aa107ed38032ce5f00b78ab57514e"><td class="memItemLeft" align="right" valign="top"><a id="a675aa107ed38032ce5f00b78ab57514e"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MEGABYTES</b>(n)&#160;&#160;&#160;(((size_t)n) * 1024 * 1024)</td></tr>
+<tr class="memitem:a675aa107ed38032ce5f00b78ab57514e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hermes__types_8h.html#a675aa107ed38032ce5f00b78ab57514e">MEGABYTES</a>(n)&#160;&#160;&#160;(((size_t)n) * 1024 * 1024)</td></tr>
 <tr class="separator:a675aa107ed38032ce5f00b78ab57514e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6beebba07e7cd645b39675b831dba240"><td class="memItemLeft" align="right" valign="top"><a id="a6beebba07e7cd645b39675b831dba240"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>GIGABYTES</b>(n)&#160;&#160;&#160;(((size_t)n) * 1024UL * 1024UL * 1024UL)</td></tr>
+<tr class="memitem:a6beebba07e7cd645b39675b831dba240"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hermes__types_8h.html#a6beebba07e7cd645b39675b831dba240">GIGABYTES</a>(n)&#160;&#160;&#160;(((size_t)n) * 1024UL * 1024UL * 1024UL)</td></tr>
 <tr class="separator:a6beebba07e7cd645b39675b831dba240"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0920f322ebc889cee105e99113de93c1"><td class="memItemLeft" align="right" valign="top"><a id="a0920f322ebc889cee105e99113de93c1"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>HERMES_NOT_IMPLEMENTED_YET</b>&#160;&#160;&#160;LOG(FATAL) &lt;&lt; __func__ &lt;&lt; &quot; not implemented yet\n&quot;</td></tr>
+<tr class="memitem:a0920f322ebc889cee105e99113de93c1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hermes__types_8h.html#a0920f322ebc889cee105e99113de93c1">HERMES_NOT_IMPLEMENTED_YET</a>&#160;&#160;&#160;LOG(FATAL) &lt;&lt; __func__ &lt;&lt; &quot; not implemented yet\n&quot;</td></tr>
 <tr class="separator:a0920f322ebc889cee105e99113de93c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0809b5c47b52336bdde0b8040af9fad"><td class="memItemLeft" align="right" valign="top"><a id="ae0809b5c47b52336bdde0b8040af9fad"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>HERMES_INVALID_CODE_PATH</b>&#160;&#160;&#160;LOG(FATAL) &lt;&lt; &quot;Invalid code path.&quot; &lt;&lt; std::endl</td></tr>
+<tr class="memitem:ae0809b5c47b52336bdde0b8040af9fad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hermes__types_8h.html#ae0809b5c47b52336bdde0b8040af9fad">HERMES_INVALID_CODE_PATH</a>&#160;&#160;&#160;LOG(FATAL) &lt;&lt; &quot;Invalid code path.&quot; &lt;&lt; std::endl</td></tr>
 <tr class="separator:ae0809b5c47b52336bdde0b8040af9fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a67dcf64ed55349e6beab0a38e641a389"><td class="memItemLeft" align="right" valign="top"><a id="a67dcf64ed55349e6beab0a38e641a389"></a>
-typedef uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::u8</b></td></tr>
+<tr class="memitem:a67dcf64ed55349e6beab0a38e641a389"><td class="memItemLeft" align="right" valign="top">typedef uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a67dcf64ed55349e6beab0a38e641a389">hermes::u8</a></td></tr>
 <tr class="separator:a67dcf64ed55349e6beab0a38e641a389"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31d8487bd312e59a742d8ae2a6675a7f"><td class="memItemLeft" align="right" valign="top"><a id="a31d8487bd312e59a742d8ae2a6675a7f"></a>
-typedef uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::u16</b></td></tr>
+<tr class="memitem:a31d8487bd312e59a742d8ae2a6675a7f"><td class="memItemLeft" align="right" valign="top">typedef uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a31d8487bd312e59a742d8ae2a6675a7f">hermes::u16</a></td></tr>
 <tr class="separator:a31d8487bd312e59a742d8ae2a6675a7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac009c14ea7c4a1871e5d4453ba0ad3af"><td class="memItemLeft" align="right" valign="top"><a id="ac009c14ea7c4a1871e5d4453ba0ad3af"></a>
-typedef uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::u32</b></td></tr>
+<tr class="memitem:ac009c14ea7c4a1871e5d4453ba0ad3af"><td class="memItemLeft" align="right" valign="top">typedef uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#ac009c14ea7c4a1871e5d4453ba0ad3af">hermes::u32</a></td></tr>
 <tr class="separator:ac009c14ea7c4a1871e5d4453ba0ad3af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7e6bd7162b216c94dc9e81ea0232a46"><td class="memItemLeft" align="right" valign="top"><a id="ae7e6bd7162b216c94dc9e81ea0232a46"></a>
-typedef uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::u64</b></td></tr>
+<tr class="memitem:ae7e6bd7162b216c94dc9e81ea0232a46"><td class="memItemLeft" align="right" valign="top">typedef uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#ae7e6bd7162b216c94dc9e81ea0232a46">hermes::u64</a></td></tr>
 <tr class="separator:ae7e6bd7162b216c94dc9e81ea0232a46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac697b8fa749ec172f845d23c8d3caf6a"><td class="memItemLeft" align="right" valign="top"><a id="ac697b8fa749ec172f845d23c8d3caf6a"></a>
-typedef int8_t&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::i8</b></td></tr>
+<tr class="memitem:ac697b8fa749ec172f845d23c8d3caf6a"><td class="memItemLeft" align="right" valign="top">typedef int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#ac697b8fa749ec172f845d23c8d3caf6a">hermes::i8</a></td></tr>
 <tr class="separator:ac697b8fa749ec172f845d23c8d3caf6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25c38584a6dd927af6d4b7c3ec6b8558"><td class="memItemLeft" align="right" valign="top"><a id="a25c38584a6dd927af6d4b7c3ec6b8558"></a>
-typedef int16_t&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::i16</b></td></tr>
+<tr class="memitem:a25c38584a6dd927af6d4b7c3ec6b8558"><td class="memItemLeft" align="right" valign="top">typedef int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a25c38584a6dd927af6d4b7c3ec6b8558">hermes::i16</a></td></tr>
 <tr class="separator:a25c38584a6dd927af6d4b7c3ec6b8558"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6630042b3219ba5162f05595ea95769"><td class="memItemLeft" align="right" valign="top"><a id="ac6630042b3219ba5162f05595ea95769"></a>
-typedef int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::i32</b></td></tr>
+<tr class="memitem:ac6630042b3219ba5162f05595ea95769"><td class="memItemLeft" align="right" valign="top">typedef int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#ac6630042b3219ba5162f05595ea95769">hermes::i32</a></td></tr>
 <tr class="separator:ac6630042b3219ba5162f05595ea95769"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c07257f8f1cbec7c1a7678bcc7f4181"><td class="memItemLeft" align="right" valign="top"><a id="a7c07257f8f1cbec7c1a7678bcc7f4181"></a>
-typedef int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::i64</b></td></tr>
+<tr class="memitem:a7c07257f8f1cbec7c1a7678bcc7f4181"><td class="memItemLeft" align="right" valign="top">typedef int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a7c07257f8f1cbec7c1a7678bcc7f4181">hermes::i64</a></td></tr>
 <tr class="separator:a7c07257f8f1cbec7c1a7678bcc7f4181"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d3ce1bbd1f0b4922501277c5b029c5b"><td class="memItemLeft" align="right" valign="top"><a id="a2d3ce1bbd1f0b4922501277c5b029c5b"></a>
-typedef float&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::f32</b></td></tr>
+<tr class="memitem:a2d3ce1bbd1f0b4922501277c5b029c5b"><td class="memItemLeft" align="right" valign="top">typedef float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a2d3ce1bbd1f0b4922501277c5b029c5b">hermes::f32</a></td></tr>
 <tr class="separator:a2d3ce1bbd1f0b4922501277c5b029c5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d97837681c4cf3b4c45954bb78e98d5"><td class="memItemLeft" align="right" valign="top"><a id="a3d97837681c4cf3b4c45954bb78e98d5"></a>
-typedef double&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::f64</b></td></tr>
+<tr class="memitem:a3d97837681c4cf3b4c45954bb78e98d5"><td class="memItemLeft" align="right" valign="top">typedef double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a3d97837681c4cf3b4c45954bb78e98d5">hermes::f64</a></td></tr>
 <tr class="separator:a3d97837681c4cf3b4c45954bb78e98d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ba52be34dd263021aef92b27274d68c"><td class="memItemLeft" align="right" valign="top"><a id="a8ba52be34dd263021aef92b27274d68c"></a>
-typedef u16&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::DeviceID</b></td></tr>
+<tr class="memitem:a8ba52be34dd263021aef92b27274d68c"><td class="memItemLeft" align="right" valign="top">typedef u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a8ba52be34dd263021aef92b27274d68c">hermes::DeviceID</a></td></tr>
 <tr class="separator:a8ba52be34dd263021aef92b27274d68c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2524128a957393840374aa59c93cf8b5"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; unsigned char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hermes__types_8h.html#a2524128a957393840374aa59c93cf8b5">hermes::api::Blob</a></td></tr>
 <tr class="separator:a2524128a957393840374aa59c93cf8b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -257,7 +241,7 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a66b9a7dd528375b0f2f0e77f72d66b67"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hermes__types_8h.html#a66b9a7dd528375b0f2f0e77f72d66b67">hermes::api::PlacementPolicy</a> { <b>hermes::api::PlacementPolicy::kRandom</b>, 
 <b>hermes::api::PlacementPolicy::kRoundRobin</b>, 
 <b>hermes::api::PlacementPolicy::kMinimizeIoTime</b>, 
-<b>kNone</b>
+<b>hermes::api::PlacementPolicy::kNone</b>
  }</td></tr>
 <tr class="separator:a66b9a7dd528375b0f2f0e77f72d66b67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9d9c6dc6ad00f09a7d78b5db7e106cb"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#ae9d9c6dc6ad00f09a7d78b5db7e106cb">hermes::ProcessKind</a> { <a class="el" href="namespacehermes.html#ae9d9c6dc6ad00f09a7d78b5db7e106cbab8b7df6cd09a2b950f13e5f1ba0586b5">hermes::ProcessKind::kApp</a>, 
@@ -280,39 +264,118 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a1a4d6ab272396e7c9eb60b351e548ea8"><td class="memItemLeft" align="right" valign="top"><a id="a1a4d6ab272396e7c9eb60b351e548ea8"></a>
-static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::kMaxBufferPoolSlabs</b> = 8</td></tr>
+<tr class="memitem:a1a4d6ab272396e7c9eb60b351e548ea8"><td class="memItemLeft" align="right" valign="top">static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a1a4d6ab272396e7c9eb60b351e548ea8">hermes::kMaxBufferPoolSlabs</a> = 8</td></tr>
 <tr class="separator:a1a4d6ab272396e7c9eb60b351e548ea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22d7c46825d957a3a5859608fd442a5c"><td class="memItemLeft" align="right" valign="top"><a id="a22d7c46825d957a3a5859608fd442a5c"></a>
-constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::kMaxPathLength</b> = 256</td></tr>
+<tr class="memitem:a22d7c46825d957a3a5859608fd442a5c"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a22d7c46825d957a3a5859608fd442a5c">hermes::kMaxPathLength</a> = 256</td></tr>
 <tr class="separator:a22d7c46825d957a3a5859608fd442a5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b383ce9550094138409ea748419330b"><td class="memItemLeft" align="right" valign="top"><a id="a7b383ce9550094138409ea748419330b"></a>
-constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::kMaxBufferPoolShmemNameLength</b> = 64</td></tr>
+<tr class="memitem:a7b383ce9550094138409ea748419330b"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a7b383ce9550094138409ea748419330b">hermes::kMaxBufferPoolShmemNameLength</a> = 64</td></tr>
 <tr class="separator:a7b383ce9550094138409ea748419330b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05b185685cfe4402fcd4f4d102f773db"><td class="memItemLeft" align="right" valign="top"><a id="a05b185685cfe4402fcd4f4d102f773db"></a>
-constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::kMaxDevices</b> = 8</td></tr>
+<tr class="memitem:a05b185685cfe4402fcd4f4d102f773db"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a05b185685cfe4402fcd4f4d102f773db">hermes::kMaxDevices</a> = 8</td></tr>
 <tr class="separator:a05b185685cfe4402fcd4f4d102f773db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbf3bb1ae1d4b93cec82921c0b5f2731"><td class="memItemLeft" align="right" valign="top"><a id="afbf3bb1ae1d4b93cec82921c0b5f2731"></a>
-constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::kMaxBucketNameSize</b> = 256</td></tr>
+<tr class="memitem:afbf3bb1ae1d4b93cec82921c0b5f2731"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#afbf3bb1ae1d4b93cec82921c0b5f2731">hermes::kMaxBucketNameSize</a> = 256</td></tr>
 <tr class="separator:afbf3bb1ae1d4b93cec82921c0b5f2731"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc1696a11bcbfed72a351c8a7ef2cc76"><td class="memItemLeft" align="right" valign="top"><a id="acc1696a11bcbfed72a351c8a7ef2cc76"></a>
-constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::kMaxVBucketNameSize</b> = 256</td></tr>
+<tr class="memitem:acc1696a11bcbfed72a351c8a7ef2cc76"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#acc1696a11bcbfed72a351c8a7ef2cc76">hermes::kMaxVBucketNameSize</a> = 256</td></tr>
 <tr class="separator:acc1696a11bcbfed72a351c8a7ef2cc76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ac506009fb30ec0ddacdfde0c176455"><td class="memItemLeft" align="right" valign="top"><a id="a1ac506009fb30ec0ddacdfde0c176455"></a>
-constexpr char&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::kPlaceInHierarchy</b> [] = &quot;PlaceInHierarchy&quot;</td></tr>
+<tr class="memitem:a1ac506009fb30ec0ddacdfde0c176455"><td class="memItemLeft" align="right" valign="top">constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a1ac506009fb30ec0ddacdfde0c176455">hermes::kPlaceInHierarchy</a> [] = &quot;PlaceInHierarchy&quot;</td></tr>
 <tr class="separator:a1ac506009fb30ec0ddacdfde0c176455"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a433af8f0a0c9a37f56c47e36fad7b2f9"><td class="memItemLeft" align="right" valign="top"><a id="a433af8f0a0c9a37f56c47e36fad7b2f9"></a>
-const TargetID&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::kSwapTargetId</b> = {{0, 0, 0}}</td></tr>
+<tr class="memitem:a433af8f0a0c9a37f56c47e36fad7b2f9"><td class="memItemLeft" align="right" valign="top">const TargetID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a433af8f0a0c9a37f56c47e36fad7b2f9">hermes::kSwapTargetId</a> = {{0, 0, 0}}</td></tr>
 <tr class="separator:a433af8f0a0c9a37f56c47e36fad7b2f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaba7989e15321cd9cd19c2b6940ea4a2"><td class="memItemLeft" align="right" valign="top"><a id="aaba7989e15321cd9cd19c2b6940ea4a2"></a>
-constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>hermes::kBucketIdStringSize</b> = sizeof(BucketID) * 2</td></tr>
+<tr class="memitem:aaba7989e15321cd9cd19c2b6940ea4a2"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#aaba7989e15321cd9cd19c2b6940ea4a2">hermes::kBucketIdStringSize</a> = sizeof(BucketID) * 2</td></tr>
 <tr class="separator:aaba7989e15321cd9cd19c2b6940ea4a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ed10d74c2c33f9b76051420b6bdd608"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehermes.html#a7ed10d74c2c33f9b76051420b6bdd608">hermes::kMaxBlobNameSize</a> = 64 - kBucketIdStringSize</td></tr>
 <tr class="separator:a7ed10d74c2c33f9b76051420b6bdd608"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Types used in Hermes. </p>
-</div><h2 class="groupheader">Typedef Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a9d8b546e2fbbdfae536a432fd9c914e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d8b546e2fbbdfae536a432fd9c914e6">&#9670;&nbsp;</a></span>KILOBYTES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KILOBYTES</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">n</td><td>)</td>
+          <td>&#160;&#160;&#160;(((size_t)n) * 1024)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>KB </p>
+
+</div>
+</div>
+<a id="a675aa107ed38032ce5f00b78ab57514e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a675aa107ed38032ce5f00b78ab57514e">&#9670;&nbsp;</a></span>MEGABYTES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MEGABYTES</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">n</td><td>)</td>
+          <td>&#160;&#160;&#160;(((size_t)n) * 1024 * 1024)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>MB </p>
+
+</div>
+</div>
+<a id="a6beebba07e7cd645b39675b831dba240"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6beebba07e7cd645b39675b831dba240">&#9670;&nbsp;</a></span>GIGABYTES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GIGABYTES</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">n</td><td>)</td>
+          <td>&#160;&#160;&#160;(((size_t)n) * 1024UL * 1024UL * 1024UL)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>GB </p>
+
+</div>
+</div>
+<a id="a0920f322ebc889cee105e99113de93c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0920f322ebc889cee105e99113de93c1">&#9670;&nbsp;</a></span>HERMES_NOT_IMPLEMENTED_YET</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HERMES_NOT_IMPLEMENTED_YET&#160;&#160;&#160;LOG(FATAL) &lt;&lt; __func__ &lt;&lt; &quot; not implemented yet\n&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>A definition for logging something that is not yet implemented </p>
+
+</div>
+</div>
+<a id="ae0809b5c47b52336bdde0b8040af9fad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0809b5c47b52336bdde0b8040af9fad">&#9670;&nbsp;</a></span>HERMES_INVALID_CODE_PATH</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HERMES_INVALID_CODE_PATH&#160;&#160;&#160;LOG(FATAL) &lt;&lt; &quot;Invalid code path.&quot; &lt;&lt; std::endl</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>A definition for logging invalid code path </p>
+
+</div>
+</div>
+<h2 class="groupheader">Typedef Documentation</h2>
 <a id="a2524128a957393840374aa59c93cf8b5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2524128a957393840374aa59c93cf8b5">&#9670;&nbsp;</a></span>Blob</h2>
 

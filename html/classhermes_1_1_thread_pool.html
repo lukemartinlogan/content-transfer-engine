@@ -91,35 +91,228 @@ $(document).ready(function(){initNavTree('classhermes_1_1_thread_pool.html','');
 <div class="title">hermes::ThreadPool Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="thread__pool_8h_source.html">thread_pool.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2ea2e01f51a45b0ab38abca4356fa7ed"><td class="memItemLeft" align="right" valign="top"><a id="a2ea2e01f51a45b0ab38abca4356fa7ed"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ThreadPool</b> (unsigned num_threads=std::thread::hardware_concurrency())</td></tr>
+<tr class="memitem:a2ea2e01f51a45b0ab38abca4356fa7ed"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_thread_pool.html#a2ea2e01f51a45b0ab38abca4356fa7ed">ThreadPool</a> (unsigned num_threads=std::thread::hardware_concurrency())</td></tr>
 <tr class="separator:a2ea2e01f51a45b0ab38abca4356fa7ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5cb5a8233ee64473f5c8a34b281e8d9"><td class="memTemplParams" colspan="2"><a id="ac5cb5a8233ee64473f5c8a34b281e8d9"></a>
-template&lt;typename F , typename R  = std::result_of_t&lt;F &amp;&amp; ()&gt;&gt; </td></tr>
-<tr class="memitem:ac5cb5a8233ee64473f5c8a34b281e8d9"><td class="memTemplItemLeft" align="right" valign="top">std::future&lt; R &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>run</b> (F &amp;&amp;f, bool high_priority=false) const</td></tr>
+<tr class="memitem:ac5cb5a8233ee64473f5c8a34b281e8d9"><td class="memTemplParams" colspan="2">template&lt;typename F , typename R  = std::result_of_t&lt;F &amp;&amp; ()&gt;&gt; </td></tr>
+<tr class="memitem:ac5cb5a8233ee64473f5c8a34b281e8d9"><td class="memTemplItemLeft" align="right" valign="top">std::future&lt; R &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhermes_1_1_thread_pool.html#ac5cb5a8233ee64473f5c8a34b281e8d9">run</a> (F &amp;&amp;f, bool high_priority=false) const</td></tr>
 <tr class="separator:ac5cb5a8233ee64473f5c8a34b281e8d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a2db7fd0264dc225ef781806ca4dd9a78"><td class="memItemLeft" align="right" valign="top"><a id="a2db7fd0264dc225ef781806ca4dd9a78"></a>
-std::vector&lt; std::thread &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>threads</b></td></tr>
+<tr class="memitem:a2db7fd0264dc225ef781806ca4dd9a78"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::thread &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_thread_pool.html#a2db7fd0264dc225ef781806ca4dd9a78">threads</a></td></tr>
 <tr class="separator:a2db7fd0264dc225ef781806ca4dd9a78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9babf7b6fef992836f42b972e6777d87"><td class="memItemLeft" align="right" valign="top"><a id="a9babf7b6fef992836f42b972e6777d87"></a>
-std::queue&lt; std::packaged_task&lt; void()&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>queue_low</b></td></tr>
+<tr class="memitem:a9babf7b6fef992836f42b972e6777d87"><td class="memItemLeft" align="right" valign="top">std::queue&lt; std::packaged_task&lt; void()&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_thread_pool.html#a9babf7b6fef992836f42b972e6777d87">queue_low</a></td></tr>
 <tr class="separator:a9babf7b6fef992836f42b972e6777d87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc4f3ef4a97ecdf8b7f9a6bc0850449d"><td class="memItemLeft" align="right" valign="top"><a id="abc4f3ef4a97ecdf8b7f9a6bc0850449d"></a>
-std::queue&lt; std::packaged_task&lt; void()&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>queue_high</b></td></tr>
+<tr class="memitem:abc4f3ef4a97ecdf8b7f9a6bc0850449d"><td class="memItemLeft" align="right" valign="top">std::queue&lt; std::packaged_task&lt; void()&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_thread_pool.html#abc4f3ef4a97ecdf8b7f9a6bc0850449d">queue_high</a></td></tr>
 <tr class="separator:abc4f3ef4a97ecdf8b7f9a6bc0850449d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8084b8642715a09fba4c6a2a1470591f"><td class="memItemLeft" align="right" valign="top"><a id="a8084b8642715a09fba4c6a2a1470591f"></a>
-std::mutex&#160;</td><td class="memItemRight" valign="bottom"><b>mutex</b></td></tr>
+<tr class="memitem:a8084b8642715a09fba4c6a2a1470591f"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_thread_pool.html#a8084b8642715a09fba4c6a2a1470591f">mutex</a></td></tr>
 <tr class="separator:a8084b8642715a09fba4c6a2a1470591f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a419a91fc0f5f10b3b3f0e6591222c38a"><td class="memItemLeft" align="right" valign="top"><a id="a419a91fc0f5f10b3b3f0e6591222c38a"></a>
-std::condition_variable&#160;</td><td class="memItemRight" valign="bottom"><b>condvar</b></td></tr>
+<tr class="memitem:a419a91fc0f5f10b3b3f0e6591222c38a"><td class="memItemLeft" align="right" valign="top">std::condition_variable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_thread_pool.html#a419a91fc0f5f10b3b3f0e6591222c38a">condvar</a></td></tr>
 <tr class="separator:a419a91fc0f5f10b3b3f0e6591222c38a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A class to represent thread pool </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a2ea2e01f51a45b0ab38abca4356fa7ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ea2e01f51a45b0ab38abca4356fa7ed">&#9670;&nbsp;</a></span>ThreadPool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">hermes::ThreadPool::ThreadPool </td>
+          <td>(</td>
+          <td class="paramtype">unsigned&#160;</td>
+          <td class="paramname"><em>num_threads</em> = <code>std::thread::hardware_concurrency()</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>construct thread pool with <em>num_threads</em> number of threads </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ac5cb5a8233ee64473f5c8a34b281e8d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5cb5a8233ee64473f5c8a34b281e8d9">&#9670;&nbsp;</a></span>run()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F , typename R  = std::result_of_t&lt;F &amp;&amp; ()&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::future&lt;R&gt; hermes::ThreadPool::run </td>
+          <td>(</td>
+          <td class="paramtype">F &amp;&amp;&#160;</td>
+          <td class="paramname"><em>f</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>high_priority</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>a template for running thread pool </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1_thread_pool_ac5cb5a8233ee64473f5c8a34b281e8d9_icgraph.png" border="0" usemap="#classhermes_1_1_thread_pool_ac5cb5a8233ee64473f5c8a34b281e8d9_icgraph" alt=""/></div>
+<map name="classhermes_1_1_thread_pool_ac5cb5a8233ee64473f5c8a34b281e8d9_icgraph" id="classhermes_1_1_thread_pool_ac5cb5a8233ee64473f5c8a34b281e8d9_icgraph">
+<area shape="rect" title=" " alt="" coords="1020,5,1201,32"/>
+<area shape="rect" href="namespacehermes.html#a3c15e7002437eaa9692c2e77994e1e11" title=" " alt="" coords="719,5,972,32"/>
+<area shape="rect" href="namespacehermes.html#a43b3cc30cb29782c129ead393751b686" title=" " alt="" coords="459,5,671,32"/>
+<area shape="rect" href="namespacehermes.html#a38a7c1afe74ebe48491b5f1d03a81333" title=" " alt="" coords="260,5,411,32"/>
+<area shape="rect" href="namespacehermes.html#add94b30eb4c2878c70f99f3da91fc39a" title=" " alt="" coords="5,5,212,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a2db7fd0264dc225ef781806ca4dd9a78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2db7fd0264dc225ef781806ca4dd9a78">&#9670;&nbsp;</a></span>threads</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::thread&gt; hermes::ThreadPool::threads</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>a vector of threads </p>
+
+</div>
+</div>
+<a id="a9babf7b6fef992836f42b972e6777d87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9babf7b6fef992836f42b972e6777d87">&#9670;&nbsp;</a></span>queue_low</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::queue&lt;std::packaged_task&lt;void()&gt; &gt; hermes::ThreadPool::queue_low</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>high-priority queue </p>
+
+</div>
+</div>
+<a id="abc4f3ef4a97ecdf8b7f9a6bc0850449d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc4f3ef4a97ecdf8b7f9a6bc0850449d">&#9670;&nbsp;</a></span>queue_high</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::queue&lt;std::packaged_task&lt;void()&gt; &gt; hermes::ThreadPool::queue_high</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>low-priority queue </p>
+
+</div>
+</div>
+<a id="a8084b8642715a09fba4c6a2a1470591f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8084b8642715a09fba4c6a2a1470591f">&#9670;&nbsp;</a></span>mutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex hermes::ThreadPool::mutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>mutex lock </p>
+
+</div>
+</div>
+<a id="a419a91fc0f5f10b3b3f0e6591222c38a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a419a91fc0f5f10b3b3f0e6591222c38a">&#9670;&nbsp;</a></span>condvar</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::condition_variable hermes::ThreadPool::condvar</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>conditional variable </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/hermes/hermes/src/<a class="el" href="thread__pool_8h_source.html">thread_pool.h</a></li>
 </ul>

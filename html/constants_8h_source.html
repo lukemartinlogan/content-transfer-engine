@@ -122,11 +122,11 @@ $(document).ready(function(){initNavTree('constants_8h_source.html',''); initRes
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span>* kStopDaemon = <span class="stringliteral">&quot;HERMES_STOP_DAEMON&quot;</span>;</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> kPageSize = []() {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *kPageSizeVar = <span class="stringliteral">&quot;HERMES_PAGE_SIZE&quot;</span>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span>* kPageSizeVar = <span class="stringliteral">&quot;HERMES_PAGE_SIZE&quot;</span>;</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">size_t</span> kDefaultPageSize = 1 * 1024 * 1024;</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  <span class="keywordtype">size_t</span> result = kDefaultPageSize;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <span class="keywordtype">char</span> *page_size = getenv(kPageSizeVar);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <span class="keywordtype">char</span>* page_size = getenv(kPageSizeVar);</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="keywordflow">if</span> (page_size) {</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    result = (size_t)std::strtoull(page_size, NULL, 0);</div>

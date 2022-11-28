@@ -90,6 +90,8 @@ $(document).ready(function(){initNavTree('structhermes_1_1_shared_memory_context
 <div class="title">hermes::SharedMemoryContext Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="buffer__pool_8h_source.html">buffer_pool.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for hermes::SharedMemoryContext:</div>
 <div class="dyncontent">
@@ -103,27 +105,26 @@ Collaboration diagram for hermes::SharedMemoryContext:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a5ca4af272d6beb16ed8d04231c4b56f4"><td class="memItemLeft" align="right" valign="top">u8 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_shared_memory_context.html#a5ca4af272d6beb16ed8d04231c4b56f4">shm_base</a></td></tr>
+<tr class="memitem:a5ca4af272d6beb16ed8d04231c4b56f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehermes.html#a67dcf64ed55349e6beab0a38e641a389">u8</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_shared_memory_context.html#a5ca4af272d6beb16ed8d04231c4b56f4">shm_base</a></td></tr>
 <tr class="separator:a5ca4af272d6beb16ed8d04231c4b56f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a238838ab69d26b8ea4ef4ddaa1aa78a8"><td class="memItemLeft" align="right" valign="top">ptrdiff_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_shared_memory_context.html#a238838ab69d26b8ea4ef4ddaa1aa78a8">buffer_pool_offset</a></td></tr>
 <tr class="separator:a238838ab69d26b8ea4ef4ddaa1aa78a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78322dc2f38b1642d82235955ac25f5c"><td class="memItemLeft" align="right" valign="top">ptrdiff_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_shared_memory_context.html#a78322dc2f38b1642d82235955ac25f5c">metadata_manager_offset</a></td></tr>
 <tr class="separator:a78322dc2f38b1642d82235955ac25f5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab58320fc283944a3d5ae5d63d9e35846"><td class="memItemLeft" align="right" valign="top">u64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_shared_memory_context.html#ab58320fc283944a3d5ae5d63d9e35846">shm_size</a></td></tr>
+<tr class="memitem:ab58320fc283944a3d5ae5d63d9e35846"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehermes.html#ae7e6bd7162b216c94dc9e81ea0232a46">u64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_shared_memory_context.html#ab58320fc283944a3d5ae5d63d9e35846">shm_size</a></td></tr>
 <tr class="separator:ab58320fc283944a3d5ae5d63d9e35846"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a208255f7280483907b22916106abb0e4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structhermes_1_1_buffer_organizer.html">BufferOrganizer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_shared_memory_context.html#a208255f7280483907b22916106abb0e4">bo</a></td></tr>
 <tr class="separator:a208255f7280483907b22916106abb0e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3217d6ef32c676c28aa17ee44d150bc"><td class="memItemLeft" align="right" valign="top"><a id="ab3217d6ef32c676c28aa17ee44d150bc"></a>
-std::vector&lt; std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>buffering_filenames</b></td></tr>
+<tr class="memitem:ab3217d6ef32c676c28aa17ee44d150bc"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_shared_memory_context.html#ab3217d6ef32c676c28aa17ee44d150bc">buffering_filenames</a></td></tr>
 <tr class="separator:ab3217d6ef32c676c28aa17ee44d150bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f28dc85400e828c6c90fa45eded8ad9"><td class="memItemLeft" align="right" valign="top"><a id="a0f28dc85400e828c6c90fa45eded8ad9"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>open_files</b> [kMaxDevices][kMaxBufferPoolSlabs]</td></tr>
+<tr class="memitem:a0f28dc85400e828c6c90fa45eded8ad9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_shared_memory_context.html#a0f28dc85400e828c6c90fa45eded8ad9">open_files</a> [<a class="el" href="namespacehermes.html#a05b185685cfe4402fcd4f4d102f773db">kMaxDevices</a>][<a class="el" href="namespacehermes.html#a1a4d6ab272396e7c9eb60b351e548ea8">kMaxBufferPoolSlabs</a>]</td></tr>
 <tr class="separator:a0f28dc85400e828c6c90fa45eded8ad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9259de3a909c6222ccdee93c43ad4272"><td class="memItemLeft" align="right" valign="top"><a id="a9259de3a909c6222ccdee93c43ad4272"></a>
-FILE *&#160;</td><td class="memItemRight" valign="bottom"><b>swap_file</b></td></tr>
+<tr class="memitem:a9259de3a909c6222ccdee93c43ad4272"><td class="memItemLeft" align="right" valign="top">FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_shared_memory_context.html#a9259de3a909c6222ccdee93c43ad4272">swap_file</a></td></tr>
 <tr class="separator:a9259de3a909c6222ccdee93c43ad4272"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Data Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A structure to represent shared memory context </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a5ca4af272d6beb16ed8d04231c4b56f4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5ca4af272d6beb16ed8d04231c4b56f4">&#9670;&nbsp;</a></span>shm_base</h2>
 
@@ -131,7 +132,7 @@ FILE *&#160;</td><td class="memItemRight" valign="bottom"><b>swap_file</b></td><
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">u8* hermes::SharedMemoryContext::shm_base</td>
+          <td class="memname"><a class="el" href="namespacehermes.html#a67dcf64ed55349e6beab0a38e641a389">u8</a>* hermes::SharedMemoryContext::shm_base</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -176,7 +177,7 @@ FILE *&#160;</td><td class="memItemRight" valign="bottom"><b>swap_file</b></td><
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">u64 hermes::SharedMemoryContext::shm_size</td>
+          <td class="memname"><a class="el" href="namespacehermes.html#ae7e6bd7162b216c94dc9e81ea0232a46">u64</a> hermes::SharedMemoryContext::shm_size</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -196,6 +197,51 @@ FILE *&#160;</td><td class="memItemRight" valign="bottom"><b>swap_file</b></td><
       </table>
 </div><div class="memdoc">
 <p>This will only be valid on Hermes cores, and NULL on client cores. </p>
+
+</div>
+</div>
+<a id="ab3217d6ef32c676c28aa17ee44d150bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3217d6ef32c676c28aa17ee44d150bc">&#9670;&nbsp;</a></span>buffering_filenames</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::vector&lt;std::string&gt; &gt; hermes::SharedMemoryContext::buffering_filenames</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>vector of buffering file names </p>
+
+</div>
+</div>
+<a id="a0f28dc85400e828c6c90fa45eded8ad9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f28dc85400e828c6c90fa45eded8ad9">&#9670;&nbsp;</a></span>open_files</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hermes::SharedMemoryContext::open_files[<a class="el" href="namespacehermes.html#a05b185685cfe4402fcd4f4d102f773db">kMaxDevices</a>][<a class="el" href="namespacehermes.html#a1a4d6ab272396e7c9eb60b351e548ea8">kMaxBufferPoolSlabs</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>2D array of open files for each device and buffer pool slab </p>
+
+</div>
+</div>
+<a id="a9259de3a909c6222ccdee93c43ad4272"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9259de3a909c6222ccdee93c43ad4272">&#9670;&nbsp;</a></span>swap_file</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FILE* hermes::SharedMemoryContext::swap_file</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>pointer to swap file </p>
 
 </div>
 </div>

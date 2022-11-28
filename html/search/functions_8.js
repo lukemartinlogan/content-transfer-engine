@@ -1,17 +1,19 @@
 var searchData=
 [
-  ['initarena_607',['InitArena',['../namespacehermes.html#af5d3174c5dc80367ddfa913d7685e666',1,'hermes']]],
-  ['initarenaandallocate_608',['InitArenaAndAllocate',['../namespacehermes.html#ad344fd4f2e60298d0b78945625b16d4a',1,'hermes']]],
-  ['initbufferpool_609',['InitBufferPool',['../namespacehermes.html#aef32dcdc8a11c0cd0a2bed9b39e831e0',1,'hermes']]],
-  ['initdefaultconfig_610',['InitDefaultConfig',['../namespacehermes.html#ad26bf0d941952ebe9e698d2de194bdf0',1,'hermes']]],
-  ['initdevices_611',['InitDevices',['../classhermes_1_1_round_robin.html#a65d23952affd0b2adfd668c1db93d581',1,'hermes::RoundRobin']]],
-  ['initfilesforbuffering_612',['InitFilesForBuffering',['../namespacehermes.html#ac40167a06e73b893a492c3708bc94556',1,'hermes']]],
-  ['inithermes_613',['InitHermes',['../namespacehermes.html#a38a7c1afe74ebe48491b5f1d03a81333',1,'hermes']]],
-  ['inithermesclient_614',['InitHermesClient',['../namespacehermes.html#a1d0bf4f35f33ba763fcf79fc22cc197c',1,'hermes']]],
-  ['inithermesdaemon_615',['InitHermesDaemon',['../namespacehermes.html#a9869b5584e78dccc917b3f2f68242d61',1,'hermes::InitHermesDaemon(char *config_file=NULL)'],['../namespacehermes.html#add94b30eb4c2878c70f99f3da91fc39a',1,'hermes::InitHermesDaemon(Config *config)']]],
-  ['initializehermes_616',['InitializeHermes',['../classhermes_1_1adapter_1_1fs_1_1_metadata_manager.html#abe07cfa7c29b07bcd8557f28c788e968',1,'hermes::adapter::fs::MetadataManager::InitializeHermes()'],['../classhermes_1_1adapter_1_1_metadata_manager.html#a31f23d972af1269ea588bb33f3c218e9',1,'hermes::adapter::MetadataManager::InitializeHermes()'],['../classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html#a5c67a4fbcaded6c88e4945e06c90d0d8',1,'hermes::adapter::pubsub::MetadataManager::InitializeHermes()']]],
-  ['interceptorlist_617',['InterceptorList',['../structhermes_1_1adapter_1_1_interceptor_list.html#af5fa1b9e88263539e9c627e87ddf3ad2',1,'hermes::adapter::InterceptorList']]],
-  ['isapplicationcore_618',['IsApplicationCore',['../classhermes_1_1api_1_1_hermes.html#ad2bb69f41037cc5b7e4638d0ec4a6e57',1,'hermes::api::Hermes']]],
-  ['isfirstrankonnode_619',['IsFirstRankOnNode',['../classhermes_1_1api_1_1_hermes.html#a82f6bce58521204910e61ef2c5973108',1,'hermes::api::Hermes']]],
-  ['isvalid_620',['IsValid',['../classhermes_1_1api_1_1_bucket.html#ab0f3448f247972e09644d405e84b71f7',1,'hermes::api::Bucket::IsValid()'],['../classhermes_1_1api_1_1_v_bucket.html#afeba35fbbfdd9a2cf97dfea19dc846c2',1,'hermes::api::VBucket::IsValid()']]]
+  ['hasallocated_1537',['HasAllocated',['../namespacehermes.html#a29b413afb81d9f0af5e0c16a9c1adf45',1,'hermes']]],
+  ['hasallocatedblobs_1538',['HasAllocatedBlobs',['../namespacehermes.html#a096349836945afb53a1ee170e1452079',1,'hermes::HasAllocatedBlobs(VBucketInfo *info)'],['../namespacehermes.html#afdf4dab34bbd47d94f1fe8613f891a69',1,'hermes::HasAllocatedBlobs(BucketInfo *info)']]],
+  ['hash_1539',['hash',['../structhermes_1_1adapter_1_1fs_1_1_file.html#a5a32431e6c593171ad43afcb82921070',1,'hermes::adapter::fs::File']]],
+  ['hashstring_1540',['HashString',['../namespacehermes.html#a2843ffb837d29a254daf9cf7d6438f65',1,'hermes']]],
+  ['hashstringforstorage_1541',['HashStringForStorage',['../namespacehermes.html#a2906370066a24960ee0c9db0932372b8',1,'hermes']]],
+  ['headerisdormant_1542',['HeaderIsDormant',['../namespacehermes.html#a53535e85665e48b4cf17e78a790537da',1,'hermes']]],
+  ['heaperrorhandler_1543',['HeapErrorHandler',['../namespacehermes.html#aa054d34a7bef62cfd8f1b5fc3c8dd625',1,'hermes']]],
+  ['heapextenttoptr_1544',['HeapExtentToPtr',['../namespacehermes.html#aafe0f13b30713100e06b8964a3808957',1,'hermes']]],
+  ['heapfree_1545',['HeapFree',['../namespacehermes.html#a427330d95fc55b0f34cbbb45021baf52',1,'hermes']]],
+  ['heapoffsettoptr_1546',['HeapOffsetToPtr',['../namespacehermes.html#a2495a1bc4ebfd54caa37ddf4f9069010',1,'hermes']]],
+  ['heappusharray_1547',['HeapPushArray',['../namespacehermes.html#aead35ad7efd615cadabc88f9381ba466',1,'hermes']]],
+  ['heappushsize_1548',['HeapPushSize',['../namespacehermes.html#afcb11b9b6cf9c6d27031720006bb5736',1,'hermes']]],
+  ['heappushstruct_1549',['HeapPushStruct',['../namespacehermes.html#a60c1e09296fea0acd1dc8c2e387f455f',1,'hermes']]],
+  ['heaprealloc_1550',['HeapRealloc',['../namespacehermes.html#ae4831b5cb2cd6ffbbdad594c8e655bff',1,'hermes']]],
+  ['hermes_1551',['Hermes',['../classhermes_1_1api_1_1_hermes.html#acb45c1c44b10505d070264998650f3d7',1,'hermes::api::Hermes']]],
+  ['hexstringtou64_1552',['HexStringToU64',['../namespacehermes.html#a7b523f2a9c62ac45bb8a4b39056d4d7d',1,'hermes']]]
 ];

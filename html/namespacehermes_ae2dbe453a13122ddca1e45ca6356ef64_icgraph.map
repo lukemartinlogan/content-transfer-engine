@@ -1,0 +1,13 @@
+<map id="hermes::ContainsBlob" name="hermes::ContainsBlob">
+<area shape="rect" id="node1" title=" " alt="" coords="1193,78,1359,105"/>
+<area shape="rect" id="node2" href="$classhermes_1_1api_1_1_hermes.html#a9ab56ab8d652f87ae789043089672e96" title="Check if a given Bucket contains a Blob." alt="" coords="985,5,1145,47"/>
+<area shape="rect" id="node3" href="$classhermes_1_1api_1_1_bucket.html#a314b6b73d60b41f3f525e3439314bbb4" title="Returns true if the Bucket contains a Blob called name." alt="" coords="990,71,1141,112"/>
+<area shape="rect" id="node4" href="$namespacehermes.html#a162e1bfac8a276d2b948f2b4b1d61602" title=" " alt="" coords="994,137,1137,163"/>
+<area shape="rect" id="node5" href="$classhermes_1_1api_1_1_bucket.html#a90ac5c8ab3fc47ccc51566e722d3ca66" title="Low&#45;level version of Put." alt="" coords="767,100,918,141"/>
+<area shape="rect" id="node8" href="$namespacehermes.html#aa39f804b689f65b750a959e55f56f731" title=" " alt="" coords="748,166,937,193"/>
+<area shape="rect" id="node6" href="$classhermes_1_1api_1_1_bucket.html#a409f78fc50a74d26d2623cde27a9a1ad" title="Internal version of Put, called by all overloads." alt="" coords="519,100,669,141"/>
+<area shape="rect" id="node7" href="$classhermes_1_1api_1_1_bucket.html#a18180399c351be737c889ccaee8ff04f" title=" " alt="" coords="260,107,440,134"/>
+<area shape="rect" id="node9" href="$namespacehermes.html#a43b3cc30cb29782c129ead393751b686" title=" " alt="" coords="488,166,700,193"/>
+<area shape="rect" id="node10" href="$namespacehermes.html#a38a7c1afe74ebe48491b5f1d03a81333" title=" " alt="" coords="275,166,425,193"/>
+<area shape="rect" id="node11" href="$namespacehermes.html#add94b30eb4c2878c70f99f3da91fc39a" title=" " alt="" coords="5,166,212,193"/>
+</map>

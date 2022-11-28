@@ -20,6 +20,7 @@ var buffer__pool_8h =
     [ "operator==", "buffer__pool_8h.html#a5b285bc4a6d19044b6eead181c18b4df", null ],
     [ "GetBlobSize", "buffer__pool_8h.html#ab48b9ac0695e2cdf1ae998d40e64d86f", null ],
     [ "GetBlobSizeById", "buffer__pool_8h.html#af1bf3c14edcfd90fa50cbe61cd50b07a", null ],
+    [ "GetBlobImportanceScore", "buffer__pool_8h.html#a8e6bb22eee573b7ba2436b6bddd79c91", null ],
     [ "MakeFullShmemName", "buffer__pool_8h.html#a93572ab14ec8c48e304fbdfc25cab81d", null ],
     [ "InitFilesForBuffering", "buffer__pool_8h.html#ac40167a06e73b893a492c3708bc94556", null ],
     [ "GetSharedMemoryContext", "buffer__pool_8h.html#a5f1ab38db8aaf13dfe38fa1e77e9a4ac", null ],

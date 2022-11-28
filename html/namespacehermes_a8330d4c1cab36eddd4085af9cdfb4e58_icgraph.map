@@ -1,0 +1,10 @@
+<map id="hermes::UnmapSharedMemory" name="hermes::UnmapSharedMemory">
+<area shape="rect" id="node1" title=" " alt="" coords="705,78,931,105"/>
+<area shape="rect" id="node2" href="$namespacehermes.html#a7f5a7088d0c67afec779b03060291180" title=" " alt="" coords="427,71,657,112"/>
+<area shape="rect" id="node3" href="$namespacehermes.html#aba276e3158ce278c8b895b936678b255" title=" " alt="" coords="231,21,360,47"/>
+<area shape="rect" id="node5" href="$namespacehermes.html#a71d34b6d4559fc32d92645d0575ddbc4" title=" " alt="" coords="212,78,379,105"/>
+<area shape="rect" id="node7" href="$namespacehermes.html#a90b1db1f042889fa71604d0e16cf3d41" title=" " alt="" coords="216,135,375,162"/>
+<area shape="rect" id="node4" href="$classhermes_1_1api_1_1_hermes.html#a37a6512a0d20bf8ed0e5c2ef4238d807" title="Shutdown Hermes." alt="" coords="5,5,164,47"/>
+<area shape="rect" id="node6" href="$classhermes_1_1api_1_1_hermes.html#aca7ea39b90693a4e8ff39ef47286b075" title="Shutdown application cores." alt="" coords="5,71,164,112"/>
+<area shape="rect" id="node8" href="$classhermes_1_1api_1_1_hermes.html#a7f9700051f64b2c3d51e3ff30c323154" title="Starts a Hermes daemon." alt="" coords="5,136,164,177"/>
+</map>

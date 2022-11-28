@@ -111,16 +111,16 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a0196d57c69696a5a7d350a396b608363"><td class="memItemLeft" align="right" valign="top">u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_shmem_string.html#a0196d57c69696a5a7d350a396b608363">offset</a></td></tr>
+<tr class="memitem:a0196d57c69696a5a7d350a396b608363"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehermes.html#ac009c14ea7c4a1871e5d4453ba0ad3af">u32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_shmem_string.html#a0196d57c69696a5a7d350a396b608363">offset</a></td></tr>
 <tr class="separator:a0196d57c69696a5a7d350a396b608363"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49536f8d0b1e75a1e23362bdf62bade8"><td class="memItemLeft" align="right" valign="top">u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_shmem_string.html#a49536f8d0b1e75a1e23362bdf62bade8">size</a></td></tr>
+<tr class="memitem:a49536f8d0b1e75a1e23362bdf62bade8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehermes.html#ac009c14ea7c4a1871e5d4453ba0ad3af">u32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_shmem_string.html#a49536f8d0b1e75a1e23362bdf62bade8">size</a></td></tr>
 <tr class="separator:a49536f8d0b1e75a1e23362bdf62bade8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Representation of a non-NULL-terminated string in shared memory.</p>
 <p>Both the <a class="el" href="structhermes_1_1_shmem_string.html">ShmemString</a> iteself and the memory for the string it represents must reside in the same shared memory segement, and the <a class="el" href="structhermes_1_1_shmem_string.html">ShmemString</a> must be stored at a lower address than the string memory because the offset is from the <a class="el" href="structhermes_1_1_shmem_string.html">ShmemString</a> instance itself. Here is a diagram:</p>
 <p>|--------&mdash;8 bytes offset ---------&mdash;| [ <a class="el" href="structhermes_1_1_shmem_string.html">ShmemString</a> | offset: 8 | size: 16 ] [ "string in memory" ]</p>
-<dl class="section see"><dt>See also</dt><dd>MakeShmemString() </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacehermes.html#af75b7059f9e32448f34758aab402d408">MakeShmemString()</a> </dd>
 <dd>
 <a class="el" href="namespacehermes.html#aeead20c73463fedaadfc2473f71340a1">GetShmemString()</a> </dd></dl>
 </div><h2 class="groupheader">Member Data Documentation</h2>
@@ -131,7 +131,7 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">u32 hermes::ShmemString::offset</td>
+          <td class="memname"><a class="el" href="namespacehermes.html#ac009c14ea7c4a1871e5d4453ba0ad3af">u32</a> hermes::ShmemString::offset</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -146,7 +146,7 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">u32 hermes::ShmemString::size</td>
+          <td class="memname"><a class="el" href="namespacehermes.html#ac009c14ea7c4a1871e5d4453ba0ad3af">u32</a> hermes::ShmemString::size</td>
         </tr>
       </table>
 </div><div class="memdoc">

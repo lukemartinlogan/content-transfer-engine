@@ -91,73 +91,772 @@ $(document).ready(function(){initNavTree('classhermes_1_1_linear_program.html','
 <div class="title">hermes::LinearProgram Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="linprog_8h_source.html">linprog.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0b19ee43b9b1de02e5b93b72a289d532"><td class="memItemLeft" align="right" valign="top"><a id="a0b19ee43b9b1de02e5b93b72a289d532"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>LinearProgram</b> (const char *name)</td></tr>
+<tr class="memitem:a0b19ee43b9b1de02e5b93b72a289d532"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a0b19ee43b9b1de02e5b93b72a289d532">LinearProgram</a> (const char *name)</td></tr>
 <tr class="separator:a0b19ee43b9b1de02e5b93b72a289d532"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc46e0d167848e4ceb24ba1cf9876a63"><td class="memItemLeft" align="right" valign="top"><a id="afc46e0d167848e4ceb24ba1cf9876a63"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>DefineDimension</b> (int num_vars, int num_constraints)</td></tr>
+<tr class="memitem:a1970d9db1057bd2c67cb58c76f08de79"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a1970d9db1057bd2c67cb58c76f08de79">~LinearProgram</a> ()</td></tr>
+<tr class="separator:a1970d9db1057bd2c67cb58c76f08de79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc46e0d167848e4ceb24ba1cf9876a63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#afc46e0d167848e4ceb24ba1cf9876a63">DefineDimension</a> (int num_vars, int num_constraints)</td></tr>
 <tr class="separator:afc46e0d167848e4ceb24ba1cf9876a63"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f8349d76cdfd0f88bbb8264fa0f2db8"><td class="memItemLeft" align="right" valign="top"><a id="a9f8349d76cdfd0f88bbb8264fa0f2db8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>AddConstraint</b> (const std::string &amp;base_name, int op_type, double lb, double ub)</td></tr>
+<tr class="memitem:a9f8349d76cdfd0f88bbb8264fa0f2db8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a9f8349d76cdfd0f88bbb8264fa0f2db8">AddConstraint</a> (const std::string &amp;base_name, int op_type, double lb, double ub)</td></tr>
 <tr class="separator:a9f8349d76cdfd0f88bbb8264fa0f2db8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8396bcfd56a01e647fda44ec889d1e37"><td class="memItemLeft" align="right" valign="top"><a id="a8396bcfd56a01e647fda44ec889d1e37"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetConstraintCoeff</b> (int var, double val)</td></tr>
+<tr class="memitem:a8396bcfd56a01e647fda44ec889d1e37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a8396bcfd56a01e647fda44ec889d1e37">SetConstraintCoeff</a> (int var, double val)</td></tr>
 <tr class="separator:a8396bcfd56a01e647fda44ec889d1e37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24c480831222abad36ee802660bd72d0"><td class="memItemLeft" align="right" valign="top"><a id="a24c480831222abad36ee802660bd72d0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetVariableBounds</b> (const std::string &amp;base_name, int var, int op_type, double lb, double ub)</td></tr>
+<tr class="memitem:a24c480831222abad36ee802660bd72d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a24c480831222abad36ee802660bd72d0">SetVariableBounds</a> (const std::string &amp;base_name, int var, int op_type, double lb, double ub)</td></tr>
 <tr class="separator:a24c480831222abad36ee802660bd72d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2bf67953201a321e404c96ce4e0d0245"><td class="memItemLeft" align="right" valign="top"><a id="a2bf67953201a321e404c96ce4e0d0245"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetObjective</b> (int objective)</td></tr>
+<tr class="memitem:a2bf67953201a321e404c96ce4e0d0245"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a2bf67953201a321e404c96ce4e0d0245">SetObjective</a> (int objective)</td></tr>
 <tr class="separator:a2bf67953201a321e404c96ce4e0d0245"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab10907f6f70942395838b4cbf9d527a5"><td class="memItemLeft" align="right" valign="top"><a id="ab10907f6f70942395838b4cbf9d527a5"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetObjectiveCoeff</b> (int var, double val)</td></tr>
+<tr class="memitem:ab10907f6f70942395838b4cbf9d527a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#ab10907f6f70942395838b4cbf9d527a5">SetObjectiveCoeff</a> (int var, double val)</td></tr>
 <tr class="separator:ab10907f6f70942395838b4cbf9d527a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a586e0b6ca3f22c18bec91e32039f8a91"><td class="memItemLeft" align="right" valign="top"><a id="a586e0b6ca3f22c18bec91e32039f8a91"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Solve</b> ()</td></tr>
+<tr class="memitem:a586e0b6ca3f22c18bec91e32039f8a91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a586e0b6ca3f22c18bec91e32039f8a91">Solve</a> ()</td></tr>
 <tr class="separator:a586e0b6ca3f22c18bec91e32039f8a91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9becc74f4dde9833726e94acaa17abd"><td class="memItemLeft" align="right" valign="top"><a id="af9becc74f4dde9833726e94acaa17abd"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsOptimal</b> ()</td></tr>
+<tr class="memitem:af9becc74f4dde9833726e94acaa17abd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#af9becc74f4dde9833726e94acaa17abd">IsOptimal</a> ()</td></tr>
 <tr class="separator:af9becc74f4dde9833726e94acaa17abd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ed802cc657d9781ac462b11e3a22c41"><td class="memItemLeft" align="right" valign="top"><a id="a3ed802cc657d9781ac462b11e3a22c41"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>GetSolution</b> ()</td></tr>
+<tr class="memitem:a3ed802cc657d9781ac462b11e3a22c41"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a3ed802cc657d9781ac462b11e3a22c41">GetSolution</a> ()</td></tr>
 <tr class="separator:a3ed802cc657d9781ac462b11e3a22c41"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04f1a862b66dd11af4c23bc27d68ca86"><td class="memItemLeft" align="right" valign="top"><a id="a04f1a862b66dd11af4c23bc27d68ca86"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>GetVariable</b> (int var)</td></tr>
+<tr class="memitem:a04f1a862b66dd11af4c23bc27d68ca86"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a04f1a862b66dd11af4c23bc27d68ca86">GetVariable</a> (int var)</td></tr>
 <tr class="separator:a04f1a862b66dd11af4c23bc27d68ca86"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ba5556851758ae704529afabe9e4d92"><td class="memItemLeft" align="right" valign="top"><a id="a5ba5556851758ae704529afabe9e4d92"></a>
-std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ToVector</b> ()</td></tr>
+<tr class="memitem:a5ba5556851758ae704529afabe9e4d92"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a5ba5556851758ae704529afabe9e4d92">ToVector</a> ()</td></tr>
 <tr class="separator:a5ba5556851758ae704529afabe9e4d92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a401408dd16baf2b52a266ad325f3e4b2"><td class="memItemLeft" align="right" valign="top"><a id="a401408dd16baf2b52a266ad325f3e4b2"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>num_vars_</b></td></tr>
+<tr class="memitem:a401408dd16baf2b52a266ad325f3e4b2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a401408dd16baf2b52a266ad325f3e4b2">num_vars_</a></td></tr>
 <tr class="separator:a401408dd16baf2b52a266ad325f3e4b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d72fe9a74353515a9d923074ccdd183"><td class="memItemLeft" align="right" valign="top"><a id="a9d72fe9a74353515a9d923074ccdd183"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>num_constraints_</b></td></tr>
+<tr class="memitem:a9d72fe9a74353515a9d923074ccdd183"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a9d72fe9a74353515a9d923074ccdd183">num_constraints_</a></td></tr>
 <tr class="separator:a9d72fe9a74353515a9d923074ccdd183"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41a5f6545b551599038309df04c6e43b"><td class="memItemLeft" align="right" valign="top"><a id="a41a5f6545b551599038309df04c6e43b"></a>
-glp_prob *&#160;</td><td class="memItemRight" valign="bottom"><b>lp_</b></td></tr>
+<tr class="memitem:a41a5f6545b551599038309df04c6e43b"><td class="memItemLeft" align="right" valign="top">glp_prob *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a41a5f6545b551599038309df04c6e43b">lp_</a></td></tr>
 <tr class="separator:a41a5f6545b551599038309df04c6e43b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e0e33a5ee69e16b0509e4d5117f180f"><td class="memItemLeft" align="right" valign="top"><a id="a6e0e33a5ee69e16b0509e4d5117f180f"></a>
-std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ia_</b></td></tr>
+<tr class="memitem:a6e0e33a5ee69e16b0509e4d5117f180f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a6e0e33a5ee69e16b0509e4d5117f180f">ia_</a></td></tr>
 <tr class="separator:a6e0e33a5ee69e16b0509e4d5117f180f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96fa049cbfa54405c951584b53aaf583"><td class="memItemLeft" align="right" valign="top"><a id="a96fa049cbfa54405c951584b53aaf583"></a>
-std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ja_</b></td></tr>
+<tr class="memitem:a96fa049cbfa54405c951584b53aaf583"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a96fa049cbfa54405c951584b53aaf583">ja_</a></td></tr>
 <tr class="separator:a96fa049cbfa54405c951584b53aaf583"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d36bc55463ef40e856c269663dd20e9"><td class="memItemLeft" align="right" valign="top"><a id="a4d36bc55463ef40e856c269663dd20e9"></a>
-std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ar_</b></td></tr>
+<tr class="memitem:a4d36bc55463ef40e856c269663dd20e9"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a4d36bc55463ef40e856c269663dd20e9">ar_</a></td></tr>
 <tr class="separator:a4d36bc55463ef40e856c269663dd20e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75b1252067d388611738c8991829f4d9"><td class="memItemLeft" align="right" valign="top"><a id="a75b1252067d388611738c8991829f4d9"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cur_constraint_</b></td></tr>
+<tr class="memitem:a75b1252067d388611738c8991829f4d9"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a75b1252067d388611738c8991829f4d9">cur_constraint_</a></td></tr>
 <tr class="separator:a75b1252067d388611738c8991829f4d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89ba62b3f23f30feb6170e6aaaa8d786"><td class="memItemLeft" align="right" valign="top"><a id="a89ba62b3f23f30feb6170e6aaaa8d786"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>result_</b></td></tr>
+<tr class="memitem:a89ba62b3f23f30feb6170e6aaaa8d786"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1_linear_program.html#a89ba62b3f23f30feb6170e6aaaa8d786">result_</a></td></tr>
 <tr class="separator:a89ba62b3f23f30feb6170e6aaaa8d786"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A structure to represent linear program </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a0b19ee43b9b1de02e5b93b72a289d532"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b19ee43b9b1de02e5b93b72a289d532">&#9670;&nbsp;</a></span>LinearProgram()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">hermes::LinearProgram::LinearProgram </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Initialize linear program solver with <em>name</em>. </p>
+
+</div>
+</div>
+<a id="a1970d9db1057bd2c67cb58c76f08de79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1970d9db1057bd2c67cb58c76f08de79">&#9670;&nbsp;</a></span>~LinearProgram()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">hermes::LinearProgram::~LinearProgram </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Clean up resources used by the GLPK solver. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="afc46e0d167848e4ceb24ba1cf9876a63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc46e0d167848e4ceb24ba1cf9876a63">&#9670;&nbsp;</a></span>DefineDimension()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::LinearProgram::DefineDimension </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>num_vars</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>num_constraints</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Define the problem size using <em>num_vars</em> and <em>num_constraints</em>. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1_linear_program_afc46e0d167848e4ceb24ba1cf9876a63_icgraph.png" border="0" usemap="#classhermes_1_1_linear_program_afc46e0d167848e4ceb24ba1cf9876a63_icgraph" alt=""/></div>
+<map name="classhermes_1_1_linear_program_afc46e0d167848e4ceb24ba1cf9876a63_icgraph" id="classhermes_1_1_linear_program_afc46e0d167848e4ceb24ba1cf9876a63_icgraph">
+<area shape="rect" title=" " alt="" coords="237,5,412,47"/>
+<area shape="rect" href="classhermes_1_1_minimize_io_time.html#a0df85d9848f28a9464535b06f6c7d2ee" title=" " alt="" coords="5,5,189,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a9f8349d76cdfd0f88bbb8264fa0f2db8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f8349d76cdfd0f88bbb8264fa0f2db8">&#9670;&nbsp;</a></span>AddConstraint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::LinearProgram::AddConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>base_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>op_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>lb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>ub</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Add a constraint to the GLPK solver. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1_linear_program_a9f8349d76cdfd0f88bbb8264fa0f2db8_icgraph.png" border="0" usemap="#classhermes_1_1_linear_program_a9f8349d76cdfd0f88bbb8264fa0f2db8_icgraph" alt=""/></div>
+<map name="classhermes_1_1_linear_program_a9f8349d76cdfd0f88bbb8264fa0f2db8_icgraph" id="classhermes_1_1_linear_program_a9f8349d76cdfd0f88bbb8264fa0f2db8_icgraph">
+<area shape="rect" title=" " alt="" coords="237,5,412,47"/>
+<area shape="rect" href="classhermes_1_1_minimize_io_time.html#a0df85d9848f28a9464535b06f6c7d2ee" title=" " alt="" coords="5,5,189,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a8396bcfd56a01e647fda44ec889d1e37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8396bcfd56a01e647fda44ec889d1e37">&#9670;&nbsp;</a></span>SetConstraintCoeff()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::LinearProgram::SetConstraintCoeff </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Set coefficient value as <em>val</em> for the <em>var</em> variable. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1_linear_program_a8396bcfd56a01e647fda44ec889d1e37_icgraph.png" border="0" usemap="#classhermes_1_1_linear_program_a8396bcfd56a01e647fda44ec889d1e37_icgraph" alt=""/></div>
+<map name="classhermes_1_1_linear_program_a8396bcfd56a01e647fda44ec889d1e37_icgraph" id="classhermes_1_1_linear_program_a8396bcfd56a01e647fda44ec889d1e37_icgraph">
+<area shape="rect" title=" " alt="" coords="237,5,412,47"/>
+<area shape="rect" href="classhermes_1_1_minimize_io_time.html#a0df85d9848f28a9464535b06f6c7d2ee" title=" " alt="" coords="5,5,189,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a24c480831222abad36ee802660bd72d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24c480831222abad36ee802660bd72d0">&#9670;&nbsp;</a></span>SetVariableBounds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::LinearProgram::SetVariableBounds </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>base_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>op_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>lb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>ub</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Set the upper and lower bound for <em>var</em> variable. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1_linear_program_a24c480831222abad36ee802660bd72d0_icgraph.png" border="0" usemap="#classhermes_1_1_linear_program_a24c480831222abad36ee802660bd72d0_icgraph" alt=""/></div>
+<map name="classhermes_1_1_linear_program_a24c480831222abad36ee802660bd72d0_icgraph" id="classhermes_1_1_linear_program_a24c480831222abad36ee802660bd72d0_icgraph">
+<area shape="rect" title=" " alt="" coords="237,5,412,47"/>
+<area shape="rect" href="classhermes_1_1_minimize_io_time.html#a0df85d9848f28a9464535b06f6c7d2ee" title=" " alt="" coords="5,5,189,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a2bf67953201a321e404c96ce4e0d0245"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bf67953201a321e404c96ce4e0d0245">&#9670;&nbsp;</a></span>SetObjective()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::LinearProgram::SetObjective </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>objective</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Set the objective function to optimize. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1_linear_program_a2bf67953201a321e404c96ce4e0d0245_icgraph.png" border="0" usemap="#classhermes_1_1_linear_program_a2bf67953201a321e404c96ce4e0d0245_icgraph" alt=""/></div>
+<map name="classhermes_1_1_linear_program_a2bf67953201a321e404c96ce4e0d0245_icgraph" id="classhermes_1_1_linear_program_a2bf67953201a321e404c96ce4e0d0245_icgraph">
+<area shape="rect" title=" " alt="" coords="237,5,412,47"/>
+<area shape="rect" href="classhermes_1_1_minimize_io_time.html#a0df85d9848f28a9464535b06f6c7d2ee" title=" " alt="" coords="5,5,189,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab10907f6f70942395838b4cbf9d527a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab10907f6f70942395838b4cbf9d527a5">&#9670;&nbsp;</a></span>SetObjectiveCoeff()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::LinearProgram::SetObjectiveCoeff </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Set the coefficients of objective function. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1_linear_program_ab10907f6f70942395838b4cbf9d527a5_icgraph.png" border="0" usemap="#classhermes_1_1_linear_program_ab10907f6f70942395838b4cbf9d527a5_icgraph" alt=""/></div>
+<map name="classhermes_1_1_linear_program_ab10907f6f70942395838b4cbf9d527a5_icgraph" id="classhermes_1_1_linear_program_ab10907f6f70942395838b4cbf9d527a5_icgraph">
+<area shape="rect" title=" " alt="" coords="237,5,412,47"/>
+<area shape="rect" href="classhermes_1_1_minimize_io_time.html#a0df85d9848f28a9464535b06f6c7d2ee" title=" " alt="" coords="5,5,189,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a586e0b6ca3f22c18bec91e32039f8a91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a586e0b6ca3f22c18bec91e32039f8a91">&#9670;&nbsp;</a></span>Solve()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hermes::LinearProgram::Solve </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Solve the problem. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1_linear_program_a586e0b6ca3f22c18bec91e32039f8a91_icgraph.png" border="0" usemap="#classhermes_1_1_linear_program_a586e0b6ca3f22c18bec91e32039f8a91_icgraph" alt=""/></div>
+<map name="classhermes_1_1_linear_program_a586e0b6ca3f22c18bec91e32039f8a91_icgraph" id="classhermes_1_1_linear_program_a586e0b6ca3f22c18bec91e32039f8a91_icgraph">
+<area shape="rect" title=" " alt="" coords="237,5,412,47"/>
+<area shape="rect" href="classhermes_1_1_minimize_io_time.html#a0df85d9848f28a9464535b06f6c7d2ee" title=" " alt="" coords="5,5,189,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af9becc74f4dde9833726e94acaa17abd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9becc74f4dde9833726e94acaa17abd">&#9670;&nbsp;</a></span>IsOptimal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hermes::LinearProgram::IsOptimal </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Check if optimal solution exists. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1_linear_program_af9becc74f4dde9833726e94acaa17abd_icgraph.png" border="0" usemap="#classhermes_1_1_linear_program_af9becc74f4dde9833726e94acaa17abd_icgraph" alt=""/></div>
+<map name="classhermes_1_1_linear_program_af9becc74f4dde9833726e94acaa17abd_icgraph" id="classhermes_1_1_linear_program_af9becc74f4dde9833726e94acaa17abd_icgraph">
+<area shape="rect" title=" " alt="" coords="237,5,412,47"/>
+<area shape="rect" href="classhermes_1_1_minimize_io_time.html#a0df85d9848f28a9464535b06f6c7d2ee" title=" " alt="" coords="5,5,189,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a3ed802cc657d9781ac462b11e3a22c41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ed802cc657d9781ac462b11e3a22c41">&#9670;&nbsp;</a></span>GetSolution()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double hermes::LinearProgram::GetSolution </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Get solution. </p>
+
+</div>
+</div>
+<a id="a04f1a862b66dd11af4c23bc27d68ca86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04f1a862b66dd11af4c23bc27d68ca86">&#9670;&nbsp;</a></span>GetVariable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double hermes::LinearProgram::GetVariable </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>var</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Get the values for optimal solution. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1_linear_program_a04f1a862b66dd11af4c23bc27d68ca86_icgraph.png" border="0" usemap="#classhermes_1_1_linear_program_a04f1a862b66dd11af4c23bc27d68ca86_icgraph" alt=""/></div>
+<map name="classhermes_1_1_linear_program_a04f1a862b66dd11af4c23bc27d68ca86_icgraph" id="classhermes_1_1_linear_program_a04f1a862b66dd11af4c23bc27d68ca86_icgraph">
+<area shape="rect" title=" " alt="" coords="460,5,635,47"/>
+<area shape="rect" href="classhermes_1_1_linear_program.html#a5ba5556851758ae704529afabe9e4d92" title=" " alt="" coords="237,5,412,47"/>
+<area shape="rect" href="classhermes_1_1_minimize_io_time.html#a0df85d9848f28a9464535b06f6c7d2ee" title=" " alt="" coords="5,5,189,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a5ba5556851758ae704529afabe9e4d92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ba5556851758ae704529afabe9e4d92">&#9670;&nbsp;</a></span>ToVector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;double&gt; hermes::LinearProgram::ToVector </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Collect the values as a vector. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1_linear_program_a5ba5556851758ae704529afabe9e4d92_cgraph.png" border="0" usemap="#classhermes_1_1_linear_program_a5ba5556851758ae704529afabe9e4d92_cgraph" alt=""/></div>
+<map name="classhermes_1_1_linear_program_a5ba5556851758ae704529afabe9e4d92_cgraph" id="classhermes_1_1_linear_program_a5ba5556851758ae704529afabe9e4d92_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,180,47"/>
+<area shape="rect" href="classhermes_1_1_linear_program.html#a04f1a862b66dd11af4c23bc27d68ca86" title=" " alt="" coords="228,5,403,47"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1_linear_program_a5ba5556851758ae704529afabe9e4d92_icgraph.png" border="0" usemap="#classhermes_1_1_linear_program_a5ba5556851758ae704529afabe9e4d92_icgraph" alt=""/></div>
+<map name="classhermes_1_1_linear_program_a5ba5556851758ae704529afabe9e4d92_icgraph" id="classhermes_1_1_linear_program_a5ba5556851758ae704529afabe9e4d92_icgraph">
+<area shape="rect" title=" " alt="" coords="237,5,412,47"/>
+<area shape="rect" href="classhermes_1_1_minimize_io_time.html#a0df85d9848f28a9464535b06f6c7d2ee" title=" " alt="" coords="5,5,189,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a401408dd16baf2b52a266ad325f3e4b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a401408dd16baf2b52a266ad325f3e4b2">&#9670;&nbsp;</a></span>num_vars_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hermes::LinearProgram::num_vars_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>number of variables </p>
+
+</div>
+</div>
+<a id="a9d72fe9a74353515a9d923074ccdd183"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d72fe9a74353515a9d923074ccdd183">&#9670;&nbsp;</a></span>num_constraints_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hermes::LinearProgram::num_constraints_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>number of constraints </p>
+
+</div>
+</div>
+<a id="a41a5f6545b551599038309df04c6e43b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41a5f6545b551599038309df04c6e43b">&#9670;&nbsp;</a></span>lp_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">glp_prob* hermes::LinearProgram::lp_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>pointer to GLPK problem solver </p>
+
+</div>
+</div>
+<a id="a6e0e33a5ee69e16b0509e4d5117f180f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e0e33a5ee69e16b0509e4d5117f180f">&#9670;&nbsp;</a></span>ia_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;int&gt; hermes::LinearProgram::ia_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The "i" in A[i][j] </p>
+
+</div>
+</div>
+<a id="a96fa049cbfa54405c951584b53aaf583"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96fa049cbfa54405c951584b53aaf583">&#9670;&nbsp;</a></span>ja_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;int&gt; hermes::LinearProgram::ja_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The "j" in A[i][j] </p>
+
+</div>
+</div>
+<a id="a4d36bc55463ef40e856c269663dd20e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d36bc55463ef40e856c269663dd20e9">&#9670;&nbsp;</a></span>ar_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;double&gt; hermes::LinearProgram::ar_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>values for A[i][j] </p>
+
+</div>
+</div>
+<a id="a75b1252067d388611738c8991829f4d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75b1252067d388611738c8991829f4d9">&#9670;&nbsp;</a></span>cur_constraint_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t hermes::LinearProgram::cur_constraint_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>current constraint </p>
+
+</div>
+</div>
+<a id="a89ba62b3f23f30feb6170e6aaaa8d786"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89ba62b3f23f30feb6170e6aaaa8d786">&#9670;&nbsp;</a></span>result_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t hermes::LinearProgram::result_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>result of solver </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/hermes/hermes/src/dpe/<a class="el" href="linprog_8h_source.html">linprog.h</a></li>
 </ul>

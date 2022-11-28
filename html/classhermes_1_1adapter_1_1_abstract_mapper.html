@@ -90,6 +90,8 @@ $(document).ready(function(){initNavTree('classhermes_1_1adapter_1_1_abstract_ma
 <div class="title">hermes::adapter::AbstractMapper Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="abstract__mapper_8h_source.html">abstract_mapper.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for hermes::adapter::AbstractMapper:</div>
 <div class="dyncontent">
@@ -105,7 +107,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adb96f0ea08851a9a39ef6891ad9b1a58"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1adapter_1_1_abstract_mapper.html#adb96f0ea08851a9a39ef6891ad9b1a58">map</a> (size_t off, size_t size, BlobPlacements &amp;ps)=0</td></tr>
 <tr class="separator:adb96f0ea08851a9a39ef6891ad9b1a58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A class to represent abstract mapper </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="adb96f0ea08851a9a39ef6891ad9b1a58"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adb96f0ea08851a9a39ef6891ad9b1a58">&#9670;&nbsp;</a></span>map()</h2>
 
@@ -145,16 +149,39 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This method maps the current Operation to Hermes data structures.</p>
+<p>This method maps the current operation to Hermes data structures.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">file_op,FileStruct,operations</td><td>for which we are mapping. </td></tr>
+    <tr><td class="paramname">off</td><td>offset </td></tr>
+    <tr><td class="paramname">size</td><td>size </td></tr>
+    <tr><td class="paramname">ps</td><td>BLOB placement </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>a map of FileStruct to Hermes Struct </dd></dl>
 
 <p>Implemented in <a class="el" href="classhermes_1_1adapter_1_1_balanced_mapper.html#aa04259158a74b43dd8420e6683e82577">hermes::adapter::BalancedMapper</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhermes_1_1adapter_1_1_abstract_mapper_adb96f0ea08851a9a39ef6891ad9b1a58_icgraph.png" border="0" usemap="#classhermes_1_1adapter_1_1_abstract_mapper_adb96f0ea08851a9a39ef6891ad9b1a58_icgraph" alt=""/></div>
+<map name="classhermes_1_1adapter_1_1_abstract_mapper_adb96f0ea08851a9a39ef6891ad9b1a58_icgraph" id="classhermes_1_1adapter_1_1_abstract_mapper_adb96f0ea08851a9a39ef6891ad9b1a58_icgraph">
+<area shape="rect" title=" " alt="" coords="1701,73,1892,114"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a82a9de9dd7552e105cf9cf79768635cb" title=" " alt="" coords="1504,159,1653,201"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#af060c06127631c2d58283c7047bdba05" title=" " alt="" coords="455,101,604,142"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a824a50f46eb3e4fabd8b3d6f57665395" title=" " alt="" coords="1217,291,1435,347"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a9e9812fff748a3db994e1a94858afb0b" title=" " alt="" coords="1196,159,1456,201"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a25f86414d10b01d12594abfd452fdb18" title=" " alt="" coords="1251,94,1401,135"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#aff8d69b8a0b3a609c48e3637026b1841" title=" " alt="" coords="1251,225,1401,266"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a465a159c071875503bc1eddc78e49db4" title=" " alt="" coords="916,159,1148,201"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a7860c6aad83db35b227f8c553bb0289a" title=" " alt="" coords="652,101,868,142"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#ad6e803400c3555dfd98048443b8feb11" title=" " alt="" coords="205,293,407,349"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a3256b979cc5a6d0ace09e8cf887d21f7" title=" " alt="" coords="217,35,395,77"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a77dd9600e3647e7e1a5b88952c4617b2" title=" " alt="" coords="230,166,382,207"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a219cabda3b86c9348741d7c925f5ccd2" title=" " alt="" coords="231,101,381,142"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a8a10a99d5d406d9c0f379a690a994da5" title=" " alt="" coords="5,166,157,207"/>
+<area shape="rect" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a808854f93eeb25612a4835811a65fa0c" title=" " alt="" coords="957,94,1107,135"/>
+</map>
+</div>
 
 </div>
 </div>

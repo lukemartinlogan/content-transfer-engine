@@ -90,6 +90,8 @@ $(document).ready(function(){initNavTree('structhermes_1_1_debug_state.html','')
 <div class="title">hermes::DebugState Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="debug__state_8h_source.html">debug_state.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for hermes::DebugState:</div>
 <div class="dyncontent">
@@ -103,19 +105,78 @@ Collaboration diagram for hermes::DebugState:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ae0df4c40f3dd27e7496ed6820f74374e"><td class="memItemLeft" align="right" valign="top"><a id="ae0df4c40f3dd27e7496ed6820f74374e"></a>
-u8 *&#160;</td><td class="memItemRight" valign="bottom"><b>shmem_base</b></td></tr>
+<tr class="memitem:ae0df4c40f3dd27e7496ed6820f74374e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehermes.html#a67dcf64ed55349e6beab0a38e641a389">u8</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_debug_state.html#ae0df4c40f3dd27e7496ed6820f74374e">shmem_base</a></td></tr>
 <tr class="separator:ae0df4c40f3dd27e7496ed6820f74374e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5b6003bb616bfd4ba85007e1f765eea"><td class="memItemLeft" align="right" valign="top"><a id="aa5b6003bb616bfd4ba85007e1f765eea"></a>
-<a class="el" href="structhermes_1_1_debug_heap_allocation.html">DebugHeapAllocation</a>&#160;</td><td class="memItemRight" valign="bottom"><b>allocations</b> [kGlobalDebugMaxAllocations]</td></tr>
+<tr class="memitem:aa5b6003bb616bfd4ba85007e1f765eea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structhermes_1_1_debug_heap_allocation.html">DebugHeapAllocation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_debug_state.html#aa5b6003bb616bfd4ba85007e1f765eea">allocations</a> [<a class="el" href="namespacehermes.html#a80b70dd217b0416f6aa40a35d665f4f9">kGlobalDebugMaxAllocations</a>]</td></tr>
 <tr class="separator:aa5b6003bb616bfd4ba85007e1f765eea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07ebf7a934fe983e05002ab98a6bf85e"><td class="memItemLeft" align="right" valign="top"><a id="a07ebf7a934fe983e05002ab98a6bf85e"></a>
-<a class="el" href="structhermes_1_1_ticket_mutex.html">TicketMutex</a>&#160;</td><td class="memItemRight" valign="bottom"><b>mutex</b></td></tr>
+<tr class="memitem:a07ebf7a934fe983e05002ab98a6bf85e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structhermes_1_1_ticket_mutex.html">TicketMutex</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_debug_state.html#a07ebf7a934fe983e05002ab98a6bf85e">mutex</a></td></tr>
 <tr class="separator:a07ebf7a934fe983e05002ab98a6bf85e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e437a32b2ef87dc13e9664869989584"><td class="memItemLeft" align="right" valign="top"><a id="a7e437a32b2ef87dc13e9664869989584"></a>
-u32&#160;</td><td class="memItemRight" valign="bottom"><b>allocation_count</b></td></tr>
+<tr class="memitem:a7e437a32b2ef87dc13e9664869989584"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehermes.html#ac009c14ea7c4a1871e5d4453ba0ad3af">u32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_debug_state.html#a7e437a32b2ef87dc13e9664869989584">allocation_count</a></td></tr>
 <tr class="separator:a7e437a32b2ef87dc13e9664869989584"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A structure to represent debug state </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="ae0df4c40f3dd27e7496ed6820f74374e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0df4c40f3dd27e7496ed6820f74374e">&#9670;&nbsp;</a></span>shmem_base</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacehermes.html#a67dcf64ed55349e6beab0a38e641a389">u8</a>* hermes::DebugState::shmem_base</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>shared memory base address pointer </p>
+
+</div>
+</div>
+<a id="aa5b6003bb616bfd4ba85007e1f765eea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5b6003bb616bfd4ba85007e1f765eea">&#9670;&nbsp;</a></span>allocations</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhermes_1_1_debug_heap_allocation.html">DebugHeapAllocation</a> hermes::DebugState::allocations[<a class="el" href="namespacehermes.html#a80b70dd217b0416f6aa40a35d665f4f9">kGlobalDebugMaxAllocations</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>64KB debug heap allocations </p>
+
+</div>
+</div>
+<a id="a07ebf7a934fe983e05002ab98a6bf85e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07ebf7a934fe983e05002ab98a6bf85e">&#9670;&nbsp;</a></span>mutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhermes_1_1_ticket_mutex.html">TicketMutex</a> hermes::DebugState::mutex</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>ticket-based mutex </p>
+
+</div>
+</div>
+<a id="a7e437a32b2ef87dc13e9664869989584"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e437a32b2ef87dc13e9664869989584">&#9670;&nbsp;</a></span>allocation_count</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacehermes.html#ac009c14ea7c4a1871e5d4453ba0ad3af">u32</a> hermes::DebugState::allocation_count</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>counter for allocation </p>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li>/home/runner/work/hermes/hermes/src/<a class="el" href="debug__state_8h_source.html">debug_state.h</a></li>
 </ul>

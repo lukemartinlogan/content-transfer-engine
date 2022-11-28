@@ -1,0 +1,12 @@
+<map id="hermes::SubBarrier" name="hermes::SubBarrier">
+<area shape="rect" id="node1" title=" " alt="" coords="475,122,621,149"/>
+<area shape="rect" id="node2" href="$classhermes_1_1api_1_1_hermes.html#a451f2bfb745a587e3ccfec736d992ffb" title="A barrier across all application processes." alt="" coords="264,5,423,47"/>
+<area shape="rect" id="node3" href="$namespacehermes.html#aba276e3158ce278c8b895b936678b255" title=" " alt="" coords="279,71,408,98"/>
+<area shape="rect" id="node5" href="$namespacehermes.html#a71d34b6d4559fc32d92645d0575ddbc4" title=" " alt="" coords="260,122,427,149"/>
+<area shape="rect" id="node7" href="$namespacehermes.html#a38a7c1afe74ebe48491b5f1d03a81333" title=" " alt="" coords="268,177,419,203"/>
+<area shape="rect" id="node9" href="$namespacehermes.html#a90b1db1f042889fa71604d0e16cf3d41" title=" " alt="" coords="264,231,423,258"/>
+<area shape="rect" id="node4" href="$classhermes_1_1api_1_1_hermes.html#a37a6512a0d20bf8ed0e5c2ef4238d807" title="Shutdown Hermes." alt="" coords="29,47,188,88"/>
+<area shape="rect" id="node6" href="$classhermes_1_1api_1_1_hermes.html#aca7ea39b90693a4e8ff39ef47286b075" title="Shutdown application cores." alt="" coords="29,112,188,153"/>
+<area shape="rect" id="node8" href="$namespacehermes.html#add94b30eb4c2878c70f99f3da91fc39a" title=" " alt="" coords="5,178,212,205"/>
+<area shape="rect" id="node10" href="$classhermes_1_1api_1_1_hermes.html#a7f9700051f64b2c3d51e3ff30c323154" title="Starts a Hermes daemon." alt="" coords="29,229,188,271"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="hermes::GetBlobIds" name="hermes::GetBlobIds">
+<area shape="rect" id="node1" title=" " alt="" coords="452,78,603,105"/>
+<area shape="rect" id="node2" href="$classhermes_1_1api_1_1_bucket.html#a740415304c0975c39826de6041013642" title=" " alt="" coords="229,5,379,47"/>
+<area shape="rect" id="node3" href="$classhermes_1_1api_1_1_bucket.html#a3a2b1beab1f29f7a588a75ffe1a06ec1" title="Return the total size in bytes of all Blobs in this Bucket." alt="" coords="229,71,379,112"/>
+<area shape="rect" id="node4" href="$namespacehermes.html#a7b6483960796606246f5fec88bf31bd3" title=" " alt="" coords="204,137,404,163"/>
+<area shape="rect" id="node5" href="$classhermes_1_1api_1_1_bucket.html#a91e455b2345e69f376803728d9414a56" title=" " alt="" coords="5,129,156,171"/>
+</map>

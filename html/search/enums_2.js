@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['statuscode_846',['StatusCode',['../namespacehermes.html#a3a6adca7017201b6df17734c368f0c33',1,'hermes']]]
+  ['maptype_2350',['MapType',['../namespacehermes.html#a07dabc956b7c5309a61bc4861c429142',1,'hermes']]]
 ];

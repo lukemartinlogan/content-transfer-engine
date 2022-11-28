@@ -90,6 +90,8 @@ $(document).ready(function(){initNavTree('structhermes_1_1_bucket_info.html','')
 <div class="title">hermes::BucketInfo Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="metadata__management_8h_source.html">metadata_management.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for hermes::BucketInfo:</div>
 <div class="dyncontent">
@@ -103,19 +105,78 @@ Collaboration diagram for hermes::BucketInfo:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ab90a8879ece20a76786aa44368f4f53c"><td class="memItemLeft" align="right" valign="top"><a id="ab90a8879ece20a76786aa44368f4f53c"></a>
-<a class="el" href="unionhermes_1_1_bucket_i_d.html">BucketID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>next_free</b></td></tr>
+<tr class="memitem:ab90a8879ece20a76786aa44368f4f53c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="unionhermes_1_1_bucket_i_d.html">BucketID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_bucket_info.html#ab90a8879ece20a76786aa44368f4f53c">next_free</a></td></tr>
 <tr class="separator:ab90a8879ece20a76786aa44368f4f53c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b8cf8498a770198e80c8392c32f886d"><td class="memItemLeft" align="right" valign="top"><a id="a6b8cf8498a770198e80c8392c32f886d"></a>
-<a class="el" href="structhermes_1_1_chunked_id_list.html">ChunkedIdList</a>&#160;</td><td class="memItemRight" valign="bottom"><b>blobs</b></td></tr>
+<tr class="memitem:a6b8cf8498a770198e80c8392c32f886d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structhermes_1_1_chunked_id_list.html">ChunkedIdList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_bucket_info.html#a6b8cf8498a770198e80c8392c32f886d">blobs</a></td></tr>
 <tr class="separator:a6b8cf8498a770198e80c8392c32f886d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4280ba09211a5657415d20e194eb8c05"><td class="memItemLeft" align="right" valign="top"><a id="a4280ba09211a5657415d20e194eb8c05"></a>
-std::atomic&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ref_count</b></td></tr>
+<tr class="memitem:a4280ba09211a5657415d20e194eb8c05"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_bucket_info.html#a4280ba09211a5657415d20e194eb8c05">ref_count</a></td></tr>
 <tr class="separator:a4280ba09211a5657415d20e194eb8c05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acace42b1067c50df4361b1e661ce3d77"><td class="memItemLeft" align="right" valign="top"><a id="acace42b1067c50df4361b1e661ce3d77"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>active</b></td></tr>
+<tr class="memitem:acace42b1067c50df4361b1e661ce3d77"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_bucket_info.html#acace42b1067c50df4361b1e661ce3d77">active</a></td></tr>
 <tr class="separator:acace42b1067c50df4361b1e661ce3d77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A structure to represent bucket information </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="ab90a8879ece20a76786aa44368f4f53c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab90a8879ece20a76786aa44368f4f53c">&#9670;&nbsp;</a></span>next_free</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="unionhermes_1_1_bucket_i_d.html">BucketID</a> hermes::BucketInfo::next_free</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>id of next free bucket </p>
+
+</div>
+</div>
+<a id="a6b8cf8498a770198e80c8392c32f886d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b8cf8498a770198e80c8392c32f886d">&#9670;&nbsp;</a></span>blobs</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhermes_1_1_chunked_id_list.html">ChunkedIdList</a> hermes::BucketInfo::blobs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>list of BLOB IDs </p>
+
+</div>
+</div>
+<a id="a4280ba09211a5657415d20e194eb8c05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4280ba09211a5657415d20e194eb8c05">&#9670;&nbsp;</a></span>ref_count</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;int&gt; hermes::BucketInfo::ref_count</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>reference count </p>
+
+</div>
+</div>
+<a id="acace42b1067c50df4361b1e661ce3d77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acace42b1067c50df4361b1e661ce3d77">&#9670;&nbsp;</a></span>active</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hermes::BucketInfo::active</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>is bucket active? </p>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li>/home/runner/work/hermes/hermes/src/<a class="el" href="metadata__management_8h_source.html">metadata_management.h</a></li>
 </ul>

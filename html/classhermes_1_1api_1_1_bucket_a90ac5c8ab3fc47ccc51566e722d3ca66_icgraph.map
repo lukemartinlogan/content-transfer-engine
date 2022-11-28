@@ -1,0 +1,5 @@
+<map id="hermes::api::Bucket::PlaceBlobs" name="hermes::api::Bucket::PlaceBlobs">
+<area shape="rect" id="node1" title="Low&#45;level version of Put." alt="" coords="432,5,583,47"/>
+<area shape="rect" id="node2" href="$classhermes_1_1api_1_1_bucket.html#a409f78fc50a74d26d2623cde27a9a1ad" title="Internal version of Put, called by all overloads." alt="" coords="233,5,384,47"/>
+<area shape="rect" id="node3" href="$classhermes_1_1api_1_1_bucket.html#a18180399c351be737c889ccaee8ff04f" title=" " alt="" coords="5,13,185,39"/>
+</map>

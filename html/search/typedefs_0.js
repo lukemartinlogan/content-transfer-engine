@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['blob_840',['Blob',['../hermes__types_8h.html#a2524128a957393840374aa59c93cf8b5',1,'hermes::api']]]
+  ['arenaerrorfunc_2326',['ArenaErrorFunc',['../namespacehermes.html#a9732dbc32aa7e7b980cf77dd8986d54e',1,'hermes']]]
 ];

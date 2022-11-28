@@ -30,8 +30,8 @@ var NAVTREE =
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
-        [ "All", "namespacemembers.html", null ],
-        [ "Functions", "namespacemembers_func.html", null ],
+        [ "All", "namespacemembers.html", "namespacemembers_dup" ],
+        [ "Functions", "namespacemembers_func.html", "namespacemembers_func" ],
         [ "Variables", "namespacemembers_vars.html", null ],
         [ "Typedefs", "namespacemembers_type.html", null ],
         [ "Enumerations", "namespacemembers_enum.html", null ],
@@ -44,12 +44,17 @@ var NAVTREE =
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
-        [ "Functions", "functions_func.html", null ],
-        [ "Variables", "functions_vars.html", null ]
+        [ "Functions", "functions_func.html", "functions_func" ],
+        [ "Variables", "functions_vars.html", "functions_vars" ],
+        [ "Typedefs", "functions_type.html", null ]
       ] ]
     ] ],
     [ "Files", "files.html", [
-      [ "File List", "files.html", "files_dup" ]
+      [ "File List", "files.html", "files_dup" ],
+      [ "File Members", "globals.html", [
+        [ "All", "globals.html", null ],
+        [ "Macros", "globals_defs.html", null ]
+      ] ]
     ] ]
   ] ]
 ];
@@ -59,9 +64,10 @@ var NAVTREEINDEX =
 ".html",
 "classhermes_1_1adapter_1_1_abstract_mapper.html",
 "classhermes_1_1adapter_1_1vfd_1_1test_1_1_mute_hdf5_errors.html#aa3e8eaa2b0a919071a7868f161d4e842",
-"hermes__types_8h.html#a6beebba07e7cd645b39675b831dba240",
-"structhermes_1_1_communication_context.html#a6ee75c70b8c29ae4ac38ad80d111766b",
-"structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html#a52a71c44db05c5d2400ec18c84d49c03"
+"hermes__status_8h.html",
+"struct_window_data.html#a1d1b76ac29496b82e1e97020e89bb722",
+"structhermes_1_1_shared_memory_context.html#ab3217d6ef32c676c28aa17ee44d150bc",
+"structhermes_1_1api_1_1_write_only_trait.html#a05907d81e22189c283f4b49dcffbb3a3"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -1,0 +1,10 @@
+<map id="hermes::PlaceBlob" name="hermes::PlaceBlob">
+<area shape="rect" id="node1" title=" " alt="" coords="985,42,1128,69"/>
+<area shape="rect" id="node2" href="$classhermes_1_1api_1_1_bucket.html#a90ac5c8ab3fc47ccc51566e722d3ca66" title="Low&#45;level version of Put." alt="" coords="767,5,918,47"/>
+<area shape="rect" id="node5" href="$namespacehermes.html#aa39f804b689f65b750a959e55f56f731" title=" " alt="" coords="748,71,937,98"/>
+<area shape="rect" id="node3" href="$classhermes_1_1api_1_1_bucket.html#a409f78fc50a74d26d2623cde27a9a1ad" title="Internal version of Put, called by all overloads." alt="" coords="519,5,669,47"/>
+<area shape="rect" id="node4" href="$classhermes_1_1api_1_1_bucket.html#a18180399c351be737c889ccaee8ff04f" title=" " alt="" coords="260,13,440,39"/>
+<area shape="rect" id="node6" href="$namespacehermes.html#a43b3cc30cb29782c129ead393751b686" title=" " alt="" coords="488,71,700,98"/>
+<area shape="rect" id="node7" href="$namespacehermes.html#a38a7c1afe74ebe48491b5f1d03a81333" title=" " alt="" coords="275,71,425,98"/>
+<area shape="rect" id="node8" href="$namespacehermes.html#add94b30eb4c2878c70f99f3da91fc39a" title=" " alt="" coords="5,71,212,98"/>
+</map>

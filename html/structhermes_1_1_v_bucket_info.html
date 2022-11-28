@@ -90,6 +90,8 @@ $(document).ready(function(){initNavTree('structhermes_1_1_v_bucket_info.html','
 <div class="title">hermes::VBucketInfo Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="metadata__management_8h_source.html">metadata_management.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for hermes::VBucketInfo:</div>
 <div class="dyncontent">
@@ -103,25 +105,82 @@ Collaboration diagram for hermes::VBucketInfo:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ac5717113040e1f6ebfb0ab01e2ef8df3"><td class="memItemLeft" align="right" valign="top"><a id="ac5717113040e1f6ebfb0ab01e2ef8df3"></a>
-<a class="el" href="unionhermes_1_1_v_bucket_i_d.html">VBucketID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>next_free</b></td></tr>
+<tr class="memitem:ac5717113040e1f6ebfb0ab01e2ef8df3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="unionhermes_1_1_v_bucket_i_d.html">VBucketID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_v_bucket_info.html#ac5717113040e1f6ebfb0ab01e2ef8df3">next_free</a></td></tr>
 <tr class="separator:ac5717113040e1f6ebfb0ab01e2ef8df3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebc0b4e8578fb809d4454a60118b7050"><td class="memItemLeft" align="right" valign="top"><a id="aebc0b4e8578fb809d4454a60118b7050"></a>
-<a class="el" href="structhermes_1_1_chunked_id_list.html">ChunkedIdList</a>&#160;</td><td class="memItemRight" valign="bottom"><b>blobs</b></td></tr>
+<tr class="memitem:aebc0b4e8578fb809d4454a60118b7050"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structhermes_1_1_chunked_id_list.html">ChunkedIdList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_v_bucket_info.html#aebc0b4e8578fb809d4454a60118b7050">blobs</a></td></tr>
 <tr class="separator:aebc0b4e8578fb809d4454a60118b7050"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34c3c9e258452c4d2892a676a59efe84"><td class="memItemLeft" align="right" valign="top"><a id="a34c3c9e258452c4d2892a676a59efe84"></a>
-std::atomic&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ref_count</b></td></tr>
+<tr class="memitem:a34c3c9e258452c4d2892a676a59efe84"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_v_bucket_info.html#a34c3c9e258452c4d2892a676a59efe84">ref_count</a></td></tr>
 <tr class="separator:a34c3c9e258452c4d2892a676a59efe84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa482d8f4c5acef009b9eeab258694a4"><td class="memItemLeft" align="right" valign="top"><a id="afa482d8f4c5acef009b9eeab258694a4"></a>
-std::atomic&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>async_flush_count</b></td></tr>
+<tr class="memitem:afa482d8f4c5acef009b9eeab258694a4"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_v_bucket_info.html#afa482d8f4c5acef009b9eeab258694a4">async_flush_count</a></td></tr>
 <tr class="separator:afa482d8f4c5acef009b9eeab258694a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4155c89ca04af63b97af2bcdcc9eb8ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehermes.html#ae27c1b24942f49623940c4777f724a51">TraitID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_v_bucket_info.html#a4155c89ca04af63b97af2bcdcc9eb8ac">traits</a> [kMaxTraitsPerVBucket]</td></tr>
+<tr class="memitem:a4155c89ca04af63b97af2bcdcc9eb8ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehermes.html#ae27c1b24942f49623940c4777f724a51">TraitID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_v_bucket_info.html#a4155c89ca04af63b97af2bcdcc9eb8ac">traits</a> [<a class="el" href="namespacehermes.html#a544b077bcf5f74341ce6e1f70391050e">kMaxTraitsPerVBucket</a>]</td></tr>
 <tr class="separator:a4155c89ca04af63b97af2bcdcc9eb8ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b3988ab537da535179ef476f4b2949b"><td class="memItemLeft" align="right" valign="top"><a id="a9b3988ab537da535179ef476f4b2949b"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>active</b></td></tr>
+<tr class="memitem:a9b3988ab537da535179ef476f4b2949b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_v_bucket_info.html#a9b3988ab537da535179ef476f4b2949b">active</a></td></tr>
 <tr class="separator:a9b3988ab537da535179ef476f4b2949b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Data Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A structure to represent virtual bucket information </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="ac5717113040e1f6ebfb0ab01e2ef8df3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5717113040e1f6ebfb0ab01e2ef8df3">&#9670;&nbsp;</a></span>next_free</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="unionhermes_1_1_v_bucket_i_d.html">VBucketID</a> hermes::VBucketInfo::next_free</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>id of next free virtual bucket </p>
+
+</div>
+</div>
+<a id="aebc0b4e8578fb809d4454a60118b7050"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebc0b4e8578fb809d4454a60118b7050">&#9670;&nbsp;</a></span>blobs</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhermes_1_1_chunked_id_list.html">ChunkedIdList</a> hermes::VBucketInfo::blobs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>list of BLOB IDs </p>
+
+</div>
+</div>
+<a id="a34c3c9e258452c4d2892a676a59efe84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34c3c9e258452c4d2892a676a59efe84">&#9670;&nbsp;</a></span>ref_count</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;int&gt; hermes::VBucketInfo::ref_count</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>reference count </p>
+
+</div>
+</div>
+<a id="afa482d8f4c5acef009b9eeab258694a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa482d8f4c5acef009b9eeab258694a4">&#9670;&nbsp;</a></span>async_flush_count</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;int&gt; hermes::VBucketInfo::async_flush_count</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>asynchrnous flush count </p>
+
+</div>
+</div>
 <a id="a4155c89ca04af63b97af2bcdcc9eb8ac"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4155c89ca04af63b97af2bcdcc9eb8ac">&#9670;&nbsp;</a></span>traits</h2>
 
@@ -129,11 +188,26 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>active</b></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacehermes.html#ae27c1b24942f49623940c4777f724a51">TraitID</a> hermes::VBucketInfo::traits[kMaxTraitsPerVBucket]</td>
+          <td class="memname"><a class="el" href="namespacehermes.html#ae27c1b24942f49623940c4777f724a51">TraitID</a> hermes::VBucketInfo::traits[<a class="el" href="namespacehermes.html#a544b077bcf5f74341ce6e1f70391050e">kMaxTraitsPerVBucket</a>]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Not currently used since Traits are process local. </p>
+
+</div>
+</div>
+<a id="a9b3988ab537da535179ef476f4b2949b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b3988ab537da535179ef476f4b2949b">&#9670;&nbsp;</a></span>active</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hermes::VBucketInfo::active</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>is virtual bucket active? </p>
 
 </div>
 </div>

@@ -1,14 +1,12 @@
 var searchData=
 [
-  ['has_5ffallocate_745',['has_fallocate',['../structhermes_1_1_device.html#ab91f4ee780a5c2a2ef15cd1d39bb4702',1,'hermes::Device']]],
-  ['header_5findex_746',['header_index',['../unionhermes_1_1_buffer_i_d.html#ac5e9087ac164d17bfc056723a0d1cab6',1,'hermes::BufferID']]],
-  ['headers_5foffset_747',['headers_offset',['../structhermes_1_1_buffer_pool.html#a104047c422de63a9ae579d798b5ecfca',1,'hermes::BufferPool']]],
-  ['hermes_748',['hermes',['../classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html#a93d4ba836f8a8317fdc725d463ad586c',1,'hermes::adapter::pubsub::MetadataManager']]],
-  ['hermes_5f_749',['hermes_',['../classhermes_1_1api_1_1_bucket.html#a41a38cdfc460dae025f730d864c2df2d',1,'hermes::api::Bucket::hermes_()'],['../classhermes_1_1api_1_1_v_bucket.html#a0b7d75ad4d2e0792b65370ae764d1127',1,'hermes::api::VBucket::hermes_()']]],
-  ['hermes_5fflush_5fexclusion_750',['hermes_flush_exclusion',['../structhermes_1_1adapter_1_1_interceptor_list.html#ad60fcf307ac5cf76669b54ee4d4d84e9',1,'hermes::adapter::InterceptorList']]],
-  ['hermes_5fpaths_5fexclusion_751',['hermes_paths_exclusion',['../structhermes_1_1adapter_1_1_interceptor_list.html#ad6ba5d414bb024bde1236eb5beece646',1,'hermes::adapter::InterceptorList']]],
-  ['hermes_5fpaths_5finclusion_752',['hermes_paths_inclusion',['../structhermes_1_1adapter_1_1_interceptor_list.html#a1753edc494048353b6f234b01f4e1a65',1,'hermes::adapter::InterceptorList']]],
-  ['hermes_5fsize_753',['hermes_size',['../structhermes_1_1_communication_context.html#a06d87493716a999f81cc5d386662218a',1,'hermes::CommunicationContext']]],
-  ['host_5fnames_754',['host_names',['../structhermes_1_1_config.html#a65cd3ee7707425f8291c1618da23d899',1,'hermes::Config::host_names()'],['../structhermes_1_1_rpc_context.html#acea9588d66540597a933623c17d0ce32',1,'hermes::RpcContext::host_names()']]],
-  ['host_5fnumbers_755',['host_numbers',['../structhermes_1_1_config.html#ad78adbdc7ff09ae101ce2851c1948728',1,'hermes::Config']]]
+  ['getc_2007',['getc',['../classhermes_1_1adapter_1_1stdio_1_1_a_p_i.html#a32cf814c4398e77a3dcee073ebd3b1a9',1,'hermes::adapter::stdio::API']]],
+  ['getw_2008',['getw',['../classhermes_1_1adapter_1_1stdio_1_1_a_p_i.html#ad4c0d21dd6e5f564e6c825c904c426c0',1,'hermes::adapter::stdio::API']]],
+  ['global_5fdebug_5fid_5fname_2009',['global_debug_id_name',['../namespacehermes.html#a7eb011b909bcb1235b6c025263e0015c',1,'hermes']]],
+  ['global_5fdebug_5fid_5fstate_2010',['global_debug_id_state',['../namespacehermes.html#a920705a48e2c4c8c3696f66d9c91d27b',1,'hermes']]],
+  ['global_5fdebug_5fmap_5fname_2011',['global_debug_map_name',['../namespacehermes.html#af1fc65ffd3bc4be4687971e227ab99af',1,'hermes']]],
+  ['global_5fdebug_5fmap_5fstate_2012',['global_debug_map_state',['../namespacehermes.html#a1b70b39135b683e782081359dadd5be4',1,'hermes']]],
+  ['global_5fsystem_5fview_5fstate_5fnode_5fid_2013',['global_system_view_state_node_id',['../structhermes_1_1_metadata_manager.html#a000240ff4dbb339df450f654f96de616',1,'hermes::MetadataManager']]],
+  ['global_5fsystem_5fview_5fstate_5foffset_2014',['global_system_view_state_offset',['../structhermes_1_1_metadata_manager.html#a0d3e57d4c5c28ee508923c05b3fd9725',1,'hermes::MetadataManager']]],
+  ['grows_5fup_2015',['grows_up',['../structhermes_1_1_heap.html#a00a5045e693abcf7b20f0ba7656eb8d1',1,'hermes::Heap']]]
 ];

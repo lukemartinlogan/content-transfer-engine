@@ -1,4 +1,5 @@
 <map id="hermes::RoundRobin::GetCurrentDeviceIndex" name="hermes::RoundRobin::GetCurrentDeviceIndex">
-<area shape="rect" id="node1" title=" " alt="" coords="233,5,416,47"/>
-<area shape="rect" id="node2" href="$classhermes_1_1api_1_1_bucket.html#a18180399c351be737c889ccaee8ff04f" title=" " alt="" coords="5,13,185,39"/>
+<area shape="rect" id="node1" title=" " alt="" coords="233,35,416,76"/>
+<area shape="rect" id="node2" href="$classhermes_1_1_round_robin.html#a1e62e4415e17fa0a716113c6850b657d" title=" " alt="" coords="17,5,174,47"/>
+<area shape="rect" id="node3" href="$classhermes_1_1api_1_1_bucket.html#a18180399c351be737c889ccaee8ff04f" title=" " alt="" coords="5,71,185,98"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="hermes::api::VBucket::IsValid" name="hermes::api::VBucket::IsValid">
+<area shape="rect" id="node1" title="Return bool{this VBucket is valid}." alt="" coords="5,5,165,47"/>
+<area shape="rect" id="node2" href="$namespacehermes.html#a335275c894477dc61f9fba52f30aba22" title=" " alt="" coords="213,13,395,39"/>
+<area shape="rect" id="node3" href="$namespacehermes.html#a089068f995d30bdef827f57c8e4e7a06" title=" " alt="" coords="443,13,571,39"/>
+</map>

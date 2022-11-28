@@ -1,8 +1,27 @@
 var searchData=
 [
-  ['clientmetadata_551',['ClientMetadata',['../structhermes_1_1adapter_1_1pubsub_1_1_client_metadata.html#a6e1e8d668a4fe796ee213511747c588a',1,'hermes::adapter::pubsub::ClientMetadata']]],
-  ['connect_552',['connect',['../namespacehermes_1_1pubsub.html#a0be60c8ac5a1505654ba083c57dbca81',1,'hermes::pubsub::connect(const std::string &amp;config_file)'],['../namespacehermes_1_1pubsub.html#a2bb9942867a58decef53cf80533540a6',1,'hermes::pubsub::connect()']]],
-  ['containsblob_553',['ContainsBlob',['../classhermes_1_1api_1_1_bucket.html#a314b6b73d60b41f3f525e3439314bbb4',1,'hermes::api::Bucket::ContainsBlob()'],['../classhermes_1_1api_1_1_v_bucket.html#a5e89b46dc3aca4f5bcf780c81c7850e4',1,'hermes::api::VBucket::ContainsBlob()']]],
-  ['create_554',['Create',['../classhermes_1_1adapter_1_1fs_1_1_metadata_manager.html#affdc558bd768240d0ddabd29bdd17c9f',1,'hermes::adapter::fs::MetadataManager::Create()'],['../classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html#af68c747e386847f9f484a147cc518901',1,'hermes::adapter::pubsub::MetadataManager::Create()'],['../structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#aa638170b43508cc2580f9a613b11f8e5',1,'hermes::adapter::vfd::test::Hdf5Api::Create()']]],
-  ['createposix_555',['CreatePosix',['../structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#a315b27672a064e003bc41dc63da2003c',1,'hermes::adapter::vfd::test::Hdf5Api']]]
+  ['calculateplacement_1349',['CalculatePlacement',['../namespacehermes.html#adc34c5a9e1d0b8f2ba23c029b619f9df',1,'hermes']]],
+  ['checkconstraints_1350',['CheckConstraints',['../namespacehermes.html#a9ae40e7f0ff57aee8e14f0aa4afd3aef',1,'hermes']]],
+  ['checkheapoverlap_1351',['CheckHeapOverlap',['../namespacehermes.html#a1ad472f434e9d3334d5377bb40b2d4de',1,'hermes']]],
+  ['clientmetadata_1352',['ClientMetadata',['../structhermes_1_1adapter_1_1pubsub_1_1_client_metadata.html#a6e1e8d668a4fe796ee213511747c588a',1,'hermes::adapter::pubsub::ClientMetadata']]],
+  ['close_1353',['Close',['../classhermes_1_1adapter_1_1fs_1_1_filesystem.html#ae54e87f8193ade955993ab76ba0ddb76',1,'hermes::adapter::fs::Filesystem::Close(File &amp;f, AdapterStat &amp;stat, bool destroy=true)'],['../classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a8c73c9c0e745e2a3484216616b82a266',1,'hermes::adapter::fs::Filesystem::Close(File &amp;f, bool &amp;stat_exists, bool destroy=true)'],['../structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#a8320f6f0061c0d3e05e27abdca79a195',1,'hermes::adapter::vfd::test::Hdf5Api::Close()']]],
+  ['closebufferingfiles_1354',['CloseBufferingFiles',['../namespacehermes.html#af8bfcb2d66a8c335c6d62b452c549f9f',1,'hermes']]],
+  ['coalescefreeblocks_1355',['CoalesceFreeBlocks',['../namespacehermes.html#ae052341ccabc4140f40abf6c68b4d909',1,'hermes']]],
+  ['compareblobs_1356',['CompareBlobs',['../structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html#ac1e19256c48de7be15b454c8a5e74cfb',1,'hermes::adapter::fs::AdapterStat']]],
+  ['computeblobaccessscore_1357',['ComputeBlobAccessScore',['../namespacehermes.html#aeed2008948c12f134d308fb39d5c35b1',1,'hermes']]],
+  ['computeheapextent_1358',['ComputeHeapExtent',['../namespacehermes.html#aa44f8ab98867ac74e7705adc105ccaef',1,'hermes']]],
+  ['connect_1359',['connect',['../namespacehermes_1_1pubsub.html#a0be60c8ac5a1505654ba083c57dbca81',1,'hermes::pubsub::connect(const std::string &amp;config_file)'],['../namespacehermes_1_1pubsub.html#a2bb9942867a58decef53cf80533540a6',1,'hermes::pubsub::connect()']]],
+  ['containsblob_1360',['ContainsBlob',['../classhermes_1_1api_1_1_bucket.html#a314b6b73d60b41f3f525e3439314bbb4',1,'hermes::api::Bucket::ContainsBlob()'],['../classhermes_1_1api_1_1_v_bucket.html#a5e89b46dc3aca4f5bcf780c81c7850e4',1,'hermes::api::VBucket::ContainsBlob()'],['../namespacehermes.html#ae2dbe453a13122ddca1e45ca6356ef64',1,'hermes::ContainsBlob()']]],
+  ['copy_1361',['Copy',['../structhermes_1_1adapter_1_1fs_1_1_file.html#ab1c5c7b7925779b8b39c8fa301cac289',1,'hermes::adapter::fs::File']]],
+  ['copyids_1362',['CopyIds',['../namespacehermes.html#a18888ab289bf1841cacf026b081e1664',1,'hermes']]],
+  ['copystringtochararray_1363',['CopyStringToCharArray',['../namespacehermes.html#a953d7cbff7e866de033ae017dbc99306',1,'hermes']]],
+  ['create_1364',['Create',['../classhermes_1_1adapter_1_1fs_1_1_metadata_manager.html#affdc558bd768240d0ddabd29bdd17c9f',1,'hermes::adapter::fs::MetadataManager::Create()'],['../classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html#af68c747e386847f9f484a147cc518901',1,'hermes::adapter::pubsub::MetadataManager::Create()'],['../structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#aa638170b43508cc2580f9a613b11f8e5',1,'hermes::adapter::vfd::test::Hdf5Api::Create()']]],
+  ['createblobmetadata_1365',['CreateBlobMetadata',['../namespacehermes.html#a4de5629abf28648cbb1b935b57469a92',1,'hermes']]],
+  ['createblobname_1366',['CreateBlobName',['../structhermes_1_1adapter_1_1_blob_placement.html#a73fef4dee314c63047981bc88b44d461',1,'hermes::adapter::BlobPlacement']]],
+  ['createblobnamelogentry_1367',['CreateBlobNameLogEntry',['../structhermes_1_1adapter_1_1_blob_placement.html#a49d57296f0477234543ee9037e971bf6',1,'hermes::adapter::BlobPlacement']]],
+  ['createconfig_1368',['CreateConfig',['../namespacehermes.html#a44b9c1fcec7e895f256a94d6ac585482',1,'hermes']]],
+  ['createglobalsystemviewstate_1369',['CreateGlobalSystemViewState',['../namespacehermes.html#a2b96023e86749aee97a3a931409bbf16',1,'hermes']]],
+  ['createposix_1370',['CreatePosix',['../structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#a315b27672a064e003bc41dc63da2003c',1,'hermes::adapter::vfd::test::Hdf5Api']]],
+  ['createrpcstate_1371',['CreateRpcState',['../namespacehermes.html#afa2ef21cc72cd481af40f9cbaa58dd9a',1,'hermes']]],
+  ['createsystemviewstate_1372',['CreateSystemViewState',['../namespacehermes.html#a3d7772f183e3a44a13e92f864c3fcbc0',1,'hermes']]]
 ];

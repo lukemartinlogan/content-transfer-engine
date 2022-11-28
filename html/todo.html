@@ -99,7 +99,17 @@ $(document).ready(function(){initNavTree('todo.html',''); initResizable(); });
 <p class="enddd"><a class="anchor" id="_todo000007"></a>  </p>
 </dd>
 <dt>Member <a class="el" href="classhermes_1_1api_1_1_v_bucket.html#a6329f7c88429dc6563eaee71318b3a1a">hermes::api::VBucket::Unlink</a>  (std::string blob_name, std::string bucket_name)</dt>
-<dd><a class="anchor" id="_todo000005"></a>Unlink </dd>
+<dd><a class="anchor" id="_todo000005"></a>Unlink  </dd>
+<dt>Member <a class="el" href="structhermes_1_1_buffer_pool.html#a96fe7f73ea65edc5b646319c8f176cb4">hermes::BufferPool::ticket_mutex</a>  </dt>
+<dd><a class="anchor" id="_todo000012"></a>(chogan): optimization - One mutex per free list.  </dd>
+<dt>Member <a class="el" href="namespacehermes.html#ac40167a06e73b893a492c3708bc94556">hermes::InitFilesForBuffering</a>  (<a class="el" href="structhermes_1_1_shared_memory_context.html">SharedMemoryContext</a> *context, <a class="el" href="structhermes_1_1_communication_context.html">CommunicationContext</a> &amp;comm)</dt>
+<dd><a class="anchor" id="_todo000010"></a> Creates and opens all files that will be used for buffering. Stores open FILE pointers in the <code>context</code>. The file buffering paradaigm uses one file per slab for each <a class="el" href="structhermes_1_1_device.html">Device</a>. If <code>posix_fallocate</code> is available, and <code>make_space</code> is <code>true</code>, each file's capacity is reserved. Otherwise, the files will be initialized with 0 size. </dd>
+<dt>Member <a class="el" href="namespacehermes.html#a0594eaad6f55d0838ac754ce0aa8e53c">hermes::MergeRamBufferFreeList</a>  (<a class="el" href="structhermes_1_1_shared_memory_context.html">SharedMemoryContext</a> *context, int slab_index)</dt>
+<dd><a class="anchor" id="_todo000008"></a>(chogan): needs more testing for the case when the free list has been jumbled for a while. Currently, we just test a nice linear free list.  </dd>
+<dt>Member <a class="el" href="namespacehermes.html#aa4aa1c5e87928e65cc3e16c8a2c1aa6e">hermes::SplitRamBufferFreeList</a>  (<a class="el" href="structhermes_1_1_shared_memory_context.html">SharedMemoryContext</a> *context, int slab_index)</dt>
+<dd><a class="anchor" id="_todo000009"></a>(chogan) Needs more testing for the case when the free list has been jumbled for a while. Currently we just test a nice linear free list.  </dd>
+<dt>Member <a class="el" href="namespacehermes.html#a22c98bca84c4e7d31662e8eae85bf2ec">hermes::SwapBlobMembers</a>  </dt>
+<dd><a class="anchor" id="_todo000011"></a>(chogan): metaprogramming - Generate this </dd>
 </dl>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

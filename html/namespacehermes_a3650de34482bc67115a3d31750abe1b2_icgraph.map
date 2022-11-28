@@ -1,0 +1,7 @@
+<map id="hermes::StopGlobalSystemViewStateUpdateThread" name="hermes::StopGlobalSystemViewStateUpdateThread">
+<area shape="rect" id="node1" title=" " alt="" coords="419,39,617,80"/>
+<area shape="rect" id="node2" href="$namespacehermes.html#aba276e3158ce278c8b895b936678b255" title=" " alt="" coords="227,17,356,43"/>
+<area shape="rect" id="node4" href="$namespacehermes.html#a90b1db1f042889fa71604d0e16cf3d41" title=" " alt="" coords="212,71,371,98"/>
+<area shape="rect" id="node3" href="$classhermes_1_1api_1_1_hermes.html#a37a6512a0d20bf8ed0e5c2ef4238d807" title="Shutdown Hermes." alt="" coords="5,5,164,47"/>
+<area shape="rect" id="node5" href="$classhermes_1_1api_1_1_hermes.html#a7f9700051f64b2c3d51e3ff30c323154" title="Starts a Hermes daemon." alt="" coords="5,71,164,112"/>
+</map>

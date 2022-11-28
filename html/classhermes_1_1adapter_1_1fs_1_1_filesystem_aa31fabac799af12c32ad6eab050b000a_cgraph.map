@@ -1,0 +1,10 @@
+<map id="hermes::adapter::fs::Filesystem::Sync" name="hermes::adapter::fs::Filesystem::Sync">
+<area shape="rect" id="node1" title=" " alt="" coords="5,201,155,243"/>
+<area shape="rect" id="node2" href="$classhermes_1_1adapter_1_1fs_1_1_filesystem.html#ab6dcf84784675f58e82eb8d117e75c99" title=" " alt="" coords="232,5,408,47"/>
+<area shape="rect" id="node3" href="$classhermes_1_1api_1_1_v_bucket.html#a26a6f00e07cdc495206c15314186a060" title="Attach a Trait to this VBucket." alt="" coords="240,71,400,112"/>
+<area shape="rect" id="node4" href="$structhermes_1_1adapter_1_1_blob_placement.html#a1e1db246d84ab6a0d35ba3dfa9e45537" title=" " alt="" coords="203,136,437,177"/>
+<area shape="rect" id="node5" href="$classhermes_1_1api_1_1_v_bucket.html#a14a2e0804ef0d64a6a58156af4d85ede" title="Destroy this VBucket." alt="" coords="240,201,400,243"/>
+<area shape="rect" id="node6" href="$classhermes_1_1_singleton.html#aba32c5c9da663ea2606a7f36fdc3044c" title=" " alt="" coords="485,323,633,364"/>
+<area shape="rect" id="node7" href="$classhermes_1_1api_1_1_v_bucket.html#a9a2d3b0743c29f8e4636e871e2911da3" title=" " alt="" coords="240,319,400,360"/>
+<area shape="rect" id="node8" href="$classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a8c36d42f3353d664e464949c24ef8c72" title=" " alt="" coords="245,384,395,425"/>
+</map>

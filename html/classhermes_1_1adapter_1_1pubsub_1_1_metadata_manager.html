@@ -105,8 +105,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5c67a4fbcaded6c88e4945e06c90d0d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd032b4337a329356d3097b4a1701952"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html#afd032b4337a329356d3097b4a1701952">FinalizeHermes</a> ()</td></tr>
 <tr class="separator:afd032b4337a329356d3097b4a1701952"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d52327522ee7459ebd4f8e01a88d43b"><td class="memItemLeft" align="right" valign="top"><a id="a6d52327522ee7459ebd4f8e01a88d43b"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>isClient</b> ()</td></tr>
+<tr class="memitem:a6d52327522ee7459ebd4f8e01a88d43b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html#a6d52327522ee7459ebd4f8e01a88d43b">isClient</a> ()</td></tr>
 <tr class="separator:a6d52327522ee7459ebd4f8e01a88d43b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af68c747e386847f9f484a147cc518901"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html#af68c747e386847f9f484a147cc518901">Create</a> (const std::string &amp;topic, const <a class="el" href="structhermes_1_1adapter_1_1pubsub_1_1_client_metadata.html">ClientMetadata</a> &amp;stat)</td></tr>
 <tr class="memdesc:af68c747e386847f9f484a147cc518901"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a metadata entry for pubsub adapter for a given topic.  <a href="classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html#af68c747e386847f9f484a147cc518901">More...</a><br /></td></tr>
@@ -123,8 +122,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>isClient</b> ()</td><
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ad7ffb678f222e3084ddbd2e7958f04e9"><td class="memItemLeft" align="right" valign="top"><a id="ad7ffb678f222e3084ddbd2e7958f04e9"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>mpi_rank</b></td></tr>
+<tr class="memitem:ad7ffb678f222e3084ddbd2e7958f04e9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html#ad7ffb678f222e3084ddbd2e7958f04e9">mpi_rank</a></td></tr>
 <tr class="separator:ad7ffb678f222e3084ddbd2e7958f04e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
@@ -246,6 +244,32 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a6d52327522ee7459ebd4f8e01a88d43b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d52327522ee7459ebd4f8e01a88d43b">&#9670;&nbsp;</a></span>isClient()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hermes::adapter::pubsub::MetadataManager::isClient </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>check if this application is client or core </p>
+
+</div>
+</div>
 <a id="af68c747e386847f9f484a147cc518901"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af68c747e386847f9f484a147cc518901">&#9670;&nbsp;</a></span>Create()</h2>
 
@@ -275,8 +299,8 @@ Private Attributes</h2></td></tr>
 <p>Create a metadata entry for pubsub adapter for a given topic. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">topic,std::string&amp;,name</td><td>of the managed topic. </td></tr>
-    <tr><td class="paramname">stat,ClientMetadata&amp;,current</td><td>metadata of the topic. </td></tr>
+    <tr><td class="paramname">topic</td><td>name of the managed topic. </td></tr>
+    <tr><td class="paramname">stat</td><td>current metadata of the topic. </td></tr>
   </table>
   </dd>
 </dl>
@@ -313,8 +337,8 @@ Private Attributes</h2></td></tr>
 <p>Update existing metadata entry for pubsub adapter for a given file handler. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">topic,std::string&amp;,name</td><td>of the managed topic. </td></tr>
-    <tr><td class="paramname">stat,ClientMetadata&amp;,current</td><td>metadata of the topic to replace previous one. </td></tr>
+    <tr><td class="paramname">topic</td><td>name of the managed topic. </td></tr>
+    <tr><td class="paramname">stat</td><td>current metadata of the topic to replace previous one. </td></tr>
   </table>
   </dd>
 </dl>
@@ -342,7 +366,7 @@ Private Attributes</h2></td></tr>
 <p>Delete existing metadata entry for pubsub adapter for a given file handler. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">topic,std::string&amp;,name</td><td>of the managed topic. </td></tr>
+    <tr><td class="paramname">topic</td><td>name of the managed topic. </td></tr>
   </table>
   </dd>
 </dl>
@@ -369,11 +393,12 @@ Private Attributes</h2></td></tr>
 <p>Find existing metadata entry for pubsub adapter for a given file handler. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">topic,std::string&amp;,name</td><td>of the managed topic. </td></tr>
+    <tr><td class="paramname">topic</td><td>name of the managed topic. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The metadata entry if exist. The bool in pair indicated whether metadata entry exists. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The metadata entry if exist.</dd></dl>
+<p>The bool in pair indicates whether metadata entry exists or not. </p>
 
 </div>
 </div>
@@ -444,6 +469,21 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>references of how many times hermes was tried to initialize. </p>
+
+</div>
+</div>
+<a id="ad7ffb678f222e3084ddbd2e7958f04e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7ffb678f222e3084ddbd2e7958f04e9">&#9670;&nbsp;</a></span>mpi_rank</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hermes::adapter::pubsub::MetadataManager::mpi_rank</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>rank of MPI processor </p>
 
 </div>
 </div>

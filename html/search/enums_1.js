@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['placementpolicy_844',['PlacementPolicy',['../hermes__types_8h.html#a66b9a7dd528375b0f2f0e77f72d66b67',1,'hermes::api']]],
-  ['processkind_845',['ProcessKind',['../namespacehermes.html#ae9d9c6dc6ad00f09a7d78b5db7e106cb',1,'hermes']]]
+  ['blobsizerange_2347',['BlobSizeRange',['../utils_8h.html#a0c4b97f292ab271f341eb01ca82d526b',1,'hermes::testing']]],
+  ['booperation_2348',['BoOperation',['../namespacehermes.html#af807dd7fc9a1bcb4b6400ca85a2d131b',1,'hermes']]],
+  ['bopriority_2349',['BoPriority',['../namespacehermes.html#a0589f53080ce64dd8bb13a9068aa2054',1,'hermes']]]
 ];

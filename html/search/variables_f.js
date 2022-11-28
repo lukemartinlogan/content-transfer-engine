@@ -1,14 +1,17 @@
 var searchData=
 [
-  ['ref_800',['ref',['../classhermes_1_1adapter_1_1fs_1_1_metadata_manager.html#a70d32bfe9b242454d9e6e7101eb4bb12',1,'hermes::adapter::fs::MetadataManager::ref()'],['../classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html#aca224c73cf06fe5a5c71e58181fe85e6',1,'hermes::adapter::pubsub::MetadataManager::ref()']]],
-  ['rpc_5fdomain_801',['rpc_domain',['../structhermes_1_1_config.html#a54d162eb1c75a8de2029412b0c2102d9',1,'hermes::Config']]],
-  ['rpc_5fnum_5fthreads_802',['rpc_num_threads',['../structhermes_1_1_config.html#a024be4dda0c6a9b4a0097bfdc3b16ebd',1,'hermes::Config']]],
-  ['rpc_5fport_803',['rpc_port',['../structhermes_1_1_config.html#a575d39cde8052151a0fcd566ead69379',1,'hermes::Config']]],
-  ['rpc_5fprotocol_804',['rpc_protocol',['../structhermes_1_1_config.html#adc876cfb62763cd57c27b1074dea419e',1,'hermes::Config']]],
-  ['rpc_5fserver_5fbase_5fname_805',['rpc_server_base_name',['../structhermes_1_1_config.html#a67dd6ae978d1fb5821750f462217afe4',1,'hermes::Config']]],
-  ['rpc_5fserver_5fhost_5ffile_806',['rpc_server_host_file',['../structhermes_1_1_config.html#ade9f12eca7406edbadf611fa9fd49fa9',1,'hermes::Config']]],
-  ['rpc_5fserver_5fname_5f_807',['rpc_server_name_',['../classhermes_1_1api_1_1_hermes.html#a827cba8124ee83b18e17431265bcc892',1,'hermes::api::Hermes']]],
-  ['rpc_5fserver_5fsuffix_808',['rpc_server_suffix',['../structhermes_1_1_config.html#a8d74871a970591bfaf6dac4b3427e8a7',1,'hermes::Config']]],
-  ['rr_5fretry_809',['rr_retry',['../structhermes_1_1api_1_1_context.html#aed2ef93f184aa1873370016eb641905b',1,'hermes::api::Context']]],
-  ['rr_5fsplit_810',['rr_split',['../structhermes_1_1api_1_1_context.html#aa40c2a5f6aee0dd09a2d049336a450bd',1,'hermes::api::Context']]]
+  ['offset_2173',['offset',['../structhermes_1_1_swap_blob.html#a76cbe35a781358ac8dcef0d46d5e55de',1,'hermes::SwapBlob::offset()'],['../structhermes_1_1_debug_heap_allocation.html#ac970577755eff510162540e5a35c7b3b',1,'hermes::DebugHeapAllocation::offset()'],['../structhermes_1_1_shmem_string.html#a0196d57c69696a5a7d350a396b608363',1,'hermes::ShmemString::offset()']]],
+  ['offset_5fmap_2174',['offset_map',['../structhermes_1_1api_1_1_persist_trait.html#a940073a3dfc8fc6d0eda3f9f37b26ad1',1,'hermes::api::PersistTrait']]],
+  ['old_5fclient_5fdata_2175',['old_client_data',['../classhermes_1_1adapter_1_1vfd_1_1test_1_1_mute_hdf5_errors.html#ae53088d026103076bd9be2a91039a0ff',1,'hermes::adapter::vfd::test::MuteHdf5Errors']]],
+  ['old_5ffunc_2176',['old_func',['../classhermes_1_1adapter_1_1vfd_1_1test_1_1_mute_hdf5_errors.html#abeb1ffbe9034fbc93ccbec1c47a69d58',1,'hermes::adapter::vfd::test::MuteHdf5Errors']]],
+  ['onattachfn_2177',['onAttachFn',['../structhermes_1_1api_1_1_trait.html#a6fa98dc6045501b210d1a57a4539115c',1,'hermes::api::Trait']]],
+  ['ondetachfn_2178',['onDetachFn',['../structhermes_1_1api_1_1_trait.html#a4137bf5d6efdae82a894d020efda38c4',1,'hermes::api::Trait']]],
+  ['ongetfn_2179',['onGetFn',['../structhermes_1_1api_1_1_trait.html#a58c300542aeb634e6430f5ea0cc3b8b3',1,'hermes::api::Trait']]],
+  ['onlinkfn_2180',['onLinkFn',['../structhermes_1_1api_1_1_trait.html#ab69dab2f0fdb5fb19923146bd6227eeb',1,'hermes::api::Trait']]],
+  ['onunlinkfn_2181',['onUnlinkFn',['../structhermes_1_1api_1_1_trait.html#a10aab21e381eefb44e9a7d4aaf0b0104',1,'hermes::api::Trait']]],
+  ['op_2182',['op',['../structhermes_1_1_bo_task.html#a6ebf7bd42b407ee6f026e54353fe817a',1,'hermes::BoTask']]],
+  ['open_2183',['open',['../classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#a219bf50bbdadc877d6c2b065798d0097',1,'hermes::adapter::posix::API']]],
+  ['open64_2184',['open64',['../classhermes_1_1adapter_1_1posix_1_1_a_p_i.html#aa22517a5ff9a20c8e4a73185121c08eb',1,'hermes::adapter::posix::API']]],
+  ['open_5ffiles_2185',['open_files',['../structhermes_1_1_shared_memory_context.html#a0f28dc85400e828c6c90fa45eded8ad9',1,'hermes::SharedMemoryContext']]],
+  ['opts_5f_2186',['opts_',['../structhermes_1_1adapter_1_1fs_1_1_blob_placement_iter.html#a68ba00173c9a1f79b8f8cd83be6e4d32',1,'hermes::adapter::fs::BlobPlacementIter']]]
 ];

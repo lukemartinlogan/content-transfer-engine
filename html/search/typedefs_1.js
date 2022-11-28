@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['placementschema_841',['PlacementSchema',['../namespacehermes.html#aa29a80eb3b2f5a1f59bc16dbf24c1274',1,'hermes']]]
+  ['barrierfunc_2327',['BarrierFunc',['../namespacehermes.html#a89f1a6457c589b30d00920c223270930',1,'hermes']]],
+  ['blob_2328',['Blob',['../hermes__types_8h.html#a2524128a957393840374aa59c93cf8b5',1,'hermes::api']]],
+  ['bomovelist_2329',['BoMoveList',['../namespacehermes.html#a355327334464f8ae128bb0f4f0ee4288',1,'hermes']]]
 ];

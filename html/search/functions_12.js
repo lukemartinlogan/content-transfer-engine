@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['waitforbackgroundflush_685',['WaitForBackgroundFlush',['../classhermes_1_1api_1_1_v_bucket.html#a11a7ff7793da6932ce67f035ad9e8a26',1,'hermes::api::VBucket']]],
-  ['write_686',['Write',['../classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a219cabda3b86c9348741d7c925f5ccd2',1,'hermes::adapter::fs::Filesystem::Write(File &amp;f, AdapterStat &amp;stat, const void *ptr, size_t total_size, IoStatus &amp;io_status, IoOptions opts)'],['../classhermes_1_1adapter_1_1fs_1_1_filesystem.html#abd25540ff367f4d866870292603ca569',1,'hermes::adapter::fs::Filesystem::Write(File &amp;f, bool &amp;stat_exists, const void *ptr, size_t total_size, IoStatus &amp;io_status, IoOptions opts=IoOptions())']]],
-  ['writeblobtobuffers_687',['WriteBlobToBuffers',['../namespacehermes.html#ad9163d10dd9f730c3bb00fb480138c6c',1,'hermes']]],
-  ['writepartial1d_688',['WritePartial1d',['../structhermes_1_1adapter_1_1vfd_1_1test_1_1_hdf5_api.html#adf0098b0cf034fbcda942a92e5992259',1,'hermes::adapter::vfd::test::Hdf5Api']]]
+  ['unlink_1833',['Unlink',['../classhermes_1_1api_1_1_v_bucket.html#af1ea7cd685b2264a405e1ced612088a9',1,'hermes::api::VBucket::Unlink(std::string blob_name, std::string bucket_name, Context &amp;ctx)'],['../classhermes_1_1api_1_1_v_bucket.html#a6329f7c88429dc6563eaee71318b3a1a',1,'hermes::api::VBucket::Unlink(std::string blob_name, std::string bucket_name)']]],
+  ['unlockblob_1834',['UnlockBlob',['../namespacehermes.html#a3c02aa013689a53139f27e1ee407898d',1,'hermes']]],
+  ['unlockbuffer_1835',['UnlockBuffer',['../namespacehermes.html#ac603747db7e14260874ae27119384326',1,'hermes']]],
+  ['unmapsharedmemory_1836',['UnmapSharedMemory',['../namespacehermes.html#a8330d4c1cab36eddd4085af9cdfb4e58',1,'hermes']]],
+  ['update_1837',['Update',['../classhermes_1_1adapter_1_1fs_1_1_metadata_manager.html#a921c1f23b278bd87b8ce06c2665abef5',1,'hermes::adapter::fs::MetadataManager::Update()'],['../classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html#aaaa53e1509fdcc8eb9eac03f04855861',1,'hermes::adapter::pubsub::MetadataManager::Update()']]],
+  ['updatebufferingcapacities_1838',['UpdateBufferingCapacities',['../namespacehermes.html#a29191e66c91e71f9084c4c128963568b',1,'hermes']]],
+  ['updateglobalsystemviewstate_1839',['UpdateGlobalSystemViewState',['../namespacehermes.html#af49c307a6595904e7ebea3e42e65d335',1,'hermes']]]
 ];

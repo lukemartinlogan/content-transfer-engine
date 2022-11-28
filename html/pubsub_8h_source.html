@@ -108,48 +108,51 @@ $(document).ready(function(){initNavTree('pubsub_8h_source.html',''); initResiza
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="bucket_8h.html">bucket.h</a>&gt;</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="hermes_8h.html">hermes.h</a>&gt;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;metadata_manager.h&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;../constants.h&quot;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &quot;singleton.h&quot;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="namespacehermes_1_1pubsub.html">   36</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacehermes_1_1pubsub.html">hermes::pubsub</a> {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;hapi::Status <a class="code" href="namespacehermes_1_1pubsub.html#a00e499399e9c58f5c7b0f19e11d985ea">mpiInit</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;hapi::Status <a class="code" href="namespacehermes_1_1pubsub.html#a0be60c8ac5a1505654ba083c57dbca81">connect</a>(<span class="keyword">const</span> std::string &amp;config_file);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;hapi::Status <a class="code" href="namespacehermes_1_1pubsub.html#a0be60c8ac5a1505654ba083c57dbca81">connect</a>();</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;hapi::Status <a class="code" href="namespacehermes_1_1pubsub.html#aa0c9138681d11c86b2786124cd133237">disconnect</a>();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;hapi::Status <a class="code" href="namespacehermes_1_1pubsub.html#a9e649d6223b2506acaa6eed4f3d9645e">attach</a>(<span class="keyword">const</span> std::string&amp; topic);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;hapi::Status <a class="code" href="namespacehermes_1_1pubsub.html#a8964ba744162a7a49805308874481bd8">detach</a>(<span class="keyword">const</span> std::string&amp; topic);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;hapi::Status <a class="code" href="namespacehermes_1_1pubsub.html#a42527ee736b716c787a8d46879cbd960">publish</a>(<span class="keyword">const</span> std::string&amp; topic,</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                     <span class="keyword">const</span> std::vector&lt;unsigned char&gt;&amp; message);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;std::pair&lt;std::vector&lt;unsigned char&gt;, hapi::Status&gt; <a class="code" href="namespacehermes_1_1pubsub.html#accd2f84f568f2ef6cdbf79fdf32aaa5b">subscribe</a>(</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keyword">const</span> std::string&amp; topic);</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;}  <span class="comment">// namespace hermes::pubsub</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="preprocessor">#endif  // HERMES_PUBSUB_H</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &quot;metadata_manager.h&quot;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &quot;singleton.h&quot;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="namespacehermes_1_1pubsub.html">   37</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacehermes_1_1pubsub.html">hermes::pubsub</a> {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;hapi::Status <a class="code" href="namespacehermes_1_1pubsub.html#a00e499399e9c58f5c7b0f19e11d985ea">mpiInit</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;hapi::Status <a class="code" href="namespacehermes_1_1pubsub.html#a0be60c8ac5a1505654ba083c57dbca81">connect</a>(<span class="keyword">const</span> std::string&amp; config_file);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;hapi::Status <a class="code" href="namespacehermes_1_1pubsub.html#a0be60c8ac5a1505654ba083c57dbca81">connect</a>();</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;hapi::Status <a class="code" href="namespacehermes_1_1pubsub.html#aa0c9138681d11c86b2786124cd133237">disconnect</a>();</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;hapi::Status <a class="code" href="namespacehermes_1_1pubsub.html#a9e649d6223b2506acaa6eed4f3d9645e">attach</a>(<span class="keyword">const</span> std::string&amp; topic);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;hapi::Status <a class="code" href="namespacehermes_1_1pubsub.html#a8964ba744162a7a49805308874481bd8">detach</a>(<span class="keyword">const</span> std::string&amp; topic);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;hapi::Status <a class="code" href="namespacehermes_1_1pubsub.html#a42527ee736b716c787a8d46879cbd960">publish</a>(<span class="keyword">const</span> std::string&amp; topic,</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                     <span class="keyword">const</span> std::vector&lt;unsigned char&gt;&amp; message);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;std::pair&lt;std::vector&lt;unsigned char&gt;, hapi::Status&gt; <a class="code" href="namespacehermes_1_1pubsub.html#accd2f84f568f2ef6cdbf79fdf32aaa5b">subscribe</a>(</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keyword">const</span> std::string&amp; topic);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;}  <span class="comment">// namespace hermes::pubsub</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="preprocessor">#endif  // HERMES_PUBSUB_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacehermes_1_1pubsub_html_aa0c9138681d11c86b2786124cd133237"><div class="ttname"><a href="namespacehermes_1_1pubsub.html#aa0c9138681d11c86b2786124cd133237">hermes::pubsub::disconnect</a></div><div class="ttdeci">hapi::Status disconnect()</div><div class="ttdoc">Connects from the Hermes instance.</div><div class="ttdef"><b>Definition:</b> pubsub.cc:50</div></div>
-<div class="ttc" id="astructhermes_1_1api_1_1_context_html"><div class="ttname"><a href="structhermes_1_1api_1_1_context.html">hermes::api::Context</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:128</div></div>
+<div class="ttc" id="astructhermes_1_1api_1_1_context_html"><div class="ttname"><a href="structhermes_1_1api_1_1_context.html">hermes::api::Context</a></div><div class="ttdef"><b>Definition:</b> hermes_types.h:137</div></div>
 <div class="ttc" id="ahermes_8h_html"><div class="ttname"><a href="hermes_8h.html">hermes.h</a></div></div>
 <div class="ttc" id="anamespacehermes_1_1pubsub_html_a42527ee736b716c787a8d46879cbd960"><div class="ttname"><a href="namespacehermes_1_1pubsub.html#a42527ee736b716c787a8d46879cbd960">hermes::pubsub::publish</a></div><div class="ttdeci">hapi::Status publish(const std::string &amp;topic, const std::vector&lt; unsigned char &gt; &amp;message)</div><div class="ttdoc">Puts a message to a topic.</div><div class="ttdef"><b>Definition:</b> pubsub.cc:103</div></div>
-<div class="ttc" id="astructhermes_1_1adapter_1_1pubsub_1_1_client_metadata_html_abf045a82f29a27c9e6924586b973d8d9"><div class="ttname"><a href="structhermes_1_1adapter_1_1pubsub_1_1_client_metadata.html#abf045a82f29a27c9e6924586b973d8d9">hermes::adapter::pubsub::ClientMetadata::st_bkid</a></div><div class="ttdeci">std::shared_ptr&lt; hapi::Bucket &gt; st_bkid</div><div class="ttdef"><b>Definition:</b> datastructures.h:42</div></div>
+<div class="ttc" id="anamespacehermes_html_ae7e6bd7162b216c94dc9e81ea0232a46"><div class="ttname"><a href="namespacehermes.html#ae7e6bd7162b216c94dc9e81ea0232a46">hermes::u64</a></div><div class="ttdeci">uint64_t u64</div><div class="ttdef"><b>Definition:</b> hermes_types.h:43</div></div>
+<div class="ttc" id="astructhermes_1_1adapter_1_1pubsub_1_1_client_metadata_html_abf045a82f29a27c9e6924586b973d8d9"><div class="ttname"><a href="structhermes_1_1adapter_1_1pubsub_1_1_client_metadata.html#abf045a82f29a27c9e6924586b973d8d9">hermes::adapter::pubsub::ClientMetadata::st_bkid</a></div><div class="ttdeci">std::shared_ptr&lt; hapi::Bucket &gt; st_bkid</div><div class="ttdef"><b>Definition:</b> datastructures.h:40</div></div>
 <div class="ttc" id="abucket_8h_html"><div class="ttname"><a href="bucket_8h.html">bucket.h</a></div></div>
-<div class="ttc" id="aclasshermes_1_1_singleton_html"><div class="ttname"><a href="classhermes_1_1_singleton.html">hermes::Singleton</a></div><div class="ttdef"><b>Definition:</b> singleton.h:26</div></div>
+<div class="ttc" id="astructhermes_1_1adapter_1_1pubsub_1_1_client_metadata_html_ae4457b1474dd4d16721077d904383cb3"><div class="ttname"><a href="structhermes_1_1adapter_1_1pubsub_1_1_client_metadata.html#ae4457b1474dd4d16721077d904383cb3">hermes::adapter::pubsub::ClientMetadata::st_atim</a></div><div class="ttdeci">timespec st_atim</div><div class="ttdef"><b>Definition:</b> datastructures.h:42</div></div>
+<div class="ttc" id="aclasshermes_1_1_singleton_html"><div class="ttname"><a href="classhermes_1_1_singleton.html">hermes::Singleton</a></div><div class="ttdef"><b>Definition:</b> singleton.h:29</div></div>
 <div class="ttc" id="anamespacehermes_1_1pubsub_html_accd2f84f568f2ef6cdbf79fdf32aaa5b"><div class="ttname"><a href="namespacehermes_1_1pubsub.html#accd2f84f568f2ef6cdbf79fdf32aaa5b">hermes::pubsub::subscribe</a></div><div class="ttdeci">std::pair&lt; std::vector&lt; unsigned char &gt;, hapi::Status &gt; subscribe(const std::string &amp;topic)</div><div class="ttdoc">Retrieves the next message from the topic.</div><div class="ttdef"><b>Definition:</b> pubsub.cc:136</div></div>
 <div class="ttc" id="anamespacehermes_1_1pubsub_html_a9e649d6223b2506acaa6eed4f3d9645e"><div class="ttname"><a href="namespacehermes_1_1pubsub.html#a9e649d6223b2506acaa6eed4f3d9645e">hermes::pubsub::attach</a></div><div class="ttdeci">hapi::Status attach(const std::string &amp;topic)</div><div class="ttdoc">Attaches to a topic, creating it if it doesnt exists.</div><div class="ttdef"><b>Definition:</b> pubsub.cc:63</div></div>
 <div class="ttc" id="anamespacehermes_1_1pubsub_html_a0be60c8ac5a1505654ba083c57dbca81"><div class="ttname"><a href="namespacehermes_1_1pubsub.html#a0be60c8ac5a1505654ba083c57dbca81">hermes::pubsub::connect</a></div><div class="ttdeci">hapi::Status connect(const std::string &amp;config_file)</div><div class="ttdoc">Connects to the Hermes instance.</div><div class="ttdef"><b>Definition:</b> pubsub.cc:28</div></div>
-<div class="ttc" id="aclasshermes_1_1adapter_1_1pubsub_1_1_metadata_manager_html"><div class="ttname"><a href="classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html">hermes::adapter::pubsub::MetadataManager</a></div><div class="ttdef"><b>Definition:</b> metadata_manager.h:33</div></div>
-<div class="ttc" id="anamespacehermes_1_1pubsub_html"><div class="ttname"><a href="namespacehermes_1_1pubsub.html">hermes::pubsub</a></div><div class="ttdef"><b>Definition:</b> pubsub.h:36</div></div>
-<div class="ttc" id="ahermes__types_8h_html_a2524128a957393840374aa59c93cf8b5"><div class="ttname"><a href="hermes__types_8h.html#a2524128a957393840374aa59c93cf8b5">hermes::api::Blob</a></div><div class="ttdeci">std::vector&lt; unsigned char &gt; Blob</div><div class="ttdef"><b>Definition:</b> hermes_types.h:68</div></div>
+<div class="ttc" id="aclasshermes_1_1adapter_1_1pubsub_1_1_metadata_manager_html"><div class="ttname"><a href="classhermes_1_1adapter_1_1pubsub_1_1_metadata_manager.html">hermes::adapter::pubsub::MetadataManager</a></div><div class="ttdef"><b>Definition:</b> metadata_manager.h:34</div></div>
+<div class="ttc" id="anamespacehermes_1_1pubsub_html"><div class="ttname"><a href="namespacehermes_1_1pubsub.html">hermes::pubsub</a></div><div class="ttdef"><b>Definition:</b> pubsub.h:37</div></div>
+<div class="ttc" id="ahermes__types_8h_html_a2524128a957393840374aa59c93cf8b5"><div class="ttname"><a href="hermes__types_8h.html#a2524128a957393840374aa59c93cf8b5">hermes::api::Blob</a></div><div class="ttdeci">std::vector&lt; unsigned char &gt; Blob</div><div class="ttdef"><b>Definition:</b> hermes_types.h:70</div></div>
 <div class="ttc" id="astructhermes_1_1adapter_1_1pubsub_1_1_client_metadata_html"><div class="ttname"><a href="structhermes_1_1adapter_1_1pubsub_1_1_client_metadata.html">hermes::adapter::pubsub::ClientMetadata</a></div><div class="ttdef"><b>Definition:</b> datastructures.h:38</div></div>
 <div class="ttc" id="anamespacehermes_1_1pubsub_html_a00e499399e9c58f5c7b0f19e11d985ea"><div class="ttname"><a href="namespacehermes_1_1pubsub.html#a00e499399e9c58f5c7b0f19e11d985ea">hermes::pubsub::mpiInit</a></div><div class="ttdeci">hapi::Status mpiInit(int argc, char **argv)</div><div class="ttdoc">Helper function to initialize MPI.</div><div class="ttdef"><b>Definition:</b> pubsub.cc:17</div></div>
 <div class="ttc" id="anamespacehermes_1_1pubsub_html_a8964ba744162a7a49805308874481bd8"><div class="ttname"><a href="namespacehermes_1_1pubsub.html#a8964ba744162a7a49805308874481bd8">hermes::pubsub::detach</a></div><div class="ttdeci">hapi::Status detach(const std::string &amp;topic)</div><div class="ttdoc">Detaches from the topic. Cleaning up all metadata.</div><div class="ttdef"><b>Definition:</b> pubsub.cc:90</div></div>

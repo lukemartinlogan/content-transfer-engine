@@ -104,21 +104,20 @@ Collaboration diagram for hermes::GlobalSystemViewState:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ae749e5178abb720bf0da460026ca0dfc"><td class="memItemLeft" align="right" valign="top">u64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_global_system_view_state.html#ae749e5178abb720bf0da460026ca0dfc">num_targets</a></td></tr>
+<tr class="memitem:ae749e5178abb720bf0da460026ca0dfc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehermes.html#ae7e6bd7162b216c94dc9e81ea0232a46">u64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_global_system_view_state.html#ae749e5178abb720bf0da460026ca0dfc">num_targets</a></td></tr>
 <tr class="separator:ae749e5178abb720bf0da460026ca0dfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fd1f56ab7953b7dc82fd6018151449e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_global_system_view_state.html#a3fd1f56ab7953b7dc82fd6018151449e">num_devices</a></td></tr>
 <tr class="separator:a3fd1f56ab7953b7dc82fd6018151449e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affafd1d817e237442031dc11c7ae3b31"><td class="memItemLeft" align="right" valign="top"><a id="affafd1d817e237442031dc11c7ae3b31"></a>
-u64&#160;</td><td class="memItemRight" valign="bottom"><b>capacities</b> [kMaxDevices]</td></tr>
+<tr class="memitem:affafd1d817e237442031dc11c7ae3b31"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehermes.html#ae7e6bd7162b216c94dc9e81ea0232a46">u64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_global_system_view_state.html#affafd1d817e237442031dc11c7ae3b31">capacities</a> [<a class="el" href="namespacehermes.html#a05b185685cfe4402fcd4f4d102f773db">kMaxDevices</a>]</td></tr>
 <tr class="separator:affafd1d817e237442031dc11c7ae3b31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a1669389d616566c8f9efbc903ae369"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; u64 &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_global_system_view_state.html#a6a1669389d616566c8f9efbc903ae369">bytes_available</a></td></tr>
+<tr class="memitem:a6a1669389d616566c8f9efbc903ae369"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; <a class="el" href="namespacehermes.html#ae7e6bd7162b216c94dc9e81ea0232a46">u64</a> &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_global_system_view_state.html#a6a1669389d616566c8f9efbc903ae369">bytes_available</a></td></tr>
 <tr class="separator:a6a1669389d616566c8f9efbc903ae369"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a270e9f046c930850f483bca5d3e14c31"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structhermes_1_1_thresholds.html">Thresholds</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_global_system_view_state.html#a270e9f046c930850f483bca5d3e14c31">bo_capacity_thresholds</a> [kMaxDevices]</td></tr>
+<tr class="memitem:a270e9f046c930850f483bca5d3e14c31"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structhermes_1_1_thresholds.html">Thresholds</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhermes_1_1_global_system_view_state.html#a270e9f046c930850f483bca5d3e14c31">bo_capacity_thresholds</a> [<a class="el" href="namespacehermes.html#a05b185685cfe4402fcd4f4d102f773db">kMaxDevices</a>]</td></tr>
 <tr class="separator:a270e9f046c930850f483bca5d3e14c31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A snapshot view of the entire system's Targets' available capacities.</p>
-<p>This information is only stored on 1 node, designated by MetadataManager::global_system_view_state_node_id, and is only updated by 1 rank (the Hermes process on that node). Hence, it does not need to be stored in shared memory and we are able to use normal std containers. However, since multiple RPC handler threads can potentially update the <code>bytes_available</code> field concurrently, we must not do any operations on the vector itself. We can only do operations on the atomics within. The vector is created in StartGlobalSystemViewStateUpdateThread, and thereafter we can only call functions on the individual atomics (e.g., bytes_available[i].fetch_add), which is thread safe. </p>
+<p>This information is only stored on 1 node, designated by <a class="el" href="structhermes_1_1_metadata_manager.html#a000240ff4dbb339df450f654f96de616">MetadataManager::global_system_view_state_node_id</a>, and is only updated by 1 rank (the Hermes process on that node). Hence, it does not need to be stored in shared memory and we are able to use normal std containers. However, since multiple RPC handler threads can potentially update the <code>bytes_available</code> field concurrently, we must not do any operations on the vector itself. We can only do operations on the atomics within. The vector is created in StartGlobalSystemViewStateUpdateThread, and thereafter we can only call functions on the individual atomics (e.g., bytes_available[i].fetch_add), which is thread safe. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="ae749e5178abb720bf0da460026ca0dfc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae749e5178abb720bf0da460026ca0dfc">&#9670;&nbsp;</a></span>num_targets</h2>
@@ -127,7 +126,7 @@ u64&#160;</td><td class="memItemRight" valign="bottom"><b>capacities</b> [kMaxDe
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">u64 hermes::GlobalSystemViewState::num_targets</td>
+          <td class="memname"><a class="el" href="namespacehermes.html#ae7e6bd7162b216c94dc9e81ea0232a46">u64</a> hermes::GlobalSystemViewState::num_targets</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -150,6 +149,21 @@ u64&#160;</td><td class="memItemRight" valign="bottom"><b>capacities</b> [kMaxDe
 
 </div>
 </div>
+<a id="affafd1d817e237442031dc11c7ae3b31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affafd1d817e237442031dc11c7ae3b31">&#9670;&nbsp;</a></span>capacities</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacehermes.html#ae7e6bd7162b216c94dc9e81ea0232a46">u64</a> hermes::GlobalSystemViewState::capacities[<a class="el" href="namespacehermes.html#a05b185685cfe4402fcd4f4d102f773db">kMaxDevices</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>capacities of devices </p>
+
+</div>
+</div>
 <a id="a6a1669389d616566c8f9efbc903ae369"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6a1669389d616566c8f9efbc903ae369">&#9670;&nbsp;</a></span>bytes_available</h2>
 
@@ -157,7 +171,7 @@ u64&#160;</td><td class="memItemRight" valign="bottom"><b>capacities</b> [kMaxDe
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::atomic&lt;u64&gt;* hermes::GlobalSystemViewState::bytes_available</td>
+          <td class="memname">std::atomic&lt;<a class="el" href="namespacehermes.html#ae7e6bd7162b216c94dc9e81ea0232a46">u64</a>&gt;* hermes::GlobalSystemViewState::bytes_available</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -172,7 +186,7 @@ u64&#160;</td><td class="memItemRight" valign="bottom"><b>capacities</b> [kMaxDe
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structhermes_1_1_thresholds.html">Thresholds</a> hermes::GlobalSystemViewState::bo_capacity_thresholds[kMaxDevices]</td>
+          <td class="memname"><a class="el" href="structhermes_1_1_thresholds.html">Thresholds</a> hermes::GlobalSystemViewState::bo_capacity_thresholds[<a class="el" href="namespacehermes.html#a05b185685cfe4402fcd4f4d102f773db">kMaxDevices</a>]</td>
         </tr>
       </table>
 </div><div class="memdoc">
