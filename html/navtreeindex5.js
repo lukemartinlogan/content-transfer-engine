@@ -1,5 +1,6 @@
 var NAVTREEINDEX5 =
 {
+"structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html#a52a71c44db05c5d2400ec18c84d49c03":[3,0,1,0,0,0,7],
 "structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html#a64094914ab44fb29172da60569f5d050":[3,0,1,0,0,0,15],
 "structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html#a665d947565c011f4766db4a83bcb8d23":[3,0,1,0,0,0,12],
 "structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html#a6710ff1a12c36f055c086812b496b5f9":[3,0,1,0,0,0,16],

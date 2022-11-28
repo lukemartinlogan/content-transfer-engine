@@ -13,6 +13,7 @@ var classhermes_1_1api_1_1_v_bucket =
     [ "Get", "classhermes_1_1api_1_1_v_bucket.html#a09fb36f4994f0c7613073e187c113491", null ],
     [ "Get", "classhermes_1_1api_1_1_v_bucket.html#ae95ad5701d55ec47bff9eec20ba15a6b", null ],
     [ "Get", "classhermes_1_1api_1_1_v_bucket.html#ab78f48f981b799ee68e5e9507a27ec66", null ],
+    [ "GetLinks", "classhermes_1_1api_1_1_v_bucket.html#a1508066ed6958e7980a82c5ccae328b9", null ],
     [ "GetLinks", "classhermes_1_1api_1_1_v_bucket.html#a279a396e728307fa96e0103d480b0aa7", null ],
     [ "Attach", "classhermes_1_1api_1_1_v_bucket.html#a26a6f00e07cdc495206c15314186a060", null ],
     [ "Attach", "classhermes_1_1api_1_1_v_bucket.html#a82eaa7e8e2c25c96bf9aef5f6f8914ee", null ],

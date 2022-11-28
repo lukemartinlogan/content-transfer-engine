@@ -21,7 +21,7 @@ var searchData=
   ['getidsptr_585',['GetIdsPtr',['../namespacehermes.html#aa4ab933ed7218ef846bb3a4c972ffae7',1,'hermes']]],
   ['getinstance_586',['GetInstance',['../classhermes_1_1_singleton.html#aba32c5c9da663ea2606a7f36fdc3044c',1,'hermes::Singleton']]],
   ['getkey_587',['GetKey',['../namespacehermes.html#a2859194b72df274204ffbce283412dcb',1,'hermes']]],
-  ['getlinks_588',['GetLinks',['../classhermes_1_1api_1_1_v_bucket.html#a279a396e728307fa96e0103d480b0aa7',1,'hermes::api::VBucket']]],
+  ['getlinks_588',['GetLinks',['../classhermes_1_1api_1_1_v_bucket.html#a1508066ed6958e7980a82c5ccae328b9',1,'hermes::api::VBucket']]],
   ['getmap_589',['GetMap',['../namespacehermes.html#ab5ca2828720bbb9562b4669e28db99c2',1,'hermes']]],
   ['getname_590',['GetName',['../classhermes_1_1api_1_1_bucket.html#a54dffdaef4314c487385175ee71bcc5d',1,'hermes::api::Bucket::GetName()'],['../classhermes_1_1api_1_1_v_bucket.html#af520851d6c4382ebc470e99beb1e49ea',1,'hermes::api::VBucket::GetName()']]],
   ['getnext_591',['GetNext',['../classhermes_1_1api_1_1_bucket.html#aff75409766b2e0aa8b159ec4cf42170a',1,'hermes::api::Bucket::GetNext(u64 blob_index, Blob &amp;user_blob)'],['../classhermes_1_1api_1_1_bucket.html#a53ec2db97bd21f011a29b6e5b8c933d4',1,'hermes::api::Bucket::GetNext(u64 blob_index, Blob &amp;user_blob, const Context &amp;ctx)'],['../classhermes_1_1api_1_1_bucket.html#a740415304c0975c39826de6041013642',1,'hermes::api::Bucket::GetNext(u64 blob_index, void *user_blob, size_t blob_size, const Context &amp;ctx)'],['../classhermes_1_1api_1_1_bucket.html#ae8b54c747776eb513a2b798b87c7418a',1,'hermes::api::Bucket::GetNext(u64 blob_index, u64 count, std::vector&lt; Blob &gt; &amp;blobs, const Context &amp;ctx)']]],
