@@ -360,105 +360,107 @@ $(document).ready(function(){initNavTree('filesystem_8h_source.html',''); initRe
 <div class="line"><a name="l00274"></a><span class="lineno"><a class="line" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a38b55d90730ea53b4501f739042abaeb">  274</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classhermes_1_1adapter_1_1fs_1_1_filesystem.html#a38b55d90730ea53b4501f739042abaeb">_OpenInitStatsInternal</a>(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keywordtype">bool</span> bucket_exists) {</div>
 <div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="comment">// TODO(llogan): This isn&#39;t really parallel-safe.</span></div>
 <div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="comment"></span>    <span class="keywordflow">if</span> (bucket_exists) {</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;      <span class="keywordtype">size_t</span> bkt_size = stat.st_bkid-&gt;GetTotalBlobSize();</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;      stat.st_size = std::max(bkt_size, stat.st_size);</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;      LOG(INFO) &lt;&lt; <span class="stringliteral">&quot;Since bucket exists, should reset its size to: &quot;</span></div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                &lt;&lt; stat.st_size &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    }</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    <span class="keywordflow">if</span> (stat.is_append) {</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;      stat.st_ptr = stat.st_size;</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    }</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;  }</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160; </div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;  <span class="comment">/*</span></div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="comment">   * The APIs to overload</span></div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="comment">   * */</span></div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> _InitFile(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f) = 0;</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160; </div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> _OpenInitStats(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat) = 0;</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;  <span class="keyword">virtual</span> <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> _RealOpen(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keyword">const</span> std::string &amp;path) = 0;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> _RealWrite(<span class="keyword">const</span> std::string &amp;filename, off_t offset,</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                            <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> u8 *data_ptr,</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;                            <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts) = 0;</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> _RealRead(<span class="keyword">const</span> std::string &amp;filename, off_t offset,</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                           <span class="keywordtype">size_t</span> size, u8 *data_ptr,</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;                           <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts) = 0;</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> _IoStats(<span class="keywordtype">size_t</span> count, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts) {</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    (void) count; (void) io_status; (void) opts;</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;  }</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> _RealSync(File &amp;f) = 0;</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> _RealClose(File &amp;f) = 0;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160; </div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;  <span class="comment">/*</span></div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="comment">   * I/O APIs which seek based on the internal AdapterStat st_ptr,</span></div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="comment">   * instead of taking an offset as input.</span></div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="comment">   * */</span></div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160; </div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;  <span class="keywordtype">size_t</span> Write(File &amp;f, AdapterStat &amp;stat, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;               <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status, IoOptions opts);</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;  <span class="keywordtype">size_t</span> Read(File &amp;f, AdapterStat &amp;stat, <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;              <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status, IoOptions opts);</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;  HermesRequest* AWrite(File &amp;f, AdapterStat &amp;stat, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;             <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;             IoStatus &amp;io_status, IoOptions opts);</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;  HermesRequest* ARead(File &amp;f, AdapterStat &amp;stat, <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;            <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;            IoStatus &amp;io_status, IoOptions opts);</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160; </div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;  <span class="comment">/*</span></div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="comment">   * Locates the AdapterStat data structure internally, and</span></div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;<span class="comment">   * call the underlying APIs which take AdapterStat as input.</span></div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;<span class="comment">   * */</span></div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160; </div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;  <span class="keywordtype">size_t</span> Write(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;               <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status,</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;               IoOptions opts = IoOptions());</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;  <span class="keywordtype">size_t</span> Read(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;              <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status,</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;              IoOptions opts = IoOptions());</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;  <span class="keywordtype">size_t</span> Write(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;               <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status,</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;               IoOptions opts = IoOptions());</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;  <span class="keywordtype">size_t</span> Read(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;              <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status,</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;              IoOptions opts = IoOptions());</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160; </div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;  HermesRequest* AWrite(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;             <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;             IoStatus &amp;io_status, IoOptions opts);</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;  HermesRequest* ARead(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;            <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;            IoStatus &amp;io_status, IoOptions opts);</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;  HermesRequest* AWrite(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;             <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;             IoStatus &amp;io_status, IoOptions opts);</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;  HermesRequest* ARead(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">void</span> *ptr,</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;            <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;            IoStatus &amp;io_status, IoOptions opts);</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160; </div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  off_t Seek(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, SeekMode whence, off_t offset);</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  off_t Tell(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists);</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;  <span class="keywordtype">int</span> Sync(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists);</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;  <span class="keywordtype">int</span> Close(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">bool</span> destroy = <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;};</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160; </div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160; </div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;}  <span class="comment">// namespace hermes::adapter::fs</span></div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;      <span class="keywordtype">size_t</span> orig = stat.st_size;</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;      <span class="keywordtype">size_t</span> bkt_size = stat.st_bkid-&gt;GetTotalBlobSize();</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;      stat.st_size = std::max(bkt_size, orig);</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;      LOG(INFO) &lt;&lt; <span class="stringliteral">&quot;Since bucket exists, should reset its size to: &quot;</span></div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                &lt;&lt; bkt_size &lt;&lt; <span class="stringliteral">&quot; or &quot;</span> &lt;&lt; orig</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;, winner: &quot;</span> &lt;&lt; stat.st_size &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    }</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    <span class="keywordflow">if</span> (stat.is_append) {</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;      stat.st_ptr = stat.st_size;</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    }</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;  }</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160; </div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;  <span class="comment">/*</span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="comment">   * The APIs to overload</span></div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;<span class="comment">   * */</span></div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> _InitFile(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f) = 0;</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160; </div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> _OpenInitStats(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> &amp;f, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat) = 0;</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;  <span class="keyword">virtual</span> <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">File</a> _RealOpen(<a class="code" href="structhermes_1_1adapter_1_1fs_1_1_adapter_stat.html">AdapterStat</a> &amp;stat, <span class="keyword">const</span> std::string &amp;path) = 0;</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> _RealWrite(<span class="keyword">const</span> std::string &amp;filename, off_t offset,</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;                            <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> u8 *data_ptr,</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                            <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts) = 0;</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> _RealRead(<span class="keyword">const</span> std::string &amp;filename, off_t offset,</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;                           <span class="keywordtype">size_t</span> size, u8 *data_ptr,</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                           <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts) = 0;</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> _IoStats(<span class="keywordtype">size_t</span> count, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_status.html">IoStatus</a> &amp;io_status, <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_io_options.html">IoOptions</a> &amp;opts) {</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    (void) count; (void) io_status; (void) opts;</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  }</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> _RealSync(File &amp;f) = 0;</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> _RealClose(File &amp;f) = 0;</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160; </div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;  <span class="comment">/*</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="comment">   * I/O APIs which seek based on the internal AdapterStat st_ptr,</span></div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;<span class="comment">   * instead of taking an offset as input.</span></div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;<span class="comment">   * */</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160; </div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;  <span class="keywordtype">size_t</span> Write(File &amp;f, AdapterStat &amp;stat, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;               <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status, IoOptions opts);</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;  <span class="keywordtype">size_t</span> Read(File &amp;f, AdapterStat &amp;stat, <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;              <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status, IoOptions opts);</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;  HermesRequest* AWrite(File &amp;f, AdapterStat &amp;stat, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;             <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;             IoStatus &amp;io_status, IoOptions opts);</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;  HermesRequest* ARead(File &amp;f, AdapterStat &amp;stat, <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;            <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;            IoStatus &amp;io_status, IoOptions opts);</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160; </div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;  <span class="comment">/*</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;<span class="comment">   * Locates the AdapterStat data structure internally, and</span></div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;<span class="comment">   * call the underlying APIs which take AdapterStat as input.</span></div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="comment">   * */</span></div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160; </div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;  <span class="keywordtype">size_t</span> Write(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;               <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status,</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;               IoOptions opts = IoOptions());</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;  <span class="keywordtype">size_t</span> Read(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;              <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status,</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;              IoOptions opts = IoOptions());</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;  <span class="keywordtype">size_t</span> Write(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;               <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status,</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;               IoOptions opts = IoOptions());</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;  <span class="keywordtype">size_t</span> Read(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;              <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, IoStatus &amp;io_status,</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;              IoOptions opts = IoOptions());</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160; </div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;  HermesRequest* AWrite(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;             <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;             IoStatus &amp;io_status, IoOptions opts);</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;  HermesRequest* ARead(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;            <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;            IoStatus &amp;io_status, IoOptions opts);</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;  HermesRequest* AWrite(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keyword">const</span> <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;             <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;             IoStatus &amp;io_status, IoOptions opts);</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  HermesRequest* ARead(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">void</span> *ptr,</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;            <span class="keywordtype">size_t</span> off, <span class="keywordtype">size_t</span> total_size, <span class="keywordtype">size_t</span> req_id,</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;            IoStatus &amp;io_status, IoOptions opts);</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160; </div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;  off_t Seek(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, SeekMode whence, off_t offset);</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;  off_t Tell(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists);</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;  <span class="keywordtype">int</span> Sync(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists);</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;  <span class="keywordtype">int</span> Close(File &amp;f, <span class="keywordtype">bool</span> &amp;stat_exists, <span class="keywordtype">bool</span> destroy = <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;};</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160; </div>
 <div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160; </div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="keyword">namespace </span>std {</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><a name="l00379"></a><span class="lineno"><a class="line" href="structstd_1_1hash_3_01hermes_1_1adapter_1_1fs_1_1_file_01_4.html">  379</a></span>&#160;<span class="keyword">struct </span>hash&lt;<a class="code" href="namespacehermes.html">hermes</a>::adapter::fs::File&gt; {</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;  std::size_t operator()(<span class="keyword">const</span> <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">hermes::adapter::fs::File</a> &amp;key)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    <span class="keywordflow">return</span> key.hash();</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;  }</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;};</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;}  <span class="comment">// namespace std</span></div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160; </div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="preprocessor">#endif  // HERMES_ADAPTER_FILESYSTEM_FILESYSTEM_H_</span></div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;}  <span class="comment">// namespace hermes::adapter::fs</span></div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160; </div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="keyword">namespace </span>std {</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><a name="l00381"></a><span class="lineno"><a class="line" href="structstd_1_1hash_3_01hermes_1_1adapter_1_1fs_1_1_file_01_4.html">  381</a></span>&#160;<span class="keyword">struct </span>hash&lt;<a class="code" href="namespacehermes.html">hermes</a>::adapter::fs::File&gt; {</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;  std::size_t operator()(<span class="keyword">const</span> <a class="code" href="structhermes_1_1adapter_1_1fs_1_1_file.html">hermes::adapter::fs::File</a> &amp;key)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <span class="keywordflow">return</span> key.hash();</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;  }</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;};</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;}  <span class="comment">// namespace std</span></div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160; </div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;<span class="preprocessor">#endif  // HERMES_ADAPTER_FILESYSTEM_FILESYSTEM_H_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructhermes_1_1adapter_1_1_blob_placement_html"><div class="ttname"><a href="structhermes_1_1adapter_1_1_blob_placement.html">hermes::adapter::BlobPlacement</a></div><div class="ttdef"><b>Definition:</b> abstract_mapper.h:32</div></div>
