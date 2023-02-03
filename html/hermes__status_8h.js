@@ -34,5 +34,6 @@ var hermes__status_8h =
       [ "DPE_RR_FIND_TGT_FAILED", "hermes__status_8h.html#a3a6adca7017201b6df17734c368f0c33afcd333cb2eb45969f04bd6dc20353d0a", null ],
       [ "HERMES_ERROR_MAX", "hermes__status_8h.html#a3a6adca7017201b6df17734c368f0c33a4f4992bd5a27779fe470f383bbbd5d32", null ]
     ] ],
-    [ "status_", "hermes__status_8h.html#a3067391b1d4dce80b340f088a5763bc5", null ]
+    [ "error", "hermes__status_8h.html#a5b98344961060a4ab57910506bcbd397", null ],
+    [ "status_", "hermes__status_8h.html#ab1b160945449c03c5bd1802a8db761c4", null ]
 ];

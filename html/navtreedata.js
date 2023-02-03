@@ -1,24 +1,26 @@
 /*
-@licstart  The following is the entire license notice for the
-JavaScript code in this file.
+ @licstart  The following is the entire license notice for the JavaScript code in this file.
 
-Copyright (C) 1997-2019 by Dimitri van Heesch
+ The MIT License (MIT)
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of version 2 of the GNU General Public License as published by
-the Free Software Foundation
+ Copyright (C) 1997-2020 by Dimitri van Heesch
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ and associated documentation files (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ The above copyright notice and this permission notice shall be included in all copies or
+ substantial portions of the Software.
 
-@licend  The above is the entire license notice
-for the JavaScript code in this file
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ @licend  The above is the entire license notice for the JavaScript code in this file
 */
 var NAVTREE =
 [
@@ -53,6 +55,7 @@ var NAVTREE =
       [ "File List", "files.html", "files_dup" ],
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
+        [ "Variables", "globals_vars.html", null ],
         [ "Macros", "globals_defs.html", null ]
       ] ]
     ] ]
@@ -61,13 +64,15 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-".html",
-"classhermes_1_1adapter_1_1_abstract_mapper.html",
-"classhermes_1_1adapter_1_1vfd_1_1test_1_1_mute_hdf5_errors.html#aa3e8eaa2b0a919071a7868f161d4e842",
-"hermes__status_8h.html",
-"struct_window_data.html#a1d1b76ac29496b82e1e97020e89bb722",
-"structhermes_1_1_shared_memory_context.html#ab3217d6ef32c676c28aa17ee44d150bc",
-"structhermes_1_1api_1_1_write_only_trait.html#a05907d81e22189c283f4b49dcffbb3a3"
+"_h5_f_dhermes_8h_source.html",
+"classhermes_1_1adapter_1_1_metadata_manager.html",
+"classhermes_1_1api_1_1_bucket.html#a0a5f2021842bc6633bb8d20ea03df9d0",
+"hermes_8cc.html#adb681d402791d52ded0de999a8e8dffb",
+"namespacehermes.html#a11dbe871db88c6a581772c1077a19b85",
+"namespacehermes.html#a706949262000c60a629c59ffdd0db062",
+"namespacehermes.html#afdf4dab34bbd47d94f1fe8613f891a69",
+"structhermes_1_1_device.html",
+"structhermes_1_1adapter_1_1fs_1_1_hermes_request.html#a90d23bf658bc0fe6be8df019ffba9301"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

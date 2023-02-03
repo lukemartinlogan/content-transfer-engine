@@ -52,14 +52,14 @@
 <area shape="rect" id="node49" href="$namespacehermes.html#a7f9bea7e7788b620d825b644b23277d3" title=" " alt="" coords="2170,848,2313,875"/>
 <area shape="rect" id="node50" href="$namespacehermes.html#a5cf1ea404c7de60dac3aa24b37c61f94" title=" " alt="" coords="1841,1051,2059,1077"/>
 <area shape="rect" id="node52" href="$classhermes_1_1api_1_1_bucket.html#a11ada6c7bf2d916ae15083b735b53768" title="Return true if the Blob name is in swap space." alt="" coords="1875,1102,2025,1143"/>
-<area shape="rect" id="node53" href="$classhermes_1_1api_1_1_v_bucket.html#a5e89b46dc3aca4f5bcf780c81c7850e4" title=" " alt="" coords="1870,1167,2030,1209"/>
-<area shape="rect" id="node54" href="$namespacehermes.html#ae2dbe453a13122ddca1e45ca6356ef64" title=" " alt="" coords="1867,1000,2033,1027"/>
+<area shape="rect" id="node53" href="$namespacehermes.html#ae2dbe453a13122ddca1e45ca6356ef64" title=" " alt="" coords="1867,1000,2033,1027"/>
+<area shape="rect" id="node56" href="$classhermes_1_1api_1_1_v_bucket.html#a5e89b46dc3aca4f5bcf780c81c7850e4" title=" " alt="" coords="1870,1167,2030,1209"/>
 <area shape="rect" id="node57" href="$namespacehermes.html#ad727ead57151d75428a50ac4cb1dfa2d" title=" " alt="" coords="1813,949,2087,976"/>
 <area shape="rect" id="node58" href="$classhermes_1_1api_1_1_v_bucket.html#af1ea7cd685b2264a405e1ced612088a9" title=" " alt="" coords="1585,950,1745,991"/>
 <area shape="rect" id="node60" href="$namespacehermes.html#aa748234ed1487cef18b79b15f4f1eea4" title=" " alt="" coords="1869,797,2031,824"/>
 <area shape="rect" id="node51" href="$classhermes_1_1api_1_1_v_bucket.html#a6d086cfdcec3a6195bb59f99d0b992b6" title=" " alt="" coords="1585,1153,1745,1194"/>
-<area shape="rect" id="node55" href="$classhermes_1_1api_1_1_hermes.html#a9ab56ab8d652f87ae789043089672e96" title="Check if a given Bucket contains a Blob." alt="" coords="1585,1081,1745,1122"/>
-<area shape="rect" id="node56" href="$classhermes_1_1api_1_1_bucket.html#a314b6b73d60b41f3f525e3439314bbb4" title="Returns true if the Bucket contains a Blob called name." alt="" coords="1590,1015,1741,1057"/>
+<area shape="rect" id="node54" href="$classhermes_1_1api_1_1_hermes.html#a9ab56ab8d652f87ae789043089672e96" title="Check if a given Bucket contains a Blob." alt="" coords="1585,1081,1745,1122"/>
+<area shape="rect" id="node55" href="$classhermes_1_1api_1_1_bucket.html#a314b6b73d60b41f3f525e3439314bbb4" title="Returns true if the Bucket contains a Blob called name." alt="" coords="1590,1015,1741,1057"/>
 <area shape="rect" id="node59" href="$classhermes_1_1api_1_1_v_bucket.html#a6329f7c88429dc6563eaee71318b3a1a" title=" " alt="" coords="1333,950,1493,991"/>
 <area shape="rect" id="node61" href="$classhermes_1_1api_1_1_bucket.html#a2ad35d22977d50c7a1cafa64693e49e4" title=" " alt="" coords="1590,833,1741,874"/>
 </map>

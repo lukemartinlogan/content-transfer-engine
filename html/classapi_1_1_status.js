@@ -7,6 +7,5 @@ var classapi_1_1_status =
     [ "operator==", "classapi_1_1_status.html#af5c3b33dedea2851917d928a08fc1f21", null ],
     [ "operator=", "classapi_1_1_status.html#aa07ab2da93eec3ff49e84775f413ba8b", null ],
     [ "GetStatus", "classapi_1_1_status.html#a5186760868ff020da32e27866ab0f7cb", null ],
-    [ "Msg", "classapi_1_1_status.html#ac896de1ec4175376237ca1088e901f23", null ],
-    [ "error", "classapi_1_1_status.html#a71056da110a68114fef2cb08c9b44bf4", null ]
+    [ "Msg", "classapi_1_1_status.html#ac896de1ec4175376237ca1088e901f23", null ]
 ];
