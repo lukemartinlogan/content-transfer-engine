@@ -1,17 +1,5 @@
 var NAVTREEINDEX6 =
 {
-"namespacehermes.html#af9192be0415eb65b473ecaec4a40ac8b":[2,0,1,213],
-"namespacehermes.html#af945baa0aefde451845022c0517ad818":[2,0,1,220],
-"namespacehermes.html#afa2ef21cc72cd481af40f9cbaa58dd9a":[2,0,1,485],
-"namespacehermes.html#afa4dc4f877952d97a08692ce4847b20e":[2,0,1,490],
-"namespacehermes.html#afb539d710c3829d2c7ef13c7fe30f787":[2,0,1,397],
-"namespacehermes.html#afbf3bb1ae1d4b93cec82921c0b5f2731":[2,0,1,536],
-"namespacehermes.html#afc0bfe0843295aba9411b8434c36cb8c":[2,0,1,423],
-"namespacehermes.html#afc661dd2b6fbaec3ce27ab39ede68f14":[2,0,1,351],
-"namespacehermes.html#afcb11b9b6cf9c6d27031720006bb5736":[2,0,1,268],
-"namespacehermes.html#afd4592ae3483321213969f270bf55f7b":[2,0,1,364],
-"namespacehermes.html#afd7070f4385d67e2b18abbceba8ff86b":[2,0,1,395],
-"namespacehermes.html#afdd3357b17dfee7acf2c4e48bcbfd046":[2,0,1,420],
 "namespacehermes.html#afdf4dab34bbd47d94f1fe8613f891a69":[2,0,1,481],
 "namespacehermes.html#afe4bc95a8b323928631e2d41866ac78d":[2,0,1,199],
 "namespacehermes_1_1adapter_1_1pubsub.html":[2,0,1,0,3],
@@ -249,5 +237,17 @@ var NAVTREEINDEX6 =
 "structhermes_1_1_config.html#abfd5eff09385a7ac6bb537ac15f0861a":[3,0,1,32,0],
 "structhermes_1_1_config.html#ac90e86144b866097d6d02cd1ef4dff66":[3,0,1,32,11],
 "structhermes_1_1_config.html#ad78adbdc7ff09ae101ce2851c1948728":[3,0,1,32,19],
-"structhermes_1_1_config.html#adc876cfb62763cd57c27b1074dea419e":[3,0,1,32,22]
+"structhermes_1_1_config.html#adc876cfb62763cd57c27b1074dea419e":[3,0,1,32,22],
+"structhermes_1_1_config.html#ade9f12eca7406edbadf611fa9fd49fa9":[3,0,1,32,17],
+"structhermes_1_1_config.html#ae173732b283874f5282c639a987d8dbd":[3,0,1,32,14],
+"structhermes_1_1_config.html#ae3d93544ed949e0256fe03131ec8831c":[3,0,1,32,29],
+"structhermes_1_1_config.html#afa952d94dcbfc37afb714e754585342f":[3,0,1,32,5],
+"structhermes_1_1_debug_heap_allocation.html":[3,0,1,22],
+"structhermes_1_1_debug_heap_allocation.html#a788f7333c77961a879be9dc0bb0d1dbd":[3,0,1,22,1],
+"structhermes_1_1_debug_heap_allocation.html#ac970577755eff510162540e5a35c7b3b":[3,0,1,22,0],
+"structhermes_1_1_debug_state.html":[3,0,1,23],
+"structhermes_1_1_debug_state.html#a07ebf7a934fe983e05002ab98a6bf85e":[3,0,1,23,2],
+"structhermes_1_1_debug_state.html#a7e437a32b2ef87dc13e9664869989584":[3,0,1,23,3],
+"structhermes_1_1_debug_state.html#aa5b6003bb616bfd4ba85007e1f765eea":[3,0,1,23,1],
+"structhermes_1_1_debug_state.html#ae0df4c40f3dd27e7496ed6820f74374e":[3,0,1,23,0]
 };
