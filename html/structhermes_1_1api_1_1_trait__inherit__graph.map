@@ -1,5 +1,0 @@
-<map id="hermes::api::Trait" name="hermes::api::Trait">
-<area shape="rect" id="node1" title="Base class for Traits, which can attach functionality to VBuckets." alt="" coords="134,5,269,32"/>
-<area shape="rect" id="node2" href="$structhermes_1_1api_1_1_persist_trait.html" title="Engable persisting a VBucket&#39;s linked Blobs to permanent storage." alt="" coords="5,80,184,107"/>
-<area shape="rect" id="node3" href="$structhermes_1_1api_1_1_write_only_trait.html" title="Marks the Blobs in a VBucket as write&#45;only." alt="" coords="208,80,408,107"/>
-</map>

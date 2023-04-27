@@ -1,4 +1,0 @@
-<map id="hermes::api::WriteOnlyTrait" name="hermes::api::WriteOnlyTrait">
-<area shape="rect" id="node1" title="Marks the Blobs in a VBucket as write&#45;only." alt="" coords="5,80,205,107"/>
-<area shape="rect" id="node2" href="$structhermes_1_1api_1_1_trait.html" title="Base class for Traits, which can attach functionality to VBuckets." alt="" coords="38,5,173,32"/>
-</map>
