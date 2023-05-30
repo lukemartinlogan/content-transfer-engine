@@ -38,15 +38,32 @@
 /* HDF5 header for dynamic plugin loading */
 #include "H5PLextern.h"
 #include "H5FDhermes.h"     /* Hermes file driver     */
+#include "H5FDhermes_err.h" /* error handling         */
 
 #include "adapter/posix/posix_io_client.h"
 #include "posix/posix_fs_api.h"
+
+/* for traces */
+#include <H5FDdevelop.h> /* File driver development macros */
+#include "H5FDhermes_log.h"
+
 
 /**
  * Make this adapter use Hermes.
  * Disabling will use POSIX.
  * */
 #define USE_HERMES
+
+#define H5FD_HERMES (H5FD_hermes_init())
+/* HDF5 doesn't currently have a driver init callback. Use
+ * macro to initialize driver if loaded as a plugin.
+ */
+#define H5FD_HERMES_INIT                        \
+  do {                                          \
+    if (H5FD_HERMES_g < 0)                      \
+      H5FD_HERMES_g = H5FD_HERMES;              \
+  } while (0)
+
 
 /* The driver identification number, initialized at runtime */
 static hid_t H5FD_HERMES_g = H5I_INVALID_HID;
@@ -90,14 +107,23 @@ typedef struct H5FD_hermes_t {
   int            fd;          /* the filesystem file descriptor        */
   char           *filename_;  /* the name of the file */
   unsigned       flags;       /* The flags passed from H5Fcreate/H5Fopen */
+
+  /* custom VFD code start */
+  size_t         page_size;   /* page size */
+  hid_t          my_fapl_id;     /* file access property list ID */
+  /* custom VFD code end */
+
 } H5FD_hermes_t;
 
 /* Driver-specific file access properties */
 typedef struct H5FD_hermes_fapl_t {
+  hbool_t persistence; /* write to file name on flush */
+  size_t  page_size;   /* page size */
 } H5FD_hermes_fapl_t;
 
 /* Prototypes */
 static herr_t H5FD__hermes_term(void);
+static herr_t  H5FD__hermes_fapl_free(void *_fa);
 static H5FD_t *H5FD__hermes_open(const char *name, unsigned flags,
                                  hid_t fapl_id, haddr_t maxaddr);
 static herr_t H5FD__hermes_close(H5FD_t *_file);
@@ -123,10 +149,10 @@ static const H5FD_class_t H5FD_hermes_g = {
   NULL,                      /* sb_size              */
   NULL,                      /* sb_encode            */
   NULL,                      /* sb_decode            */
-  0,                         /* fapl_size            */
+  sizeof(H5FD_hermes_fapl_t),/* fapl_size            */
   NULL,                      /* fapl_get             */
   NULL,                      /* fapl_copy            */
-  NULL,                      /* fapl_free            */
+  H5FD__hermes_fapl_free,    /* fapl_free            */
   0,                         /* dxpl_size            */
   NULL,                      /* dxpl_copy            */
   NULL,                      /* dxpl_free            */
@@ -216,6 +242,69 @@ H5FD__hermes_term(void) {
 } /* end H5FD__hermes_term() */
 
 /*-------------------------------------------------------------------------
+ * Function:    H5Pset_fapl_hermes
+ *
+ * Purpose:     Modify the file access property list to use the H5FD_HERMES
+ *              driver defined in this source file.  There are no driver
+ *              specific properties.
+ *
+ * Return:      SUCCEED/FAIL
+ *
+ *-------------------------------------------------------------------------
+ */
+herr_t
+H5Pset_fapl_hermes(hid_t fapl_id, hbool_t persistence, size_t page_size) {
+  H5FD_hermes_fapl_t fa; /* Hermes VFD info */
+  herr_t ret_value = SUCCEED; /* Return value */
+
+
+  /* Check argument */
+  if (H5I_GENPROP_LST != H5Iget_type(fapl_id) ||
+      TRUE != H5Pisa_class(fapl_id, H5P_FILE_ACCESS)) {
+    // H5FD_HERMES_GOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL,
+    //                        "not a file access property list");
+  }
+
+  /* Set VFD info values */
+  memset(&fa, 0, sizeof(H5FD_hermes_fapl_t));
+  fa.persistence  = persistence;
+  fa.page_size = page_size;
+
+  /* Set the property values & the driver for the FAPL */
+  if (H5Pset_driver(fapl_id, H5FD_HERMES, &fa) < 0) {
+    // H5FD_HERMES_GOTO_ERROR(H5E_PLIST, H5E_CANTSET, FAIL,
+    //                        "can't set Hermes VFD as driver");
+  }
+
+  /* custom VFD code start */
+  print_H5Pset_fapl_info("H5Pset_fapl_hermes", persistence, page_size);
+  /* custom VFD code end */
+
+done:
+  H5FD_HERMES_FUNC_LEAVE_API;
+}  /* end H5Pset_fapl_hermes() */
+
+
+/*-------------------------------------------------------------------------
+ * Function:    H5FD__hermes_fapl_free
+ *
+ * Purpose:    Frees the family-specific file access properties.
+ *
+ * Return:      SUCCEED/FAIL
+ *
+ *-------------------------------------------------------------------------
+ */
+static herr_t H5FD__hermes_fapl_free(void *_fa) {
+  H5FD_hermes_fapl_t *fa = (H5FD_hermes_fapl_t *)_fa;
+  herr_t ret_value = SUCCEED;  /* Return value */
+
+  free(fa);
+
+  H5FD_HERMES_FUNC_LEAVE;
+}
+
+
+/*-------------------------------------------------------------------------
  * Function:    H5FD__hermes_open
  *
  * Purpose:     Create and/or opens a bucket in Hermes.
@@ -228,9 +317,53 @@ H5FD__hermes_term(void) {
 static H5FD_t *
 H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
                   haddr_t maxaddr) {
+  
   H5FD_hermes_t  *file = NULL; /* hermes VFD info          */
   int fd = -1;
   int o_flags = 0;
+  
+  /* custom VFD code start */
+  unsigned long t_start = get_time_usec();
+  const H5FD_hermes_fapl_t *fa   = NULL;
+  H5FD_hermes_fapl_t new_fa = {0};
+
+  /* Sanity check on file offsets */
+  assert(sizeof(off_t) >= sizeof(size_t));
+
+  H5FD_HERMES_INIT;
+
+  // /* Check arguments */
+  // if (!name || !*name)
+  //   H5FD_HERMES_GOTO_ERROR(H5E_ARGS, H5E_BADVALUE, NULL, "invalid file name");
+  // if (0 == maxaddr || HADDR_UNDEF == maxaddr)
+  //   H5FD_HERMES_GOTO_ERROR(H5E_ARGS, H5E_BADRANGE, NULL, "bogus maxaddr");
+  // if (ADDR_OVERFLOW(maxaddr))
+  //   H5FD_HERMES_GOTO_ERROR(H5E_ARGS, H5E_OVERFLOW, NULL, "bogus maxaddr");
+
+  /* Get the driver specific information */
+  H5E_BEGIN_TRY {
+    fa = static_cast<const H5FD_hermes_fapl_t*>(H5Pget_driver_info(fapl_id));
+  }
+  H5E_END_TRY;
+  if (!fa || (H5P_FILE_ACCESS_DEFAULT == fapl_id)) {
+    ssize_t config_str_len = 0;
+    char config_str_buf[128];
+    if ((config_str_len =
+         H5Pget_driver_config_str(fapl_id, config_str_buf, 128)) < 0) {
+          std::cerr << "H5Pget_driver_config_str error" << std::endl;
+    }
+    char *saveptr = NULL;
+    char* token = strtok_r(config_str_buf, " ", &saveptr);
+    if (!strcmp(token, "true") || !strcmp(token, "TRUE") ||
+        !strcmp(token, "True")) {
+      new_fa.persistence = true;
+    }
+    token = strtok_r(0, " ", &saveptr);
+    sscanf(token, "%zu", &(new_fa.page_size));
+    fa = &new_fa;
+  }
+  /* custom VFD code end */
+
 
   /* Build the open flags */
   o_flags = (H5F_ACC_RDWR & flags) ? O_RDWR : O_RDONLY;
@@ -245,6 +378,14 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
   }
 
 #ifdef USE_HERMES
+/* custom VFD code start */
+
+  hermes::config::ClientConfig clientConfig;
+  clientConfig.SetBaseAdapterPageSize(fa->page_size);
+  size_t adp_page_size = clientConfig.GetBaseAdapterPageSize();
+  // printf("page_size: %ld\n", adp_page_size);
+  
+/* custom VFD code end */
   auto fs_api = HERMES_POSIX_FS;
   bool stat_exists;
   AdapterStat stat;
@@ -253,6 +394,8 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
   File f = fs_api->Open(stat, name);
   fd = f.hermes_fd_;
   HILOG(kDebug, "")
+
+
 #else
   fd = open(name, o_flags);
 #endif
@@ -281,6 +424,13 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
   file->eof = stdfs::file_size(name);
 #endif
 
+  /* custom VFD code start */
+
+  file->page_size = fa->page_size;
+  file->my_fapl_id = fapl_id;
+
+  print_open_close_info("H5FD__hermes_open", file, name, t_start, get_time_usec(), file->eof, file->flags);
+  /* custom VFD code end */
 
   return (H5FD_t *)file;
 } /* end H5FD__hermes_open() */
@@ -296,6 +446,7 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
  *-------------------------------------------------------------------------
  */
 static herr_t H5FD__hermes_close(H5FD_t *_file) {
+  unsigned long t_start = get_time_usec();
   H5FD_hermes_t *file = (H5FD_hermes_t *)_file;
   herr_t ret_value = SUCCEED; /* Return value */
   assert(file);
@@ -312,6 +463,11 @@ static herr_t H5FD__hermes_close(H5FD_t *_file) {
     free(file->filename_);
   }
   free(file);
+
+  /* custom VFD code start */
+  // print_open_close_info("H5FD__hermes_close", file, file->filename_, t_start, get_time_usec(), file->eof, file->flags);
+  /* custom VFD code end */
+
   return ret_value;
 } /* end H5FD__hermes_close() */
 
@@ -455,9 +611,11 @@ static haddr_t H5FD__hermes_get_eof(const H5FD_t *_file,
 static herr_t H5FD__hermes_read(H5FD_t *_file, H5FD_mem_t type,
                                 hid_t dxpl_id, haddr_t addr,
                                 size_t size, void *buf) {
+  unsigned long t_start = get_time_usec();
   (void) dxpl_id; (void) type;
   H5FD_hermes_t *file = (H5FD_hermes_t *)_file;
   herr_t ret_value = SUCCEED;
+  
 
 #ifdef USE_HERMES
   bool stat_exists;
@@ -465,6 +623,9 @@ static herr_t H5FD__hermes_read(H5FD_t *_file, H5FD_mem_t type,
   File f; f.hermes_fd_ = file->fd; IoStatus io_status;
   size_t count = fs_api->Read(f, stat_exists, buf, addr, size, io_status);
   HILOG(kDebug, "")
+
+
+
 #else
   size_t count = read(file->fd, (char*)buf + addr, size);
 #endif
@@ -472,6 +633,16 @@ static herr_t H5FD__hermes_read(H5FD_t *_file, H5FD_mem_t type,
   if (count < size) {
     // TODO(llogan)
   }
+
+  /* custom VFD code start */
+
+
+  unsigned long t_end = get_time_usec();
+  print_read_write_info("H5FD__hermes_read", file->filename_, file->my_fapl_id ,_file,
+    type, dxpl_id, addr, size, file->page_size, t_start, t_end);
+  
+  /* custom VFD code end */
+
   return ret_value;
 } /* end H5FD__hermes_read() */
 
@@ -492,6 +663,7 @@ static herr_t H5FD__hermes_read(H5FD_t *_file, H5FD_mem_t type,
 static herr_t H5FD__hermes_write(H5FD_t *_file, H5FD_mem_t type,
                                  hid_t dxpl_id, haddr_t addr,
                                  size_t size, const void *buf) {
+  unsigned long t_start = get_time_usec();
   (void) dxpl_id; (void) type;
   H5FD_hermes_t *file = (H5FD_hermes_t *)_file;
   herr_t ret_value = SUCCEED;
@@ -501,12 +673,24 @@ static herr_t H5FD__hermes_write(H5FD_t *_file, H5FD_mem_t type,
   File f; f.hermes_fd_ = file->fd; IoStatus io_status;
   size_t count = fs_api->Write(f, stat_exists, buf, addr, size, io_status);
   HILOG(kDebug, "")
+
 #else
   size_t count = write(file->fd, (char*)buf + addr, size);
 #endif
   if (count < size) {
     // TODO(llogan)
   }
+  
+  
+  /* custom VFD code start */
+
+  unsigned long t_end = get_time_usec();
+  print_read_write_info("H5FD__hermes_write", file->filename_, file->my_fapl_id ,_file,
+    type, dxpl_id, addr, size, file->page_size, t_start, t_end);
+  
+
+  /* custom VFD code end */
+
   return ret_value;
 } /* end H5FD__hermes_write() */
 

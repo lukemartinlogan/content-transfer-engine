@@ -1,0 +1,29 @@
+  
+HERMES_PATH=$HOME/install/vfd_hermes
+HERMES_REPO=/qfs/people/tang584/hermes_stage/dec_hermes-vfd
+
+# source $HERMES_REPO/load_hermes_deps.sh
+
+mkdir -p $HERMES_REPO/build
+cd $HERMES_REPO/build
+
+build_type="Release" # Release, RelWithDebInfo, Debug
+
+
+cmake ../ -DCMAKE_BUILD_TYPE=$build_type \
+  -DCMAKE_INSTALL_PREFIX=$HERMES_PATH \
+  -DBUILD_Boost_TESTS=OFF \
+  -DBUILD_HSHM_BENCHMARKS=OFF \
+  -DBUILD_MPI_TESTS=OFF \
+  -DBUILD_OpenMP_TESTS=OFF \
+  -DBUILD_TESTING=OFF \
+  -DHERMES_BUILD_ADAPTER_TESTS=OFF \
+  -DHERMES_BUILD_BENCHMARKS=OFF \
+  -DHERMES_ENABLE_PUBSUB_ADAPTER=OFF \
+  -DHERMES_ENABLE_STDIO_ADAPTER=OFF \
+  -DHERMES_ENABLE_MPIIO_ADAPTER=OFF \
+  -DHERMES_ENABLE_POSIX_ADAPTER=ON \
+  -DHERMES_ENABLE_VFD=ON \
+
+make -j12
+make install
