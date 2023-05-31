@@ -73,6 +73,14 @@ class ClientConfig : public BaseConfig {
     return base_adapter_config_.mode_;
   }
 
+  void SetBaseAdapterPageSize(size_t page_size) {
+    base_adapter_config_.page_size_ = page_size;
+  }
+
+  size_t GetBaseAdapterPageSize() const {
+    return base_adapter_config_.page_size_;
+  }
+
   AdapterObjectConfig& GetAdapterConfig(const std::string &path) {
     auto iter = adapter_config_.find(path);
     if (iter == adapter_config_.end()) {
