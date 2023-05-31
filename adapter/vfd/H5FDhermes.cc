@@ -99,24 +99,7 @@ using hermes::adapter::fs::File;
 extern "C" {
 #endif
 
-/* The description of a file/bucket belonging to this driver. */
-typedef struct H5FD_hermes_t {
-  H5FD_t         pub;         /* public stuff, must be first           */
-  haddr_t        eoa;         /* end of allocated region               */
-  haddr_t        eof;         /* end of file; current file size        */
-  haddr_t        pos;         /* current file I/O position             */
-  int            op;          /* last operation                        */
-  hbool_t        logStat; /* write I/O stats to yaml file           */
-  int            fd;          /* the filesystem file descriptor        */
-  char           *filename_;  /* the name of the file */
-  unsigned       flags;       /* The flags passed from H5Fcreate/H5Fopen */
 
-  /* custom VFD code start */
-  size_t         page_size;   /* page size */
-  hid_t          my_fapl_id;     /* file access property list ID */
-  /* custom VFD code end */
-
-} H5FD_hermes_t;
 
 /* Driver-specific file access properties */
 typedef struct H5FD_hermes_fapl_t {
@@ -222,6 +205,9 @@ static herr_t
 H5FD__hermes_term(void) {
   herr_t ret_value = SUCCEED;
 
+  // vfd_dlife_helper_teardown(DLIFE_HELPER_VFD);
+  fflush(DLIFE_HELPER_VFD->dlife_file_handle);
+
   /* Unregister from HDF5 error API */
   if (H5FDhermes_err_class_g >= 0) {
     if (H5Eunregister_class(H5FDhermes_err_class_g) < 0) {
@@ -241,6 +227,8 @@ H5FD__hermes_term(void) {
   H5FD_HERMES_g = H5I_INVALID_HID;
 
   HERMES->Finalize();
+
+
   return ret_value;
 } /* end H5FD__hermes_term() */
 
@@ -431,29 +419,18 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
 
   file->page_size = fa->page_size;
   file->my_fapl_id = fapl_id;
+  file->logStat = fa->logStat;
+
+  if(DLIFE_HELPER_VFD == nullptr){
+    char file_path[256];
+    parseEnvironmentVariable(file_path);
+    DLIFE_HELPER_VFD = vfd_dlife_helper_init(file_path, file->logStat, file->page_size);
+  }
+  // file->vfd_file_info = add_vfd_file_node(name, file);
+  file->vfd_file_info = add_vfd_file_node(DLIFE_HELPER_VFD, name, file);
+  open_close_info_update("H5FD__hermes_open", file, file->eof, flags);
 
   print_open_close_info("H5FD__hermes_open", file, name, t_start, get_time_usec(), file->eof, file->flags);
-  // add vfd_file node
-
-  // Below code segfault! recursive call back to VOL then to VFD!
-  // H5VL_datalife_info_t *info;
-  // /* Get copy of our VOL info from FAPL */
-  // H5Pget_vol_info(fapl_id, (void **)&info);
-  // std::cout << "info->dlife_file_path: " << info->dlife_file_path << std::endl;
-  char file_path[256];
-  ProvLevel vfd_dlife_level;
-  char vfd_dlife_line_format[256];
-
-  parseEnvironmentVariable(file_path, vfd_dlife_level, vfd_dlife_line_format);
-
-  // Print the parsed values
-  std::cout << "File Path: " << file_path << std::endl;
-  std::cout << "DLife Level: " << vfd_dlife_level << std::endl;
-  std::cout << "DLife Line Format: " << vfd_dlife_line_format << std::endl;
-
-  DLIFE_HELPER_VFD = dlife_helper_init(file_path, vfd_dlife_level, vfd_dlife_line_format);
-  H5FD_dlife_file_info_t * vfd_file = add_vfd_file_node(DLIFE_HELPER_VFD, name, file);
-
 
   /* custom VFD code end */
 
@@ -475,6 +452,14 @@ static herr_t H5FD__hermes_close(H5FD_t *_file) {
   H5FD_hermes_t *file = (H5FD_hermes_t *)_file;
   herr_t ret_value = SUCCEED; /* Return value */
   assert(file);
+
+  /* custom VFD code start */
+  open_close_info_update("H5FD__hermes_close", file, file->eof, file->flags);
+  print_open_close_info("H5FD__hermes_close", file, file->filename_, t_start, get_time_usec(), file->eof, file->flags);
+  dump_vfd_file_stat_yaml(DLIFE_HELPER_VFD->dlife_file_handle, file->vfd_file_info);
+  rm_vfd_file_node(DLIFE_HELPER_VFD, _file);
+  /* custom VFD code end */
+
 #ifdef USE_HERMES
   auto fs_api = HERMES_POSIX_FS;
   File f; f.hermes_fd_ = file->fd;
@@ -488,10 +473,6 @@ static herr_t H5FD__hermes_close(H5FD_t *_file) {
     free(file->filename_);
   }
   free(file);
-
-  /* custom VFD code start */
-  // print_open_close_info("H5FD__hermes_close", file, file->filename_, t_start, get_time_usec(), file->eof, file->flags);
-  /* custom VFD code end */
 
   return ret_value;
 } /* end H5FD__hermes_close() */
@@ -663,9 +644,12 @@ static herr_t H5FD__hermes_read(H5FD_t *_file, H5FD_mem_t type,
 
 
   unsigned long t_end = get_time_usec();
-  print_read_write_info("H5FD__hermes_read", file->filename_, file->my_fapl_id ,_file,
+  read_write_info_update("H5FD__hermes_read", file->filename_, file->my_fapl_id ,_file,
     type, dxpl_id, addr, size, file->page_size, t_start, t_end);
 
+  print_read_write_info("H5FD__hermes_read", file->filename_, file->my_fapl_id ,_file,
+    type, dxpl_id, addr, size, file->page_size, t_start, t_end);
+  
 
 
   /* custom VFD code end */
@@ -712,6 +696,9 @@ static herr_t H5FD__hermes_write(H5FD_t *_file, H5FD_mem_t type,
   /* custom VFD code start */
 
   unsigned long t_end = get_time_usec();
+  read_write_info_update("H5FD__hermes_write", file->filename_, file->my_fapl_id ,_file,
+    type, dxpl_id, addr, size, file->page_size, t_start, t_end);
+
   print_read_write_info("H5FD__hermes_write", file->filename_, file->my_fapl_id ,_file,
     type, dxpl_id, addr, size, file->page_size, t_start, t_end);
   
