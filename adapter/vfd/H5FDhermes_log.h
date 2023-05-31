@@ -43,7 +43,13 @@
 // #include "H5FDhermes_err.h" /* error handling         */
 
 // #ifdef ENABLE_HDF5_IO_LOGGING
-#include "/qfs/people/tang584/scripts/local-co-scheduling/vol-datalife/src/datalife_vol_types.h" /* Connecting to vol         */
+// #include "/qfs/people/tang584/scripts/local-co-scheduling/vol-datalife/src/datalife_vol_types.h" /* Connecting to vol         */
+// #include "/qfs/people/tang584/scripts/local-co-scheduling/vol-datalife/src/datalife_vol_int.h" /* Connecting to vol         */
+
+extern "C" {
+  #include "/qfs/people/tang584/scripts/local-co-scheduling/vol-datalife/src/datalife_vol_int.h" /* Connecting to vol         */
+}
+
 // #endif
 
 #include <time.h>       // for struct timespec, clock_gettime(CLOCK_MONOTONIC, &end);
@@ -61,26 +67,79 @@
 /************/
 /* Typedefs */
 /************/
-
+static dlife_helper_t* DLIFE_HELPER_VFD = NULL;
 
 // /* The driver identification number, initialized at runtime */
 // static hid_t H5FD_HERMES_g = H5I_INVALID_HID;
 
 
-static
-unsigned long get_time_usec(void) {
-    struct timeval tp;
+// static
+// unsigned long get_time_usec(void) {
+//     struct timeval tp;
 
-    gettimeofday(&tp, NULL);
-    return (unsigned long)((1000000 * tp.tv_sec) + tp.tv_usec);
-}
+//     gettimeofday(&tp, NULL);
+//     return (unsigned long)((1000000 * tp.tv_sec) + tp.tv_usec);
+// }
 
 /* function prototypes*/
 std::string get_ohdr_type(H5F_mem_t type);
 std::string get_mem_type(H5F_mem_t type);
+// char * get_ohdr_type(H5F_mem_t type);
+// char * get_mem_type(H5F_mem_t type);
+
+
+
+void parseEnvironmentVariable(char* file_path, ProvLevel& dlife_level, char* dlife_line_format) {
+    const char* env_var = std::getenv("HDF5_VOL_CONNECTOR");
+    if (env_var) {
+        std::string env_string(env_var);
+
+        size_t path_pos = env_string.find("path=");
+        size_t level_pos = env_string.find("level=");
+        size_t format_pos = env_string.find("format=");
+
+        if (path_pos != std::string::npos) {
+            size_t path_start = path_pos + 5;
+            size_t path_end = level_pos != std::string::npos ? level_pos - 1 : format_pos - 1;
+            std::string path = env_string.substr(path_start, path_end - path_start + 1);
+            std::strcpy(file_path, path.c_str());
+        } else {
+            std::strcpy(file_path, "");
+        }
+
+        if (level_pos != std::string::npos) {
+            size_t level_start = level_pos + 6;
+            size_t level_end = format_pos != std::string::npos ? format_pos - 1 : env_string.length() - 1;
+            std::string level = env_string.substr(level_start, level_end - level_start + 1);
+            int level_int = std::stoi(level);
+            if (level_int >= 0 && level_int <= 6) {
+                dlife_level = static_cast<ProvLevel>(level_int);
+            } else {
+                dlife_level = Default;
+            }
+        } else {
+            dlife_level = Default;
+        }
+
+        if (format_pos != std::string::npos) {
+            size_t format_start = format_pos + 7;
+            std::string format = env_string.substr(format_start);
+            std::strcpy(dlife_line_format, format.c_str());
+        } else {
+            std::strcpy(dlife_line_format, "");
+        }
+    } else {
+        std::strcpy(file_path, "");
+        dlife_level = Default;
+        std::strcpy(dlife_line_format, "");
+    }
+}
+
+
 
 /* candice added, print H5FD_mem_t H5FD_MEM_OHDR type more info */
 std::string get_ohdr_type(H5F_mem_t type){
+// char * get_ohdr_type(H5F_mem_t type){
 
   if (type == H5FD_MEM_FHEAP_HDR){
     // printf("- Access_Region_Mem_Type : H5FD_MEM_FHEAP_HDR \n");
@@ -117,40 +176,29 @@ std::string get_ohdr_type(H5F_mem_t type){
 }
 
 std::string get_mem_type(H5F_mem_t type){
-  char * type_str; //[20];
+// char * get_mem_type(H5F_mem_t type){
   switch(type) {
     case H5FD_MEM_DEFAULT:
-      type_str = strdup("H5FD_MEM_DEFAULT");
-      break;
+      return "H5FD_MEM_DEFAULT";
     case H5FD_MEM_SUPER:
-      type_str = strdup("H5FD_MEM_SUPER");
-      break;
+      return "H5FD_MEM_SUPER";
     case H5FD_MEM_BTREE:
-      type_str = strdup("H5FD_MEM_BTREE");
-      break;
+      return "H5FD_MEM_BTREE";
     case H5FD_MEM_DRAW:
-      type_str = strdup("H5FD_MEM_DRAW");
-      break;
+      return "H5FD_MEM_DRAW";
     case H5FD_MEM_GHEAP:
-      type_str = strdup("H5FD_MEM_GHEAP");
-      break;
+      return "H5FD_MEM_GHEAP";
     case H5FD_MEM_LHEAP:
-      type_str = strdup("H5FD_MEM_LHEAP");
-      break;
+      return "H5FD_MEM_LHEAP";
     case H5FD_MEM_NTYPES:
-      type_str = strdup("H5FD_MEM_NTYPES");
-      break;
+      return "H5FD_MEM_NTYPES";
     case H5FD_MEM_NOLIST:
-      type_str = strdup("H5FD_MEM_NOLIST");
-      break;
+      return "H5FD_MEM_NOLIST";
     case H5FD_MEM_OHDR:
-      type_str = strdup("H5FD_MEM_OHDR");
-      break;
+      return "H5FD_MEM_OHDR";
     default:
-      type_str = strdup("H5FD_MEM_DEFAULT");
-      break;
+      return "H5FD_MEM_UNKNOWN";
   }
-  return type_str;
 }
 
 /* candice added, print/record info H5FD__hermes_open from */
@@ -385,3 +433,146 @@ void print_H5Pset_fapl_info(const char* func_name, hbool_t persistence, size_t p
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void vfd_file_info_free(vfd_file_dlife_info_t* info);
+
+void vfd_file_info_free(vfd_file_dlife_info_t* info)
+{
+#ifdef H5_HAVE_PARALLEL
+    // TODO: VFD not support parallel yet.
+#endif /* H5_HAVE_PARALLEL */
+    if(info->file_name)
+      free((void*)(info->file_name));
+    free(info);
+}
+
+vfd_file_dlife_info_t* new_vfd_file_info(const char* fname, unsigned long file_no)
+{
+    vfd_file_dlife_info_t *info;
+
+    info = (vfd_file_dlife_info_t *)calloc(1, sizeof(vfd_file_dlife_info_t));
+
+    info->file_name = fname ? strdup(fname) : NULL;
+    // info->file_name = malloc(sizeof(char) * (strlen(fname) + 1));
+    // strcpy(info->file_name, fname);
+    info->dlife_helper = DLIFE_HELPER;
+    info->file_no = file_no;
+    info->sorder_id=0;
+
+    return info;
+}
+
+vfd_file_dlife_info_t* add_vfd_file_node(dlife_helper_t* helper, const char* file_name,
+    void * obj)
+{
+  std::cout << "add_vfd_file_node(): using DLIFE_HELPER_VFD" << std::endl;
+  unsigned long start = get_time_usec();
+  vfd_file_dlife_info_t* cur;
+  H5FD_t *_file = (H5FD_t *) obj;
+  unsigned long file_no = _file->fileno;
+
+  assert(helper);
+
+  if(!helper->vfd_opened_files) //empty linked list, no opened file.
+      assert(helper->vfd_opened_files_cnt == 0);
+
+  // Search for file in list of currently opened ones
+  cur = helper->vfd_opened_files;
+  while (cur) {
+      assert(cur->file_no);
+
+      if (cur->file_no == file_no)
+          break;
+
+      cur = cur->next;
+  }
+
+  if(!cur) {
+      // Allocate and initialize new file node
+      cur = new_vfd_file_info(file_name, file_no);
+
+      // Add to linked list
+      cur->next = helper->vfd_opened_files;
+      helper->vfd_opened_files = cur;
+      helper->vfd_opened_files_cnt++;
+  }
+
+  // Increment refcount on file node
+  cur->ref_cnt++;
+  cur->open_time = get_time_usec();
+
+  dlLockAcquire(&myLock);
+  cur->sorder_id =++FILE_SORDER;
+  dlLockRelease(&myLock);
+
+  FILE_LL_TOTAL_TIME += (get_time_usec() - start);
+  return cur;
+}
+
+
+int rm_vfd_file_node(dlife_helper_t* helper, unsigned long file_no);
+
+//need a dumy node to make it simpler
+int rm_vfd_file_node(dlife_helper_t* helper, unsigned long file_no)
+{
+    unsigned long start = get_time_usec();
+    vfd_file_dlife_info_t* cur;
+    vfd_file_dlife_info_t* last;
+
+    assert(helper);
+    assert(helper->vfd_opened_files);
+    assert(helper->vfd_opened_files_cnt);
+    assert(file_no);
+
+    cur = helper->vfd_opened_files;
+    last = cur;
+    while(cur) {
+        // Node found
+        if(cur->file_no == file_no) {
+            // Decrement file node's refcount
+            cur->ref_cnt--;
+
+            // If refcount == 0, remove file node & maybe print file stats
+            if(cur->ref_cnt == 0) {
+
+                // Unlink from list of opened files
+                if(cur == helper->vfd_opened_files) //first node is the target
+                    helper->vfd_opened_files = helper->vfd_opened_files->next;
+                else
+                    last->next = cur->next;
+
+                // Free file info
+                vfd_file_info_free(cur);
+
+                // Update connector info
+                helper->vfd_opened_files_cnt--;
+                if(helper->vfd_opened_files_cnt == 0)
+                    assert(helper->vfd_opened_files == NULL);
+            }
+
+            break;
+        }
+
+        // Advance to next file node
+        last = cur;
+        cur = cur->next;
+    }
+
+    FILE_LL_TOTAL_TIME += (get_time_usec() - start);
+    return helper->opened_files_cnt;
+}

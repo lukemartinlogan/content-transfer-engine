@@ -12,8 +12,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:  Kimmy Mu
- *              March 2021
+ * Programmer:  Luke Logan
+ *              Jan 2023
  *
  * Purpose: The hermes file driver using only the HDF5 public API
  *          and buffer datasets in Hermes buffering systems with
@@ -46,6 +46,9 @@
 /* for traces */
 #include <H5FDdevelop.h> /* File driver development macros */
 #include "H5FDhermes_log.h"
+// extern "C" {
+// #include "H5FDhermes_log.h" /* Connecting to vol         */
+// }
 
 
 /**
@@ -103,7 +106,7 @@ typedef struct H5FD_hermes_t {
   haddr_t        eof;         /* end of file; current file size        */
   haddr_t        pos;         /* current file I/O position             */
   int            op;          /* last operation                        */
-  hbool_t        persistence; /* write to file name on close           */
+  hbool_t        logStat; /* write I/O stats to yaml file           */
   int            fd;          /* the filesystem file descriptor        */
   char           *filename_;  /* the name of the file */
   unsigned       flags;       /* The flags passed from H5Fcreate/H5Fopen */
@@ -117,7 +120,7 @@ typedef struct H5FD_hermes_t {
 
 /* Driver-specific file access properties */
 typedef struct H5FD_hermes_fapl_t {
-  hbool_t persistence; /* write to file name on flush */
+  hbool_t logStat; /* write to file name on flush */
   size_t  page_size;   /* page size */
 } H5FD_hermes_fapl_t;
 
@@ -253,7 +256,7 @@ H5FD__hermes_term(void) {
  *-------------------------------------------------------------------------
  */
 herr_t
-H5Pset_fapl_hermes(hid_t fapl_id, hbool_t persistence, size_t page_size) {
+H5Pset_fapl_hermes(hid_t fapl_id, hbool_t logStat, size_t page_size) {
   H5FD_hermes_fapl_t fa; /* Hermes VFD info */
   herr_t ret_value = SUCCEED; /* Return value */
 
@@ -267,7 +270,7 @@ H5Pset_fapl_hermes(hid_t fapl_id, hbool_t persistence, size_t page_size) {
 
   /* Set VFD info values */
   memset(&fa, 0, sizeof(H5FD_hermes_fapl_t));
-  fa.persistence  = persistence;
+  fa.logStat  = logStat;
   fa.page_size = page_size;
 
   /* Set the property values & the driver for the FAPL */
@@ -277,7 +280,7 @@ H5Pset_fapl_hermes(hid_t fapl_id, hbool_t persistence, size_t page_size) {
   }
 
   /* custom VFD code start */
-  print_H5Pset_fapl_info("H5Pset_fapl_hermes", persistence, page_size);
+  print_H5Pset_fapl_info("H5Pset_fapl_hermes", logStat, page_size);
   /* custom VFD code end */
 
 done:
@@ -356,7 +359,7 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
     char* token = strtok_r(config_str_buf, " ", &saveptr);
     if (!strcmp(token, "true") || !strcmp(token, "TRUE") ||
         !strcmp(token, "True")) {
-      new_fa.persistence = true;
+      new_fa.logStat = true;
     }
     token = strtok_r(0, " ", &saveptr);
     sscanf(token, "%zu", &(new_fa.page_size));
@@ -430,6 +433,28 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
   file->my_fapl_id = fapl_id;
 
   print_open_close_info("H5FD__hermes_open", file, name, t_start, get_time_usec(), file->eof, file->flags);
+  // add vfd_file node
+
+  // Below code segfault! recursive call back to VOL then to VFD!
+  // H5VL_datalife_info_t *info;
+  // /* Get copy of our VOL info from FAPL */
+  // H5Pget_vol_info(fapl_id, (void **)&info);
+  // std::cout << "info->dlife_file_path: " << info->dlife_file_path << std::endl;
+  char file_path[256];
+  ProvLevel vfd_dlife_level;
+  char vfd_dlife_line_format[256];
+
+  parseEnvironmentVariable(file_path, vfd_dlife_level, vfd_dlife_line_format);
+
+  // Print the parsed values
+  std::cout << "File Path: " << file_path << std::endl;
+  std::cout << "DLife Level: " << vfd_dlife_level << std::endl;
+  std::cout << "DLife Line Format: " << vfd_dlife_line_format << std::endl;
+
+  DLIFE_HELPER_VFD = dlife_helper_init(file_path, vfd_dlife_level, vfd_dlife_line_format);
+  H5FD_dlife_file_info_t * vfd_file = add_vfd_file_node(DLIFE_HELPER_VFD, name, file);
+
+
   /* custom VFD code end */
 
   return (H5FD_t *)file;
@@ -640,7 +665,9 @@ static herr_t H5FD__hermes_read(H5FD_t *_file, H5FD_mem_t type,
   unsigned long t_end = get_time_usec();
   print_read_write_info("H5FD__hermes_read", file->filename_, file->my_fapl_id ,_file,
     type, dxpl_id, addr, size, file->page_size, t_start, t_end);
-  
+
+
+
   /* custom VFD code end */
 
   return ret_value;
