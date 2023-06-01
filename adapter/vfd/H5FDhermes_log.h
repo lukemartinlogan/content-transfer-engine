@@ -66,7 +66,7 @@ static
 unsigned long get_time_usec(void) {
     struct timeval tp;
 
-    gettimeofday(&tp, NULL);
+    gettimeofday(&tp, nullptr);
     return (unsigned long)((1000000 * tp.tv_sec) + tp.tv_usec);
 }
 
@@ -208,7 +208,7 @@ void parseEnvironmentVariable(char* file_path) {
         }
 
     } else {
-        std::strcpy(file_path, "");
+        std::strcpy(file_path, "vfd-data-stat.yaml");
 
     }
 
@@ -351,8 +351,10 @@ void add_mem_type_stat(int rw, size_t access_size, H5FD_mem_t type, vfd_file_dli
 }
 
 void dump_vfd_file_stat_yaml(FILE *f, const vfd_file_dlife_info_t* info){
+  // std::cout << "dump_vfd_file_stat_yaml(): writing to yaml ..." << std::endl;
+
   if(!info){
-    fprintf(f,"dump_vfd_file_stat_yaml(): vfd_file_dlife_info_t is NULL.\n");
+    fprintf(f,"dump_vfd_file_stat_yaml(): vfd_file_dlife_info_t is nullptr.\n");
     return;
   }
 
@@ -395,6 +397,8 @@ void dump_vfd_file_stat_yaml(FILE *f, const vfd_file_dlife_info_t* info){
   fprintf(f, "    write_cnt: %d\n", info->H5FD_MEM_LHEAP_write_cnt);
   fprintf(f, "    read_bytes: %zu\n", info->H5FD_MEM_LHEAP_read_bytes);
   fprintf(f, "    write_bytes: %zu\n", info->H5FD_MEM_LHEAP_write_bytes);
+
+  fflush(f);
 
 }
 
@@ -439,12 +443,12 @@ void open_close_info_update(const char* func_name, H5FD_hermes_t *file, size_t e
 
 void read_write_info_update(const char* func_name, char * file_name, hid_t fapl_id, H5FD_t *_file,
   H5FD_mem_t type, hid_t dxpl_id, haddr_t addr,
-  size_t size, size_t blob_size, unsigned long t_start, unsigned long t_end){
+  size_t size, size_t page_size, unsigned long t_start, unsigned long t_end){
 
     H5FD_hermes_t *file = (H5FD_hermes_t *)_file;
     vfd_file_dlife_info_t * info = (vfd_file_dlife_info_t *)file->vfd_file_info;
 
-    if (info->file_name == NULL){
+    if (info->file_name == nullptr){
       info->file_name = file_name;
     }
     // if (file_info->fapl_id == -1){
@@ -469,7 +473,7 @@ void read_write_info_update(const char* func_name, char * file_name, hid_t fapl_
 /* candice added, print/record info H5FD__hermes_open from */
 void print_read_write_info(const char* func_name, char * file_name, hid_t fapl_id, void * obj,
   H5FD_mem_t type, hid_t dxpl_id, haddr_t addr,
-  size_t size, size_t blob_size, unsigned long t_start, unsigned long t_end){
+  size_t size, size_t page_size, unsigned long t_start, unsigned long t_end){
 
   size_t         start_page_index; /* First page index of tranfer buffer */
   size_t         end_page_index; /* End page index of tranfer buffer */
@@ -477,22 +481,13 @@ void print_read_write_info(const char* func_name, char * file_name, hid_t fapl_i
   haddr_t        addr_end = addr + size - 1;
   
   // VFD_ADDR = addr;
-  start_page_index = addr/blob_size;
-  end_page_index = addr_end/blob_size;
+  start_page_index = addr/page_size;
+  end_page_index = addr_end/page_size;
   num_pages = end_page_index - start_page_index + 1;
 
   START_ADDR = addr;
   END_ADDR = addr+size;
   ACC_SIZE = size;
-  START_PAGE = start_page_index;
-  END_PAGE = end_page_index;
-  
-  // H5O_token_t token;
-  // H5O_info2_t oinfo;
-  // H5I_type_t target_obj_type = H5Iget_type(obj);
-  // H5I_type_t target_obj_type = H5I_FILE;
-  // token = oinfo.token;
-  
 
   // printf("{\"hermes_vfd\": ");
   // printf("{hermes_vfd: ");
@@ -707,23 +702,27 @@ vfd_dlife_helper_t * vfd_dlife_helper_init( char* file_path, size_t page_size, h
     if(logStat) {//write to file
         if(!file_path){
             printf("vfd_dlife_helper_init() failed, vfd-datalife file path is not set.\n");
-            return NULL;
+            return nullptr;
         }
     }
 
     new_helper->dlife_file_path = strdup(file_path);
     new_helper->logStat = logStat;
     new_helper->pid = getpid();
-    // print new_helper pid
-    printf("vol new_helper pid: %d\n", new_helper->pid);
-
     new_helper->tid = pthread_self();
 
-    // new_helper->opened_files = NULL;
+    // update file path with PID
+    int prefix_len = snprintf(nullptr, 0, "%d_%s", getpid(), file_path);
+    new_helper->dlife_file_path = new char[prefix_len + 1];
+    snprintf(new_helper->dlife_file_path, prefix_len + 1, "%d_%s", getpid(), file_path);
+
+    printf("vfd new_helper dlife_file_path: %s\n", new_helper->dlife_file_path);
+
+    // new_helper->opened_files = nullptr;
     // new_helper->opened_files_cnt = 0;
 
     /* VFD vars start */
-    new_helper->vfd_opened_files = NULL;
+    new_helper->vfd_opened_files = nullptr;
     new_helper->vfd_opened_files_cnt = 0;
     new_helper->hermes_page_size = page_size;
     /* VFD vars end */
@@ -756,7 +755,7 @@ vfd_file_dlife_info_t* new_vfd_file_info(const char* fname, unsigned long file_n
 
     info = (vfd_file_dlife_info_t *)calloc(1, sizeof(vfd_file_dlife_info_t));
 
-    info->file_name = fname ? strdup(fname) : NULL;
+    info->file_name = fname ? strdup(fname) : nullptr;
     // info->file_name = malloc(sizeof(char) * (strlen(fname) + 1));
     // strcpy(info->file_name, fname);
     info->file_no = file_no;
@@ -876,7 +875,7 @@ int rm_vfd_file_node(vfd_dlife_helper_t* helper, H5FD_t *_file)
               // Update connector info
               helper->vfd_opened_files_cnt--;
               if(helper->vfd_opened_files_cnt == 0)
-                  assert(helper->vfd_opened_files == NULL);
+                  assert(helper->vfd_opened_files == nullptr);
           }
 
           break;
@@ -893,6 +892,7 @@ int rm_vfd_file_node(vfd_dlife_helper_t* helper, H5FD_t *_file)
 
 void vfd_dlife_helper_teardown(vfd_dlife_helper_t* helper){
   // printf("vfd_dlife_helper_teardown(): DLIFE_HELPER_VFD\n");
+  // frea down causes double free error in single process mode
 
   if(helper){// not null
 

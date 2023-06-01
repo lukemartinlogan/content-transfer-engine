@@ -205,8 +205,8 @@ static herr_t
 H5FD__hermes_term(void) {
   herr_t ret_value = SUCCEED;
 
-  // vfd_dlife_helper_teardown(DLIFE_HELPER_VFD);
-  fflush(DLIFE_HELPER_VFD->dlife_file_handle);
+  vfd_dlife_helper_teardown(DLIFE_HELPER_VFD);
+  // fflush(DLIFE_HELPER_VFD->dlife_file_handle);
 
   /* Unregister from HDF5 error API */
   if (H5FDhermes_err_class_g >= 0) {
@@ -370,7 +370,7 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
 
 #ifdef USE_HERMES
 /* custom VFD code start */
-
+  // set Hermes page size to same as passed in page_size
   hermes::config::ClientConfig clientConfig;
   clientConfig.SetBaseAdapterPageSize(fa->page_size);
   size_t adp_page_size = clientConfig.GetBaseAdapterPageSize();
@@ -456,6 +456,7 @@ static herr_t H5FD__hermes_close(H5FD_t *_file) {
   /* custom VFD code start */
   open_close_info_update("H5FD__hermes_close", file, file->eof, file->flags);
   print_open_close_info("H5FD__hermes_close", file, file->filename_, t_start, get_time_usec(), file->eof, file->flags);
+  std::cout << "File close and write to : " << DLIFE_HELPER_VFD->dlife_file_path << std::endl;
   dump_vfd_file_stat_yaml(DLIFE_HELPER_VFD->dlife_file_handle, file->vfd_file_info);
   rm_vfd_file_node(DLIFE_HELPER_VFD, _file);
   /* custom VFD code end */
