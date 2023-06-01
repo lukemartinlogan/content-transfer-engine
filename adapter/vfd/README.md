@@ -1,3 +1,23 @@
+# Custom HDF5 Hermes VFD with Logging
+- Currently logs are per I/O operation. Acces statistics are recorded such that each different types of H5F_mem_t data is recorded with {io_idx:(start_page,end_page)}.
+- The default page_size is determiend by the environment variable `HERMES_PAGE_SIZE`. Currently set to 8192.
+- Uses HDF5 >= `1.14.0`
+## Usage - VFD only
+```
+HDF5_PLUGIN_PATH=${HERMES_INSTALL_DIR}/lib::$HDF5_PLUGIN_PATH \
+   HDF5_DRIVER=hdf5_hermes_vfd \
+   HERMES_CONF=$HERMES_CONF \
+   HERMES_CLIENT_CONF=$HERMES_CLIENT_CONF \
+   HDF5_DRIVER_CONFIG="true ${HERMES_PAGE_SIZE}" \
+   python my_program.py
+```
+## TODO
+For better memory utilization, may change I/O logging to be dependent on the selected page_size resolution, instead of per access.
+
+
+--- 
+Below are original description
+
 # HDF5 Hermes VFD
 
 ## 1. Description
