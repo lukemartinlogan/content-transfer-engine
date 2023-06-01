@@ -43,7 +43,7 @@
 
 // #ifdef ENABLE_HDF5_IO_LOGGING
 // extern "C" {
-#include "/qfs/people/tang584/scripts/local-co-scheduling/vol-datalife/src/datalife_vol_types.h" /* Connecting to vol */
+#include "/qfs/people/tang584/scripts/local-co-scheduling/vol-tracker/src/tracker_vol_types.h" /* Connecting to vol */
 // }
 // #endif
 
@@ -63,13 +63,13 @@ unsigned long get_time_usec(void) {
 /************/
 /* Typedefs */
 /************/
-typedef struct H5FD_dlife_file_info_t vfd_file_dlife_info_t;
+typedef struct H5FD_tkr_file_info_t vfd_file_tkr_info_t;
 
 
-typedef struct VFDDatalifeHelper {
-    /* VFDDatalifeHelper properties */
-    char* dlife_file_path;
-    FILE* dlife_file_handle;
+typedef struct VFDTrackerHelper {
+    /* VFDTrackerHelper properties */
+    char* tkr_file_path;
+    FILE* tkr_file_handle;
     hbool_t logStat;
     char user_name[32];
     int pid;
@@ -77,12 +77,12 @@ typedef struct VFDDatalifeHelper {
     char proc_name[64];
     int ptr_cnt;
     int vfd_opened_files_cnt;
-    vfd_file_dlife_info_t* vfd_opened_files;//linkedlist,
+    vfd_file_tkr_info_t* vfd_opened_files;//linkedlist,
     size_t hermes_page_size;
 
-} vfd_dlife_helper_t;
+} vfd_tkr_helper_t;
 
-static vfd_dlife_helper_t* DLIFE_HELPER_VFD = nullptr;
+static vfd_tkr_helper_t* TKR_HELPER_VFD = nullptr;
 
 
 struct page_range_t {
@@ -106,8 +106,8 @@ struct h5_mem_stat_t {
     page_range_t* write_ranges_tail; // linked-list tail pointer
 };
 
-struct H5FD_dlife_file_info_t { // used by VFD
-    vfd_dlife_helper_t* vfd_dlife_helper;  //pointer shared among all layers, one per process.
+struct H5FD_tkr_file_info_t { // used by VFD
+    vfd_tkr_helper_t* vfd_tkr_helper;  //pointer shared among all layers, one per process.
 
     const char* file_name;
     unsigned long file_no;
@@ -136,7 +136,7 @@ struct H5FD_dlife_file_info_t { // used by VFD
     H5FD_MEM_NOLIST
     */
 
-    vfd_file_dlife_info_t *next;
+    vfd_file_tkr_info_t *next;
 };
 
 
@@ -155,8 +155,8 @@ typedef struct H5FD_hermes_t {
   hbool_t        logStat; /* write I/O stats to yaml file           */
   size_t         page_size;   /* page size */
   hid_t          my_fapl_id;     /* file access property list ID */
-  vfd_dlife_helper_t *vfd_dlife_helper; /* pointer shared among all layers, one per process. */
-  vfd_file_dlife_info_t * vfd_file_info; /* file info */
+  vfd_tkr_helper_t *vfd_tkr_helper; /* pointer shared among all layers, one per process. */
+  vfd_file_tkr_info_t * vfd_file_info; /* file info */
 
   /* custom VFD code end */
 
@@ -167,22 +167,22 @@ std::string getFileIntentFlagsStr(unsigned int flags);
 void update_mem_type_stat_helper(int rw, size_t start_page, 
   size_t end_page, size_t access_size, h5_mem_stat_t* mem_stat);
 void update_mem_type_stat(int rw, size_t start_page, 
-  size_t end_page, size_t access_size, H5FD_mem_t type, vfd_file_dlife_info_t * info);
+  size_t end_page, size_t access_size, H5FD_mem_t type, vfd_file_tkr_info_t * info);
 void read_write_info_update(const char* func_name, char * file_name, hid_t fapl_id, H5FD_t *_file,
   H5FD_mem_t type, hid_t dxpl_id, haddr_t addr,
   size_t size, size_t page_size, unsigned long t_start, unsigned long t_end);
   void open_close_info_update(const char* func_name, H5FD_hermes_t *file, size_t eof, int flags);
 
-void dump_vfd_file_stat_yaml(FILE* f, const vfd_file_dlife_info_t* info);
+void dump_vfd_file_stat_yaml(FILE* f, const vfd_file_tkr_info_t* info);
 void dump_vfd_mem_stat_yaml(FILE* f, const h5_mem_stat_t* mem_stat);
 
 void parseEnvironmentVariable(char* file_path);
-vfd_dlife_helper_t * vfd_dlife_helper_init( char* file_path, size_t page_size, hbool_t logStat);
-void vfd_file_info_free(vfd_file_dlife_info_t* info);
-vfd_file_dlife_info_t* new_vfd_file_info(const char* fname, unsigned long file_no);
-vfd_file_dlife_info_t* add_vfd_file_node(vfd_dlife_helper_t * helper, const char* file_name, void * obj);
-int rm_vfd_file_node(vfd_dlife_helper_t* helper, H5FD_t *_file);
-void vfd_dlife_helper_teardown(vfd_dlife_helper_t* helper);
+vfd_tkr_helper_t * vfd_tkr_helper_init( char* file_path, size_t page_size, hbool_t logStat);
+void vfd_file_info_free(vfd_file_tkr_info_t* info);
+vfd_file_tkr_info_t* new_vfd_file_info(const char* fname, unsigned long file_no);
+vfd_file_tkr_info_t* add_vfd_file_node(vfd_tkr_helper_t * helper, const char* file_name, void * obj);
+int rm_vfd_file_node(vfd_tkr_helper_t* helper, H5FD_t *_file);
+void vfd_tkr_helper_teardown(vfd_tkr_helper_t* helper);
 
 
 std::string get_ohdr_type(H5F_mem_t type);
@@ -218,8 +218,8 @@ void parseEnvironmentVariable(char* file_path) {
 
   // // Print the parsed values
   // std::cout << "File Path: " << file_path << std::endl;
-  // std::cout << "DLife Level: " << vfd_dlife_level << std::endl;
-  // std::cout << "DLife Line Format: " << vfd_dlife_line_format << std::endl;
+  // std::cout << "DLife Level: " << vfd_tkr_level << std::endl;
+  // std::cout << "DLife Line Format: " << vfd_tkr_line_format << std::endl;
 }
 
 
@@ -360,9 +360,9 @@ void dump_vfd_mem_stat_yaml(FILE* f, const h5_mem_stat_t* mem_stat) {
 
 
 
-void dump_vfd_file_stat_yaml(FILE* f, const vfd_file_dlife_info_t* info) {
+void dump_vfd_file_stat_yaml(FILE* f, const vfd_file_tkr_info_t* info) {
     if (!info) {
-        fprintf(f, "dump_vfd_file_stat_yaml(): vfd_file_dlife_info_t is nullptr.\n");
+        fprintf(f, "dump_vfd_file_stat_yaml(): vfd_file_tkr_info_t is nullptr.\n");
         return;
     }
 
@@ -474,7 +474,7 @@ void update_mem_type_stat_helper(int rw, size_t start_page,
 
 
 void update_mem_type_stat(int rw, size_t start_page, 
-  size_t end_page, size_t access_size, H5FD_mem_t type, vfd_file_dlife_info_t * info)
+  size_t end_page, size_t access_size, H5FD_mem_t type, vfd_file_tkr_info_t * info)
 {
   
   switch(type) {
@@ -535,7 +535,7 @@ void read_write_info_update(const char* func_name, char * file_name, hid_t fapl_
   size_t size, size_t page_size, unsigned long t_start, unsigned long t_end){
 
     H5FD_hermes_t *file = (H5FD_hermes_t *)_file;
-    vfd_file_dlife_info_t * info = (vfd_file_dlife_info_t *)file->vfd_file_info;
+    vfd_file_tkr_info_t * info = (vfd_file_tkr_info_t *)file->vfd_file_info;
 
     if (info->file_name == nullptr){
       info->file_name = file_name;
@@ -559,7 +559,7 @@ void read_write_info_update(const char* func_name, char * file_name, hid_t fapl_
 void open_close_info_update(const char* func_name, H5FD_hermes_t *file, size_t eof, int flags)
 {
     // H5FD_hermes_t *file = (H5FD_hermes_t *)_file;
-    vfd_file_dlife_info_t * info = (vfd_file_dlife_info_t *)file->vfd_file_info;
+    vfd_file_tkr_info_t * info = (vfd_file_tkr_info_t *)file->vfd_file_info;
     if(!info->intent){
       std::string file_intent = getFileIntentFlagsStr(flags);
       info->intent = (char*)malloc((file_intent.length() + 1) * sizeof(char));
@@ -746,30 +746,30 @@ void print_H5Pset_fapl_info(const char* func_name, hbool_t logStat, size_t page_
 
 
 
-vfd_dlife_helper_t * vfd_dlife_helper_init( char* file_path, size_t page_size, hbool_t logStat)
+vfd_tkr_helper_t * vfd_tkr_helper_init( char* file_path, size_t page_size, hbool_t logStat)
 {
    
     
-    vfd_dlife_helper_t* new_helper = (vfd_dlife_helper_t *)calloc(1, sizeof(dlife_helper_t));
+    vfd_tkr_helper_t* new_helper = (vfd_tkr_helper_t *)calloc(1, sizeof(tkr_helper_t));
 
     if(logStat) {//write to file
         if(!file_path){
-            printf("vfd_dlife_helper_init() failed, vfd-datalife file path is not set.\n");
+            printf("vfd_tkr_helper_init() failed, vfd-tracker file path is not set.\n");
             return nullptr;
         }
     }
 
-    new_helper->dlife_file_path = strdup(file_path);
+    new_helper->tkr_file_path = strdup(file_path);
     new_helper->logStat = logStat;
     new_helper->pid = getpid();
     new_helper->tid = pthread_self();
 
     // update file path with PID
     int prefix_len = snprintf(nullptr, 0, "%d_%s", getpid(), file_path);
-    new_helper->dlife_file_path = new char[prefix_len + 1];
-    snprintf(new_helper->dlife_file_path, prefix_len + 1, "%d_%s", getpid(), file_path);
+    new_helper->tkr_file_path = new char[prefix_len + 1];
+    snprintf(new_helper->tkr_file_path, prefix_len + 1, "%d_%s", getpid(), file_path);
 
-    printf("vfd new_helper dlife_file_path: %s\n", new_helper->dlife_file_path);
+    printf("vfd new_helper tkr_file_path: %s\n", new_helper->tkr_file_path);
 
     // new_helper->opened_files = nullptr;
     // new_helper->opened_files_cnt = 0;
@@ -783,13 +783,13 @@ vfd_dlife_helper_t * vfd_dlife_helper_init( char* file_path, size_t page_size, h
     getlogin_r(new_helper->user_name, 32);
 
     if(logStat)
-        new_helper->dlife_file_handle = fopen(new_helper->dlife_file_path, "a");
+        new_helper->tkr_file_handle = fopen(new_helper->tkr_file_path, "a");
 
     return new_helper;
 }
 
 
-void vfd_file_info_free(vfd_file_dlife_info_t* info)
+void vfd_file_info_free(vfd_file_tkr_info_t* info)
 {
 #ifdef H5_HAVE_PARALLEL
     // TODO: VFD not support parallel yet.
@@ -801,11 +801,11 @@ void vfd_file_info_free(vfd_file_dlife_info_t* info)
 
 
 
-vfd_file_dlife_info_t* new_vfd_file_info(const char* fname, unsigned long file_no)
+vfd_file_tkr_info_t* new_vfd_file_info(const char* fname, unsigned long file_no)
 {
-    vfd_file_dlife_info_t *info;
+    vfd_file_tkr_info_t *info;
 
-    info = (vfd_file_dlife_info_t *)calloc(1, sizeof(vfd_file_dlife_info_t));
+    info = (vfd_file_tkr_info_t *)calloc(1, sizeof(vfd_file_tkr_info_t));
 
     info->file_name = fname ? strdup(fname) : nullptr;
     // info->file_name = malloc(sizeof(char) * (strlen(fname) + 1));
@@ -831,11 +831,11 @@ vfd_file_dlife_info_t* new_vfd_file_info(const char* fname, unsigned long file_n
 
 
 
-vfd_file_dlife_info_t* add_vfd_file_node(vfd_dlife_helper_t * helper, const char* file_name, void * obj)
+vfd_file_tkr_info_t* add_vfd_file_node(vfd_tkr_helper_t * helper, const char* file_name, void * obj)
 {
-  // std::cout << "add_vfd_file_node(): DLIFE_HELPER_VFD" << std::endl;
+  // std::cout << "add_vfd_file_node(): TKR_HELPER_VFD" << std::endl;
   unsigned long start = get_time_usec();
-  vfd_file_dlife_info_t* cur;
+  vfd_file_tkr_info_t* cur;
   H5FD_t *_file = (H5FD_t *) obj;
   unsigned long file_no = _file->fileno;
 
@@ -873,12 +873,12 @@ vfd_file_dlife_info_t* add_vfd_file_node(vfd_dlife_helper_t * helper, const char
 
 
 //need a dumy node to make it simpler
-int rm_vfd_file_node(vfd_dlife_helper_t* helper, H5FD_t *_file)
+int rm_vfd_file_node(vfd_tkr_helper_t* helper, H5FD_t *_file)
 {
-  // printf("rm_vfd_file_node(): DLIFE_HELPER_VFD\n");
+  // printf("rm_vfd_file_node(): TKR_HELPER_VFD\n");
   unsigned long start = get_time_usec();
-  vfd_file_dlife_info_t* cur;
-  vfd_file_dlife_info_t* last;
+  vfd_file_tkr_info_t* cur;
+  vfd_file_tkr_info_t* last;
   unsigned long file_no = _file->fileno;
 
   assert(helper);
@@ -924,18 +924,18 @@ int rm_vfd_file_node(vfd_dlife_helper_t* helper, H5FD_t *_file)
   return helper->vfd_opened_files_cnt;
 }
 
-void vfd_dlife_helper_teardown(vfd_dlife_helper_t* helper){
-  // printf("vfd_dlife_helper_teardown(): DLIFE_HELPER_VFD\n");
+void vfd_tkr_helper_teardown(vfd_tkr_helper_t* helper){
+  // printf("vfd_tkr_helper_teardown(): TKR_HELPER_VFD\n");
   // frea down causes double free error in single process mode
 
   if(helper){// not null
 
       if(helper->logStat){//no file
-          fflush(helper->dlife_file_handle);
-          fclose(helper->dlife_file_handle);
+          fflush(helper->tkr_file_handle);
+          fclose(helper->tkr_file_handle);
       }
-      if(helper->dlife_file_path)
-          free(helper->dlife_file_path);
+      if(helper->tkr_file_path)
+          free(helper->tkr_file_path);
 
       free(helper);
   }
