@@ -41,9 +41,9 @@
 // #include "H5FDhermes_err.h" /* TODO: error handling         */
 
 
-// #ifdef ENABLE_HDF5_IO_LOGGING
+// #ifdef ENABLE_TRACKER
 // extern "C" {
-#include "/qfs/people/tang584/scripts/local-co-scheduling/vol-tracker/src/tracker_vol_types.h" /* Connecting to vol */
+#include "/qfs/people/tang584/scripts/vol-tracker/src/tracker_vol_types.h" /* Connecting to vol */
 // }
 // #endif
 
@@ -171,7 +171,11 @@ void update_mem_type_stat(int rw, size_t start_page,
 void read_write_info_update(const char* func_name, char * file_name, hid_t fapl_id, H5FD_t *_file,
   H5FD_mem_t type, hid_t dxpl_id, haddr_t addr,
   size_t size, size_t page_size, unsigned long t_start, unsigned long t_end);
-  void open_close_info_update(const char* func_name, H5FD_hermes_t *file, size_t eof, int flags);
+
+void open_close_info_update(const char* func_name, H5FD_hermes_t *file, size_t eof, int flags, 
+  unsigned long t_start, unsigned long t_end);
+void print_open_close_info(const char* func_name, void * obj, const char * file_name, 
+  size_t eof, int flags, unsigned long t_start, unsigned long t_end);
 
 void dump_vfd_file_stat_yaml(FILE* f, const vfd_file_tkr_info_t* info);
 void dump_vfd_mem_stat_yaml(FILE* f, const h5_mem_stat_t* mem_stat);
@@ -532,45 +536,57 @@ void update_mem_type_stat(int rw, size_t start_page,
 
 void read_write_info_update(const char* func_name, char * file_name, hid_t fapl_id, H5FD_t *_file,
   H5FD_mem_t type, hid_t dxpl_id, haddr_t addr,
-  size_t size, size_t page_size, unsigned long t_start, unsigned long t_end){
+  size_t size, size_t page_size, unsigned long t_start, unsigned long t_end)
+{
 
-    H5FD_hermes_t *file = (H5FD_hermes_t *)_file;
-    vfd_file_tkr_info_t * info = (vfd_file_tkr_info_t *)file->vfd_file_info;
+  H5FD_hermes_t *file = (H5FD_hermes_t *)_file;
+  vfd_file_tkr_info_t * info = (vfd_file_tkr_info_t *)file->vfd_file_info;
 
-    if (info->file_name == nullptr){
-      info->file_name = file_name;
-    }
+  if (info->file_name == nullptr){
+    info->file_name = file_name;
+  }
 
-    if(strcmp(func_name, read_func) == 0){
-      TOTAL_VFD_READ += size;
-      info->file_read_cnt++;
-      update_mem_type_stat(1, addr/page_size, (addr+size-1)/page_size, size, type, info);
-    }
-    if(strcmp(func_name, write_func) == 0){
-      TOTAL_VFD_WRITE += size;
-      info->file_write_cnt++;
-      update_mem_type_stat(2, addr/page_size, (addr+size-1)/page_size, size, type, info);
-    }
+  if(strcmp(func_name, read_func) == 0){
+    TOTAL_VFD_READ += size;
+    info->file_read_cnt++;
+    update_mem_type_stat(1, addr/page_size, (addr+size-1)/page_size, size, type, info);
+  }
+  if(strcmp(func_name, write_func) == 0){
+    TOTAL_VFD_WRITE += size;
+    info->file_write_cnt++;
+    update_mem_type_stat(2, addr/page_size, (addr+size-1)/page_size, size, type, info);
+  }
 
-    VFD_ACCESS_IDX+=1;
+  VFD_ACCESS_IDX+=1;
+
+#ifdef VFD_LOGGING
+  // print_read_write_info(func_name, file_name, fapl_id, _file,
+  //   type, dxpl_id, addr, size, page_size, t_start, t_end);
+#endif
 
 }
 
-void open_close_info_update(const char* func_name, H5FD_hermes_t *file, size_t eof, int flags)
+void open_close_info_update(const char* func_name, H5FD_hermes_t *file, size_t eof, int flags, 
+  unsigned long t_start, unsigned long t_end)
 {
-    // H5FD_hermes_t *file = (H5FD_hermes_t *)_file;
-    vfd_file_tkr_info_t * info = (vfd_file_tkr_info_t *)file->vfd_file_info;
-    if(!info->intent){
-      std::string file_intent = getFileIntentFlagsStr(flags);
-      info->intent = (char*)malloc((file_intent.length() + 1) * sizeof(char));
-      strcpy(info->intent, file_intent.c_str());
-    } else if (info->intent[0] == '\0'){
-      std::string file_intent = getFileIntentFlagsStr(flags);
-      strcpy(info->intent, file_intent.c_str());
-      // printf("intent: [%s]\n", info->intent);
-    }
-    if (!info->file_size || info->file_size <= 0)
-      info->file_size = eof;
+  // H5FD_hermes_t *file = (H5FD_hermes_t *)_file;
+  vfd_file_tkr_info_t * info = (vfd_file_tkr_info_t *)file->vfd_file_info;
+  if(!info->intent){
+    std::string file_intent = getFileIntentFlagsStr(flags);
+    info->intent = (char*)malloc((file_intent.length() + 1) * sizeof(char));
+    strcpy(info->intent, file_intent.c_str());
+  } else if (info->intent[0] == '\0'){
+    std::string file_intent = getFileIntentFlagsStr(flags);
+    strcpy(info->intent, file_intent.c_str());
+    // printf("intent: [%s]\n", info->intent);
+  }
+  if (!info->file_size || info->file_size <= 0)
+    info->file_size = eof;
+
+#ifdef VFD_LOGGING
+  // print_open_close_info(func_name, file, file->name, eof, flags, t_start, t_end);
+#endif
+  
 }
 
 
@@ -688,7 +704,7 @@ void print_read_write_info(const char* func_name, char * file_name, hid_t fapl_i
 
 
 void print_open_close_info(const char* func_name, void * obj, const char * file_name, 
-  unsigned long t_start, unsigned long t_end, size_t eof, int flags)
+  size_t eof, int flags, unsigned long t_start, unsigned long t_end)
 {
   H5FD_t *_file = (H5FD_t *) obj;
 

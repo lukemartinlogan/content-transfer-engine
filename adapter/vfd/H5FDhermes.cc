@@ -205,8 +205,8 @@ static herr_t
 H5FD__hermes_term(void) {
   herr_t ret_value = SUCCEED;
 
-  vfd_dlife_helper_teardown(DLIFE_HELPER_VFD);
-  // fflush(DLIFE_HELPER_VFD->dlife_file_handle);
+  vfd_tkr_helper_teardown(TKR_HELPER_VFD);
+  // fflush(TKR_HELPER_VFD->dlife_file_handle);
 
   /* Unregister from HDF5 error API */
   if (H5FDhermes_err_class_g >= 0) {
@@ -421,16 +421,15 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
   file->my_fapl_id = fapl_id;
   file->logStat = fa->logStat;
 
-  if(DLIFE_HELPER_VFD == nullptr){
+  if(TKR_HELPER_VFD == nullptr){
     char file_path[256];
     parseEnvironmentVariable(file_path);
-    DLIFE_HELPER_VFD = vfd_dlife_helper_init(file_path, file->logStat, file->page_size);
+    TKR_HELPER_VFD = vfd_tkr_helper_init(file_path, file->logStat, file->page_size);
   }
   // file->vfd_file_info = add_vfd_file_node(name, file);
-  file->vfd_file_info = add_vfd_file_node(DLIFE_HELPER_VFD, name, file);
-  open_close_info_update("H5FD__hermes_open", file, file->eof, flags);
+  file->vfd_file_info = add_vfd_file_node(TKR_HELPER_VFD, name, file);
+  open_close_info_update("H5FD__hermes_open", file, file->eof, flags, t_start, get_time_usec());
 
-  print_open_close_info("H5FD__hermes_open", file, name, t_start, get_time_usec(), file->eof, file->flags);
 
   /* custom VFD code end */
 
@@ -454,11 +453,11 @@ static herr_t H5FD__hermes_close(H5FD_t *_file) {
   assert(file);
 
   /* custom VFD code start */
-  open_close_info_update("H5FD__hermes_close", file, file->eof, file->flags);
-  print_open_close_info("H5FD__hermes_close", file, file->filename_, t_start, get_time_usec(), file->eof, file->flags);
-  std::cout << "File close and write to : " << DLIFE_HELPER_VFD->dlife_file_path << std::endl;
-  dump_vfd_file_stat_yaml(DLIFE_HELPER_VFD->dlife_file_handle, file->vfd_file_info);
-  rm_vfd_file_node(DLIFE_HELPER_VFD, _file);
+  open_close_info_update("H5FD__hermes_open", file, file->eof, file->flags, t_start, get_time_usec());
+  // print_open_close_info("H5FD__hermes_close", file, file->filename_, t_start, get_time_usec(), file->eof, file->flags);
+  std::cout << "File close and write to : " << TKR_HELPER_VFD->tkr_file_path << std::endl;
+  dump_vfd_file_stat_yaml(TKR_HELPER_VFD->tkr_file_handle, file->vfd_file_info);
+  rm_vfd_file_node(TKR_HELPER_VFD, _file);
   /* custom VFD code end */
 
 #ifdef USE_HERMES
@@ -642,17 +641,8 @@ static herr_t H5FD__hermes_read(H5FD_t *_file, H5FD_mem_t type,
   }
 
   /* custom VFD code start */
-
-
-  unsigned long t_end = get_time_usec();
   read_write_info_update("H5FD__hermes_read", file->filename_, file->my_fapl_id ,_file,
-    type, dxpl_id, addr, size, file->page_size, t_start, t_end);
-
-  print_read_write_info("H5FD__hermes_read", file->filename_, file->my_fapl_id ,_file,
-    type, dxpl_id, addr, size, file->page_size, t_start, t_end);
-  
-
-
+    type, dxpl_id, addr, size, file->page_size, t_start, get_time_usec());
   /* custom VFD code end */
 
   return ret_value;
@@ -700,8 +690,8 @@ static herr_t H5FD__hermes_write(H5FD_t *_file, H5FD_mem_t type,
   read_write_info_update("H5FD__hermes_write", file->filename_, file->my_fapl_id ,_file,
     type, dxpl_id, addr, size, file->page_size, t_start, t_end);
 
-  print_read_write_info("H5FD__hermes_write", file->filename_, file->my_fapl_id ,_file,
-    type, dxpl_id, addr, size, file->page_size, t_start, t_end);
+  // print_read_write_info("H5FD__hermes_write", file->filename_, file->my_fapl_id ,_file,
+  //   type, dxpl_id, addr, size, file->page_size, t_start, t_end);
   
 
   /* custom VFD code end */
