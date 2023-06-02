@@ -12,8 +12,8 @@ HDF5_PLUGIN_PATH=${HERMES_INSTALL_DIR}/lib::$HDF5_PLUGIN_PATH \
    python my_program.py
 ```
 ## TODO
-For better memory utilization, may change I/O logging to be dependent on the selected page_size resolution, instead of per access.
-
+- For better memory utilization, may change I/O logging to be dependent on the selected page_size resolution, instead of per access.
+- Record tracking overhead.
 
 --- 
 Below are original description
