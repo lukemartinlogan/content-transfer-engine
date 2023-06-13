@@ -64,6 +64,7 @@ unsigned long get_time_usec(void) {
 /* Typedefs */
 /************/
 typedef struct H5FD_tkr_file_info_t vfd_file_tkr_info_t;
+unsigned long TOTAL_TKR_VFD_OVERHEAD;
 
 
 typedef struct VFDTrackerHelper {
@@ -329,10 +330,10 @@ void print_mem_stat(const h5_mem_stat_t* mem_stat)
 
 
 void dump_vfd_mem_stat_yaml(FILE* f, const h5_mem_stat_t* mem_stat) {
-    fprintf(f, "  - %s:\n", mem_stat->mem_type.c_str());
-    fprintf(f, "      read_bytes: %zu\n", mem_stat->read_bytes);
-    fprintf(f, "      read_cnt: %d\n", mem_stat->read_cnt);
-    fprintf(f, "      read_ranges: {");
+    fprintf(f, "    - %s:\n", mem_stat->mem_type.c_str());
+    fprintf(f, "        read_bytes: %zu\n", mem_stat->read_bytes);
+    fprintf(f, "        read_cnt: %d\n", mem_stat->read_cnt);
+    fprintf(f, "        read_ranges: {");
     
     page_range_t* read_range = mem_stat->read_ranges;
     while (read_range != nullptr) {
@@ -344,9 +345,9 @@ void dump_vfd_mem_stat_yaml(FILE* f, const h5_mem_stat_t* mem_stat) {
     }
     
     fprintf(f, "}\n");
-    fprintf(f, "      write_bytes: %zu\n", mem_stat->write_bytes);
-    fprintf(f, "      write_cnt: %d\n", mem_stat->write_cnt);
-    fprintf(f, "      write_ranges: {");
+    fprintf(f, "        write_bytes: %zu\n", mem_stat->write_bytes);
+    fprintf(f, "        write_cnt: %d\n", mem_stat->write_cnt);
+    fprintf(f, "        write_ranges: {");
     
     page_range_t* write_range = mem_stat->write_ranges;
     while (write_range != nullptr) {
@@ -365,45 +366,58 @@ void dump_vfd_mem_stat_yaml(FILE* f, const h5_mem_stat_t* mem_stat) {
 
 
 void dump_vfd_file_stat_yaml(FILE* f, const vfd_file_tkr_info_t* info) {
-    if (!info) {
-        fprintf(f, "dump_vfd_file_stat_yaml(): vfd_file_tkr_info_t is nullptr.\n");
-        return;
-    }
 
-    fprintf(f, "- file-%lu:\n", info->sorder_id);
-    fprintf(f, "    file_name: \"%s\"\n", info->file_name);
-    fprintf(f, "    open_time: %lu\n", info->open_time);
-    fprintf(f, "    close_time: %lu\n", info->close_time);
-    fprintf(f, "    file_intent: [");
-    if (info->intent != nullptr) {
-        fprintf(f, "%s", info->intent);
-    }
-    fprintf(f, "]\n");
-    fprintf(f, "    file_no: %lu\n", info->file_no);
-    fprintf(f, "    file_read_cnt: %d\n", info->file_read_cnt);
-    fprintf(f, "    file_write_cnt: %d\n", info->file_write_cnt);
-    fprintf(f, "    file_size: %zu\n", info->file_size);
+  const char* file_name = strrchr(info->file_name, '/');
+    if(file_name)
+        file_name++;
+    else
+        file_name = (const char*)info->file_name;
 
-    // Check and print h5_mem_stat_t structs if they exist
-    if (info->h5_draw != nullptr) {
-      dump_vfd_mem_stat_yaml(f, info->h5_draw);
-    }
-    if (info->h5_ohdr != nullptr) {
-      dump_vfd_mem_stat_yaml(f, info->h5_ohdr);
-    }
-    if (info->h5_super != nullptr) {
-      dump_vfd_mem_stat_yaml(f, info->h5_super);
-    }
-    if (info->h5_btree != nullptr) {
-      dump_vfd_mem_stat_yaml(f, info->h5_btree);
-    }
-    if (info->h5_lheap != nullptr) {
-      dump_vfd_mem_stat_yaml(f, info->h5_lheap);
-    }
-    // Print other h5_mem_stat_t structs if they exist in a similar way
+  if (!info) {
+      fprintf(f, "dump_vfd_file_stat_yaml(): vfd_file_tkr_info_t is nullptr.\n");
+      return;
+  }
 
-    fprintf(f, "\n");
-    fflush(f);
+  fprintf(f, "- file-%lu:\n", info->sorder_id);
+  fprintf(f, "    file_name: \"%s\"\n", file_name);
+  fprintf(f, "    open_time: %lu\n", info->open_time);
+  fprintf(f, "    close_time: %lu\n", info->close_time);
+  fprintf(f, "    file_intent: [");
+  if (info->intent != nullptr) {
+      fprintf(f, "%s", info->intent);
+  }
+  fprintf(f, "]\n");
+  fprintf(f, "    file_no: %lu\n", info->file_no);
+  fprintf(f, "    file_read_cnt: %d\n", info->file_read_cnt);
+  fprintf(f, "    file_write_cnt: %d\n", info->file_write_cnt);
+  fprintf(f, "    file_size: %zu\n", info->file_size);
+  fprintf(f, "    ata:\n");
+  // Check and print h5_mem_stat_t structs if they exist
+  if (info->h5_draw != nullptr) {
+    dump_vfd_mem_stat_yaml(f, info->h5_draw);
+  }
+  fprintf(f, "    metadata:\n");
+  if (info->h5_ohdr != nullptr) {
+    dump_vfd_mem_stat_yaml(f, info->h5_ohdr);
+  }
+  if (info->h5_super != nullptr) {
+    dump_vfd_mem_stat_yaml(f, info->h5_super);
+  }
+  if (info->h5_btree != nullptr) {
+    dump_vfd_mem_stat_yaml(f, info->h5_btree);
+  }
+  if (info->h5_lheap != nullptr) {
+    dump_vfd_mem_stat_yaml(f, info->h5_lheap);
+  }
+  // Print other h5_mem_stat_t structs if they exist in a similar way
+
+  fprintf(f, "Task:\n");
+  fprintf(f, "- task_id: %d\n", getpid());
+  fprintf(f, "    VFD-Total-Overhead(ms): %ld\n", TOTAL_TKR_VFD_OVERHEAD/1000);
+
+  fprintf(f, "\n");
+  fflush(f);
+
 }
 
 
@@ -559,6 +573,8 @@ void read_write_info_update(const char* func_name, char * file_name, hid_t fapl_
 
   VFD_ACCESS_IDX+=1;
 
+  TOTAL_TKR_VFD_OVERHEAD+=(get_time_usec() - t_end);
+
 #ifdef VFD_LOGGING
   // print_read_write_info(func_name, file_name, fapl_id, _file,
   //   type, dxpl_id, addr, size, page_size, t_start, t_end);
@@ -569,6 +585,9 @@ void read_write_info_update(const char* func_name, char * file_name, hid_t fapl_
 void open_close_info_update(const char* func_name, H5FD_hermes_t *file, size_t eof, int flags, 
   unsigned long t_start, unsigned long t_end)
 {
+  if(!TOTAL_TKR_VFD_OVERHEAD)
+    TOTAL_TKR_VFD_OVERHEAD = 0;
+  
   // H5FD_hermes_t *file = (H5FD_hermes_t *)_file;
   vfd_file_tkr_info_t * info = (vfd_file_tkr_info_t *)file->vfd_file_info;
   if(!info->intent){
@@ -582,7 +601,8 @@ void open_close_info_update(const char* func_name, H5FD_hermes_t *file, size_t e
   }
   if (!info->file_size || info->file_size <= 0)
     info->file_size = eof;
-
+  
+  TOTAL_TKR_VFD_OVERHEAD+=(get_time_usec() - t_end );
 #ifdef VFD_LOGGING
   // print_open_close_info(func_name, file, file->name, eof, flags, t_start, t_end);
 #endif
@@ -781,9 +801,9 @@ vfd_tkr_helper_t * vfd_tkr_helper_init( char* file_path, size_t page_size, hbool
     new_helper->tid = pthread_self();
 
     // update file path with PID
-    int prefix_len = snprintf(nullptr, 0, "%d_%s", getpid(), file_path);
+    int prefix_len = snprintf(nullptr, 0, "%d_%s", new_helper->pid, file_path);
     new_helper->tkr_file_path = new char[prefix_len + 1];
-    snprintf(new_helper->tkr_file_path, prefix_len + 1, "%d_%s", getpid(), file_path);
+    snprintf(new_helper->tkr_file_path, prefix_len + 1, "%d_%s", new_helper->pid, file_path);
 
     printf("vfd new_helper tkr_file_path: %s\n", new_helper->tkr_file_path);
 
@@ -936,7 +956,8 @@ int rm_vfd_file_node(vfd_tkr_helper_t* helper, H5FD_t *_file)
       cur = cur->next;
   }
 
-  // FILE_LL_TOTAL_TIME += (get_time_usec() - start);
+  TOTAL_TKR_VFD_OVERHEAD += (get_time_usec() - start);
+
   return helper->vfd_opened_files_cnt;
 }
 
@@ -947,8 +968,8 @@ void vfd_tkr_helper_teardown(vfd_tkr_helper_t* helper){
   if(helper){// not null
 
       if(helper->logStat){//no file
-          fflush(helper->tkr_file_handle);
-          fclose(helper->tkr_file_handle);
+        fflush(helper->tkr_file_handle);
+        fclose(helper->tkr_file_handle);
       }
       if(helper->tkr_file_path)
           free(helper->tkr_file_path);

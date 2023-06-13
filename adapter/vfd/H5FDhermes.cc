@@ -101,6 +101,7 @@ extern "C" {
 
 
 
+
 /* Driver-specific file access properties */
 typedef struct H5FD_hermes_fapl_t {
   hbool_t logStat; /* write to file name on flush */
@@ -186,6 +187,7 @@ H5FD_hermes_init(void) {
   if (H5I_VFL != H5Iget_type(H5FD_HERMES_g)) {
     H5FD_HERMES_g = H5FDregister(&H5FD_hermes_g);
   }
+
 
   /* Set return value */
   ret_value = H5FD_HERMES_g;
@@ -416,7 +418,8 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
 #endif
 
   /* custom VFD code start */
-
+  unsigned long t_end = get_time_usec();
+  
   file->page_size = fa->page_size;
   file->my_fapl_id = fapl_id;
   file->logStat = fa->logStat;
@@ -428,9 +431,7 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
   }
   // file->vfd_file_info = add_vfd_file_node(name, file);
   file->vfd_file_info = add_vfd_file_node(TKR_HELPER_VFD, name, file);
-  open_close_info_update("H5FD__hermes_open", file, file->eof, flags, t_start, get_time_usec());
-
-
+  open_close_info_update("H5FD__hermes_open", file, file->eof, flags, t_start, t_end);
   /* custom VFD code end */
 
   return (H5FD_t *)file;
@@ -453,7 +454,8 @@ static herr_t H5FD__hermes_close(H5FD_t *_file) {
   assert(file);
 
   /* custom VFD code start */
-  open_close_info_update("H5FD__hermes_open", file, file->eof, file->flags, t_start, get_time_usec());
+  unsigned long t_end = get_time_usec();
+  open_close_info_update("H5FD__hermes_open", file, file->eof, file->flags, t_start, t_end);
   // print_open_close_info("H5FD__hermes_close", file, file->filename_, t_start, get_time_usec(), file->eof, file->flags);
   std::cout << "File close and write to : " << TKR_HELPER_VFD->tkr_file_path << std::endl;
   dump_vfd_file_stat_yaml(TKR_HELPER_VFD->tkr_file_handle, file->vfd_file_info);
@@ -641,8 +643,9 @@ static herr_t H5FD__hermes_read(H5FD_t *_file, H5FD_mem_t type,
   }
 
   /* custom VFD code start */
+  unsigned long t_end = get_time_usec();
   read_write_info_update("H5FD__hermes_read", file->filename_, file->my_fapl_id ,_file,
-    type, dxpl_id, addr, size, file->page_size, t_start, get_time_usec());
+    type, dxpl_id, addr, size, file->page_size, t_start, t_end);
   /* custom VFD code end */
 
   return ret_value;
@@ -685,11 +688,9 @@ static herr_t H5FD__hermes_write(H5FD_t *_file, H5FD_mem_t type,
   
   
   /* custom VFD code start */
-
   unsigned long t_end = get_time_usec();
   read_write_info_update("H5FD__hermes_write", file->filename_, file->my_fapl_id ,_file,
     type, dxpl_id, addr, size, file->page_size, t_start, t_end);
-
   // print_read_write_info("H5FD__hermes_write", file->filename_, file->my_fapl_id ,_file,
   //   type, dxpl_id, addr, size, file->page_size, t_start, t_end);
   
