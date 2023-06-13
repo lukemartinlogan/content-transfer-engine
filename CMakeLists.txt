@@ -27,7 +27,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
   add_compile_definitions(HERMES_LOG_VERBOSITY=10)
   message("This is NOT a release build: ${CMAKE_BUILD_TYPE} ${CMAKE_CXX_FLAGS}")
 elseif(CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -fPIC")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -fPIC")
   # Ensure that debug logging is enabled
   # This will keep logs which have beneath priority 10
   add_compile_definitions(HERMES_LOG_VERBOSITY=10)
@@ -163,7 +163,6 @@ endif()
 # Build options
 #------------------------------------------------------------------------------
 option(BUILD_SHARED_LIBS "Build with shared libraries." ON)
-option(HERMES_INTERCEPT_IO "Use GOTCHA as IO interception tool" OFF)
 option(HERMES_COMMUNICATION_MPI "Use MPI as the communication layer." ON)
 option(HERMES_ENABLE_DOXYGEN "Enable hermes documentation." OFF)
 option(HERMES_BUILD_BUFFER_POOL_VISUALIZER "Build the BufferPool visualizer" OFF)
@@ -214,8 +213,7 @@ if(BUILD_SHARED_LIBS)
   set(HERMES_BUILD_SHARED_LIBS 1)
   set(HERMES_LIBTYPE SHARED)
 else()
-  set(HERMES_BUILD_SHARED_LIBS 0)
-  set(HERMES_LIBTYPE STATIC)
+  message(FATAL_ERROR "Must build hermes with shared libs")
 endif()
 
 # TODO(chogan): Expose this once we have more than one communication layer
@@ -323,20 +321,10 @@ if(yaml-cpp_FOUND)
   message(STATUS "found yaml-cpp at ${yaml-cpp_DIR}")
 endif()
 
-# GOTCHA
-if(HERMES_INTERCEPT_IO)
-  find_package(gotcha REQUIRED)
-  if(gotcha_FOUND)
-    set(HERMES_HAVE_GOTCHA 1)
-    include_directories(${gotcha_INCLUDE_DIRS})
-    set(HERMES_EXT_INCLUDE_DEPENDENCIES ${gotcha_INCLUDE_DIRS}
-      ${HERMES_EXT_INCLUDE_DEPENDENCIES}
-    )
-    set(HERMES_EXT_LIB_DEPENDENCIES gotcha ${HERMES_EXT_LIB_DEPENDENCIES})
-    option(HERMES_BUILD_POSIX_IO "Build POSIX I/O Module" ON)
-    option(HERMES_BUILD_MPI_IO "Build MPI I/O Module" ON)
-    option(HERMES_BUILD_STDIO "Build standard I/O Module" ON)
-  endif()
+#Cereal
+find_package(cereal REQUIRED)
+if(cereal)
+  message(STATUS "found cereal")
 endif()
 
 #if(HERMES_COMMUNICATION_MPI)
@@ -349,14 +337,6 @@ if(NOT APPLE)
   find_library(LIBRT rt)
   if(NOT LIBRT)
     message(FATAL_ERROR "librt is required for POSIX shared memory")
-  endif()
-endif()
-
-# sdl2
-if(HERMES_BUILD_BUFFER_POOL_VISUALIZER)
-  find_package(SDL2 CONFIG REQUIRED)
-  if(SDL2_FOUND)
-    message(STATUS "found SDL2 at ${SDL2_DIR}")
   endif()
 endif()
 
@@ -495,29 +475,6 @@ if(HERMES_BUILD_BENCHMARKS)
   add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/benchmarks)
 endif()
 
-#-----------------------------------------------------------------------------
-# Configure the config.cmake file for the build directory
-#-----------------------------------------------------------------------------
-configure_file(
- ${HERMES_SOURCE_DIR}/CMake/hermes-config.cmake.build.in
- ${HERMES_BINARY_DIR}/hermes-config.cmake @ONLY
-)
-
-#-----------------------------------------------------------------------------
-# Configure the config.cmake file for the install directory
-#-----------------------------------------------------------------------------
-configure_file(
- ${HERMES_SOURCE_DIR}/CMake/hermes-config.cmake.install.in
- ${HERMES_BINARY_DIR}/CMakeFiles/hermes-config.cmake @ONLY
-)
-
-install(
-  FILES
-    ${HERMES_BINARY_DIR}/CMakeFiles/hermes-config.cmake
-  DESTINATION
-    ${HERMES_INSTALL_DATA_DIR}/cmake/hermes
-)
-
 install(
   FILES
         test/data/hermes_server.yaml
@@ -527,21 +484,21 @@ install(
     hermes_sample.yaml
 )
 
+add_custom_target(lint
+  COMMAND bash ${CMAKE_CURRENT_SOURCE_DIR}/ci/lint.sh ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
 #-----------------------------------------------------------------------------
-# Configure the hermes-config-version .cmake file for the install directory
+# Install HermesConfig.cmake
 #-----------------------------------------------------------------------------
 configure_file(
-  ${HERMES_SOURCE_DIR}/CMake/hermes-config-version.cmake.in
-  ${HERMES_BINARY_DIR}/CMakeFiles/hermes-config-version.cmake @ONLY
+        ${HERMES_SOURCE_DIR}/CMake/HermesConfig.cmake
+        ${HERMES_BINARY_DIR}/CMakeFiles/HermesConfig.cmake @ONLY
 )
 
 install(
   FILES
-    ${HERMES_BINARY_DIR}/CMakeFiles/hermes-config-version.cmake
+    ${HERMES_BINARY_DIR}/CMakeFiles/HermesConfig.cmake
   DESTINATION
-    ${HERMES_INSTALL_DATA_DIR}/cmake/hermes
-)
-
-add_custom_target(lint
-  COMMAND bash ${CMAKE_CURRENT_SOURCE_DIR}/ci/lint.sh ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_INSTALL_PREFIX}/cmake
 )
