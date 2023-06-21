@@ -178,7 +178,8 @@ void open_close_info_update(const char* func_name, H5FD_hermes_t *file, size_t e
 void print_open_close_info(const char* func_name, void * obj, const char * file_name, 
   size_t eof, int flags, unsigned long t_start, unsigned long t_end);
 
-void dump_vfd_file_stat_yaml(FILE* f, const vfd_file_tkr_info_t* info);
+// void dump_vfd_file_stat_yaml(FILE* f, const vfd_file_tkr_info_t* info);
+void dump_vfd_file_stat_yaml(vfd_tkr_helper_t* helper, const vfd_file_tkr_info_t* info);
 void dump_vfd_mem_stat_yaml(FILE* f, const h5_mem_stat_t* mem_stat);
 
 void parseEnvironmentVariable(char* file_path);
@@ -365,13 +366,15 @@ void dump_vfd_mem_stat_yaml(FILE* f, const h5_mem_stat_t* mem_stat) {
 
 
 
-void dump_vfd_file_stat_yaml(FILE* f, const vfd_file_tkr_info_t* info) {
+void dump_vfd_file_stat_yaml(vfd_tkr_helper_t* helper, const vfd_file_tkr_info_t* info) {
 
   const char* file_name = strrchr(info->file_name, '/');
-    if(file_name)
-        file_name++;
-    else
-        file_name = (const char*)info->file_name;
+  if(file_name)
+      file_name++;
+  else
+      file_name = (const char*)info->file_name;
+  
+  FILE * f = fopen(helper->tkr_file_path, "a");
 
   if (!info) {
       fprintf(f, "dump_vfd_file_stat_yaml(): vfd_file_tkr_info_t is nullptr.\n");
@@ -417,6 +420,7 @@ void dump_vfd_file_stat_yaml(FILE* f, const vfd_file_tkr_info_t* info) {
 
   fprintf(f, "\n");
   fflush(f);
+  fclose(f);
 
 }
 
@@ -818,8 +822,8 @@ vfd_tkr_helper_t * vfd_tkr_helper_init( char* file_path, size_t page_size, hbool
 
     getlogin_r(new_helper->user_name, 32);
 
-    if(logStat)
-        new_helper->tkr_file_handle = fopen(new_helper->tkr_file_path, "a");
+    // if(logStat)
+    //     new_helper->tkr_file_handle = fopen(new_helper->tkr_file_path, "a");
 
     return new_helper;
 }
@@ -830,8 +834,9 @@ void vfd_file_info_free(vfd_file_tkr_info_t* info)
 #ifdef H5_HAVE_PARALLEL
     // TODO: VFD not support parallel yet.
 #endif /* H5_HAVE_PARALLEL */
-    if(info->file_name)
-      free((void*)(info->file_name));
+
+    // if(info->file_name)
+    //   free((void*)(info->file_name));
     free(info);
 }
 
@@ -967,10 +972,10 @@ void vfd_tkr_helper_teardown(vfd_tkr_helper_t* helper){
 
   if(helper){// not null
 
-      if(helper->logStat){//no file
-        fflush(helper->tkr_file_handle);
-        fclose(helper->tkr_file_handle);
-      }
+      // if(helper->logStat){//no file
+      //   fflush(helper->tkr_file_handle);
+      //   fclose(helper->tkr_file_handle);
+      // }
       if(helper->tkr_file_path)
           free(helper->tkr_file_path);
 
