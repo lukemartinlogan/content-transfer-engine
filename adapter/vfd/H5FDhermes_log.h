@@ -140,27 +140,6 @@ struct H5FD_tkr_file_info_t { // used by VFD
 };
 
 
-/* The description of a file/bucket belonging to this driver. */
-typedef struct H5FD_hermes_t {
-  H5FD_t         pub;         /* public stuff, must be first           */
-  haddr_t        eoa;         /* end of allocated region               */
-  haddr_t        eof;         /* end of file; current file size        */
-  haddr_t        pos;         /* current file I/O position             */
-  int            op;          /* last operation                        */
-  int            fd;          /* the filesystem file descriptor        */
-  char           *filename_;  /* the name of the file */
-  unsigned       flags;       /* The flags passed from H5Fcreate/H5Fopen */
-
-  /* custom VFD code start */
-  hbool_t        logStat; /* write I/O stats to yaml file           */
-  size_t         page_size;   /* page size */
-  hid_t          my_fapl_id;     /* file access property list ID */
-  vfd_tkr_helper_t *vfd_tkr_helper; /* pointer shared among all layers, one per process. */
-  vfd_file_tkr_info_t * vfd_file_info; /* file info */
-
-  /* custom VFD code end */
-
-} H5FD_hermes_t;
 
 /* function prototypes*/
 std::string getFileIntentFlagsStr(unsigned int flags);
