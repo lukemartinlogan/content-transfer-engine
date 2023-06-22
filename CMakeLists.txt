@@ -177,6 +177,7 @@ option(HERMES_ENABLE_MPIIO_ADAPTER "Build the Hermes MPI-IO adapter." ON)
 option(HERMES_ENABLE_PUBSUB_ADAPTER "Build the Hermes pub/sub adapter." ON)
 option(HERMES_ENABLE_KVSTORE "Build the Hermes KVStore adapter." OFF)
 option(HERMES_ENABLE_VFD "Build the Hermes HDF5 Virtual File Driver" OFF)
+option(HERMES_ENABLE_VFD_TRACE "Build the Hermes HDF5 Virtual File Driver with Tracing" OFF)
 option(HERMES_BUILD_ADAPTER_TESTS "Enable installation of tests." ON)
 option(HERMES_INSTALL_TESTS "Enable installation of tests." OFF)
 option(HERMES_ONLY_RPC "Avoids the shared-memory case in RPC for testing" OFF)
@@ -370,6 +371,19 @@ if(HERMES_ENABLE_VFD)
     endif()
   endif()
 endif()
+
+# HDF5 Traces
+# Check if HERMES_ENABLE_VFD_TRACE is ON and HERMES_ENABLE_VFD is also ON
+if(HERMES_ENABLE_VFD_TRACE AND HERMES_ENABLE_VFD)
+    # Add the ENABLE_VFD_TRACE flag to the GCC flags
+    add_definitions(-DENABLE_VFD_TRACE)
+else()
+    # Disable the HERMES_ENABLE_VFD_TRACE option if HERMES_ENABLE_VFD is not ON
+    # unset(HERMES_ENABLE_VFD_TRACE CACHE)
+    # Require HERMES_ENABLE_VFD to be ON if HERMES_ENABLE_VFD_TRACE is ON 
+    set(HERMES_ENABLE_VFD ON)
+endif()
+
 
 #-----------------------------------------------------------------------------
 # Coverage

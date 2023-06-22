@@ -45,11 +45,10 @@
 
 /* for traces */
 #include <H5FDdevelop.h> /* File driver development macros */
-#include "H5FDhermes_log.h"
-// extern "C" {
-// #include "H5FDhermes_log.h" /* Connecting to vol         */
-// }
 
+#ifdef ENABLE_VFD_TRACE
+#include "H5FDhermes_log.h" /* Connecting to vol         */
+#endif
 
 /**
  * Make this adapter use Hermes.
@@ -268,9 +267,12 @@ H5Pset_fapl_hermes(hid_t fapl_id, hbool_t logStat, size_t page_size) {
     //                        "can't set Hermes VFD as driver");
   }
 
+#ifdef ENABLE_VFD_TRACE
   /* custom VFD code start */
   print_H5Pset_fapl_info("H5Pset_fapl_hermes", logStat, page_size);
   /* custom VFD code end */
+#endif
+
 
 done:
   H5FD_HERMES_FUNC_LEAVE_API;
@@ -313,7 +315,8 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
   H5FD_hermes_t  *file = NULL; /* hermes VFD info          */
   int fd = -1;
   int o_flags = 0;
-  
+
+#ifdef ENABLE_VFD_TRACE
   /* custom VFD code start */
   unsigned long t_start = get_time_usec();
   const H5FD_hermes_fapl_t *fa   = NULL;
@@ -355,7 +358,7 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
     fa = &new_fa;
   }
   /* custom VFD code end */
-
+#endif
 
   /* Build the open flags */
   o_flags = (H5F_ACC_RDWR & flags) ? O_RDWR : O_RDONLY;
@@ -370,6 +373,8 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
   }
 
 #ifdef USE_HERMES
+
+#ifdef ENABLE_VFD_TRACE
 /* custom VFD code start */
   // // set Hermes page size to same as passed in page_size
   // hermes::config::ClientConfig clientConfig;
@@ -377,6 +382,8 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
   // size_t adp_page_size = clientConfig.GetBaseAdapterPageSize();
   
 /* custom VFD code end */
+#endif
+
   auto fs_api = HERMES_POSIX_FS;
   bool stat_exists;
   AdapterStat stat;
@@ -415,6 +422,7 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
   file->eof = stdfs::file_size(name);
 #endif
 
+#ifdef ENABLE_VFD_TRACE
   /* custom VFD code start */
   unsigned long t_end = get_time_usec();
   
@@ -431,6 +439,7 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
   file->vfd_file_info = add_vfd_file_node(TKR_HELPER_VFD, name, file);
   open_close_info_update("H5FD__hermes_open", file, file->eof, flags, t_start, t_end);
   /* custom VFD code end */
+#endif
 
   return (H5FD_t *)file;
 } /* end H5FD__hermes_open() */
@@ -451,6 +460,7 @@ static herr_t H5FD__hermes_close(H5FD_t *_file) {
   herr_t ret_value = SUCCEED; /* Return value */
   assert(file);
 
+#ifdef ENABLE_VFD_TRACE
   /* custom VFD code start */
   unsigned long t_end = get_time_usec();
   open_close_info_update("H5FD__hermes_open", file, file->eof, file->flags, t_start, t_end);
@@ -459,6 +469,7 @@ static herr_t H5FD__hermes_close(H5FD_t *_file) {
   dump_vfd_file_stat_yaml(TKR_HELPER_VFD, file->vfd_file_info);
   rm_vfd_file_node(TKR_HELPER_VFD, _file);
   /* custom VFD code end */
+#endif
 
 #ifdef USE_HERMES
   auto fs_api = HERMES_POSIX_FS;
@@ -640,11 +651,13 @@ static herr_t H5FD__hermes_read(H5FD_t *_file, H5FD_mem_t type,
     // TODO(llogan)
   }
 
+#ifdef ENABLE_VFD_TRACE
   /* custom VFD code start */
   unsigned long t_end = get_time_usec();
   read_write_info_update("H5FD__hermes_read", file->filename_, file->my_fapl_id ,_file,
     type, dxpl_id, addr, size, file->page_size, t_start, t_end);
   /* custom VFD code end */
+#endif
 
   return ret_value;
 } /* end H5FD__hermes_read() */
@@ -684,7 +697,7 @@ static herr_t H5FD__hermes_write(H5FD_t *_file, H5FD_mem_t type,
     // TODO(llogan)
   }
   
-  
+#ifdef ENABLE_VFD_TRACE
   /* custom VFD code start */
   unsigned long t_end = get_time_usec();
   read_write_info_update("H5FD__hermes_write", file->filename_, file->my_fapl_id ,_file,
@@ -692,8 +705,8 @@ static herr_t H5FD__hermes_write(H5FD_t *_file, H5FD_mem_t type,
   // print_read_write_info("H5FD__hermes_write", file->filename_, file->my_fapl_id ,_file,
   //   type, dxpl_id, addr, size, file->page_size, t_start, t_end);
   
-
   /* custom VFD code end */
+#endif
 
   return ret_value;
 } /* end H5FD__hermes_write() */
