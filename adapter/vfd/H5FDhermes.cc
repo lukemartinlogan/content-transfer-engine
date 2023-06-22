@@ -56,6 +56,8 @@
  * */
 #define USE_HERMES
 
+
+
 #define H5FD_HERMES (H5FD_hermes_init())
 /* HDF5 doesn't currently have a driver init callback. Use
  * macro to initialize driver if loaded as a plugin.
@@ -98,6 +100,29 @@ using hermes::adapter::fs::File;
 extern "C" {
 #endif
 
+/* The description of a file/bucket belonging to this driver. */
+typedef struct H5FD_hermes_t {
+  H5FD_t         pub;         /* public stuff, must be first           */
+  haddr_t        eoa;         /* end of allocated region               */
+  haddr_t        eof;         /* end of file; current file size        */
+  haddr_t        pos;         /* current file I/O position             */
+  int            op;          /* last operation                        */
+  int            fd;          /* the filesystem file descriptor        */
+  char           *filename_;  /* the name of the file */
+  unsigned       flags;       /* The flags passed from H5Fcreate/H5Fopen */
+
+#ifdef ENABLE_VFD_TRACE
+  /* custom VFD code start */
+  hbool_t        logStat; /* write I/O stats to yaml file           */
+  size_t         page_size;   /* page size */
+  hid_t          my_fapl_id;     /* file access property list ID */
+  vfd_tkr_helper_t *vfd_tkr_helper; /* pointer shared among all layers, one per process. */
+  vfd_file_tkr_info_t * vfd_file_info; /* file info */
+
+  /* custom VFD code end */
+#endif
+
+} H5FD_hermes_t;
 
 
 
@@ -455,16 +480,15 @@ H5FD__hermes_open(const char *name, unsigned flags, hid_t fapl_id,
  *-------------------------------------------------------------------------
  */
 static herr_t H5FD__hermes_close(H5FD_t *_file) {
-  unsigned long t_start = get_time_usec();
+
   H5FD_hermes_t *file = (H5FD_hermes_t *)_file;
   herr_t ret_value = SUCCEED; /* Return value */
   assert(file);
 
 #ifdef ENABLE_VFD_TRACE
   /* custom VFD code start */
-  unsigned long t_end = get_time_usec();
-  open_close_info_update("H5FD__hermes_open", file, file->eof, file->flags, t_start, t_end);
-  // print_open_close_info("H5FD__hermes_close", file, file->filename_, t_start, get_time_usec(), file->eof, file->flags);
+  unsigned long t_start = get_time_usec();
+  open_close_info_update("H5FD__hermes_open", file, file->eof, file->flags, t_start, get_time_usec());
   std::cout << "File close and write to : " << TKR_HELPER_VFD->tkr_file_path << std::endl;
   dump_vfd_file_stat_yaml(TKR_HELPER_VFD, file->vfd_file_info);
   rm_vfd_file_node(TKR_HELPER_VFD, _file);
@@ -628,7 +652,10 @@ static haddr_t H5FD__hermes_get_eof(const H5FD_t *_file,
 static herr_t H5FD__hermes_read(H5FD_t *_file, H5FD_mem_t type,
                                 hid_t dxpl_id, haddr_t addr,
                                 size_t size, void *buf) {
+#ifdef ENABLE_VFD_TRACE
   unsigned long t_start = get_time_usec();
+#endif
+
   (void) dxpl_id; (void) type;
   H5FD_hermes_t *file = (H5FD_hermes_t *)_file;
   herr_t ret_value = SUCCEED;
@@ -679,7 +706,10 @@ static herr_t H5FD__hermes_read(H5FD_t *_file, H5FD_mem_t type,
 static herr_t H5FD__hermes_write(H5FD_t *_file, H5FD_mem_t type,
                                  hid_t dxpl_id, haddr_t addr,
                                  size_t size, const void *buf) {
+#ifdef ENABLE_VFD_TRACE
   unsigned long t_start = get_time_usec();
+#endif
+
   (void) dxpl_id; (void) type;
   H5FD_hermes_t *file = (H5FD_hermes_t *)_file;
   herr_t ret_value = SUCCEED;
