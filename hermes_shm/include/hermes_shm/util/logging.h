@@ -78,6 +78,14 @@ namespace hshm {
   }
 
 /**
+ * Hermes Info Custom (HIC) Log
+ * */
+#define HICLOG(LOG_LEVEL, ...) \
+  if constexpr(LOG_LEVEL <= HERMES_LOG_VERBOSITY) { \
+    HERMES_LOG->ExecuteCustomPrint([&]() { __VA_ARGS__; }); \
+  }
+
+/**
  * Hermes Error (HE) Log
  * LOG_LEVEL indicates the priority of the log.
  * LOG_LEVEL 0 is considered required
@@ -121,6 +129,12 @@ class Logger {
     if (verbosity_ < 0) {
       verbosity_ = 0;
     }
+  }
+
+  /** allow using custom print function for debug*/
+  template <typename Func>
+  void ExecuteCustomPrint(Func&& function) {
+    function();
   }
 
   template<typename ...Args>
