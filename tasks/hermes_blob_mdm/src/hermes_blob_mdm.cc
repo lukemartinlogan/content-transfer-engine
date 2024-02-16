@@ -629,7 +629,7 @@ class Server : public TaskLib {
     while (!stat_queue_->pop(stat).IsNull()) {
       task->stats_->emplace_back(stat);
     }
-    task->SetMogiduleComplete();
+    task->SetModuleComplete();
   }
   void MonitorParseAccessPattern(u32 mode, ParseAccessPatternTask *task, RunContext &rctx) {
   }
