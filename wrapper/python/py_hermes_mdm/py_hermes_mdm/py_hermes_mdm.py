@@ -66,6 +66,16 @@ class MetadataSnapshot:
                 tag_info['blobs'] = tag_to_blob[tag_info['id']]
             self.tag_info.append(tag_info)
 
+class AccessPatternLog:
+    def __init__(self):
+        TRANSPARENT_HERMES()
+        self.hermes = Hermes()
+        self.stats = []
+
+    def collect(self):
+        access_pattern = self.hermes.ParseAccessPattern()
+        self.stats = list(access_pattern)
+
 # mdm = MetadataSnapshot()
 # mdm.collect()
 # print('Done')
