@@ -20,6 +20,9 @@ typedef std::unordered_map<hshm::charbuf, BlobId> BLOB_ID_MAP_T;
 typedef std::unordered_map<BlobId, BlobInfo> BLOB_MAP_T;
 typedef hipc::mpsc_queue<IoStat> IO_PATTERN_LOG_T;
 
+#define HERMES_MAX_STAT_LOG 1000000
+#define HERMES_MAX_STAT_LOG_WORRY 800000
+
 class Server : public TaskLib {
  public:
   /**====================================
@@ -53,6 +56,7 @@ class Server : public TaskLib {
   data_stager::Client stager_mdm_;
   data_op::Client op_mdm_;
   LPointer<FlushDataTask> flush_task_;
+  hipc::uptr<hrun::mpsc_queue<AccessInfo>> stat_queue_;
 
  public:
   Server() = default;
@@ -64,6 +68,8 @@ class Server : public TaskLib {
     // Initialize blob maps
     blob_id_map_.resize(HRUN_QM_RUNTIME->max_lanes_);
     blob_map_.resize(HRUN_QM_RUNTIME->max_lanes_);
+    stat_queue_ = hipc::make_uptr<hrun::mpsc_queue<AccessInfo>>(
+        HERMES_MAX_STAT_LOG);
     // Initialize targets
     target_tasks_.reserve(HERMES_SERVER_CONF.devices_.size());
     for (DeviceInfo &dev : HERMES_SERVER_CONF.devices_) {
@@ -354,6 +360,19 @@ class Server : public TaskLib {
     blob_info.score_ = task->score_;
     blob_info.user_score_ = task->score_;
 
+    // Log the access
+    if (stat_queue_->GetSize() >= HERMES_MAX_STAT_LOG_WORRY) {
+      stat_queue_->pop();
+    }
+    stat_queue_->emplace(AccessInfo{
+        task->tag_id_,
+        task->blob_id_,
+        task->score_,
+        blob_info.name_.str(),
+        task->blob_off_,
+        task->data_size_,
+        blob_info.blob_size_});
+
     // Stage Blob
     if (task->flags_.Any(HERMES_SHOULD_STAGE) && blob_info.last_flush_ == 0) {
       HILOG(kDebug, "This file has not yet been flushed");
@@ -541,6 +560,19 @@ class Server : public TaskLib {
       HRUN_CLIENT->DelTask(stage_task);
     }
 
+    // Log the access
+    if (stat_queue_->GetSize() >= HERMES_MAX_STAT_LOG_WORRY) {
+      stat_queue_->pop();
+    }
+    stat_queue_->emplace(AccessInfo{
+        task->tag_id_,
+        task->blob_id_,
+        blob_info.score_,
+        blob_info.name_.str(),
+        task->blob_off_,
+        task->data_size_,
+        blob_info.blob_size_});
+
     // Read blob from buffers
     std::vector<bdev::ReadTask*> read_tasks;
     read_tasks.reserve(blob_info.buffers_.size());
@@ -586,6 +618,20 @@ class Server : public TaskLib {
     task->SetModuleComplete();
   }
   void MonitorGetBlob(u32 mode, GetBlobTask *task, RunContext &rctx) {
+  }
+
+  /**
+   * Parse the statistics log
+   * */
+  void ParseAccessPattern(ParseAccessPatternTask *task, RunContext &rctx) {
+    AccessInfo stat;
+    task->stats_->reserve(HERMES_MAX_STAT_LOG);
+    while (!stat_queue_->pop(stat).IsNull()) {
+      task->stats_->emplace_back(stat);
+    }
+    task->SetMogiduleComplete();
+  }
+  void MonitorParseAccessPattern(u32 mode, ParseAccessPatternTask *task, RunContext &rctx) {
   }
 
   /**

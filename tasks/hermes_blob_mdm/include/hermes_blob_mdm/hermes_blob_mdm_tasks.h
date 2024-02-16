@@ -1457,6 +1457,47 @@ struct PollTargetMetadataTask : public Task, TaskFlags<TF_SRL_SYM_START | TF_SRL
   }
 };
 
+/** A task to collect blob metadata */
+struct ParseAccessPatternTask : public Task, TaskFlags<TF_LOCAL> {
+  OUT hipc::ShmArchive<hipc::vector<AccessInfo>> stats_;
+
+  /** SHM default constructor */
+  HSHM_ALWAYS_INLINE explicit
+  ParseAccessPatternTask(hipc::Allocator *alloc) : Task(alloc) {
+    HSHM_MAKE_AR0(stats_, alloc)
+  }
+
+  /** Emplace constructor */
+  HSHM_ALWAYS_INLINE explicit
+  ParseAccessPatternTask(hipc::Allocator *alloc,
+                         const TaskNode &task_node,
+                         const DomainId &domain_id,
+                         const TaskStateId &state_id) : Task(alloc) {
+    // Initialize task
+    task_node_ = task_node;
+    lane_hash_ = 0;
+    prio_ = TaskPrio::kLowLatency;
+    task_state_ = state_id;
+    method_ = Method::kPollTargetMetadata;
+    task_flags_.SetBits(TASK_COROUTINE);
+    domain_id_ = domain_id;
+
+    // Custom params
+    HSHM_MAKE_AR0(stats_, alloc)
+  }
+
+  /** Destructor */
+  ~ParseAccessPatternTask() {
+    HSHM_DESTROY_AR(stats_)
+  }
+
+  /** Create group */
+  HSHM_ALWAYS_INLINE
+  u32 GetGroup(hshm::charbuf &group) {
+    return TASK_UNORDERED;
+  }
+};
+
 }  // namespace hermes::blob_mdm
 
 #endif //HRUN_TASKS_HERMES_BLOB_MDM_INCLUDE_HERMES_BLOB_MDM_HERMES_BLOB_MDM_TASKS_H_

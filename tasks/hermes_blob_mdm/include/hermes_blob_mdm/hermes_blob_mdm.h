@@ -472,6 +472,27 @@ class Client : public TaskLibClient {
     return target_mdms;
   }
   HRUN_TASK_NODE_PUSH_ROOT(PollTargetMetadata);
+
+  /**
+  * Get all target metadata
+  * */
+  void AsyncParseAccessPatternConstruct(ParseAccessPatternTask *task,
+                                        const TaskNode &task_node,
+                                        const DomainId &domain_id) {
+    HRUN_CLIENT->ConstructTask<ParseAccessPatternTask>(
+        task, task_node, domain_id, id_);
+  }
+  std::vector<AccessInfo> ParseAccessPatternRoot() {
+    LPointer<hrunpq::TypedPushTask<ParseAccessPatternTask>> push_task =
+        AsyncParseAccessPatternRoot(DomainId::GetLocal());
+    push_task->Wait();
+    ParseAccessPatternTask *task = push_task->get();
+    std::vector<AccessInfo> stats =
+        task->stats_->vec();
+    HRUN_CLIENT->DelTask(push_task);
+    return stats;
+  }
+  HRUN_TASK_NODE_PUSH_ROOT(ParseAccessPattern);
 };
 
 }  // namespace hrun

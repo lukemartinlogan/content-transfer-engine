@@ -268,6 +268,22 @@ struct BufferInfo {
   }
 };
 
+/** Log of access pattern stats */
+struct AccessInfo {
+  TagId tag_id_;
+  BlobId blob_id_;
+  float score_;
+  std::string blob_name_;
+  size_t acc_off_;
+  size_t acc_size_;
+  size_t blob_size_;
+
+  template<typename Ar>
+  void serialize(Ar &ar) {
+    ar(tag_id_, blob_id_, score_, blob_name_, acc_off_, acc_size_, blob_size_);
+  }
+};
+
 /** Data structure used to store Blob information */
 struct BlobInfo {
   TagId tag_id_;    /**< Tag the blob is on */

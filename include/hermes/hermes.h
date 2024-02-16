@@ -45,6 +45,11 @@ class Hermes {
     return HERMES_CONF->bkt_mdm_.GetTagIdRoot(hshm::to_charbuf(tag_name));
   }
 
+  /** Get the stats log */
+  std::vector<AccessInfo> ParseAccessPattern() {
+    return HERMES_CONF->blob_mdm_.ParseAccessPatternRoot();
+  }
+
   /** Collect a snapshot of all metadata in Hermes */
   MetadataTable CollectMetadataSnapshot() {
     MetadataTable table;
