@@ -625,10 +625,12 @@ class Server : public TaskLib {
    * */
   void ParseAccessPattern(ParseAccessPatternTask *task, RunContext &rctx) {
     AccessInfo stat;
-    task->stats_->reserve(HERMES_MAX_STAT_LOG);
+    std::vector<AccessInfo> stats;
+    stats.reserve(HERMES_MAX_STAT_LOG);
     while (!stat_queue_->pop(stat).IsNull()) {
-      task->stats_->emplace_back(stat);
+      stats.emplace_back(stat);
     }
+    task->SerializeStats(stats);
     task->SetModuleComplete();
   }
   void MonitorParseAccessPattern(u32 mode, ParseAccessPatternTask *task, RunContext &rctx) {

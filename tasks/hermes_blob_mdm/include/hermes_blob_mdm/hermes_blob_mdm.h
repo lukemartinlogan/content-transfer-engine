@@ -483,13 +483,15 @@ class Client : public TaskLibClient {
         task, task_node, domain_id, id_);
   }
   std::vector<AccessInfo> ParseAccessPatternRoot() {
+    HILOG(kDebug, "Begin access pattern");
     LPointer<hrunpq::TypedPushTask<ParseAccessPatternTask>> push_task =
         AsyncParseAccessPatternRoot(DomainId::GetLocal());
     push_task->Wait();
     ParseAccessPatternTask *task = push_task->get();
     std::vector<AccessInfo> stats =
-        task->stats_->vec();
+        task->DeserializeStats();
     HRUN_CLIENT->DelTask(push_task);
+    HILOG(kDebug, "Got access pattern: {}", stats.size());
     return stats;
   }
   HRUN_TASK_NODE_PUSH_ROOT(ParseAccessPattern);

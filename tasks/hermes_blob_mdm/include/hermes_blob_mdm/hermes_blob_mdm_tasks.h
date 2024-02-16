@@ -1459,7 +1459,7 @@ struct PollTargetMetadataTask : public Task, TaskFlags<TF_SRL_SYM_START | TF_SRL
 
 /** A task to collect blob metadata */
 struct ParseAccessPatternTask : public Task, TaskFlags<TF_LOCAL> {
-  OUT hipc::ShmArchive<hipc::vector<AccessInfo>> stats_;
+  OUT hipc::ShmArchive<hipc::string> stats_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
@@ -1478,12 +1478,29 @@ struct ParseAccessPatternTask : public Task, TaskFlags<TF_LOCAL> {
     lane_hash_ = 0;
     prio_ = TaskPrio::kLowLatency;
     task_state_ = state_id;
-    method_ = Method::kPollTargetMetadata;
-    task_flags_.SetBits(TASK_COROUTINE);
+    method_ = Method::kParseAccessPattern;
+    task_flags_.SetBits(0);
     domain_id_ = domain_id;
 
     // Custom params
     HSHM_MAKE_AR0(stats_, alloc)
+  }
+
+  /** Serialize target info */
+  void SerializeStats(const std::vector<AccessInfo> &stats) {
+    std::stringstream ss;
+    cereal::BinaryOutputArchive ar(ss);
+    ar << stats;
+    (*stats_) = ss.str();
+  }
+
+  /** Deserialize target info */
+  std::vector<AccessInfo> DeserializeStats() {
+    std::vector<AccessInfo> stats;
+    std::stringstream ss(stats_->str());
+    cereal::BinaryInputArchive ar(ss);
+    ar >> stats;
+    return stats;
   }
 
   /** Destructor */

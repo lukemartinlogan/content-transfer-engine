@@ -28,15 +28,9 @@ class AccessPatternLog:
         self.stats = [AccessInfo(access_info)
                       for access_info in access_pattern]
 
-class TestHermes(TestCase):
-    def test_metadata_query(self):
-        TRANSPARENT_HERMES()
-        hermes = Hermes()
-        mdm = hermes.CollectMetadataSnapshot()
-        print(mdm.blob_info)
-        print("Done")
 
-    def test_access_log(self):
-        mdm = AccessPatternLog()
-        mdm.collect()
-        print('Done')
+def test_access_log():
+    mdm = AccessPatternLog()
+    mdm.collect()
+
+test_access_log()
