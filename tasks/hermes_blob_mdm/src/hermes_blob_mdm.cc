@@ -371,7 +371,8 @@ class Server : public TaskLib {
         blob_info.name_.str(),
         task->blob_off_,
         task->data_size_,
-        blob_info.blob_size_});
+        blob_info.blob_size_,
+        1});
 
     // Stage Blob
     if (task->flags_.Any(HERMES_SHOULD_STAGE) && blob_info.last_flush_ == 0) {
@@ -571,7 +572,8 @@ class Server : public TaskLib {
         blob_info.name_.str(),
         task->blob_off_,
         task->data_size_,
-        blob_info.blob_size_});
+        blob_info.blob_size_,
+        0});
 
     // Read blob from buffers
     std::vector<bdev::ReadTask*> read_tasks;

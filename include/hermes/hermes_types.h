@@ -277,10 +277,12 @@ struct AccessInfo {
   size_t acc_off_;
   size_t acc_size_;
   size_t blob_size_;
+  int access_type_;
 
   template<typename Ar>
   void serialize(Ar &ar) {
-    ar(tag_id_, blob_id_, score_, blob_name_, acc_off_, acc_size_, blob_size_);
+    ar(tag_id_, blob_id_, score_, blob_name_, acc_off_, acc_size_, blob_size_,
+       access_type_);
   }
 };
 

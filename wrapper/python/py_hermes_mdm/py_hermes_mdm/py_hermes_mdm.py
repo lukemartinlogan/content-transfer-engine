@@ -75,10 +75,11 @@ class AccessInfo:
         self.tag_id_ = self.unique(access_info.tag_id_)
         self.blob_id_ = self.unique(access_info.blob_id_)
         self.score_ = float(access_info.score_)
-        self.blob_name_ = str(access_info.blob_name_)
+        # self.blob_name_ = str(access_info.blob_name_)
         self.acc_off_ = float(access_info.acc_off_)
         self.acc_size_ = float(access_info.acc_size_)
         self.blob_size_ = float(access_info.blob_size_)
+        self.access_type_ = int(access_info.access_type_)
 
 class AccessPatternLog:
     def __init__(self):

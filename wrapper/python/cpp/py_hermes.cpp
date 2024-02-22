@@ -123,7 +123,8 @@ void BindMetadataTable(py::module &m) {
       .def_readwrite("blob_name_", &AccessInfo::blob_name_)
       .def_readwrite("acc_off_", &AccessInfo::acc_off_)
       .def_readwrite("acc_size_", &AccessInfo::acc_size_)
-      .def_readwrite("blob_size_", &AccessInfo::blob_size_);
+      .def_readwrite("blob_size_", &AccessInfo::blob_size_)
+      .def_readwrite("access_type_", &AccessInfo::access_type_);
 }
 
 void BindHermes(py::module &m) {
