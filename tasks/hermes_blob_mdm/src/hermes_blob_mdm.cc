@@ -360,20 +360,6 @@ class Server : public TaskLib {
     blob_info.score_ = task->score_;
     blob_info.user_score_ = task->score_;
 
-    // Log the access
-    if (stat_queue_->GetSize() >= HERMES_MAX_STAT_LOG_WORRY) {
-      stat_queue_->pop();
-    }
-    stat_queue_->emplace(AccessInfo{
-        task->tag_id_,
-        task->blob_id_,
-        task->score_,
-        blob_info.name_.str(),
-        task->blob_off_,
-        task->data_size_,
-        blob_info.blob_size_,
-        1});
-
     // Stage Blob
     if (task->flags_.Any(HERMES_SHOULD_STAGE) && blob_info.last_flush_ == 0) {
       HILOG(kDebug, "This file has not yet been flushed");
@@ -515,6 +501,21 @@ class Server : public TaskLib {
                                 task->blob_off_,
                                 task->data_size_);
     }
+
+    // Log the access
+    if (stat_queue_->GetSize() >= HERMES_MAX_STAT_LOG_WORRY) {
+      stat_queue_->pop();
+    }
+    stat_queue_->emplace(AccessInfo{
+        task->tag_id_,
+        task->blob_id_,
+        task->score_,
+        blob_info.name_.str(),
+        task->blob_off_,
+        task->data_size_,
+        blob_info.blob_size_,
+        1});
+
 
     // Free data
     HILOG(kDebug, "Completing PUT for {}", blob_name.str());
