@@ -1,5 +1,5 @@
 
-from py_hermes import Hermes, TRANSPARENT_HERMES
+from py_hermes import Hermes, TRANSPARENT_HERMES, Bucket
 class MetadataSnapshot:
     def __init__(self):
         TRANSPARENT_HERMES()
@@ -73,7 +73,9 @@ class AccessInfo:
 
     def __init__(self, access_info):
         self.tag_id_ = self.unique(access_info.tag_id_)
+        self.tag_id_real_ = self.unique(access_info.tag_id_real_)
         self.blob_id_ = self.unique(access_info.blob_id_)
+        self.blob_id_real_ = access_info.blob_id_
         self.score_ = float(access_info.score_)
         # self.blob_name_ = str(access_info.blob_name_)
         self.acc_off_ = float(access_info.acc_off_)
@@ -91,6 +93,12 @@ class AccessPatternLog:
         access_pattern = self.hermes.ParseAccessPattern()
         self.stats = [AccessInfo(access_info)
                       for access_info in access_pattern]
+
+    @staticmethod
+    def reorganize(tag_id_real, blob_id_real, score):
+        bkt = Bucket(tag_id_real)
+        bkt.reorganize_blob(blob_id_real, score)
+
 
 # mdm = MetadataSnapshot()
 # mdm.collect()
