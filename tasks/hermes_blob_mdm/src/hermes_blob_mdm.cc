@@ -909,6 +909,7 @@ class Server : public TaskLib {
   void ReorganizeBlob(ReorganizeBlobTask *task, RunContext &rctx) {
     switch (task->phase_) {
       case ReorganizeBlobPhase::kGet: {
+        HILOG(kDebug, "Reorganizing blob")
         hshm::charbuf blob_name = hshm::to_charbuf(*task->blob_name_);
         if (task->blob_id_.IsNull()) {
           bitfield32_t flags;
