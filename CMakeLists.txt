@@ -111,6 +111,7 @@ message(STATUS "found hermes_shm.h at ${HermesShm_INCLUDE_DIRS}")
 # Chimaera
 find_package(Chimaera CONFIG REQUIRED)
 message(STATUS "found chimaera at ${Chimaera_INCLUDE_DIRS}")
+include_directories(${Chimaera_INCLUDE_DIRS})
 
 # YAML-CPP
 find_package(yaml-cpp REQUIRED)
