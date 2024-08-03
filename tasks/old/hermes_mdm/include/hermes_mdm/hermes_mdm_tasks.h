@@ -15,11 +15,11 @@
 
 namespace hermes::mdm {
 
-#include "hermes_mdm_methods.h"
+#include "hermes_core_methods.h"
 #include "chimaera/chimaera_namespace.h"
 
 /**
- * A task to create hermes_mdm
+ * A task to create hermes_core
  * */
 using chi::Admin::CreateTaskStateTask;
 struct ConstructTask : public CreateTaskStateTask {
@@ -35,11 +35,11 @@ struct ConstructTask : public CreateTaskStateTask {
                 const TaskNode &task_node,
                 const DomainId &domain_id,
                 const std::string &state_name,
-                const TaskStateId &id,
+                const PoolId &id,
                 const std::vector<PriorityInfo> &queue_info,
                 const std::string &server_config_path = "")
       : CreateTaskStateTask(alloc, task_node, domain_id, state_name,
-                            "hermes_mdm", id, queue_info) {
+                            "hermes_core", id, queue_info) {
     // Custom params
     HSHM_MAKE_AR(server_config_path_, alloc, server_config_path);
     std::stringstream ss;
@@ -63,7 +63,7 @@ struct ConstructTask : public CreateTaskStateTask {
   }
 };
 
-/** A task to destroy hermes_mdm */
+/** A task to destroy hermes_core */
 using chi::Admin::DestroyTaskStateTask;
 struct DestructTask : public DestroyTaskStateTask {
   /** SHM default constructor */
@@ -75,7 +75,7 @@ struct DestructTask : public DestroyTaskStateTask {
   DestructTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
                const DomainId &domain_id,
-               const TaskStateId &state_id)
+               const PoolId &state_id)
       : DestroyTaskStateTask(alloc, task_node, domain_id, state_id) {}
 
   /** Create group */

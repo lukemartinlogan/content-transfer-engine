@@ -15,7 +15,7 @@
 
 namespace hermes::posix_bdev {
 
-class Server : public TaskLib, public bdev::Server {
+class Server : public Module, public bdev::Server {
  public:
   SlabAllocator alloc_;
   int fd_;

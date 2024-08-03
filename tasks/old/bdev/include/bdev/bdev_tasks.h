@@ -21,7 +21,7 @@ namespace hermes::bdev {
 #include "chimaera/chimaera_namespace.h"
 
 /**
- * A task to create hermes_mdm
+ * A task to create hermes_core
  * */
 using chi::Admin::CreateTaskStateTask;
 struct ConstructTask : public CreateTaskStateTask {
@@ -38,7 +38,7 @@ struct ConstructTask : public CreateTaskStateTask {
                 const DomainId &domain_id,
                 const std::string &state_name,
                 const std::string &lib_name,
-                const TaskStateId &id,
+                const PoolId &id,
                 const std::vector<PriorityInfo> &queue_info,
                 DeviceInfo &info)
       : CreateTaskStateTask(alloc, task_node, domain_id, state_name,
@@ -48,7 +48,7 @@ struct ConstructTask : public CreateTaskStateTask {
   }
 };
 
-/** A task to destroy hermes_mdm */
+/** A task to destroy hermes_core */
 using chi::Admin::DestroyTaskStateTask;
 struct DestructTask : public DestroyTaskStateTask {
   /** SHM default constructor */
@@ -59,7 +59,7 @@ struct DestructTask : public DestroyTaskStateTask {
   HSHM_ALWAYS_INLINE explicit
   DestructTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
-               TaskStateId &state_id,
+               PoolId &state_id,
                const DomainId &domain_id)
       : DestroyTaskStateTask(alloc, task_node, domain_id, state_id) {}
 
@@ -88,7 +88,7 @@ struct AllocateTask : public Task, TaskFlags<TF_LOCAL> {
   AllocateTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
                const DomainId &domain_id,
-               const TaskStateId &state_id,
+               const PoolId &state_id,
                size_t size,
                float score,
                std::vector<BufferInfo> *buffers) : Task(alloc) {
@@ -130,7 +130,7 @@ struct FreeTask : public Task, TaskFlags<TF_LOCAL> {
   FreeTask(hipc::Allocator *alloc,
            const TaskNode &task_node,
            const DomainId &domain_id,
-           const TaskStateId &state_id,
+           const PoolId &state_id,
            float score,
            const std::vector<BufferInfo> &buffers,
            bool fire_and_forget) : Task(alloc) {
@@ -177,7 +177,7 @@ struct WriteTask : public Task, TaskFlags<TF_LOCAL> {
   WriteTask(hipc::Allocator *alloc,
             const TaskNode &task_node,
             const DomainId &domain_id,
-            const TaskStateId &state_id,
+            const PoolId &state_id,
             const char *buf,
             size_t disk_off,
             size_t size) : Task(alloc) {
@@ -228,7 +228,7 @@ struct ReadTask : public Task, TaskFlags<TF_LOCAL> {
   ReadTask(hipc::Allocator *alloc,
            const TaskNode &task_node,
            const DomainId &domain_id,
-           const TaskStateId &state_id,
+           const PoolId &state_id,
            char *buf,
            size_t disk_off,
            size_t size) : Task(alloc) {
@@ -274,7 +274,7 @@ struct StatBdevTask : public Task, TaskFlags<TF_LOCAL> {
   StatBdevTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
                const DomainId &domain_id,
-               const TaskStateId &state_id,
+               const PoolId &state_id,
                size_t freq_ms,
                size_t rem_cap) : Task(alloc) {
     // Initialize task
@@ -313,7 +313,7 @@ struct UpdateScoreTask : public Task, TaskFlags<TF_LOCAL> {
   UpdateScoreTask(hipc::Allocator *alloc,
                   const TaskNode &task_node,
                   const DomainId &domain_id,
-                  const TaskStateId &state_id,
+                  const PoolId &state_id,
                   float old_score, float new_score) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;

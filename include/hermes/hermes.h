@@ -17,11 +17,11 @@
 
 namespace hermes {
 
-struct MetadataTable {
-  std::vector<BlobInfo> blob_info_;
-  std::vector<TargetStats> target_info_;
-  std::vector<TagInfo> bkt_info_;
-};
+//struct MetadataTable {
+//  std::vector<BlobInfo> blob_info_;
+//  std::vector<TargetStats> target_info_;
+//  std::vector<TagInfo> bkt_info_;
+//};
 
 class Hermes {
  public:
@@ -41,31 +41,31 @@ class Hermes {
   }
 
   /** Get tag ID */
-  TagId GetTagId(const std::string &tag_name) {
-    return HERMES_CONF->bkt_mdm_.GetTagIdRoot(hshm::to_charbuf(tag_name));
-  }
-
-  /** Collect a snapshot of all metadata in Hermes */
-  MetadataTable CollectMetadataSnapshot() {
-    MetadataTable table;
-    table.blob_info_ = HERMES_CONF->blob_mdm_.PollBlobMetadataRoot();
-    table.target_info_ = HERMES_CONF->blob_mdm_.PollTargetMetadataRoot();
-    table.bkt_info_ = HERMES_CONF->bkt_mdm_.PollTagMetadataRoot();
-    return table;
-  }
-
-  /** Get or create a bucket */
-  hermes::Bucket GetBucket(const std::string &path,
-                           Context ctx = Context(),
-                           size_t backend_size = 0,
-                           u32 flags = 0) {
-    return hermes::Bucket(path, ctx, backend_size, flags);
-  }
-
-  /** Register an operation graph */
-  void RegisterOp(hermes::data_op::OpGraph &op_graph) {
-    HERMES_CONF->op_mdm_.RegisterOpRoot(op_graph);
-  }
+//  TagId GetTagId(const std::string &tag_name) {
+//    return HERMES_CONF->bkt_mdm_.GetTagId(hshm::to_charbuf(tag_name));
+//  }
+//
+//  /** Collect a snapshot of all metadata in Hermes */
+//  MetadataTable CollectMetadataSnapshot() {
+//    MetadataTable table;
+//    table.blob_info_ = HERMES_CONF->blob_mdm_.PollBlobMetadata();
+//    table.target_info_ = HERMES_CONF->blob_mdm_.PollTargetMetadata();
+//    table.bkt_info_ = HERMES_CONF->bkt_mdm_.PollTagMetadata();
+//    return table;
+//  }
+//
+//  /** Get or create a bucket */
+//  hermes::Bucket GetBucket(const std::string &path,
+//                           Context ctx = Context(),
+//                           size_t backend_size = 0,
+//                           u32 flags = 0) {
+//    return hermes::Bucket(path, ctx, backend_size, flags);
+//  }
+//
+//  /** Register an operation graph */
+//  void RegisterOp(hermes::data_op::OpGraph &op_graph) {
+//    HERMES_CONF->op_mdm_.RegisterOp(op_graph);
+//  }
 
   /** Clear all data from hermes */
   void Clear() {

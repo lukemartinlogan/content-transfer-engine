@@ -249,35 +249,26 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 link_directories(${HermesShm_LIBRARY_DIRS})
 # Task includes
 include_directories(${CMAKE_SOURCE_DIR}/tasks)
-include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes/include)
-#include_directories(${CMAKE_SOURCE_DIR}/tasks/bdev/include)
-#include_directories(${CMAKE_SOURCE_DIR}/tasks/ram_bdev/include)
-#include_directories(${CMAKE_SOURCE_DIR}/tasks/posix_bdev/include)
-#include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_mdm/include)
-#include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_blob_mdm/include)
-#include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_bucket_mdm/include)
-#include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_adapters/include)
-#include_directories(${CMAKE_SOURCE_DIR}/tasks/data_stager/include)
-#include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_data_op/include)
+include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_core/include)
 # Test includes
 include_directories(${CMAKE_SOURCE_DIR}/test/unit)
 
-set(Hermes_CLIENT_LIBRARIES
+set(_Hermes_CLIENT_LIBRARIES
         ${HermesShm_LIBRARIES}
+        ${Chimaera_CLIENT_LIBRARIES}
         yaml-cpp
         cereal::cereal
         -ldl -lrt -lc -pthread)
-set(Hermes_RUNTIME_LIBRARIES
-        ${Hermes_CLIENT_LIBRARIES}
-        ${Chimaera_CLIENT_LIBRARIES}
-        ${Boost_LIBRARIES})
-set(Hermes_RUNTIME_DEPS "")
+set(Hermes_CLIENT_LIBRARIES
+        ${_Hermes_CLIENT_LIBRARIES}
+        hermes)
 
 set(TEST_MAIN ${CMAKE_SOURCE_DIR}/test/unit)
-add_subdirectory(hermes_adapters)
+add_subdirectory(src)
+# add_subdirectory(hermes_adapters)
 add_subdirectory(tasks)
-add_subdirectory(benchmark)
-add_subdirectory(wrapper)
+# add_subdirectory(benchmark)
+# add_subdirectory(wrapper)
 add_custom_target(lint COMMAND bash ${CMAKE_SOURCE_DIR}/ci/lint.sh ${CMAKE_SOURCE_DIR})
 
 #-----------------------------------------------------------------------------

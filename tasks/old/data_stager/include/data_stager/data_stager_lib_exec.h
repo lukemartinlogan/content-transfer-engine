@@ -71,31 +71,31 @@ void Monitor(u32 mode, Task *task, RunContext &rctx) override {
 void Del(u32 method, Task *task) override {
   switch (method) {
     case Method::kConstruct: {
-      HRUN_CLIENT->DelTask<ConstructTask>(reinterpret_cast<ConstructTask *>(task));
+      CHI_CLIENT->DelTask<ConstructTask>(reinterpret_cast<ConstructTask *>(task));
       break;
     }
     case Method::kDestruct: {
-      HRUN_CLIENT->DelTask<DestructTask>(reinterpret_cast<DestructTask *>(task));
+      CHI_CLIENT->DelTask<DestructTask>(reinterpret_cast<DestructTask *>(task));
       break;
     }
     case Method::kRegisterStager: {
-      HRUN_CLIENT->DelTask<RegisterStagerTask>(reinterpret_cast<RegisterStagerTask *>(task));
+      CHI_CLIENT->DelTask<RegisterStagerTask>(reinterpret_cast<RegisterStagerTask *>(task));
       break;
     }
     case Method::kUnregisterStager: {
-      HRUN_CLIENT->DelTask<UnregisterStagerTask>(reinterpret_cast<UnregisterStagerTask *>(task));
+      CHI_CLIENT->DelTask<UnregisterStagerTask>(reinterpret_cast<UnregisterStagerTask *>(task));
       break;
     }
     case Method::kStageIn: {
-      HRUN_CLIENT->DelTask<StageInTask>(reinterpret_cast<StageInTask *>(task));
+      CHI_CLIENT->DelTask<StageInTask>(reinterpret_cast<StageInTask *>(task));
       break;
     }
     case Method::kStageOut: {
-      HRUN_CLIENT->DelTask<StageOutTask>(reinterpret_cast<StageOutTask *>(task));
+      CHI_CLIENT->DelTask<StageOutTask>(reinterpret_cast<StageOutTask *>(task));
       break;
     }
     case Method::kUpdateSize: {
-      HRUN_CLIENT->DelTask<UpdateSizeTask>(reinterpret_cast<UpdateSizeTask *>(task));
+      CHI_CLIENT->DelTask<UpdateSizeTask>(reinterpret_cast<UpdateSizeTask *>(task));
       break;
     }
   }
@@ -271,37 +271,37 @@ TaskPointer LoadStart(u32 method, BinaryInputArchive<true> &ar) override {
   TaskPointer task_ptr;
   switch (method) {
     case Method::kConstruct: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<ConstructTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<ConstructTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<ConstructTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kDestruct: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<DestructTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<DestructTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<DestructTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kRegisterStager: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<RegisterStagerTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<RegisterStagerTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<RegisterStagerTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kUnregisterStager: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<UnregisterStagerTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<UnregisterStagerTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<UnregisterStagerTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kStageIn: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<StageInTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<StageInTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<StageInTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kStageOut: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<StageOutTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<StageOutTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<StageOutTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kUpdateSize: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<UpdateSizeTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<UpdateSizeTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<UpdateSizeTask*>(task_ptr.ptr_);
       break;
     }

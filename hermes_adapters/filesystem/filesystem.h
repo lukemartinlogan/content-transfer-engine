@@ -29,7 +29,7 @@
 #include "filesystem_mdm.h"
 #include "filesystem_io_client.h"
 #include "hermes_adapters/mapper/mapper_factory.h"
-#include "data_stager/factory/binary_stager.h"
+#include "hermes/staging/binary_stager.h"
 #include <filesystem>
 
 
@@ -195,7 +195,7 @@ class Filesystem : public FilesystemIoClient {
   template<bool ASYNC>
   size_t BaseRead(File &f, AdapterStat &stat, void *ptr, size_t off,
                   size_t total_size, size_t req_id,
-                  std::vector<LPointer<hrunpq::TypedPushTask<GetBlobTask>>> &tasks,
+                  std::vector<LPointer<GetBlobTask>> &tasks,
                   IoStatus &io_status, FsIoOptions opts = FsIoOptions()) {
     (void) f;
     hapi::Bucket &bkt = stat.bkt_id_;
@@ -252,7 +252,7 @@ class Filesystem : public FilesystemIoClient {
       Blob page((const char*)ptr + data_offset, p.blob_size_);
       std::string blob_name(p.CreateBlobName().str());
       if constexpr (ASYNC) {
-        LPointer<hrunpq::TypedPushTask<GetBlobTask>> task =
+        LPointer<GetBlobTask> task =
             bkt.AsyncPartialGet(blob_name, page, p.blob_off_, ctx);
         tasks.emplace_back(task);
       } else {
@@ -276,7 +276,7 @@ class Filesystem : public FilesystemIoClient {
   size_t Read(File &f, AdapterStat &stat, void *ptr,
               size_t off, size_t total_size,
               IoStatus &io_status, FsIoOptions opts = FsIoOptions()) {
-    std::vector<LPointer<hrunpq::TypedPushTask<GetBlobTask>>> tasks;
+    std::vector<LPointer<GetBlobTask>> tasks;
     return BaseRead<false>(f, stat, ptr, off, total_size, 0, tasks, io_status, opts);
   }
 
@@ -305,19 +305,18 @@ class Filesystem : public FilesystemIoClient {
 
   /** wait for \a req_id request ID */
   size_t Wait(FsAsyncTask *fstask) {
-    for (LPointer<hrunpq::TypedPushTask<PutBlobTask>> &push_task : fstask->put_tasks_) {
-      push_task->Wait();
-      HRUN_CLIENT->DelTask(push_task);
+    for (LPointer<PutBlobTask> &task : fstask->put_tasks_) {
+      task->Wait();
+      CHI_CLIENT->DelTask(task);
     }
 
     // Update I/O status for gets
     if (!fstask->get_tasks_.empty()) {
       size_t get_size = 0;
-      for (LPointer<hrunpq::TypedPushTask<GetBlobTask>> &push_task : fstask->get_tasks_) {
-        push_task->Wait();
-        GetBlobTask *task = push_task->get();
+      for (LPointer<GetBlobTask> &task : fstask->get_tasks_) {
+        task->Wait();
         get_size += task->data_size_;
-        HRUN_CLIENT->DelTask(task);
+        CHI_CLIENT->DelTask(task);
       }
       fstask->io_status_.size_ = get_size;
       UpdateIoStatus(fstask->opts_, fstask->io_status_);
@@ -394,7 +393,7 @@ class Filesystem : public FilesystemIoClient {
     if (HERMES_CLIENT_CONF.flushing_mode_ == FlushingMode::kSync) {
       // NOTE(llogan): only for the unit tests
       // Please don't enable synchronous flushing
-      CHI_ADMIN->FlushRoot(DomainId::GetGlobal());
+      CHI_ADMIN->Flush(chi::DomainQuery::GetGlobalBcast());
     }
     return 0;
   }

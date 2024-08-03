@@ -15,7 +15,6 @@
 #include "chimaera_admin/chimaera_admin.h"
 #include "hermes/hermes.h"
 #include "hermes/bucket.h"
-#include "data_stager/factory/binary_stager.h"
 #include <mpi.h>
 
 TEST_CASE("TestHermesPaths") {

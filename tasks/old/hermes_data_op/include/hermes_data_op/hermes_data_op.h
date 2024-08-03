@@ -10,7 +10,7 @@
 namespace hermes::data_op {
 
 /** Create hermes_data_op requests */
-class Client : public TaskLibClient {
+class Client : public ModuleClient {
 
  public:
   /** Default constructor */
@@ -24,10 +24,10 @@ class Client : public TaskLibClient {
   LPointer<ConstructTask> AsyncCreate(const TaskNode &task_node,
                                       const DomainId &domain_id,
                                       const std::string &state_name,
-                                      TaskStateId &bkt_mdm_id,
-                                      TaskStateId &blob_mdm_id) {
-    id_ = TaskStateId::GetNull();
-    QueueManagerInfo &qm = HRUN_CLIENT->server_config_.queue_manager_;
+                                      PoolId &bkt_mdm_id,
+                                      PoolId &blob_mdm_id) {
+    id_ = PoolId::GetNull();
+    QueueManagerInfo &qm = CHI_CLIENT->server_config_.queue_manager_;
     std::vector<PriorityInfo> queue_info;
     return CHI_ADMIN->AsyncCreateTaskState<ConstructTask>(
         task_node, domain_id, state_name, id_, queue_info,
@@ -36,19 +36,19 @@ class Client : public TaskLibClient {
   HRUN_TASK_NODE_ROOT(AsyncCreate)
   template<typename ...Args>
   HSHM_ALWAYS_INLINE
-  void CreateRoot(Args&& ...args) {
+  void Create(Args&& ...args) {
     LPointer<ConstructTask> task =
-        AsyncCreateRoot(std::forward<Args>(args)...);
+        AsyncCreate(std::forward<Args>(args)...);
     task->Wait();
     id_ = task->id_;
     Init(id_, CHI_ADMIN->queue_id_);
-    HRUN_CLIENT->DelTask(task);
+    CHI_CLIENT->DelTask(task);
   }
 
   /** Destroy task state + queue */
   HSHM_ALWAYS_INLINE
-  void DestroyRoot(const DomainId &domain_id) {
-    CHI_ADMIN->DestroyTaskStateRoot(domain_id, id_);
+  void Destroy(const DomainId &domain_id) {
+    CHI_ADMIN->DestroyTaskState(domain_id, id_);
   }
 
   /** Register the OpGraph to perform on data */
@@ -56,16 +56,16 @@ class Client : public TaskLibClient {
   void AsyncRegisterOpConstruct(RegisterOpTask *task,
                                 const TaskNode &task_node,
                                 const OpGraph &op_graph) {
-    HRUN_CLIENT->ConstructTask<RegisterOpTask>(
-        task, task_node, DomainId::GetGlobal(), id_, op_graph);
+    CHI_CLIENT->ConstructTask<RegisterOpTask>(
+        task, task_node, chi::DomainQuery::GetGlobalBcast(), id_, op_graph);
   }
   HSHM_ALWAYS_INLINE
-  void RegisterOpRoot(const OpGraph &op_graph) {
-    LPointer<hrunpq::TypedPushTask<RegisterOpTask>> task =
-        AsyncRegisterOpRoot(op_graph);
+  void RegisterOp(const OpGraph &op_graph) {
+    LPointer<RegisterOpTask> task =
+        AsyncRegisterOp(op_graph);
     task.ptr_->Wait();
   }
-  HRUN_TASK_NODE_PUSH_ROOT(RegisterOp);
+  CHI_TASK_METHODS(RegisterOp);
 
   /** Register data as ready for operations to be performed */
   HSHM_ALWAYS_INLINE
@@ -76,20 +76,20 @@ class Client : public TaskLibClient {
                                   const BlobId &blob_id,
                                   size_t off,
                                   size_t size) {
-    HRUN_CLIENT->ConstructTask<RegisterDataTask>(
+    CHI_CLIENT->ConstructTask<RegisterDataTask>(
         task, task_node, id_, bkt_id,
         blob_name, blob_id, off, size);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(RegisterData);
+  CHI_TASK_METHODS(RegisterData);
 
   /** Async task to run operators */
   HSHM_ALWAYS_INLINE
   void AsyncRunOpConstruct(RunOpTask *task,
                            const TaskNode &task_node) {
-    HRUN_CLIENT->ConstructTask<RunOpTask>(
+    CHI_CLIENT->ConstructTask<RunOpTask>(
         task, task_node, id_);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(RunOp);
+  CHI_TASK_METHODS(RunOp);
 };
 
 }  // namespace hrun

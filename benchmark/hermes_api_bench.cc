@@ -81,7 +81,7 @@ void PutGetTest(int nprocs, int rank, int repeat,
   HILOG(kInfo, "Beginning barrier")
   MPI_Barrier(MPI_COMM_WORLD);
   HILOG(kInfo, "Beginning flushing")
-  CHI_ADMIN->FlushRoot(DomainId::GetGlobal());
+  CHI_ADMIN->Flush(chi::DomainQuery::GetGlobalBcast());
   HILOG(kInfo, "Finished flushing")
   GetTest(nprocs, rank, repeat, blobs_per_rank, blob_size);
 }

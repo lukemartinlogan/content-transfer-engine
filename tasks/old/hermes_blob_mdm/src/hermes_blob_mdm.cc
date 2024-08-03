@@ -20,7 +20,7 @@ typedef std::unordered_map<hshm::charbuf, BlobId> BLOB_ID_MAP_T;
 typedef std::unordered_map<BlobId, BlobInfo> BLOB_MAP_T;
 typedef hipc::mpsc_queue<IoStat> IO_PATTERN_LOG_T;
 
-class Server : public TaskLib {
+class Server : public Module {
  public:
   /**====================================
    * Configuration
@@ -60,7 +60,7 @@ class Server : public TaskLib {
   /** Construct blob mdm and it targets */
   void Construct(ConstructTask *task, RunContext &rctx) {
     id_alloc_ = 0;
-    node_id_ = HRUN_CLIENT->node_id_;
+    node_id_ = CHI_CLIENT->node_id_;
     // Initialize blob maps
     blob_id_map_.resize(HRUN_QM_RUNTIME->max_lanes_);
     blob_map_.resize(HRUN_QM_RUNTIME->max_lanes_);
@@ -80,7 +80,7 @@ class Server : public TaskLib {
       bdev::ConstructTask *create_task = client.AsyncCreate(
           task->task_node_ + 1,
           DomainId::GetLocal(),
-          "hermes_" + dev.dev_name_ + "/" + std::to_string(HRUN_CLIENT->node_id_),
+          "hermes_" + dev.dev_name_ + "/" + std::to_string(CHI_CLIENT->node_id_),
           dev_type,
           dev).ptr_;
       target_tasks_.emplace_back(create_task);
@@ -103,12 +103,12 @@ class Server : public TaskLib {
     }
     for (bdev::Client &client : targets_) {
       target_map_.emplace(client.id_, &client);
-      HILOG(kInfo, "(node {}) Target {} has bw {} and score {}", HRUN_CLIENT->node_id_,
+      HILOG(kInfo, "(node {}) Target {} has bw {} and score {}", CHI_CLIENT->node_id_,
             client.id_, client.bandwidth_, client.bw_score_);
     }
     fallback_target_ = &targets_.back();
     blob_mdm_.Init(id_, CHI_ADMIN->queue_id_);
-    HILOG(kInfo, "(node {}) Created Blob MDM", HRUN_CLIENT->node_id_);
+    HILOG(kInfo, "(node {}) Created Blob MDM", CHI_CLIENT->node_id_);
     task->SetModuleComplete();
   }
   void MonitorConstruct(u32 mode, ConstructTask *task, RunContext &rctx) {
@@ -282,7 +282,7 @@ class Server : public TaskLib {
                                           new_score, false, ctx,
                                           TASK_LOW_LATENCY);
         reorg_task->Wait<TASK_YIELD_CO>(task);
-        HRUN_CLIENT->DelTask(reorg_task);
+        CHI_CLIENT->DelTask(reorg_task);
       }
       blob_info.access_freq_ = 0;
 
@@ -294,7 +294,7 @@ class Server : public TaskLib {
           flush_info.mod_count_ > blob_info.last_flush_) {
         HILOG(kDebug, "Flushing blob {} (mod_count={}, last_flush={})",
               blob_info.blob_id_, flush_info.mod_count_, blob_info.last_flush_);
-        LPointer<char> data = HRUN_CLIENT->AllocateBufferServer<TASK_YIELD_CO>(
+        LPointer<char> data = CHI_CLIENT->AllocateBufferServer<TASK_YIELD_CO>(
             blob_info.blob_size_, task);
         LPointer<GetBlobTask> get_blob =
             blob_mdm_.AsyncGetBlob(task->task_node_ + 1,
@@ -304,7 +304,7 @@ class Server : public TaskLib {
                                    0, blob_info.blob_size_,
                                    data.shm_);
         get_blob->Wait<TASK_YIELD_CO>(task);
-        HRUN_CLIENT->DelTask(get_blob);
+        CHI_CLIENT->DelTask(get_blob);
         flush_info.stage_task_ =
           stager_mdm_.AsyncStageOut(task->task_node_ + 1,
                                     blob_info.tag_id_,
@@ -322,7 +322,7 @@ class Server : public TaskLib {
       BlobInfo &blob_info = *flush_info.blob_info_;
       flush_info.stage_task_->Wait<TASK_YIELD_CO>(task);
       blob_info.last_flush_ = flush_info.mod_count_;
-      HRUN_CLIENT->DelTask(flush_info.stage_task_);
+      CHI_CLIENT->DelTask(flush_info.stage_task_);
     }
   }
   void MonitorFlushData(u32 mode, FlushDataTask *task, RunContext &rctx) {
@@ -365,7 +365,7 @@ class Server : public TaskLib {
                                    task->score_, 0);
       stage_task->Wait<TASK_YIELD_CO>(task);
       blob_info.mod_count_ = 1;
-      HRUN_CLIENT->DelTask(stage_task);
+      CHI_CLIENT->DelTask(stage_task);
     }
     if (task->flags_.Any(HERMES_SHOULD_STAGE)) {
       HILOG(kDebug, "This is marked as a file: {} {}",
@@ -412,7 +412,7 @@ class Server : public TaskLib {
                                blob_info.buffers_);
         alloc_task->Wait<TASK_YIELD_CO>(task);
 //        HILOG(kInfo, "(node {}) Placing {}/{} bytes in target {} of bw {}",
-//              HRUN_CLIENT->node_id_,
+//              CHI_CLIENT->node_id_,
 //              alloc_task->alloc_size_, task->data_size_,
 //              placement.tid_, bdev.bandwidth_)
         if (alloc_task->alloc_size_ < alloc_task->size_) {
@@ -421,7 +421,7 @@ class Server : public TaskLib {
           next_placement.size_ += diff;
         }
         // bdev.monitor_task_->rem_cap_ -= alloc_task->alloc_size_;
-        HRUN_CLIENT->DelTask(alloc_task);
+        CHI_CLIENT->DelTask(alloc_task);
       }
     }
 
@@ -431,7 +431,7 @@ class Server : public TaskLib {
     size_t blob_off = task->blob_off_, buf_off = 0;
     size_t buf_left = 0, buf_right = 0;
     size_t blob_right = task->blob_off_ + task->data_size_;
-    char *blob_buf = HRUN_CLIENT->GetDataPointer(task->data_);
+    char *blob_buf = CHI_CLIENT->GetDataPointer(task->data_);
     HILOG(kDebug, "Number of buffers {}", blob_info.buffers_.size());
     bool found_left = false;
     for (BufferInfo &buf : blob_info.buffers_) {
@@ -466,7 +466,7 @@ class Server : public TaskLib {
     // Wait for the placements to complete
     for (LPointer<bdev::WriteTask> &write_task : write_tasks) {
       write_task->Wait<TASK_YIELD_CO>(task);
-      HRUN_CLIENT->DelTask(write_task);
+      CHI_CLIENT->DelTask(write_task);
     }
 
     // Update information
@@ -538,7 +538,7 @@ class Server : public TaskLib {
                                    blob_info.name_,
                                    1, 0);
       stage_task->Wait<TASK_YIELD_CO>(task);
-      HRUN_CLIENT->DelTask(stage_task);
+      CHI_CLIENT->DelTask(stage_task);
     }
 
     // Read blob from buffers
@@ -551,7 +551,7 @@ class Server : public TaskLib {
     size_t buf_off = 0;
     size_t blob_right = task->blob_off_ + task->data_size_;
     bool found_left = false;
-    char *blob_buf = HRUN_CLIENT->GetDataPointer(task->data_);
+    char *blob_buf = CHI_CLIENT->GetDataPointer(task->data_);
     for (BufferInfo &buf : blob_info.buffers_) {
       buf_right = buf_left + buf.t_size_;
       if (blob_off >= blob_right) {
@@ -580,7 +580,7 @@ class Server : public TaskLib {
     }
     for (bdev::ReadTask *&read_task : read_tasks) {
       read_task->Wait<TASK_YIELD_CO>(task);
-      HRUN_CLIENT->DelTask(read_task);
+      CHI_CLIENT->DelTask(read_task);
     }
     task->data_size_ = buf_off;
     task->SetModuleComplete();
@@ -833,7 +833,7 @@ class Server : public TaskLib {
           }
         }
         for (bdev::FreeTask *&free_task : free_tasks) {
-          HRUN_CLIENT->DelTask(free_task);
+          CHI_CLIENT->DelTask(free_task);
         }
         BLOB_MAP_T &blob_map = blob_map_[rctx.lane_id_];
         BlobInfo &blob_info = blob_map[task->blob_id_];
@@ -881,7 +881,7 @@ class Server : public TaskLib {
 //          task->SetModuleComplete();
 //          return;
 //        }
-        task->data_ = HRUN_CLIENT->AllocateBufferServer<TASK_YIELD_STD>(
+        task->data_ = CHI_CLIENT->AllocateBufferServer<TASK_YIELD_STD>(
             blob_info.blob_size_, task).shm_;
         task->data_size_ = blob_info.blob_size_;
         task->get_task_ = blob_mdm_.AsyncGetBlob(task->task_node_ + 1,
@@ -898,7 +898,7 @@ class Server : public TaskLib {
         if (!task->get_task_->IsComplete()) {
           return;
         }
-        HRUN_CLIENT->DelTask(task->get_task_);
+        CHI_CLIENT->DelTask(task->get_task_);
         task->phase_ = ReorganizeBlobPhase::kPut;
       }
       case ReorganizeBlobPhase::kPut: {
@@ -943,13 +943,13 @@ class Server : public TaskLib {
     std::vector<TargetStats> target_mdms;
     target_mdms.reserve(targets_.size());
     for (const bdev::Client &bdev_client : targets_) {
-      bool is_remote = bdev_client.domain_id_.IsRemote(HRUN_RPC->GetNumHosts(), HRUN_CLIENT->node_id_);
+      bool is_remote = bdev_client.domain_id_.IsRemote(HRUN_RPC->GetNumHosts(), CHI_CLIENT->node_id_);
       if (is_remote) {
         continue;
       }
       TargetStats stats;
       stats.tgt_id_ = bdev_client.id_;
-      stats.node_id_ = HRUN_CLIENT->node_id_;
+      stats.node_id_ = CHI_CLIENT->node_id_;
       stats.rem_cap_ = bdev_client.monitor_task_->rem_cap_;
       stats.max_cap_ = bdev_client.max_cap_;
       stats.bandwidth_ = bdev_client.bandwidth_;

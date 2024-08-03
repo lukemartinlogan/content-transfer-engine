@@ -10,7 +10,7 @@
 namespace hermes::blob_mdm {
 
 /** Create hermes_blob_mdm requests */
-class Client : public TaskLibClient {
+class Client : public ModuleClient {
 
  public:
   /** Default constructor */
@@ -24,8 +24,8 @@ class Client : public TaskLibClient {
       LPointer<ConstructTask> AsyncCreate(const TaskNode &task_node,
                                           const DomainId &domain_id,
                                           const std::string &state_name) {
-    id_ = TaskStateId::GetNull();
-    QueueManagerInfo &qm = HRUN_CLIENT->server_config_.queue_manager_;
+    id_ = PoolId::GetNull();
+    QueueManagerInfo &qm = CHI_CLIENT->server_config_.queue_manager_;
     std::vector<PriorityInfo> queue_info;
     return CHI_ADMIN->AsyncCreateTaskState<ConstructTask>(
         task_node, domain_id, state_name, id_, queue_info);
@@ -34,22 +34,22 @@ class Client : public TaskLibClient {
     if (task->IsModuleComplete()) {
       id_ = task->id_;
       queue_id_ = QueueId(id_);
-      HRUN_CLIENT->DelTask(task);
+      CHI_CLIENT->DelTask(task);
     }
   }
   HRUN_TASK_NODE_ROOT(AsyncCreate);
   template<typename ...Args>
   HSHM_ALWAYS_INLINE
-  void CreateRoot(Args&& ...args) {
-    LPointer<ConstructTask> task = AsyncCreateRoot(std::forward<Args>(args)...);
+  void Create(Args&& ...args) {
+    LPointer<ConstructTask> task = AsyncCreate(std::forward<Args>(args)...);
     task->Wait();
     AsyncCreateComplete(task.ptr_);
   }
 
   /** Destroy task state + queue */
   HSHM_ALWAYS_INLINE
-  void DestroyRoot(const DomainId &domain_id) {
-    CHI_ADMIN->DestroyTaskStateRoot(domain_id, id_);
+  void Destroy(const DomainId &domain_id) {
+    CHI_ADMIN->DestroyTaskState(domain_id, id_);
   }
 
   /**====================================
@@ -60,22 +60,22 @@ class Client : public TaskLibClient {
   void AsyncSetBucketMdmConstruct(SetBucketMdmTask *task,
                                   const TaskNode &task_node,
                                   const DomainId &domain_id,
-                                  const TaskStateId &blob_mdm,
-                                  const TaskStateId &stager_mdm,
-                                  const TaskStateId &op_mdm) {
-    HRUN_CLIENT->ConstructTask<SetBucketMdmTask>(
+                                  const PoolId &blob_mdm,
+                                  const PoolId &stager_mdm,
+                                  const PoolId &op_mdm) {
+    CHI_CLIENT->ConstructTask<SetBucketMdmTask>(
         task, task_node, domain_id, id_, blob_mdm, stager_mdm, op_mdm);
   }
-  void SetBucketMdmRoot(const DomainId &domain_id,
-                        const TaskStateId &blob_mdm,
-                        const TaskStateId &stager_mdm,
-                        const TaskStateId &op_mdm) {
-    LPointer<hrunpq::TypedPushTask<SetBucketMdmTask>> push_task =
-                                                          AsyncSetBucketMdmRoot(domain_id, blob_mdm, stager_mdm, op_mdm);
-    push_task->Wait();
-    HRUN_CLIENT->DelTask(push_task);
+  void SetBucketMdm(const DomainId &domain_id,
+                        const PoolId &blob_mdm,
+                        const PoolId &stager_mdm,
+                        const PoolId &op_mdm) {
+    LPointer<SetBucketMdmTask> task =
+                                                          AsyncSetBucketMdm(domain_id, blob_mdm, stager_mdm, op_mdm);
+    task->Wait();
+    CHI_CLIENT->DelTask(task);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(SetBucketMdm);
+  CHI_TASK_METHODS(SetBucketMdm);
 
   /**
    * Get \a blob_name BLOB from \a bkt_id bucket
@@ -85,20 +85,19 @@ class Client : public TaskLibClient {
                                        TagId tag_id,
                                        const hshm::charbuf &blob_name) {
     u32 hash = HashBlobName(tag_id, blob_name);
-    HRUN_CLIENT->ConstructTask<GetOrCreateBlobIdTask>(
+    CHI_CLIENT->ConstructTask<GetOrCreateBlobIdTask>(
         task, task_node, DomainId::GetNode(HASH_TO_NODE_ID(hash)), id_,
         tag_id, blob_name);
   }
-  BlobId GetOrCreateBlobIdRoot(TagId tag_id, const hshm::charbuf &blob_name) {
-    LPointer<hrunpq::TypedPushTask<GetOrCreateBlobIdTask>> push_task =
-                                                               AsyncGetOrCreateBlobIdRoot(tag_id, blob_name);
-    push_task->Wait();
-    GetOrCreateBlobIdTask *task = push_task->get();
+  BlobId GetOrCreateBlobId(TagId tag_id, const hshm::charbuf &blob_name) {
+    LPointer<GetOrCreateBlobIdTask> task =
+                                                               AsyncGetOrCreateBlobId(tag_id, blob_name);
+    task->Wait();
     BlobId blob_id = task->blob_id_;
-    HRUN_CLIENT->DelTask(push_task);
+    CHI_CLIENT->DelTask(task);
     return blob_id;
   }
-  HRUN_TASK_NODE_PUSH_ROOT(GetOrCreateBlobId);
+  CHI_TASK_METHODS(GetOrCreateBlobId);
 
   /**
   * Create a blob's metadata
@@ -122,13 +121,13 @@ class Client : public TaskLibClient {
       u32 flags,
       Context ctx = Context(),
       u32 task_flags = TASK_FIRE_AND_FORGET | TASK_DATA_OWNER | TASK_LOW_LATENCY) {
-    HRUN_CLIENT->ConstructTask<PutBlobTask>(
+    CHI_CLIENT->ConstructTask<PutBlobTask>(
         task, task_node, DomainId::GetNode(blob_id.node_id_), id_,
         tag_id, blob_name, blob_id,
         blob_off, blob_size,
         blob, score, flags, ctx, task_flags);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(PutBlob);
+  CHI_TASK_METHODS(PutBlob);
 
   /** Get a blob's data */
   void AsyncGetBlobConstruct(GetBlobTask *task,
@@ -142,28 +141,27 @@ class Client : public TaskLibClient {
                              Context ctx = Context(),
                              u32 flags = 0) {
     // HILOG(kDebug, "Beginning GET (task_node={})", task_node);
-    HRUN_CLIENT->ConstructTask<GetBlobTask>(
+    CHI_CLIENT->ConstructTask<GetBlobTask>(
         task, task_node, DomainId::GetNode(blob_id.node_id_), id_,
         tag_id, blob_name, blob_id, off, data_size, data, ctx, flags);
   }
-  size_t GetBlobRoot(const TagId &tag_id,
+  size_t GetBlob(const TagId &tag_id,
                      const BlobId &blob_id,
                      size_t off,
                      ssize_t data_size,
                      hipc::Pointer &data,
                      Context ctx = Context(),
                      u32 flags = 0) {
-    LPointer<hrunpq::TypedPushTask<GetBlobTask>> push_task =
-        AsyncGetBlobRoot(tag_id, hshm::charbuf(""),
+    LPointer<GetBlobTask> task =
+        AsyncGetBlob(tag_id, hshm::charbuf(""),
                          blob_id, off, data_size, data, ctx, flags);
-    push_task->Wait();
-    GetBlobTask *task = push_task->get();
+    task->Wait();
     data = task->data_;
     size_t true_size = task->data_size_;
-    HRUN_CLIENT->DelTask(push_task);
+    CHI_CLIENT->DelTask(task);
     return true_size;
   }
-  HRUN_TASK_NODE_PUSH_ROOT(GetBlob);
+  CHI_TASK_METHODS(GetBlob);
 
   /**
    * Reorganize a blob
@@ -182,11 +180,11 @@ class Client : public TaskLibClient {
                                     const Context &ctx = Context(),
                                     u32 task_flags = TASK_LOW_LATENCY | TASK_FIRE_AND_FORGET) {
     // HILOG(kDebug, "Beginning REORGANIZE (task_node={})", task_node);
-    HRUN_CLIENT->ConstructTask<ReorganizeBlobTask>(
+    CHI_CLIENT->ConstructTask<ReorganizeBlobTask>(
         task, task_node, DomainId::GetNode(blob_id.node_id_), id_,
         tag_id, blob_name, blob_id, score, user_score, ctx, task_flags);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(ReorganizeBlob);
+  CHI_TASK_METHODS(ReorganizeBlob);
 
   /**
    * Tag a blob
@@ -199,19 +197,19 @@ class Client : public TaskLibClient {
                              const TagId &tag_id,
                              const BlobId &blob_id,
                              const TagId &tag) {
-    HRUN_CLIENT->ConstructTask<TagBlobTask>(
+    CHI_CLIENT->ConstructTask<TagBlobTask>(
         task, task_node, DomainId::GetNode(blob_id.node_id_), id_,
         tag_id, blob_id, tag);
   }
-  void TagBlobRoot(const TagId &tag_id,
+  void TagBlob(const TagId &tag_id,
                    const BlobId &blob_id,
                    const TagId &tag) {
-    LPointer<hrunpq::TypedPushTask<TagBlobTask>> push_task =
-                                                     AsyncTagBlobRoot(tag_id, blob_id, tag);
-    push_task->Wait();
-    HRUN_CLIENT->DelTask(push_task);
+    LPointer<TagBlobTask> task =
+                                                     AsyncTagBlob(tag_id, blob_id, tag);
+    task->Wait();
+    CHI_CLIENT->DelTask(task);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(TagBlob);
+  CHI_TASK_METHODS(TagBlob);
 
   /**
    * Check if blob has a tag
@@ -221,22 +219,21 @@ class Client : public TaskLibClient {
                                 const TagId &tag_id,
                                 const BlobId &blob_id,
                                 const TagId &tag) {
-    HRUN_CLIENT->ConstructTask<BlobHasTagTask>(
+    CHI_CLIENT->ConstructTask<BlobHasTagTask>(
         task, task_node, DomainId::GetNode(blob_id.node_id_), id_,
         tag_id, blob_id, tag);
   }
-  bool BlobHasTagRoot(const TagId &tag_id,
+  bool BlobHasTag(const TagId &tag_id,
                       const BlobId &blob_id,
                       const TagId &tag) {
-    LPointer<hrunpq::TypedPushTask<BlobHasTagTask>> push_task =
-                                                        AsyncBlobHasTagRoot(tag_id, blob_id, tag);
-    push_task->Wait();
-    BlobHasTagTask *task = push_task->get();
+    LPointer<BlobHasTagTask> task =
+                                                        AsyncBlobHasTag(tag_id, blob_id, tag);
+    task->Wait();
     bool has_tag = task->has_tag_;
-    HRUN_CLIENT->DelTask(push_task);
+    CHI_CLIENT->DelTask(task);
     return has_tag;
   }
-  HRUN_TASK_NODE_PUSH_ROOT(BlobHasTag);
+  CHI_TASK_METHODS(BlobHasTag);
 
   /**
    * Get \a blob_name BLOB from \a bkt_id bucket
@@ -246,21 +243,20 @@ class Client : public TaskLibClient {
                                const TagId &tag_id,
                                const hshm::charbuf &blob_name) {
     u32 hash = HashBlobName(tag_id, blob_name);
-    HRUN_CLIENT->ConstructTask<GetBlobIdTask>(
+    CHI_CLIENT->ConstructTask<GetBlobIdTask>(
         task, task_node, DomainId::GetNode(HASH_TO_NODE_ID(hash)), id_,
         tag_id, blob_name);
   }
-  BlobId GetBlobIdRoot(const TagId &tag_id,
+  BlobId GetBlobId(const TagId &tag_id,
                        const hshm::charbuf &blob_name) {
-    LPointer<hrunpq::TypedPushTask<GetBlobIdTask>> push_task =
-                                                       AsyncGetBlobIdRoot(tag_id, blob_name);
-    push_task->Wait();
-    GetBlobIdTask *task = push_task->get();
+    LPointer<GetBlobIdTask> task =
+                                                       AsyncGetBlobId(tag_id, blob_name);
+    task->Wait();
     BlobId blob_id = task->blob_id_;
-    HRUN_CLIENT->DelTask(push_task);
+    CHI_CLIENT->DelTask(task);
     return blob_id;
   }
-  HRUN_TASK_NODE_PUSH_ROOT(GetBlobId);
+  CHI_TASK_METHODS(GetBlobId);
 
   /**
    * Get \a blob_name BLOB name from \a blob_id BLOB id
@@ -269,21 +265,20 @@ class Client : public TaskLibClient {
                                  const TaskNode &task_node,
                                  const TagId &tag_id,
                                  const BlobId &blob_id) {
-    HRUN_CLIENT->ConstructTask<GetBlobNameTask>(
+    CHI_CLIENT->ConstructTask<GetBlobNameTask>(
         task, task_node, DomainId::GetNode(blob_id.node_id_), id_,
         tag_id, blob_id);
   }
-  std::string GetBlobNameRoot(const TagId &tag_id,
+  std::string GetBlobName(const TagId &tag_id,
                               const BlobId &blob_id) {
-    LPointer<hrunpq::TypedPushTask<GetBlobNameTask>> push_task =
-                                                         AsyncGetBlobNameRoot(tag_id, blob_id);
-    push_task->Wait();
-    GetBlobNameTask *task = push_task->get();
+    LPointer<GetBlobNameTask> task =
+                                                         AsyncGetBlobName(tag_id, blob_id);
+    task->Wait();
     std::string blob_name = task->blob_name_->str();
-    HRUN_CLIENT->DelTask(push_task);
+    CHI_CLIENT->DelTask(task);
     return blob_name;
   }
-  HRUN_TASK_NODE_PUSH_ROOT(GetBlobName);
+  CHI_TASK_METHODS(GetBlobName);
 
   /**
    * Get \a size from \a blob_id BLOB id
@@ -294,22 +289,21 @@ class Client : public TaskLibClient {
                                  const hshm::charbuf &blob_name,
                                  const BlobId &blob_id) {
     // HILOG(kDebug, "Getting blob size {}", task_node);
-    HRUN_CLIENT->ConstructTask<GetBlobSizeTask>(
+    CHI_CLIENT->ConstructTask<GetBlobSizeTask>(
         task, task_node, DomainId::GetNode(blob_id.node_id_), id_,
         tag_id, blob_name, blob_id);
   }
-  size_t GetBlobSizeRoot(const TagId &tag_id,
+  size_t GetBlobSize(const TagId &tag_id,
                          const hshm::charbuf &blob_name,
                          const BlobId &blob_id) {
-    LPointer<hrunpq::TypedPushTask<GetBlobSizeTask>> push_task =
-                                                         AsyncGetBlobSizeRoot(tag_id, blob_name, blob_id);
-    push_task->Wait();
-    GetBlobSizeTask *task = push_task->get();
+    LPointer<GetBlobSizeTask> task =
+                                                         AsyncGetBlobSize(tag_id, blob_name, blob_id);
+    task->Wait();
     size_t size = task->size_;
-    HRUN_CLIENT->DelTask(push_task);
+    CHI_CLIENT->DelTask(task);
     return size;
   }
-  HRUN_TASK_NODE_PUSH_ROOT(GetBlobSize);
+  CHI_TASK_METHODS(GetBlobSize);
 
   /**
    * Get \a score from \a blob_id BLOB id
@@ -318,21 +312,20 @@ class Client : public TaskLibClient {
                                   const TaskNode &task_node,
                                   const TagId &tag_id,
                                   const BlobId &blob_id) {
-    HRUN_CLIENT->ConstructTask<GetBlobScoreTask>(
+    CHI_CLIENT->ConstructTask<GetBlobScoreTask>(
         task, task_node, DomainId::GetNode(blob_id.node_id_), id_,
         tag_id, blob_id);
   }
-  float GetBlobScoreRoot(const TagId &tag_id,
+  float GetBlobScore(const TagId &tag_id,
                          const BlobId &blob_id) {
-    LPointer<hrunpq::TypedPushTask<GetBlobScoreTask>> push_task =
-                                                          AsyncGetBlobScoreRoot(tag_id, blob_id);
-    push_task->Wait();
-    GetBlobScoreTask *task = push_task->get();
+    LPointer<GetBlobScoreTask> task =
+                                                          AsyncGetBlobScore(tag_id, blob_id);
+    task->Wait();
     float score = task->score_;
-    HRUN_CLIENT->DelTask(push_task);
+    CHI_CLIENT->DelTask(task);
     return score;
   }
-  HRUN_TASK_NODE_PUSH_ROOT(GetBlobScore);
+  CHI_TASK_METHODS(GetBlobScore);
 
   /**
    * Get \a blob_id blob's buffers
@@ -341,21 +334,20 @@ class Client : public TaskLibClient {
                                     const TaskNode &task_node,
                                     const TagId &tag_id,
                                     const BlobId &blob_id) {
-    HRUN_CLIENT->ConstructTask<GetBlobBuffersTask>(
+    CHI_CLIENT->ConstructTask<GetBlobBuffersTask>(
         task, task_node, DomainId::GetNode(blob_id.node_id_), id_,
         tag_id, blob_id);
   }
-  std::vector<BufferInfo> GetBlobBuffersRoot(const TagId &tag_id,
+  std::vector<BufferInfo> GetBlobBuffers(const TagId &tag_id,
                                              const BlobId &blob_id) {
-    LPointer<hrunpq::TypedPushTask<GetBlobBuffersTask>> push_task = AsyncGetBlobBuffersRoot(tag_id, blob_id);
-    push_task->Wait();
-    GetBlobBuffersTask *task = push_task->get();
+    LPointer<GetBlobBuffersTask> task = AsyncGetBlobBuffers(tag_id, blob_id);
+    task->Wait();
     std::vector<BufferInfo> buffers =
         hshm::to_stl_vector<BufferInfo>(*task->buffers_);
-    HRUN_CLIENT->DelTask(push_task);
+    CHI_CLIENT->DelTask(task);
     return buffers;
   }
-  HRUN_TASK_NODE_PUSH_ROOT(GetBlobBuffers)
+  CHI_TASK_METHODS(GetBlobBuffers)
 
   /**
    * Rename \a blob_id blob to \a new_blob_name new blob name
@@ -366,19 +358,19 @@ class Client : public TaskLibClient {
                                 const TagId &tag_id,
                                 const BlobId &blob_id,
                                 const hshm::charbuf &new_blob_name) {
-    HRUN_CLIENT->ConstructTask<RenameBlobTask>(
+    CHI_CLIENT->ConstructTask<RenameBlobTask>(
         task, task_node, DomainId::GetNode(blob_id.node_id_), id_,
         tag_id, blob_id, new_blob_name);
   }
-  void RenameBlobRoot(const TagId &tag_id,
+  void RenameBlob(const TagId &tag_id,
                       const BlobId &blob_id,
                       const hshm::charbuf &new_blob_name) {
-    LPointer<hrunpq::TypedPushTask<RenameBlobTask>> push_task =
-                                                        AsyncRenameBlobRoot(tag_id, blob_id, new_blob_name);
-    push_task->Wait();
-    HRUN_CLIENT->DelTask(push_task);
+    LPointer<RenameBlobTask> task =
+                                                        AsyncRenameBlob(tag_id, blob_id, new_blob_name);
+    task->Wait();
+    CHI_CLIENT->DelTask(task);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(RenameBlob);
+  CHI_TASK_METHODS(RenameBlob);
 
   /**
    * Truncate a blob to a new size
@@ -388,19 +380,19 @@ class Client : public TaskLibClient {
                                   const TagId &tag_id,
                                   const BlobId &blob_id,
                                   size_t new_size) {
-    HRUN_CLIENT->ConstructTask<TruncateBlobTask>(
+    CHI_CLIENT->ConstructTask<TruncateBlobTask>(
         task, task_node, DomainId::GetNode(blob_id.node_id_), id_,
         tag_id, blob_id, new_size);
   }
-  void TruncateBlobRoot(const TagId &tag_id,
+  void TruncateBlob(const TagId &tag_id,
                         const BlobId &blob_id,
                         size_t new_size) {
-    LPointer<hrunpq::TypedPushTask<TruncateBlobTask>> push_task =
-                                                          AsyncTruncateBlobRoot(tag_id, blob_id, new_size);
-    push_task->Wait();
-    HRUN_CLIENT->DelTask(push_task);
+    LPointer<TruncateBlobTask> task =
+                                                          AsyncTruncateBlob(tag_id, blob_id, new_size);
+    task->Wait();
+    CHI_CLIENT->DelTask(task);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(TruncateBlob);
+  CHI_TASK_METHODS(TruncateBlob);
 
   /**
    * Destroy \a blob_id blob in \a bkt_id bucket
@@ -410,68 +402,66 @@ class Client : public TaskLibClient {
                                  const TagId &tag_id,
                                  const BlobId &blob_id,
                                  bool update_size = true) {
-    HRUN_CLIENT->ConstructTask<DestroyBlobTask>(
+    CHI_CLIENT->ConstructTask<DestroyBlobTask>(
         task, task_node, DomainId::GetNode(blob_id.node_id_),
         id_, tag_id, blob_id, update_size);
   }
-  void DestroyBlobRoot(const TagId &tag_id,
+  void DestroyBlob(const TagId &tag_id,
                        const BlobId &blob_id,
                        bool update_size = true) {
-    LPointer<hrunpq::TypedPushTask<DestroyBlobTask>> push_task =
-                                                         AsyncDestroyBlobRoot(tag_id, blob_id, update_size);
-    push_task->Wait();
-    HRUN_CLIENT->DelTask(push_task);
+    LPointer<DestroyBlobTask> task =
+                                                         AsyncDestroyBlob(tag_id, blob_id, update_size);
+    task->Wait();
+    CHI_CLIENT->DelTask(task);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(DestroyBlob);
+  CHI_TASK_METHODS(DestroyBlob);
 
   /** Initialize automatic flushing */
   void AsyncFlushDataConstruct(FlushDataTask *task,
                                const TaskNode &task_node,
                                size_t period_ms) {
-    HRUN_CLIENT->ConstructTask<FlushDataTask>(
+    CHI_CLIENT->ConstructTask<FlushDataTask>(
         task, task_node, id_, period_ms);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(FlushData);
+  CHI_TASK_METHODS(FlushData);
 
   /**
    * Get all blob metadata
    * */
   void AsyncPollBlobMetadataConstruct(PollBlobMetadataTask *task,
                                       const TaskNode &task_node) {
-    HRUN_CLIENT->ConstructTask<PollBlobMetadataTask>(
+    CHI_CLIENT->ConstructTask<PollBlobMetadataTask>(
         task, task_node, id_);
   }
-  std::vector<BlobInfo> PollBlobMetadataRoot() {
-    LPointer<hrunpq::TypedPushTask<PollBlobMetadataTask>> push_task =
-                                                              AsyncPollBlobMetadataRoot();
-    push_task->Wait();
-    PollBlobMetadataTask *task = push_task->get();
+  std::vector<BlobInfo> PollBlobMetadata() {
+    LPointer<PollBlobMetadataTask> task =
+                                                              AsyncPollBlobMetadata();
+    task->Wait();
     std::vector<BlobInfo> blob_mdms =
         task->DeserializeBlobMetadata();
-    HRUN_CLIENT->DelTask(push_task);
+    CHI_CLIENT->DelTask(task);
     return blob_mdms;
   }
-  HRUN_TASK_NODE_PUSH_ROOT(PollBlobMetadata);
+  CHI_TASK_METHODS(PollBlobMetadata);
 
   /**
   * Get all target metadata
   * */
   void AsyncPollTargetMetadataConstruct(PollTargetMetadataTask *task,
                                         const TaskNode &task_node) {
-    HRUN_CLIENT->ConstructTask<PollTargetMetadataTask>(
+    CHI_CLIENT->ConstructTask<PollTargetMetadataTask>(
         task, task_node, id_);
   }
-  std::vector<TargetStats> PollTargetMetadataRoot() {
-    LPointer<hrunpq::TypedPushTask<PollTargetMetadataTask>> push_task =
-                                                                AsyncPollTargetMetadataRoot();
-    push_task->Wait();
-    PollTargetMetadataTask *task = push_task->get();
+  std::vector<TargetStats> PollTargetMetadata() {
+    LPointer<PollTargetMetadataTask> task =
+                                                                AsyncPollTargetMetadata();
+    task->Wait();
     std::vector<TargetStats> target_mdms =
         task->DeserializeTargetMetadata();
-    HRUN_CLIENT->DelTask(push_task);
+    CHI_CLIENT->DelTask(task);
     return target_mdms;
   }
-  HRUN_TASK_NODE_PUSH_ROOT(PollTargetMetadata);
+  CHI_TASK_METHODS(PollTargetMetadata);
 };
 
 }  // namespace hrun

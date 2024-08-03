@@ -39,11 +39,11 @@ get_filename_component(Hermes_DIR ${Hermes_INCLUDE_DIR} PATH)
 #-----------------------------------------------------------------------------
 find_library(
         Hermes_LIBRARY
-        NAMES hrun_client
+        NAMES hermes
         HINTS ENV LD_LIBRARY_PATH ENV PATH
 )
 if (NOT Hermes_LIBRARY)
-    message(STATUS "FindHermes: Could not find libhrun_client.so")
+    message(STATUS "FindHermes: Could not find libhermes.so")
     set(Hermes_FOUND OFF)
     message(STATUS "LIBS: $ENV{LD_LIBRARY_PATH}")
     return()
@@ -56,6 +56,10 @@ endif()
 # HermesShm
 find_package(HermesShm CONFIG REQUIRED)
 message(STATUS "found hermes_shm.h at ${HermesShm_INCLUDE_DIRS}")
+
+# Chimaera
+find_package(Chimaera CONFIG REQUIRED)
+message(STATUS "found chimaera at ${Chimaera_INCLUDE_DIRS}")
 
 # YAML-CPP
 find_package(yaml-cpp REQUIRED)
@@ -100,21 +104,18 @@ get_filename_component(Hermes_LIBRARY_DIRS ${Hermes_LIBRARY} PATH)
 set(Hermes_FOUND ON)
 # Set Hermes dirs
 set(Hermes_INCLUDE_DIRS ${Boost_INCLUDE_DIRS} ${Hermes_INCLUDE_DIR})
-set(Hermes_LIBRARIES
+set(_Hermes_CLIENT_LIBRARIES
         ${HermesShm_LIBRARIES}
+        ${CHIMAERA_CLIENT_LIBRARIES}
         yaml-cpp
         cereal::cereal
         -ldl -lrt -lc -pthread
-        thallium
-        hermes
-        ${Boost_LIBRARIES} ${Hermes_LIBRARY})
-set(Hermes_LIBRARY_DIRS ${HermeShm_LIBRARY_DIRS})
+        ${Boost_LIBRARIES})
 # Set Hermes client dirs (equal to Hermes dirs)
-set(Hermes_CLIENT_LIBRARIES ${Hermes_LIBRARIES})
-set(Hermes_CLIENT_LIBRARY_DIRS ${Hermes_LIBRARY_DIRS})
-# Set Hermes runtime dirs
-set(Hermes_RUNTIME_LIBRARIES
-        ${Hermes_CLIENT_LIBRARIES}
-        hrun_runtime)
+set(Hermes_CLIENT_LIBRARIES
+        ${Hermes_LIBRARY}
+        ${_Hermes_CLIENT_LIBRARIES})
+set(Hermes_CLIENT_LIBRARY_DIRS
+        ${HermeShm_LIBRARY_DIRS})
 set(Hermes_RUNTIME_LIBRARY_DIRS ${HermeShm_LIBRARY_DIRS})
 set(Hermes_RUNTIME_DEPS "")

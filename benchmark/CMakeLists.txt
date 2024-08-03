@@ -11,11 +11,9 @@ add_executable(test_performance_exec
         ${TEST_MAIN}/main.cc
         test_init.cc
         test_latency.cc)
-add_dependencies(test_performance_exec
-        ${Hermes_RUNTIME_DEPS} hermes)
+add_dependencies(test_performance_exec hermes)
 target_link_libraries(test_performance_exec
-        ${Hermes_RUNTIME_LIBRARIES} hermes Catch2::Catch2
-        MPI::MPI_CXX)
+        hermes Catch2::Catch2 MPI::MPI_CXX)
 
 #add_executable(test_performance_exec
 #        ${TEST_MAIN}/main.cc

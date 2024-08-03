@@ -1,22 +1,21 @@
 #------------------------------------------------------------------------------
 # Build Small Message Task Library
 #------------------------------------------------------------------------------
-add_library(hermes_core SHARED
-        hermes_core.cc)
-# add_dependencies(hermes_core ${Hermes_RUNTIME_DEPS} hermes)
-target_link_libraries(hermes_core ${Hermes_RUNTIME_LIBRARIES} hermes)
-
+add_library(hermes SHARED
+        hermes_config_manager.cc
+)
+target_link_libraries(hermes ${_Hermes_CLIENT_LIBRARIES})
 #------------------------------------------------------------------------------
 # Install Small Message Task Library
 #------------------------------------------------------------------------------
 install(
         TARGETS
-        hermes_core
+        hermes
         EXPORT
         ${HERMES_EXPORTED_TARGETS}
-        LIBRARY DESTINATION ${HERMES_INSTALL_LIB_DIR}
-        ARCHIVE DESTINATION ${HERMES_INSTALL_LIB_DIR}
-        RUNTIME DESTINATION ${HERMES_INSTALL_BIN_DIR}
+        LIBRARY DESTINATION ${CHIMEARA_INSTALL_LIB_DIR}
+        ARCHIVE DESTINATION ${CHIMEARA_INSTALL_LIB_DIR}
+        RUNTIME DESTINATION ${CHIMEARA_INSTALL_BIN_DIR}
 )
 
 #-----------------------------------------------------------------------------
@@ -26,7 +25,7 @@ install(
         EXPORT
         ${HERMES_EXPORTED_TARGETS}
         DESTINATION
-        ${HERMES_INSTALL_DATA_DIR}/cmake/hermes
+        ${CHIMEARA_INSTALL_DATA_DIR}/cmake/hermes
         FILE
         ${HERMES_EXPORTED_TARGETS}.cmake
 )
@@ -35,9 +34,9 @@ install(
 # Export all exported targets to the build tree for use by parent project
 #-----------------------------------------------------------------------------
 set(HERMES_EXPORTED_LIBS
-        hermes_core
+        hermes
         ${HERMES_EXPORTED_LIBS})
-if(NOT HERMES_EXTERNALLY_CONFIGURED)
+if(NOT CHIMAERA_EXTERNALLY_CONFIGURED)
     EXPORT (
             TARGETS
             ${HERMES_EXPORTED_LIBS}

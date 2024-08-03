@@ -1,1 +1,1 @@
-add_subdirectory(hermes)
+add_subdirectory(hermes_core)

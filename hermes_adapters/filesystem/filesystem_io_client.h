@@ -126,8 +126,8 @@ struct FsIoOptions {
 
 /** A structure to represent Hermes request */
 struct FsAsyncTask {
-  std::vector<LPointer<hrunpq::TypedPushTask<PutBlobTask>>> put_tasks_;
-  std::vector<LPointer<hrunpq::TypedPushTask<GetBlobTask>>> get_tasks_;
+  std::vector<LPointer<PutBlobTask>> put_tasks_;
+  std::vector<LPointer<GetBlobTask>> get_tasks_;
   IoStatus io_status_;
   FsIoOptions opts_;
 };

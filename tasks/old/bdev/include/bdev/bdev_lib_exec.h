@@ -79,35 +79,35 @@ void Monitor(u32 mode, Task *task, RunContext &rctx) override {
 void Del(u32 method, Task *task) override {
   switch (method) {
     case Method::kConstruct: {
-      HRUN_CLIENT->DelTask<ConstructTask>(reinterpret_cast<ConstructTask *>(task));
+      CHI_CLIENT->DelTask<ConstructTask>(reinterpret_cast<ConstructTask *>(task));
       break;
     }
     case Method::kDestruct: {
-      HRUN_CLIENT->DelTask<DestructTask>(reinterpret_cast<DestructTask *>(task));
+      CHI_CLIENT->DelTask<DestructTask>(reinterpret_cast<DestructTask *>(task));
       break;
     }
     case Method::kWrite: {
-      HRUN_CLIENT->DelTask<WriteTask>(reinterpret_cast<WriteTask *>(task));
+      CHI_CLIENT->DelTask<WriteTask>(reinterpret_cast<WriteTask *>(task));
       break;
     }
     case Method::kRead: {
-      HRUN_CLIENT->DelTask<ReadTask>(reinterpret_cast<ReadTask *>(task));
+      CHI_CLIENT->DelTask<ReadTask>(reinterpret_cast<ReadTask *>(task));
       break;
     }
     case Method::kAllocate: {
-      HRUN_CLIENT->DelTask<AllocateTask>(reinterpret_cast<AllocateTask *>(task));
+      CHI_CLIENT->DelTask<AllocateTask>(reinterpret_cast<AllocateTask *>(task));
       break;
     }
     case Method::kFree: {
-      HRUN_CLIENT->DelTask<FreeTask>(reinterpret_cast<FreeTask *>(task));
+      CHI_CLIENT->DelTask<FreeTask>(reinterpret_cast<FreeTask *>(task));
       break;
     }
     case Method::kStatBdev: {
-      HRUN_CLIENT->DelTask<StatBdevTask>(reinterpret_cast<StatBdevTask *>(task));
+      CHI_CLIENT->DelTask<StatBdevTask>(reinterpret_cast<StatBdevTask *>(task));
       break;
     }
     case Method::kUpdateScore: {
-      HRUN_CLIENT->DelTask<UpdateScoreTask>(reinterpret_cast<UpdateScoreTask *>(task));
+      CHI_CLIENT->DelTask<UpdateScoreTask>(reinterpret_cast<UpdateScoreTask *>(task));
       break;
     }
   }
@@ -303,42 +303,42 @@ TaskPointer LoadStart(u32 method, BinaryInputArchive<true> &ar) override {
   TaskPointer task_ptr;
   switch (method) {
     case Method::kConstruct: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<ConstructTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<ConstructTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<ConstructTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kDestruct: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<DestructTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<DestructTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<DestructTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kWrite: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<WriteTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<WriteTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<WriteTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kRead: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<ReadTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<ReadTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<ReadTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kAllocate: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<AllocateTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<AllocateTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<AllocateTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kFree: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<FreeTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<FreeTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<FreeTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kStatBdev: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<StatBdevTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<StatBdevTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<StatBdevTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kUpdateScore: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<UpdateScoreTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<UpdateScoreTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<UpdateScoreTask*>(task_ptr.ptr_);
       break;
     }

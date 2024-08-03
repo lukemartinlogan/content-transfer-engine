@@ -13,31 +13,21 @@
 #ifndef HRUN_TASKS_HERMES_INCLUDE_HERMES_HERMES_TYPES_H_
 #define HRUN_TASKS_HERMES_INCLUDE_HERMES_HERMES_TYPES_H_
 
-#include "chimaera/chimaera_types.h"
-#include "chimaera/module_registry/module.h"
-#include "chimaera/api/chimaera_client.h"
 #include "status.h"
 #include "statuses.h"
+#include "chimaera/chimaera_namespace.h"
 
 namespace hapi = hermes;
 
 namespace hermes {
 
-using chi::TaskLib;
-using chi::TaskMethod;
+CHI_NAMESPACE_INIT
+
 using chi::UniqueId;
-using chi::TaskStateId;
-using chi::DomainId;
-using chi::Task;
-using chi::TaskId;
-using chi::TaskNode;
 using hshm::bitfield32_t;
 
 /** Queue id */
 using chi::QueueId;
-
-/** Queue for interprocess-communication */
-using chi::MultiQueue;
 
 /** Unique blob id */
 typedef UniqueId<100> BlobId;
@@ -49,10 +39,10 @@ typedef UniqueId<101> BucketId;
 typedef UniqueId<102> TagId;
 
 /** Represetnts a storage target */
-typedef TaskStateId TargetId;
+typedef PoolId TargetId;
 
 /** Represents a trait */
-typedef TaskStateId TraitId;
+typedef PoolId TraitId;
 
 /** Different categories of traits */
 enum class TraitType {
@@ -233,7 +223,7 @@ struct BufferInfo {
   BufferInfo() = default;
 
   /** Primary constructor */
-  BufferInfo(TaskStateId tid, size_t t_off, size_t t_size,
+  BufferInfo(PoolId tid, size_t t_off, size_t t_size,
              size_t blob_off, size_t blob_size)
       : tid_(tid), t_off_(t_off), t_size_(t_size) {}
 

@@ -24,8 +24,8 @@ using chi::proc_queue::PushTask;
  * */
 using chi::Admin::CreateTaskStateTask;
 struct ConstructTask : public CreateTaskStateTask {
-  TaskStateId blob_mdm_;
-  TaskStateId bkt_mdm_;
+  PoolId blob_mdm_;
+  PoolId bkt_mdm_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
@@ -38,10 +38,10 @@ struct ConstructTask : public CreateTaskStateTask {
                 const TaskNode &task_node,
                 const DomainId &domain_id,
                 const std::string &state_name,
-                const TaskStateId &id,
+                const PoolId &id,
                 const std::vector<PriorityInfo> &queue_info,
-                const TaskStateId &blob_mdm,
-                const TaskStateId &bkt_mdm)
+                const PoolId &blob_mdm,
+                const PoolId &bkt_mdm)
       : CreateTaskStateTask(alloc, task_node, domain_id, state_name,
                             "data_stager", id, queue_info) {
     // Custom params
@@ -81,7 +81,7 @@ struct DestructTask : public DestroyTaskStateTask {
   DestructTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
                const DomainId &domain_id,
-               TaskStateId &state_id)
+               PoolId &state_id)
       : DestroyTaskStateTask(alloc, task_node, domain_id, state_id) {}
 
   /** Create group */
@@ -107,7 +107,7 @@ struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
   HSHM_ALWAYS_INLINE explicit
   RegisterStagerTask(hipc::Allocator *alloc,
                      const TaskNode &task_node,
-                     const TaskStateId &state_id,
+                     const PoolId &state_id,
                      hermes::BucketId bkt_id,
                      const hshm::charbuf &tag_name,
                      const hshm::charbuf &params) : Task(alloc) {
@@ -118,7 +118,7 @@ struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
     task_state_ = state_id;
     method_ = Method::kRegisterStager;
     task_flags_.SetBits(TASK_LOW_LATENCY | TASK_FIRE_AND_FORGET);
-    domain_id_ = DomainId::GetGlobal();
+    domain_id_ = chi::DomainQuery::GetGlobalBcast();
 
     // Custom params
     bkt_id_ = bkt_id;
@@ -181,7 +181,7 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
   HSHM_ALWAYS_INLINE explicit
   UnregisterStagerTask(hipc::Allocator *alloc,
                        const TaskNode &task_node,
-                       const TaskStateId &state_id,
+                       const PoolId &state_id,
                        const hermes::BucketId &bkt_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
@@ -190,7 +190,7 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
     task_state_ = state_id;
     method_ = Method::kUnregisterStager;
     task_flags_.SetBits(TASK_FIRE_AND_FORGET);
-    domain_id_ = DomainId::GetGlobal();
+    domain_id_ = chi::DomainQuery::GetGlobalBcast();
 
     // Custom params
     bkt_id_ = bkt_id;
@@ -247,7 +247,7 @@ struct StageInTask : public Task, TaskFlags<TF_LOCAL> {
   HSHM_ALWAYS_INLINE explicit
   StageInTask(hipc::Allocator *alloc,
               const TaskNode &task_node,
-              const TaskStateId &state_id,
+              const PoolId &state_id,
               const BucketId &bkt_id,
               const hshm::charbuf &blob_name,
               float score,
@@ -302,7 +302,7 @@ struct StageOutTask : public Task, TaskFlags<TF_LOCAL> {
   HSHM_ALWAYS_INLINE explicit
   StageOutTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
-               const TaskStateId &state_id,
+               const PoolId &state_id,
                const BucketId &bkt_id,
                const hshm::charbuf &blob_name,
                const hipc::Pointer &data,
@@ -329,7 +329,7 @@ struct StageOutTask : public Task, TaskFlags<TF_LOCAL> {
   ~StageOutTask() {
     HSHM_DESTROY_AR(blob_name_)
     if (IsDataOwner()) {
-      HRUN_CLIENT->FreeBuffer(data_);
+      CHI_CLIENT->FreeBuffer(data_);
     }
   }
 
@@ -356,7 +356,7 @@ struct UpdateSizeTask : public Task, TaskFlags<TF_LOCAL> {
   HSHM_ALWAYS_INLINE explicit
   UpdateSizeTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
-                 const TaskStateId &state_id,
+                 const PoolId &state_id,
                  const BucketId &bkt_id,
                  const hshm::charbuf &blob_name,
                  size_t blob_off,

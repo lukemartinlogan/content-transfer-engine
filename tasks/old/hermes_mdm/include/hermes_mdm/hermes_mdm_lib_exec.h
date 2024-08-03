@@ -31,11 +31,11 @@ void Monitor(u32 mode, Task *task, RunContext &rctx) override {
 void Del(u32 method, Task *task) override {
   switch (method) {
     case Method::kConstruct: {
-      HRUN_CLIENT->DelTask<ConstructTask>(reinterpret_cast<ConstructTask *>(task));
+      CHI_CLIENT->DelTask<ConstructTask>(reinterpret_cast<ConstructTask *>(task));
       break;
     }
     case Method::kDestruct: {
-      HRUN_CLIENT->DelTask<DestructTask>(reinterpret_cast<DestructTask *>(task));
+      CHI_CLIENT->DelTask<DestructTask>(reinterpret_cast<DestructTask *>(task));
       break;
     }
   }
@@ -111,12 +111,12 @@ TaskPointer LoadStart(u32 method, BinaryInputArchive<true> &ar) override {
   TaskPointer task_ptr;
   switch (method) {
     case Method::kConstruct: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<ConstructTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<ConstructTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<ConstructTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kDestruct: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<DestructTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<DestructTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<DestructTask*>(task_ptr.ptr_);
       break;
     }

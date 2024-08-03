@@ -38,7 +38,7 @@ struct ConstructTask : public CreateTaskStateTask {
                 const TaskNode &task_node,
                 const DomainId &domain_id,
                 const std::string &state_name,
-                const TaskStateId &id,
+                const PoolId &id,
                 const std::vector<PriorityInfo> &queue_info)
       : CreateTaskStateTask(alloc, task_node, domain_id, state_name,
                             "hermes_bucket_mdm", id, queue_info) {
@@ -57,7 +57,7 @@ struct DestructTask : public DestroyTaskStateTask {
   DestructTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
                const DomainId &domain_id,
-               TaskStateId &state_id)
+               PoolId &state_id)
       : DestroyTaskStateTask(alloc, task_node, domain_id, state_id) {}
 
   /** Create group */
@@ -69,8 +69,8 @@ struct DestructTask : public DestroyTaskStateTask {
 
 /** Set the BLOB MDM ID */
 struct SetBlobMdmTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
-  IN TaskStateId blob_mdm_;
-  IN TaskStateId stager_mdm_;
+  IN PoolId blob_mdm_;
+  IN PoolId stager_mdm_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
@@ -81,9 +81,9 @@ struct SetBlobMdmTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
   SetBlobMdmTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
                  const DomainId &domain_id,
-                 const TaskStateId &state_id,
-                 const TaskStateId &blob_mdm,
-                 const TaskStateId &stager_mdm) : Task(alloc) {
+                 const PoolId &state_id,
+                 const PoolId &blob_mdm,
+                 const PoolId &stager_mdm) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     lane_hash_ = 0;
@@ -149,7 +149,7 @@ struct UpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
   UpdateSizeTask(hipc::Allocator *alloc,
               const TaskNode &task_node,
               const DomainId &domain_id,
-              const TaskStateId &state_id,
+              const PoolId &state_id,
               const TagId &tag_id,
               ssize_t update,
               int mode) : Task(alloc) {
@@ -232,7 +232,7 @@ struct AppendBlobSchemaTask : public Task, TaskFlags<TF_SRL_SYM> {
   AppendBlobSchemaTask(hipc::Allocator *alloc,
                        const TaskNode &task_node,
                        const DomainId &domain_id,
-                       const TaskStateId &state_id,
+                       const PoolId &state_id,
                        const TagId &tag_id,
                        size_t data_size,
                        size_t page_size) : Task(alloc) {
@@ -297,7 +297,7 @@ struct AppendBlobTask : public Task, TaskFlags<TF_LOCAL> {
   AppendBlobTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
                  const DomainId &domain_id,
-                 const TaskStateId &state_id,
+                 const PoolId &state_id,
                  const TagId &tag_id,
                  size_t data_size,
                  const hipc::Pointer &data,
@@ -326,7 +326,7 @@ struct AppendBlobTask : public Task, TaskFlags<TF_LOCAL> {
   /** Destructor */
   ~AppendBlobTask() {
     if (IsDataOwner()) {
-      HRUN_CLIENT->FreeBuffer(data_);
+      CHI_CLIENT->FreeBuffer(data_);
     }
   }
 
@@ -358,7 +358,7 @@ struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
   HSHM_ALWAYS_INLINE explicit
   GetOrCreateTagTask(hipc::Allocator *alloc,
                      const TaskNode &task_node,
-                     const TaskStateId &state_id,
+                     const PoolId &state_id,
                      const hshm::charbuf &tag_name,
                      bool blob_owner,
                      const std::vector<TraitId> &traits,
@@ -427,7 +427,7 @@ struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM> {
   GetTagIdTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
                const DomainId &domain_id,
-               const TaskStateId &state_id,
+               const PoolId &state_id,
                const hshm::charbuf &tag_name) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
@@ -484,7 +484,7 @@ struct GetTagNameTask : public Task, TaskFlags<TF_SRL_SYM> {
   GetTagNameTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
                  const DomainId &domain_id,
-                 const TaskStateId &state_id,
+                 const PoolId &state_id,
                  const TagId &tag_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
@@ -541,7 +541,7 @@ struct RenameTagTask : public Task, TaskFlags<TF_SRL_SYM> {
   RenameTagTask(hipc::Allocator *alloc,
                 const TaskNode &task_node,
                 const DomainId &domain_id,
-                const TaskStateId &state_id,
+                const PoolId &state_id,
                 const TagId &tag_id,
                 const hshm::charbuf &tag_name) : Task(alloc) {
     // Initialize task
@@ -607,7 +607,7 @@ struct DestroyTagTask : public Task, TaskFlags<TF_SRL_SYM> {
   DestroyTagTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
                  const DomainId &domain_id,
-                 const TaskStateId &state_id,
+                 const PoolId &state_id,
                  const TagId &tag_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
@@ -657,7 +657,7 @@ struct TagAddBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   TagAddBlobTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
                  const DomainId &domain_id,
-                 const TaskStateId &state_id,
+                 const PoolId &state_id,
                  TagId tag_id,
                  const BlobId &blob_id) : Task(alloc) {
     // Initialize task
@@ -709,7 +709,7 @@ struct TagRemoveBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   TagRemoveBlobTask(hipc::Allocator *alloc,
                     const TaskNode &task_node,
                     const DomainId &domain_id,
-                    const TaskStateId &state_id,
+                    const PoolId &state_id,
                     TagId tag_id,
                     const BlobId &blob_id) : Task(alloc) {
     // Initialize task
@@ -769,7 +769,7 @@ struct TagClearBlobsTask : public Task, TaskFlags<TF_SRL_SYM> {
   TagClearBlobsTask(hipc::Allocator *alloc,
                     const TaskNode &task_node,
                     const DomainId &domain_id,
-                    const TaskStateId &state_id,
+                    const PoolId &state_id,
                     TagId tag_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
@@ -819,7 +819,7 @@ struct GetSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
   GetSizeTask(hipc::Allocator *alloc,
                     const TaskNode &task_node,
                     const DomainId &domain_id,
-                    const TaskStateId &state_id,
+                    const PoolId &state_id,
                     TagId tag_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
@@ -871,7 +871,7 @@ struct GetContainedBlobIdsTask : public Task, TaskFlags<TF_SRL_SYM> {
   GetContainedBlobIdsTask(hipc::Allocator *alloc,
                           const TaskNode &task_node,
                           const DomainId &domain_id,
-                          const TaskStateId &state_id,
+                          const PoolId &state_id,
                           const TagId &tag_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
@@ -930,7 +930,7 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM_START | TF_SRL_AS
   HSHM_ALWAYS_INLINE explicit
   PollTagMetadataTask(hipc::Allocator *alloc,
                        const TaskNode &task_node,
-                       const TaskStateId &state_id) : Task(alloc) {
+                       const PoolId &state_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     lane_hash_ = 0;
@@ -938,7 +938,7 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM_START | TF_SRL_AS
     task_state_ = state_id;
     method_ = Method::kPollTagMetadata;
     task_flags_.SetBits(TASK_LANE_ALL);
-    domain_id_ = DomainId::GetGlobal();
+    domain_id_ = chi::DomainQuery::GetGlobalBcast();
 
     // Custom params
     HSHM_MAKE_AR0(my_tag_mdms_, alloc)

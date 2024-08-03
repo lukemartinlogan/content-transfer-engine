@@ -8,12 +8,12 @@
 #include "hermes_adapters/mapper/abstract_mapper.h"
 #include "hermes_adapters/posix/posix_api.h"
 #include "hermes_blob_mdm/hermes_blob_mdm.h"
-#include "data_stager/factory/stager_factory.h"
+#include "hermes/staging/stager_factory.h"
 #include "hermes_bucket_mdm/hermes_bucket_mdm.h"
 
 namespace hermes::data_stager {
 
-class Server : public TaskLib {
+class Server : public Module {
  public:
   std::vector<std::unordered_map<hermes::BucketId, std::unique_ptr<AbstractStager>>> url_map_;
   blob_mdm::Client blob_mdm_;
@@ -28,7 +28,7 @@ class Server : public TaskLib {
     url_map_.resize(HRUN_QM_RUNTIME->max_lanes_);
     blob_mdm_.Init(task->blob_mdm_, CHI_ADMIN->queue_id_);
     bkt_mdm_.Init(task->bkt_mdm_, CHI_ADMIN->queue_id_);
-    HILOG(kInfo, "(node {}) BLOB MDM: {}", HRUN_CLIENT->node_id_, blob_mdm_.id_);
+    HILOG(kInfo, "(node {}) BLOB MDM: {}", CHI_CLIENT->node_id_, blob_mdm_.id_);
     task->SetModuleComplete();
   }
   void MonitorConstruct(u32 mode, ConstructTask *task, RunContext &rctx) {

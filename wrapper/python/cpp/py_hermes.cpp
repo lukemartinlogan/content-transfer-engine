@@ -31,7 +31,7 @@ using hermes::Hermes;
 using chi::UniqueId;
 
 bool TRANSPARENT_HERMES_FUN() {
-  if (TRANSPARENT_HRUN()) {
+  if (CHIMAERA_CLIENT_INIT()) {
     HERMES_CONF->ClientInit();
     return true;
   }

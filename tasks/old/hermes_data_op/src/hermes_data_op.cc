@@ -17,7 +17,7 @@ struct OpPendingData {
   OpPendingData() : num_refs_(0) {}
 };
 
-class Server : public TaskLib {
+class Server : public Module {
  public:
   std::vector<std::list<OpGraph>> op_graphs_;
   std::unordered_map<std::string, u32> op_id_map_;
@@ -87,13 +87,13 @@ class Server : public TaskLib {
         bkt_name.bkt_id_task_->Wait<TASK_YIELD_CO>(task);
         bkt_name.bkt_id_ = bkt_name.bkt_id_task_->tag_id_;
         op_data_map_.emplace(bkt_name.bkt_id_, OpPendingData());
-        HRUN_CLIENT->DelTask(bkt_name.bkt_id_task_);
+        CHI_CLIENT->DelTask(bkt_name.bkt_id_task_);
       }
       // Spawn bucket ID task for the output
       op.var_name_.bkt_id_task_->Wait<TASK_YIELD_CO>(task);
       op.var_name_.bkt_id_ = op.var_name_.bkt_id_task_->tag_id_;
       op_data_map_.emplace(op.var_name_.bkt_id_, OpPendingData());
-      HRUN_CLIENT->DelTask(op.var_name_.bkt_id_task_);
+      CHI_CLIENT->DelTask(op.var_name_.bkt_id_task_);
     }
 
     // Get number of operations that depend on each data object
@@ -183,7 +183,7 @@ class Server : public TaskLib {
     for (OpData &data : op_data) {
       // Get the input data
       LPointer<char> data_ptr =
-          HRUN_CLIENT->AllocateBufferServer<TASK_YIELD_CO>(data.size_, task);
+          CHI_CLIENT->AllocateBufferServer<TASK_YIELD_CO>(data.size_, task);
       LPointer<blob_mdm::GetBlobTask> in_task =
           blob_mdm_.AsyncGetBlob(task->task_node_ + 1,
                                  data.bkt_id_,
@@ -203,7 +203,7 @@ class Server : public TaskLib {
 
       // Calaculate the minimum
       LPointer<char> min_lptr =
-          HRUN_CLIENT->AllocateBufferServer<TASK_YIELD_CO>(sizeof(float), task);
+          CHI_CLIENT->AllocateBufferServer<TASK_YIELD_CO>(sizeof(float), task);
       float *min_ptr = (float*)min_lptr.ptr_;
       *min_ptr = std::numeric_limits<float>::max();
       for (size_t i = 0; i < in_task->data_size_; i += sizeof(float)) {
@@ -218,8 +218,8 @@ class Server : public TaskLib {
                              BlobId::GetNull(),
                              0, sizeof(float),
                              min_lptr.shm_, 0, 0);
-      HRUN_CLIENT->FreeBuffer(in_task->data_);
-      HRUN_CLIENT->DelTask(in_task);
+      CHI_CLIENT->FreeBuffer(in_task->data_);
+      CHI_CLIENT->DelTask(in_task);
     }
   }
 

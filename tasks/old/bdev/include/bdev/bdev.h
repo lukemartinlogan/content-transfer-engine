@@ -13,7 +13,7 @@ namespace hermes::bdev {
 /**
  * BDEV Client API
  * */
-class Client : public TaskLibClient {
+class Client : public ModuleClient {
  public:
   DomainId domain_id_;
   StatBdevTask *monitor_task_;
@@ -46,9 +46,9 @@ class Client : public TaskLibClient {
                                       const std::string &lib_name,
                                       DeviceInfo &dev_info) {
     domain_id_ = domain_id;
-    id_ = TaskStateId::GetNull();
+    id_ = PoolId::GetNull();
     CopyDevInfo(dev_info);
-    QueueManagerInfo &qm = HRUN_CLIENT->server_config_.queue_manager_;
+    QueueManagerInfo &qm = CHI_CLIENT->server_config_.queue_manager_;
     std::vector<PriorityInfo> queue_info;
     return CHI_ADMIN->AsyncCreateTaskState<ConstructTask>(
         task_node, domain_id, state_name, lib_name, id_,
@@ -59,23 +59,23 @@ class Client : public TaskLibClient {
       id_ = task->id_;
       Init(id_, CHI_ADMIN->queue_id_);
       monitor_task_ = AsyncStatBdev(task->task_node_ + 1, 100).ptr_;
-      HRUN_CLIENT->DelTask(task);
+      CHI_CLIENT->DelTask(task);
     }
   }
   HRUN_TASK_NODE_ROOT(AsyncCreateTaskState);
   template<typename ...Args>
   HSHM_ALWAYS_INLINE
-  void CreateRoot(Args&& ...args) {
+  void Create(Args&& ...args) {
     LPointer<ConstructTask> task =
-        AsyncCreateRoot(std::forward<Args>(args)...);
+        AsyncCreate(std::forward<Args>(args)...);
     task->Wait();
     AsyncCreateComplete(task.ptr_);
   }
 
   /** Destroy task state + queue */
   HSHM_ALWAYS_INLINE
-  void DestroyRoot(const std::string &state_name) {
-    CHI_ADMIN->DestroyTaskStateRoot(domain_id_, id_);
+  void Destroy(const std::string &state_name) {
+    CHI_ADMIN->DestroyTaskState(domain_id_, id_);
     monitor_task_->SetModuleComplete();
   }
 
@@ -84,10 +84,10 @@ class Client : public TaskLibClient {
   void AsyncStatBdevConstruct(StatBdevTask *task,
                              const TaskNode &task_node,
                              size_t freq_ms) {
-    HRUN_CLIENT->ConstructTask<StatBdevTask>(
+    CHI_CLIENT->ConstructTask<StatBdevTask>(
         task, task_node, domain_id_, id_, freq_ms, max_cap_);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(StatBdev);
+  CHI_TASK_METHODS(StatBdev);
 
   /** Get bdev remaining capacity */
   HSHM_ALWAYS_INLINE
@@ -102,10 +102,10 @@ class Client : public TaskLibClient {
                               size_t size,
                               float score,
                               std::vector<BufferInfo> &buffers) {
-    HRUN_CLIENT->ConstructTask<AllocateTask>(
+    CHI_CLIENT->ConstructTask<AllocateTask>(
         task, task_node, domain_id_, id_, score, size, &buffers);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(Allocate);
+  CHI_TASK_METHODS(Allocate);
 
   /** Free data */
   HSHM_ALWAYS_INLINE
@@ -114,41 +114,41 @@ class Client : public TaskLibClient {
                           float score,
                           const std::vector<BufferInfo> &buffers,
                           bool fire_and_forget) {
-    HRUN_CLIENT->ConstructTask<FreeTask>(
+    CHI_CLIENT->ConstructTask<FreeTask>(
         task, task_node, domain_id_, id_, score, buffers, fire_and_forget);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(Free);
+  CHI_TASK_METHODS(Free);
 
   /** Allocate buffers from the bdev */
   HSHM_ALWAYS_INLINE
   void AsyncWriteConstruct(WriteTask *task,
                            const TaskNode &task_node,
                            const char *data, size_t off, size_t size) {
-    HRUN_CLIENT->ConstructTask<WriteTask>(
+    CHI_CLIENT->ConstructTask<WriteTask>(
         task, task_node, domain_id_, id_, data, off, size);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(Write);
+  CHI_TASK_METHODS(Write);
 
   /** Allocate buffers from the bdev */
   HSHM_ALWAYS_INLINE
   void AsyncReadConstruct(ReadTask *task,
                           const TaskNode &task_node,
                           char *data, size_t off, size_t size) {
-    HRUN_CLIENT->ConstructTask<ReadTask>(
+    CHI_CLIENT->ConstructTask<ReadTask>(
         task, task_node, domain_id_, id_, data, off, size);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(Read);
+  CHI_TASK_METHODS(Read);
 
   /** Update blob scores */
   HSHM_ALWAYS_INLINE
   void AsyncUpdateScoreConstruct(UpdateScoreTask *task,
                                  const TaskNode &task_node,
                                  float old_score, float new_score) {
-    HRUN_CLIENT->ConstructTask<UpdateScoreTask>(
+    CHI_CLIENT->ConstructTask<UpdateScoreTask>(
         task, task_node, domain_id_, id_,
         old_score, new_score);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(UpdateScore);
+  CHI_TASK_METHODS(UpdateScore);
 };
 
 class Server {

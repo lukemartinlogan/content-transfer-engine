@@ -15,16 +15,16 @@
 /** The performance of getting a queue */
 TEST_CASE("TestGetQueue") {
   /*chi::QueueId qid(0, 3);
-  CHI_ADMIN->CreateQueueRoot(chi::DomainId::GetLocal(), qid,
+  CHI_ADMIN->CreateQueue(chi::DomainId::GetLocal(), qid,
                                  16, 16, 256,
                                  hshm::bitfield32_t(0));
-  HRUN_CLIENT->GetQueue(qid);
+  CHI_CLIENT->GetQueue(qid);
 
   hshm::Timer t;
   t.Resume();
   size_t ops = (1 << 20);
   for (size_t i = 0; i < ops; ++i) {
-    chi::MultiQueue *queue = HRUN_CLIENT->GetQueue(qid);
+    chi::MultiQueue *queue = CHI_CLIENT->GetQueue(qid);
     REQUIRE(queue->id_ == qid);
   }
   t.Pause();
@@ -42,10 +42,10 @@ TEST_CASE("TestHshmAllocateFree") {
   for (size_t i = 0; i < reps; ++i) {
     std::vector<chi::Task*> tasks(count);
     for (size_t j = 0; j < count; ++j) {
-      tasks[j] = HRUN_CLIENT->NewTaskRoot<chi::Task>().ptr_;
+      tasks[j] = CHI_CLIENT->NewTask<chi::Task>().ptr_;
     }
     for (size_t j = 0; j < count; ++j) {
-      HRUN_CLIENT->DelTask(tasks[j]);
+      CHI_CLIENT->DelTask(tasks[j]);
     }
   }
   t.Pause();
@@ -99,7 +99,7 @@ TEST_CASE("TestHshmQueueEmplacePop") {
   auto queue = hipc::make_uptr<chi::MultiQueue>(
       qid, queue_info);
   chi::LaneData entry;
-  auto task = HRUN_CLIENT->NewTaskRoot<chi::Task>();
+  auto task = CHI_CLIENT->NewTask<chi::Task>();
   entry.p_ = task.shm_;
 
   hshm::Timer t;
@@ -111,7 +111,7 @@ TEST_CASE("TestHshmQueueEmplacePop") {
   }
   t.Pause();
 
-  HRUN_CLIENT->DelTask(task);
+  CHI_CLIENT->DelTask(task);
   HILOG(kInfo, "Latency: {} MOps", ops / t.GetUsec());
 }
 
@@ -152,11 +152,11 @@ TEST_CASE("TestHshmQueueAllocateEmplacePop") {
   t.Resume();
   for (size_t i = 0; i < ops; ++i) {
     chi::LaneData entry;
-    auto task = HRUN_CLIENT->NewTaskRoot<chi::Task>();
+    auto task = CHI_CLIENT->NewTask<chi::Task>();
     entry.p_ = task.shm_;
     queue->Emplace(0, 0, entry);
     lane.pop();
-    HRUN_CLIENT->DelTask(task);
+    CHI_CLIENT->DelTask(task);
   }
   t.Pause();
 
@@ -220,8 +220,8 @@ void TestWorkerIterationLatency(u32 num_queues, u32 num_lanes) {
   }
 
   chi::small_message::Client client;
-  CHI_ADMIN->RegisterTaskLibRoot(chi::DomainId::GetLocal(), "small_message");\
-  client.CreateRoot(chi::DomainId::GetLocal(), "ipc_test");
+  CHI_ADMIN->RegisterModule(chi::DomainId::GetLocal(), "small_message");\
+  client.Create(chi::DomainId::GetLocal(), "ipc_test");
 
   hshm::Timer t;
   t.Resume();
@@ -234,7 +234,7 @@ void TestWorkerIterationLatency(u32 num_queues, u32 num_lanes) {
                                      task_node,
                                      chi::DomainId::GetLocal());
     worker.Run(false);
-    HRUN_CLIENT->DelTask(task);
+    CHI_CLIENT->DelTask(task);
   }
   t.Pause();
 
@@ -243,7 +243,7 @@ void TestWorkerIterationLatency(u32 num_queues, u32 num_lanes) {
 
 /** Time for worker to process a request */
 TEST_CASE("TestWorkerLatency") {
-  TRANSPARENT_HRUN();
+  CHIMAERA_CLIENT_INIT();
   TestWorkerIterationLatency(1, 16);
   TestWorkerIterationLatency(5, 16);
   TestWorkerIterationLatency(10, 16);
@@ -254,13 +254,13 @@ TEST_CASE("TestWorkerLatency") {
 TEST_CASE("TestRoundTripLatency") {
   TRANSPARENT_HERMES();
   chi::small_message::Client client;
-  CHI_ADMIN->RegisterTaskLibRoot(chi::DomainId::GetLocal(), "small_message");
+  CHI_ADMIN->RegisterModule(chi::DomainId::GetLocal(), "small_message");
 //  int count = 25;
 //  for (int i = 0; i < count; ++i) {
 //    chi::small_message::Client client2;
-//    client2.CreateRoot(chi::DomainId::GetLocal(), "ipc_test" + std::to_string(i));
+//    client2.Create(chi::DomainId::GetLocal(), "ipc_test" + std::to_string(i));
 //  }
-  client.CreateRoot(chi::DomainId::GetLocal(), "ipc_test");
+  client.Create(chi::DomainId::GetLocal(), "ipc_test");
   hshm::Timer t;
 
   // int pid = getpid();
@@ -270,8 +270,8 @@ TEST_CASE("TestRoundTripLatency") {
   size_t ops = (1 << 20);
   // size_t ops = 1024;
   for (size_t i = 0; i < ops; ++i) {
-    // client.MdRoot(chi::DomainId::GetLocal());
-    client.MdPushRoot(chi::DomainId::GetLocal());
+    // client.Md(chi::DomainId::GetLocal());
+    client.MdPush(chi::DomainId::GetLocal());
   }
   t.Pause();
 

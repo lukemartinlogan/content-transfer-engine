@@ -189,7 +189,7 @@ const inline char* kHermesServerDefaultConfigStr =
 "\n"
 "### Task Registry\n"
 "module_registry: [\n"
-"  \'hermes_mdm\',\n"
+"  \'hermes_core\',\n"
 "  \'hermes_blob_mdm\',\n"
 "  \'hermes_bucket_mdm\',\n"
 "  \'hermes_data_op\',\n"

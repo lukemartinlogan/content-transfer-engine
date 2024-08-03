@@ -55,23 +55,23 @@ void Monitor(u32 mode, Task *task, RunContext &rctx) override {
 void Del(u32 method, Task *task) override {
   switch (method) {
     case Method::kConstruct: {
-      HRUN_CLIENT->DelTask<ConstructTask>(reinterpret_cast<ConstructTask *>(task));
+      CHI_CLIENT->DelTask<ConstructTask>(reinterpret_cast<ConstructTask *>(task));
       break;
     }
     case Method::kDestruct: {
-      HRUN_CLIENT->DelTask<DestructTask>(reinterpret_cast<DestructTask *>(task));
+      CHI_CLIENT->DelTask<DestructTask>(reinterpret_cast<DestructTask *>(task));
       break;
     }
     case Method::kRegisterOp: {
-      HRUN_CLIENT->DelTask<RegisterOpTask>(reinterpret_cast<RegisterOpTask *>(task));
+      CHI_CLIENT->DelTask<RegisterOpTask>(reinterpret_cast<RegisterOpTask *>(task));
       break;
     }
     case Method::kRegisterData: {
-      HRUN_CLIENT->DelTask<RegisterDataTask>(reinterpret_cast<RegisterDataTask *>(task));
+      CHI_CLIENT->DelTask<RegisterDataTask>(reinterpret_cast<RegisterDataTask *>(task));
       break;
     }
     case Method::kRunOp: {
-      HRUN_CLIENT->DelTask<RunOpTask>(reinterpret_cast<RunOpTask *>(task));
+      CHI_CLIENT->DelTask<RunOpTask>(reinterpret_cast<RunOpTask *>(task));
       break;
     }
   }
@@ -207,27 +207,27 @@ TaskPointer LoadStart(u32 method, BinaryInputArchive<true> &ar) override {
   TaskPointer task_ptr;
   switch (method) {
     case Method::kConstruct: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<ConstructTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<ConstructTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<ConstructTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kDestruct: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<DestructTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<DestructTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<DestructTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kRegisterOp: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<RegisterOpTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<RegisterOpTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<RegisterOpTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kRegisterData: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<RegisterDataTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<RegisterDataTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<RegisterDataTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kRunOp: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<RunOpTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<RunOpTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<RunOpTask*>(task_ptr.ptr_);
       break;
     }

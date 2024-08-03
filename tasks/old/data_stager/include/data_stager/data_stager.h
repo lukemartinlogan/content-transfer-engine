@@ -10,7 +10,7 @@
 namespace hermes::data_stager {
 
 /** Create data_stager requests */
-class Client : public TaskLibClient {
+class Client : public ModuleClient {
  public:
   /** Default constructor */
   Client() = default;
@@ -23,10 +23,10 @@ class Client : public TaskLibClient {
   LPointer<ConstructTask> AsyncCreate(const TaskNode &task_node,
                                       const DomainId &domain_id,
                                       const std::string &state_name,
-                                      const TaskStateId &blob_mdm,
-                                      const TaskStateId &bkt_mdm) {
-    id_ = TaskStateId::GetNull();
-    QueueManagerInfo &qm = HRUN_CLIENT->server_config_.queue_manager_;
+                                      const PoolId &blob_mdm,
+                                      const PoolId &bkt_mdm) {
+    id_ = PoolId::GetNull();
+    QueueManagerInfo &qm = CHI_CLIENT->server_config_.queue_manager_;
     std::vector<PriorityInfo> queue_info;
     return CHI_ADMIN->AsyncCreateTaskState<ConstructTask>(
         task_node, domain_id, state_name, id_, queue_info, blob_mdm, bkt_mdm);
@@ -34,19 +34,19 @@ class Client : public TaskLibClient {
   HRUN_TASK_NODE_ROOT(AsyncCreate)
   template<typename ...Args>
   HSHM_ALWAYS_INLINE
-  void CreateRoot(Args&& ...args) {
+  void Create(Args&& ...args) {
     LPointer<ConstructTask> task =
-        AsyncCreateRoot(std::forward<Args>(args)...);
+        AsyncCreate(std::forward<Args>(args)...);
     task->Wait();
     id_ = task->id_;
     Init(id_, CHI_ADMIN->queue_id_);
-    HRUN_CLIENT->DelTask(task);
+    CHI_CLIENT->DelTask(task);
   }
 
   /** Destroy task state + queue */
   HSHM_ALWAYS_INLINE
-  void DestroyRoot(const DomainId &domain_id) {
-    CHI_ADMIN->DestroyTaskStateRoot(domain_id, id_);
+  void Destroy(const DomainId &domain_id) {
+    CHI_ADMIN->DestroyTaskState(domain_id, id_);
   }
 
   /** Register task state */
@@ -56,34 +56,34 @@ class Client : public TaskLibClient {
                                     const BucketId &bkt_id,
                                     const hshm::charbuf &path,
                                     const hshm::charbuf &params) {
-    HRUN_CLIENT->ConstructTask<RegisterStagerTask>(
+    CHI_CLIENT->ConstructTask<RegisterStagerTask>(
         task, task_node, id_, bkt_id, path, params);
   }
   HSHM_ALWAYS_INLINE
-  void RegisterStagerRoot(const BucketId &bkt_id,
+  void RegisterStager(const BucketId &bkt_id,
                           const hshm::charbuf &path,
                           const hshm::charbuf params) {
-    LPointer<hrunpq::TypedPushTask<RegisterStagerTask>> task =
-        AsyncRegisterStagerRoot(bkt_id, path, params);
+    LPointer<RegisterStagerTask> task =
+        AsyncRegisterStager(bkt_id, path, params);
     task.ptr_->Wait();
   }
-  HRUN_TASK_NODE_PUSH_ROOT(RegisterStager);
+  CHI_TASK_METHODS(RegisterStager);
 
   /** Unregister task state */
   HSHM_ALWAYS_INLINE
   void AsyncUnregisterStagerConstruct(UnregisterStagerTask *task,
                                       const TaskNode &task_node,
                                       const BucketId &bkt_id) {
-    HRUN_CLIENT->ConstructTask<UnregisterStagerTask>(
+    CHI_CLIENT->ConstructTask<UnregisterStagerTask>(
         task, task_node, id_, bkt_id);
   }
   HSHM_ALWAYS_INLINE
-  void UnregisterStagerRoot(const BucketId &bkt_id) {
-    LPointer<hrunpq::TypedPushTask<UnregisterStagerTask>> task =
-        AsyncUnregisterStagerRoot(bkt_id);
+  void UnregisterStager(const BucketId &bkt_id) {
+    LPointer<UnregisterStagerTask> task =
+        AsyncUnregisterStager(bkt_id);
     task.ptr_->Wait();
   }
-  HRUN_TASK_NODE_PUSH_ROOT(UnregisterStager);
+  CHI_TASK_METHODS(UnregisterStager);
 
   /** Stage in data from a remote source */
   HSHM_ALWAYS_INLINE
@@ -93,20 +93,20 @@ class Client : public TaskLibClient {
                             const hshm::charbuf &blob_name,
                             float score,
                             u32 node_id) {
-    HRUN_CLIENT->ConstructTask<StageInTask>(
+    CHI_CLIENT->ConstructTask<StageInTask>(
         task, task_node, id_, bkt_id,
         blob_name, score, node_id);
   }
   HSHM_ALWAYS_INLINE
-  void StageInRoot(const BucketId &bkt_id,
+  void StageIn(const BucketId &bkt_id,
                const hshm::charbuf &blob_name,
                float score,
                u32 node_id) {
-    LPointer<hrunpq::TypedPushTask<StageInTask>> task =
-        AsyncStageInRoot(bkt_id, blob_name, score, node_id);
+    LPointer<StageInTask> task =
+        AsyncStageIn(bkt_id, blob_name, score, node_id);
     task.ptr_->Wait();
   }
-  HRUN_TASK_NODE_PUSH_ROOT(StageIn);
+  CHI_TASK_METHODS(StageIn);
 
   /** Stage out data to a remote source */
   HSHM_ALWAYS_INLINE
@@ -117,21 +117,21 @@ class Client : public TaskLibClient {
                               const hipc::Pointer &data,
                               size_t data_size,
                               u32 task_flags) {
-    HRUN_CLIENT->ConstructTask<StageOutTask>(
+    CHI_CLIENT->ConstructTask<StageOutTask>(
         task, task_node, id_, bkt_id,
         blob_name, data, data_size, task_flags);
   }
   HSHM_ALWAYS_INLINE
-  void StageOutRoot(const BucketId &bkt_id,
+  void StageOut(const BucketId &bkt_id,
                     const hshm::charbuf &blob_name,
                     const hipc::Pointer &data,
                     size_t data_size,
                     u32 task_flags) {
-    LPointer<hrunpq::TypedPushTask<StageOutTask>> task =
-        AsyncStageOutRoot(bkt_id, blob_name, data, data_size, task_flags);
+    LPointer<StageOutTask> task =
+        AsyncStageOut(bkt_id, blob_name, data, data_size, task_flags);
     task.ptr_->Wait();
   }
-  HRUN_TASK_NODE_PUSH_ROOT(StageOut);
+  CHI_TASK_METHODS(StageOut);
 
   /** Stage out data to a remote source */
   HSHM_ALWAYS_INLINE
@@ -142,56 +142,21 @@ class Client : public TaskLibClient {
                               size_t blob_off,
                               size_t data_size,
                               u32 task_flags) {
-    HRUN_CLIENT->ConstructTask<UpdateSizeTask>(
+    CHI_CLIENT->ConstructTask<UpdateSizeTask>(
         task, task_node, id_, bkt_id,
         blob_name, blob_off, data_size, task_flags);
   }
   HSHM_ALWAYS_INLINE
-  void UpdateSizeRoot(const BucketId &bkt_id,
+  void UpdateSize(const BucketId &bkt_id,
                     const hshm::charbuf &blob_name,
                     size_t blob_off,
                     size_t data_size,
                     u32 task_flags) {
-    AsyncUpdateSizeRoot(bkt_id, blob_name, blob_off, data_size, task_flags);
+    AsyncUpdateSize(bkt_id, blob_name, blob_off, data_size, task_flags);
   }
-  HRUN_TASK_NODE_PUSH_ROOT(UpdateSize);
+  CHI_TASK_METHODS(UpdateSize);
 
-  /** Parse url */
-  static inline
-  bool GetUrlProtocolAndAction(const std::string &url,
-                               std::string &protocol,
-                               std::string &action,
-                               std::vector<std::string> &tokens) {
-    // Determine the protocol + action
-    std::string token;
-    size_t found = url.find("://");
-    if (found == std::string::npos) {
-      return false;
-    }
-    protocol = url.substr(0, found);
-    action = url.substr(found + 3);
 
-    // Divide action into tokens
-    std::stringstream ss(action);
-    while (std::getline(ss, token, ':')) {
-      tokens.push_back(token);
-    }
-    return true;
-  }
-
-  /** Bucket name from url */
-  static inline hshm::charbuf GetTagNameFromUrl(const hshm::string &url) {
-    // Parse url
-    std::string protocol, action;
-    std::vector<std::string> tokens;
-    bool ret = GetUrlProtocolAndAction(url.str(), protocol, action, tokens);
-    if (ret) {
-      std::string &path = tokens[0];
-      return hshm::charbuf(path);
-    } else {
-      return url;
-    }
-  }
 };
 
 }  // namespace hrun

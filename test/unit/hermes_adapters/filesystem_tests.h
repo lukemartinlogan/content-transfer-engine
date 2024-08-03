@@ -168,7 +168,7 @@ class FilesystemTests {
   void Flush() {
 #if HERMES_INTERCEPT == 1
     // HERMES->Clear();
-    CHI_ADMIN->FlushRoot(DomainId::GetGlobal());
+    CHI_ADMIN->Flush(chi::DomainQuery::GetGlobalBcast());
 #endif
   }
 

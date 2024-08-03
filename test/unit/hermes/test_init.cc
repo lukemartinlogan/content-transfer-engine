@@ -16,7 +16,7 @@
 #include "test_init.h"
 
 void MainPretest() {
-  TRANSPARENT_HRUN();
+  CHIMAERA_CLIENT_INIT();
 }
 
 void MainPosttest() {

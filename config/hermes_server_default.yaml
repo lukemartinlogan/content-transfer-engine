@@ -186,7 +186,7 @@ rpc:
 
 ### Task Registry
 module_registry: [
-  'hermes_mdm',
+  'hermes_core',
   'hermes_blob_mdm',
   'hermes_bucket_mdm',
   'hermes_data_op',

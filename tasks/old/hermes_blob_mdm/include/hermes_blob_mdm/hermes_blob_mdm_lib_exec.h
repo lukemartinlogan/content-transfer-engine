@@ -175,83 +175,83 @@ void Monitor(u32 mode, Task *task, RunContext &rctx) override {
 void Del(u32 method, Task *task) override {
   switch (method) {
     case Method::kConstruct: {
-      HRUN_CLIENT->DelTask<ConstructTask>(reinterpret_cast<ConstructTask *>(task));
+      CHI_CLIENT->DelTask<ConstructTask>(reinterpret_cast<ConstructTask *>(task));
       break;
     }
     case Method::kDestruct: {
-      HRUN_CLIENT->DelTask<DestructTask>(reinterpret_cast<DestructTask *>(task));
+      CHI_CLIENT->DelTask<DestructTask>(reinterpret_cast<DestructTask *>(task));
       break;
     }
     case Method::kPutBlob: {
-      HRUN_CLIENT->DelTask<PutBlobTask>(reinterpret_cast<PutBlobTask *>(task));
+      CHI_CLIENT->DelTask<PutBlobTask>(reinterpret_cast<PutBlobTask *>(task));
       break;
     }
     case Method::kGetBlob: {
-      HRUN_CLIENT->DelTask<GetBlobTask>(reinterpret_cast<GetBlobTask *>(task));
+      CHI_CLIENT->DelTask<GetBlobTask>(reinterpret_cast<GetBlobTask *>(task));
       break;
     }
     case Method::kTruncateBlob: {
-      HRUN_CLIENT->DelTask<TruncateBlobTask>(reinterpret_cast<TruncateBlobTask *>(task));
+      CHI_CLIENT->DelTask<TruncateBlobTask>(reinterpret_cast<TruncateBlobTask *>(task));
       break;
     }
     case Method::kDestroyBlob: {
-      HRUN_CLIENT->DelTask<DestroyBlobTask>(reinterpret_cast<DestroyBlobTask *>(task));
+      CHI_CLIENT->DelTask<DestroyBlobTask>(reinterpret_cast<DestroyBlobTask *>(task));
       break;
     }
     case Method::kTagBlob: {
-      HRUN_CLIENT->DelTask<TagBlobTask>(reinterpret_cast<TagBlobTask *>(task));
+      CHI_CLIENT->DelTask<TagBlobTask>(reinterpret_cast<TagBlobTask *>(task));
       break;
     }
     case Method::kBlobHasTag: {
-      HRUN_CLIENT->DelTask<BlobHasTagTask>(reinterpret_cast<BlobHasTagTask *>(task));
+      CHI_CLIENT->DelTask<BlobHasTagTask>(reinterpret_cast<BlobHasTagTask *>(task));
       break;
     }
     case Method::kGetBlobId: {
-      HRUN_CLIENT->DelTask<GetBlobIdTask>(reinterpret_cast<GetBlobIdTask *>(task));
+      CHI_CLIENT->DelTask<GetBlobIdTask>(reinterpret_cast<GetBlobIdTask *>(task));
       break;
     }
     case Method::kGetOrCreateBlobId: {
-      HRUN_CLIENT->DelTask<GetOrCreateBlobIdTask>(reinterpret_cast<GetOrCreateBlobIdTask *>(task));
+      CHI_CLIENT->DelTask<GetOrCreateBlobIdTask>(reinterpret_cast<GetOrCreateBlobIdTask *>(task));
       break;
     }
     case Method::kGetBlobName: {
-      HRUN_CLIENT->DelTask<GetBlobNameTask>(reinterpret_cast<GetBlobNameTask *>(task));
+      CHI_CLIENT->DelTask<GetBlobNameTask>(reinterpret_cast<GetBlobNameTask *>(task));
       break;
     }
     case Method::kGetBlobSize: {
-      HRUN_CLIENT->DelTask<GetBlobSizeTask>(reinterpret_cast<GetBlobSizeTask *>(task));
+      CHI_CLIENT->DelTask<GetBlobSizeTask>(reinterpret_cast<GetBlobSizeTask *>(task));
       break;
     }
     case Method::kGetBlobScore: {
-      HRUN_CLIENT->DelTask<GetBlobScoreTask>(reinterpret_cast<GetBlobScoreTask *>(task));
+      CHI_CLIENT->DelTask<GetBlobScoreTask>(reinterpret_cast<GetBlobScoreTask *>(task));
       break;
     }
     case Method::kGetBlobBuffers: {
-      HRUN_CLIENT->DelTask<GetBlobBuffersTask>(reinterpret_cast<GetBlobBuffersTask *>(task));
+      CHI_CLIENT->DelTask<GetBlobBuffersTask>(reinterpret_cast<GetBlobBuffersTask *>(task));
       break;
     }
     case Method::kRenameBlob: {
-      HRUN_CLIENT->DelTask<RenameBlobTask>(reinterpret_cast<RenameBlobTask *>(task));
+      CHI_CLIENT->DelTask<RenameBlobTask>(reinterpret_cast<RenameBlobTask *>(task));
       break;
     }
     case Method::kReorganizeBlob: {
-      HRUN_CLIENT->DelTask<ReorganizeBlobTask>(reinterpret_cast<ReorganizeBlobTask *>(task));
+      CHI_CLIENT->DelTask<ReorganizeBlobTask>(reinterpret_cast<ReorganizeBlobTask *>(task));
       break;
     }
     case Method::kSetBucketMdm: {
-      HRUN_CLIENT->DelTask<SetBucketMdmTask>(reinterpret_cast<SetBucketMdmTask *>(task));
+      CHI_CLIENT->DelTask<SetBucketMdmTask>(reinterpret_cast<SetBucketMdmTask *>(task));
       break;
     }
     case Method::kFlushData: {
-      HRUN_CLIENT->DelTask<FlushDataTask>(reinterpret_cast<FlushDataTask *>(task));
+      CHI_CLIENT->DelTask<FlushDataTask>(reinterpret_cast<FlushDataTask *>(task));
       break;
     }
     case Method::kPollBlobMetadata: {
-      HRUN_CLIENT->DelTask<PollBlobMetadataTask>(reinterpret_cast<PollBlobMetadataTask *>(task));
+      CHI_CLIENT->DelTask<PollBlobMetadataTask>(reinterpret_cast<PollBlobMetadataTask *>(task));
       break;
     }
     case Method::kPollTargetMetadata: {
-      HRUN_CLIENT->DelTask<PollTargetMetadataTask>(reinterpret_cast<PollTargetMetadataTask *>(task));
+      CHI_CLIENT->DelTask<PollTargetMetadataTask>(reinterpret_cast<PollTargetMetadataTask *>(task));
       break;
     }
   }
@@ -687,102 +687,102 @@ TaskPointer LoadStart(u32 method, BinaryInputArchive<true> &ar) override {
   TaskPointer task_ptr;
   switch (method) {
     case Method::kConstruct: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<ConstructTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<ConstructTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<ConstructTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kDestruct: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<DestructTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<DestructTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<DestructTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kPutBlob: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<PutBlobTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PutBlobTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<PutBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlob: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<GetBlobTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTruncateBlob: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<TruncateBlobTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TruncateBlobTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<TruncateBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kDestroyBlob: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<DestroyBlobTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<DestroyBlobTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<DestroyBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTagBlob: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<TagBlobTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagBlobTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<TagBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kBlobHasTag: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<BlobHasTagTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<BlobHasTagTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<BlobHasTagTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlobId: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<GetBlobIdTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobIdTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobIdTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetOrCreateBlobId: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<GetOrCreateBlobIdTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetOrCreateBlobIdTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<GetOrCreateBlobIdTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlobName: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<GetBlobNameTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobNameTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobNameTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlobSize: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<GetBlobSizeTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobSizeTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobSizeTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlobScore: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<GetBlobScoreTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobScoreTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobScoreTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlobBuffers: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<GetBlobBuffersTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobBuffersTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobBuffersTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kRenameBlob: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<RenameBlobTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<RenameBlobTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<RenameBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kReorganizeBlob: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<ReorganizeBlobTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<ReorganizeBlobTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<ReorganizeBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kSetBucketMdm: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<SetBucketMdmTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<SetBucketMdmTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<SetBucketMdmTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kFlushData: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<FlushDataTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<FlushDataTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<FlushDataTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kPollBlobMetadata: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<PollBlobMetadataTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PollBlobMetadataTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<PollBlobMetadataTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kPollTargetMetadata: {
-      task_ptr.ptr_ = HRUN_CLIENT->NewEmptyTask<PollTargetMetadataTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PollTargetMetadataTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<PollTargetMetadataTask*>(task_ptr.ptr_);
       break;
     }

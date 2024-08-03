@@ -9,7 +9,7 @@
 
 namespace hermes::ram_bdev {
 
-class Server : public TaskLib, public bdev::Server {
+class Server : public Module, public bdev::Server {
  public:
   SlabAllocator alloc_;
   char *mem_ptr_;

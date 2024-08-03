@@ -2,15 +2,15 @@
 // Created by lukemartinlogan on 6/29/23.
 //
 
-#ifndef HRUN_hermes_mdm_H_
-#define HRUN_hermes_mdm_H_
+#ifndef HRUN_hermes_core_H_
+#define HRUN_hermes_core_H_
 
-#include "hermes_mdm_tasks.h"
+#include "hermes_core_tasks.h"
 
 namespace hermes::mdm {
 
 /** Create requests */
-class Client : public TaskLibClient {
+class Client : public ModuleClient {
  public:
   /** Default constructor */
   Client() = default;
@@ -18,24 +18,24 @@ class Client : public TaskLibClient {
   /** Destructor */
   ~Client() = default;
 
-  /** Create a hermes_mdm */
+  /** Create a hermes_core */
   HSHM_ALWAYS_INLINE
-  void CreateRoot(const DomainId &domain_id,
+  void Create(const DomainId &domain_id,
                   const std::string &state_name) {
-    id_ = TaskStateId::GetNull();
+    id_ = PoolId::GetNull();
     std::vector<PriorityInfo> queue_info;
-    id_ = CHI_ADMIN->CreateTaskStateRoot<ConstructTask>(
+    id_ = CHI_ADMIN->CreateTaskState<ConstructTask>(
         domain_id, state_name, id_, queue_info);
     Init(id_, CHI_ADMIN->queue_id_);
   }
 
   /** Destroy task state + queue */
   HSHM_ALWAYS_INLINE
-  void DestroyRoot(const DomainId &domain_id) {
-    CHI_ADMIN->DestroyTaskStateRoot(domain_id, id_);
+  void Destroy(const DomainId &domain_id) {
+    CHI_ADMIN->DestroyTaskState(domain_id, id_);
   }
 };
 
 }  // namespace hrun
 
-#endif  // HRUN_hermes_mdm_H_
+#endif  // HRUN_hermes_core_H_

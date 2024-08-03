@@ -68,8 +68,8 @@ struct OpGraph {
  * */
 using chi::Admin::CreateTaskStateTask;
 struct ConstructTask : public CreateTaskStateTask {
-  IN TaskStateId bkt_mdm_;
-  IN TaskStateId blob_mdm_;
+  IN PoolId bkt_mdm_;
+  IN PoolId blob_mdm_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
@@ -82,10 +82,10 @@ struct ConstructTask : public CreateTaskStateTask {
                 const TaskNode &task_node,
                 const DomainId &domain_id,
                 const std::string &state_name,
-                const TaskStateId &id,
+                const PoolId &id,
                 const std::vector<PriorityInfo> &queue_info,
-                const TaskStateId &bkt_mdm_id,
-                const TaskStateId &blob_mdm_id)
+                const PoolId &bkt_mdm_id,
+                const PoolId &blob_mdm_id)
       : CreateTaskStateTask(alloc, task_node, domain_id, state_name,
                             "hermes_data_op", id, queue_info) {
     // Custom params
@@ -125,7 +125,7 @@ struct DestructTask : public DestroyTaskStateTask {
   DestructTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
                const DomainId &domain_id,
-               TaskStateId &state_id)
+               PoolId &state_id)
   : DestroyTaskStateTask(alloc, task_node, domain_id, state_id) {}
 
   /** Create group */
@@ -150,7 +150,7 @@ struct RegisterOpTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
   RegisterOpTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
                  const DomainId &domain_id,
-                 const TaskStateId &state_id,
+                 const PoolId &state_id,
                  const OpGraph &graph) : Task(alloc) {
     // Store OpGraph
     std::stringstream ss;
@@ -244,7 +244,7 @@ struct RegisterDataTask : public Task, TaskFlags<TF_LOCAL> {
   HSHM_ALWAYS_INLINE explicit
   RegisterDataTask(hipc::Allocator *alloc,
             const TaskNode &task_node,
-            const TaskStateId &state_id,
+            const PoolId &state_id,
             const BucketId &bkt_id,
             const std::string &blob_name,
             const BlobId &blob_id,
@@ -286,7 +286,7 @@ struct RunOpTask : public Task, TaskFlags<TF_LOCAL | TF_REPLICA> {
   HSHM_ALWAYS_INLINE explicit
   RunOpTask(hipc::Allocator *alloc,
              const TaskNode &task_node,
-             const TaskStateId &state_id) : Task(alloc) {
+             const PoolId &state_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     lane_hash_ = 0;
