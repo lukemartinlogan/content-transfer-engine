@@ -242,6 +242,7 @@ include_directories(${HermesShm_INCLUDE_DIRS})
 link_directories(${HermesShm_LIBRARY_DIRS})
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/include)
+link_directories(${HermesShm_LIBRARY_DIRS})
 # Required Task includes
 include_directories(${CMAKE_SOURCE_DIR}/hrun/include)
 include_directories(${CMAKE_SOURCE_DIR}/hrun/tasks_required)
