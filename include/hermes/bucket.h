@@ -19,7 +19,7 @@
 
 namespace hermes {
 
-#include "hrun/hrun_namespace.h"
+#include "chimaera/chimaera_namespace.h"
 using hermes::blob_mdm::PutBlobTask;
 using hermes::blob_mdm::GetBlobTask;
 

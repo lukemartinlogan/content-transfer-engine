@@ -13,7 +13,7 @@
 #ifndef HRUN_TASKS_HERMES_INCLUDE_HERMES_SLAB_ALLOCATOR_H_
 #define HRUN_TASKS_HERMES_INCLUDE_HERMES_SLAB_ALLOCATOR_H_
 
-#include "hrun/hrun_types.h"
+#include "chimaera/chimaera_types.h"
 #include "hermes/hermes_types.h"
 
 namespace hermes {

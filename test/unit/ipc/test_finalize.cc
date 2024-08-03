@@ -11,9 +11,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "basic_test.h"
-#include "hrun/api/hrun_client.h"
-#include "hrun_admin/hrun_admin.h"
+#include "chimaera/api/chimaera_client.h"
+#include "chimaera_admin/chimaera_admin.h"
 
 TEST_CASE("TestFinalize") {
-  HRUN_ADMIN->StopRuntimeRoot();
+  CHI_ADMIN->StopRuntimeRoot();
 }

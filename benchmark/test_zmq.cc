@@ -4,11 +4,11 @@
 
 #include <zmq.hpp>
 #include "basic_test.h"
-#include "hrun/api/hrun_client.h"
-#include "hrun_admin/hrun_admin.h"
+#include "chimaera/api/chimaera_client.h"
+#include "chimaera_admin/chimaera_admin.h"
 #include "small_message/small_message.h"
 #include "hermes_shm/util/timer.h"
-#include "hrun/work_orchestrator/affinity.h"
+#include "chimaera/work_orchestrator/affinity.h"
 
 /** ZeroMQ allocate + free request */
 TEST_CASE("TestZeromqAllocateFree") {
@@ -30,7 +30,7 @@ TEST_CASE("TestZeromqAllocateFree") {
   t.Resume();
   size_t ops = (1 << 20);
   for (size_t i = 0; i < ops; ++i) {
-    zmq::message_t message(sizeof(hrun::Task));
+    zmq::message_t message(sizeof(chi::Task));
   }
   t.Pause();
 
@@ -58,13 +58,13 @@ TEST_CASE("TestZeromqAllocateEmplacePop") {
   size_t ops = (1 << 20);
   for (size_t i = 0; i < ops; ++i) {
     // Send a request
-    zmq::message_t message(sizeof(hrun::Task));
+    zmq::message_t message(sizeof(chi::Task));
     pushSocket.send(message, zmq::send_flags::none);
 
     // Receive the request
     zmq::message_t receivedMessage;
     zmq::recv_result_t result = pullSocket.recv(receivedMessage);
-    REQUIRE(receivedMessage.size() == sizeof(hrun::Task));
+    REQUIRE(receivedMessage.size() == sizeof(chi::Task));
   }
   t.Pause();
 

@@ -15,7 +15,7 @@
 #include <mpi.h>
 #include "hermes/hermes.h"
 #include "hermes/bucket.h"
-#include "hrun/work_orchestrator/affinity.h"
+#include "chimaera/work_orchestrator/affinity.h"
 
 namespace hapi = hermes;
 using hshm::MpiTimer;
@@ -81,7 +81,7 @@ void PutGetTest(int nprocs, int rank, int repeat,
   HILOG(kInfo, "Beginning barrier")
   MPI_Barrier(MPI_COMM_WORLD);
   HILOG(kInfo, "Beginning flushing")
-  HRUN_ADMIN->FlushRoot(DomainId::GetGlobal());
+  CHI_ADMIN->FlushRoot(DomainId::GetGlobal());
   HILOG(kInfo, "Finished flushing")
   GetTest(nprocs, rank, repeat, blobs_per_rank, blob_size);
 }

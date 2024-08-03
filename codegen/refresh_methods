@@ -26,7 +26,7 @@ def refresh_methods(TASK_ROOT):
     if 'kLast' in methods:
         del methods['kLast']
     methods = sorted(methods.items(), key=lambda x: x[1])
-    if TASK_NAME != 'hrun_admin':
+    if TASK_NAME != 'chimaera_admin':
         methods.insert(0, ('kConstruct', -2))
         methods.insert(1, ('kDestruct', -1))
     monitor_modes = ['kEstTime', 'kTrainTime', 'kFlushStat']
@@ -104,7 +104,7 @@ def refresh_methods(TASK_ROOT):
         method_name = method_enum_name.replace('k', '', 1)
         task_name = method_name + "Task"
         lines += [f'    case Method::{method_enum_name}: {{',
-                  f'      hrun::CALL_DUPLICATE(reinterpret_cast<{task_name}*>(orig_task), dups);',
+                  f'      chi::CALL_DUPLICATE(reinterpret_cast<{task_name}*>(orig_task), dups);',
                   f'      break;',
                   f'    }}']
     lines += ['  }']
@@ -119,7 +119,7 @@ def refresh_methods(TASK_ROOT):
         task_name = method_name + "Task"
         task_cast = f'reinterpret_cast<{task_name}*>'
         lines += [f'    case Method::{method_enum_name}: {{',
-                  f'      hrun::CALL_DUPLICATE_END(replica, {task_cast}(orig_task), {task_cast}(dup_task));',
+                  f'      chi::CALL_DUPLICATE_END(replica, {task_cast}(orig_task), {task_cast}(dup_task));',
                   f'      break;',
                   f'    }}']
     lines += ['  }']
@@ -133,7 +133,7 @@ def refresh_methods(TASK_ROOT):
         method_name = method_enum_name.replace('k', '', 1)
         task_name = method_name + "Task"
         lines += [f'    case Method::{method_enum_name}: {{',
-                  f'      hrun::CALL_REPLICA_START(count, reinterpret_cast<{task_name}*>(task));',
+                  f'      chi::CALL_REPLICA_START(count, reinterpret_cast<{task_name}*>(task));',
                   f'      break;',
                   f'    }}']
     lines += ['  }']
@@ -147,7 +147,7 @@ def refresh_methods(TASK_ROOT):
         method_name = method_enum_name.replace('k', '', 1)
         task_name = method_name + "Task"
         lines += [f'    case Method::{method_enum_name}: {{',
-                  f'      hrun::CALL_REPLICA_END(reinterpret_cast<{task_name}*>(task));',
+                  f'      chi::CALL_REPLICA_END(reinterpret_cast<{task_name}*>(task));',
                   f'      break;',
                   f'    }}']
     lines += ['  }']

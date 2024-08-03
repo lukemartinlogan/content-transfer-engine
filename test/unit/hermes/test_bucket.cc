@@ -11,8 +11,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "basic_test.h"
-#include "hrun/api/hrun_client.h"
-#include "hrun_admin/hrun_admin.h"
+#include "chimaera/api/chimaera_client.h"
+#include "chimaera_admin/chimaera_admin.h"
 #include "hermes/hermes.h"
 #include "hermes/bucket.h"
 #include "data_stager/factory/binary_stager.h"
@@ -117,7 +117,7 @@ TEST_CASE("TestHermesAsyncPut") {
     bkt.AsyncPut(std::to_string(i), blob, ctx);
   }
   MPI_Barrier(MPI_COMM_WORLD);
-  HRUN_ADMIN->FlushRoot(DomainId::GetGlobal());
+  CHI_ADMIN->FlushRoot(DomainId::GetGlobal());
 }
 
 TEST_CASE("TestHermesPutGet") {
@@ -520,7 +520,7 @@ TEST_CASE("TestHermesDataStager") {
   MPI_Barrier(MPI_COMM_WORLD);
 
   // Verify staging happened
-  HRUN_ADMIN->FlushRoot(DomainId::GetGlobal());
+  CHI_ADMIN->FlushRoot(DomainId::GetGlobal());
   HILOG(kInfo, "Flushing finished")
 }
 
@@ -571,10 +571,10 @@ TEST_CASE("TestHermesDataOp") {
   }
   MPI_Barrier(MPI_COMM_WORLD);
 
-  HRUN_ADMIN->FlushRoot(DomainId::GetGlobal());
+  CHI_ADMIN->FlushRoot(DomainId::GetGlobal());
   // Verify derived operator happens
   hermes::Bucket bkt_min("data_bkt_min", 0, 0);
-  HRUN_ADMIN->FlushRoot(DomainId::GetGlobal());
+  CHI_ADMIN->FlushRoot(DomainId::GetGlobal());
   size_t size = bkt_min.GetSize();
   REQUIRE(size == sizeof(float) * count_per_proc * nprocs);
 

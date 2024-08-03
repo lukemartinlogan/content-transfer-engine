@@ -11,15 +11,15 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "basic_test.h"
-#include "hrun/network/serialize.h"
-#include "hrun/task_registry/task.h"
+#include "chimaera/network/serialize.h"
+#include "chimaera/module_registry/task.h"
 
-using hrun::DomainId;
-using hrun::BinaryOutputArchive;
-using hrun::BinaryInputArchive;
-using hrun::DataTransfer;
-using hrun::Task;
-using hrun::TaskFlags;
+using chi::DomainId;
+using chi::BinaryOutputArchive;
+using chi::BinaryInputArchive;
+using chi::DataTransfer;
+using chi::Task;
+using chi::TaskFlags;
 
 struct TestObj : public Task, TaskFlags<TF_SRL_SYM> {
   std::vector <char> data_;

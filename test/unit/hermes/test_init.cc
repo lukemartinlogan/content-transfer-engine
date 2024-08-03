@@ -11,7 +11,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
-#include "hrun/api/hrun_client.h"
+#include "chimaera/api/chimaera_client.h"
 #include "basic_test.h"
 #include "test_init.h"
 

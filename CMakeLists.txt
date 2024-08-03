@@ -108,6 +108,10 @@ SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 find_package(HermesShm CONFIG REQUIRED)
 message(STATUS "found hermes_shm.h at ${HermesShm_INCLUDE_DIRS}")
 
+# Chimaera
+find_package(Chimaera CONFIG REQUIRED)
+message(STATUS "found chimaera at ${Chimaera_INCLUDE_DIRS}")
+
 # YAML-CPP
 find_package(yaml-cpp REQUIRED)
 message(STATUS "found yaml-cpp at ${yaml-cpp_DIR}")
@@ -243,27 +247,18 @@ link_directories(${HermesShm_LIBRARY_DIRS})
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/include)
 link_directories(${HermesShm_LIBRARY_DIRS})
-# Required Task includes
-include_directories(${CMAKE_SOURCE_DIR}/hrun/include)
-include_directories(${CMAKE_SOURCE_DIR}/hrun/tasks_required)
-include_directories(${CMAKE_SOURCE_DIR}/hrun/tasks_required/hrun_admin/include)
-include_directories(${CMAKE_SOURCE_DIR}/hrun/tasks_required/small_message/include)
-include_directories(${CMAKE_SOURCE_DIR}/hrun/tasks_required/remote_queue/include)
-include_directories(${CMAKE_SOURCE_DIR}/hrun/tasks_required/worch_proc_round_robin/include)
-include_directories(${CMAKE_SOURCE_DIR}/hrun/tasks_required/worch_queue_round_robin/include)
-include_directories(${CMAKE_SOURCE_DIR}/hrun/tasks_required/proc_queue/include)
 # Task includes
 include_directories(${CMAKE_SOURCE_DIR}/tasks)
 include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes/include)
-include_directories(${CMAKE_SOURCE_DIR}/tasks/bdev/include)
-include_directories(${CMAKE_SOURCE_DIR}/tasks/ram_bdev/include)
-include_directories(${CMAKE_SOURCE_DIR}/tasks/posix_bdev/include)
-include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_mdm/include)
-include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_blob_mdm/include)
-include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_bucket_mdm/include)
-include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_adapters/include)
-include_directories(${CMAKE_SOURCE_DIR}/tasks/data_stager/include)
-include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_data_op/include)
+#include_directories(${CMAKE_SOURCE_DIR}/tasks/bdev/include)
+#include_directories(${CMAKE_SOURCE_DIR}/tasks/ram_bdev/include)
+#include_directories(${CMAKE_SOURCE_DIR}/tasks/posix_bdev/include)
+#include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_mdm/include)
+#include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_blob_mdm/include)
+#include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_bucket_mdm/include)
+#include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_adapters/include)
+#include_directories(${CMAKE_SOURCE_DIR}/tasks/data_stager/include)
+#include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_data_op/include)
 # Test includes
 include_directories(${CMAKE_SOURCE_DIR}/test/unit)
 
@@ -271,22 +266,14 @@ set(Hermes_CLIENT_LIBRARIES
         ${HermesShm_LIBRARIES}
         yaml-cpp
         cereal::cereal
-        -ldl -lrt -lc -pthread hrun_client)
-set(Hermes_CLIENT_DEPS
-        hrun_client)
+        -ldl -lrt -lc -pthread)
 set(Hermes_RUNTIME_LIBRARIES
         ${Hermes_CLIENT_LIBRARIES}
-        hrun_runtime
+        ${Chimaera_CLIENT_LIBRARIES}
         ${Boost_LIBRARIES})
-set(Hermes_RUNTIME_DEPS
-        hrun_client hrun_runtime)
+set(Hermes_RUNTIME_DEPS "")
 
 set(TEST_MAIN ${CMAKE_SOURCE_DIR}/test/unit)
-if (HERMES_ENABLE_PYTHON)
-add_subdirectory(external/pybind11)
-endif()
-add_subdirectory(hrun)
-add_subdirectory(src)
 add_subdirectory(hermes_adapters)
 add_subdirectory(tasks)
 add_subdirectory(benchmark)

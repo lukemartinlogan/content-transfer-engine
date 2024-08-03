@@ -12,7 +12,7 @@
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <hrun/hrun_types.h>
+#include <chimaera/chimaera_types.h>
 #include "hermes/hermes.h"
 #include "hermes/bucket.h"
 
@@ -28,7 +28,7 @@ using hermes::TargetStats;
 using hermes::TagInfo;
 using hermes::MetadataTable;
 using hermes::Hermes;
-using hrun::UniqueId;
+using chi::UniqueId;
 
 bool TRANSPARENT_HERMES_FUN() {
   if (TRANSPARENT_HRUN()) {

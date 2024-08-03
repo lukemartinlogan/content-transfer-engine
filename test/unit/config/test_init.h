@@ -14,6 +14,6 @@
 #ifndef HRUN_TEST_UNIT_IPC_TEST_INIT_H_
 #define HRUN_TEST_UNIT_IPC_TEST_INIT_H_
 
-#include "hrun/hrun_types.h"
+#include "chimaera/chimaera_types.h"
 
 #endif  // HRUN_TEST_UNIT_IPC_TEST_INIT_H_

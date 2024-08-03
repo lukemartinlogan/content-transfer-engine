@@ -185,7 +185,7 @@ rpc:
   num_threads: 32
 
 ### Task Registry
-task_registry: [
+module_registry: [
   'hermes_mdm',
   'hermes_blob_mdm',
   'hermes_bucket_mdm',

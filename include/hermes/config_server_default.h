@@ -188,7 +188,7 @@ const inline char* kHermesServerDefaultConfigStr =
 "  num_threads: 32\n"
 "\n"
 "### Task Registry\n"
-"task_registry: [\n"
+"module_registry: [\n"
 "  \'hermes_mdm\',\n"
 "  \'hermes_blob_mdm\',\n"
 "  \'hermes_bucket_mdm\',\n"

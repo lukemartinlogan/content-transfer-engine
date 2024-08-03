@@ -13,9 +13,9 @@
 #ifndef HRUN_TASKS_HERMES_INCLUDE_HERMES_HERMES_TYPES_H_
 #define HRUN_TASKS_HERMES_INCLUDE_HERMES_HERMES_TYPES_H_
 
-#include "hrun/hrun_types.h"
-#include "hrun/task_registry/task_registry.h"
-#include "hrun/api/hrun_client.h"
+#include "chimaera/chimaera_types.h"
+#include "chimaera/module_registry/module.h"
+#include "chimaera/api/chimaera_client.h"
 #include "status.h"
 #include "statuses.h"
 
@@ -23,21 +23,21 @@ namespace hapi = hermes;
 
 namespace hermes {
 
-using hrun::TaskLib;
-using hrun::TaskMethod;
-using hrun::UniqueId;
-using hrun::TaskStateId;
-using hrun::DomainId;
-using hrun::Task;
-using hrun::TaskId;
-using hrun::TaskNode;
+using chi::TaskLib;
+using chi::TaskMethod;
+using chi::UniqueId;
+using chi::TaskStateId;
+using chi::DomainId;
+using chi::Task;
+using chi::TaskId;
+using chi::TaskNode;
 using hshm::bitfield32_t;
 
 /** Queue id */
-using hrun::QueueId;
+using chi::QueueId;
 
 /** Queue for interprocess-communication */
-using hrun::MultiQueue;
+using chi::MultiQueue;
 
 /** Unique blob id */
 typedef UniqueId<100> BlobId;

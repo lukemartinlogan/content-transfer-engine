@@ -4,18 +4,18 @@
 
 #include <thread>
 #include "basic_test.h"
-#include "hrun/api/hrun_client.h"
-#include "hrun_admin/hrun_admin.h"
+#include "chimaera/api/chimaera_client.h"
+#include "chimaera_admin/chimaera_admin.h"
 #include "small_message/small_message.h"
 #include "hermes_shm/util/timer.h"
-#include "hrun/work_orchestrator/affinity.h"
+#include "chimaera/work_orchestrator/affinity.h"
 #include "hermes/hermes.h"
-#include "hrun/api/hrun_runtime.h"
+#include "chimaera/api/chimaera_runtime.h"
 
 /** The performance of getting a queue */
 TEST_CASE("TestGetQueue") {
-  /*hrun::QueueId qid(0, 3);
-  HRUN_ADMIN->CreateQueueRoot(hrun::DomainId::GetLocal(), qid,
+  /*chi::QueueId qid(0, 3);
+  CHI_ADMIN->CreateQueueRoot(chi::DomainId::GetLocal(), qid,
                                  16, 16, 256,
                                  hshm::bitfield32_t(0));
   HRUN_CLIENT->GetQueue(qid);
@@ -24,7 +24,7 @@ TEST_CASE("TestGetQueue") {
   t.Resume();
   size_t ops = (1 << 20);
   for (size_t i = 0; i < ops; ++i) {
-    hrun::MultiQueue *queue = HRUN_CLIENT->GetQueue(qid);
+    chi::MultiQueue *queue = HRUN_CLIENT->GetQueue(qid);
     REQUIRE(queue->id_ == qid);
   }
   t.Pause();
@@ -40,9 +40,9 @@ TEST_CASE("TestHshmAllocateFree") {
   size_t count = (1 << 8);
   size_t reps = ops / count;
   for (size_t i = 0; i < reps; ++i) {
-    std::vector<hrun::Task*> tasks(count);
+    std::vector<chi::Task*> tasks(count);
     for (size_t j = 0; j < count; ++j) {
-      tasks[j] = HRUN_CLIENT->NewTaskRoot<hrun::Task>().ptr_;
+      tasks[j] = HRUN_CLIENT->NewTaskRoot<chi::Task>().ptr_;
     }
     for (size_t j = 0; j < count; ++j) {
       HRUN_CLIENT->DelTask(tasks[j]);
@@ -91,20 +91,20 @@ TEST_CASE("TestPointerQueueVecEmplacePop") {
 
 /** Single-thread performance of getting, emplacing, and popping a queue */
 TEST_CASE("TestHshmQueueEmplacePop") {
-  hrun::QueueId qid(0, 3);
+  chi::QueueId qid(0, 3);
   u32 ops = (1 << 20);
   std::vector<PriorityInfo> queue_info = {
       {TaskPrio::kAdmin, 16, 16, ops, 0}
   };
-  auto queue = hipc::make_uptr<hrun::MultiQueue>(
+  auto queue = hipc::make_uptr<chi::MultiQueue>(
       qid, queue_info);
-  hrun::LaneData entry;
-  auto task = HRUN_CLIENT->NewTaskRoot<hrun::Task>();
+  chi::LaneData entry;
+  auto task = HRUN_CLIENT->NewTaskRoot<chi::Task>();
   entry.p_ = task.shm_;
 
   hshm::Timer t;
   t.Resume();
-  hrun::Lane &lane = queue->GetLane(0, 0);
+  chi::Lane &lane = queue->GetLane(0, 0);
   for (size_t i = 0; i < ops; ++i) {
     queue->Emplace(0, 0, entry);
     lane.pop();
@@ -117,13 +117,13 @@ TEST_CASE("TestHshmQueueEmplacePop") {
 
 /** Single-thread performance of getting a lane from a queue */
 TEST_CASE("TestHshmQueueGetLane") {
-  hrun::QueueId qid(0, 3);
+  chi::QueueId qid(0, 3);
   std::vector<PriorityInfo> queue_info = {
       {TaskPrio::kAdmin, 16, 16, 256, 0}
   };
-  auto queue = hipc::make_uptr<hrun::MultiQueue>(
+  auto queue = hipc::make_uptr<chi::MultiQueue>(
       qid, queue_info);
-  hrun::LaneGroup group = queue->GetGroup(0);
+  chi::LaneGroup group = queue->GetGroup(0);
 
   hshm::Timer t;
   size_t ops = (1 << 20);
@@ -139,20 +139,20 @@ TEST_CASE("TestHshmQueueGetLane") {
 /** Single-thread performance of getting, emplacing, and popping a queue */
 TEST_CASE("TestHshmQueueAllocateEmplacePop") {
   TRANSPARENT_HERMES();
-  hrun::QueueId qid(0, 3);
+  chi::QueueId qid(0, 3);
   std::vector<PriorityInfo> queue_info = {
       {TaskPrio::kAdmin, 16, 16, 256, 0}
   };
-  auto queue = hipc::make_uptr<hrun::MultiQueue>(
+  auto queue = hipc::make_uptr<chi::MultiQueue>(
       qid, queue_info);
-  hrun::Lane &lane = queue->GetLane(0, 0);
+  chi::Lane &lane = queue->GetLane(0, 0);
 
   hshm::Timer t;
   size_t ops = (1 << 20);
   t.Resume();
   for (size_t i = 0; i < ops; ++i) {
-    hrun::LaneData entry;
-    auto task = HRUN_CLIENT->NewTaskRoot<hrun::Task>();
+    chi::LaneData entry;
+    auto task = HRUN_CLIENT->NewTaskRoot<chi::Task>();
     entry.p_ = task.shm_;
     queue->Emplace(0, 0, entry);
     lane.pop();
@@ -204,14 +204,14 @@ TEST_CASE("TestSpawnJoinArgoThread") {
 void TestWorkerIterationLatency(u32 num_queues, u32 num_lanes) {
   HRUN_RUNTIME->Create();
 
-  hrun::Worker worker(0);
-  std::vector<hipc::uptr<hrun::MultiQueue>> queues;
+  chi::Worker worker(0);
+  std::vector<hipc::uptr<chi::MultiQueue>> queues;
   for (u32 i = 0; i < num_queues; ++i) {
-    hrun::QueueId qid(0, i + 1);
+    chi::QueueId qid(0, i + 1);
     std::vector<PriorityInfo> queue_info = {
         {TaskPrio::kAdmin, num_lanes, num_lanes, 256, 0}
     };
-    auto queue = hipc::make_uptr<hrun::MultiQueue>(
+    auto queue = hipc::make_uptr<chi::MultiQueue>(
         qid, queue_info);
     queues.emplace_back(std::move(queue));
     for (u32 j = 0; j < num_lanes; ++j) {
@@ -219,20 +219,20 @@ void TestWorkerIterationLatency(u32 num_queues, u32 num_lanes) {
     }
   }
 
-  hrun::small_message::Client client;
-  HRUN_ADMIN->RegisterTaskLibRoot(hrun::DomainId::GetLocal(), "small_message");\
-  client.CreateRoot(hrun::DomainId::GetLocal(), "ipc_test");
+  chi::small_message::Client client;
+  CHI_ADMIN->RegisterTaskLibRoot(chi::DomainId::GetLocal(), "small_message");\
+  client.CreateRoot(chi::DomainId::GetLocal(), "ipc_test");
 
   hshm::Timer t;
   t.Resume();
   // size_t ops = (1 << 20);
   size_t ops = 256;
   for (size_t i = 0; i < ops; ++i) {
-    hipc::LPointer<hrun::small_message::MdPushTask> task;
-    hrun::TaskNode task_node(hrun::TaskId((u32)0, (u64)i));
+    hipc::LPointer<chi::small_message::MdPushTask> task;
+    chi::TaskNode task_node(chi::TaskId((u32)0, (u64)i));
     task = client.AsyncMdPushEmplace(queues[num_queues - 1].get(),
                                      task_node,
-                                     hrun::DomainId::GetLocal());
+                                     chi::DomainId::GetLocal());
     worker.Run(false);
     HRUN_CLIENT->DelTask(task);
   }
@@ -253,14 +253,14 @@ TEST_CASE("TestWorkerLatency") {
 /** Time to process a request */
 TEST_CASE("TestRoundTripLatency") {
   TRANSPARENT_HERMES();
-  hrun::small_message::Client client;
-  HRUN_ADMIN->RegisterTaskLibRoot(hrun::DomainId::GetLocal(), "small_message");
+  chi::small_message::Client client;
+  CHI_ADMIN->RegisterTaskLibRoot(chi::DomainId::GetLocal(), "small_message");
 //  int count = 25;
 //  for (int i = 0; i < count; ++i) {
-//    hrun::small_message::Client client2;
-//    client2.CreateRoot(hrun::DomainId::GetLocal(), "ipc_test" + std::to_string(i));
+//    chi::small_message::Client client2;
+//    client2.CreateRoot(chi::DomainId::GetLocal(), "ipc_test" + std::to_string(i));
 //  }
-  client.CreateRoot(hrun::DomainId::GetLocal(), "ipc_test");
+  client.CreateRoot(chi::DomainId::GetLocal(), "ipc_test");
   hshm::Timer t;
 
   // int pid = getpid();
@@ -270,8 +270,8 @@ TEST_CASE("TestRoundTripLatency") {
   size_t ops = (1 << 20);
   // size_t ops = 1024;
   for (size_t i = 0; i < ops; ++i) {
-    // client.MdRoot(hrun::DomainId::GetLocal());
-    client.MdPushRoot(hrun::DomainId::GetLocal());
+    // client.MdRoot(chi::DomainId::GetLocal());
+    client.MdPushRoot(chi::DomainId::GetLocal());
   }
   t.Pause();
 

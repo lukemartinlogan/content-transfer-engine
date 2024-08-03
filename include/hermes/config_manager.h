@@ -14,7 +14,7 @@
 #define HRUN_TASKS_HERMES_INCLUDE_hermes_H_
 
 #include "hermes/hermes_types.h"
-#include "hrun_admin/hrun_admin.h"
+#include "chimaera_admin/chimaera_admin.h"
 #include "hermes_mdm/hermes_mdm.h"
 #include "hermes_bucket_mdm/hermes_bucket_mdm.h"
 #include "hermes_blob_mdm/hermes_blob_mdm.h"
