@@ -20,7 +20,7 @@ kTagUpdateSize: 19
 kTagGetContainedBlobIds: 20
 
 # Blob Methods
-kGetOrCreateBlob: 30
+kGetOrCreateBlobId: 30
 kGetBlobId: 31
 kGetBlobName: 32
 # kRenameBlob: 33

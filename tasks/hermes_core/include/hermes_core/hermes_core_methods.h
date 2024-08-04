@@ -13,7 +13,7 @@ struct Method : public TaskMethod {
   TASK_METHOD_T kTagGetSize = 18;
   TASK_METHOD_T kTagUpdateSize = 19;
   TASK_METHOD_T kTagGetContainedBlobIds = 20;
-  TASK_METHOD_T kGetOrCreateBlob = 30;
+  TASK_METHOD_T kGetOrCreateBlobId = 30;
   TASK_METHOD_T kGetBlobId = 31;
   TASK_METHOD_T kGetBlobName = 32;
   TASK_METHOD_T kGetBlobSize = 34;

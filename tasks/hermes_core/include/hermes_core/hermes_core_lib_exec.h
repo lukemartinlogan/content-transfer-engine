@@ -52,8 +52,8 @@ void Run(u32 method, Task *task, RunContext &rctx) override {
       TagGetContainedBlobIds(reinterpret_cast<TagGetContainedBlobIdsTask *>(task), rctx);
       break;
     }
-    case Method::kGetOrCreateBlob: {
-      GetOrCreateBlob(reinterpret_cast<GetOrCreateBlobTask *>(task), rctx);
+    case Method::kGetOrCreateBlobId: {
+      GetOrCreateBlobId(reinterpret_cast<GetOrCreateBlobIdTask *>(task), rctx);
       break;
     }
     case Method::kGetBlobId: {
@@ -157,8 +157,8 @@ void Monitor(MonitorModeId mode, MethodId method, Task *task, RunContext &rctx) 
       MonitorTagGetContainedBlobIds(mode, reinterpret_cast<TagGetContainedBlobIdsTask *>(task), rctx);
       break;
     }
-    case Method::kGetOrCreateBlob: {
-      MonitorGetOrCreateBlob(mode, reinterpret_cast<GetOrCreateBlobTask *>(task), rctx);
+    case Method::kGetOrCreateBlobId: {
+      MonitorGetOrCreateBlobId(mode, reinterpret_cast<GetOrCreateBlobIdTask *>(task), rctx);
       break;
     }
     case Method::kGetBlobId: {
@@ -262,8 +262,8 @@ void Del(u32 method, Task *task) override {
       CHI_CLIENT->DelTask<TagGetContainedBlobIdsTask>(reinterpret_cast<TagGetContainedBlobIdsTask *>(task));
       break;
     }
-    case Method::kGetOrCreateBlob: {
-      CHI_CLIENT->DelTask<GetOrCreateBlobTask>(reinterpret_cast<GetOrCreateBlobTask *>(task));
+    case Method::kGetOrCreateBlobId: {
+      CHI_CLIENT->DelTask<GetOrCreateBlobIdTask>(reinterpret_cast<GetOrCreateBlobIdTask *>(task));
       break;
     }
     case Method::kGetBlobId: {
@@ -391,10 +391,10 @@ void CopyStart(u32 method, const Task *orig_task, Task *dup_task, bool deep) ove
         reinterpret_cast<TagGetContainedBlobIdsTask*>(dup_task), deep);
       break;
     }
-    case Method::kGetOrCreateBlob: {
+    case Method::kGetOrCreateBlobId: {
       chi::CALL_COPY_START(
-        reinterpret_cast<const GetOrCreateBlobTask*>(orig_task), 
-        reinterpret_cast<GetOrCreateBlobTask*>(dup_task), deep);
+        reinterpret_cast<const GetOrCreateBlobIdTask*>(orig_task), 
+        reinterpret_cast<GetOrCreateBlobIdTask*>(dup_task), deep);
       break;
     }
     case Method::kGetBlobId: {
@@ -522,8 +522,8 @@ void NewCopyStart(u32 method, const Task *orig_task, LPointer<Task> &dup_task, b
       chi::CALL_NEW_COPY_START(reinterpret_cast<const TagGetContainedBlobIdsTask*>(orig_task), dup_task, deep);
       break;
     }
-    case Method::kGetOrCreateBlob: {
-      chi::CALL_NEW_COPY_START(reinterpret_cast<const GetOrCreateBlobTask*>(orig_task), dup_task, deep);
+    case Method::kGetOrCreateBlobId: {
+      chi::CALL_NEW_COPY_START(reinterpret_cast<const GetOrCreateBlobIdTask*>(orig_task), dup_task, deep);
       break;
     }
     case Method::kGetBlobId: {
@@ -627,8 +627,8 @@ void SaveStart(u32 method, BinaryOutputArchive<true> &ar, Task *task) override {
       ar << *reinterpret_cast<TagGetContainedBlobIdsTask*>(task);
       break;
     }
-    case Method::kGetOrCreateBlob: {
-      ar << *reinterpret_cast<GetOrCreateBlobTask*>(task);
+    case Method::kGetOrCreateBlobId: {
+      ar << *reinterpret_cast<GetOrCreateBlobIdTask*>(task);
       break;
     }
     case Method::kGetBlobId: {
@@ -745,9 +745,9 @@ TaskPointer LoadStart(u32 method, BinaryInputArchive<true> &ar) override {
       ar >> *reinterpret_cast<TagGetContainedBlobIdsTask*>(task_ptr.ptr_);
       break;
     }
-    case Method::kGetOrCreateBlob: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetOrCreateBlobTask>(task_ptr.shm_);
-      ar >> *reinterpret_cast<GetOrCreateBlobTask*>(task_ptr.ptr_);
+    case Method::kGetOrCreateBlobId: {
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetOrCreateBlobIdTask>(task_ptr.shm_);
+      ar >> *reinterpret_cast<GetOrCreateBlobIdTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlobId: {
@@ -864,8 +864,8 @@ void SaveEnd(u32 method, BinaryOutputArchive<false> &ar, Task *task) override {
       ar << *reinterpret_cast<TagGetContainedBlobIdsTask*>(task);
       break;
     }
-    case Method::kGetOrCreateBlob: {
-      ar << *reinterpret_cast<GetOrCreateBlobTask*>(task);
+    case Method::kGetOrCreateBlobId: {
+      ar << *reinterpret_cast<GetOrCreateBlobIdTask*>(task);
       break;
     }
     case Method::kGetBlobId: {
@@ -969,8 +969,8 @@ void LoadEnd(u32 method, BinaryInputArchive<false> &ar, Task *task) override {
       ar >> *reinterpret_cast<TagGetContainedBlobIdsTask*>(task);
       break;
     }
-    case Method::kGetOrCreateBlob: {
-      ar >> *reinterpret_cast<GetOrCreateBlobTask*>(task);
+    case Method::kGetOrCreateBlobId: {
+      ar >> *reinterpret_cast<GetOrCreateBlobIdTask*>(task);
       break;
     }
     case Method::kGetBlobId: {

@@ -269,25 +269,25 @@ class Client : public ModuleClient {
   /**
    * Get \a blob_name BLOB from \a bkt_id bucket
    * */
-  void AsyncGetOrCreateBlobConstruct(GetOrCreateBlobTask* task,
+  void AsyncGetOrCreateBlobIdConstruct(GetOrCreateBlobIdTask* task,
                                      const TaskNode &task_node,
                                      const DomainQuery &dom_query,
                                      const TagId &tag_id,
                                      const hshm::charbuf &blob_name) {
-    CHI_CLIENT->ConstructTask<GetOrCreateBlobTask>(
+    CHI_CLIENT->ConstructTask<GetOrCreateBlobIdTask>(
         task, task_node, dom_query, id_, tag_id, blob_name);
   }
   BlobId GetOrCreateBlob(const DomainQuery &dom_query,
                            const TagId &tag_id,
                            const hshm::charbuf &blob_name) {
-    LPointer<GetOrCreateBlobTask> task =
-        AsyncGetOrCreateBlob(dom_query, tag_id, blob_name);
+    LPointer<GetOrCreateBlobIdTask> task =
+        AsyncGetOrCreateBlobId(dom_query, tag_id, blob_name);
     task->Wait();
     BlobId blob_id = task->blob_id_;
     CHI_CLIENT->DelTask(task);
     return blob_id;
   }
-  CHI_TASK_METHODS(GetOrCreateBlob);
+  CHI_TASK_METHODS(GetOrCreateBlobId);
 
   /**
   * Create a blob's metadata

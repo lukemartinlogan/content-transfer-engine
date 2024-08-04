@@ -13,6 +13,24 @@ namespace hermes {
 #include "hermes_core_methods.h"
 CHI_NAMESPACE_INIT
 
+template<typename StringT>
+static inline u32 HashBucketName(const StringT &bucket_name) {
+  u32 h1 = 0;
+  for (size_t i = 0; i < bucket_name.size(); ++i) {
+    auto shift = static_cast<u32>(i % sizeof(u32));
+    auto c = static_cast<u32>((unsigned char)bucket_name[i]);
+    h1 = 31*h1 + (c << shift);
+  }
+  return std::hash<u32>{}(h1);
+}
+
+template<typename StringT>
+static inline u32 HashBlobName(const TagId &tag_id, const StringT &blob_name) {
+  u32 h1 = HashBucketName(blob_name);
+  u32 h2 = std::hash<TagId>{}(tag_id);
+  return std::hash<u32>{}(h1 ^ h2);
+}
+
 /**
  * A task to create hermes_core
  * */
@@ -452,7 +470,7 @@ struct TagGetSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
 /** A task to destroy all blobs in the tag */
 struct TagUpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
-  IN ssize_t size_;
+  IN ssize_t update_;
   IN int mode_;
 
   /** SHM default constructor */
@@ -466,7 +484,7 @@ struct TagUpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
                  const DomainQuery &dom_query,
                  const PoolId &state_id,
                  TagId tag_id,
-                 ssize_t size,
+                 ssize_t update,
                  int mode) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
@@ -478,21 +496,21 @@ struct TagUpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
 
     // Custom params
     tag_id_ = tag_id;
-    size_ = size;
+    update_ = update;
     mode_ = mode;
   }
 
   /** Duplicate message */
   void CopyStart(const TagUpdateSizeTask &other, bool deep) {
     tag_id_ = other.tag_id_;
-    size_ = other.size_;
+    update_ = other.update_;
     mode_ = other.mode_;
   }
 
   /** (De)serialize message call */
   template<typename Ar>
   void SerializeStart(Ar &ar) {
-    ar(tag_id_, size_);
+    ar(tag_id_, update_);
   }
 
   /** (De)serialize message return */
@@ -570,19 +588,19 @@ struct TagGetContainedBlobIdsTask : public Task, TaskFlags<TF_SRL_SYM> {
 /**
  * Get \a blob_name BLOB from \a bkt_id bucket
  * */
-struct GetOrCreateBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct GetOrCreateBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
   IN hipc::charbuf blob_name_;
   OUT BlobId blob_id_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetOrCreateBlobTask(hipc::Allocator *alloc)
+  GetOrCreateBlobIdTask(hipc::Allocator *alloc)
   : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetOrCreateBlobTask(hipc::Allocator *alloc,
+  GetOrCreateBlobIdTask(hipc::Allocator *alloc,
                         const TaskNode &task_node,
                         const DomainQuery &dom_query,
                         const PoolId &state_id,
@@ -593,7 +611,7 @@ struct GetOrCreateBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
     pool_ = state_id;
-    method_ = Method::kGetOrCreateBlob;
+    method_ = Method::kGetOrCreateBlobId;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
 
@@ -602,7 +620,7 @@ struct GetOrCreateBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** Duplicate message */
-  void CopyStart(const GetOrCreateBlobTask &other, bool deep) {
+  void CopyStart(const GetOrCreateBlobIdTask &other, bool deep) {
     tag_id_ = other.tag_id_;
     blob_name_ = other.blob_name_;
     blob_id_ = other.blob_id_;
