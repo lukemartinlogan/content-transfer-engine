@@ -20,7 +20,7 @@ class Client : public ModuleClient {
 
   /** Create a hermes_core */
   HSHM_ALWAYS_INLINE
-  void Create(const DomainId &domain_id,
+  void Create(const DomainQuery &dom_query,
                   const std::string &state_name) {
     id_ = PoolId::GetNull();
     std::vector<PriorityInfo> queue_info;
@@ -31,7 +31,7 @@ class Client : public ModuleClient {
 
   /** Destroy task state + queue */
   HSHM_ALWAYS_INLINE
-  void Destroy(const DomainId &domain_id) {
+  void Destroy(const DomainQuery &dom_query) {
     CHI_ADMIN->DestroyTaskState(domain_id, id_);
   }
 };

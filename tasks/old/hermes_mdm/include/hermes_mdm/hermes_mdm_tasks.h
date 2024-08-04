@@ -23,7 +23,7 @@ namespace hermes::mdm {
  * */
 using chi::Admin::CreateTaskStateTask;
 struct ConstructTask : public CreateTaskStateTask {
-  IN hipc::ShmArchive<hipc::string> server_config_path_;
+  IN hipc::string server_config_path_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
@@ -33,7 +33,7 @@ struct ConstructTask : public CreateTaskStateTask {
   HSHM_ALWAYS_INLINE explicit
   ConstructTask(hipc::Allocator *alloc,
                 const TaskNode &task_node,
-                const DomainId &domain_id,
+                const DomainQuery &dom_query,
                 const std::string &state_name,
                 const PoolId &id,
                 const std::vector<PriorityInfo> &queue_info,
@@ -55,12 +55,6 @@ struct ConstructTask : public CreateTaskStateTask {
     cereal::BinaryInputArchive ar(ss);
     ar(server_config_path_);
   }
-
-  /** Destructor */
-  HSHM_ALWAYS_INLINE
-  ~ConstructTask() {
-    HSHM_DESTROY_AR(server_config_path_);
-  }
 };
 
 /** A task to destroy hermes_core */
@@ -74,7 +68,7 @@ struct DestructTask : public DestroyTaskStateTask {
   HSHM_ALWAYS_INLINE explicit
   DestructTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
-               const DomainId &domain_id,
+               const DomainQuery &dom_query,
                const PoolId &state_id)
       : DestroyTaskStateTask(alloc, task_node, domain_id, state_id) {}
 

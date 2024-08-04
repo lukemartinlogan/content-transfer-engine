@@ -80,7 +80,7 @@ struct ConstructTask : public CreateTaskStateTask {
   HSHM_ALWAYS_INLINE explicit
   ConstructTask(hipc::Allocator *alloc,
                 const TaskNode &task_node,
-                const DomainId &domain_id,
+                const DomainQuery &dom_query,
                 const std::string &state_name,
                 const PoolId &id,
                 const std::vector<PriorityInfo> &queue_info,
@@ -124,7 +124,7 @@ struct DestructTask : public DestroyTaskStateTask {
   HSHM_ALWAYS_INLINE explicit
   DestructTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
-               const DomainId &domain_id,
+               const DomainQuery &dom_query,
                PoolId &state_id)
   : DestroyTaskStateTask(alloc, task_node, domain_id, state_id) {}
 
@@ -139,7 +139,7 @@ struct DestructTask : public DestroyTaskStateTask {
  * Register an operation to perform on data
  * */
 struct RegisterOpTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
-  IN hipc::ShmArchive<hipc::string> op_graph_;
+  IN hipc::string op_graph_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
@@ -149,7 +149,7 @@ struct RegisterOpTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
   HSHM_ALWAYS_INLINE explicit
   RegisterOpTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
-                 const DomainId &domain_id,
+                 const DomainQuery &dom_query,
                  const PoolId &state_id,
                  const OpGraph &graph) : Task(alloc) {
     // Store OpGraph
@@ -163,7 +163,7 @@ struct RegisterOpTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
     task_node_ = task_node;
     lane_hash_ = std::hash<std::string>{}(op_graph_str);
     prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
+    pool_ = state_id;
     method_ = Method::kRegisterOp;
     task_flags_.SetBits(TASK_COROUTINE);
     domain_id_ = domain_id;
@@ -254,7 +254,7 @@ struct RegisterDataTask : public Task, TaskFlags<TF_LOCAL> {
     task_node_ = task_node;
     lane_hash_ = bkt_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
+    pool_ = state_id;
     method_ = Method::kRegisterData;
     task_flags_.SetBits(TASK_COROUTINE | TASK_FIRE_AND_FORGET);
     domain_id_ = DomainId::GetLocal();
@@ -291,7 +291,7 @@ struct RunOpTask : public Task, TaskFlags<TF_LOCAL | TF_REPLICA> {
     task_node_ = task_node;
     lane_hash_ = 0;
     prio_ = TaskPrio::kLongRunning;
-    task_state_ = state_id;
+    pool_ = state_id;
     method_ = Method::kRunOp;
     task_flags_.SetBits(
         TASK_LONG_RUNNING | TASK_COROUTINE | TASK_LANE_ALL |

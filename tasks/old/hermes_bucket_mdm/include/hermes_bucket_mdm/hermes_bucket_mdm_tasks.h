@@ -36,102 +36,13 @@ struct ConstructTask : public CreateTaskStateTask {
   HSHM_ALWAYS_INLINE explicit
   ConstructTask(hipc::Allocator *alloc,
                 const TaskNode &task_node,
-                const DomainId &domain_id,
+                const DomainQuery &dom_query,
                 const std::string &state_name,
                 const PoolId &id,
                 const std::vector<PriorityInfo> &queue_info)
       : CreateTaskStateTask(alloc, task_node, domain_id, state_name,
                             "hermes_bucket_mdm", id, queue_info) {
   }
-};
-
-/** A task to destroy hermes_bucket_mdm */
-using chi::Admin::DestroyTaskStateTask;
-struct DestructTask : public DestroyTaskStateTask {
-  /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  DestructTask(hipc::Allocator *alloc) : DestroyTaskStateTask(alloc) {}
-
-  /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  DestructTask(hipc::Allocator *alloc,
-               const TaskNode &task_node,
-               const DomainId &domain_id,
-               PoolId &state_id)
-      : DestroyTaskStateTask(alloc, task_node, domain_id, state_id) {}
-
-  /** Create group */
-  HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
-    return TASK_UNORDERED;
-  }
-};
-
-/** Set the BLOB MDM ID */
-struct SetBlobMdmTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
-  IN PoolId blob_mdm_;
-  IN PoolId stager_mdm_;
-
-  /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  SetBlobMdmTask(hipc::Allocator *alloc) : Task(alloc) {}
-
-  /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  SetBlobMdmTask(hipc::Allocator *alloc,
-                 const TaskNode &task_node,
-                 const DomainId &domain_id,
-                 const PoolId &state_id,
-                 const PoolId &blob_mdm,
-                 const PoolId &stager_mdm) : Task(alloc) {
-    // Initialize task
-    task_node_ = task_node;
-    lane_hash_ = 0;
-    prio_ = TaskPrio::kAdmin;
-    task_state_ = state_id;
-    method_ = Method::kSetBlobMdm;
-    task_flags_.SetBits(TASK_LOW_LATENCY);
-    domain_id_ = domain_id;
-
-    // Custom params
-    blob_mdm_ = blob_mdm;
-    stager_mdm_ = stager_mdm;
-  }
-
-  /** Destructor */
-  ~SetBlobMdmTask() {}
-
-  /** Duplicate message */
-  void Dup(hipc::Allocator *alloc, SetBlobMdmTask &other) {
-    task_dup(other);
-  }
-
-  /** Process duplicate message output */
-  void DupEnd(u32 replica, SetBlobMdmTask &dup_task) {
-  }
-
-  /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-    task_serialize<Ar>(ar);
-    ar(blob_mdm_, stager_mdm_);
-  }
-
-  /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(u32 replica, Ar &ar) {}
-
-  /** Create group */
-  HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
-    return TASK_UNORDERED;
-  }
-
-  /** Begin replication */
-  void ReplicateStart(u32 count) {}
-
-  /** Finalize replication */
-  void ReplicateEnd() {}
 };
 
 /** Update bucket size */
@@ -148,7 +59,7 @@ struct UpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
   HSHM_ALWAYS_INLINE explicit
   UpdateSizeTask(hipc::Allocator *alloc,
               const TaskNode &task_node,
-              const DomainId &domain_id,
+              const DomainQuery &dom_query,
               const PoolId &state_id,
               const TagId &tag_id,
               ssize_t update,
@@ -157,10 +68,10 @@ struct UpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
     task_node_ = task_node;
     lane_hash_ = tag_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
+    pool_ = state_id;
     method_ = Method::kUpdateSize;
-    task_flags_.SetBits(TASK_LOW_LATENCY | TASK_FIRE_AND_FORGET);
-    domain_id_ = domain_id;
+    task_flags_.SetBits(0 | TASK_FIRE_AND_FORGET);
+    dom_query_ = dom_query;
 
     // Custom params
     tag_id_ = tag_id;
@@ -168,28 +79,15 @@ struct UpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
     mode_ = mode;
   }
 
-  /** Destructor */
-  ~UpdateSizeTask() {}
-
   /** (De)serialize message call */
   template<typename Ar>
   void SerializeStart(Ar &ar) {
-    task_serialize<Ar>(ar);
     ar(tag_id_, update_, mode_);
   }
 
   /** (De)serialize message return */
   template<typename Ar>
   void SerializeEnd(u32 replica, Ar &ar) {}
-
-   /** Create group */
-  HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
-    chi::LocalSerialize srl(group);
-    srl << task_state_;
-    srl << lane_hash_;
-    return 0;
-  }
 };
 
 /** Phases for the append task */
@@ -220,8 +118,6 @@ struct AppendBlobSchemaTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
   IN size_t data_size_;
   IN size_t page_size_;
-  TEMP int phase_ = AppendBlobPhase::kGetBlobIds;
-  TEMP hipc::ShmArchive<std::vector<AppendInfo>> append_info_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
@@ -231,7 +127,7 @@ struct AppendBlobSchemaTask : public Task, TaskFlags<TF_SRL_SYM> {
   HSHM_ALWAYS_INLINE explicit
   AppendBlobSchemaTask(hipc::Allocator *alloc,
                        const TaskNode &task_node,
-                       const DomainId &domain_id,
+                       const DomainQuery &dom_query,
                        const PoolId &state_id,
                        const TagId &tag_id,
                        size_t data_size,
@@ -240,10 +136,10 @@ struct AppendBlobSchemaTask : public Task, TaskFlags<TF_SRL_SYM> {
     task_node_ = task_node;
     lane_hash_ = tag_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
+    pool_ = state_id;
     method_ = Method::kAppendBlobSchema;
-    task_flags_.SetBits(TASK_LOW_LATENCY);
-    domain_id_ = domain_id;
+    task_flags_.SetBits(0);
+    dom_query_ = dom_query;
 
     // Custom params
     tag_id_ = tag_id;
@@ -251,13 +147,9 @@ struct AppendBlobSchemaTask : public Task, TaskFlags<TF_SRL_SYM> {
     page_size_ = page_size;
   }
 
-  /** Destructor */
-  ~AppendBlobSchemaTask() {}
-
   /** (De)serialize message call */
   template<typename Ar>
   void SerializeStart(Ar &ar) {
-    task_serialize<Ar>(ar);
     ar(tag_id_, data_size_, page_size_);
   }
 
@@ -265,15 +157,6 @@ struct AppendBlobSchemaTask : public Task, TaskFlags<TF_SRL_SYM> {
   template<typename Ar>
   void SerializeEnd(u32 replica, Ar &ar) {
     ar(append_info_);
-  }
-
-   /** Create group */
-  HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
-    chi::LocalSerialize srl(group);
-    srl << std::string("blob_op");
-    srl << tag_id_;
-    return 0;
   }
 };
 
@@ -296,7 +179,7 @@ struct AppendBlobTask : public Task, TaskFlags<TF_LOCAL> {
   HSHM_ALWAYS_INLINE explicit
   AppendBlobTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
-                 const DomainId &domain_id,
+                 const DomainQuery &dom_query,
                  const PoolId &state_id,
                  const TagId &tag_id,
                  size_t data_size,
@@ -309,10 +192,10 @@ struct AppendBlobTask : public Task, TaskFlags<TF_LOCAL> {
     task_node_ = task_node;
     lane_hash_ = tag_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
+    pool_ = state_id;
     method_ = Method::kAppendBlob;
-    task_flags_.SetBits(TASK_LOW_LATENCY | TASK_FIRE_AND_FORGET | TASK_DATA_OWNER | TASK_UNORDERED | TASK_REMOTE_DEBUG_MARK);
-    domain_id_ = domain_id;
+    task_flags_.SetBits(0 | TASK_FIRE_AND_FORGET | TASK_DATA_OWNER | TASK_UNORDERED | TASK_REMOTE_DEBUG_MARK);
+    dom_query_ = dom_query;
 
     // Custom params
     tag_id_ = tag_id;
@@ -329,601 +212,16 @@ struct AppendBlobTask : public Task, TaskFlags<TF_LOCAL> {
       CHI_CLIENT->FreeBuffer(data_);
     }
   }
-
-   /** Create group */
-  HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
-    chi::LocalSerialize srl(group);
-    srl << std::string("blob_op");
-    srl << tag_id_;
-    return 0;
-  }
-};
-
-/** A task to get or create a tag */
-struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN hipc::ShmArchive<hipc::string> tag_name_;
-  IN hipc::ShmArchive<hipc::string> params_;
-  IN bool blob_owner_;
-  IN hipc::ShmArchive<hipc::vector<TraitId>> traits_;
-  IN size_t backend_size_;
-  IN bitfield32_t flags_;
-  OUT TagId tag_id_;
-
-  /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetOrCreateTagTask(hipc::Allocator *alloc) : Task(alloc) {}
-
-  /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetOrCreateTagTask(hipc::Allocator *alloc,
-                     const TaskNode &task_node,
-                     const PoolId &state_id,
-                     const hshm::charbuf &tag_name,
-                     bool blob_owner,
-                     const std::vector<TraitId> &traits,
-                     size_t backend_size,
-                     u32 flags,
-                     const Context &ctx) : Task(alloc) {
-    // Initialize task
-    task_node_ = task_node;
-    lane_hash_ = std::hash<hshm::charbuf>{}(tag_name);
-    prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
-    method_ = Method::kGetOrCreateTag;
-    task_flags_.SetBits(TASK_LOW_LATENCY);
-    domain_id_ = DomainId::GetNode(HASH_TO_NODE_ID(lane_hash_));
-
-    // Custom params
-    blob_owner_ = blob_owner;
-    backend_size_ = backend_size;
-    HSHM_MAKE_AR(tag_name_, alloc, tag_name)
-    HSHM_MAKE_AR(traits_, alloc, traits)
-    HSHM_MAKE_AR(params_, alloc, ctx.bkt_params_)
-    flags_ = bitfield32_t(flags | ctx.flags_.bits_);
-  }
-
-  /** Destructor */
-  ~GetOrCreateTagTask() {
-    HSHM_DESTROY_AR(tag_name_)
-    HSHM_DESTROY_AR(traits_)
-    HSHM_DESTROY_AR(params_)
-  }
-
-  /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-    task_serialize<Ar>(ar);
-    ar(tag_name_, blob_owner_, traits_, backend_size_, flags_, params_);
-  }
-
-  /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(u32 replica, Ar &ar) {
-    ar(tag_id_);
-  }
-
-  /** Create group */
-  HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
-    chi::LocalSerialize srl(group);
-    srl << task_state_;
-    srl << lane_hash_;
-    return 0;
-  }
-};
-
-/** A task to get a tag id */
-struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN hipc::ShmArchive<hipc::string> tag_name_;
-  OUT TagId tag_id_;
-
-  /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetTagIdTask(hipc::Allocator *alloc) : Task(alloc) {}
-
-  /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetTagIdTask(hipc::Allocator *alloc,
-               const TaskNode &task_node,
-               const DomainId &domain_id,
-               const PoolId &state_id,
-               const hshm::charbuf &tag_name) : Task(alloc) {
-    // Initialize task
-    task_node_ = task_node;
-    lane_hash_ = std::hash<hshm::charbuf>{}(tag_name);
-    prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
-    method_ = Method::kGetTagId;
-    task_flags_.SetBits(TASK_LOW_LATENCY);
-    domain_id_ = domain_id;
-
-    // Custom params
-    HSHM_MAKE_AR(tag_name_, alloc, tag_name)
-  }
-
-  /** Destructor */
-  ~GetTagIdTask() {
-    HSHM_DESTROY_AR(tag_name_)
-  }
-
-  /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-    task_serialize<Ar>(ar);
-    ar(tag_name_);
-  }
-
-  /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(u32 replica, Ar &ar) {
-    ar(tag_id_);
-  }
-
-  /** Create group */
-  HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
-    chi::LocalSerialize srl(group);
-    srl << task_state_;
-    srl << lane_hash_;
-    return 0;
-  }
-};
-
-/** A task to get a tag name */
-struct GetTagNameTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN TagId tag_id_;
-  OUT hipc::ShmArchive<hipc::string> tag_name_;
-
-  /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetTagNameTask(hipc::Allocator *alloc) : Task(alloc) {}
-
-  /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetTagNameTask(hipc::Allocator *alloc,
-                 const TaskNode &task_node,
-                 const DomainId &domain_id,
-                 const PoolId &state_id,
-                 const TagId &tag_id) : Task(alloc) {
-    // Initialize task
-    task_node_ = task_node;
-    lane_hash_ = tag_id.hash_;
-    prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
-    method_ = Method::kGetTagName;
-    task_flags_.SetBits(TASK_LOW_LATENCY);
-    domain_id_ = domain_id;
-
-    // Custom params
-    tag_id_ = tag_id;
-  }
-
-  /** Destructor */
-  ~GetTagNameTask() {
-    HSHM_DESTROY_AR(tag_name_)
-  }
-
-  /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-    task_serialize<Ar>(ar);
-    ar(tag_id_);
-  }
-
-  /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(u32 replica, Ar &ar) {
-    ar(tag_name_);
-  }
-
-   /** Create group */
-  HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
-    chi::LocalSerialize srl(group);
-    srl << task_state_;
-    srl << lane_hash_;
-    return 0;
-  }
-};
-
-/** A task to rename a tag */
-struct RenameTagTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN TagId tag_id_;
-  IN hipc::ShmArchive<hipc::string> tag_name_;
-
-  /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  RenameTagTask(hipc::Allocator *alloc) : Task(alloc) {}
-
-  /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  RenameTagTask(hipc::Allocator *alloc,
-                const TaskNode &task_node,
-                const DomainId &domain_id,
-                const PoolId &state_id,
-                const TagId &tag_id,
-                const hshm::charbuf &tag_name) : Task(alloc) {
-    // Initialize task
-    task_node_ = task_node;
-    lane_hash_ = tag_id.hash_;
-    prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
-    method_ = Method::kRenameTag;
-    task_flags_.SetBits(TASK_LOW_LATENCY);
-    domain_id_ = domain_id;
-
-    // Custom params
-    tag_id_ = tag_id;
-    HSHM_MAKE_AR(tag_name_, alloc, tag_name)
-  }
-
-  /** Destructor */
-  ~RenameTagTask() {
-    HSHM_DESTROY_AR(tag_name_)
-  }
-
-  /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-    task_serialize<Ar>(ar);
-    ar(tag_id_);
-  }
-
-  /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(u32 replica, Ar &ar) {
-    ar(tag_name_);
-  }
-
-   /** Create group */
-  HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
-    chi::LocalSerialize srl(group);
-    srl << task_state_;
-    srl << lane_hash_;
-    return 0;
-  }
-};
-
-class DestroyTagPhase {
- public:
-  TASK_METHOD_T kDestroyBlobs = 0;
-  TASK_METHOD_T kWaitDestroyBlobs = 1;
-};
-
-/** A task to destroy a tag */
-struct DestroyTagTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN TagId tag_id_;
-  TEMP int phase_ = DestroyTagPhase::kDestroyBlobs;
-  TEMP hipc::ShmArchive<std::vector<blob_mdm::DestroyBlobTask*>> destroy_blob_tasks_;
-
-  /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  DestroyTagTask(hipc::Allocator *alloc) : Task(alloc) {}
-
-  /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  DestroyTagTask(hipc::Allocator *alloc,
-                 const TaskNode &task_node,
-                 const DomainId &domain_id,
-                 const PoolId &state_id,
-                 const TagId &tag_id) : Task(alloc) {
-    // Initialize task
-    task_node_ = task_node;
-    lane_hash_ = tag_id.hash_;
-    prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
-    method_ = Method::kDestroyTag;
-    task_flags_.SetBits(TASK_LOW_LATENCY);
-    domain_id_ = domain_id;
-
-    // Custom params
-    tag_id_ = tag_id;
-  }
-
-  /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-    task_serialize<Ar>(ar);
-    ar(tag_id_);
-  }
-
-  /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(u32 replica, Ar &ar) {}
-
-   /** Create group */
-  HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
-    chi::LocalSerialize srl(group);
-    srl << task_state_;
-    srl << lane_hash_;
-    return 0;
-  }
-};
-
-/** A task to add a blob to the tag */
-struct TagAddBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN TagId tag_id_;
-  IN BlobId blob_id_;
-
-  /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagAddBlobTask(hipc::Allocator *alloc) : Task(alloc) {}
-
-  /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagAddBlobTask(hipc::Allocator *alloc,
-                 const TaskNode &task_node,
-                 const DomainId &domain_id,
-                 const PoolId &state_id,
-                 TagId tag_id,
-                 const BlobId &blob_id) : Task(alloc) {
-    // Initialize task
-    task_node_ = task_node;
-    lane_hash_ = tag_id.hash_;
-    prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
-    method_ = Method::kTagAddBlob;
-    task_flags_.SetBits(TASK_LOW_LATENCY | TASK_FIRE_AND_FORGET);
-    domain_id_ = domain_id;
-
-    // Custom params
-    tag_id_ = tag_id;
-    blob_id_ = blob_id;
-  }
-
-  /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-    task_serialize<Ar>(ar);
-    ar(tag_id_, blob_id_);
-  }
-
-  /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(u32 replica, Ar &ar) {}
-
-   /** Create group */
-  HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
-    chi::LocalSerialize srl(group);
-    srl << task_state_;
-    srl << lane_hash_;
-    return 0;
-  }
-};
-
-/** A task to remove a blob from a tag */
-struct TagRemoveBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN TagId tag_id_;
-  IN BlobId blob_id_;
-
-  /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagRemoveBlobTask(hipc::Allocator *alloc) : Task(alloc) {}
-
-  /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagRemoveBlobTask(hipc::Allocator *alloc,
-                    const TaskNode &task_node,
-                    const DomainId &domain_id,
-                    const PoolId &state_id,
-                    TagId tag_id,
-                    const BlobId &blob_id) : Task(alloc) {
-    // Initialize task
-    task_node_ = task_node;
-    lane_hash_ = tag_id.hash_;
-    prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
-    method_ = Method::kTagRemoveBlob;
-    task_flags_.SetBits(TASK_LOW_LATENCY);
-    domain_id_ = domain_id;
-
-    // Custom params
-    tag_id_ = tag_id;
-    blob_id_ = blob_id;
-  }
-
-  /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-    task_serialize<Ar>(ar);
-    ar(tag_id_, blob_id_);
-  }
-
-  /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(u32 replica, Ar &ar) {}
-
-   /** Create group */
-  HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
-    chi::LocalSerialize srl(group);
-    srl << task_state_;
-    srl << lane_hash_;
-    return 0;
-  }
-};
-
-/** A task to get the group of blobs associated with a tag */
-struct TagGroupByTask : public Task, TaskFlags<TF_SRL_SYM> {};
-
-/** A task to associate a tag with a trait */
-struct TagAddTraitTask : public Task, TaskFlags<TF_SRL_SYM> {};
-
-/** A task to remove a trait from a tag */
-struct TagRemoveTraitTask : public Task, TaskFlags<TF_SRL_SYM> {};
-
-/** A task to destroy all blobs in the tag */
-struct TagClearBlobsTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN TagId tag_id_;
-
-  /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagClearBlobsTask(hipc::Allocator *alloc) : Task(alloc) {}
-
-  /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagClearBlobsTask(hipc::Allocator *alloc,
-                    const TaskNode &task_node,
-                    const DomainId &domain_id,
-                    const PoolId &state_id,
-                    TagId tag_id) : Task(alloc) {
-    // Initialize task
-    task_node_ = task_node;
-    lane_hash_ = tag_id.hash_;
-    prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
-    method_ = Method::kTagClearBlobs;
-    task_flags_.SetBits(TASK_LOW_LATENCY);
-    domain_id_ = domain_id;
-
-    // Custom params
-    tag_id_ = tag_id;
-  }
-
-  /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-    task_serialize<Ar>(ar);
-    ar(tag_id_);
-  }
-
-  /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(u32 replica, Ar &ar) {}
-
-   /** Create group */
-  HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
-    chi::LocalSerialize srl(group);
-    srl << task_state_;
-    srl << lane_hash_;
-    return 0;
-  }
-};
-
-/** A task to destroy all blobs in the tag */
-struct GetSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN TagId tag_id_;
-  OUT size_t size_;
-
-  /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetSizeTask(hipc::Allocator *alloc) : Task(alloc) {}
-
-  /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetSizeTask(hipc::Allocator *alloc,
-                    const TaskNode &task_node,
-                    const DomainId &domain_id,
-                    const PoolId &state_id,
-                    TagId tag_id) : Task(alloc) {
-    // Initialize task
-    task_node_ = task_node;
-    lane_hash_ = tag_id.hash_;
-    prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
-    method_ = Method::kGetSize;
-    task_flags_.SetBits(TASK_LOW_LATENCY);
-    domain_id_ = domain_id;
-
-    // Custom params
-    tag_id_ = tag_id;
-  }
-
-  /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-    task_serialize<Ar>(ar);
-    ar(tag_id_);
-  }
-
-  /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(u32 replica, Ar &ar) {
-    ar(size_);
-  }
-
-  /** Create group */
-  HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
-    chi::LocalSerialize srl(group);
-    srl << task_state_;
-    srl << lane_hash_;
-    return 0;
-  }
-};
-
-/** A task to destroy all blobs in the tag */
-struct GetContainedBlobIdsTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN TagId tag_id_;
-  OUT hipc::ShmArchive<hipc::vector<BlobId>> blob_ids_;
-
-  /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetContainedBlobIdsTask(hipc::Allocator *alloc) : Task(alloc) {}
-
-  /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetContainedBlobIdsTask(hipc::Allocator *alloc,
-                          const TaskNode &task_node,
-                          const DomainId &domain_id,
-                          const PoolId &state_id,
-                          const TagId &tag_id) : Task(alloc) {
-    // Initialize task
-    task_node_ = task_node;
-    lane_hash_ = tag_id.hash_;
-    prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
-    method_ = Method::kGetContainedBlobIds;
-    task_flags_.SetBits(TASK_LOW_LATENCY);
-    domain_id_ = domain_id;
-
-    // Custom params
-    tag_id_ = tag_id;
-    HSHM_MAKE_AR0(blob_ids_, alloc)
-  }
-
-  /** Destructor */
-  ~GetContainedBlobIdsTask() {
-    HSHM_DESTROY_AR(blob_ids_)
-  }
-
-  /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-    task_serialize<Ar>(ar);
-    ar(tag_id_, blob_ids_);
-  }
-
-  /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(u32 replica, Ar &ar) {
-    ar(blob_ids_);
-  }
-
-  /** Create group */
-  HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
-    chi::LocalSerialize srl(group);
-    srl << task_state_;
-    srl << lane_hash_;
-    return 0;
-  }
 };
 
 /** A task to collect blob metadata */
 struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM_START | TF_SRL_ASYM_END | TF_REPLICA> {
-  OUT hipc::ShmArchive<hipc::string> my_tag_mdms_;
-  TEMP hipc::ShmArchive<hipc::vector<hipc::string>> tag_mdms_;
+  OUT hipc::string my_tag_mdms_;
+  TEMP hipc::vector<hipc::string> tag_mdms_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
   PollTagMetadataTask(hipc::Allocator *alloc) : Task(alloc) {
-    HSHM_MAKE_AR0(tag_mdms_, alloc)
   }
 
   /** Emplace constructor */
@@ -935,14 +233,12 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM_START | TF_SRL_AS
     task_node_ = task_node;
     lane_hash_ = 0;
     prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
+    pool_ = state_id;
     method_ = Method::kPollTagMetadata;
     task_flags_.SetBits(TASK_LANE_ALL);
     domain_id_ = chi::DomainQuery::GetGlobalBcast();
 
     // Custom params
-    HSHM_MAKE_AR0(my_tag_mdms_, alloc)
-    HSHM_MAKE_AR0(tag_mdms_, alloc)
   }
 
   /** Serialize tag info */
@@ -980,17 +276,9 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM_START | TF_SRL_AS
     return tag_mdms;
   }
 
-  /** Destructor */
-  ~PollTagMetadataTask() {
-    HSHM_DESTROY_AR(my_tag_mdms_)
-    HSHM_DESTROY_AR(tag_mdms_)
-  }
-
   /** Duplicate message */
   void Dup(hipc::Allocator *alloc, PollTagMetadataTask &other) {
     task_dup(other);
-    HSHM_MAKE_AR(tag_mdms_, alloc, *other.tag_mdms_)
-    HSHM_MAKE_AR(my_tag_mdms_, alloc, *other.my_tag_mdms_)
   }
 
   /** Process duplicate message output */
@@ -1001,7 +289,6 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM_START | TF_SRL_AS
   /** (De)serialize message call */
   template<typename Ar>
   void SerializeStart(Ar &ar) {
-    task_serialize<Ar>(ar);
     ar(my_tag_mdms_);
   }
 
@@ -1027,12 +314,6 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM_START | TF_SRL_AS
   void ReplicateEnd() {
     std::vector<TagInfo> tag_mdms = MergeTagMetadata();
     SerializeTagMetadata(tag_mdms);
-  }
-
-  /** Create group */
-  HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
-    return TASK_UNORDERED;
   }
 };
 

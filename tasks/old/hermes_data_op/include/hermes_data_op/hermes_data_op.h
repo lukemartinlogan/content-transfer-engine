@@ -22,7 +22,7 @@ class Client : public ModuleClient {
   /** Async create a task state */
   HSHM_ALWAYS_INLINE
   LPointer<ConstructTask> AsyncCreate(const TaskNode &task_node,
-                                      const DomainId &domain_id,
+                                      const DomainQuery &dom_query,
                                       const std::string &state_name,
                                       PoolId &bkt_mdm_id,
                                       PoolId &blob_mdm_id) {
@@ -47,7 +47,7 @@ class Client : public ModuleClient {
 
   /** Destroy task state + queue */
   HSHM_ALWAYS_INLINE
-  void Destroy(const DomainId &domain_id) {
+  void Destroy(const DomainQuery &dom_query) {
     CHI_ADMIN->DestroyTaskState(domain_id, id_);
   }
 

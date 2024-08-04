@@ -36,7 +36,7 @@ struct ConstructTask : public CreateTaskStateTask {
   HSHM_ALWAYS_INLINE explicit
   ConstructTask(hipc::Allocator *alloc,
                 const TaskNode &task_node,
-                const DomainId &domain_id,
+                const DomainQuery &dom_query,
                 const std::string &state_name,
                 const PoolId &id,
                 const std::vector<PriorityInfo> &queue_info,
@@ -80,7 +80,7 @@ struct DestructTask : public DestroyTaskStateTask {
   HSHM_ALWAYS_INLINE explicit
   DestructTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
-               const DomainId &domain_id,
+               const DomainQuery &dom_query,
                PoolId &state_id)
       : DestroyTaskStateTask(alloc, task_node, domain_id, state_id) {}
 
@@ -96,8 +96,8 @@ struct DestructTask : public DestroyTaskStateTask {
  * */
 struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
   hermes::BucketId bkt_id_;
-  hipc::ShmArchive<hipc::string> tag_name_;
-  hipc::ShmArchive<hipc::string> params_;
+  hipc::string tag_name_;
+  hipc::string params_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
@@ -115,7 +115,7 @@ struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
     task_node_ = task_node;
     lane_hash_ = bkt_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
+    pool_ = state_id;
     method_ = Method::kRegisterStager;
     task_flags_.SetBits(TASK_LOW_LATENCY | TASK_FIRE_AND_FORGET);
     domain_id_ = chi::DomainQuery::GetGlobalBcast();
@@ -124,13 +124,6 @@ struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
     bkt_id_ = bkt_id;
     HSHM_MAKE_AR(tag_name_, alloc, tag_name);
     HSHM_MAKE_AR(params_, alloc, params);
-  }
-
-  /** Destructor */
-  HSHM_ALWAYS_INLINE
-  ~RegisterStagerTask() {
-    HSHM_DESTROY_AR(tag_name_)
-    HSHM_DESTROY_AR(params_)
   }
 
   /** Duplicate message */
@@ -187,7 +180,7 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
     task_node_ = task_node;
     lane_hash_ = bkt_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
+    pool_ = state_id;
     method_ = Method::kUnregisterStager;
     task_flags_.SetBits(TASK_FIRE_AND_FORGET);
     domain_id_ = chi::DomainQuery::GetGlobalBcast();
@@ -235,7 +228,7 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
  * */
 struct StageInTask : public Task, TaskFlags<TF_LOCAL> {
   IN hermes::BucketId bkt_id_;
-  IN hipc::ShmArchive<hipc::charbuf> blob_name_;
+  IN hipc::charbuf blob_name_;
   IN float score_;
   IN u32 node_id_;
 
@@ -256,7 +249,7 @@ struct StageInTask : public Task, TaskFlags<TF_LOCAL> {
     task_node_ = task_node;
     lane_hash_ = bkt_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
+    pool_ = state_id;
     method_ = Method::kStageIn;
     task_flags_.SetBits(TASK_COROUTINE | TASK_LOW_LATENCY | TASK_REMOTE_DEBUG_MARK);
     domain_id_ = DomainId::GetLocal();
@@ -266,12 +259,6 @@ struct StageInTask : public Task, TaskFlags<TF_LOCAL> {
     HSHM_MAKE_AR(blob_name_, alloc, blob_name);
     score_ = score;
     node_id_ = node_id;
-  }
-
-  /** Destructor */
-  HSHM_ALWAYS_INLINE
-  ~StageInTask() {
-    HSHM_DESTROY_AR(blob_name_)
   }
 
   /** Create group */
@@ -290,7 +277,7 @@ struct StageInTask : public Task, TaskFlags<TF_LOCAL> {
  * */
 struct StageOutTask : public Task, TaskFlags<TF_LOCAL> {
   IN hermes::BucketId bkt_id_;
-  IN hipc::ShmArchive<hipc::charbuf> blob_name_;
+  IN hipc::charbuf blob_name_;
   IN hipc::Pointer data_;
   IN size_t data_size_;
 
@@ -312,7 +299,7 @@ struct StageOutTask : public Task, TaskFlags<TF_LOCAL> {
     task_node_ = task_node;
     lane_hash_ = bkt_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
+    pool_ = state_id;
     method_ = Method::kStageOut;
     task_flags_.SetBits(task_flags | TASK_COROUTINE | TASK_LOW_LATENCY | TASK_REMOTE_DEBUG_MARK);
     domain_id_ = DomainId::GetLocal();
@@ -327,7 +314,6 @@ struct StageOutTask : public Task, TaskFlags<TF_LOCAL> {
   /** Destructor */
   HSHM_ALWAYS_INLINE
   ~StageOutTask() {
-    HSHM_DESTROY_AR(blob_name_)
     if (IsDataOwner()) {
       CHI_CLIENT->FreeBuffer(data_);
     }
@@ -345,7 +331,7 @@ struct StageOutTask : public Task, TaskFlags<TF_LOCAL> {
  * */
 struct UpdateSizeTask : public Task, TaskFlags<TF_LOCAL> {
   IN hermes::BucketId bkt_id_;
-  IN hipc::ShmArchive<hipc::charbuf> blob_name_;
+  IN hipc::charbuf blob_name_;
   IN size_t blob_off_, data_size_;
 
   /** SHM default constructor */
@@ -366,7 +352,7 @@ struct UpdateSizeTask : public Task, TaskFlags<TF_LOCAL> {
     task_node_ = task_node;
     lane_hash_ = bkt_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    task_state_ = state_id;
+    pool_ = state_id;
     method_ = Method::kUpdateSize;
     task_flags_.SetBits(task_flags | TASK_FIRE_AND_FORGET | TASK_LOW_LATENCY | TASK_REMOTE_DEBUG_MARK);
     domain_id_ = DomainId::GetLocal();
@@ -376,12 +362,6 @@ struct UpdateSizeTask : public Task, TaskFlags<TF_LOCAL> {
     HSHM_MAKE_AR(blob_name_, alloc, blob_name);
     blob_off_ = blob_off;
     data_size_ = data_size;
-  }
-
-  /** Destructor */
-  HSHM_ALWAYS_INLINE
-  ~UpdateSizeTask() {
-    HSHM_DESTROY_AR(blob_name_)
   }
 
   /** Create group */
