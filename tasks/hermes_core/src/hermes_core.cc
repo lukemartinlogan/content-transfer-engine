@@ -41,7 +41,7 @@ class Server : public Module {
   Client client_;
   std::vector<HermesLane> tls_;
   std::atomic<u64> id_alloc_;
-  std::vector<std::unique_ptr<TargetInfo>> targets_;
+  std::vector<TargetInfo> targets_;
   std::unordered_map<TargetId, TargetInfo*> target_map_;
   TargetInfo *fallback_target_;
 
@@ -62,6 +62,7 @@ class Server : public Module {
   /** Construct hermes_core */
   void Create(CreateTask *task, RunContext &rctx) {
     // Create a set of lanes for holding tasks
+    HERMES_CONF->ServerInit();
     client_.Init(id_);
     CreateLaneGroup(0, HERMES_LANES, QUEUE_LOW_LATENCY);
     tls_.resize(HERMES_LANES);
@@ -77,7 +78,7 @@ class Server : public Module {
           dev_type = "fs";
         }
         targets_.emplace_back();
-        TargetInfo &target = *targets_.back();
+        TargetInfo &target = targets_.back();
         target.client_.Create(
             DomainQuery::GetDirectHash(
                 chi::SubDomainId::kGlobalContainers, CHI_CLIENT->node_id_ + i),
@@ -95,12 +96,7 @@ class Server : public Module {
         target.stats_ = &target.poll_stats_->stats_;
       }
     }
-    std::sort(targets_.begin(), targets_.end(),
-              [](const std::unique_ptr<TargetInfo> &a,
-                 const std::unique_ptr<TargetInfo> &b) {
-                return a->stats_->read_bw_ > b->stats_->read_bw_;
-              });
-    fallback_target_ = targets_.back().get();
+    fallback_target_ = &targets_.back();
     task->SetModuleComplete();
   }
   void MonitorCreate(MonitorModeId mode, CreateTask *task, RunContext &rctx) {
@@ -502,13 +498,8 @@ class Server : public Module {
     bkt_size_diff += (ssize_t)size_diff;
     HILOG(kDebug, "The size diff is {} bytes (bkt diff {})", size_diff, bkt_size_diff)
 
-    // Copy TargetInfo
-    std::vector<TargetInfo> targets;
-    for (std::unique_ptr<TargetInfo> &target : targets_) {
-      targets.emplace_back(*target);
-    }
-
     // Use DPE
+    std::vector<TargetInfo> targets = targets_;
     std::vector<PlacementSchema> schema_vec;
     if (size_diff > 0) {
       Context ctx;

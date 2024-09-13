@@ -13,9 +13,9 @@ install(
         hermes
         EXPORT
         ${HERMES_EXPORTED_TARGETS}
-        LIBRARY DESTINATION ${CHIMEARA_INSTALL_LIB_DIR}
-        ARCHIVE DESTINATION ${CHIMEARA_INSTALL_LIB_DIR}
-        RUNTIME DESTINATION ${CHIMEARA_INSTALL_BIN_DIR}
+        LIBRARY DESTINATION ${HERMES_INSTALL_LIB_DIR}
+        ARCHIVE DESTINATION ${HERMES_INSTALL_LIB_DIR}
+        RUNTIME DESTINATION ${HERMES_INSTALL_BIN_DIR}
 )
 
 #-----------------------------------------------------------------------------
@@ -25,7 +25,7 @@ install(
         EXPORT
         ${HERMES_EXPORTED_TARGETS}
         DESTINATION
-        ${CHIMEARA_INSTALL_DATA_DIR}/cmake/hermes
+        ${HERMES_INSTALL_DATA_DIR}/cmake/hermes
         FILE
         ${HERMES_EXPORTED_TARGETS}.cmake
 )

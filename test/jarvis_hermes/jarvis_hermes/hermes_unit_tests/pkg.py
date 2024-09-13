@@ -70,7 +70,7 @@ class HermesUnitTests(Application):
             'TestHermesPaths'
         ]
         test_hermes_execs = [
-            'TestHermesPut1n', 'TestHermesPut', 'TestHermesSerializedPutGet',
+            'TestHermesConnect', 'TestHermesPut1n', 'TestHermesPut', 'TestHermesSerializedPutGet',
             'TestHermesAsyncPut', 'TestHermesAsyncPutLocalFlush', 'TestHermesPutGet',
             'TestHermesPartialPutGet', 'TestHermesBlobDestroy',
             'TestHermesBucketDestroy', 'TestHermesReorganizeBlob',
@@ -132,7 +132,9 @@ class HermesUnitTests(Application):
 
         :return: None
         """
-        pass
+        Kill('.*test_hermes_exec.*',
+             PsshExecInfo(hostfile=self.jarvis.hostfile,
+                          env=self.env))
 
     def clean(self):
         """

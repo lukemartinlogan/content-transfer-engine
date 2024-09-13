@@ -57,24 +57,6 @@ struct DeviceInfo {
 };
 
 /**
- * RPC information defined in server config
- * */
-struct RpcInfo {
-  /** The name of a file that contains host names, 1 per line */
-  std::string host_file_;
-  /** The parsed hostnames from the hermes conf */
-  std::vector<std::string> host_names_;
-  /** The RPC protocol to be used. */
-  std::string protocol_;
-  /** The RPC domain name for verbs transport. */
-  std::string domain_;
-  /** The RPC port number. */
-  int port_;
-  /** The number of handler threads per RPC server. */
-  int num_threads_;
-};
-
-/**
  * DPE information defined in server config
  * */
 struct DpeInfo {
@@ -144,9 +126,6 @@ class ServerConfig : public BaseConfig {
   /** The device information */
   std::vector<DeviceInfo> devices_;
 
-  /** The RPC information */
-  RpcInfo rpc_;
-
   /** The DPE information */
   DpeInfo dpe_;
 
@@ -161,9 +140,6 @@ class ServerConfig : public BaseConfig {
 
   /** Metadata Manager information */
   MdmInfo mdm_;
-
-  /** Trait repo information */
-  std::vector<std::string> trait_paths_;
 
   /** The length of a view state epoch */
   u32 system_view_state_update_interval_ms;
@@ -202,9 +178,6 @@ class ServerConfig : public BaseConfig {
       system_view_state_update_interval_ms =
           yaml_conf["system_view_state_update_interval_ms"].as<int>();
     }
-    if (yaml_conf["traits"]) {
-      ParseTraitInfo(yaml_conf["traits"]);
-    }
   }
 
 
@@ -230,12 +203,6 @@ class ServerConfig : public BaseConfig {
       dev.capacity_ =
           hshm::ConfigParse::ParseSize(
               dev_info["capacity"].as<std::string>());
-      dev.bandwidth_ =
-          hshm::ConfigParse::ParseSize(
-              dev_info["bandwidth"].as<std::string>());
-      dev.latency_ =
-          hshm::ConfigParse::ParseLatency(
-              dev_info["latency"].as<std::string>());
       std::vector<std::string> size_vec;
       ParseVector<std::string, std::vector<std::string>>(
           dev_info["slab_sizes"], size_vec);
@@ -310,19 +277,6 @@ class ServerConfig : public BaseConfig {
     if (yaml_conf["apriori_schema_path"]) {
       prefetcher_.apriori_schema_path_ =
           yaml_conf["apriori_schema_path"].as<std::string>();
-    }
-  }
-
-  /** parse prefetch information from YAML config */
-  void ParseTraitInfo(YAML::Node yaml_conf) {
-    std::vector<std::string> trait_names;
-    ParseVector<std::string, std::vector<std::string>>(
-        yaml_conf, trait_names);
-    trait_paths_.reserve(trait_names.size());
-    for (auto &name : trait_names) {
-      name = hshm::ConfigParse::ExpandPath(name);
-      trait_paths_.emplace_back(
-          hshm::Formatter::format("lib{}.so", name));
     }
   }
 

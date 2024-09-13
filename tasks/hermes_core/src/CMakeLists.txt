@@ -4,9 +4,11 @@
 add_library(hermes_core SHARED
         hermes_core.cc)
 if ("${Chimaera_RUNTIME_DEPS}")
-    add_dependencies(hermes_core ${Chimaera_RUNTIME_DEPS})
+    add_dependencies(hermes_core ${Chimaera_RUNTIME_DEPS} hermes)
+else()
+    add_dependencies(hermes_core hermes)
 endif()
-target_link_libraries(hermes_core ${Chimaera_RUNTIME_LIBRARIES})
+target_link_libraries(hermes_core ${Chimaera_RUNTIME_LIBRARIES} hermes)
 target_compile_definitions(hermes_core PRIVATE ${Chimaera_RUNTIME_DEFINITIONS})
 #------------------------------------------------------------------------------
 # Install Small Message Task Library
