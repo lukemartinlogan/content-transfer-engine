@@ -213,7 +213,7 @@ class HermesRun(Service):
                 continue
             mount = f'{mount}/hermes_data'
             hermes_server['devices'][custom_name] = {
-                'mount_point': mount,
+                'mount_point': f'fs://{mount}',
                 'capacity': int(.9 * float(dev['avail'])),
                 'block_size': '4kb',
                 'is_shared_device': dev['shared'],
@@ -225,7 +225,7 @@ class HermesRun(Service):
                                       env=self.env))
         if 'ram' in self.config and self.config['ram'] != '0':
             hermes_server['devices']['ram'] = {
-                'mount_point': '',
+                'mount_point': 'ram://',
                 'capacity': self.config['ram'],
                 'block_size': '4kb',
                 'is_shared_device': False,

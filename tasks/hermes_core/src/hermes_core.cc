@@ -69,14 +69,8 @@ class Server : public Module {
     // Create block devices
     for (int i = 0; i < 3; ++i) {
       for (DeviceInfo &dev : HERMES_SERVER_CONF.devices_) {
-        std::string dev_type;
-        if (dev.mount_dir_.empty()) {
-          dev_type = "ram";
-          dev.mount_point_ =
-              hshm::Formatter::format("{}/{}", dev.mount_dir_, dev.dev_name_);
-        } else {
-          dev_type = "fs";
-        }
+        dev.mount_point_ =
+            hshm::Formatter::format("{}/{}", dev.mount_dir_, dev.dev_name_);
         targets_.emplace_back();
         TargetInfo &target = targets_.back();
         target.client_.Create(
@@ -86,8 +80,8 @@ class Server : public Module {
                 chi::SubDomainId::kGlobalContainers, CHI_CLIENT->node_id_ + i),
             hshm::Formatter::format(
                 "hermes_{}_{}/{}",
-                dev_type, dev.dev_name_, CHI_CLIENT->node_id_),
-            hshm::Formatter::format("{}://{}", dev_type, dev.mount_point_),
+                dev.dev_name_, CHI_CLIENT->node_id_),
+            dev.mount_point_,
             dev.capacity_);
         target.id_ = target.client_.id_;
         target.poll_stats_ = target.client_.AsyncPollStats(
@@ -583,8 +577,8 @@ class Server : public Module {
     blob_info.max_blob_size_ = blob_off;
 
     // Wait for the placements to complete
+    task->Wait(write_tasks, TASK_MODULE_COMPLETE);
     for (LPointer<chi::bdev::WriteTask> &write_task : write_tasks) {
-      task->Wait(write_task);
       CHI_CLIENT->DelTask(write_task);
     }
 
@@ -663,7 +657,7 @@ class Server : public Module {
 //    }
 
     // Read blob from buffers
-    std::vector<chi::bdev::ReadTask*> read_tasks;
+    std::vector<LPointer<chi::bdev::ReadTask>> read_tasks;
     read_tasks.reserve(blob_info.buffers_.size());
     HILOG(kDebug, "Getting blob {} of size {} starting at offset {} (total_blob_size={}, buffers={})",
           task->blob_id_, task->data_size_, task->blob_off_, blob_info.blob_size_, blob_info.buffers_.size());
@@ -689,19 +683,19 @@ class Server : public Module {
         }
         HILOG(kDebug, "Loading {} bytes at off {} from target {}", buf_size, tgt_off, buf.tid_)
         TargetInfo &target = *target_map_[buf.tid_];
-        chi::bdev::ReadTask *read_task = target.client_.AsyncRead(
+        LPointer<chi::bdev::ReadTask> read_task = target.client_.AsyncRead(
             chi::DomainQuery::GetDirectHash(
                 chi::SubDomainId::kGlobalContainers, 0),
             task->data_ + buf_off,
-            tgt_off, buf_size).ptr_;
+            tgt_off, buf_size);
         read_tasks.emplace_back(read_task);
         buf_off += buf_size;
         blob_off = buf_right;
       }
       buf_left += buf.size_;
     }
-    for (chi::bdev::ReadTask *&read_task : read_tasks) {
-      task->Wait(read_task);
+    task->Wait(read_tasks, TASK_MODULE_COMPLETE);
+    for (LPointer<chi::bdev::ReadTask> &read_task : read_tasks) {
       CHI_CLIENT->DelTask(read_task);
     }
     task->data_size_ = buf_off;

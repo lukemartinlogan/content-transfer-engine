@@ -191,6 +191,7 @@ class ServerConfig : public BaseConfig {
       dev.dev_name_ = device.first.as<std::string>();
       dev.mount_dir_ = hshm::ConfigParse::ExpandPath(
           dev_info["mount_point"].as<std::string>());
+
       dev.borg_min_thresh_ =
           dev_info["borg_capacity_thresh"][0].as<float>();
       dev.borg_max_thresh_ =
