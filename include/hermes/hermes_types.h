@@ -16,6 +16,7 @@
 #include "status.h"
 #include "statuses.h"
 #include "chimaera/chimaera_namespace.h"
+#include "bdev/bdev.h"
 
 namespace hapi = hermes;
 
@@ -38,8 +39,22 @@ typedef UniqueId<101> BucketId;
 /** Represents a tag */
 typedef UniqueId<102> TagId;
 
-/** Represetnts a storage target */
+/** Represents a storage target */
 typedef PoolId TargetId;
+
+/** Represents a target */
+struct TargetInfo {
+  TargetId id_;
+  chi::bdev::Client client_;
+  LPointer<chi::bdev::PollStatsTask> poll_stats_;
+  chi::BdevStats *stats_;
+  float score_ = 0;  // TODO(llogan): Calculate score
+
+  size_t GetRemCap() {
+    return stats_->free_;
+  }
+};
+
 
 /** Represents a trait */
 typedef PoolId TraitId;
@@ -50,11 +65,8 @@ enum class TraitType {
   kProducerOpTrait
 };
 
-/** Represents a blob  */
+/** Represents a blob */
 typedef hshm::charbuf Blob;
-
-/** Represents a blob in shared memory */
-typedef hipc::uptr<hipc::charbuf> IpcBlob;
 
 /** Supported data placement policies */
 enum class PlacementPolicy {
@@ -207,55 +219,21 @@ class Constant {
 };
 
 /** Represents an allocated fraction of a target */
-struct BufferInfo {
+struct BufferInfo : public chi::Block {
   TargetId tid_;        /**< The destination target */
-  size_t t_slab_;       /**< The index of the slab in the target */
-  size_t t_off_;        /**< Offset in the target */
-  size_t t_size_;       /**< Size in the target */
 
   /** Serialization */
   template<typename Ar>
   void serialize(Ar &ar) {
-    ar(tid_, t_slab_, t_off_, t_size_);
+    ar(tid_, off_, size_);
   }
 
   /** Default constructor */
   BufferInfo() = default;
 
   /** Primary constructor */
-  BufferInfo(PoolId tid, size_t t_off, size_t t_size,
-             size_t blob_off, size_t blob_size)
-      : tid_(tid), t_off_(t_off), t_size_(t_size) {}
-
-  /** Copy constructor */
-  BufferInfo(const BufferInfo &other) {
-    Copy(other);
-  }
-
-  /** Move constructor */
-  BufferInfo(BufferInfo &&other) {
-    Copy(other);
-  }
-
-  /** Copy assignment */
-  BufferInfo& operator=(const BufferInfo &other) {
-    Copy(other);
-    return *this;
-  }
-
-  /** Move assignment */
-  BufferInfo& operator=(BufferInfo &&other) {
-    Copy(other);
-    return *this;
-  }
-
-  /** Performs move/copy */
-  void Copy(const BufferInfo &other) {
-    tid_ = other.tid_;
-    t_slab_ = other.t_slab_;
-    t_off_ = other.t_off_;
-    t_size_ = other.t_size_;
-  }
+  BufferInfo(TargetId tid, const chi::Block &block)
+  : tid_(tid), chi::Block(block) {}
 };
 
 /** Data structure used to store Blob information */

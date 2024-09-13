@@ -1220,9 +1220,9 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
               size_t data_size,
               const hipc::Pointer &data,
               float score,
-              u32 flags,
-              const Context &ctx,
-              u32 task_flags)
+              u32 task_flags,
+              u32 hermes_flags,
+              const Context &ctx)
   : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
@@ -1239,7 +1239,7 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
     data_size_ = data_size;
     data_ = data;
     score_ = score;
-    flags_ = bitfield32_t(flags | ctx.flags_.bits_);
+    flags_ = bitfield32_t(hermes_flags | ctx.flags_.bits_);
   }
 
   /** Destructor */
@@ -1266,7 +1266,7 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   template<typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_name_, blob_id_, blob_off_, data_size_, score_, flags_);
-    ar.bulk(DT_SENDER_WRITE, data_, data_size_);
+    ar.bulk(DT_WRITE, data_, data_size_);
   }
 
   /** (De)serialize message return */
@@ -1305,8 +1305,8 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
               size_t off,
               size_t data_size,
               hipc::Pointer &data,
-              const Context &ctx,
-              u32 flags)
+              u32 hermes_flags,
+              const Context &ctx)
   : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
@@ -1321,7 +1321,7 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
     blob_off_ = off;
     data_size_ = data_size;
     data_ = data;
-    flags_ = bitfield32_t(flags | ctx.flags_.bits_);
+    flags_ = bitfield32_t(hermes_flags | ctx.flags_.bits_);
   }
 
   /** Convert data to a data structure */
@@ -1357,12 +1357,13 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   template<typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_name_, blob_id_, blob_off_, data_size_, flags_);
-    ar.bulk(DT_SENDER_READ, data_, data_size_);
+    ar.bulk(DT_EXPOSE, data_, data_size_);
   }
 
   /** (De)serialize message return */
   template<typename Ar>
   void SerializeEnd(Ar &ar) {
+    ar.bulk(DT_WRITE, data_, data_size_);
     if (flags_.Any(HERMES_GET_BLOB_ID)) {
       ar(blob_id_);
     }

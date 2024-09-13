@@ -16,6 +16,7 @@
 #include "bdev/bdev.h"
 #include "hermes_core/hermes_core.h"
 #include "hermes/hermes.h"
+#include "hermes/dpe/dpe_factory.h"
 
 namespace hermes {
 
@@ -40,8 +41,9 @@ class Server : public Module {
   Client client_;
   std::vector<HermesLane> tls_;
   std::atomic<u64> id_alloc_;
-  std::vector<chi::bdev::Client> targets_;
-  chi::bdev::Client *fallback_target_;
+  std::vector<std::unique_ptr<TargetInfo>> targets_;
+  std::unordered_map<TargetId, TargetInfo*> target_map_;
+  TargetInfo *fallback_target_;
 
  private:
   /** Get the globally unique blob name */
@@ -64,31 +66,41 @@ class Server : public Module {
     CreateLaneGroup(0, HERMES_LANES, QUEUE_LOW_LATENCY);
     tls_.resize(HERMES_LANES);
     // Create block devices
-    for (DeviceInfo &dev : HERMES_SERVER_CONF.devices_) {
-      std::string dev_type;
-      if (dev.mount_dir_.empty()) {
-        dev_type = "ram";
-        dev.mount_point_ =
-            hshm::Formatter::format("{}/{}", dev.mount_dir_, dev.dev_name_);
-      } else {
-        dev_type = "fs";
+    for (int i = 0; i < 3; ++i) {
+      for (DeviceInfo &dev : HERMES_SERVER_CONF.devices_) {
+        std::string dev_type;
+        if (dev.mount_dir_.empty()) {
+          dev_type = "ram";
+          dev.mount_point_ =
+              hshm::Formatter::format("{}/{}", dev.mount_dir_, dev.dev_name_);
+        } else {
+          dev_type = "fs";
+        }
+        targets_.emplace_back();
+        TargetInfo &target = *targets_.back();
+        target.client_.Create(
+            DomainQuery::GetDirectHash(
+                chi::SubDomainId::kGlobalContainers, CHI_CLIENT->node_id_ + i),
+            DomainQuery::GetDirectHash(
+                chi::SubDomainId::kGlobalContainers, CHI_CLIENT->node_id_ + i),
+            hshm::Formatter::format(
+                "hermes_{}_{}/{}",
+                dev_type, dev.dev_name_, CHI_CLIENT->node_id_),
+            hshm::Formatter::format("{}://{}", dev_type, dev.mount_point_),
+            dev.capacity_);
+        target.id_ = target.client_.id_;
+        target.poll_stats_ = target.client_.AsyncPollStats(
+            chi::DomainQuery::GetDirectHash(
+                chi::SubDomainId::kGlobalContainers, 0), 25);
+        target.stats_ = &target.poll_stats_->stats_;
       }
-      targets_.emplace_back();
-      chi::bdev::Client &target = targets_.back();
-      target.Create(
-          DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-          DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-          hshm::Formatter::format("hermes_{}_{}/{}",
-                                  dev_type, dev.dev_name_, CHI_CLIENT->node_id_),
-          hshm::Formatter::format("{}://{}", dev_type, dev.mount_point_),
-          dev.capacity_);
     }
-//    std::sort(targets_.begin(), targets_.end(),
-//              [](const chi::bdev::Client &a, const chi::bdev::Client &b) {
-//                return a.bandwidth_ > b.bandwidth_;
-//              });
-    fallback_target_ = &targets_.back();
-
+    std::sort(targets_.begin(), targets_.end(),
+              [](const std::unique_ptr<TargetInfo> &a,
+                 const std::unique_ptr<TargetInfo> &b) {
+                return a->stats_->read_bw_ > b->stats_->read_bw_;
+              });
+    fallback_target_ = targets_.back().get();
     task->SetModuleComplete();
   }
   void MonitorCreate(MonitorModeId mode, CreateTask *task, RunContext &rctx) {
@@ -143,13 +155,6 @@ class Server : public Module {
       tag_info.tag_id_ = tag_id;
       tag_info.owner_ = task->blob_owner_;
       tag_info.internal_size_ = task->backend_size_;
-//      if (task->flags_.Any(HERMES_SHOULD_STAGE)) {
-//        stager_mdm_.AsyncRegisterStager(task->task_node_ + 1,
-//                                        tag_id,
-//                                        hshm::charbuf(task->tag_name_->str()),
-//                                        hshm::charbuf(task->params_->str()));
-//        tag_info.flags_.SetBits(HERMES_SHOULD_STAGE);
-//      }
     } else {
       if (tag_name.size()) {
         HILOG(kDebug, "Found existing tag: {}", tag_name.str())
@@ -415,8 +420,7 @@ class Server : public Module {
       task->blob_id_ = GetOrCreateBlobId(
           tls, task->tag_id_,
           HashBlobName(task->tag_id_, task->blob_name_),
-          hshm::to_charbuf(task->blob_name_),
-          flags);
+          hshm::to_charbuf(task->blob_name_), flags);
     }
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
@@ -467,6 +471,172 @@ class Server : public Module {
   /** Put a blob (TODO) */
   void PutBlob(PutBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    // Get blob ID
+    hshm::charbuf blob_name = hshm::to_charbuf(task->blob_name_);
+    if (task->blob_id_.IsNull()) {
+      task->blob_id_ = GetOrCreateBlobId(
+          tls, task->tag_id_,
+          HashBlobName(task->tag_id_, blob_name),
+          blob_name, task->flags_);
+    }
+    // Get blob struct
+    BLOB_MAP_T &blob_map = tls.blob_map_;
+    auto it = blob_map.find(task->blob_id_);
+    if (it == blob_map.end()) {
+      task->SetModuleComplete();
+      return;
+    }
+    BlobInfo &blob_info = it->second;
+
+    // Determine amount of additional buffering space needed
+    ssize_t bkt_size_diff = 0;
+    size_t needed_space = task->blob_off_ + task->data_size_;
+    size_t size_diff = 0;
+    if (needed_space > blob_info.max_blob_size_) {
+      size_diff = needed_space - blob_info.max_blob_size_;
+    }
+    size_t min_blob_size = task->blob_off_ + task->data_size_;
+    if (min_blob_size > blob_info.blob_size_) {
+      blob_info.blob_size_ = task->blob_off_ + task->data_size_;
+    }
+    bkt_size_diff += (ssize_t)size_diff;
+    HILOG(kDebug, "The size diff is {} bytes (bkt diff {})", size_diff, bkt_size_diff)
+
+    // Copy TargetInfo
+    std::vector<TargetInfo> targets;
+    for (std::unique_ptr<TargetInfo> &target : targets_) {
+      targets.emplace_back(*target);
+    }
+
+    // Use DPE
+    std::vector<PlacementSchema> schema_vec;
+    if (size_diff > 0) {
+      Context ctx;
+      auto *dpe = DpeFactory::Get(ctx.dpe_);
+      ctx.blob_score_ = task->score_;
+      dpe->Placement({size_diff}, targets, ctx, schema_vec);
+    }
+
+    // Allocate blob buffers
+    for (PlacementSchema &schema : schema_vec) {
+      schema.plcmnts_.emplace_back(0, fallback_target_->id_);
+      for (size_t sub_idx = 0; sub_idx < schema.plcmnts_.size(); ++sub_idx) {
+        // Allocate chi::blocks
+        SubPlacement &placement = schema.plcmnts_[sub_idx];
+        TargetInfo &bdev = *target_map_[placement.tid_];
+        std::vector<chi::Block> blocks = bdev.client_.Allocate(
+                chi::DomainQuery::GetDirectHash(
+                    chi::SubDomainId::kGlobalContainers, bdev.id_.node_id_),
+                placement.size_);
+        // Convert to BufferInfo
+        size_t t_alloc = 0;
+        for (chi::Block &block : blocks) {
+          blob_info.buffers_.emplace_back(placement.tid_, block);
+          t_alloc += block.size_;
+        }
+//        HILOG(kInfo, "(node {}) Placing {}/{} bytes in target {} of bw {}",
+//              CHI_CLIENT->node_id_,
+//              alloc_task->alloc_size_, task->data_size_,
+//              placement.tid_, bdev.bandwidth_)
+        // Spill to next tier
+        if (t_alloc < placement.size_) {
+          SubPlacement &next_placement = schema.plcmnts_[sub_idx + 1];
+          size_t diff = placement.size_ - t_alloc;
+          next_placement.size_ += diff;
+        }
+        bdev.stats_->free_ -= t_alloc;
+      }
+    }
+
+    // Place blob in buffers
+    std::vector<LPointer<chi::bdev::WriteTask>> write_tasks;
+    write_tasks.reserve(blob_info.buffers_.size());
+    size_t blob_off = task->blob_off_, buf_off = 0;
+    size_t buf_left = 0, buf_right = 0;
+    size_t blob_right = task->blob_off_ + task->data_size_;
+    HILOG(kDebug, "Number of buffers {}", blob_info.buffers_.size());
+    bool found_left = false;
+    for (BufferInfo &buf : blob_info.buffers_) {
+      buf_right = buf_left + buf.size_;
+      if (blob_off >= blob_right) {
+        break;
+      }
+      if (buf_left <= blob_off && blob_off < buf_right) {
+        found_left = true;
+      }
+      if (found_left) {
+        size_t rel_off = blob_off - buf_left;
+        size_t tgt_off = buf.off_ + rel_off;
+        size_t buf_size = buf.size_ - rel_off;
+        if (buf_right > blob_right) {
+          buf_size = blob_right - (buf_left + rel_off);
+        }
+        HILOG(kDebug, "Writing {} bytes at off {} from target {}", buf_size, tgt_off, buf.tid_)
+        TargetInfo &target = *target_map_[buf.tid_];
+        LPointer<chi::bdev::WriteTask> write_task =
+            target.client_.AsyncWrite(
+                chi::DomainQuery::GetDirectHash(
+                    chi::SubDomainId::kGlobalContainers, 0),
+                task->data_ + buf_off,
+                tgt_off, buf_size);
+        write_tasks.emplace_back(write_task);
+        buf_off += buf_size;
+        blob_off = buf_right;
+      }
+      buf_left += buf.size_;
+    }
+    blob_info.max_blob_size_ = blob_off;
+
+    // Wait for the placements to complete
+    for (LPointer<chi::bdev::WriteTask> &write_task : write_tasks) {
+      task->Wait(write_task);
+      CHI_CLIENT->DelTask(write_task);
+    }
+
+    // Update information
+    client_.AsyncTagUpdateSize(
+        chi::DomainQuery::GetDirectHash(
+            chi::SubDomainId::kGlobalContainers, 0),
+        task->tag_id_,
+        bkt_size_diff,
+        UpdateSizeMode::kAdd);
+//    if (task->flags_.Any(HERMES_SHOULD_STAGE)) {
+//      client_.AsyncTagUpdateSize(
+//          chi::DomainQuery::GetDirectHash(
+//              chi::SubDomainId::kGlobalContainers, 0),
+//          task->tag_id_,
+//          blob_info.name_,
+//          task->blob_off_,
+//          task->data_size_, 0);
+//    } else {
+//      client_.AsyncTagUpdateSize(
+//          chi::DomainQuery::GetDirectHash(
+//              chi::SubDomainId::kGlobalContainers, 0),
+//          task->tag_id_,
+//          bkt_size_diff,
+//          UpdateSizeMode::kAdd);
+//    }
+    if (task->flags_.Any(HERMES_BLOB_DID_CREATE)) {
+      client_.AsyncTagAddBlob(
+          chi::DomainQuery::GetDirectHash(
+              chi::SubDomainId::kGlobalContainers, 0),
+          task->tag_id_,
+          task->blob_id_);
+    }
+//    if (task->flags_.Any(HERMES_HAS_DERIVED)) {
+//      op_mdm_.AsyncRegisterData(task->task_node_ + 1,
+//                                task->tag_id_,
+//                                task->blob_name_->str(),
+//                                task->blob_id_,
+//                                task->blob_off_,
+//                                task->data_size_);
+//    }
+
+    // Free data
+    HILOG(kDebug, "Completing PUT for {}", blob_name.str());
+    blob_info.UpdateWriteStats();
+    task->SetModuleComplete();
+
     task->SetModuleComplete();
   }
   void MonitorPutBlob(MonitorModeId mode, PutBlobTask *task, RunContext &rctx) {
@@ -475,6 +645,73 @@ class Server : public Module {
   /** Get a blob (TODO) */
   void GetBlob(GetBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+
+    if (task->blob_id_.IsNull()) {
+      hshm::charbuf blob_name = hshm::to_charbuf(task->blob_name_);
+      task->blob_id_ = GetOrCreateBlobId(
+          tls, task->tag_id_,
+          HashBlobName(task->tag_id_, blob_name),
+          blob_name, task->flags_);
+    }
+    BLOB_MAP_T &blob_map = tls.blob_map_;
+    BlobInfo &blob_info = blob_map[task->blob_id_];
+
+    // Stage Blob
+//    if (task->flags_.Any(HERMES_SHOULD_STAGE) && blob_info.last_flush_ == 0) {
+//      // TODO(llogan): Don't hardcore score = 1
+//      blob_info.last_flush_ = 1;
+//      LPointer<data_stager::StageInTask> stage_task =
+//          stager_mdm_.AsyncStageIn(task->task_node_ + 1,
+//                                   task->tag_id_,
+//                                   blob_info.name_,
+//                                   1, 0);
+//      stage_task->Wait<TASK_YIELD_CO>(task);
+//      CHI_CLIENT->DelTask(stage_task);
+//    }
+
+    // Read blob from buffers
+    std::vector<chi::bdev::ReadTask*> read_tasks;
+    read_tasks.reserve(blob_info.buffers_.size());
+    HILOG(kDebug, "Getting blob {} of size {} starting at offset {} (total_blob_size={}, buffers={})",
+          task->blob_id_, task->data_size_, task->blob_off_, blob_info.blob_size_, blob_info.buffers_.size());
+    size_t blob_off = task->blob_off_;
+    size_t buf_left = 0, buf_right = 0;
+    size_t buf_off = 0;
+    size_t blob_right = task->blob_off_ + task->data_size_;
+    bool found_left = false;
+    for (BufferInfo &buf : blob_info.buffers_) {
+      buf_right = buf_left + buf.size_;
+      if (blob_off >= blob_right) {
+        break;
+      }
+      if (buf_left <= blob_off && blob_off < buf_right) {
+        found_left = true;
+      }
+      if (found_left) {
+        size_t rel_off = blob_off - buf_left;
+        size_t tgt_off = buf.off_ + rel_off;
+        size_t buf_size = buf.size_ - rel_off;
+        if (buf_right > blob_right) {
+          buf_size = blob_right - (buf_left + rel_off);
+        }
+        HILOG(kDebug, "Loading {} bytes at off {} from target {}", buf_size, tgt_off, buf.tid_)
+        TargetInfo &target = *target_map_[buf.tid_];
+        chi::bdev::ReadTask *read_task = target.client_.AsyncRead(
+            chi::DomainQuery::GetDirectHash(
+                chi::SubDomainId::kGlobalContainers, 0),
+            task->data_ + buf_off,
+            tgt_off, buf_size).ptr_;
+        read_tasks.emplace_back(read_task);
+        buf_off += buf_size;
+        blob_off = buf_right;
+      }
+      buf_left += buf.size_;
+    }
+    for (chi::bdev::ReadTask *&read_task : read_tasks) {
+      task->Wait(read_task);
+      CHI_CLIENT->DelTask(read_task);
+    }
+    task->data_size_ = buf_off;
     task->SetModuleComplete();
   }
   void MonitorGetBlob(MonitorModeId mode, GetBlobTask *task, RunContext &rctx) {

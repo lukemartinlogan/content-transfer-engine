@@ -7,7 +7,7 @@ cmake*
 *.mod.c
 *.ko
 *.order
-*.o
+*.oa
 *.o.cmd
 *.o.d
 build

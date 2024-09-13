@@ -38,9 +38,9 @@ class Client : public ModuleClient {
         task, task_node, dom_query, affinity, pool_name, ctx);
   }
   void Create(const DomainQuery &dom_query,
-                  const DomainQuery &affinity,
-                  const std::string &pool_name,
-                  const CreateContext &ctx = CreateContext()) {
+              const DomainQuery &affinity,
+              const std::string &pool_name,
+              const CreateContext &ctx = CreateContext()) {
     LPointer<CreateTask> task = AsyncCreate(
         dom_query, affinity, pool_name, ctx);
     task->Wait();
@@ -311,13 +311,15 @@ class Client : public ModuleClient {
       const BlobId &blob_id,
       size_t blob_off, size_t blob_size,
       const hipc::Pointer &blob,
-      float score, u32 flags, Context ctx = Context(),
-      u32 task_flags = TASK_FIRE_AND_FORGET | TASK_DATA_OWNER) {
+      float score,
+      u32 task_flags,
+      u32 hermes_flags,
+      Context ctx = Context()) {
     CHI_CLIENT->ConstructTask<PutBlobTask>(
         task, task_node, dom_query, id_,
         tag_id, blob_name, blob_id,
         blob_off, blob_size,
-        blob, score, flags, ctx, task_flags);
+        blob, score, task_flags, hermes_flags, ctx);
   }
   CHI_TASK_METHODS(PutBlob);
 
@@ -331,12 +333,12 @@ class Client : public ModuleClient {
                              size_t off,
                              ssize_t data_size,
                              hipc::Pointer &data,
-                             Context ctx = Context(),
-                             u32 flags = 0) {
+                             u32 hermes_flags,
+                             Context ctx = Context()) {
     // HILOG(kDebug, "Beginning GET (task_node={})", task_node);
     CHI_CLIENT->ConstructTask<GetBlobTask>(
         task, task_node, dom_query, id_,
-        tag_id, blob_name, blob_id, off, data_size, data, ctx, flags);
+        tag_id, blob_name, blob_id, off, data_size, data, hermes_flags, ctx);
   }
   size_t GetBlob(const DomainQuery &dom_query,
                  const TagId &tag_id,
@@ -344,11 +346,11 @@ class Client : public ModuleClient {
                  size_t off,
                  ssize_t data_size,
                  hipc::Pointer &data,
-                 const Context &ctx = Context(),
-                 u32 flags = 0) {
+                 u32 hermes_flags,
+                 const Context &ctx = Context()) {
     LPointer<GetBlobTask> task =
         AsyncGetBlob(dom_query, tag_id, hshm::charbuf(""),
-                     blob_id, off, data_size, data, ctx, flags);
+                     blob_id, off, data_size, data, hermes_flags, ctx);
     task->Wait();
     data = task->data_;
     size_t true_size = task->data_size_;

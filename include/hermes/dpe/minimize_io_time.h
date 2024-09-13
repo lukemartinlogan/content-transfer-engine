@@ -27,6 +27,11 @@ class MinimizeIoTime : public Dpe {
                    std::vector<TargetInfo> &targets,
                    Context &ctx,
                    std::vector<PlacementSchema> &output) {
+    // Sort the targets by score
+    std::sort(targets.begin(), targets.end(),
+              [](const TargetInfo &a, const TargetInfo &b) {
+                return a.stats_->write_bw_ < b.stats_->write_bw_;
+              });
     for (size_t blob_size : blob_sizes) {
       // Initialize blob's size, score, and schema
       size_t rem_blob_size = blob_size;

@@ -118,40 +118,46 @@ class Bucket {
     // TODO(llogan)
   }
 
-//  /**
-//   * Get the current size of the bucket
-//   * */
-//  size_t GetSize() {
-//    return mdm_->GetSize(id_);
-//  }
-//
-//  /**
-//   * Set the current size of the bucket
-//   * */
-//  void SetSize(size_t new_size) {
-//    mdm_->AsyncUpdateSize(id_, new_size, UpdateSizeMode::kCap);
-//  }
-//
-//  /**
-//   * Rename this bucket
-//   * */
-//  void Rename(const std::string &new_bkt_name) {
-//    mdm_->RenameTag(id_, hshm::to_charbuf(new_bkt_name));
-//  }
-//
-//  /**
-//   * Clears the buckets contents, but doesn't destroy its metadata
-//   * */
-//  void Clear() {
-//    mdm_->TagClearBlobs(id_);
-//  }
-//
-//  /**
-//   * Destroys this bucket along with all its contents.
-//   * */
-//  void Destroy() {
-//    mdm_->DestroyTag(id_);
-//  }
+  /**
+   * Get the current size of the bucket
+   * */
+  size_t GetSize() {
+    return mdm_->GetSize(
+        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_);
+  }
+
+  /**
+   * Set the current size of the bucket
+   * */
+  void SetSize(size_t new_size) {
+    // mdm_->AsyncUpdateSize(id_, new_size, UpdateSizeMode::kCap);
+  }
+
+  /**
+   * Rename this bucket
+   * */
+  void Rename(const std::string &new_bkt_name) {
+    // mdm_->RenameTag(id_, hshm::to_charbuf(new_bkt_name));
+  }
+
+  /**
+   * Clears the buckets contents, but doesn't destroy its metadata
+   * */
+  void Clear() {
+    mdm_->TagClearBlobs(
+        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_);
+  }
+
+  /**
+   * Destroys this bucket along with all its contents.
+   * */
+  void Destroy() {
+    mdm_->DestroyTag(
+        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_);
+  }
 
   /**
    * Check if this bucket is valid
@@ -160,470 +166,556 @@ class Bucket {
     return id_.IsNull();
   }
 
-// public:
-//  /**====================================
-//   * Blob Operations
-//   * ===================================*/
-//
-//  /**
-//   * Get the id of a blob from the blob name
-//   *
-//   * @param blob_name the name of the blob
-//   * @param blob_id (output) the returned blob_id
-//   * @return
-//   * */
-//  BlobId GetBlobId(const std::string &blob_name) {
-//    return mdm_->GetBlobId(id_, hshm::to_charbuf(blob_name));
-//  }
-//
-//  /**
-//   * Get the name of a blob from the blob id
-//   *
-//   * @param blob_id the blob_id
-//   * @param blob_name the name of the blob
-//   * @return The Status of the operation
-//   * */
-//  std::string GetBlobName(const BlobId &blob_id) {
-//    return mdm_->GetBlobName(id_, blob_id);
-//  }
-//
-//
-//  /**
-//   * Get the score of a blob from the blob id
-//   *
-//   * @param blob_id the blob_id
-//   * @return The Status of the operation
-//   * */
-//  float GetBlobScore(const BlobId &blob_id) {
-//    return mdm_->GetBlobScore(id_, blob_id);
-//  }
-//
-//  /**
-//   * Label \a blob_id blob with \a tag_name TAG
-//   * */
-//  Status TagBlob(BlobId &blob_id,
-//                 TagId &tag_id) {
-//    mdm_->TagAddBlob(tag_id, blob_id);
-//    return Status();
-//  }
-//
-//  /**
-//   * Put \a blob_name Blob into the bucket
-//   * */
-//  template<bool PARTIAL, bool ASYNC>
-//  HSHM_ALWAYS_INLINE
-//  BlobId BasePut(const std::string &blob_name,
-//                 const BlobId &orig_blob_id,
-//                 const Blob &blob,
-//                 size_t blob_off,
-//                 Context &ctx) {
-//    BlobId blob_id = orig_blob_id;
-//    bitfield32_t flags, task_flags(
-//        TASK_FIRE_AND_FORGET | TASK_DATA_OWNER | TASK_LOW_LATENCY);
-//    // Copy data to shared memory
-//    LPointer<char> p = CHI_CLIENT->AllocateBufferClient(blob.size());
-//    char *data = p.ptr_;
-//    memcpy(data, blob.data(), blob.size());
-//    // Put to shared memory
-//    hshm::charbuf blob_name_buf = hshm::to_charbuf(blob_name);
-//    if constexpr (!ASYNC) {
-//      if (blob_id.IsNull()) {
-//        flags.SetBits(HERMES_GET_BLOB_ID);
-//        task_flags.UnsetBits(TASK_FIRE_AND_FORGET);
-//      }
-//    }
-//    if constexpr(!PARTIAL) {
-//      flags.SetBits(HERMES_BLOB_REPLACE);
-//    }
-//    LPointer<PutBlobTask> task;
-//    task = mdm_->AsyncPutBlob(id_, blob_name_buf,
-//                                            blob_id, blob_off, blob.size(),
-//                                            p.shm_, ctx.blob_score_,
-//                                            flags.bits_, ctx, task_flags.bits_);
-//    if constexpr (!ASYNC) {
-//      if (flags.Any(HERMES_GET_BLOB_ID)) {
-//        task->Wait();
-//        blob_id = task->blob_id_;
-//        CHI_CLIENT->DelTask(task);
-//      }
-//    }
-//    return blob_id;
-//  }
-//
-//  /**
-//   * Put \a blob_name Blob into the bucket
-//   * */
-//  template<typename T, bool PARTIAL, bool ASYNC>
-//  HSHM_ALWAYS_INLINE
-//  BlobId SrlBasePut(const std::string &blob_name,
-//                    const BlobId &orig_blob_id,
-//                    const T &data,
-//                    Context &ctx) {
-//    std::stringstream ss;
-//    cereal::BinaryOutputArchive ar(ss);
-//    ar << data;
-//    Blob blob(ss.str());
-//    return BasePut<PARTIAL, ASYNC>(blob_name, orig_blob_id, blob, 0, ctx);
-//  }
-//
-//  /**
-//   * Put \a blob_name Blob into the bucket
-//   * */
-//  template<typename T = Blob>
-//  BlobId Put(const std::string &blob_name,
-//             const T &blob,
-//             Context &ctx) {
-//    if constexpr(std::is_same_v<T, Blob>) {
-//      return BasePut<false, false>(
-//          blob_name, BlobId::GetNull(), blob, 0, ctx);
-//    } else {
-//      return SrlBasePut<T, false, false>(
-//          blob_name, BlobId::GetNull(), blob, ctx);
-//    }
-//  }
-//
-//  /**
-//   * Put \a blob_id Blob into the bucket
-//   * */
-//  template<typename T = Blob>
-//  BlobId Put(const BlobId &blob_id,
-//             const T &blob,
-//             Context &ctx) {
-//    if constexpr(std::is_same_v<T, Blob>) {
-//      return BasePut<false, false>("", blob_id, blob, 0, ctx);
-//    } else {
-//      return SrlBasePut<T, false, false>("", blob_id, blob, ctx);
-//    }
-//  }
-//
-//  /**
-//   * Put \a blob_name Blob into the bucket
-//   * */
-//  template<typename T = Blob>
-//  HSHM_ALWAYS_INLINE
-//  void AsyncPut(const std::string &blob_name,
-//                const Blob &blob,
-//                Context &ctx) {
-//    if constexpr(std::is_same_v<T, Blob>) {
-//      BasePut<false, true>(blob_name, BlobId::GetNull(), blob, 0, ctx);
-//    } else {
-//      SrlBasePut<T, false, true>(blob_name, BlobId::GetNull(), blob, ctx);
-//    }
-//  }
-//
-//  /**
-//   * Put \a blob_id Blob into the bucket
-//   * */
-//  template<typename T>
-//  HSHM_ALWAYS_INLINE
-//  void AsyncPut(const BlobId &blob_id,
-//                const Blob &blob,
-//                Context &ctx) {
-//    if constexpr(std::is_same_v<T, Blob>) {
-//      BasePut<false, true>("", blob_id, blob, 0, ctx);
-//    } else {
-//      SrlBasePut<T, false, true>("", blob_id, blob, ctx);
-//    }
-//  }
-//
-//  /**
-//   * PartialPut \a blob_name Blob into the bucket
-//   * */
-//  BlobId PartialPut(const std::string &blob_name,
-//                    const Blob &blob,
-//                    size_t blob_off,
-//                    Context &ctx) {
-//    return BasePut<true, false>(blob_name,
-//                                BlobId::GetNull(),
-//                                blob, blob_off, ctx);
-//  }
-//
-//  /**
-//   * PartialPut \a blob_id Blob into the bucket
-//   * */
-//  BlobId PartialPut(const BlobId &blob_id,
-//                    const Blob &blob,
-//                    size_t blob_off,
-//                    Context &ctx) {
-//    return BasePut<true, false>("", blob_id, blob, blob_off, ctx);
-//  }
-//
-//  /**
-//   * AsyncPartialPut \a blob_name Blob into the bucket
-//   * */
-//  void AsyncPartialPut(const std::string &blob_name,
-//                       const Blob &blob,
-//                       size_t blob_off,
-//                       Context &ctx) {
-//    BasePut<true, true>(blob_name, BlobId::GetNull(), blob, blob_off, ctx);
-//  }
-//
-//  /**
-//   * AsyncPartialPut \a blob_id Blob into the bucket
-//   * */
-//  void AsyncPartialPut(const BlobId &blob_id,
-//                       const Blob &blob,
-//                       size_t blob_off,
-//                       Context &ctx) {
-//    BasePut<true, true>("", blob_id, blob, blob_off, ctx);
-//  }
-//
-//  /**
-//   * Append \a blob_name Blob into the bucket (fully asynchronous)
-//   * */
-//  void Append(const Blob &blob, size_t page_size, Context &ctx) {
+ public:
+  /**====================================
+   * Blob Operations
+   * ===================================*/
+
+  /**
+   * Get the id of a blob from the blob name
+   *
+   * @param blob_name the name of the blob
+   * @param blob_id (output) the returned blob_id
+   * @return
+   * */
+  BlobId GetBlobId(const std::string &blob_name) {
+    return mdm_->GetBlobId(
+        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, hshm::to_charbuf(blob_name));
+  }
+
+  /**
+   * Get the name of a blob from the blob id
+   *
+   * @param blob_id the blob_id
+   * @param blob_name the name of the blob
+   * @return The Status of the operation
+   * */
+  std::string GetBlobName(const BlobId &blob_id) {
+    return mdm_->GetBlobName(
+        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, blob_id);
+  }
+
+
+  /**
+   * Get the score of a blob from the blob id
+   *
+   * @param blob_id the blob_id
+   * @return The Status of the operation
+   * */
+  float GetBlobScore(const BlobId &blob_id) {
+    return mdm_->GetBlobScore(
+        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, blob_id);
+  }
+
+  /**
+   * Label \a blob_id blob with \a tag_name TAG
+   * */
+  Status TagBlob(BlobId &blob_id,
+                 TagId &tag_id) {
+    mdm_->TagAddBlob(
+        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        tag_id, blob_id);
+    return Status();
+  }
+
+  /**
+   * Put \a blob_name Blob into the bucket
+   * */
+  template<bool PARTIAL, bool ASYNC>
+  HSHM_ALWAYS_INLINE
+  BlobId ShmBasePut(const std::string &blob_name,
+                    const BlobId &orig_blob_id,
+                    const LPointer<char> &blob,
+                    size_t blob_off,
+                    size_t blob_size,
+                    bitfield32_t task_flags,
+                    Context &ctx) {
+    BlobId blob_id = orig_blob_id;
+    bitfield32_t hermes_flags;
+    // Put to shared memory
+    hshm::charbuf blob_name_buf = hshm::to_charbuf(blob_name);
+    if constexpr (!ASYNC) {
+      if (blob_id.IsNull()) {
+        hermes_flags.SetBits(HERMES_GET_BLOB_ID);
+        task_flags.UnsetBits(TASK_FIRE_AND_FORGET);
+      }
+    } else {
+      task_flags.SetBits(TASK_FIRE_AND_FORGET);
+    }
+    if constexpr(!PARTIAL) {
+      hermes_flags.SetBits(HERMES_BLOB_REPLACE);
+    }
+    LPointer<PutBlobTask> task;
+    task = mdm_->AsyncPutBlob(
+        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, blob_name_buf,
+        blob_id, blob_off, blob_size,
+        blob.shm_, ctx.blob_score_,
+        task_flags.bits_,
+        hermes_flags.bits_, ctx);
+    if constexpr (!ASYNC) {
+      if (hermes_flags.Any(HERMES_GET_BLOB_ID)) {
+        task->Wait();
+        blob_id = task->blob_id_;
+        CHI_CLIENT->DelTask(task);
+      }
+    }
+    return blob_id;
+  }
+
+  /**
+   * Put \a blob_name Blob into the bucket
+   * */
+  template<bool PARTIAL, bool ASYNC, typename BlobT = Blob>
+  BlobId PrivateMemBasePut(const std::string &blob_name,
+                           const BlobId &orig_blob_id,
+                           const BlobT &blob,
+                           size_t blob_off,
+                           Context &ctx) {
+    LPointer<char> blob_p = CHI_CLIENT->AllocateBuffer(blob.size());
+    memcpy(blob_p.ptr_, blob.data(), blob.size());
+    return ShmBasePut<PARTIAL, ASYNC>(
+        blob_name, orig_blob_id, blob_p,
+        blob_off, blob.size(), bitfield32_t(TASK_DATA_OWNER), ctx);
+  }
+
+  /**
+   * Put \a blob_name Blob into the bucket
+   * */
+  template<typename T, bool PARTIAL, bool ASYNC>
+  HSHM_ALWAYS_INLINE
+  BlobId SrlBasePut(const std::string &blob_name,
+                    const BlobId &orig_blob_id,
+                    const T &data,
+                    Context &ctx) {
+    std::stringstream ss;
+    cereal::BinaryOutputArchive ar(ss);
+    ar << data;
+    std::string blob = ss.str();
+    return PrivateMemBasePut<PARTIAL, ASYNC, std::string>(
+        blob_name, orig_blob_id, blob, 0, ctx);
+  }
+
+  /**
+   * Put \a blob_name Blob into the bucket
+   * */
+  template<typename T = Blob>
+  BlobId Put(const std::string &blob_name,
+             const T &blob,
+             Context &ctx) {
+    if constexpr(std::is_same_v<T, Blob>) {
+      return PrivateMemBasePut<false, false>(
+          blob_name, BlobId::GetNull(), blob, 0, ctx);
+    } else {
+      return SrlBasePut<T, false, false>(
+          blob_name, BlobId::GetNull(), blob, ctx);
+    }
+  }
+
+  /**
+   * Put \a blob_id Blob into the bucket
+   * */
+  template<typename T = Blob>
+  BlobId Put(const BlobId &blob_id,
+             const T &blob,
+             Context &ctx) {
+    if constexpr(std::is_same_v<T, Blob>) {
+      return PrivateMemBasePut<false, false>("", blob_id, blob, 0, ctx);
+    } else {
+      return SrlBasePut<T, false, false>("", blob_id, blob, ctx);
+    }
+  }
+
+  /**
+   * Put \a blob_name Blob into the bucket
+   * */
+  template<typename T = Blob>
+  HSHM_ALWAYS_INLINE
+  void AsyncPut(const std::string &blob_name,
+                const Blob &blob,
+                Context &ctx) {
+    if constexpr(std::is_same_v<T, Blob>) {
+      PrivateMemBasePut<false, true>(blob_name, BlobId::GetNull(), blob, 0, ctx);
+    } else {
+      SrlBasePut<T, false, true>(blob_name, BlobId::GetNull(), blob, ctx);
+    }
+  }
+
+  /**
+   * Put \a blob_id Blob into the bucket
+   * */
+  template<typename T>
+  HSHM_ALWAYS_INLINE
+  void AsyncPut(const BlobId &blob_id,
+                const Blob &blob,
+                Context &ctx) {
+    if constexpr(std::is_same_v<T, Blob>) {
+      PrivateMemBasePut<false, true>("", blob_id, blob, 0, ctx);
+    } else {
+      SrlBasePut<T, false, true>("", blob_id, blob, ctx);
+    }
+  }
+
+  /**
+   * PartialPut \a blob_name Blob into the bucket
+   * */
+  BlobId PartialPut(const std::string &blob_name,
+                    const Blob &blob,
+                    size_t blob_off,
+                    Context &ctx) {
+    return PrivateMemBasePut<true, false>(
+        blob_name,
+        BlobId::GetNull(),
+        blob, blob_off, ctx);
+  }
+
+  /**
+   * PartialPut \a blob_id Blob into the bucket
+   * */
+  BlobId PartialPut(const BlobId &blob_id,
+                    const Blob &blob,
+                    size_t blob_off,
+                    Context &ctx) {
+    return PrivateMemBasePut<true, false>(
+        "", blob_id, blob, blob_off, ctx);
+  }
+
+  /**
+   * AsyncPartialPut \a blob_name Blob into the bucket
+   * */
+  void AsyncPartialPut(const std::string &blob_name,
+                       const Blob &blob,
+                       size_t blob_off,
+                       Context &ctx) {
+    PrivateMemBasePut<true, true>(
+        blob_name, BlobId::GetNull(), blob, blob_off, ctx);
+  }
+
+  /**
+   * AsyncPartialPut \a blob_id Blob into the bucket
+   * */
+  void AsyncPartialPut(const BlobId &blob_id,
+                       const Blob &blob,
+                       size_t blob_off,
+                       Context &ctx) {
+    PrivateMemBasePut<true, true>(
+        "", blob_id, blob, blob_off, ctx);
+  }
+
+  /**
+   * Append \a blob_name Blob into the bucket (fully asynchronous)
+   * */
+  void Append(const Blob &blob, size_t page_size, Context &ctx) {
 //    LPointer<char> p = CHI_CLIENT->AllocateBufferClient(blob.size());
 //    char *data = p.ptr_;
 //    memcpy(data, blob.data(), blob.size());
 //    mdm_->AppendBlob(
 //        id_, blob.size(), p.shm_, page_size,
 //        ctx.blob_score_, ctx.node_id_, ctx);
-//  }
-//
-//  /**
-//   * Reorganize a blob to a new score or node
-//   * */
-//  void ReorganizeBlob(const std::string &name,
-//                      float score,
-//                      const Context &ctx = Context()) {
-//    mdm_->AsyncReorganizeBlob(
-//        id_, hshm::charbuf(name), BlobId::GetNull(), score, true, ctx);
-//  }
-//
-//  /**
-//   * Reorganize a blob to a new score or node
-//   * */
-//  void ReorganizeBlob(const BlobId &blob_id,
-//                      float score,
-//                      const Context &ctx = Context()) {
-//    mdm_->AsyncReorganizeBlob(
-//        id_, hshm::charbuf(""), blob_id, score, true, ctx);
-//  }
-//
-//  /**
-//   * Reorganize a blob to a new score or node
-//   *
-//   * @depricated
-//   * */
-//  void ReorganizeBlob(const BlobId &blob_id,
-//                      float score,
-//                      u32 node_id,
-//                      Context &ctx) {
-//    ctx.node_id_ = node_id;
-//    mdm_->AsyncReorganizeBlob(
-//        id_, hshm::charbuf(""), blob_id, score, true, ctx);
-//  }
-//
-//  /**
-//   * Get the current size of the blob in the bucket
-//   * */
-//  size_t GetBlobSize(const BlobId &blob_id) {
-//    return mdm_->GetBlobSize(id_, hshm::charbuf(""), blob_id);
-//  }
-//
-//  /**
-//   * Get the current size of the blob in the bucket
-//   * */
-//  size_t GetBlobSize(const std::string &name) {
-//    return mdm_->GetBlobSize(
-//        id_, hshm::charbuf(name), BlobId::GetNull());
-//  }
-//
-//  /**
-//   * Get \a blob_id Blob from the bucket (async)
-//   * */
-//  LPointer<GetBlobTask>
-//  HSHM_ALWAYS_INLINE
-//  AsyncBaseGet(const std::string &blob_name,
-//               const BlobId &blob_id,
-//               Blob &blob,
-//               size_t blob_off,
-//               Context &ctx) {
-//    bitfield32_t flags;
-//    // Get the blob ID
-//    if (blob_id.IsNull()) {
-//      flags.SetBits(HERMES_GET_BLOB_ID);
-//    }
-//    // Get from shared memory
-//    size_t data_size = blob.size();
-//    LPointer data_p = CHI_CLIENT->AllocateBufferClient(blob.size());
-//    LPointer<GetBlobTask> task;
-//    task = mdm_->AsyncGetBlob(id_, hshm::to_charbuf(blob_name),
-//                                            blob_id, blob_off,
-//                                            data_size, data_p.shm_,
-//                                            ctx, flags.bits_);
-//    return task;
-//  }
-//
-//  /**
-//   * Get \a blob_id Blob from the bucket (sync)
-//   * */
-//  BlobId BaseGet(const std::string &blob_name,
-//                 const BlobId &orig_blob_id,
-//                 Blob &blob,
-//                 size_t blob_off,
-//                 Context &ctx) {
-//    // TODO(llogan): intercept mmap to avoid copy
-//    size_t data_size = blob.size();
-//    if (blob.size() == 0) {
-//      data_size = mdm_->GetBlobSize(
-//          id_, hshm::charbuf(blob_name), orig_blob_id);
-//      blob.resize(data_size);
-//    }
-//    HILOG(kDebug, "Getting blob of size {}", data_size);
-//    BlobId blob_id;
-//    LPointer<GetBlobTask> task;
-//    task = AsyncBaseGet(blob_name, orig_blob_id, blob, blob_off, ctx);
-//    task->Wait();
-//    blob_id = task->blob_id_;
-//    char *data = CHI_CLIENT->GetDataPointer(task->data_);
-//    memcpy(blob.data(), data, task->data_size_);
-//    blob.resize(task->data_size_);
-//    CHI_CLIENT->FreeBuffer(task->data_);
-//    CHI_CLIENT->DelTask(task);
-//    return blob_id;
-//  }
-//
-//  /**
-//   * Get \a blob_id Blob from the bucket (sync)
-//   * */
-//  template<typename T>
-//  BlobId SrlBaseGet(const std::string &blob_name,
-//                    const BlobId &orig_blob_id,
-//                    T &data,
-//                    Context &ctx) {
-//    Blob blob;
-//    BlobId blob_id = BaseGet(blob_name, orig_blob_id, blob, 0, ctx);
-//    if (blob.size() == 0) {
-//      return BlobId::GetNull();
-//    }
-//    std::stringstream ss(std::string(blob.data(), blob.size()));
-//    cereal::BinaryInputArchive ar(ss);
-//    ar >> data;
-//    return blob_id;
-//  }
-//
-//  /**
-//   * Get \a blob_id Blob from the bucket
-//   * */
-//  template<typename T>
-//  BlobId Get(const std::string &blob_name,
-//             T &blob,
-//             Context &ctx) {
-//    if constexpr(std::is_same_v<T, Blob>) {
-//      return BaseGet(blob_name, BlobId::GetNull(), blob, 0, ctx);
-//    } else {
-//      return SrlBaseGet<T>(blob_name, BlobId::GetNull(), blob, ctx);
-//    }
-//  }
-//
-//  /**
-//   * Get \a blob_id Blob from the bucket
-//   * */
-//  template<typename T>
-//  BlobId Get(const BlobId &blob_id,
-//             T &blob,
-//             Context &ctx) {
-//    if constexpr(std::is_same_v<T, Blob>) {
-//      return BaseGet("", blob_id, blob, 0, ctx);
-//    } else {
-//      return SrlBaseGet<T>("", blob_id, blob, ctx);
-//    }
-//  }
-//
-//  /**
-//   * AsyncGet \a blob_name Blob from the bucket
-//   * */
-//  LPointer<GetBlobTask>
-//  AsyncGet(const std::string &blob_name,
-//           Blob &blob,
-//           Context &ctx) {
-//    return AsyncBaseGet(blob_name, BlobId::GetNull(), blob, 0, ctx);
-//  }
-//
-//  /**
-//   * AsyncGet \a blob_id Blob from the bucket
-//   * */
-//  LPointer<GetBlobTask>
-//  AsyncGet(const BlobId &blob_id,
-//           Blob &blob,
-//           Context &ctx) {
-//    return AsyncBaseGet("", blob_id, blob, 0, ctx);
-//  }
-//
-//  /**
-//   * Put \a blob_name Blob into the bucket
-//   * */
-//  BlobId PartialGet(const std::string &blob_name,
-//                    Blob &blob,
-//                    size_t blob_off,
-//                    Context &ctx) {
-//    return BaseGet(blob_name, BlobId::GetNull(), blob, blob_off, ctx);
-//  }
-//
-//  /**
-//   * Put \a blob_name Blob into the bucket
-//   * */
-//  BlobId PartialGet(const BlobId &blob_id,
-//                    Blob &blob,
-//                    size_t blob_off,
-//                    Context &ctx) {
-//    return BaseGet("", blob_id, blob, blob_off, ctx);
-//  }
-//
-//  /**
-//   * AsyncGet \a blob_name Blob from the bucket
-//   * */
-//  LPointer<GetBlobTask>
-//  AsyncPartialGet(const std::string &blob_name,
-//                  Blob &blob,
-//                  size_t blob_off,
-//                  Context &ctx) {
-//    return AsyncBaseGet(blob_name, BlobId::GetNull(), blob, blob_off, ctx);
-//  }
-//
-//  /**
-//   * AsyncGet \a blob_id Blob from the bucket
-//   * */
-//  LPointer<GetBlobTask>
-//  AsyncPartialGet(const BlobId &blob_id,
-//                  Blob &blob,
-//                  size_t blob_off,
-//                  Context &ctx) {
-//    return AsyncBaseGet("", blob_id, blob, blob_off, ctx);
-//  }
-//
-//  /**
-//   * Determine if the bucket contains \a blob_id BLOB
-//   * */
-//  bool ContainsBlob(const std::string &blob_name) {
-//    BlobId new_blob_id = mdm_->GetBlobId(
-//        id_, hshm::to_charbuf(blob_name));
-//    return !new_blob_id.IsNull();
-//  }
-//
-//  /**
-//   * Rename \a blob_id blob to \a new_blob_name new name
-//   * */
-//  void RenameBlob(const BlobId &blob_id,
-//                  std::string new_blob_name,
-//                  Context &ctx) {
-//    mdm_->RenameBlob(id_, blob_id, hshm::to_charbuf(new_blob_name));
-//  }
-//
-//  /**
-//   * Delete \a blob_id blob
-//   * */
-//  void DestroyBlob(const BlobId &blob_id, Context &ctx) {
-//    mdm_->DestroyBlob(id_, blob_id);
-//  }
-//
-//  /**
-//   * Get the set of blob IDs contained in the bucket
-//   * */
-//  std::vector<BlobId> GetContainedBlobIds() {
-//    return mdm_->GetContainedBlobIds(id_);
-//  }
+  }
+
+  /**
+   * Reorganize a blob to a new score or node
+   * */
+  void ReorganizeBlob(const std::string &name,
+                      float score,
+                      const Context &ctx = Context()) {
+    mdm_->AsyncReorganizeBlob(
+        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, hshm::charbuf(name), BlobId::GetNull(), score, true, ctx);
+  }
+
+  /**
+   * Reorganize a blob to a new score or node
+   * */
+  void ReorganizeBlob(const BlobId &blob_id,
+                      float score,
+                      const Context &ctx = Context()) {
+    mdm_->AsyncReorganizeBlob(
+        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, hshm::charbuf(""), blob_id, score, true, ctx);
+  }
+
+  /**
+   * Reorganize a blob to a new score or node
+   *
+   * @depricated
+   * */
+  void ReorganizeBlob(const BlobId &blob_id,
+                      float score,
+                      u32 node_id,
+                      Context &ctx) {
+    ctx.node_id_ = node_id;
+    mdm_->AsyncReorganizeBlob(
+        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, hshm::charbuf(""), blob_id, score, true, ctx);
+  }
+
+  /**
+   * Get the current size of the blob in the bucket
+   * */
+  size_t GetBlobSize(const BlobId &blob_id) {
+    return mdm_->GetBlobSize(
+        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, hshm::charbuf(""), blob_id);
+  }
+
+  /**
+   * Get the current size of the blob in the bucket
+   * */
+  size_t GetBlobSize(const std::string &name) {
+    return mdm_->GetBlobSize(
+        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, hshm::charbuf(name), BlobId::GetNull());
+  }
+
+  /**
+   * Get \a blob_id Blob from the bucket (async)
+   * */
+  LPointer<GetBlobTask>
+  HSHM_ALWAYS_INLINE
+  ShmAsyncBaseGet(const std::string &blob_name,
+                  const BlobId &blob_id,
+                  LPointer<char> &blob,
+                  size_t blob_off,
+                  size_t blob_size,
+                  Context &ctx) {
+    bitfield32_t hermes_flags;
+    // Get the blob ID
+    if (blob_id.IsNull()) {
+      hermes_flags.SetBits(HERMES_GET_BLOB_ID);
+    }
+    // Get from shared memory
+    LPointer<GetBlobTask> task;
+    task = mdm_->AsyncGetBlob(
+        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, hshm::to_charbuf(blob_name),
+        blob_id, blob_off,
+        blob_size, blob.shm_,
+        hermes_flags.bits_, ctx);
+    return task;
+  }
+
+  /**
+   * Get \a blob_id Blob from the bucket (async)
+   * */
+  LPointer<GetBlobTask>
+  HSHM_ALWAYS_INLINE
+  PrivateMemAsyncBaseGet(const std::string &blob_name,
+                         const BlobId &blob_id,
+                         Blob &blob,
+                         size_t blob_off,
+                         Context &ctx) {
+    bitfield32_t hermes_flags;
+    // Get the blob ID
+    if (blob_id.IsNull()) {
+      hermes_flags.SetBits(HERMES_GET_BLOB_ID);
+    }
+    // Get from shared memory
+    size_t data_size = blob.size();
+    LPointer data_p = CHI_CLIENT->AllocateBuffer(blob.size());
+    return ShmAsyncBaseGet(blob_name, blob_id, data_p,
+                           blob_off, data_size, ctx);
+  }
+
+  /**
+   * Get \a blob_id Blob from the bucket (sync)
+   * */
+  BlobId ShmBaseGet(const std::string &blob_name,
+                    const BlobId &orig_blob_id,
+                    LPointer<char> &blob,
+                    size_t blob_off,
+                    size_t blob_size,
+                    Context &ctx) {
+    HILOG(kDebug, "Getting blob of size {}", blob_size);
+    BlobId blob_id;
+    LPointer<GetBlobTask> task;
+    task = ShmAsyncBaseGet(blob_name, orig_blob_id, blob,
+                           blob_off, blob_size, ctx);
+    task->Wait();
+    blob_id = task->blob_id_;
+    CHI_CLIENT->DelTask(task);
+    return blob_id;
+  }
+
+  /**
+   * Get \a blob_id Blob from the bucket (sync)
+   * */
+  BlobId PrivateMemBaseGet(const std::string &blob_name,
+                           const BlobId &orig_blob_id,
+                           Blob &blob,
+                           size_t blob_off,
+                           Context &ctx) {
+    // TODO(llogan): intercept mmap to avoid copy
+    size_t data_size = blob.size();
+    if (blob.size() == 0) {
+      data_size = mdm_->GetBlobSize(
+          DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+          id_, hshm::charbuf(blob_name),
+          orig_blob_id);
+      blob.resize(data_size);
+    }
+    HILOG(kDebug, "Getting blob of size {}", data_size);
+    BlobId blob_id;
+    LPointer<GetBlobTask> task;
+    task = PrivateMemAsyncBaseGet(blob_name, orig_blob_id, blob, blob_off, ctx);
+    task->Wait();
+    blob_id = task->blob_id_;
+    char *data = CHI_CLIENT->GetDataPointer(task->data_);
+    memcpy(blob.data(), data, task->data_size_);
+    blob.resize(task->data_size_);
+    CHI_CLIENT->FreeBuffer(task->data_);
+    CHI_CLIENT->DelTask(task);
+    return blob_id;
+  }
+
+  /**
+   * Get \a blob_id Blob from the bucket (sync)
+   * */
+  template<typename T>
+  BlobId SrlBaseGet(const std::string &blob_name,
+                    const BlobId &orig_blob_id,
+                    T &data,
+                    Context &ctx) {
+    Blob blob;
+    BlobId blob_id = PrivateMemBaseGet(blob_name, orig_blob_id, blob, 0, ctx);
+    if (blob.size() == 0) {
+      return BlobId::GetNull();
+    }
+    std::stringstream ss(std::string(blob.data(), blob.size()));
+    cereal::BinaryInputArchive ar(ss);
+    ar >> data;
+    return blob_id;
+  }
+
+  /**
+   * Get \a blob_id Blob from the bucket
+   * */
+  template<typename T>
+  BlobId Get(const std::string &blob_name,
+             T &blob,
+             Context &ctx) {
+    if constexpr(std::is_same_v<T, Blob>) {
+      return BaseGet(blob_name, BlobId::GetNull(), blob, 0, ctx);
+    } else {
+      return SrlBaseGet<T>(blob_name, BlobId::GetNull(), blob, ctx);
+    }
+  }
+
+  /**
+   * Get \a blob_id Blob from the bucket
+   * */
+  template<typename T>
+  BlobId Get(const BlobId &blob_id,
+             T &blob,
+             Context &ctx) {
+    if constexpr(std::is_same_v<T, Blob>) {
+      return BaseGet("", blob_id, blob, 0, ctx);
+    } else {
+      return SrlBaseGet<T>("", blob_id, blob, ctx);
+    }
+  }
+
+  /**
+   * AsyncGet \a blob_name Blob from the bucket
+   * */
+  LPointer<GetBlobTask>
+  AsyncGet(const std::string &blob_name,
+           Blob &blob,
+           Context &ctx) {
+    return PrivateMemAsyncBaseGet(blob_name, BlobId::GetNull(), blob, 0, ctx);
+  }
+
+  /**
+   * AsyncGet \a blob_id Blob from the bucket
+   * */
+  LPointer<GetBlobTask>
+  AsyncGet(const BlobId &blob_id,
+           Blob &blob,
+           Context &ctx) {
+    return PrivateMemAsyncBaseGet("", blob_id, blob, 0, ctx);
+  }
+
+  /**
+   * Put \a blob_name Blob into the bucket
+   * */
+  BlobId PartialGet(const std::string &blob_name,
+                    Blob &blob,
+                    size_t blob_off,
+                    Context &ctx) {
+    return PrivateMemBaseGet(blob_name, BlobId::GetNull(), blob, blob_off, ctx);
+  }
+
+  /**
+   * Put \a blob_name Blob into the bucket
+   * */
+  BlobId PartialGet(const BlobId &blob_id,
+                    Blob &blob,
+                    size_t blob_off,
+                    Context &ctx) {
+    return PrivateMemBaseGet("", blob_id, blob, blob_off, ctx);
+  }
+
+  /**
+   * AsyncGet \a blob_name Blob from the bucket
+   * */
+  LPointer<GetBlobTask>
+  AsyncPartialGet(const std::string &blob_name,
+                  Blob &blob,
+                  size_t blob_off,
+                  Context &ctx) {
+    return PrivateMemAsyncBaseGet(blob_name, BlobId::GetNull(), blob, blob_off, ctx);
+  }
+
+  /**
+   * AsyncGet \a blob_id Blob from the bucket
+   * */
+  LPointer<GetBlobTask>
+  AsyncPartialGet(const BlobId &blob_id,
+                  Blob &blob,
+                  size_t blob_off,
+                  Context &ctx) {
+    return PrivateMemAsyncBaseGet("", blob_id, blob, blob_off, ctx);
+  }
+
+  /**
+   * Determine if the bucket contains \a blob_id BLOB
+   * */
+  bool ContainsBlob(const std::string &blob_name) {
+    BlobId new_blob_id = mdm_->GetBlobId(
+        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, hshm::to_charbuf(blob_name));
+    return !new_blob_id.IsNull();
+  }
+
+  /**
+   * Rename \a blob_id blob to \a new_blob_name new name
+   * */
+  void RenameBlob(const BlobId &blob_id,
+                  std::string new_blob_name,
+                  Context &ctx) {
+    // mdm_->RenameBlob(id_, blob_id, hshm::to_charbuf(new_blob_name));
+  }
+
+  /**
+   * Delete \a blob_id blob
+   * */
+  void DestroyBlob(const BlobId &blob_id, Context &ctx) {
+    mdm_->DestroyBlob(
+        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, blob_id);
+  }
+
+  /**
+   * Get the set of blob IDs contained in the bucket
+   * */
+  std::vector<BlobId> GetContainedBlobIds() {
+    // return mdm_->GetContainedBlobIds(id_);
+    return {};
+  }
 };
 
 }  // namespace hermes
