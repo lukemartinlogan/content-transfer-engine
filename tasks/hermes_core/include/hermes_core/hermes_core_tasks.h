@@ -305,7 +305,7 @@ struct TagAddBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
     prio_ = TaskPrio::kLowLatency;
     pool_ = state_id;
     method_ = Method::kTagAddBlob;
-    task_flags_.SetBits(0 | TASK_FIRE_AND_FORGET);
+    task_flags_.SetBits(TASK_FIRE_AND_FORGET);
     dom_query_ = dom_query;
 
     // Custom params
@@ -491,7 +491,7 @@ struct TagUpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
     prio_ = TaskPrio::kLowLatency;
     pool_ = state_id;
     method_ = Method::kTagUpdateSize;
-    task_flags_.SetBits(0);
+    task_flags_.SetBits(TASK_FIRE_AND_FORGET);
     dom_query_ = dom_query;
 
     // Custom params
@@ -1231,6 +1231,7 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
     method_ = Method::kPutBlob;
     task_flags_ = bitfield32_t(task_flags);
     task_flags_.SetBits(0);
+    dom_query_ = dom_query;
 
     // Custom params
     tag_id_ = tag_id;
@@ -1314,6 +1315,7 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
     pool_ = state_id;
     method_ = Method::kGetBlob;
     task_flags_.SetBits(TASK_COROUTINE);
+    dom_query_ = dom_query;
 
     // Custom params
     tag_id_ = tag_id;

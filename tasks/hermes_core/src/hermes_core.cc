@@ -94,6 +94,7 @@ class Server : public Module {
             chi::DomainQuery::GetDirectHash(
                 chi::SubDomainId::kGlobalContainers, 0), 25);
         target.stats_ = &target.poll_stats_->stats_;
+        target_map_[target.id_] = &target;
       }
     }
     fallback_target_ = &targets_.back();
@@ -515,6 +516,9 @@ class Server : public Module {
         // Allocate chi::blocks
         SubPlacement &placement = schema.plcmnts_[sub_idx];
         TargetInfo &bdev = *target_map_[placement.tid_];
+        if (placement.size_ == 0) {
+          continue;
+        }
         std::vector<chi::Block> blocks = bdev.client_.Allocate(
                 chi::DomainQuery::GetDirectHash(
                     chi::SubDomainId::kGlobalContainers, bdev.id_.node_id_),
@@ -626,8 +630,6 @@ class Server : public Module {
     // Free data
     HILOG(kDebug, "Completing PUT for {}", blob_name.str());
     blob_info.UpdateWriteStats();
-    task->SetModuleComplete();
-
     task->SetModuleComplete();
   }
   void MonitorPutBlob(MonitorModeId mode, PutBlobTask *task, RunContext &rctx) {

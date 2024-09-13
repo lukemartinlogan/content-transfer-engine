@@ -40,6 +40,9 @@ class RoundRobin : public Dpe {
       // Choose RR target and iterate
       size_t target_id = counter_.fetch_add(1) % targets.size();
       for (size_t tgt_idx = 0; tgt_idx < targets.size(); ++tgt_idx) {
+        if (rem_blob_size == 0) {
+          break;
+        }
         TargetInfo &target = targets[(target_id + tgt_idx) % targets.size()];
         size_t rem_cap = target.GetRemCap();
 

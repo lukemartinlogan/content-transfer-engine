@@ -43,6 +43,9 @@ class MinimizeIoTime : public Dpe {
       PlacementSchema &blob_schema = output.back();
 
       for (u32 tgt_idx = 0; tgt_idx < targets.size(); ++tgt_idx) {
+        if (rem_blob_size == 0) {
+          break;
+        }
         TargetInfo &target = targets[tgt_idx];
         // NOTE(llogan): We skip targets that are too high of priority or
         // targets that can't fit the ENTIRE blob
