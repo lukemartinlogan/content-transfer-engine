@@ -1023,9 +1023,11 @@ struct TruncateBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 
 /** A task to destroy a blob */
 struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
+  CLS_CONST u32 kKeepInTag = BIT_OPT(u32, 0);
+
   IN TagId tag_id_;
   IN BlobId blob_id_;
-  IN bool update_size_;
+  IN bitfield32_t flags_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
@@ -1039,32 +1041,33 @@ struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
                   const PoolId &state_id,
                   const TagId &tag_id,
                   const BlobId &blob_id,
-                  bool update_size = true) : Task(alloc) {
+                  u32 blob_flags,
+                  u32 task_flags = 0) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
     pool_ = state_id;
     method_ = Method::kDestroyBlob;
-    task_flags_.SetBits(0);
+    task_flags_.SetBits(task_flags);
     dom_query_ = dom_query;
 
     // Custom params
     tag_id_ = tag_id;
     blob_id_ = blob_id;
-    update_size_ = update_size;
+    flags_.SetBits(blob_flags);
   }
 
   /** Duplicate message */
   void CopyStart(const DestroyBlobTask &other, bool deep) {
     tag_id_ = other.tag_id_;
     blob_id_ = other.blob_id_;
-    update_size_ = other.update_size_;
+    flags_ = other.flags_;
   }
 
   /** (De)serialize message call */
   template<typename Ar>
   void SerializeStart(Ar &ar) {
-    ar(tag_id_, blob_id_, update_size_);
+    ar(tag_id_, blob_id_, flags_);
   }
 
   /** (De)serialize message return */

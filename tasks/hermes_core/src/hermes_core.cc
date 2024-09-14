@@ -34,6 +34,8 @@ struct HermesLane {
   TAG_MAP_T tag_map_;
   BLOB_ID_MAP_T blob_id_map_;
   BLOB_MAP_T blob_map_;
+  chi::CoRwLock tag_map_lock_;
+  chi::CoRwLock blob_map_lock_;
 };
 
 class Server : public Module {
@@ -48,12 +50,8 @@ class Server : public Module {
  private:
   /** Get the globally unique blob name */
   const hshm::charbuf GetBlobNameWithBucket(
-      TagId tag_id, const hshm::charbuf &blob_name) {
-    hshm::charbuf new_name(sizeof(TagId) + blob_name.size());
-    chi::LocalSerialize srl(new_name);
-    srl << tag_id;
-    srl << blob_name;
-    return new_name;
+      const TagId &tag_id, const hshm::charbuf &blob_name) {
+    return BlobInfo::GetBlobNameWithBucket(tag_id, blob_name);
   }
 
  public:
@@ -121,6 +119,7 @@ class Server : public Module {
   /** Get or create a tag */
   void GetOrCreateTag(GetOrCreateTagTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     // Check if the tag exists
     TAG_ID_MAP_T &tag_id_map =
         tls.tag_id_map_;
@@ -141,11 +140,11 @@ class Server : public Module {
       HILOG(kDebug, "Creating tag for the first time: {} {}", tag_name.str(), tag_id)
       tag_id_map.emplace(tag_name, tag_id);
       tag_map.emplace(tag_id, TagInfo());
-      TagInfo &tag_info = tag_map[tag_id];
-      tag_info.name_ = tag_name;
-      tag_info.tag_id_ = tag_id;
-      tag_info.owner_ = task->blob_owner_;
-      tag_info.internal_size_ = task->backend_size_;
+      TagInfo &tag = tag_map[tag_id];
+      tag.name_ = tag_name;
+      tag.tag_id_ = tag_id;
+      tag.owner_ = task->blob_owner_;
+      tag.internal_size_ = task->backend_size_;
     } else {
       if (tag_name.size()) {
         HILOG(kDebug, "Found existing tag: {}", tag_name.str())
@@ -166,6 +165,7 @@ class Server : public Module {
   /** Get an existing tag ID */
   void GetTagId(GetTagIdTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_ID_MAP_T &tag_id_map = tls.tag_id_map_;
     hshm::charbuf tag_name = hshm::to_charbuf(task->tag_name_);
     auto it = tag_id_map.find(tag_name);
@@ -183,6 +183,7 @@ class Server : public Module {
   /** Get the name of a tag */
   void GetTagName(GetTagNameTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
@@ -195,9 +196,30 @@ class Server : public Module {
   void MonitorGetTagName(MonitorModeId mode, GetTagNameTask *task, RunContext &rctx) {
   }
 
-  /** Destroy a tag (TODO) */
+  /** Destroy a tag */
   void DestroyTag(DestroyTagTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwWriteLock tag_map_lock(tls.tag_map_lock_);
+    TAG_MAP_T &tag_map = tls.tag_map_;
+    auto it = tag_map.find(task->tag_id_);
+    if (it == tag_map.end()) {
+      task->SetModuleComplete();
+      return;
+    }
+    TagInfo &tag = it->second;
+    if (tag.owner_) {
+      for (BlobId &blob_id : tag.blobs_) {
+        client_.AsyncDestroyBlob(
+            chi::DomainQuery::GetDirectHash(
+                chi::SubDomainId::kLocalContainers, 0),
+            task->tag_id_, blob_id, DestroyBlobTask::kKeepInTag,
+            TASK_FIRE_AND_FORGET);
+      }
+    }
+    // Remove tag from maps
+    TAG_ID_MAP_T &tag_id_map = tls.tag_id_map_;
+    tag_id_map.erase(tag.name_);
+    tag_map.erase(it);
     task->SetModuleComplete();
   }
   void MonitorDestroyTag(MonitorModeId mode, DestroyTagTask *task, RunContext &rctx) {
@@ -206,6 +228,7 @@ class Server : public Module {
   /** Add a blob to the tag */
   void TagAddBlob(TagAddBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
@@ -222,6 +245,7 @@ class Server : public Module {
   /** Remove a blob from the tag */
   void TagRemoveBlob(TagRemoveBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
@@ -239,6 +263,7 @@ class Server : public Module {
   /** Clear blobs from the tag */
   void TagClearBlobs(TagClearBlobsTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
@@ -248,8 +273,11 @@ class Server : public Module {
     TagInfo &tag = it->second;
     if (tag.owner_) {
       for (BlobId &blob_id : tag.blobs_) {
-        // TODO(llogan)
-        // client_.AsyncDestroyBlob(task->tag_id_, blob_id);
+        client_.AsyncDestroyBlob(
+            chi::DomainQuery::GetDirectHash(
+                chi::SubDomainId::kLocalContainers, 0),
+            task->tag_id_, blob_id, DestroyBlobTask::kKeepInTag,
+            TASK_FIRE_AND_FORGET);
       }
     }
     tag.blobs_.clear();
@@ -262,6 +290,7 @@ class Server : public Module {
   /** Get the size of a tag */
   void TagGetSize(TagGetSizeTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
@@ -279,17 +308,18 @@ class Server : public Module {
   /** Update the size of a tag */
   void TagUpdateSize(TagUpdateSizeTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
-    TagInfo &tag_info = tag_map[task->tag_id_];
-    ssize_t internal_size = (ssize_t) tag_info.internal_size_;
+    TagInfo &tag = tag_map[task->tag_id_];
+    ssize_t internal_size = (ssize_t) tag.internal_size_;
     if (task->mode_ == UpdateSizeMode::kAdd) {
       internal_size += task->update_;
     } else {
       internal_size = std::max(task->update_, internal_size);
     }
     HILOG(kDebug, "Updating size of tag {} from {} to {} with update {} (mode={})",
-          task->tag_id_, tag_info.internal_size_, internal_size, task->update_, task->mode_)
-    tag_info.internal_size_ = (size_t) internal_size;
+          task->tag_id_, tag.internal_size_, internal_size, task->update_, task->mode_)
+    tag.internal_size_ = (size_t) internal_size;
     task->SetModuleComplete();
   }
   void MonitorTagUpdateSize(MonitorModeId mode, TagUpdateSizeTask *task, RunContext &rctx) {
@@ -298,6 +328,7 @@ class Server : public Module {
   /** Get the set of blobs in the tag */
   void TagGetContainedBlobIds(TagGetContainedBlobIdsTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
@@ -351,6 +382,7 @@ class Server : public Module {
   }
   void GetOrCreateBlobId(GetOrCreateBlobIdTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     hshm::charbuf blob_name = hshm::to_charbuf(task->blob_name_);
     bitfield32_t flags;
     task->blob_id_ = GetOrCreateBlobId(
@@ -367,6 +399,7 @@ class Server : public Module {
   /** Get the blob ID */
   void GetBlobId(GetBlobIdTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     hshm::charbuf blob_name = hshm::to_charbuf(task->blob_name_);
     hshm::charbuf blob_name_unique = GetBlobNameWithBucket(task->tag_id_, blob_name);
     BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
@@ -388,6 +421,7 @@ class Server : public Module {
   /** Get blob name */
   void GetBlobName(GetBlobNameTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
@@ -406,6 +440,7 @@ class Server : public Module {
   /** Get the blob size */
   void GetBlobSize(GetBlobSizeTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     if (task->blob_id_.IsNull()) {
       bitfield32_t flags;
       task->blob_id_ = GetOrCreateBlobId(
@@ -430,6 +465,7 @@ class Server : public Module {
   /** Get the score of a blob */
   void GetBlobScore(GetBlobScoreTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
@@ -446,6 +482,7 @@ class Server : public Module {
   /** Get blob buffers */
   void GetBlobBuffers(GetBlobBuffersTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
@@ -459,9 +496,10 @@ class Server : public Module {
   void MonitorGetBlobBuffers(MonitorModeId mode, GetBlobBuffersTask *task, RunContext &rctx) {
   }
 
-  /** Put a blob (TODO) */
+  /** Put a blob */
   void PutBlob(PutBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     // Get blob ID
     hshm::charbuf blob_name = hshm::to_charbuf(task->blob_name_);
     if (task->blob_id_.IsNull()) {
@@ -629,10 +667,10 @@ class Server : public Module {
   void MonitorPutBlob(MonitorModeId mode, PutBlobTask *task, RunContext &rctx) {
   }
 
-  /** Get a blob (TODO) */
+  /** Get a blob */
   void GetBlob(GetBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
-
+    chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     if (task->blob_id_.IsNull()) {
       hshm::charbuf blob_name = hshm::to_charbuf(task->blob_name_);
       task->blob_id_ = GetOrCreateBlobId(
@@ -712,9 +750,37 @@ class Server : public Module {
   void MonitorTruncateBlob(MonitorModeId mode, TruncateBlobTask *task, RunContext &rctx) {
   }
 
-  /** Destroy blob (TODO) */
+  /** Destroy blob */
   void DestroyBlob(DestroyBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwWriteLock blob_map_lock(tls.blob_map_lock_);
+    BLOB_MAP_T &blob_map = tls.blob_map_;
+    auto it = blob_map.find(task->blob_id_);
+    if (it == blob_map.end()) {
+      task->SetModuleComplete();
+      return;
+    }
+    BlobInfo &blob = it->second;
+    // Free blob buffers
+    for (BufferInfo &buf : blob.buffers_) {
+      TargetInfo &target = *target_map_[buf.tid_];
+      target.client_.Free(
+          chi::DomainQuery::GetDirectHash(
+              chi::SubDomainId::kGlobalContainers, 0),
+          buf);
+      target.stats_->free_ += buf.size_;
+    }
+    // Remove blob from the tag
+    if (!task->flags_.Any(DestroyBlobTask::kKeepInTag)) {
+      client_.TagRemoveBlob(
+          chi::DomainQuery::GetDirectHash(
+              chi::SubDomainId::kLocalContainers, 0),
+          blob.tag_id_, task->blob_id_);
+    }
+    // Remove the blob from the maps
+    BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
+    blob_id_map.erase(blob.GetBlobNameWithBucket());
+    blob_map.erase(it);
     task->SetModuleComplete();
   }
   void MonitorDestroyBlob(MonitorModeId mode, DestroyBlobTask *task, RunContext &rctx) {
@@ -723,6 +789,7 @@ class Server : public Module {
   /** Tag a blob */
   void TagBlob(TagBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
@@ -739,6 +806,7 @@ class Server : public Module {
   /** Check if blob has a tag */
   void BlobHasTag(BlobHasTagTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {

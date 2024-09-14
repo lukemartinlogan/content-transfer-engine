@@ -42,9 +42,10 @@ class Bucket {
                   size_t backend_size = 0,
                   u32 flags = 0) {
     mdm_ = &HERMES_CONF->mdm_;
-//    id_ = mdm_->GetOrCreateTag(
-//        hshm::charbuf(bkt_name), true,
-//        std::vector<TraitId>(), backend_size, flags);
+    id_ = mdm_->GetOrCreateTag(
+        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        hshm::charbuf(bkt_name), true,
+        backend_size, flags);
     name_ = bkt_name;
   }
 
@@ -59,9 +60,10 @@ class Bucket {
                   size_t backend_size = 0,
                   u32 flags = 0) {
     mdm_ = &HERMES_CONF->mdm_;
-//    id_ = mdm_->GetOrCreateTag(
-//        hshm::charbuf(bkt_name), true,
-//        std::vector<TraitId>(), backend_size, flags, ctx);
+    id_ = mdm_->GetOrCreateTag(
+        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        hshm::charbuf(bkt_name), true,
+        backend_size, flags, ctx);
     name_ = bkt_name;
   }
 

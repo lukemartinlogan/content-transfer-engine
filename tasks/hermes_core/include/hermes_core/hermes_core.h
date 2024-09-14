@@ -592,17 +592,18 @@ class Client : public ModuleClient {
                                  const DomainQuery &dom_query,
                                  const TagId &tag_id,
                                  const BlobId &blob_id,
-                                 bool update_size = true) {
+                                 u32 blob_flags = 0,
+                                 u32 task_flags = 0) {
     CHI_CLIENT->ConstructTask<DestroyBlobTask>(
         task, task_node, dom_query,
-        id_, tag_id, blob_id, update_size);
+        id_, tag_id, blob_id, blob_flags, task_flags);
   }
   void DestroyBlob(const DomainQuery &dom_query,
                    const TagId &tag_id,
                    const BlobId &blob_id,
-                   bool update_size = true) {
+                   u32 blob_flags = 0) {
     LPointer<DestroyBlobTask> task =
-        AsyncDestroyBlob(dom_query, tag_id, blob_id, update_size);
+        AsyncDestroyBlob(dom_query, tag_id, blob_id, blob_flags);
     task->Wait();
     CHI_CLIENT->DelTask(task);
   }
