@@ -17,6 +17,7 @@
 #include "hermes_core/hermes_core.h"
 #include "hermes/hermes.h"
 #include "hermes/dpe/dpe_factory.h"
+#include "hermes/data_stager/stager_factory.h"
 
 namespace hermes {
 
@@ -124,7 +125,6 @@ class Server : public Module {
     TAG_ID_MAP_T &tag_id_map =
         tls.tag_id_map_;
     hshm::string tag_name = hshm::to_charbuf(task->tag_name_);
-    // hshm::charbuf tag_name = data_stager::Client::GetTagNameFromUrl(url);
     bool did_create = false;
     if (tag_name.size() > 0) {
       did_create = tag_id_map.find(tag_name) == tag_id_map.end();
@@ -822,9 +822,52 @@ class Server : public Module {
   void MonitorBlobHasTag(MonitorModeId mode, BlobHasTagTask *task, RunContext &rctx) {
   }
 
-  /** Change blob composition (TODO) */
+  /** Change blob composition */
   void ReorganizeBlob(ReorganizeBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
+    BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
+    BLOB_MAP_T &blob_map = tls.blob_map_;
+    // Get blob ID
+    hshm::charbuf blob_name = hshm::to_charbuf(task->blob_name_);
+    if (task->blob_id_.IsNull()) {
+      auto blob_id_map_it = blob_id_map.find(blob_name);
+      if (blob_id_map_it == blob_id_map.end()) {
+        task->SetModuleComplete();
+        return;
+      }
+      task->blob_id_ = blob_id_map_it->second;
+    }
+    // Get blob struct
+    auto blob_map_it = blob_map.find(task->blob_id_);
+    if (blob_map_it == blob_map.end()) {
+      task->SetModuleComplete();
+      return;
+    }
+    BlobInfo &blob_info = blob_map_it->second;
+    // Check if it is worth updating the score
+    // TODO(llogan)
+    // Set the new score
+    if (task->is_user_score_) {
+      blob_info.user_score_ = task->score_;
+      blob_info.score_ = blob_info.user_score_;
+    } else {
+      blob_info.score_ = task->score_;
+    }
+    // Get the blob
+    LPointer<char> data = CHI_CLIENT->AllocateBuffer(blob_info.blob_size_);
+    client_.GetBlob(
+        chi::DomainQuery::GetDirectHash(
+            chi::SubDomainId::kLocalContainers, 0),
+        task->tag_id_, task->blob_id_,
+        0, blob_info.blob_size_, data.shm_, 0);
+    // Put the blob with the new score
+    client_.AsyncPutBlob(
+        chi::DomainQuery::GetDirectHash(
+            chi::SubDomainId::kLocalContainers, 0),
+        task->tag_id_, hshm::charbuf(""), task->blob_id_,
+        0, blob_info.blob_size_, data.shm_, blob_info.score_,
+        TASK_FIRE_AND_FORGET | TASK_DATA_OWNER, 0);
     task->SetModuleComplete();
   }
   void MonitorReorganizeBlob(MonitorModeId mode, ReorganizeBlobTask *task, RunContext &rctx) {

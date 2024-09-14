@@ -601,7 +601,7 @@ class Bucket {
              T &blob,
              Context &ctx) {
     if constexpr(std::is_same_v<T, Blob>) {
-      return BaseGet(blob_name, BlobId::GetNull(), blob, 0, ctx);
+      return PrivateMemBaseGet(blob_name, BlobId::GetNull(), blob, 0, ctx);
     } else {
       return SrlBaseGet<T>(blob_name, BlobId::GetNull(), blob, ctx);
     }

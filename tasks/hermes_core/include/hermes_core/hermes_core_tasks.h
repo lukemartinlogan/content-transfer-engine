@@ -1232,8 +1232,7 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
     prio_ = TaskPrio::kLowLatency;
     pool_ = state_id;
     method_ = Method::kPutBlob;
-    task_flags_ = bitfield32_t(task_flags);
-    task_flags_.SetBits(0);
+    task_flags_.SetBits(task_flags);
     dom_query_ = dom_query;
 
     // Custom params

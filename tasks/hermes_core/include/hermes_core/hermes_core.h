@@ -321,6 +321,26 @@ class Client : public ModuleClient {
         blob_off, blob_size,
         blob, score, task_flags, hermes_flags, ctx);
   }
+  size_t PutBlob(const DomainQuery &dom_query,
+                 TagId tag_id,
+                 const hshm::charbuf &blob_name,
+                 const BlobId &blob_id,
+                 size_t blob_off, size_t blob_size,
+                 const hipc::Pointer &blob,
+                 float score,
+                 u32 task_flags,
+                 u32 hermes_flags,
+                 Context ctx = Context()) {
+    LPointer<PutBlobTask> task =
+        AsyncPutBlob(dom_query,
+                     tag_id, blob_name, blob_id,
+                     blob_off, blob_size,
+                     blob, score, task_flags, hermes_flags, ctx);
+    task->Wait();
+    size_t true_size = task->data_size_;
+    CHI_CLIENT->DelTask(task);
+    return true_size;
+  }
   CHI_TASK_METHODS(PutBlob);
 
   /** Get a blob's data */
