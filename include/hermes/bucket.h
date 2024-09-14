@@ -715,8 +715,9 @@ class Bucket {
    * Get the set of blob IDs contained in the bucket
    * */
   std::vector<BlobId> GetContainedBlobIds() {
-    // return mdm_->GetContainedBlobIds(id_);
-    return {};
+    return mdm_->TagGetContainedBlobIds(
+        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_);
   }
 };
 
