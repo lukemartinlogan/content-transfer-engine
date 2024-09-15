@@ -81,8 +81,8 @@ struct DestructTask : public DestroyTaskStateTask {
   DestructTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
                const DomainQuery &dom_query,
-               PoolId &state_id)
-      : DestroyTaskStateTask(alloc, task_node, domain_id, state_id) {}
+               PoolId &pool_id)
+      : DestroyTaskStateTask(alloc, task_node, domain_id, pool_id) {}
 
   /** Create group */
   HSHM_ALWAYS_INLINE
@@ -107,7 +107,7 @@ struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
   HSHM_ALWAYS_INLINE explicit
   RegisterStagerTask(hipc::Allocator *alloc,
                      const TaskNode &task_node,
-                     const PoolId &state_id,
+                     const PoolId &pool_id,
                      hermes::BucketId bkt_id,
                      const hshm::charbuf &tag_name,
                      const hshm::charbuf &params) : Task(alloc) {
@@ -115,7 +115,7 @@ struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
     task_node_ = task_node;
     lane_hash_ = bkt_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kRegisterStager;
     task_flags_.SetBits(TASK_LOW_LATENCY | TASK_FIRE_AND_FORGET);
     domain_id_ = chi::DomainQuery::GetGlobalBcast();
@@ -174,13 +174,13 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
   HSHM_ALWAYS_INLINE explicit
   UnregisterStagerTask(hipc::Allocator *alloc,
                        const TaskNode &task_node,
-                       const PoolId &state_id,
+                       const PoolId &pool_id,
                        const hermes::BucketId &bkt_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     lane_hash_ = bkt_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kUnregisterStager;
     task_flags_.SetBits(TASK_FIRE_AND_FORGET);
     domain_id_ = chi::DomainQuery::GetGlobalBcast();
@@ -240,7 +240,7 @@ struct StageInTask : public Task, TaskFlags<TF_LOCAL> {
   HSHM_ALWAYS_INLINE explicit
   StageInTask(hipc::Allocator *alloc,
               const TaskNode &task_node,
-              const PoolId &state_id,
+              const PoolId &pool_id,
               const BucketId &bkt_id,
               const hshm::charbuf &blob_name,
               float score,
@@ -249,7 +249,7 @@ struct StageInTask : public Task, TaskFlags<TF_LOCAL> {
     task_node_ = task_node;
     lane_hash_ = bkt_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kStageIn;
     task_flags_.SetBits(TASK_COROUTINE | TASK_LOW_LATENCY | TASK_REMOTE_DEBUG_MARK);
     domain_id_ = DomainId::GetLocal();
@@ -289,7 +289,7 @@ struct StageOutTask : public Task, TaskFlags<TF_LOCAL> {
   HSHM_ALWAYS_INLINE explicit
   StageOutTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
-               const PoolId &state_id,
+               const PoolId &pool_id,
                const BucketId &bkt_id,
                const hshm::charbuf &blob_name,
                const hipc::Pointer &data,
@@ -299,7 +299,7 @@ struct StageOutTask : public Task, TaskFlags<TF_LOCAL> {
     task_node_ = task_node;
     lane_hash_ = bkt_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kStageOut;
     task_flags_.SetBits(task_flags | TASK_COROUTINE | TASK_LOW_LATENCY | TASK_REMOTE_DEBUG_MARK);
     domain_id_ = DomainId::GetLocal();
@@ -342,7 +342,7 @@ struct UpdateSizeTask : public Task, TaskFlags<TF_LOCAL> {
   HSHM_ALWAYS_INLINE explicit
   UpdateSizeTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
-                 const PoolId &state_id,
+                 const PoolId &pool_id,
                  const BucketId &bkt_id,
                  const hshm::charbuf &blob_name,
                  size_t blob_off,
@@ -352,7 +352,7 @@ struct UpdateSizeTask : public Task, TaskFlags<TF_LOCAL> {
     task_node_ = task_node;
     lane_hash_ = bkt_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kUpdateSize;
     task_flags_.SetBits(task_flags | TASK_FIRE_AND_FORGET | TASK_LOW_LATENCY | TASK_REMOTE_DEBUG_MARK);
     domain_id_ = DomainId::GetLocal();

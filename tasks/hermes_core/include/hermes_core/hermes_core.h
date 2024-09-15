@@ -28,15 +28,6 @@ class Client : public ModuleClient {
   ~Client() = default;
 
   /** Create a task state */
-  void AsyncCreateConstruct(CreateTask *task,
-                            const TaskNode &task_node,
-                            const DomainQuery &dom_query,
-                            const DomainQuery &affinity,
-                            const std::string &pool_name,
-                            const CreateContext &ctx) {
-    CHI_CLIENT->ConstructTask<CreateTask>(
-        task, task_node, dom_query, affinity, pool_name, ctx);
-  }
   void Create(const DomainQuery &dom_query,
               const DomainQuery &affinity,
               const std::string &pool_name,
@@ -60,34 +51,9 @@ class Client : public ModuleClient {
    * ===================================*/
 
   /** Update statistics after blob PUT (fire & forget) */
-  HSHM_ALWAYS_INLINE
-  void AsyncTagUpdateSizeConstruct(TagUpdateSizeTask *task,
-                                const TaskNode &task_node,
-                                const DomainQuery &dom_query,
-                                const TagId &tag_id,
-                                ssize_t update,
-                                int mode) {
-    CHI_CLIENT->ConstructTask<TagUpdateSizeTask>(
-        task, task_node, dom_query, id_,
-        tag_id, update, mode);
-  }
   CHI_TASK_METHODS(TagUpdateSize);
 
   /** Create a tag or get the ID of existing tag */
-  HSHM_ALWAYS_INLINE
-  void AsyncGetOrCreateTagConstruct(GetOrCreateTagTask *task,
-                                    const TaskNode &task_node,
-                                    const DomainQuery &dom_query,
-                                    const hshm::charbuf &tag_name,
-                                    bool blob_owner,
-                                    size_t backend_size,
-                                    u32 flags,
-                                    const Context &ctx = Context()) {
-    HILOG(kDebug, "Creating a tag {}", tag_name.str());
-    CHI_CLIENT->ConstructTask<GetOrCreateTagTask>(
-        task, task_node, dom_query, id_,
-        tag_name, blob_owner, backend_size, flags, ctx);
-  }
   HSHM_ALWAYS_INLINE
   TagId GetOrCreateTag(const DomainQuery &dom_query,
                        const hshm::charbuf &tag_name,
@@ -106,14 +72,6 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(GetOrCreateTag);
 
   /** Get tag ID */
-  void AsyncGetTagIdConstruct(GetTagIdTask *task,
-                              const TaskNode &task_node,
-                              const DomainQuery &dom_query,
-                              const hshm::charbuf &tag_name) {
-    CHI_CLIENT->ConstructTask<GetTagIdTask>(
-        task, task_node, dom_query, id_,
-        tag_name);
-  }
   TagId GetTagId(const DomainQuery &dom_query,
                  const hshm::charbuf &tag_name) {
     LPointer<GetTagIdTask> task =
@@ -126,13 +84,6 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(GetTagId);
 
   /** Get tag name */
-  void AsyncGetTagNameConstruct(GetTagNameTask *task,
-                                const TaskNode &task_node,
-                                const DomainQuery &dom_query,
-                                const TagId &tag_id) {
-    CHI_CLIENT->ConstructTask<GetTagNameTask>(
-        task, task_node, dom_query, id_, tag_id);
-  }
   hshm::string GetTagName(const DomainQuery &dom_query,
                           const TagId &tag_id) {
     LPointer<GetTagNameTask> task =
@@ -145,14 +96,6 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(GetTagName);
 
   /** Destroy tag */
-  void AsyncDestroyTagConstruct(DestroyTagTask *task,
-                                const TaskNode &task_node,
-                                const DomainQuery &dom_query,
-                                const TagId &tag_id) {
-    u32 hash = tag_id.hash_;
-    CHI_CLIENT->ConstructTask<DestroyTagTask>(
-        task, task_node, dom_query, id_, tag_id);
-  }
   void DestroyTag(const DomainQuery &dom_query, const TagId &tag_id) {
     LPointer<DestroyTagTask> task =
         AsyncDestroyTag(dom_query, tag_id);
@@ -162,16 +105,6 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(DestroyTag);
 
   /** Add a blob to a tag */
-  void AsyncTagAddBlobConstruct(TagAddBlobTask *task,
-                                const TaskNode &task_node,
-                                const DomainQuery &dom_query,
-                                const TagId &tag_id,
-                                const BlobId &blob_id) {
-    u32 hash = tag_id.hash_;
-    CHI_CLIENT->ConstructTask<TagAddBlobTask>(
-        task, task_node, dom_query, id_,
-        tag_id, blob_id);
-  }
   void TagAddBlob(const DomainQuery &dom_query,
                   const TagId &tag_id,
                   const BlobId &blob_id) {
@@ -183,16 +116,6 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(TagAddBlob);
 
   /** Remove a blob from a tag */
-  void AsyncTagRemoveBlobConstruct(TagRemoveBlobTask *task,
-                                   const TaskNode &task_node,
-                                   const DomainQuery &dom_query,
-                                   const TagId &tag_id,
-                                   const BlobId &blob_id) {
-    u32 hash = tag_id.hash_;
-    CHI_CLIENT->ConstructTask<TagRemoveBlobTask>(
-        task, task_node, dom_query, id_,
-        tag_id, blob_id);
-  }
   void TagRemoveBlob(const DomainQuery &dom_query,
                      const TagId &tag_id,
                      const BlobId &blob_id) {
@@ -204,15 +127,6 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(TagRemoveBlob);
 
   /** Clear blobs from a tag */
-  void AsyncTagClearBlobsConstruct(TagClearBlobsTask *task,
-                                   const TaskNode &task_node,
-                                   const DomainQuery &dom_query,
-                                   const TagId &tag_id) {
-    u32 hash = tag_id.hash_;
-    CHI_CLIENT->ConstructTask<TagClearBlobsTask>(
-        task, task_node, dom_query, id_,
-        tag_id);
-  }
   void TagClearBlobs(const DomainQuery &dom_query,
                      const TagId &tag_id) {
     LPointer<TagClearBlobsTask> task =
@@ -223,14 +137,6 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(TagClearBlobs);
 
   /** Get the size of a bucket */
-  void AsyncTagGetSizeConstruct(TagGetSizeTask *task,
-                                const TaskNode &task_node,
-                                const DomainQuery &dom_query,
-                                const TagId &tag_id) {
-    u32 hash = tag_id.hash_;
-    CHI_CLIENT->ConstructTask<TagGetSizeTask>(
-        task, task_node, dom_query, id_, tag_id);
-  }
   size_t GetSize(const DomainQuery &dom_query,
                  const TagId &tag_id) {
     LPointer<TagGetSizeTask> task =
@@ -243,14 +149,6 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(TagGetSize);
 
   /** Get contained blob ids */
-  void AsyncTagGetContainedBlobIdsConstruct(
-      TagGetContainedBlobIdsTask *task,
-      const TaskNode &task_node,
-      const DomainQuery &dom_query,
-      const TagId &tag_id) {
-    CHI_CLIENT->ConstructTask<TagGetContainedBlobIdsTask>(
-        task, task_node, dom_query, id_, tag_id);
-  }
   std::vector<BlobId> TagGetContainedBlobIds(const DomainQuery &dom_query,
                                              const TagId &tag_id) {
     LPointer<TagGetContainedBlobIdsTask> task =
@@ -269,14 +167,6 @@ class Client : public ModuleClient {
   /**
    * Get \a blob_name BLOB from \a bkt_id bucket
    * */
-  void AsyncGetOrCreateBlobIdConstruct(GetOrCreateBlobIdTask* task,
-                                     const TaskNode &task_node,
-                                     const DomainQuery &dom_query,
-                                     const TagId &tag_id,
-                                     const hshm::charbuf &blob_name) {
-    CHI_CLIENT->ConstructTask<GetOrCreateBlobIdTask>(
-        task, task_node, dom_query, id_, tag_id, blob_name);
-  }
   BlobId GetOrCreateBlob(const DomainQuery &dom_query,
                            const TagId &tag_id,
                            const hshm::charbuf &blob_name) {
@@ -302,25 +192,6 @@ class Client : public ModuleClient {
   * @param replace whether to replace the blob if it exists
   * @param[OUT] did_create whether the blob was created or not
   * */
-  void AsyncPutBlobConstruct(
-      PutBlobTask *task,
-      const TaskNode &task_node,
-      const DomainQuery &dom_query,
-      TagId tag_id,
-      const hshm::charbuf &blob_name,
-      const BlobId &blob_id,
-      size_t blob_off, size_t blob_size,
-      const hipc::Pointer &blob,
-      float score,
-      u32 task_flags,
-      u32 hermes_flags,
-      Context ctx = Context()) {
-    CHI_CLIENT->ConstructTask<PutBlobTask>(
-        task, task_node, dom_query, id_,
-        tag_id, blob_name, blob_id,
-        blob_off, blob_size,
-        blob, score, task_flags, hermes_flags, ctx);
-  }
   size_t PutBlob(const DomainQuery &dom_query,
                  TagId tag_id,
                  const hshm::charbuf &blob_name,
@@ -344,22 +215,6 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(PutBlob);
 
   /** Get a blob's data */
-  void AsyncGetBlobConstruct(GetBlobTask *task,
-                             const TaskNode &task_node,
-                             const DomainQuery &dom_query,
-                             const TagId &tag_id,
-                             const hshm::charbuf &blob_name,
-                             const BlobId &blob_id,
-                             size_t off,
-                             ssize_t data_size,
-                             hipc::Pointer &data,
-                             u32 hermes_flags,
-                             Context ctx = Context()) {
-    // HILOG(kDebug, "Beginning GET (task_node={})", task_node);
-    CHI_CLIENT->ConstructTask<GetBlobTask>(
-        task, task_node, dom_query, id_,
-        tag_id, blob_name, blob_id, off, data_size, data, hermes_flags, ctx);
-  }
   size_t GetBlob(const DomainQuery &dom_query,
                  const TagId &tag_id,
                  const BlobId &blob_id,
@@ -386,21 +241,6 @@ class Client : public ModuleClient {
    * @param score the new score of the blob
    * @param node_id the node to reorganize the blob to
    * */
-  void AsyncReorganizeBlobConstruct(ReorganizeBlobTask *task,
-                                    const TaskNode &task_node,
-                                    const DomainQuery &dom_query,
-                                    const TagId &tag_id,
-                                    const hshm::charbuf &blob_name,
-                                    const BlobId &blob_id,
-                                    float score,
-                                    bool user_score,
-                                    const Context &ctx = Context(),
-                                    u32 task_flags = TASK_FIRE_AND_FORGET) {
-    // HILOG(kDebug, "Beginning REORGANIZE (task_node={})", task_node);
-    CHI_CLIENT->ConstructTask<ReorganizeBlobTask>(
-        task, task_node, dom_query, id_,
-        tag_id, blob_name, blob_id, score, user_score, ctx, task_flags);
-  }
   CHI_TASK_METHODS(ReorganizeBlob);
 
   /**
@@ -409,16 +249,6 @@ class Client : public ModuleClient {
  * @param blob_id id of the blob being tagged
  * @param tag_name tag name
  * */
-  void AsyncTagBlobConstruct(TagBlobTask *task,
-                             const TaskNode &task_node,
-                             const DomainQuery &dom_query,
-                             const TagId &tag_id,
-                             const BlobId &blob_id,
-                             const TagId &tag) {
-    CHI_CLIENT->ConstructTask<TagBlobTask>(
-        task, task_node, dom_query, id_,
-        tag_id, blob_id, tag);
-  }
   void TagBlob(const DomainQuery &dom_query,
                const TagId &tag_id,
                const BlobId &blob_id,
@@ -433,16 +263,6 @@ class Client : public ModuleClient {
   /**
    * Check if blob has a tag
    * */
-  void AsyncBlobHasTagConstruct(BlobHasTagTask *task,
-                                const TaskNode &task_node,
-                                const DomainQuery &dom_query,
-                                const TagId &tag_id,
-                                const BlobId &blob_id,
-                                const TagId &tag) {
-    CHI_CLIENT->ConstructTask<BlobHasTagTask>(
-        task, task_node, dom_query, id_,
-        tag_id, blob_id, tag);
-  }
   bool BlobHasTag(const DomainQuery &dom_query,
                   const TagId &tag_id,
                   const BlobId &blob_id,
@@ -459,15 +279,6 @@ class Client : public ModuleClient {
   /**
    * Get \a blob_name BLOB from \a bkt_id bucket
    * */
-  void AsyncGetBlobIdConstruct(GetBlobIdTask *task,
-                               const TaskNode &task_node,
-                               const DomainQuery &dom_query,
-                               const TagId &tag_id,
-                               const hshm::charbuf &blob_name) {
-    CHI_CLIENT->ConstructTask<GetBlobIdTask>(
-        task, task_node, dom_query, id_,
-        tag_id, blob_name);
-  }
   BlobId GetBlobId(const DomainQuery &dom_query,
                    const TagId &tag_id,
                    const hshm::charbuf &blob_name) {
@@ -483,15 +294,6 @@ class Client : public ModuleClient {
   /**
    * Get \a blob_name BLOB name from \a blob_id BLOB id
    * */
-  void AsyncGetBlobNameConstruct(GetBlobNameTask *task,
-                                 const TaskNode &task_node,
-                                 const DomainQuery &dom_query,
-                                 const TagId &tag_id,
-                                 const BlobId &blob_id) {
-    CHI_CLIENT->ConstructTask<GetBlobNameTask>(
-        task, task_node, dom_query, id_,
-        tag_id, blob_id);
-  }
   std::string GetBlobName(const DomainQuery &dom_query,
                           const TagId &tag_id,
                           const BlobId &blob_id) {
@@ -507,17 +309,6 @@ class Client : public ModuleClient {
   /**
    * Get \a size from \a blob_id BLOB id
    * */
-  void AsyncGetBlobSizeConstruct(GetBlobSizeTask *task,
-                                 const TaskNode &task_node,
-                                 const DomainQuery &dom_query,
-                                 const TagId &tag_id,
-                                 const hshm::charbuf &blob_name,
-                                 const BlobId &blob_id) {
-    // HILOG(kDebug, "Getting blob size {}", task_node);
-    CHI_CLIENT->ConstructTask<GetBlobSizeTask>(
-        task, task_node, dom_query, id_,
-        tag_id, blob_name, blob_id);
-  }
   size_t GetBlobSize(const DomainQuery &dom_query,
                      const TagId &tag_id,
                      const hshm::charbuf &blob_name,
@@ -534,15 +325,6 @@ class Client : public ModuleClient {
   /**
    * Get \a score from \a blob_id BLOB id
    * */
-  void AsyncGetBlobScoreConstruct(GetBlobScoreTask *task,
-                                  const TaskNode &task_node,
-                                  const DomainQuery &dom_query,
-                                  const TagId &tag_id,
-                                  const BlobId &blob_id) {
-    CHI_CLIENT->ConstructTask<GetBlobScoreTask>(
-        task, task_node, dom_query, id_,
-        tag_id, blob_id);
-  }
   float GetBlobScore(const DomainQuery &dom_query,
                      const TagId &tag_id,
                      const BlobId &blob_id) {
@@ -558,15 +340,6 @@ class Client : public ModuleClient {
   /**
    * Get \a blob_id blob's buffers
    * */
-  void AsyncGetBlobBuffersConstruct(GetBlobBuffersTask *task,
-                                    const TaskNode &task_node,
-                                    const DomainQuery &dom_query,
-                                    const TagId &tag_id,
-                                    const BlobId &blob_id) {
-    CHI_CLIENT->ConstructTask<GetBlobBuffersTask>(
-        task, task_node, dom_query, id_,
-        tag_id, blob_id);
-  }
   std::vector<BufferInfo> GetBlobBuffers(const DomainQuery &dom_query,
                                          const TagId &tag_id,
                                          const BlobId &blob_id) {
@@ -583,16 +356,6 @@ class Client : public ModuleClient {
   /**
    * Truncate a blob to a new size
    * */
-  void AsyncTruncateBlobConstruct(TruncateBlobTask *task,
-                                  const TaskNode &task_node,
-                                  const DomainQuery &dom_query,
-                                  const TagId &tag_id,
-                                  const BlobId &blob_id,
-                                  size_t new_size) {
-    CHI_CLIENT->ConstructTask<TruncateBlobTask>(
-        task, task_node, dom_query, id_,
-        tag_id, blob_id, new_size);
-  }
   void TruncateBlob(const DomainQuery &dom_query,
                     const TagId &tag_id,
                     const BlobId &blob_id,
@@ -607,17 +370,6 @@ class Client : public ModuleClient {
   /**
    * Destroy \a blob_id blob in \a bkt_id bucket
    * */
-  void AsyncDestroyBlobConstruct(DestroyBlobTask *task,
-                                 const TaskNode &task_node,
-                                 const DomainQuery &dom_query,
-                                 const TagId &tag_id,
-                                 const BlobId &blob_id,
-                                 u32 blob_flags = 0,
-                                 u32 task_flags = 0) {
-    CHI_CLIENT->ConstructTask<DestroyBlobTask>(
-        task, task_node, dom_query,
-        id_, tag_id, blob_id, blob_flags, task_flags);
-  }
   void DestroyBlob(const DomainQuery &dom_query,
                    const TagId &tag_id,
                    const BlobId &blob_id,

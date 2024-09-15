@@ -125,8 +125,8 @@ struct DestructTask : public DestroyTaskStateTask {
   DestructTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
                const DomainQuery &dom_query,
-               PoolId &state_id)
-  : DestroyTaskStateTask(alloc, task_node, domain_id, state_id) {}
+               PoolId &pool_id)
+  : DestroyTaskStateTask(alloc, task_node, domain_id, pool_id) {}
 
   /** Create group */
   HSHM_ALWAYS_INLINE
@@ -150,7 +150,7 @@ struct RegisterOpTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
   RegisterOpTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
                  const DomainQuery &dom_query,
-                 const PoolId &state_id,
+                 const PoolId &pool_id,
                  const OpGraph &graph) : Task(alloc) {
     // Store OpGraph
     std::stringstream ss;
@@ -163,7 +163,7 @@ struct RegisterOpTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
     task_node_ = task_node;
     lane_hash_ = std::hash<std::string>{}(op_graph_str);
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kRegisterOp;
     task_flags_.SetBits(TASK_COROUTINE);
     domain_id_ = domain_id;
@@ -244,7 +244,7 @@ struct RegisterDataTask : public Task, TaskFlags<TF_LOCAL> {
   HSHM_ALWAYS_INLINE explicit
   RegisterDataTask(hipc::Allocator *alloc,
             const TaskNode &task_node,
-            const PoolId &state_id,
+            const PoolId &pool_id,
             const BucketId &bkt_id,
             const std::string &blob_name,
             const BlobId &blob_id,
@@ -254,7 +254,7 @@ struct RegisterDataTask : public Task, TaskFlags<TF_LOCAL> {
     task_node_ = task_node;
     lane_hash_ = bkt_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kRegisterData;
     task_flags_.SetBits(TASK_COROUTINE | TASK_FIRE_AND_FORGET);
     domain_id_ = DomainId::GetLocal();
@@ -286,12 +286,12 @@ struct RunOpTask : public Task, TaskFlags<TF_LOCAL | TF_REPLICA> {
   HSHM_ALWAYS_INLINE explicit
   RunOpTask(hipc::Allocator *alloc,
              const TaskNode &task_node,
-             const PoolId &state_id) : Task(alloc) {
+             const PoolId &pool_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     lane_hash_ = 0;
     prio_ = TaskPrio::kLongRunning;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kRunOp;
     task_flags_.SetBits(
         TASK_LONG_RUNNING | TASK_COROUTINE | TASK_LANE_ALL |

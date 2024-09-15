@@ -60,7 +60,7 @@ struct UpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
   UpdateSizeTask(hipc::Allocator *alloc,
               const TaskNode &task_node,
               const DomainQuery &dom_query,
-              const PoolId &state_id,
+              const PoolId &pool_id,
               const TagId &tag_id,
               ssize_t update,
               int mode) : Task(alloc) {
@@ -68,7 +68,7 @@ struct UpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
     task_node_ = task_node;
     lane_hash_ = tag_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kUpdateSize;
     task_flags_.SetBits(0 | TASK_FIRE_AND_FORGET);
     dom_query_ = dom_query;
@@ -128,7 +128,7 @@ struct AppendBlobSchemaTask : public Task, TaskFlags<TF_SRL_SYM> {
   AppendBlobSchemaTask(hipc::Allocator *alloc,
                        const TaskNode &task_node,
                        const DomainQuery &dom_query,
-                       const PoolId &state_id,
+                       const PoolId &pool_id,
                        const TagId &tag_id,
                        size_t data_size,
                        size_t page_size) : Task(alloc) {
@@ -136,7 +136,7 @@ struct AppendBlobSchemaTask : public Task, TaskFlags<TF_SRL_SYM> {
     task_node_ = task_node;
     lane_hash_ = tag_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kAppendBlobSchema;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -180,7 +180,7 @@ struct AppendBlobTask : public Task, TaskFlags<TF_LOCAL> {
   AppendBlobTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
                  const DomainQuery &dom_query,
-                 const PoolId &state_id,
+                 const PoolId &pool_id,
                  const TagId &tag_id,
                  size_t data_size,
                  const hipc::Pointer &data,
@@ -192,7 +192,7 @@ struct AppendBlobTask : public Task, TaskFlags<TF_LOCAL> {
     task_node_ = task_node;
     lane_hash_ = tag_id.hash_;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kAppendBlob;
     task_flags_.SetBits(0 | TASK_FIRE_AND_FORGET | TASK_DATA_OWNER | TASK_UNORDERED | TASK_REMOTE_DEBUG_MARK);
     dom_query_ = dom_query;
@@ -228,12 +228,12 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM_START | TF_SRL_AS
   HSHM_ALWAYS_INLINE explicit
   PollTagMetadataTask(hipc::Allocator *alloc,
                        const TaskNode &task_node,
-                       const PoolId &state_id) : Task(alloc) {
+                       const PoolId &pool_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     lane_hash_ = 0;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kPollTagMetadata;
     task_flags_.SetBits(TASK_LANE_ALL);
     domain_id_ = chi::DomainQuery::GetGlobalBcast();

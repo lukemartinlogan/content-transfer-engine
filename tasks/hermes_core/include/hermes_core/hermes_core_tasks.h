@@ -39,17 +39,18 @@ struct CreateTask : public CreateContainerTask {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
   CreateTask(hipc::Allocator *alloc)
-  : CreateContainerTask(alloc) {}
+      : CreateContainerTask(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
   CreateTask(hipc::Allocator *alloc,
-                const TaskNode &task_node,
-                const DomainQuery &dom_query,
-                const DomainQuery &affinity,
-                const std::string &pool_name,
-                const CreateContext &ctx)
-      : CreateContainerTask(alloc, task_node, dom_query, affinity,
+             const TaskNode &task_node,
+             const PoolId &pool_id,
+             const DomainQuery &dom_query,
+             const DomainQuery &affinity,
+             const std::string &pool_name,
+             const CreateContext &ctx)
+      : CreateContainerTask(alloc, task_node, pool_id, dom_query, affinity,
                             pool_name, "hermes_core", ctx) {
     // Custom params
   }
@@ -95,20 +96,20 @@ struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
   GetOrCreateTagTask(hipc::Allocator *alloc)
-  : Task(alloc), tag_name_(alloc) {}
+      : Task(alloc), tag_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
   GetOrCreateTagTask(hipc::Allocator *alloc,
                      const TaskNode &task_node,
-                     const DomainQuery &dom_query,
                      const PoolId &pool_id,
+                     const DomainQuery &dom_query,
                      const hshm::charbuf &tag_name,
                      bool blob_owner,
                      size_t backend_size,
                      u32 flags,
                      const Context &ctx)
-   : Task(alloc), tag_name_(alloc, tag_name) {
+      : Task(alloc), tag_name_(alloc, tag_name) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -153,20 +154,20 @@ struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
   GetTagIdTask(hipc::Allocator *alloc)
-  : Task(alloc), tag_name_(alloc) {}
+      : Task(alloc), tag_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
   GetTagIdTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
+               const PoolId &pool_id,
                const DomainQuery &dom_query,
-               const PoolId &state_id,
                const hshm::charbuf &tag_name)
-   : Task(alloc), tag_name_(alloc, tag_name) {
+      : Task(alloc), tag_name_(alloc, tag_name) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kGetTagId;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -199,20 +200,20 @@ struct GetTagNameTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
   GetTagNameTask(hipc::Allocator *alloc)
-  : Task(alloc), tag_name_(alloc) {}
+      : Task(alloc), tag_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
   GetTagNameTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
+                 const PoolId &pool_id,
                  const DomainQuery &dom_query,
-                 const PoolId &state_id,
                  const TagId &tag_id)
-   : Task(alloc), tag_name_(alloc) {
+      : Task(alloc), tag_name_(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kGetTagName;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -252,13 +253,13 @@ struct DestroyTagTask : public Task, TaskFlags<TF_SRL_SYM> {
   HSHM_ALWAYS_INLINE explicit
   DestroyTagTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
+                 const PoolId &pool_id,
                  const DomainQuery &dom_query,
-                 const PoolId &state_id,
                  const TagId &tag_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kDestroyTag;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -296,14 +297,14 @@ struct TagAddBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   HSHM_ALWAYS_INLINE explicit
   TagAddBlobTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
+                 const PoolId &pool_id,
                  const DomainQuery &dom_query,
-                 const PoolId &state_id,
                  TagId tag_id,
                  const BlobId &blob_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kTagAddBlob;
     task_flags_.SetBits(TASK_FIRE_AND_FORGET);
     dom_query_ = dom_query;
@@ -343,14 +344,14 @@ struct TagRemoveBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   HSHM_ALWAYS_INLINE explicit
   TagRemoveBlobTask(hipc::Allocator *alloc,
                     const TaskNode &task_node,
+                    const PoolId &pool_id,
                     const DomainQuery &dom_query,
-                    const PoolId &state_id,
                     TagId tag_id,
                     const BlobId &blob_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kTagRemoveBlob;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -389,13 +390,13 @@ struct TagClearBlobsTask : public Task, TaskFlags<TF_SRL_SYM> {
   HSHM_ALWAYS_INLINE explicit
   TagClearBlobsTask(hipc::Allocator *alloc,
                     const TaskNode &task_node,
+                    const PoolId &pool_id,
                     const DomainQuery &dom_query,
-                    const PoolId &state_id,
                     TagId tag_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kTagClearBlobs;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -433,13 +434,13 @@ struct TagGetSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
   HSHM_ALWAYS_INLINE explicit
   TagGetSizeTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
+                 const PoolId &pool_id,
                  const DomainQuery &dom_query,
-                 const PoolId &state_id,
                  TagId tag_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kTagGetSize;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -480,16 +481,16 @@ struct TagUpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
   TagUpdateSizeTask(hipc::Allocator *alloc,
-                 const TaskNode &task_node,
-                 const DomainQuery &dom_query,
-                 const PoolId &state_id,
-                 TagId tag_id,
-                 ssize_t update,
-                 int mode) : Task(alloc) {
+                    const TaskNode &task_node,
+                    const PoolId &pool_id,
+                    const DomainQuery &dom_query,
+                    TagId tag_id,
+                    ssize_t update,
+                    int mode) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kTagUpdateSize;
     task_flags_.SetBits(TASK_FIRE_AND_FORGET);
     dom_query_ = dom_query;
@@ -533,14 +534,14 @@ struct TagGetContainedBlobIdsTask : public Task, TaskFlags<TF_SRL_SYM> {
   HSHM_ALWAYS_INLINE explicit
   TagGetContainedBlobIdsTask(hipc::Allocator *alloc,
                              const TaskNode &task_node,
+                             const PoolId &pool_id,
                              const DomainQuery &dom_query,
-                             const PoolId &state_id,
                              const TagId &tag_id)
       : Task(alloc), blob_ids_(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kTagGetContainedBlobIds;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -596,21 +597,21 @@ struct GetOrCreateBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
   GetOrCreateBlobIdTask(hipc::Allocator *alloc)
-  : Task(alloc), blob_name_(alloc) {}
+      : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
   GetOrCreateBlobIdTask(hipc::Allocator *alloc,
                         const TaskNode &task_node,
+                        const PoolId &pool_id,
                         const DomainQuery &dom_query,
-                        const PoolId &state_id,
                         const TagId &tag_id,
                         const hshm::charbuf &blob_name)
-  : Task(alloc), blob_name_(alloc) {
+      : Task(alloc), blob_name_(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kGetOrCreateBlobId;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -657,15 +658,15 @@ struct GetBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
   HSHM_ALWAYS_INLINE explicit
   GetBlobIdTask(hipc::Allocator *alloc,
                 const TaskNode &task_node,
+                const PoolId &pool_id,
                 const DomainQuery &dom_query,
-                const PoolId &state_id,
                 const TagId &tag_id,
                 const hshm::charbuf &blob_name)
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kGetBlobId;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -704,22 +705,22 @@ struct GetBlobNameTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetBlobNameTask(hipc::Allocator *alloc) 
-  : Task(alloc), blob_name_(alloc) {}
+  GetBlobNameTask(hipc::Allocator *alloc)
+      : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
   GetBlobNameTask(hipc::Allocator *alloc,
                   const TaskNode &task_node,
+                  const PoolId &pool_id,
                   const DomainQuery &dom_query,
-                  const PoolId &state_id,
                   const TagId &tag_id,
                   const BlobId &blob_id)
-  : Task(alloc), blob_name_(alloc) {
+      : Task(alloc), blob_name_(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kGetBlobName;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -760,22 +761,22 @@ struct GetBlobSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
   GetBlobSizeTask(hipc::Allocator *alloc)
-  : Task(alloc), blob_name_(alloc) {}
+      : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
   GetBlobSizeTask(hipc::Allocator *alloc,
                   const TaskNode &task_node,
+                  const PoolId &pool_id,
                   const DomainQuery &dom_query,
-                  const PoolId &state_id,
                   const TagId &tag_id,
                   const hshm::charbuf &blob_name,
                   const BlobId &blob_id)
-  : Task(alloc), blob_name_(alloc, blob_name) {
+      : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kGetBlobSize;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -820,14 +821,14 @@ struct GetBlobScoreTask : public Task, TaskFlags<TF_SRL_SYM> {
   HSHM_ALWAYS_INLINE explicit
   GetBlobScoreTask(hipc::Allocator *alloc,
                    const TaskNode &task_node,
+                   const PoolId &pool_id,
                    const DomainQuery &dom_query,
-                   const PoolId &state_id,
                    const TagId &tag_id,
                    const BlobId &blob_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kGetBlobScore;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -866,21 +867,21 @@ struct GetBlobBuffersTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
   GetBlobBuffersTask(hipc::Allocator *alloc)
-  : Task(alloc), buffers_(alloc) {}
+      : Task(alloc), buffers_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
   GetBlobBuffersTask(hipc::Allocator *alloc,
                      const TaskNode &task_node,
+                     const PoolId &pool_id,
                      const DomainQuery &dom_query,
-                     const PoolId &state_id,
                      const TagId &tag_id,
                      const BlobId &blob_id)
-   : Task(alloc), buffers_(alloc) {
+      : Task(alloc), buffers_(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kGetBlobBuffers;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -922,14 +923,14 @@ struct BlobHasTagTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
   BlobHasTagTask(hipc::Allocator *alloc)
-  : Task(alloc) {}
+      : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
   BlobHasTagTask(hipc::Allocator *alloc,
                  const TaskNode &task_node,
+                 const PoolId &pool_id,
                  const DomainQuery &dom_query,
-                 const PoolId &state_id,
                  const TagId &tag_id,
                  const BlobId &blob_id,
                  const TagId &tag) : Task(alloc) {
@@ -937,7 +938,7 @@ struct BlobHasTagTask : public Task, TaskFlags<TF_SRL_SYM> {
     task_node_ = task_node;
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kBlobHasTag;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -983,15 +984,15 @@ struct TruncateBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   HSHM_ALWAYS_INLINE explicit
   TruncateBlobTask(hipc::Allocator *alloc,
                    const TaskNode &task_node,
+                   const PoolId &pool_id,
                    const DomainQuery &dom_query,
-                   const PoolId &state_id,
                    const TagId &tag_id,
                    const BlobId &blob_id,
                    u64 size) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kTruncateBlob;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -1037,8 +1038,8 @@ struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   HSHM_ALWAYS_INLINE explicit
   DestroyBlobTask(hipc::Allocator *alloc,
                   const TaskNode &task_node,
+                  const PoolId &pool_id,
                   const DomainQuery &dom_query,
-                  const PoolId &state_id,
                   const TagId &tag_id,
                   const BlobId &blob_id,
                   u32 blob_flags,
@@ -1046,7 +1047,7 @@ struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kDestroyBlob;
     task_flags_.SetBits(task_flags);
     dom_query_ = dom_query;
@@ -1088,14 +1089,14 @@ struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
   ReorganizeBlobTask(hipc::Allocator *alloc)
-  : Task(alloc), blob_name_(alloc) {}
+      : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
   ReorganizeBlobTask(hipc::Allocator *alloc,
                      const TaskNode &task_node,
+                     const PoolId &pool_id,
                      const DomainQuery &dom_query,
-                     const PoolId &state_id,
                      const TagId &tag_id,
                      const hshm::charbuf &blob_name,
                      const BlobId &blob_id,
@@ -1103,11 +1104,11 @@ struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
                      bool is_user_score,
                      const Context &ctx,
                      u32 task_flags = TASK_FIRE_AND_FORGET)
-   : Task(alloc), blob_name_(alloc, blob_name) {
+      : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kReorganizeBlob;
     task_flags_.SetBits(task_flags);
     dom_query_ = dom_query;
@@ -1156,15 +1157,15 @@ struct TagBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   HSHM_ALWAYS_INLINE explicit
   TagBlobTask(hipc::Allocator *alloc,
               const TaskNode &task_node,
+              const PoolId &pool_id,
               const DomainQuery &dom_query,
-              const PoolId &state_id,
               const TagId &tag_id,
               const BlobId &blob_id,
               const TagId &tag) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kTagBlob;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
@@ -1208,14 +1209,14 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
   PutBlobTask(hipc::Allocator *alloc)
-  : Task(alloc), blob_name_(alloc) {}
+      : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
   PutBlobTask(hipc::Allocator *alloc,
               const TaskNode &task_node,
+              const PoolId &pool_id,
               const DomainQuery &dom_query,
-              const PoolId &state_id,
               const TagId &tag_id,
               const hshm::charbuf &blob_name,
               const BlobId &blob_id,
@@ -1225,12 +1226,12 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
               float score,
               u32 task_flags,
               u32 hermes_flags,
-              const Context &ctx)
-  : Task(alloc), blob_name_(alloc, blob_name) {
+              const Context &ctx = Context())
+      : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kPutBlob;
     task_flags_.SetBits(task_flags);
     dom_query_ = dom_query;
@@ -1294,14 +1295,14 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
   GetBlobTask(hipc::Allocator *alloc)
-  : Task(alloc), blob_name_(alloc) {}
+      : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
   GetBlobTask(hipc::Allocator *alloc,
               const TaskNode &task_node,
+              const PoolId &pool_id,
               const DomainQuery &dom_query,
-              const PoolId &state_id,
               const TagId &tag_id,
               const hshm::charbuf &blob_name,
               const BlobId &blob_id,
@@ -1310,11 +1311,11 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
               hipc::Pointer &data,
               u32 hermes_flags,
               const Context &ctx)
-  : Task(alloc), blob_name_(alloc, blob_name) {
+      : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
-    pool_ = state_id;
+    pool_ = pool_id;
     method_ = Method::kGetBlob;
     task_flags_.SetBits(TASK_COROUTINE);
     dom_query_ = dom_query;
@@ -1374,6 +1375,8 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
     ar(data_size_);
   }
 };
+
+
 
 }  // namespace hermes
 

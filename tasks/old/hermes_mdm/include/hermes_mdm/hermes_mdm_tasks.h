@@ -69,8 +69,8 @@ struct DestructTask : public DestroyTaskStateTask {
   DestructTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
                const DomainQuery &dom_query,
-               const PoolId &state_id)
-      : DestroyTaskStateTask(alloc, task_node, domain_id, state_id) {}
+               const PoolId &pool_id)
+      : DestroyTaskStateTask(alloc, task_node, domain_id, pool_id) {}
 
   /** Create group */
   HSHM_ALWAYS_INLINE
