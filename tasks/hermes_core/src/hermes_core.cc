@@ -552,9 +552,9 @@ class Server : public Module {
           continue;
         }
         std::vector<chi::Block> blocks = bdev.client_.Allocate(
-                chi::DomainQuery::GetDirectHash(
-                    chi::SubDomainId::kGlobalContainers, bdev.id_.node_id_),
-                placement.size_);
+            chi::DomainQuery::GetDirectHash(
+                chi::SubDomainId::kGlobalContainers, bdev.id_.node_id_),
+            placement.size_);
         // Convert to BufferInfo
         size_t t_alloc = 0;
         for (chi::Block &block : blocks) {
@@ -887,6 +887,63 @@ class Server : public Module {
 //  }
 //  void MonitorPollTargetMetadata(MonitorModeId mode, PollTargetMetadataTask *task, RunContext &rctx) {
 //  }
+
+  /**
+  * ========================================
+  * STAGING Tasks
+  * ========================================
+  * */
+
+  /** The RegisterStager method */
+  void RegisterStager(RegisterStagerTask *task, RunContext &rctx) {
+    task->SetModuleComplete();
+  }
+  void MonitorRegisterStager(MonitorModeId mode, RegisterStagerTask *task, RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kReplicaAgg: {
+        std::vector<LPointer<Task>> &replicas = *rctx.replicas_;
+      }
+    }
+  }
+
+
+  /** The UnregisterStager method */
+  void UnregisterStager(UnregisterStagerTask *task, RunContext &rctx) {
+    task->SetModuleComplete();
+  }
+  void MonitorUnregisterStager(MonitorModeId mode, UnregisterStagerTask *task, RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kReplicaAgg: {
+        std::vector<LPointer<Task>> &replicas = *rctx.replicas_;
+      }
+    }
+  }
+
+
+  /** The StageIn method */
+  void StageIn(StageInTask *task, RunContext &rctx) {
+    task->SetModuleComplete();
+  }
+  void MonitorStageIn(MonitorModeId mode, StageInTask *task, RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kReplicaAgg: {
+        std::vector<LPointer<Task>> &replicas = *rctx.replicas_;
+      }
+    }
+  }
+
+
+  /** The StageOut method */
+  void StageOut(StageOutTask *task, RunContext &rctx) {
+    task->SetModuleComplete();
+  }
+  void MonitorStageOut(MonitorModeId mode, StageOutTask *task, RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kReplicaAgg: {
+        std::vector<LPointer<Task>> &replicas = *rctx.replicas_;
+      }
+    }
+  }
 
  public:
 #include "hermes_core/hermes_core_lib_exec.h"

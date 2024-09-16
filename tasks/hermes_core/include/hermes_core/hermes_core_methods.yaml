@@ -39,7 +39,7 @@ kReorganizeBlob: 43
 #kPollTargetMetadata: 46
 
 # Staging Methods
-#kRegisterStager: 60
-#kUnregisterStager: 61
-#kStageIn: 62
-#kStageOut: 63
+kRegisterStager: 60
+kUnregisterStager: 61
+kStageIn: 62
+kStageOut: 63

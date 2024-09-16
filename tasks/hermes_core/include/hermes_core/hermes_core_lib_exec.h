@@ -104,6 +104,22 @@ void Run(u32 method, Task *task, RunContext &rctx) override {
       ReorganizeBlob(reinterpret_cast<ReorganizeBlobTask *>(task), rctx);
       break;
     }
+    case Method::kRegisterStager: {
+      RegisterStager(reinterpret_cast<RegisterStagerTask *>(task), rctx);
+      break;
+    }
+    case Method::kUnregisterStager: {
+      UnregisterStager(reinterpret_cast<UnregisterStagerTask *>(task), rctx);
+      break;
+    }
+    case Method::kStageIn: {
+      StageIn(reinterpret_cast<StageInTask *>(task), rctx);
+      break;
+    }
+    case Method::kStageOut: {
+      StageOut(reinterpret_cast<StageOutTask *>(task), rctx);
+      break;
+    }
   }
 }
 /** Execute a task */
@@ -209,6 +225,22 @@ void Monitor(MonitorModeId mode, MethodId method, Task *task, RunContext &rctx) 
       MonitorReorganizeBlob(mode, reinterpret_cast<ReorganizeBlobTask *>(task), rctx);
       break;
     }
+    case Method::kRegisterStager: {
+      MonitorRegisterStager(mode, reinterpret_cast<RegisterStagerTask *>(task), rctx);
+      break;
+    }
+    case Method::kUnregisterStager: {
+      MonitorUnregisterStager(mode, reinterpret_cast<UnregisterStagerTask *>(task), rctx);
+      break;
+    }
+    case Method::kStageIn: {
+      MonitorStageIn(mode, reinterpret_cast<StageInTask *>(task), rctx);
+      break;
+    }
+    case Method::kStageOut: {
+      MonitorStageOut(mode, reinterpret_cast<StageOutTask *>(task), rctx);
+      break;
+    }
   }
 }
 /** Delete a task */
@@ -312,6 +344,22 @@ void Del(u32 method, Task *task) override {
     }
     case Method::kReorganizeBlob: {
       CHI_CLIENT->DelTask<ReorganizeBlobTask>(reinterpret_cast<ReorganizeBlobTask *>(task));
+      break;
+    }
+    case Method::kRegisterStager: {
+      CHI_CLIENT->DelTask<RegisterStagerTask>(reinterpret_cast<RegisterStagerTask *>(task));
+      break;
+    }
+    case Method::kUnregisterStager: {
+      CHI_CLIENT->DelTask<UnregisterStagerTask>(reinterpret_cast<UnregisterStagerTask *>(task));
+      break;
+    }
+    case Method::kStageIn: {
+      CHI_CLIENT->DelTask<StageInTask>(reinterpret_cast<StageInTask *>(task));
+      break;
+    }
+    case Method::kStageOut: {
+      CHI_CLIENT->DelTask<StageOutTask>(reinterpret_cast<StageOutTask *>(task));
       break;
     }
   }
@@ -469,6 +517,30 @@ void CopyStart(u32 method, const Task *orig_task, Task *dup_task, bool deep) ove
         reinterpret_cast<ReorganizeBlobTask*>(dup_task), deep);
       break;
     }
+    case Method::kRegisterStager: {
+      chi::CALL_COPY_START(
+        reinterpret_cast<const RegisterStagerTask*>(orig_task), 
+        reinterpret_cast<RegisterStagerTask*>(dup_task), deep);
+      break;
+    }
+    case Method::kUnregisterStager: {
+      chi::CALL_COPY_START(
+        reinterpret_cast<const UnregisterStagerTask*>(orig_task), 
+        reinterpret_cast<UnregisterStagerTask*>(dup_task), deep);
+      break;
+    }
+    case Method::kStageIn: {
+      chi::CALL_COPY_START(
+        reinterpret_cast<const StageInTask*>(orig_task), 
+        reinterpret_cast<StageInTask*>(dup_task), deep);
+      break;
+    }
+    case Method::kStageOut: {
+      chi::CALL_COPY_START(
+        reinterpret_cast<const StageOutTask*>(orig_task), 
+        reinterpret_cast<StageOutTask*>(dup_task), deep);
+      break;
+    }
   }
 }
 /** Duplicate a task */
@@ -574,6 +646,22 @@ void NewCopyStart(u32 method, const Task *orig_task, LPointer<Task> &dup_task, b
       chi::CALL_NEW_COPY_START(reinterpret_cast<const ReorganizeBlobTask*>(orig_task), dup_task, deep);
       break;
     }
+    case Method::kRegisterStager: {
+      chi::CALL_NEW_COPY_START(reinterpret_cast<const RegisterStagerTask*>(orig_task), dup_task, deep);
+      break;
+    }
+    case Method::kUnregisterStager: {
+      chi::CALL_NEW_COPY_START(reinterpret_cast<const UnregisterStagerTask*>(orig_task), dup_task, deep);
+      break;
+    }
+    case Method::kStageIn: {
+      chi::CALL_NEW_COPY_START(reinterpret_cast<const StageInTask*>(orig_task), dup_task, deep);
+      break;
+    }
+    case Method::kStageOut: {
+      chi::CALL_NEW_COPY_START(reinterpret_cast<const StageOutTask*>(orig_task), dup_task, deep);
+      break;
+    }
   }
 }
 /** Serialize a task when initially pushing into remote */
@@ -677,6 +765,22 @@ void SaveStart(u32 method, BinaryOutputArchive<true> &ar, Task *task) override {
     }
     case Method::kReorganizeBlob: {
       ar << *reinterpret_cast<ReorganizeBlobTask*>(task);
+      break;
+    }
+    case Method::kRegisterStager: {
+      ar << *reinterpret_cast<RegisterStagerTask*>(task);
+      break;
+    }
+    case Method::kUnregisterStager: {
+      ar << *reinterpret_cast<UnregisterStagerTask*>(task);
+      break;
+    }
+    case Method::kStageIn: {
+      ar << *reinterpret_cast<StageInTask*>(task);
+      break;
+    }
+    case Method::kStageOut: {
+      ar << *reinterpret_cast<StageOutTask*>(task);
       break;
     }
   }
@@ -810,6 +914,26 @@ TaskPointer LoadStart(u32 method, BinaryInputArchive<true> &ar) override {
       ar >> *reinterpret_cast<ReorganizeBlobTask*>(task_ptr.ptr_);
       break;
     }
+    case Method::kRegisterStager: {
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<RegisterStagerTask>(task_ptr.shm_);
+      ar >> *reinterpret_cast<RegisterStagerTask*>(task_ptr.ptr_);
+      break;
+    }
+    case Method::kUnregisterStager: {
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<UnregisterStagerTask>(task_ptr.shm_);
+      ar >> *reinterpret_cast<UnregisterStagerTask*>(task_ptr.ptr_);
+      break;
+    }
+    case Method::kStageIn: {
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<StageInTask>(task_ptr.shm_);
+      ar >> *reinterpret_cast<StageInTask*>(task_ptr.ptr_);
+      break;
+    }
+    case Method::kStageOut: {
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<StageOutTask>(task_ptr.shm_);
+      ar >> *reinterpret_cast<StageOutTask*>(task_ptr.ptr_);
+      break;
+    }
   }
   return task_ptr;
 }
@@ -916,6 +1040,22 @@ void SaveEnd(u32 method, BinaryOutputArchive<false> &ar, Task *task) override {
       ar << *reinterpret_cast<ReorganizeBlobTask*>(task);
       break;
     }
+    case Method::kRegisterStager: {
+      ar << *reinterpret_cast<RegisterStagerTask*>(task);
+      break;
+    }
+    case Method::kUnregisterStager: {
+      ar << *reinterpret_cast<UnregisterStagerTask*>(task);
+      break;
+    }
+    case Method::kStageIn: {
+      ar << *reinterpret_cast<StageInTask*>(task);
+      break;
+    }
+    case Method::kStageOut: {
+      ar << *reinterpret_cast<StageOutTask*>(task);
+      break;
+    }
   }
 }
 /** Deserialize a task when popping from remote queue */
@@ -1019,6 +1159,22 @@ void LoadEnd(u32 method, BinaryInputArchive<false> &ar, Task *task) override {
     }
     case Method::kReorganizeBlob: {
       ar >> *reinterpret_cast<ReorganizeBlobTask*>(task);
+      break;
+    }
+    case Method::kRegisterStager: {
+      ar >> *reinterpret_cast<RegisterStagerTask*>(task);
+      break;
+    }
+    case Method::kUnregisterStager: {
+      ar >> *reinterpret_cast<UnregisterStagerTask*>(task);
+      break;
+    }
+    case Method::kStageIn: {
+      ar >> *reinterpret_cast<StageInTask*>(task);
+      break;
+    }
+    case Method::kStageOut: {
+      ar >> *reinterpret_cast<StageOutTask*>(task);
       break;
     }
   }

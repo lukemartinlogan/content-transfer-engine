@@ -1376,7 +1376,166 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 };
 
+/**
+ * ========================================
+ * STAGING Tasks
+ * ========================================
+ * */
 
+/** The RegisterStagerTask task */
+struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
+  /** SHM default constructor */
+  HSHM_ALWAYS_INLINE explicit
+  RegisterStagerTask(hipc::Allocator *alloc) : Task(alloc) {}
+
+  /** Emplace constructor */
+  HSHM_ALWAYS_INLINE explicit
+  RegisterStagerTask(hipc::Allocator *alloc,
+                     const TaskNode &task_node,
+                     const PoolId &pool_id,
+                     const DomainQuery &dom_query) : Task(alloc) {
+    // Initialize task
+    task_node_ = task_node;
+    prio_ = TaskPrio::kLowLatency;
+    pool_ = pool_id;
+    method_ = Method::kRegisterStager;
+    task_flags_.SetBits(0);
+    dom_query_ = dom_query;
+
+    // Custom
+  }
+
+  /** Duplicate message */
+  void CopyStart(const RegisterStagerTask &other, bool deep) {
+  }
+
+  /** (De)serialize message call */
+  template<typename Ar>
+  void SerializeStart(Ar &ar) {
+  }
+
+  /** (De)serialize message return */
+  template<typename Ar>
+  void SerializeEnd(Ar &ar) {
+  }
+};
+
+
+/** The UnregisterStagerTask task */
+struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
+  /** SHM default constructor */
+  HSHM_ALWAYS_INLINE explicit
+  UnregisterStagerTask(hipc::Allocator *alloc) : Task(alloc) {}
+
+  /** Emplace constructor */
+  HSHM_ALWAYS_INLINE explicit
+  UnregisterStagerTask(hipc::Allocator *alloc,
+                       const TaskNode &task_node,
+                       const PoolId &pool_id,
+                       const DomainQuery &dom_query) : Task(alloc) {
+    // Initialize task
+    task_node_ = task_node;
+    prio_ = TaskPrio::kLowLatency;
+    pool_ = pool_id;
+    method_ = Method::kUnregisterStager;
+    task_flags_.SetBits(0);
+    dom_query_ = dom_query;
+
+    // Custom
+  }
+
+  /** Duplicate message */
+  void CopyStart(const UnregisterStagerTask &other, bool deep) {
+  }
+
+  /** (De)serialize message call */
+  template<typename Ar>
+  void SerializeStart(Ar &ar) {
+  }
+
+  /** (De)serialize message return */
+  template<typename Ar>
+  void SerializeEnd(Ar &ar) {
+  }
+};
+
+
+/** The StageInTask task */
+struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
+  /** SHM default constructor */
+  HSHM_ALWAYS_INLINE explicit
+  StageInTask(hipc::Allocator *alloc) : Task(alloc) {}
+
+  /** Emplace constructor */
+  HSHM_ALWAYS_INLINE explicit
+  StageInTask(hipc::Allocator *alloc,
+              const TaskNode &task_node,
+              const PoolId &pool_id,
+              const DomainQuery &dom_query) : Task(alloc) {
+    // Initialize task
+    task_node_ = task_node;
+    prio_ = TaskPrio::kLowLatency;
+    pool_ = pool_id;
+    method_ = Method::kStageIn;
+    task_flags_.SetBits(0);
+    dom_query_ = dom_query;
+
+    // Custom
+  }
+
+  /** Duplicate message */
+  void CopyStart(const StageInTask &other, bool deep) {
+  }
+
+  /** (De)serialize message call */
+  template<typename Ar>
+  void SerializeStart(Ar &ar) {
+  }
+
+  /** (De)serialize message return */
+  template<typename Ar>
+  void SerializeEnd(Ar &ar) {
+  }
+};
+
+
+/** The StageOutTask task */
+struct StageOutTask : public Task, TaskFlags<TF_SRL_SYM> {
+  /** SHM default constructor */
+  HSHM_ALWAYS_INLINE explicit
+  StageOutTask(hipc::Allocator *alloc) : Task(alloc) {}
+
+  /** Emplace constructor */
+  HSHM_ALWAYS_INLINE explicit
+  StageOutTask(hipc::Allocator *alloc,
+               const TaskNode &task_node,
+               const PoolId &pool_id,
+               const DomainQuery &dom_query) : Task(alloc) {
+    // Initialize task
+    task_node_ = task_node;
+    prio_ = TaskPrio::kLowLatency;
+    pool_ = pool_id;
+    method_ = Method::kStageOut;
+    task_flags_.SetBits(0);
+    dom_query_ = dom_query;
+
+    // Custom
+  }
+
+  /** Duplicate message */
+  void CopyStart(const StageOutTask &other, bool deep) {
+  }
+
+  /** (De)serialize message call */
+  template<typename Ar>
+  void SerializeStart(Ar &ar) {
+  }
+
+  /** (De)serialize message return */
+  template<typename Ar>
+  void SerializeEnd(Ar &ar) {
+  }
+};
 
 }  // namespace hermes
 

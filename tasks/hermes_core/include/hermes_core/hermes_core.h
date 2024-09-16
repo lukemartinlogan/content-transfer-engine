@@ -380,6 +380,55 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(task);
   }
   CHI_TASK_METHODS(DestroyBlob);
+
+  /**
+   * ========================================
+   * STAGING Tasks
+   * ========================================
+   * */
+
+  /** Metadata task */
+  void RegisterStager(const DomainQuery &dom_query) {
+    LPointer<RegisterStagerTask> task =
+        AsyncRegisterStager(dom_query);
+    task->Wait();
+    CHI_CLIENT->DelTask(task);
+    return;
+  }
+  CHI_TASK_METHODS(RegisterStager);
+
+
+/** Metadata task */
+  void UnregisterStager(const DomainQuery &dom_query) {
+    LPointer<UnregisterStagerTask> task =
+        AsyncUnregisterStager(dom_query);
+    task->Wait();
+    CHI_CLIENT->DelTask(task);
+    return;
+  }
+  CHI_TASK_METHODS(UnregisterStager);
+
+
+/** Metadata task */
+  void StageIn(const DomainQuery &dom_query) {
+    LPointer<StageInTask> task =
+        AsyncStageIn(dom_query);
+    task->Wait();
+    CHI_CLIENT->DelTask(task);
+    return;
+  }
+  CHI_TASK_METHODS(StageIn);
+
+
+/** Metadata task */
+  void StageOut(const DomainQuery &dom_query) {
+    LPointer<StageOutTask> task =
+        AsyncStageOut(dom_query);
+    task->Wait();
+    CHI_CLIENT->DelTask(task);
+    return;
+  }
+  CHI_TASK_METHODS(StageOut);
 };
 
 }  // namespace chi

@@ -26,7 +26,11 @@ struct Method : public TaskMethod {
   TASK_METHOD_T kTagBlob = 41;
   TASK_METHOD_T kBlobHasTag = 42;
   TASK_METHOD_T kReorganizeBlob = 43;
-  TASK_METHOD_T kCount = 44;
+  TASK_METHOD_T kRegisterStager = 60;
+  TASK_METHOD_T kUnregisterStager = 61;
+  TASK_METHOD_T kStageIn = 62;
+  TASK_METHOD_T kStageOut = 63;
+  TASK_METHOD_T kCount = 64;
 };
 
 #endif  // CHI_HERMES_CORE_METHODS_H_
