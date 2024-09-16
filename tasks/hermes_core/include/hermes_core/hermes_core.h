@@ -387,10 +387,13 @@ class Client : public ModuleClient {
    * ========================================
    * */
 
-  /** Metadata task */
-  void RegisterStager(const DomainQuery &dom_query) {
+  /** RegisterStager task */
+  void RegisterStager(const DomainQuery &dom_query,
+                      const hermes::BucketId &bkt_id,
+                      const hshm::charbuf &tag_name,
+                      const hshm::charbuf &params) {
     LPointer<RegisterStagerTask> task =
-        AsyncRegisterStager(dom_query);
+        AsyncRegisterStager(dom_query, bkt_id, tag_name, params);
     task->Wait();
     CHI_CLIENT->DelTask(task);
     return;
@@ -398,10 +401,11 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(RegisterStager);
 
 
-/** Metadata task */
-  void UnregisterStager(const DomainQuery &dom_query) {
+  /** UnregisterStager task */
+  void UnregisterStager(const DomainQuery &dom_query,
+                        const BucketId &bkt_id) {
     LPointer<UnregisterStagerTask> task =
-        AsyncUnregisterStager(dom_query);
+        AsyncUnregisterStager(dom_query, bkt_id);
     task->Wait();
     CHI_CLIENT->DelTask(task);
     return;
@@ -409,10 +413,13 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(UnregisterStager);
 
 
-/** Metadata task */
-  void StageIn(const DomainQuery &dom_query) {
+  /** StageIn task */
+  void StageIn(const DomainQuery &dom_query,
+               const BucketId &bkt_id,
+               const hshm::charbuf &blob_name,
+               float score) {
     LPointer<StageInTask> task =
-        AsyncStageIn(dom_query);
+        AsyncStageIn(dom_query, bkt_id, blob_name, score);
     task->Wait();
     CHI_CLIENT->DelTask(task);
     return;
@@ -420,10 +427,15 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(StageIn);
 
 
-/** Metadata task */
-  void StageOut(const DomainQuery &dom_query) {
+  /** StageOut task */
+  void StageOut(const DomainQuery &dom_query,
+                const BucketId &bkt_id,
+                const hshm::charbuf &blob_name,
+                const hipc::Pointer &data,
+                size_t data_size,
+                u32 task_flags) {
     LPointer<StageOutTask> task =
-        AsyncStageOut(dom_query);
+        AsyncStageOut(dom_query, bkt_id, blob_name, data, data_size, task_flags);
     task->Wait();
     CHI_CLIENT->DelTask(task);
     return;

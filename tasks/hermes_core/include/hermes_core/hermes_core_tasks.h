@@ -1384,16 +1384,25 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 
 /** The RegisterStagerTask task */
 struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
+  IN hermes::BucketId bkt_id_;
+  IN hipc::string tag_name_;
+  IN hipc::string params_;
+
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  RegisterStagerTask(hipc::Allocator *alloc) : Task(alloc) {}
+  RegisterStagerTask(hipc::Allocator *alloc)
+  : Task(alloc), tag_name_(alloc), params_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
   RegisterStagerTask(hipc::Allocator *alloc,
                      const TaskNode &task_node,
                      const PoolId &pool_id,
-                     const DomainQuery &dom_query) : Task(alloc) {
+                     const DomainQuery &dom_query,
+                     const hermes::BucketId &bkt_id,
+                     const hshm::charbuf &tag_name,
+                     const hshm::charbuf &params)
+ : Task(alloc), tag_name_(alloc, tag_name), params_(alloc, params) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1403,15 +1412,20 @@ struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
     dom_query_ = dom_query;
 
     // Custom
+    bkt_id_ = bkt_id;
   }
 
   /** Duplicate message */
   void CopyStart(const RegisterStagerTask &other, bool deep) {
+    bkt_id_ = other.bkt_id_;
+    tag_name_ = other.tag_name_;
+    params_ = other.params_;
   }
 
   /** (De)serialize message call */
   template<typename Ar>
   void SerializeStart(Ar &ar) {
+    ar(bkt_id_, tag_name_, params_);
   }
 
   /** (De)serialize message return */
@@ -1423,6 +1437,8 @@ struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
 
 /** The UnregisterStagerTask task */
 struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
+  IN hermes::BucketId bkt_id_;
+
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
   UnregisterStagerTask(hipc::Allocator *alloc) : Task(alloc) {}
@@ -1432,7 +1448,8 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
   UnregisterStagerTask(hipc::Allocator *alloc,
                        const TaskNode &task_node,
                        const PoolId &pool_id,
-                       const DomainQuery &dom_query) : Task(alloc) {
+                       const DomainQuery &dom_query,
+                       const BucketId &bkt_id) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1442,15 +1459,18 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
     dom_query_ = dom_query;
 
     // Custom
+    bkt_id_ = bkt_id;
   }
 
   /** Duplicate message */
   void CopyStart(const UnregisterStagerTask &other, bool deep) {
+    bkt_id_ = other.bkt_id_;
   }
 
   /** (De)serialize message call */
   template<typename Ar>
   void SerializeStart(Ar &ar) {
+    ar(bkt_id_);
   }
 
   /** (De)serialize message return */
@@ -1462,16 +1482,25 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
 
 /** The StageInTask task */
 struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
+  IN hermes::BucketId bkt_id_;
+  IN hipc::charbuf blob_name_;
+  IN float score_;
+
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  StageInTask(hipc::Allocator *alloc) : Task(alloc) {}
+  StageInTask(hipc::Allocator *alloc)
+  : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
   StageInTask(hipc::Allocator *alloc,
               const TaskNode &task_node,
               const PoolId &pool_id,
-              const DomainQuery &dom_query) : Task(alloc) {
+              const DomainQuery &dom_query,
+              const BucketId &bkt_id,
+              const hshm::charbuf &blob_name,
+              float score)
+  : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1481,15 +1510,21 @@ struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
     dom_query_ = dom_query;
 
     // Custom
+    bkt_id_ = bkt_id;
+    score_ = score;
   }
 
   /** Duplicate message */
   void CopyStart(const StageInTask &other, bool deep) {
+    bkt_id_ = other.bkt_id_;
+    blob_name_ = other.blob_name_;
+    score_ = other.score_;
   }
 
   /** (De)serialize message call */
   template<typename Ar>
   void SerializeStart(Ar &ar) {
+    ar(bkt_id_, blob_name_, score_);
   }
 
   /** (De)serialize message return */
@@ -1501,34 +1536,54 @@ struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
 
 /** The StageOutTask task */
 struct StageOutTask : public Task, TaskFlags<TF_SRL_SYM> {
+  IN hermes::BucketId bkt_id_;
+  IN hipc::charbuf blob_name_;
+  IN hipc::Pointer data_;
+  IN size_t data_size_;
+
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  StageOutTask(hipc::Allocator *alloc) : Task(alloc) {}
+  StageOutTask(hipc::Allocator *alloc)
+  : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
   StageOutTask(hipc::Allocator *alloc,
                const TaskNode &task_node,
                const PoolId &pool_id,
-               const DomainQuery &dom_query) : Task(alloc) {
+               const DomainQuery &dom_query,
+               const BucketId &bkt_id,
+               const hshm::charbuf &blob_name,
+               const hipc::Pointer &data,
+               size_t data_size,
+               u32 task_flags)
+   : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kStageOut;
-    task_flags_.SetBits(0);
+    task_flags_.SetBits(task_flags);
     dom_query_ = dom_query;
 
     // Custom
+    data_ = data;
+    data_size_ = data_size;
+    bkt_id_ = bkt_id;
   }
 
   /** Duplicate message */
   void CopyStart(const StageOutTask &other, bool deep) {
+    bkt_id_ = other.bkt_id_;
+    blob_name_ = other.blob_name_;
+    data_ = other.data_;
+    data_size_ = other.data_size_;
   }
 
   /** (De)serialize message call */
   template<typename Ar>
   void SerializeStart(Ar &ar) {
+    ar(bkt_id_, blob_name_);
   }
 
   /** (De)serialize message return */

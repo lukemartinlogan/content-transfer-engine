@@ -29,12 +29,15 @@ typedef std::unordered_map<TagId, TagInfo> TAG_MAP_T;
 typedef std::unordered_map<hshm::charbuf, BlobId> BLOB_ID_MAP_T;
 typedef std::unordered_map<BlobId, BlobInfo> BLOB_MAP_T;
 typedef hipc::mpsc_queue<IoStat> IO_PATTERN_LOG_T;
+typedef std::unordered_map<TagId, std::shared_ptr<AbstractStager>> STAGER_MAP_T;
 
 struct HermesLane {
   TAG_ID_MAP_T tag_id_map_;
   TAG_MAP_T tag_map_;
   BLOB_ID_MAP_T blob_id_map_;
   BLOB_MAP_T blob_map_;
+  STAGER_MAP_T stager_map_;
+  chi::CoMutex stager_map_lock_;
   chi::CoRwLock tag_map_lock_;
   chi::CoRwLock blob_map_lock_;
 };
@@ -896,6 +899,16 @@ class Server : public Module {
 
   /** The RegisterStager method */
   void RegisterStager(RegisterStagerTask *task, RunContext &rctx) {
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoMutex stager_map_lock(tls.stager_map_lock_);
+    STAGER_MAP_T &stager_map = tls.stager_map_;
+    std::string tag_name = task->tag_name_.str();
+    std::string params = task->params_.str();
+    HILOG(kDebug, "Registering stager {}: {}", task->bkt_id_, tag_name);
+    std::shared_ptr<AbstractStager> stager = StagerFactory::Get(tag_name, params);
+    stager->RegisterStager(task->tag_name_.str(),
+                           task->params_.str());
+    stager_map.emplace(task->bkt_id_, std::move(stager));
     task->SetModuleComplete();
   }
   void MonitorRegisterStager(MonitorModeId mode, RegisterStagerTask *task, RunContext &rctx) {
@@ -909,6 +922,15 @@ class Server : public Module {
 
   /** The UnregisterStager method */
   void UnregisterStager(UnregisterStagerTask *task, RunContext &rctx) {
+    HILOG(kDebug, "Unregistering stager {}", task->bkt_id_);
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoMutex stager_map_lock(tls.stager_map_lock_);
+    STAGER_MAP_T &stager_map = tls.stager_map_;
+    if (stager_map.find(task->bkt_id_) == stager_map.end()) {
+      task->SetModuleComplete();
+      return;
+    }
+    stager_map.erase(task->bkt_id_);
     task->SetModuleComplete();
   }
   void MonitorUnregisterStager(MonitorModeId mode, UnregisterStagerTask *task, RunContext &rctx) {
@@ -922,6 +944,21 @@ class Server : public Module {
 
   /** The StageIn method */
   void StageIn(StageInTask *task, RunContext &rctx) {
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoMutex stager_map_lock(tls.stager_map_lock_);
+    STAGER_MAP_T &stager_map = tls.stager_map_;
+    STAGER_MAP_T::iterator it = stager_map.find(task->bkt_id_);
+    if (it == stager_map.end()) {
+      // HELOG(kError, "Could not find stager for bucket: {}", task->bkt_id_);
+      // TODO(llogan): Probably should add back...
+      // task->SetModuleComplete();
+      return;
+    }
+    std::shared_ptr<AbstractStager> &stager = it->second;
+    stager->StageIn(client_,
+                    task->bkt_id_,
+                    task->blob_name_.str(),
+                    task->score_);
     task->SetModuleComplete();
   }
   void MonitorStageIn(MonitorModeId mode, StageInTask *task, RunContext &rctx) {
@@ -935,6 +972,22 @@ class Server : public Module {
 
   /** The StageOut method */
   void StageOut(StageOutTask *task, RunContext &rctx) {
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoMutex stager_map_lock(tls.stager_map_lock_);
+    STAGER_MAP_T &stager_map = tls.stager_map_;
+    STAGER_MAP_T::iterator it =
+        stager_map.find(task->bkt_id_);
+    if (it == stager_map.end()) {
+      HELOG(kError, "Could not find stager for bucket: {}", task->bkt_id_);
+      task->SetModuleComplete();
+      return;
+    }
+    std::shared_ptr<AbstractStager> &stager = it->second;
+    stager->StageOut(client_,
+                     task->bkt_id_,
+                     task->blob_name_.str(),
+                     task->data_,
+                     task->data_size_);
     task->SetModuleComplete();
   }
   void MonitorStageOut(MonitorModeId mode, StageOutTask *task, RunContext &rctx) {
