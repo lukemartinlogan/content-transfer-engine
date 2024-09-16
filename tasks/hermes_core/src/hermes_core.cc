@@ -624,28 +624,28 @@ class Server : public Module {
     }
 
     // Update information
-    client_.AsyncTagUpdateSize(
-        chi::DomainQuery::GetDirectHash(
-            chi::SubDomainId::kGlobalContainers, 0),
-        task->tag_id_,
-        bkt_size_diff,
-        UpdateSizeMode::kAdd);
-//    if (task->flags_.Any(HERMES_SHOULD_STAGE)) {
-//      client_.AsyncTagUpdateSize(
-//          chi::DomainQuery::GetDirectHash(
-//              chi::SubDomainId::kGlobalContainers, 0),
-//          task->tag_id_,
-//          blob_info.name_,
-//          task->blob_off_,
-//          task->data_size_, 0);
-//    } else {
-//      client_.AsyncTagUpdateSize(
-//          chi::DomainQuery::GetDirectHash(
-//              chi::SubDomainId::kGlobalContainers, 0),
-//          task->tag_id_,
-//          bkt_size_diff,
-//          UpdateSizeMode::kAdd);
-//    }
+    if (task->flags_.Any(HERMES_SHOULD_STAGE)) {
+      STAGER_MAP_T &stager_map = tls.stager_map_;
+      chi::ScopedCoMutex stager_map_lock(tls.stager_map_lock_);
+      auto it = stager_map.find(task->tag_id_);
+      if (it == stager_map.end()) {
+        HELOG(kWarning, "Could not find stager for tag {}. Not updating size", task->tag_id_);
+      } else {
+        std::shared_ptr<AbstractStager> &stager = it->second;
+        stager->UpdateSize(client_,
+                           task->tag_id_,
+                           blob_info.name_.str(),
+                           task->blob_off_,
+                           task->data_size_);
+      }
+    } else {
+      client_.AsyncTagUpdateSize(
+          chi::DomainQuery::GetDirectHash(
+              chi::SubDomainId::kGlobalContainers, 0),
+          task->tag_id_,
+          bkt_size_diff,
+          UpdateSizeMode::kAdd);
+    }
     if (task->flags_.Any(HERMES_BLOB_DID_CREATE)) {
       client_.AsyncTagAddBlob(
           chi::DomainQuery::GetDirectHash(
@@ -654,7 +654,7 @@ class Server : public Module {
           task->blob_id_);
     }
 //    if (task->flags_.Any(HERMES_HAS_DERIVED)) {
-//      op_mdm_.AsyncRegisterData(task->task_node_ + 1,
+//      client_.AsyncRegisterData(task->task_node_ + 1,
 //                                task->tag_id_,
 //                                task->blob_name_->str(),
 //                                task->blob_id_,
