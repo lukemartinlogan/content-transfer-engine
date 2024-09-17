@@ -3,7 +3,6 @@
 #------------------------------------------------------------------------------
 add_library(hermes_client SHARED
         hermes_config_manager.cc
-        ../include/hermes/hermes_run_types.h
 )
 target_link_libraries(hermes_client ${_Hermes_CLIENT_LIBRARIES})
 add_library(hermes_runtime SHARED
