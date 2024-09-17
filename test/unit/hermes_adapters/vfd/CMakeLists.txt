@@ -14,9 +14,9 @@ target_include_directories(hermes_vfd_adapter_test
 )
 target_compile_definitions(hermes_vfd_adapter_test PUBLIC
         HERMES_INTERCEPT=1 HERMES_MPI_TESTS=true)
-add_dependencies(hermes_vfd_adapter_test hermes)
+add_dependencies(hermes_vfd_adapter_test ${Hermes_CLIENT_DEPS})
 target_link_libraries(hermes_vfd_adapter_test
-        hermes
+        ${Hermes_CLIENT_LIBRARIES}
         Catch2::Catch2
         MPI::MPI_CXX
         stdc++fs

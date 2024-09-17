@@ -1,16 +1,23 @@
 #------------------------------------------------------------------------------
 # Build Small Message Task Library
 #------------------------------------------------------------------------------
-add_library(hermes SHARED
+add_library(hermes_client SHARED
+        hermes_config_manager.cc
+        ../include/hermes/hermes_run_types.h
+)
+target_link_libraries(hermes_client ${_Hermes_CLIENT_LIBRARIES})
+add_library(hermes_runtime SHARED
         hermes_config_manager.cc
 )
-target_link_libraries(hermes ${_Hermes_CLIENT_LIBRARIES})
+target_link_libraries(hermes_runtime ${_Hermes_RUNTIME_LIBRARIES})
+target_compile_definitions(hermes_runtime PUBLIC ${Hermes_RUNTIME_DEFINITIONS})
 #------------------------------------------------------------------------------
-# Install Small Message Task Library
+# Install Hermes library
 #------------------------------------------------------------------------------
 install(
         TARGETS
-        hermes
+        hermes_client
+        hermes_runtime
         EXPORT
         ${HERMES_EXPORTED_TARGETS}
         LIBRARY DESTINATION ${HERMES_INSTALL_LIB_DIR}
@@ -34,7 +41,8 @@ install(
 # Export all exported targets to the build tree for use by parent project
 #-----------------------------------------------------------------------------
 set(HERMES_EXPORTED_LIBS
-        hermes
+        hermes_client
+        hermes_runtime
         ${HERMES_EXPORTED_LIBS})
 if(NOT CHIMAERA_EXTERNALLY_CONFIGURED)
     EXPORT (
@@ -49,5 +57,6 @@ endif()
 # Coverage
 #------------------------------------------------------------------------------
 if(HERMES_ENABLE_COVERAGE)
-    set_coverage_flags(hermes_core)
+    set_coverage_flags(hermes_client)
+    set_coverage_flags(hermes_runtime)
 endif()

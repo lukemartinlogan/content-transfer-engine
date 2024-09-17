@@ -14,6 +14,9 @@
 #define HRUN_TASKS_HERMES_INCLUDE_HERMES_HERMES_H_
 
 #include "hermes/bucket.h"
+#ifdef CHIMAERA_RUNTIME
+#include "hermes/hermes_run_types.h"
+#endif
 
 namespace hermes {
 

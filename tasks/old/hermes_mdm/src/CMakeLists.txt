@@ -4,7 +4,7 @@
 add_library(hermes_core SHARED
         hermes_core.cc)
 # add_dependencies(hermes_core ${Hermes_RUNTIME_DEPS} hermes)
-target_link_libraries(hermes_core ${Hermes_RUNTIME_LIBRARIES} hermes)
+target_link_libraries(hermes_core ${Hermes_RUNTIME_LIBRARIES})
 
 #------------------------------------------------------------------------------
 # Install Small Message Task Library

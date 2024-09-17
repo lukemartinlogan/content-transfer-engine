@@ -8,7 +8,7 @@
 # Compile Python Hermes
 #------------------------------------------------------------------------------
 pybind11_add_module(py_hermes MODULE py_hermes.cpp)
-add_dependencies(py_hermes ${Hermes_CLIENT_DEPS} hermes)
+add_dependencies(py_hermes ${Hermes_CLIENT_DEPS})
 target_link_libraries(py_hermes PUBLIC
         ${Hermes_CLIENT_LIBRARIES} hermes pybind11::module)
 

@@ -5,7 +5,7 @@ project(hermes)
 # Define Constants
 #-----------------------------------------------------------------------------
 set(HERMES_VERSION_MAJOR 1)
-set(HERMES_VERSION_MINOR 1)
+set(HERMES_VERSION_MINOR 3)
 set(HERMES_VERSION_PATCH 0)
 
 #-----------------------------------------------------------------------------
@@ -112,8 +112,9 @@ link_directories(${HermesShm_LIBRARY_DIRS})
 
 # Chimaera
 find_package(Chimaera CONFIG REQUIRED)
-message(STATUS "found chimaera at ${Chimaera_INCLUDE_DIRS}")
+message(STATUS "found chimaera at ${Chimaera_LIBRARY_DIR}")
 include_directories(${Chimaera_INCLUDE_DIRS})
+link_directories(${Chimaera_LIBRARY_DIRS})
 
 # YAML-CPP
 find_package(yaml-cpp REQUIRED)
@@ -259,10 +260,24 @@ set(_Hermes_CLIENT_LIBRARIES
         ${Chimaera_CLIENT_LIBRARIES}
         yaml-cpp
         cereal::cereal
-        -ldl -lrt -lc -pthread)
+        -ldl -lrt -lc -pthread
+        pybind11::embed)
 set(Hermes_CLIENT_LIBRARIES
         ${_Hermes_CLIENT_LIBRARIES}
-        hermes)
+        hermes_client)
+set(Hermes_CLIENT_DEPS hermes_client)
+set(_Hermes_RUNTIME_LIBRARIES
+        ${HermesShm_LIBRARIES}
+        ${Chimaera_RUNTIME_LIBRARIES}
+        yaml-cpp
+        cereal::cereal
+        -ldl -lrt -lc -pthread)
+set(Hermes_RUNTIME_LIBRARIES
+        ${_Hermes_RUNTIME_LIBRARIES}
+        hermes_runtime)
+set(Hermes_RUNTIME_DEFINITIONS
+    ${Chimaera_RUNTIME_DEFINITIONS})
+set(Hermes_RUNTIME_DEPS hermes_runtime)
 
 set(TEST_MAIN ${CMAKE_SOURCE_DIR}/test/unit)
 add_subdirectory(src)

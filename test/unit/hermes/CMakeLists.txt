@@ -13,9 +13,9 @@ add_executable(test_hermes_exec
         test_bucket.cc
 )
 add_dependencies(test_hermes_exec
-        ${Hermes_CLIENT_DEPS} hermes)
+        ${Hermes_CLIENT_DEPS})
 target_link_libraries(test_hermes_exec
-        ${Hermes_CLIENT_LIBRARIES} hermes Catch2::Catch2 MPI::MPI_CXX)
+        ${Hermes_CLIENT_LIBRARIES} Catch2::Catch2 MPI::MPI_CXX)
 jarvis_test(hermes test_hermes)
 
 #------------------------------------------------------------------------------
