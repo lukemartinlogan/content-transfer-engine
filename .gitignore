@@ -13,6 +13,7 @@ cmake*
 build
 *.temp_cc
 *.temp_h
+*.egg-info
 
 build/
 benchmarks/HermesVFD
