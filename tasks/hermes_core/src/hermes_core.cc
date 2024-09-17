@@ -148,6 +148,14 @@ class Server : public Module {
       tag.tag_id_ = tag_id;
       tag.owner_ = task->blob_owner_;
       tag.internal_size_ = task->backend_size_;
+      if (task->flags_.Any(HERMES_SHOULD_STAGE)) {
+        client_.RegisterStager(
+            chi::DomainQuery::GetGlobalBcast(),
+            tag_id,
+            hshm::charbuf(task->tag_name_.str()),
+            hshm::charbuf(task->params_.str()));
+        tag.flags_.SetBits(HERMES_SHOULD_STAGE);
+      }
     } else {
       if (tag_name.size()) {
         HILOG(kDebug, "Found existing tag: {}", tag_name.str())
@@ -218,6 +226,11 @@ class Server : public Module {
             task->tag_id_, blob_id, DestroyBlobTask::kKeepInTag,
             TASK_FIRE_AND_FORGET);
       }
+    }
+    if (tag.flags_.Any(HERMES_SHOULD_STAGE)) {
+      client_.UnregisterStager(
+          chi::DomainQuery::GetGlobalBcast(),
+          task->tag_id_);
     }
     // Remove tag from maps
     TAG_ID_MAP_T &tag_id_map = tls.tag_id_map_;
@@ -503,6 +516,7 @@ class Server : public Module {
   void PutBlob(PutBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
+
     // Get blob ID
     hshm::charbuf blob_name = hshm::to_charbuf(task->blob_name_);
     if (task->blob_id_.IsNull()) {
@@ -511,6 +525,7 @@ class Server : public Module {
           HashBlobName(task->tag_id_, blob_name),
           blob_name, task->flags_);
     }
+
     // Get blob struct
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
@@ -519,6 +534,16 @@ class Server : public Module {
       return;
     }
     BlobInfo &blob_info = it->second;
+
+    // Stage Blob
+    if (task->flags_.Any(HERMES_SHOULD_STAGE) && blob_info.last_flush_ == 0) {
+      // TODO(llogan): Don't hardcore score = 1
+      blob_info.last_flush_ = 1;
+      client_.StageIn(
+          chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+          task->tag_id_,
+          blob_info.name_, 1);
+    }
 
     // Determine amount of additional buffering space needed
     ssize_t bkt_size_diff = 0;
@@ -674,6 +699,7 @@ class Server : public Module {
   void GetBlob(GetBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
+    // Get blob struct
     if (task->blob_id_.IsNull()) {
       hshm::charbuf blob_name = hshm::to_charbuf(task->blob_name_);
       task->blob_id_ = GetOrCreateBlobId(
@@ -685,17 +711,14 @@ class Server : public Module {
     BlobInfo &blob_info = blob_map[task->blob_id_];
 
     // Stage Blob
-//    if (task->flags_.Any(HERMES_SHOULD_STAGE) && blob_info.last_flush_ == 0) {
-//      // TODO(llogan): Don't hardcore score = 1
-//      blob_info.last_flush_ = 1;
-//      LPointer<data_stager::StageInTask> stage_task =
-//          stager_mdm_.AsyncStageIn(task->task_node_ + 1,
-//                                   task->tag_id_,
-//                                   blob_info.name_,
-//                                   1, 0);
-//      stage_task->Wait<TASK_YIELD_CO>(task);
-//      CHI_CLIENT->DelTask(stage_task);
-//    }
+    if (task->flags_.Any(HERMES_SHOULD_STAGE) && blob_info.last_flush_ == 0) {
+      // TODO(llogan): Don't hardcore score = 1
+      blob_info.last_flush_ = 1;
+      client_.StageIn(
+          chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+          task->tag_id_,
+          blob_info.name_, 1);
+    }
 
     // Read blob from buffers
     std::vector<LPointer<chi::bdev::ReadTask>> read_tasks;

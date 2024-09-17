@@ -88,6 +88,7 @@ typedef chi::Admin::DestroyContainerTask DestroyTask;
  * */
 struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN hipc::string tag_name_;
+  IN hipc::string params_;
   IN bool blob_owner_;
   IN size_t backend_size_;
   IN bitfield32_t flags_;
@@ -96,7 +97,7 @@ struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
   GetOrCreateTagTask(hipc::Allocator *alloc)
-      : Task(alloc), tag_name_(alloc) {}
+      : Task(alloc), tag_name_(alloc), params_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
@@ -109,7 +110,7 @@ struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
                      size_t backend_size,
                      u32 flags,
                      const Context &ctx)
-      : Task(alloc), tag_name_(alloc, tag_name) {
+      : Task(alloc), tag_name_(alloc, tag_name), params_(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -121,6 +122,7 @@ struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
     // Custom params
     blob_owner_ = blob_owner;
     backend_size_ = backend_size;
+    params_ = ctx.bkt_params_;
     flags_ = bitfield32_t(flags | ctx.flags_.bits_);
   }
 
@@ -136,7 +138,7 @@ struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** (De)serialize message call */
   template<typename Ar>
   void SerializeStart(Ar &ar) {
-    ar(tag_name_, blob_owner_, backend_size_, flags_);
+    ar(tag_name_, params_, blob_owner_, backend_size_, flags_);
   }
 
   /** (De)serialize message return */

@@ -1,10 +1,12 @@
 #------------------------------------------------------------------------------
-# Build Small Message Task Library
+# Build Hermes Task Library
 #------------------------------------------------------------------------------
+# The client-facing library
 add_library(hermes_client SHARED
         hermes_config_manager.cc
 )
 target_link_libraries(hermes_client ${_Hermes_CLIENT_LIBRARIES})
+# The runtime-facing library
 add_library(hermes_runtime SHARED
         hermes_config_manager.cc
 )
