@@ -34,9 +34,9 @@ kDestroyBlob: 40
 kTagBlob: 41
 kBlobHasTag: 42
 kReorganizeBlob: 43
-#kFlushData: 44
-#kPollBlobMetadata: 45
-#kPollTargetMetadata: 46
+kFlushData: 44
+kPollBlobMetadata: 45
+kPollTargetMetadata: 46
 
 # Staging Methods
 kRegisterStager: 60

@@ -381,6 +381,36 @@ class Client : public ModuleClient {
   }
   CHI_TASK_METHODS(DestroyBlob);
 
+  /** FlushData task */
+  void FlushData(const DomainQuery &dom_query) {
+    LPointer<FlushDataTask> task =
+        AsyncFlushData(dom_query);
+    task->Wait();
+    CHI_CLIENT->DelTask(task);
+    return;
+  }
+  CHI_TASK_METHODS(FlushData);
+
+  /** PollBlobMetadata task */
+  void PollBlobMetadata(const DomainQuery &dom_query) {
+    LPointer<PollBlobMetadataTask> task =
+        AsyncPollBlobMetadata(dom_query);
+    task->Wait();
+    CHI_CLIENT->DelTask(task);
+    return;
+  }
+  CHI_TASK_METHODS(PollBlobMetadata);
+
+  /** PollTargetMetadata task */
+  void PollTargetMetadata(const DomainQuery &dom_query) {
+    LPointer<PollTargetMetadataTask> task =
+        AsyncPollTargetMetadata(dom_query);
+    task->Wait();
+    CHI_CLIENT->DelTask(task);
+    return;
+  }
+  CHI_TASK_METHODS(PollTargetMetadata);
+
   /**
    * ========================================
    * STAGING Tasks

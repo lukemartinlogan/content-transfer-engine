@@ -898,21 +898,125 @@ class Server : public Module {
   }
   void MonitorReorganizeBlob(MonitorModeId mode, ReorganizeBlobTask *task, RunContext &rctx) {
   }
-//  void FlushData(FlushDataTask *task, RunContext &rctx) {
-//    task->SetModuleComplete();
-//  }
-//  void MonitorFlushData(MonitorModeId mode, FlushDataTask *task, RunContext &rctx) {
-//  }
-//  void PollBlobMetadata(PollBlobMetadataTask *task, RunContext &rctx) {
-//    task->SetModuleComplete();
-//  }
-//  void MonitorPollBlobMetadata(MonitorModeId mode, PollBlobMetadataTask *task, RunContext &rctx) {
-//  }
-//  void PollTargetMetadata(PollTargetMetadataTask *task, RunContext &rctx) {
-//    task->SetModuleComplete();
-//  }
-//  void MonitorPollTargetMetadata(MonitorModeId mode, PollTargetMetadataTask *task, RunContext &rctx) {
-//  }
+
+  /** Flush blobs back to storage */
+  struct FlushInfo {
+    BlobInfo *blob_info_;
+    LPointer<StageOutTask> stage_task_;
+    size_t mod_count_;
+  };
+  void FlushData(FlushDataTask *task, RunContext &rctx) {
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
+    BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
+    BLOB_MAP_T &blob_map = tls.blob_map_;    
+    hshm::Timepoint now;
+    now.Now();
+    std::vector<FlushInfo> stage_tasks;
+    stage_tasks.reserve(256);
+    for (auto &it : blob_map) {
+      BlobInfo &blob_info = it.second;
+      // Update blob scores
+//      float new_score = MakeScore(blob_info, now);
+//      blob_info.score_ = new_score;
+//      if (ShouldReorganize<true>(blob_info, new_score, task->task_node_)) {
+//        Context ctx;
+//        LPointer<ReorganizeBlobTask> reorg_task =
+//            blob_mdm_.AsyncReorganizeBlob(task->task_node_ + 1,
+//                                          blob_info.tag_id_,
+//                                          hshm::charbuf(""),
+//                                          blob_info.blob_id_,
+//                                          new_score, false, ctx,
+//                                          TASK_LOW_LATENCY);
+//        reorg_task->Wait<TASK_YIELD_CO>(task);
+//        CHI_CLIENT->DelTask(reorg_task);
+//      }
+//      blob_info.access_freq_ = 0;
+
+      // Flush data
+      FlushInfo flush_info;
+      flush_info.blob_info_ = &blob_info;
+      flush_info.mod_count_ = blob_info.mod_count_;
+      if (blob_info.last_flush_ > 0 &&
+          flush_info.mod_count_ > blob_info.last_flush_) {
+        HILOG(kDebug, "Flushing blob {} (mod_count={}, last_flush={})",
+              blob_info.blob_id_, flush_info.mod_count_, blob_info.last_flush_);
+        LPointer<char> data = CHI_CLIENT->AllocateBuffer(
+            blob_info.blob_size_);
+        client_.GetBlob(
+            chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+            blob_info.tag_id_,
+            blob_info.blob_id_,
+            0, blob_info.blob_size_,
+            data.shm_, 0);
+        flush_info.stage_task_ = client_.AsyncStageOut(
+            chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+            blob_info.tag_id_,
+            blob_info.name_,
+            data.shm_, blob_info.blob_size_,
+            TASK_DATA_OWNER);
+        stage_tasks.emplace_back(flush_info);
+      }
+      if (stage_tasks.size() == 256) {
+        FlushWait(stage_tasks);
+      }
+    }
+    FlushWait(stage_tasks);
+    task->UnsetStarted();
+  }
+  void FlushWait(std::vector<FlushInfo> &stage_tasks) {
+    for (FlushInfo &flush_info : stage_tasks) {
+      BlobInfo &blob_info = *flush_info.blob_info_;
+      flush_info.stage_task_->Wait();
+      blob_info.last_flush_ = flush_info.mod_count_;
+      CHI_CLIENT->DelTask(flush_info.stage_task_);
+    }
+    stage_tasks.clear();
+  }
+  void MonitorFlushData(MonitorModeId mode, FlushDataTask *task, RunContext &rctx) {
+  }
+
+  /** Poll blob metadata */
+  void PollBlobMetadata(PollBlobMetadataTask *task, RunContext &rctx) {
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
+    BLOB_MAP_T &blob_map = tls.blob_map_;
+    std::vector<BlobInfo> blob_mdms;
+    blob_mdms.reserve(blob_map.size());
+    for (const std::pair<BlobId, BlobInfo> &blob_part : blob_map) {
+      const BlobInfo &blob_info = blob_part.second;
+      blob_mdms.emplace_back(blob_info);
+    }
+    task->stats_ = blob_mdms;
+    task->SetModuleComplete();
+  }
+  void MonitorPollBlobMetadata(MonitorModeId mode, PollBlobMetadataTask *task, RunContext &rctx) {
+  }
+
+  /** Poll target metadata */
+  void PollTargetMetadata(PollTargetMetadataTask *task, RunContext &rctx) {
+    std::vector<TargetStats> target_mdms;
+    target_mdms.reserve(targets_.size());
+    for (const TargetInfo &bdev_client : targets_) {
+      bool is_remote = bdev_client.id_.node_id_ != CHI_CLIENT->node_id_;
+      if (is_remote) {
+        continue;
+      }
+      TargetStats stats;
+      stats.tgt_id_ = bdev_client.id_;
+      stats.node_id_ = CHI_CLIENT->node_id_;
+      stats.rem_cap_ = bdev_client.stats_->free_;
+      // stats.max_cap_ = bdev_client.stats_->max_cap_;
+      stats.bandwidth_ = bdev_client.stats_->write_bw_;
+      stats.latency_ = bdev_client.stats_->write_latency_;
+      stats.score_ = bdev_client.score_;
+      target_mdms.emplace_back(stats);
+    }
+    task->stats_ = target_mdms;
+    task->SetModuleComplete();
+  }
+  void MonitorPollTargetMetadata(MonitorModeId mode, PollTargetMetadataTask *task, RunContext &rctx) {
+  }
 
   /**
   * ========================================

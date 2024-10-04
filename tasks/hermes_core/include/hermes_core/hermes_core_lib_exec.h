@@ -104,6 +104,18 @@ void Run(u32 method, Task *task, RunContext &rctx) override {
       ReorganizeBlob(reinterpret_cast<ReorganizeBlobTask *>(task), rctx);
       break;
     }
+    case Method::kFlushData: {
+      FlushData(reinterpret_cast<FlushDataTask *>(task), rctx);
+      break;
+    }
+    case Method::kPollBlobMetadata: {
+      PollBlobMetadata(reinterpret_cast<PollBlobMetadataTask *>(task), rctx);
+      break;
+    }
+    case Method::kPollTargetMetadata: {
+      PollTargetMetadata(reinterpret_cast<PollTargetMetadataTask *>(task), rctx);
+      break;
+    }
     case Method::kRegisterStager: {
       RegisterStager(reinterpret_cast<RegisterStagerTask *>(task), rctx);
       break;
@@ -225,6 +237,18 @@ void Monitor(MonitorModeId mode, MethodId method, Task *task, RunContext &rctx) 
       MonitorReorganizeBlob(mode, reinterpret_cast<ReorganizeBlobTask *>(task), rctx);
       break;
     }
+    case Method::kFlushData: {
+      MonitorFlushData(mode, reinterpret_cast<FlushDataTask *>(task), rctx);
+      break;
+    }
+    case Method::kPollBlobMetadata: {
+      MonitorPollBlobMetadata(mode, reinterpret_cast<PollBlobMetadataTask *>(task), rctx);
+      break;
+    }
+    case Method::kPollTargetMetadata: {
+      MonitorPollTargetMetadata(mode, reinterpret_cast<PollTargetMetadataTask *>(task), rctx);
+      break;
+    }
     case Method::kRegisterStager: {
       MonitorRegisterStager(mode, reinterpret_cast<RegisterStagerTask *>(task), rctx);
       break;
@@ -344,6 +368,18 @@ void Del(u32 method, Task *task) override {
     }
     case Method::kReorganizeBlob: {
       CHI_CLIENT->DelTask<ReorganizeBlobTask>(reinterpret_cast<ReorganizeBlobTask *>(task));
+      break;
+    }
+    case Method::kFlushData: {
+      CHI_CLIENT->DelTask<FlushDataTask>(reinterpret_cast<FlushDataTask *>(task));
+      break;
+    }
+    case Method::kPollBlobMetadata: {
+      CHI_CLIENT->DelTask<PollBlobMetadataTask>(reinterpret_cast<PollBlobMetadataTask *>(task));
+      break;
+    }
+    case Method::kPollTargetMetadata: {
+      CHI_CLIENT->DelTask<PollTargetMetadataTask>(reinterpret_cast<PollTargetMetadataTask *>(task));
       break;
     }
     case Method::kRegisterStager: {
@@ -517,6 +553,24 @@ void CopyStart(u32 method, const Task *orig_task, Task *dup_task, bool deep) ove
         reinterpret_cast<ReorganizeBlobTask*>(dup_task), deep);
       break;
     }
+    case Method::kFlushData: {
+      chi::CALL_COPY_START(
+        reinterpret_cast<const FlushDataTask*>(orig_task), 
+        reinterpret_cast<FlushDataTask*>(dup_task), deep);
+      break;
+    }
+    case Method::kPollBlobMetadata: {
+      chi::CALL_COPY_START(
+        reinterpret_cast<const PollBlobMetadataTask*>(orig_task), 
+        reinterpret_cast<PollBlobMetadataTask*>(dup_task), deep);
+      break;
+    }
+    case Method::kPollTargetMetadata: {
+      chi::CALL_COPY_START(
+        reinterpret_cast<const PollTargetMetadataTask*>(orig_task), 
+        reinterpret_cast<PollTargetMetadataTask*>(dup_task), deep);
+      break;
+    }
     case Method::kRegisterStager: {
       chi::CALL_COPY_START(
         reinterpret_cast<const RegisterStagerTask*>(orig_task), 
@@ -646,6 +700,18 @@ void NewCopyStart(u32 method, const Task *orig_task, LPointer<Task> &dup_task, b
       chi::CALL_NEW_COPY_START(reinterpret_cast<const ReorganizeBlobTask*>(orig_task), dup_task, deep);
       break;
     }
+    case Method::kFlushData: {
+      chi::CALL_NEW_COPY_START(reinterpret_cast<const FlushDataTask*>(orig_task), dup_task, deep);
+      break;
+    }
+    case Method::kPollBlobMetadata: {
+      chi::CALL_NEW_COPY_START(reinterpret_cast<const PollBlobMetadataTask*>(orig_task), dup_task, deep);
+      break;
+    }
+    case Method::kPollTargetMetadata: {
+      chi::CALL_NEW_COPY_START(reinterpret_cast<const PollTargetMetadataTask*>(orig_task), dup_task, deep);
+      break;
+    }
     case Method::kRegisterStager: {
       chi::CALL_NEW_COPY_START(reinterpret_cast<const RegisterStagerTask*>(orig_task), dup_task, deep);
       break;
@@ -765,6 +831,18 @@ void SaveStart(u32 method, BinaryOutputArchive<true> &ar, Task *task) override {
     }
     case Method::kReorganizeBlob: {
       ar << *reinterpret_cast<ReorganizeBlobTask*>(task);
+      break;
+    }
+    case Method::kFlushData: {
+      ar << *reinterpret_cast<FlushDataTask*>(task);
+      break;
+    }
+    case Method::kPollBlobMetadata: {
+      ar << *reinterpret_cast<PollBlobMetadataTask*>(task);
+      break;
+    }
+    case Method::kPollTargetMetadata: {
+      ar << *reinterpret_cast<PollTargetMetadataTask*>(task);
       break;
     }
     case Method::kRegisterStager: {
@@ -914,6 +992,21 @@ TaskPointer LoadStart(u32 method, BinaryInputArchive<true> &ar) override {
       ar >> *reinterpret_cast<ReorganizeBlobTask*>(task_ptr.ptr_);
       break;
     }
+    case Method::kFlushData: {
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<FlushDataTask>(task_ptr.shm_);
+      ar >> *reinterpret_cast<FlushDataTask*>(task_ptr.ptr_);
+      break;
+    }
+    case Method::kPollBlobMetadata: {
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PollBlobMetadataTask>(task_ptr.shm_);
+      ar >> *reinterpret_cast<PollBlobMetadataTask*>(task_ptr.ptr_);
+      break;
+    }
+    case Method::kPollTargetMetadata: {
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PollTargetMetadataTask>(task_ptr.shm_);
+      ar >> *reinterpret_cast<PollTargetMetadataTask*>(task_ptr.ptr_);
+      break;
+    }
     case Method::kRegisterStager: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<RegisterStagerTask>(task_ptr.shm_);
       ar >> *reinterpret_cast<RegisterStagerTask*>(task_ptr.ptr_);
@@ -1040,6 +1133,18 @@ void SaveEnd(u32 method, BinaryOutputArchive<false> &ar, Task *task) override {
       ar << *reinterpret_cast<ReorganizeBlobTask*>(task);
       break;
     }
+    case Method::kFlushData: {
+      ar << *reinterpret_cast<FlushDataTask*>(task);
+      break;
+    }
+    case Method::kPollBlobMetadata: {
+      ar << *reinterpret_cast<PollBlobMetadataTask*>(task);
+      break;
+    }
+    case Method::kPollTargetMetadata: {
+      ar << *reinterpret_cast<PollTargetMetadataTask*>(task);
+      break;
+    }
     case Method::kRegisterStager: {
       ar << *reinterpret_cast<RegisterStagerTask*>(task);
       break;
@@ -1159,6 +1264,18 @@ void LoadEnd(u32 method, BinaryInputArchive<false> &ar, Task *task) override {
     }
     case Method::kReorganizeBlob: {
       ar >> *reinterpret_cast<ReorganizeBlobTask*>(task);
+      break;
+    }
+    case Method::kFlushData: {
+      ar >> *reinterpret_cast<FlushDataTask*>(task);
+      break;
+    }
+    case Method::kPollBlobMetadata: {
+      ar >> *reinterpret_cast<PollBlobMetadataTask*>(task);
+      break;
+    }
+    case Method::kPollTargetMetadata: {
+      ar >> *reinterpret_cast<PollTargetMetadataTask*>(task);
       break;
     }
     case Method::kRegisterStager: {

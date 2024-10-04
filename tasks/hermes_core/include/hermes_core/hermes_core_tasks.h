@@ -1312,7 +1312,7 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
               size_t data_size,
               hipc::Pointer &data,
               u32 hermes_flags,
-              const Context &ctx)
+              const Context &ctx = Context())
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
@@ -1375,6 +1375,145 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
       ar(blob_id_);
     }
     ar(data_size_);
+  }
+};
+
+/** The FlushDataTask task */
+struct FlushDataTask : public Task, TaskFlags<TF_SRL_SYM> {
+  /** SHM default constructor */
+  HSHM_ALWAYS_INLINE explicit
+  FlushDataTask(hipc::Allocator *alloc) : Task(alloc) {}
+
+  /** Emplace constructor */
+  HSHM_ALWAYS_INLINE explicit
+  FlushDataTask(hipc::Allocator *alloc,
+                const TaskNode &task_node,
+                const PoolId &pool_id,
+                const DomainQuery &dom_query) : Task(alloc) {
+    // Initialize task
+    task_node_ = task_node;
+    prio_ = TaskPrio::kLowLatency;
+    pool_ = pool_id;
+    method_ = Method::kFlushData;
+    task_flags_.SetBits(0);
+    dom_query_ = dom_query;
+
+    // Custom
+  }
+
+  /** Duplicate message */
+  void CopyStart(const FlushDataTask &other, bool deep) {
+  }
+
+  /** (De)serialize message call */
+  template<typename Ar>
+  void SerializeStart(Ar &ar) {
+  }
+
+  /** (De)serialize message return */
+  template<typename Ar>
+  void SerializeEnd(Ar &ar) {
+  }
+};
+
+
+/** The PollBlobMetadataTask task */
+struct PollBlobMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
+  hipc::vector<BlobInfo> stats_;
+
+  /** SHM default constructor */
+  HSHM_ALWAYS_INLINE explicit
+  PollBlobMetadataTask(hipc::Allocator *alloc) : Task(alloc), stats_(alloc) {}
+
+  /** Emplace constructor */
+  HSHM_ALWAYS_INLINE explicit
+  PollBlobMetadataTask(hipc::Allocator *alloc,
+                       const TaskNode &task_node,
+                       const PoolId &pool_id,
+                       const DomainQuery &dom_query)
+  : Task(alloc), stats_(alloc) {
+    // Initialize task
+    task_node_ = task_node;
+    prio_ = TaskPrio::kLowLatency;
+    pool_ = pool_id;
+    method_ = Method::kPollBlobMetadata;
+    task_flags_.SetBits(0);
+    dom_query_ = dom_query;
+
+    // Custom
+  }
+
+  /** Duplicate message */
+  void CopyStart(const PollBlobMetadataTask &other, bool deep) {
+  }
+
+  /** (De)serialize message call */
+  template<typename Ar>
+  void SerializeStart(Ar &ar) {
+  }
+
+  /** (De)serialize message return */
+  template<typename Ar>
+  void SerializeEnd(Ar &ar) {
+  }
+};
+
+
+/** The PollTargetMetadataTask task */
+struct TargetStats {
+  TargetId tgt_id_;
+  chi::NodeId node_id_;
+  ssize_t rem_cap_;
+  ssize_t max_cap_;
+  float bandwidth_;
+  float latency_;
+  float score_;
+
+  template<typename Ar>
+  void serialize(Ar &ar) {
+    ar(tgt_id_, node_id_, rem_cap_, max_cap_, bandwidth_, latency_, score_);
+  }
+};
+struct PollTargetMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
+  hipc::vector<TargetStats> stats_;
+
+  /** SHM default constructor */
+  HSHM_ALWAYS_INLINE explicit
+  PollTargetMetadataTask(hipc::Allocator *alloc)
+  : Task(alloc), stats_(alloc) {}
+
+  /** Emplace constructor */
+  HSHM_ALWAYS_INLINE explicit
+  PollTargetMetadataTask(hipc::Allocator *alloc,
+                         const TaskNode &task_node,
+                         const PoolId &pool_id,
+                         const DomainQuery &dom_query)
+  : Task(alloc), stats_(alloc) {
+    // Initialize task
+    task_node_ = task_node;
+    prio_ = TaskPrio::kLowLatency;
+    pool_ = pool_id;
+    method_ = Method::kPollTargetMetadata;
+    task_flags_.SetBits(0);
+    dom_query_ = dom_query;
+
+    // Custom
+  }
+
+  /** Duplicate message */
+  void CopyStart(const PollTargetMetadataTask &other, bool deep) {
+    stats_ = other.stats_;
+  }
+
+  /** (De)serialize message call */
+  template<typename Ar>
+  void SerializeStart(Ar &ar) {
+  }
+
+  /** (De)serialize message return */
+  template<typename Ar>
+  void SerializeEnd(Ar &ar) {
+    ar(stats_);
   }
 };
 
