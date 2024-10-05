@@ -497,17 +497,14 @@ TEST_CASE("TestHermesDataStager") {
   for (size_t i = off; i < proc_count; ++i) {
     HILOG(kInfo, "Iteration: {}", i);
     // Put a blob
-    hermes::Blob blob(page_size / 2);
+    hermes::Blob blob(page_size);
     memset(blob.data(), i % 256, blob.size());
     hshm::charbuf blob_name = hermes::adapter::BlobPlacement::CreateBlobName(i);
-    bkt.PartialPut(blob_name.str(), blob, 0, ctx);
+    bkt.Put(blob_name.str(), blob, ctx);
     hermes::Blob blob2;
     bkt.Get(blob_name.str(), blob2, ctx);
     REQUIRE(blob2.size() == page_size);
-    hermes::Blob full_blob(page_size);
-    memcpy(full_blob.data(), blob.data(), blob.size());
-    memcpy(full_blob.data() + blob.size(), data.data(), page_size / 2);
-    REQUIRE(full_blob == blob2);
+    REQUIRE(blob2 == blob);
   }
   for (size_t i = off; i < proc_count; ++i) {
     hshm::charbuf blob_name = hermes::adapter::BlobPlacement::CreateBlobName(i);
@@ -516,9 +513,28 @@ TEST_CASE("TestHermesDataStager") {
   }
   MPI_Barrier(MPI_COMM_WORLD);
 
-  // Verify staging happened
+  // Flush all data to final disk
   CHI_ADMIN->Flush(chi::DomainQuery::GetGlobalBcast());
   HILOG(kInfo, "Flushing finished")
+
+  // Get the size of data on disk
+  if (rank == 0) {
+    size_t end_size = stdfs::file_size(path);
+    REQUIRE(end_size == file_size);
+  }
+  MPI_Barrier(MPI_COMM_WORLD);
+
+  // Verify the file contents flushed
+  FILE *file = fopen(path.c_str(), "r");
+  for (size_t i = off; i < proc_count; ++i) {
+    fseek(file, i * page_size, SEEK_SET);
+    hermes::Blob blob(page_size);
+    fread(blob.data(), sizeof(char), page_size, file);
+    for (size_t j = 0; j < page_size; ++j) {
+      REQUIRE(blob.data()[j] == i % 256);
+    }
+  }
+  fclose(file);
 }
 
 //TEST_CASE("TestHermesDataOp") {

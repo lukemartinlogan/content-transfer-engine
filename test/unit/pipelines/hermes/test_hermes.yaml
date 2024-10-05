@@ -16,4 +16,4 @@ pkgs:
     do_dbg: true
     dbg_port: 4001
     nprocs: 1
-    TEST_CASE: TestHermesCollectMetadata
+    TEST_CASE: TestHermesDataStager

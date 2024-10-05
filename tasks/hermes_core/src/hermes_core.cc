@@ -96,6 +96,10 @@ class Server : public Module {
       }
     }
     fallback_target_ = &targets_.back();
+    // Create flushing task
+    client_.AsyncFlushData(
+        chi::DomainQuery::GetDirectHash(
+            chi::SubDomainId::kLocalContainers, 0), 5);
     task->SetModuleComplete();
   }
   void MonitorCreate(MonitorModeId mode, CreateTask *task, RunContext &rctx) {
@@ -952,29 +956,16 @@ class Server : public Module {
             blob_info.blob_id_,
             0, blob_info.blob_size_,
             data.shm_, 0);
-        flush_info.stage_task_ = client_.AsyncStageOut(
+        client_.StageOut(
             chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
             blob_info.tag_id_,
             blob_info.name_,
             data.shm_, blob_info.blob_size_,
             TASK_DATA_OWNER);
-        stage_tasks.emplace_back(flush_info);
-      }
-      if (stage_tasks.size() == 256) {
-        FlushWait(stage_tasks);
+        blob_info.last_flush_ = flush_info.mod_count_;
       }
     }
-    FlushWait(stage_tasks);
     task->UnsetStarted();
-  }
-  void FlushWait(std::vector<FlushInfo> &stage_tasks) {
-    for (FlushInfo &flush_info : stage_tasks) {
-      BlobInfo &blob_info = *flush_info.blob_info_;
-      flush_info.stage_task_->Wait();
-      blob_info.last_flush_ = flush_info.mod_count_;
-      CHI_CLIENT->DelTask(flush_info.stage_task_);
-    }
-    stage_tasks.clear();
   }
   void MonitorFlushData(MonitorModeId mode, FlushDataTask *task, RunContext &rctx) {
   }
