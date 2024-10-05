@@ -1421,11 +1421,11 @@ struct FlushDataTask : public Task, TaskFlags<TF_SRL_SYM> {
 
 /** The PollBlobMetadataTask task */
 struct PollBlobMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
-  hipc::vector<BlobInfo> stats_;
+  hipc::string stats_buf_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  PollBlobMetadataTask(hipc::Allocator *alloc) : Task(alloc), stats_(alloc) {}
+  PollBlobMetadataTask(hipc::Allocator *alloc) : Task(alloc), stats_buf_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
@@ -1433,7 +1433,7 @@ struct PollBlobMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
                        const TaskNode &task_node,
                        const PoolId &pool_id,
                        const DomainQuery &dom_query)
-  : Task(alloc), stats_(alloc) {
+  : Task(alloc), stats_buf_(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1445,8 +1445,26 @@ struct PollBlobMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
     // Custom
   }
 
+  /** Serialize stats buf */
+  void SetStats(const std::vector<BlobInfo> &stats) {
+    std::stringstream ss;
+    cereal::BinaryOutputArchive ar(ss);
+    ar(stats);
+    stats_buf_ = ss.str();
+  }
+
+  /** Get stats buf */
+  std::vector<BlobInfo> GetStats() {
+    std::vector<BlobInfo> stats;
+    std::stringstream ss(stats_buf_.str());
+    cereal::BinaryInputArchive ar(ss);
+    ar(stats);
+    return stats;
+  }
+
   /** Duplicate message */
   void CopyStart(const PollBlobMetadataTask &other, bool deep) {
+    stats_buf_ = other.stats_buf_;
   }
 
   /** (De)serialize message call */
@@ -1457,6 +1475,7 @@ struct PollBlobMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** (De)serialize message return */
   template<typename Ar>
   void SerializeEnd(Ar &ar) {
+    ar(stats_buf_);
   }
 };
 
@@ -1477,12 +1496,12 @@ struct TargetStats {
   }
 };
 struct PollTargetMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
-  hipc::vector<TargetStats> stats_;
+  hipc::string stats_buf_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
   PollTargetMetadataTask(hipc::Allocator *alloc)
-  : Task(alloc), stats_(alloc) {}
+  : Task(alloc), stats_buf_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
@@ -1490,7 +1509,7 @@ struct PollTargetMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
                          const TaskNode &task_node,
                          const PoolId &pool_id,
                          const DomainQuery &dom_query)
-  : Task(alloc), stats_(alloc) {
+  : Task(alloc), stats_buf_(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1502,9 +1521,26 @@ struct PollTargetMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
     // Custom
   }
 
+  /** Serialize stats buf */
+  void SetStats(const std::vector<TargetStats> &stats) {
+    std::stringstream ss;
+    cereal::BinaryOutputArchive ar(ss);
+    ar(stats);
+    stats_buf_ = ss.str();
+  }
+
+  /** Get stats buf */
+  std::vector<TargetStats> GetStats() {
+    std::vector<TargetStats> stats;
+    std::stringstream ss(stats_buf_.str());
+    cereal::BinaryInputArchive ar(ss);
+    ar(stats);
+    return stats;
+  }
+
   /** Duplicate message */
   void CopyStart(const PollTargetMetadataTask &other, bool deep) {
-    stats_ = other.stats_;
+    stats_buf_ = other.stats_buf_;
   }
 
   /** (De)serialize message call */
@@ -1515,18 +1551,18 @@ struct PollTargetMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** (De)serialize message return */
   template<typename Ar>
   void SerializeEnd(Ar &ar) {
-    ar(stats_);
+    ar(stats_buf_);
   }
 };
 
 /** The PollTagMetadataTask task */
 struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
-  hipc::vector<TagInfo> stats_;
+  hipc::string stats_buf_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
   PollTagMetadataTask(hipc::Allocator *alloc)
-  : Task(alloc), stats_(alloc) {}
+  : Task(alloc), stats_buf_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
@@ -1534,7 +1570,7 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
                       const TaskNode &task_node,
                       const PoolId &pool_id,
                       const DomainQuery &dom_query)
-  : Task(alloc), stats_(alloc) {
+  : Task(alloc), stats_buf_(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1546,9 +1582,26 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
     // Custom
   }
 
+  /** Serialize stats buf */
+  void SetStats(const std::vector<TagInfo> &stats) {
+    std::stringstream ss;
+    cereal::BinaryOutputArchive ar(ss);
+    ar(stats);
+    stats_buf_ = ss.str();
+  }
+
+  /** Get stats buf */
+  std::vector<TagInfo> GetStats() {
+    std::vector<TagInfo> stats;
+    std::stringstream ss(stats_buf_.str());
+    cereal::BinaryInputArchive ar(ss);
+    ar(stats);
+    return stats;
+  }
+
   /** Duplicate message */
   void CopyStart(const PollTagMetadataTask &other, bool deep) {
-    stats_ = other.stats_;
+    stats_buf_ = other.stats_buf_;
   }
 
   /** (De)serialize message call */
@@ -1559,7 +1612,7 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** (De)serialize message return */
   template<typename Ar>
   void SerializeEnd(Ar &ar) {
-    ar(stats_);
+    ar(stats_buf_);
   }
 };
 

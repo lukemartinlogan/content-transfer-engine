@@ -990,7 +990,7 @@ class Server : public Module {
       const BlobInfo &blob_info = blob_part.second;
       blob_mdms.emplace_back(blob_info);
     }
-    task->stats_ = blob_mdms;
+    task->SetStats(blob_mdms);
     task->SetModuleComplete();
   }
   void MonitorPollBlobMetadata(MonitorModeId mode, PollBlobMetadataTask *task, RunContext &rctx) {
@@ -1015,7 +1015,7 @@ class Server : public Module {
       stats.score_ = bdev_client.score_;
       target_mdms.emplace_back(stats);
     }
-    task->stats_ = target_mdms;
+    task->SetStats(target_mdms);
     task->SetModuleComplete();
   }
   void MonitorPollTargetMetadata(MonitorModeId mode, PollTargetMetadataTask *task, RunContext &rctx) {
@@ -1031,7 +1031,7 @@ class Server : public Module {
       TagInfo &tag_info = it.second;
       stats.emplace_back(tag_info);
     }
-    task->stats_ = stats;
+    task->SetStats(stats);
     task->SetModuleComplete();
   }
   void MonitorPollTagMetadata(MonitorModeId mode, PollTagMetadataTask *task, RunContext &rctx) {

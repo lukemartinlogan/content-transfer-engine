@@ -396,7 +396,7 @@ class Client : public ModuleClient {
     LPointer<PollBlobMetadataTask> task =
         AsyncPollBlobMetadata(dom_query);
     task->Wait();
-    std::vector<BlobInfo> stats = task->stats_.vec();
+    std::vector<BlobInfo> stats = task->GetStats();
     CHI_CLIENT->DelTask(task);
     return stats;
   }
@@ -407,7 +407,7 @@ class Client : public ModuleClient {
     LPointer<PollTargetMetadataTask> task =
         AsyncPollTargetMetadata(dom_query);
     task->Wait();
-    std::vector<TargetStats> stats = task->stats_.vec();
+    std::vector<TargetStats> stats = task->GetStats();
     CHI_CLIENT->DelTask(task);
     return stats;
   }
@@ -418,7 +418,7 @@ class Client : public ModuleClient {
     LPointer<PollTagMetadataTask> task =
         AsyncPollTagMetadata(dom_query);
     task->Wait();
-    std::vector<TagInfo> stats = task->stats_.vec();
+    std::vector<TagInfo> stats = task->GetStats();
     CHI_CLIENT->DelTask(task);
     return stats;
   }
