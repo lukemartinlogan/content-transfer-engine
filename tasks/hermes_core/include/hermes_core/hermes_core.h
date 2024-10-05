@@ -382,34 +382,47 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(DestroyBlob);
 
   /** FlushData task */
-  void FlushData(const DomainQuery &dom_query) {
+  void FlushData(const DomainQuery &dom_query,
+                 int period_sec = 5) {
     LPointer<FlushDataTask> task =
-        AsyncFlushData(dom_query);
+        AsyncFlushData(dom_query, period_sec);
     task->Wait();
     CHI_CLIENT->DelTask(task);
-    return;
   }
   CHI_TASK_METHODS(FlushData);
 
   /** PollBlobMetadata task */
-  void PollBlobMetadata(const DomainQuery &dom_query) {
+  std::vector<BlobInfo> PollBlobMetadata(const DomainQuery &dom_query) {
     LPointer<PollBlobMetadataTask> task =
         AsyncPollBlobMetadata(dom_query);
     task->Wait();
+    std::vector<BlobInfo> stats = task->stats_.vec();
     CHI_CLIENT->DelTask(task);
-    return;
+    return stats;
   }
   CHI_TASK_METHODS(PollBlobMetadata);
 
   /** PollTargetMetadata task */
-  void PollTargetMetadata(const DomainQuery &dom_query) {
+  std::vector<TargetStats> PollTargetMetadata(const DomainQuery &dom_query) {
     LPointer<PollTargetMetadataTask> task =
         AsyncPollTargetMetadata(dom_query);
     task->Wait();
+    std::vector<TargetStats> stats = task->stats_.vec();
     CHI_CLIENT->DelTask(task);
-    return;
+    return stats;
   }
   CHI_TASK_METHODS(PollTargetMetadata);
+
+  /** PollTagMetadata task */
+  std::vector<TagInfo> PollTagMetadata(const DomainQuery &dom_query) {
+    LPointer<PollTagMetadataTask> task =
+        AsyncPollTagMetadata(dom_query);
+    task->Wait();
+    std::vector<TagInfo> stats = task->stats_.vec();
+    CHI_CLIENT->DelTask(task);
+    return stats;
+  }
+  CHI_TASK_METHODS(PollTagMetadata);
 
   /**
    * ========================================
@@ -426,7 +439,6 @@ class Client : public ModuleClient {
         AsyncRegisterStager(dom_query, bkt_id, tag_name, params);
     task->Wait();
     CHI_CLIENT->DelTask(task);
-    return;
   }
   CHI_TASK_METHODS(RegisterStager);
 
@@ -438,7 +450,6 @@ class Client : public ModuleClient {
         AsyncUnregisterStager(dom_query, bkt_id);
     task->Wait();
     CHI_CLIENT->DelTask(task);
-    return;
   }
   CHI_TASK_METHODS(UnregisterStager);
 
@@ -452,7 +463,6 @@ class Client : public ModuleClient {
         AsyncStageIn(dom_query, bkt_id, blob_name, score);
     task->Wait();
     CHI_CLIENT->DelTask(task);
-    return;
   }
   CHI_TASK_METHODS(StageIn);
 
@@ -468,7 +478,6 @@ class Client : public ModuleClient {
         AsyncStageOut(dom_query, bkt_id, blob_name, data, data_size, task_flags);
     task->Wait();
     CHI_CLIENT->DelTask(task);
-    return;
   }
   CHI_TASK_METHODS(StageOut);
 };

@@ -1389,14 +1389,16 @@ struct FlushDataTask : public Task, TaskFlags<TF_SRL_SYM> {
   FlushDataTask(hipc::Allocator *alloc,
                 const TaskNode &task_node,
                 const PoolId &pool_id,
-                const DomainQuery &dom_query) : Task(alloc) {
+                const DomainQuery &dom_query,
+                int period_sec) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kFlushData;
-    task_flags_.SetBits(0);
+    task_flags_.SetBits(TASK_LONG_RUNNING);
     dom_query_ = dom_query;
+    SetPeriodSec(period_sec);
 
     // Custom
   }
@@ -1502,6 +1504,50 @@ struct PollTargetMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** Duplicate message */
   void CopyStart(const PollTargetMetadataTask &other, bool deep) {
+    stats_ = other.stats_;
+  }
+
+  /** (De)serialize message call */
+  template<typename Ar>
+  void SerializeStart(Ar &ar) {
+  }
+
+  /** (De)serialize message return */
+  template<typename Ar>
+  void SerializeEnd(Ar &ar) {
+    ar(stats_);
+  }
+};
+
+/** The PollTagMetadataTask task */
+struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
+  hipc::vector<TagInfo> stats_;
+
+  /** SHM default constructor */
+  HSHM_ALWAYS_INLINE explicit
+  PollTagMetadataTask(hipc::Allocator *alloc)
+  : Task(alloc), stats_(alloc) {}
+
+  /** Emplace constructor */
+  HSHM_ALWAYS_INLINE explicit
+  PollTagMetadataTask(hipc::Allocator *alloc,
+                      const TaskNode &task_node,
+                      const PoolId &pool_id,
+                      const DomainQuery &dom_query)
+  : Task(alloc), stats_(alloc) {
+    // Initialize task
+    task_node_ = task_node;
+    prio_ = TaskPrio::kLowLatency;
+    pool_ = pool_id;
+    method_ = Method::kPollTagMetadata;
+    task_flags_.SetBits(0);
+    dom_query_ = dom_query;
+
+    // Custom
+  }
+
+  /** Duplicate message */
+  void CopyStart(const PollTagMetadataTask &other, bool deep) {
     stats_ = other.stats_;
   }
 

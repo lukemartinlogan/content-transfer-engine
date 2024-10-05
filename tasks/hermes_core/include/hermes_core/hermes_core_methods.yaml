@@ -35,8 +35,11 @@ kTagBlob: 41
 kBlobHasTag: 42
 kReorganizeBlob: 43
 kFlushData: 44
-kPollBlobMetadata: 45
-kPollTargetMetadata: 46
+
+# Metadata Methods
+kPollBlobMetadata: 50
+kPollTargetMetadata: 51
+kPollTagMetadata: 52
 
 # Staging Methods
 kRegisterStager: 60

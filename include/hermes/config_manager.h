@@ -24,11 +24,6 @@ namespace hermes {
 class ConfigurationManager {
  public:
   hermes::Client mdm_;
-//  mdm::Client mdm_;
-//  bucket_mdm::Client bkt_mdm_;
-//  blob_mdm::Client blob_mdm_;
-//  data_stager::Client stager_mdm_;
-//  data_op::Client op_mdm_;
   ServerConfig server_config_;
   ClientConfig client_config_;
   bool is_initialized_ = false;

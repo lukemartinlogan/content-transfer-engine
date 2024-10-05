@@ -13,6 +13,7 @@
 #include "chimaera_admin/chimaera_admin.h"
 #include "chimaera/api/chimaera_runtime.h"
 #include "chimaera/work_orchestrator/work_orchestrator.h"
+#include "chimaera/monitor/monitor.h"
 #include "bdev/bdev.h"
 #include "hermes_core/hermes_core.h"
 #include "hermes/hermes.h"
@@ -49,6 +50,7 @@ class Server : public Module {
   std::atomic<u64> id_alloc_;
   std::vector<TargetInfo> targets_;
   std::unordered_map<TargetId, TargetInfo*> target_map_;
+  chi::RollingAverage monitor_[Method::kCount];
   TargetInfo *fallback_target_;
 
  private:
@@ -763,6 +765,7 @@ class Server : public Module {
       CHI_CLIENT->DelTask(read_task);
     }
     task->data_size_ = buf_off;
+    blob_info.UpdateReadStats();
     task->SetModuleComplete();
   }
   void MonitorGetBlob(MonitorModeId mode, GetBlobTask *task, RunContext &rctx) {
@@ -1016,6 +1019,27 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorPollTargetMetadata(MonitorModeId mode, PollTargetMetadataTask *task, RunContext &rctx) {
+  }
+
+  /** The PollTagMetadata method */
+  void PollTagMetadata(PollTagMetadataTask *task, RunContext &rctx) {
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
+    TAG_MAP_T &tag_map = tls.tag_map_;
+    std::vector<TagInfo> stats;
+    for (auto &it : tag_map) {
+      TagInfo &tag_info = it.second;
+      stats.emplace_back(tag_info);
+    }
+    task->stats_ = stats;
+    task->SetModuleComplete();
+  }
+  void MonitorPollTagMetadata(MonitorModeId mode, PollTagMetadataTask *task, RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kReplicaAgg: {
+        std::vector<LPointer<Task>> &replicas = *rctx.replicas_;
+      }
+    }
   }
 
   /**
