@@ -540,6 +540,7 @@ class Server : public Module {
       return;
     }
     BlobInfo &blob_info = it->second;
+    chi::ScopedCoRwWriteLock blob_info_lock(blob_info.lock_);
 
     // Stage Blob
     if (task->flags_.Any(HERMES_SHOULD_STAGE) && blob_info.last_flush_ == 0) {
@@ -715,6 +716,7 @@ class Server : public Module {
     }
     BLOB_MAP_T &blob_map = tls.blob_map_;
     BlobInfo &blob_info = blob_map[task->blob_id_];
+    chi::ScopedCoRwReadLock blob_info_lock(blob_info.lock_);
 
     // Stage Blob
     if (task->flags_.Any(HERMES_SHOULD_STAGE) && blob_info.last_flush_ == 0) {
@@ -948,6 +950,10 @@ class Server : public Module {
           flush_info.mod_count_ > blob_info.last_flush_) {
         HILOG(kDebug, "Flushing blob {} (mod_count={}, last_flush={})",
               blob_info.blob_id_, flush_info.mod_count_, blob_info.last_flush_);
+        // If the worker is being flushed
+        if (rctx.worker_props_.Any(CHI_WORKER_IS_FLUSHING)) {
+          ++rctx.flush_->count_;
+        }
         LPointer<char> data = CHI_CLIENT->AllocateBuffer(
             blob_info.blob_size_);
         client_.GetBlob(
@@ -956,6 +962,10 @@ class Server : public Module {
             blob_info.blob_id_,
             0, blob_info.blob_size_,
             data.shm_, 0);
+        adapter::BlobPlacement plcmnt;
+        plcmnt.DecodeBlobName(blob_info.name_, 4096);
+        HILOG(kInfo, "Flushing blob {} with first entry {}",
+              plcmnt.page_, (int)data.ptr_[0]);
         client_.StageOut(
             chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
             blob_info.tag_id_,
