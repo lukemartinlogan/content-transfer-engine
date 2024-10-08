@@ -535,9 +535,12 @@ TEST_CASE("TestHermesDataStager") {
     }
   }
   fclose(file);
+  MPI_Barrier(MPI_COMM_WORLD);
 
   // Remove the file
-  stdfs::remove(path);
+  if (rank == 0) {
+    stdfs::remove(path);
+  }
 }
 
 //TEST_CASE("TestHermesDataOp") {
