@@ -535,6 +535,9 @@ TEST_CASE("TestHermesDataStager") {
     }
   }
   fclose(file);
+
+  // Remove the file
+  stdfs::remove(path);
 }
 
 //TEST_CASE("TestHermesDataOp") {
