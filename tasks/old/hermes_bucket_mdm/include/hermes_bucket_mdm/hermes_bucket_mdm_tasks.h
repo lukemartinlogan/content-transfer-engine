@@ -30,11 +30,11 @@ using chi::Admin::CreateTaskStateTask;
 struct ConstructTask : public CreateTaskStateTask {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  ConstructTask(hipc::Allocator *alloc) : CreateTaskStateTask(alloc) {}
+  ConstructTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : CreateTaskStateTask(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  ConstructTask(hipc::Allocator *alloc,
+  ConstructTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                 const TaskNode &task_node,
                 const DomainQuery &dom_query,
                 const std::string &state_name,
@@ -53,11 +53,11 @@ struct UpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  UpdateSizeTask(hipc::Allocator *alloc) : Task(alloc) {}
+  UpdateSizeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  UpdateSizeTask(hipc::Allocator *alloc,
+  UpdateSizeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
               const TaskNode &task_node,
               const DomainQuery &dom_query,
               const PoolId &pool_id,
@@ -102,7 +102,7 @@ class AppendBlobPhase {
 struct AppendInfo {
   size_t blob_off_;
   size_t data_size_;
-  hshm::charbuf blob_name_;
+  chi::charbuf blob_name_;
   BlobId blob_id_;
   blob_mdm::GetOrCreateBlobIdTask *blob_id_task_;
   blob_mdm::PutBlobTask *put_task_;
@@ -121,11 +121,11 @@ struct AppendBlobSchemaTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  AppendBlobSchemaTask(hipc::Allocator *alloc) : Task(alloc) {}
+  AppendBlobSchemaTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  AppendBlobSchemaTask(hipc::Allocator *alloc,
+  AppendBlobSchemaTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                        const TaskNode &task_node,
                        const DomainQuery &dom_query,
                        const PoolId &pool_id,
@@ -173,11 +173,11 @@ struct AppendBlobTask : public Task, TaskFlags<TF_LOCAL> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  AppendBlobTask(hipc::Allocator *alloc) : Task(alloc) {}
+  AppendBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  AppendBlobTask(hipc::Allocator *alloc,
+  AppendBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                  const TaskNode &task_node,
                  const DomainQuery &dom_query,
                  const PoolId &pool_id,
@@ -216,17 +216,17 @@ struct AppendBlobTask : public Task, TaskFlags<TF_LOCAL> {
 
 /** A task to collect blob metadata */
 struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM_START | TF_SRL_ASYM_END | TF_REPLICA> {
-  OUT hipc::string my_tag_mdms_;
-  TEMP hipc::vector<hipc::string> tag_mdms_;
+  OUT chi::string my_tag_mdms_;
+  TEMP hipc::vector<chi::string> tag_mdms_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  PollTagMetadataTask(hipc::Allocator *alloc) : Task(alloc) {
+  PollTagMetadataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {
   }
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  PollTagMetadataTask(hipc::Allocator *alloc,
+  PollTagMetadataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                        const TaskNode &task_node,
                        const PoolId &pool_id) : Task(alloc) {
     // Initialize task
@@ -263,7 +263,7 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM_START | TF_SRL_AS
   /** Get combined output of all replicas */
   std::vector<TagInfo> MergeTagMetadata() {
     std::vector<TagInfo> tag_mdms;
-    for (const hipc::string &srl : *tag_mdms_) {
+    for (const chi::string &srl : *tag_mdms_) {
       DeserializeTagMetadata(srl.str(), tag_mdms);
     }
     return tag_mdms;
@@ -277,7 +277,7 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM_START | TF_SRL_AS
   }
 
   /** Duplicate message */
-  void Dup(hipc::Allocator *alloc, PollTagMetadataTask &other) {
+  void Dup(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, PollTagMetadataTask &other) {
     task_dup(other);
   }
 

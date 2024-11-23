@@ -276,138 +276,138 @@ void Monitor(MonitorModeId mode, MethodId method, Task *task, RunContext &rctx) 
   }
 }
 /** Delete a task */
-void Del(u32 method, Task *task) override {
+void Del(const hipc::MemContext &mctx, u32 method, Task *task) override {
   switch (method) {
     case Method::kCreate: {
-      CHI_CLIENT->DelTask<CreateTask>(reinterpret_cast<CreateTask *>(task));
+      CHI_CLIENT->DelTask<CreateTask>(mctx, reinterpret_cast<CreateTask *>(task));
       break;
     }
     case Method::kDestroy: {
-      CHI_CLIENT->DelTask<DestroyTask>(reinterpret_cast<DestroyTask *>(task));
+      CHI_CLIENT->DelTask<DestroyTask>(mctx, reinterpret_cast<DestroyTask *>(task));
       break;
     }
     case Method::kGetOrCreateTag: {
-      CHI_CLIENT->DelTask<GetOrCreateTagTask>(reinterpret_cast<GetOrCreateTagTask *>(task));
+      CHI_CLIENT->DelTask<GetOrCreateTagTask>(mctx, reinterpret_cast<GetOrCreateTagTask *>(task));
       break;
     }
     case Method::kGetTagId: {
-      CHI_CLIENT->DelTask<GetTagIdTask>(reinterpret_cast<GetTagIdTask *>(task));
+      CHI_CLIENT->DelTask<GetTagIdTask>(mctx, reinterpret_cast<GetTagIdTask *>(task));
       break;
     }
     case Method::kGetTagName: {
-      CHI_CLIENT->DelTask<GetTagNameTask>(reinterpret_cast<GetTagNameTask *>(task));
+      CHI_CLIENT->DelTask<GetTagNameTask>(mctx, reinterpret_cast<GetTagNameTask *>(task));
       break;
     }
     case Method::kDestroyTag: {
-      CHI_CLIENT->DelTask<DestroyTagTask>(reinterpret_cast<DestroyTagTask *>(task));
+      CHI_CLIENT->DelTask<DestroyTagTask>(mctx, reinterpret_cast<DestroyTagTask *>(task));
       break;
     }
     case Method::kTagAddBlob: {
-      CHI_CLIENT->DelTask<TagAddBlobTask>(reinterpret_cast<TagAddBlobTask *>(task));
+      CHI_CLIENT->DelTask<TagAddBlobTask>(mctx, reinterpret_cast<TagAddBlobTask *>(task));
       break;
     }
     case Method::kTagRemoveBlob: {
-      CHI_CLIENT->DelTask<TagRemoveBlobTask>(reinterpret_cast<TagRemoveBlobTask *>(task));
+      CHI_CLIENT->DelTask<TagRemoveBlobTask>(mctx, reinterpret_cast<TagRemoveBlobTask *>(task));
       break;
     }
     case Method::kTagClearBlobs: {
-      CHI_CLIENT->DelTask<TagClearBlobsTask>(reinterpret_cast<TagClearBlobsTask *>(task));
+      CHI_CLIENT->DelTask<TagClearBlobsTask>(mctx, reinterpret_cast<TagClearBlobsTask *>(task));
       break;
     }
     case Method::kTagGetSize: {
-      CHI_CLIENT->DelTask<TagGetSizeTask>(reinterpret_cast<TagGetSizeTask *>(task));
+      CHI_CLIENT->DelTask<TagGetSizeTask>(mctx, reinterpret_cast<TagGetSizeTask *>(task));
       break;
     }
     case Method::kTagUpdateSize: {
-      CHI_CLIENT->DelTask<TagUpdateSizeTask>(reinterpret_cast<TagUpdateSizeTask *>(task));
+      CHI_CLIENT->DelTask<TagUpdateSizeTask>(mctx, reinterpret_cast<TagUpdateSizeTask *>(task));
       break;
     }
     case Method::kTagGetContainedBlobIds: {
-      CHI_CLIENT->DelTask<TagGetContainedBlobIdsTask>(reinterpret_cast<TagGetContainedBlobIdsTask *>(task));
+      CHI_CLIENT->DelTask<TagGetContainedBlobIdsTask>(mctx, reinterpret_cast<TagGetContainedBlobIdsTask *>(task));
       break;
     }
     case Method::kGetOrCreateBlobId: {
-      CHI_CLIENT->DelTask<GetOrCreateBlobIdTask>(reinterpret_cast<GetOrCreateBlobIdTask *>(task));
+      CHI_CLIENT->DelTask<GetOrCreateBlobIdTask>(mctx, reinterpret_cast<GetOrCreateBlobIdTask *>(task));
       break;
     }
     case Method::kGetBlobId: {
-      CHI_CLIENT->DelTask<GetBlobIdTask>(reinterpret_cast<GetBlobIdTask *>(task));
+      CHI_CLIENT->DelTask<GetBlobIdTask>(mctx, reinterpret_cast<GetBlobIdTask *>(task));
       break;
     }
     case Method::kGetBlobName: {
-      CHI_CLIENT->DelTask<GetBlobNameTask>(reinterpret_cast<GetBlobNameTask *>(task));
+      CHI_CLIENT->DelTask<GetBlobNameTask>(mctx, reinterpret_cast<GetBlobNameTask *>(task));
       break;
     }
     case Method::kGetBlobSize: {
-      CHI_CLIENT->DelTask<GetBlobSizeTask>(reinterpret_cast<GetBlobSizeTask *>(task));
+      CHI_CLIENT->DelTask<GetBlobSizeTask>(mctx, reinterpret_cast<GetBlobSizeTask *>(task));
       break;
     }
     case Method::kGetBlobScore: {
-      CHI_CLIENT->DelTask<GetBlobScoreTask>(reinterpret_cast<GetBlobScoreTask *>(task));
+      CHI_CLIENT->DelTask<GetBlobScoreTask>(mctx, reinterpret_cast<GetBlobScoreTask *>(task));
       break;
     }
     case Method::kGetBlobBuffers: {
-      CHI_CLIENT->DelTask<GetBlobBuffersTask>(reinterpret_cast<GetBlobBuffersTask *>(task));
+      CHI_CLIENT->DelTask<GetBlobBuffersTask>(mctx, reinterpret_cast<GetBlobBuffersTask *>(task));
       break;
     }
     case Method::kPutBlob: {
-      CHI_CLIENT->DelTask<PutBlobTask>(reinterpret_cast<PutBlobTask *>(task));
+      CHI_CLIENT->DelTask<PutBlobTask>(mctx, reinterpret_cast<PutBlobTask *>(task));
       break;
     }
     case Method::kGetBlob: {
-      CHI_CLIENT->DelTask<GetBlobTask>(reinterpret_cast<GetBlobTask *>(task));
+      CHI_CLIENT->DelTask<GetBlobTask>(mctx, reinterpret_cast<GetBlobTask *>(task));
       break;
     }
     case Method::kTruncateBlob: {
-      CHI_CLIENT->DelTask<TruncateBlobTask>(reinterpret_cast<TruncateBlobTask *>(task));
+      CHI_CLIENT->DelTask<TruncateBlobTask>(mctx, reinterpret_cast<TruncateBlobTask *>(task));
       break;
     }
     case Method::kDestroyBlob: {
-      CHI_CLIENT->DelTask<DestroyBlobTask>(reinterpret_cast<DestroyBlobTask *>(task));
+      CHI_CLIENT->DelTask<DestroyBlobTask>(mctx, reinterpret_cast<DestroyBlobTask *>(task));
       break;
     }
     case Method::kTagBlob: {
-      CHI_CLIENT->DelTask<TagBlobTask>(reinterpret_cast<TagBlobTask *>(task));
+      CHI_CLIENT->DelTask<TagBlobTask>(mctx, reinterpret_cast<TagBlobTask *>(task));
       break;
     }
     case Method::kBlobHasTag: {
-      CHI_CLIENT->DelTask<BlobHasTagTask>(reinterpret_cast<BlobHasTagTask *>(task));
+      CHI_CLIENT->DelTask<BlobHasTagTask>(mctx, reinterpret_cast<BlobHasTagTask *>(task));
       break;
     }
     case Method::kReorganizeBlob: {
-      CHI_CLIENT->DelTask<ReorganizeBlobTask>(reinterpret_cast<ReorganizeBlobTask *>(task));
+      CHI_CLIENT->DelTask<ReorganizeBlobTask>(mctx, reinterpret_cast<ReorganizeBlobTask *>(task));
       break;
     }
     case Method::kFlushData: {
-      CHI_CLIENT->DelTask<FlushDataTask>(reinterpret_cast<FlushDataTask *>(task));
+      CHI_CLIENT->DelTask<FlushDataTask>(mctx, reinterpret_cast<FlushDataTask *>(task));
       break;
     }
     case Method::kPollBlobMetadata: {
-      CHI_CLIENT->DelTask<PollBlobMetadataTask>(reinterpret_cast<PollBlobMetadataTask *>(task));
+      CHI_CLIENT->DelTask<PollBlobMetadataTask>(mctx, reinterpret_cast<PollBlobMetadataTask *>(task));
       break;
     }
     case Method::kPollTargetMetadata: {
-      CHI_CLIENT->DelTask<PollTargetMetadataTask>(reinterpret_cast<PollTargetMetadataTask *>(task));
+      CHI_CLIENT->DelTask<PollTargetMetadataTask>(mctx, reinterpret_cast<PollTargetMetadataTask *>(task));
       break;
     }
     case Method::kPollTagMetadata: {
-      CHI_CLIENT->DelTask<PollTagMetadataTask>(reinterpret_cast<PollTagMetadataTask *>(task));
+      CHI_CLIENT->DelTask<PollTagMetadataTask>(mctx, reinterpret_cast<PollTagMetadataTask *>(task));
       break;
     }
     case Method::kRegisterStager: {
-      CHI_CLIENT->DelTask<RegisterStagerTask>(reinterpret_cast<RegisterStagerTask *>(task));
+      CHI_CLIENT->DelTask<RegisterStagerTask>(mctx, reinterpret_cast<RegisterStagerTask *>(task));
       break;
     }
     case Method::kUnregisterStager: {
-      CHI_CLIENT->DelTask<UnregisterStagerTask>(reinterpret_cast<UnregisterStagerTask *>(task));
+      CHI_CLIENT->DelTask<UnregisterStagerTask>(mctx, reinterpret_cast<UnregisterStagerTask *>(task));
       break;
     }
     case Method::kStageIn: {
-      CHI_CLIENT->DelTask<StageInTask>(reinterpret_cast<StageInTask *>(task));
+      CHI_CLIENT->DelTask<StageInTask>(mctx, reinterpret_cast<StageInTask *>(task));
       break;
     }
     case Method::kStageOut: {
-      CHI_CLIENT->DelTask<StageOutTask>(reinterpret_cast<StageOutTask *>(task));
+      CHI_CLIENT->DelTask<StageOutTask>(mctx, reinterpret_cast<StageOutTask *>(task));
       break;
     }
   }
@@ -753,7 +753,9 @@ void NewCopyStart(u32 method, const Task *orig_task, LPointer<Task> &dup_task, b
   }
 }
 /** Serialize a task when initially pushing into remote */
-void SaveStart(u32 method, BinaryOutputArchive<true> &ar, Task *task) override {
+void SaveStart(
+    u32 method, BinaryOutputArchive<true> &ar,
+    Task *task) override {
   switch (method) {
     case Method::kCreate: {
       ar << *reinterpret_cast<CreateTask*>(task);
@@ -890,171 +892,204 @@ void SaveStart(u32 method, BinaryOutputArchive<true> &ar, Task *task) override {
   }
 }
 /** Deserialize a task when popping from remote queue */
-TaskPointer LoadStart(u32 method, BinaryInputArchive<true> &ar) override {
+TaskPointer LoadStart(    u32 method, BinaryInputArchive<true> &ar) override {
   TaskPointer task_ptr;
   switch (method) {
     case Method::kCreate: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<CreateTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<CreateTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<CreateTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kDestroy: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<DestroyTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<DestroyTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<DestroyTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetOrCreateTag: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetOrCreateTagTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetOrCreateTagTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetOrCreateTagTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetTagId: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetTagIdTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetTagIdTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetTagIdTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetTagName: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetTagNameTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetTagNameTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetTagNameTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kDestroyTag: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<DestroyTagTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<DestroyTagTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<DestroyTagTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTagAddBlob: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagAddBlobTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagAddBlobTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<TagAddBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTagRemoveBlob: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagRemoveBlobTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagRemoveBlobTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<TagRemoveBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTagClearBlobs: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagClearBlobsTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagClearBlobsTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<TagClearBlobsTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTagGetSize: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagGetSizeTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagGetSizeTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<TagGetSizeTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTagUpdateSize: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagUpdateSizeTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagUpdateSizeTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<TagUpdateSizeTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTagGetContainedBlobIds: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagGetContainedBlobIdsTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagGetContainedBlobIdsTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<TagGetContainedBlobIdsTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetOrCreateBlobId: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetOrCreateBlobIdTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetOrCreateBlobIdTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetOrCreateBlobIdTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlobId: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobIdTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobIdTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobIdTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlobName: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobNameTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobNameTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobNameTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlobSize: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobSizeTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobSizeTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobSizeTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlobScore: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobScoreTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobScoreTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobScoreTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlobBuffers: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobBuffersTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobBuffersTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobBuffersTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kPutBlob: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PutBlobTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PutBlobTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<PutBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlob: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTruncateBlob: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TruncateBlobTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TruncateBlobTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<TruncateBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kDestroyBlob: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<DestroyBlobTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<DestroyBlobTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<DestroyBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTagBlob: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagBlobTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagBlobTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<TagBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kBlobHasTag: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<BlobHasTagTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<BlobHasTagTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<BlobHasTagTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kReorganizeBlob: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<ReorganizeBlobTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<ReorganizeBlobTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<ReorganizeBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kFlushData: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<FlushDataTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<FlushDataTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<FlushDataTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kPollBlobMetadata: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PollBlobMetadataTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PollBlobMetadataTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<PollBlobMetadataTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kPollTargetMetadata: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PollTargetMetadataTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PollTargetMetadataTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<PollTargetMetadataTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kPollTagMetadata: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PollTagMetadataTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PollTagMetadataTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<PollTagMetadataTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kRegisterStager: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<RegisterStagerTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<RegisterStagerTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<RegisterStagerTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kUnregisterStager: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<UnregisterStagerTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<UnregisterStagerTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<UnregisterStagerTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kStageIn: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<StageInTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<StageInTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<StageInTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kStageOut: {
-      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<StageOutTask>(task_ptr.shm_);
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<StageOutTask>(
+             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<StageOutTask*>(task_ptr.ptr_);
       break;
     }

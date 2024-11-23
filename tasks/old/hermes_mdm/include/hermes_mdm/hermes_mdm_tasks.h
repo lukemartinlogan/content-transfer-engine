@@ -23,15 +23,15 @@ namespace hermes::mdm {
  * */
 using chi::Admin::CreateTaskStateTask;
 struct ConstructTask : public CreateTaskStateTask {
-  IN hipc::string server_config_path_;
+  IN chi::string server_config_path_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  ConstructTask(hipc::Allocator *alloc) : CreateTaskStateTask(alloc) {}
+  ConstructTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : CreateTaskStateTask(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  ConstructTask(hipc::Allocator *alloc,
+  ConstructTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                 const TaskNode &task_node,
                 const DomainQuery &dom_query,
                 const std::string &state_name,
@@ -62,11 +62,11 @@ using chi::Admin::DestroyTaskStateTask;
 struct DestructTask : public DestroyTaskStateTask {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  DestructTask(hipc::Allocator *alloc) : DestroyTaskStateTask(alloc) {}
+  DestructTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : DestroyTaskStateTask(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  DestructTask(hipc::Allocator *alloc,
+  DestructTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                const TaskNode &task_node,
                const DomainQuery &dom_query,
                const PoolId &pool_id)
@@ -74,7 +74,7 @@ struct DestructTask : public DestroyTaskStateTask {
 
   /** Create group */
   HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
+  u32 GetGroup(chi::charbuf &group) {
     return TASK_UNORDERED;
   }
 };

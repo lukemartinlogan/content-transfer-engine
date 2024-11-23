@@ -37,7 +37,7 @@ class BinaryFileStager : public AbstractStager {
   static std::string BuildFileParams(size_t page_size,
                                      u32 flags = 0,
                                      size_t elmt_size = 1) {
-    hshm::charbuf params(32);
+    chi::charbuf params(32);
     page_size = (page_size / elmt_size) * elmt_size;
     chi::LocalSerialize srl(params);
     srl << std::string("file");
@@ -47,7 +47,8 @@ class BinaryFileStager : public AbstractStager {
   }
 
   /** Create the data stager payload */
-  void RegisterStager(const std::string &tag_name,
+  void RegisterStager(const hipc::MemContext &mctx,
+                      const std::string &tag_name,
                       const std::string &params) override {
     std::string protocol;
     chi::LocalDeserialize srl(params);
@@ -58,7 +59,8 @@ class BinaryFileStager : public AbstractStager {
   }
 
   /** Stage data in from remote source */
-  void StageIn(hermes::Client &client,
+  void StageIn(const hipc::MemContext &mctx,
+               hermes::Client &client,
                const TagId &tag_id,
                const std::string &blob_name,
                float score) override {
@@ -72,7 +74,7 @@ class BinaryFileStager : public AbstractStager {
           "Attempting to stage {} bytes from the backend file {} at offset {}",
           page_size_, path_, plcmnt.bucket_off_);
     // Stage in the data from the file
-    LPointer<char> blob = CHI_CLIENT->AllocateBuffer(page_size_);
+    LPointer<char> blob = CHI_CLIENT->AllocateBuffer(mctx, page_size_);
     int fd = HERMES_POSIX_API->open(path_.c_str(), O_CREAT | O_RDWR, 0666);
     if (fd < 0) {
       HELOG(kError, "Failed to open file {}", path_);
@@ -99,16 +101,17 @@ class BinaryFileStager : public AbstractStager {
     hapi::Context ctx;
     ctx.flags_.SetBits(HERMES_SHOULD_STAGE);
     client.PutBlob(
-        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        mctx, chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
         tag_id,
-        hshm::to_charbuf(blob_name),
+        chi::charbuf(blob_name),
         hermes::BlobId::GetNull(),
         0, real_size, blob.shm_, score,
         TASK_DATA_OWNER, 0, ctx);
   }
 
   /** Stage data out to remote source */
-  void StageOut(hermes::Client &client,
+  void StageOut(const hipc::MemContext &mctx,
+                hermes::Client &client,
                 const TagId &tag_id,
                 const std::string &blob_name,
                 hipc::Pointer &data_p,
@@ -141,7 +144,8 @@ class BinaryFileStager : public AbstractStager {
           real_size, path_);
   }
 
-  void UpdateSize(hermes::Client &client,
+  void UpdateSize(const hipc::MemContext &mctx,
+                  hermes::Client &client,
                   const TagId &tag_id,
                   const std::string &blob_name,
                   size_t blob_off,
@@ -149,7 +153,7 @@ class BinaryFileStager : public AbstractStager {
     adapter::BlobPlacement p;
     p.DecodeBlobName(blob_name, page_size_);
     client.AsyncTagUpdateSize(
-        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        mctx, chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
         tag_id,
         p.bucket_off_ + blob_off + data_size,
         UpdateSizeMode::kCap);

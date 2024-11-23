@@ -17,18 +17,22 @@ class AbstractStager {
   AbstractStager() = default;
   ~AbstractStager() = default;
 
-  virtual void RegisterStager(const std::string &tag_name,
+  virtual void RegisterStager(const hipc::MemContext &mctx,
+                              const std::string &tag_name,
                               const std::string &params) = 0;
-  virtual void StageIn(hermes::Client &client,
+  virtual void StageIn(const hipc::MemContext &mctx,
+                       hermes::Client &client,
                        const TagId &tag_id,
                        const std::string &blob_name,
                        float score) = 0;
-  virtual void StageOut(hermes::Client &client,
+  virtual void StageOut(const hipc::MemContext &mctx,
+                        hermes::Client &client,
                         const TagId &tag_id,
                         const std::string &blob_name,
                         hipc::Pointer &data_p,
                         size_t data_size) = 0;
-  virtual void UpdateSize(hermes::Client &client,
+  virtual void UpdateSize(const hipc::MemContext &mctx,
+                          hermes::Client &client,
                           const TagId &tag_id,
                           const std::string &blob_name,
                           size_t blob_off,

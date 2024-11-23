@@ -25,6 +25,7 @@ class Bucket {
   TagId id_;
   std::string name_;
   Context ctx_;
+  hipc::MemContext mctx_;
   bitfield32_t flags_;
 
  public:
@@ -38,13 +39,15 @@ class Bucket {
    * Called from hermes.h in GetBucket(). Should not
    * be used directly.
    * */
-  explicit Bucket(const std::string &bkt_name,
+  explicit Bucket(const hipc::MemContext &mctx,
+                  const std::string &bkt_name,
                   size_t backend_size = 0,
                   u32 flags = 0) {
+    mctx_ = mctx;
     mdm_ = &HERMES_CONF->mdm_;
     id_ = mdm_->GetOrCreateTag(
-        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        hshm::charbuf(bkt_name), true,
+        mctx_, chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        chi::charbuf(bkt_name), true,
         backend_size, flags);
     name_ = bkt_name;
   }
@@ -55,14 +58,17 @@ class Bucket {
    * Called from hermes.h in GetBucket(). Should not
    * be used directly.
    * */
-  explicit Bucket(const std::string &bkt_name,
+  explicit Bucket(const hipc::MemContext &mctx,
+                  const std::string &bkt_name,
                   Context &ctx,
                   size_t backend_size = 0,
                   u32 flags = 0) {
+    mctx_ = mctx;
     mdm_ = &HERMES_CONF->mdm_;
     id_ = mdm_->GetOrCreateTag(
+        mctx_,
         chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        hshm::charbuf(bkt_name), true,
+        chi::charbuf(bkt_name), true,
         backend_size, flags, ctx);
     name_ = bkt_name;
   }
@@ -125,6 +131,7 @@ class Bucket {
    * */
   size_t GetSize() {
     return mdm_->GetSize(
+        mctx_,
         DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
         id_);
   }
@@ -140,7 +147,7 @@ class Bucket {
    * Rename this bucket
    * */
   void Rename(const std::string &new_bkt_name) {
-    // mdm_->RenameTag(id_, hshm::to_charbuf(new_bkt_name));
+    // mdm_->RenameTag(id_, chi::charbuf(new_bkt_name));
   }
 
   /**
@@ -148,7 +155,7 @@ class Bucket {
    * */
   void Clear() {
     mdm_->TagClearBlobs(
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
         id_);
   }
 
@@ -157,7 +164,7 @@ class Bucket {
    * */
   void Destroy() {
     mdm_->DestroyTag(
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
         id_);
   }
 
@@ -182,8 +189,8 @@ class Bucket {
    * */
   BlobId GetBlobId(const std::string &blob_name) {
     return mdm_->GetBlobId(
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, hshm::to_charbuf(blob_name));
+        mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, chi::charbuf(blob_name));
   }
 
   /**
@@ -195,7 +202,7 @@ class Bucket {
    * */
   std::string GetBlobName(const BlobId &blob_id) {
     return mdm_->GetBlobName(
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
         id_, blob_id);
   }
 
@@ -208,7 +215,7 @@ class Bucket {
    * */
   float GetBlobScore(const BlobId &blob_id) {
     return mdm_->GetBlobScore(
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
         id_, blob_id);
   }
 
@@ -218,7 +225,7 @@ class Bucket {
   Status TagBlob(BlobId &blob_id,
                  TagId &tag_id) {
     mdm_->TagAddBlob(
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
         tag_id, blob_id);
     return Status();
   }
@@ -238,7 +245,7 @@ class Bucket {
     BlobId blob_id = orig_blob_id;
     bitfield32_t hermes_flags;
     // Put to shared memory
-    hshm::charbuf blob_name_buf = hshm::to_charbuf(blob_name);
+    chi::charbuf blob_name_buf(blob_name);
     if constexpr (!ASYNC) {
       if (blob_id.IsNull()) {
         hermes_flags.SetBits(HERMES_GET_BLOB_ID);
@@ -252,7 +259,7 @@ class Bucket {
     }
     LPointer<PutBlobTask> task;
     task = mdm_->AsyncPutBlob(
-        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        mctx_, chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
         id_, blob_name_buf,
         blob_id, blob_off, blob_size,
         blob.shm_, ctx.blob_score_,
@@ -262,7 +269,7 @@ class Bucket {
       if (hermes_flags.Any(HERMES_GET_BLOB_ID)) {
         task->Wait();
         blob_id = task->blob_id_;
-        CHI_CLIENT->DelTask(task);
+        CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
       }
     }
     return blob_id;
@@ -277,7 +284,7 @@ class Bucket {
                            const BlobT &blob,
                            size_t blob_off,
                            Context &ctx) {
-    LPointer<char> blob_p = CHI_CLIENT->AllocateBuffer(blob.size());
+    LPointer<char> blob_p = CHI_CLIENT->AllocateBuffer(mctx_, blob.size());
     memcpy(blob_p.ptr_, blob.data(), blob.size());
     return ShmBasePut<PARTIAL, ASYNC>(
         blob_name, orig_blob_id, blob_p,
@@ -426,8 +433,8 @@ class Bucket {
                       float score,
                       const Context &ctx = Context()) {
     mdm_->AsyncReorganizeBlob(
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, hshm::charbuf(name), BlobId::GetNull(), score, true, ctx);
+        mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, chi::charbuf(name), BlobId::GetNull(), score, true, ctx);
   }
 
   /**
@@ -437,8 +444,8 @@ class Bucket {
                       float score,
                       const Context &ctx = Context()) {
     mdm_->AsyncReorganizeBlob(
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, hshm::charbuf(""), blob_id, score, true, ctx);
+        mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, chi::charbuf(""), blob_id, score, true, ctx);
   }
 
   /**
@@ -452,8 +459,8 @@ class Bucket {
                       Context &ctx) {
     ctx.node_id_ = node_id;
     mdm_->AsyncReorganizeBlob(
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, hshm::charbuf(""), blob_id, score, true, ctx);
+        mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, chi::charbuf(""), blob_id, score, true, ctx);
   }
 
   /**
@@ -461,8 +468,8 @@ class Bucket {
    * */
   size_t GetBlobSize(const BlobId &blob_id) {
     return mdm_->GetBlobSize(
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, hshm::charbuf(""), blob_id);
+        mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, chi::charbuf(""), blob_id);
   }
 
   /**
@@ -470,8 +477,8 @@ class Bucket {
    * */
   size_t GetBlobSize(const std::string &name) {
     return mdm_->GetBlobSize(
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, hshm::charbuf(name), BlobId::GetNull());
+        mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, chi::charbuf(name), BlobId::GetNull());
   }
 
   /**
@@ -493,8 +500,8 @@ class Bucket {
     // Get from shared memory
     LPointer<GetBlobTask> task;
     task = mdm_->AsyncGetBlob(
-        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, hshm::to_charbuf(blob_name),
+        mctx_, chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, chi::charbuf(blob_name),
         blob_id, blob_off,
         blob_size, blob.shm_,
         hermes_flags.bits_, ctx);
@@ -518,7 +525,7 @@ class Bucket {
     }
     // Get from shared memory
     size_t data_size = blob.size();
-    LPointer data_p = CHI_CLIENT->AllocateBuffer(blob.size());
+    LPointer data_p = CHI_CLIENT->AllocateBuffer(mctx_, blob.size());
     return ShmAsyncBaseGet(blob_name, blob_id, data_p,
                            blob_off, data_size, ctx);
   }
@@ -539,7 +546,7 @@ class Bucket {
                            blob_off, blob_size, ctx);
     task->Wait();
     blob_id = task->blob_id_;
-    CHI_CLIENT->DelTask(task);
+    CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
     return blob_id;
   }
 
@@ -555,8 +562,8 @@ class Bucket {
     size_t data_size = blob.size();
     if (blob.size() == 0) {
       data_size = mdm_->GetBlobSize(
-          DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-          id_, hshm::charbuf(blob_name),
+          mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+          id_, chi::charbuf(blob_name),
           orig_blob_id);
       blob.resize(data_size);
     }
@@ -570,7 +577,7 @@ class Bucket {
     memcpy(blob.data(), data, task->data_size_);
     blob.resize(task->data_size_);
     CHI_CLIENT->FreeBuffer(task->data_);
-    CHI_CLIENT->DelTask(task);
+    CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
     return blob_id;
   }
 
@@ -688,8 +695,8 @@ class Bucket {
    * */
   bool ContainsBlob(const std::string &blob_name) {
     BlobId new_blob_id = mdm_->GetBlobId(
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, hshm::to_charbuf(blob_name));
+        mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        id_, chi::charbuf(blob_name));
     return !new_blob_id.IsNull();
   }
 
@@ -699,7 +706,7 @@ class Bucket {
   void RenameBlob(const BlobId &blob_id,
                   std::string new_blob_name,
                   Context &ctx) {
-    // mdm_->RenameBlob(id_, blob_id, hshm::to_charbuf(new_blob_name));
+    // mdm_->RenameBlob(id_, blob_id, chi::charbuf(new_blob_name));
   }
 
   /**
@@ -707,7 +714,7 @@ class Bucket {
    * */
   void DestroyBlob(const BlobId &blob_id, Context &ctx) {
     mdm_->DestroyBlob(
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
         id_, blob_id);
   }
 
@@ -716,7 +723,7 @@ class Bucket {
    * */
   std::vector<BlobId> GetContainedBlobIds() {
     return mdm_->TagGetContainedBlobIds(
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
         id_);
   }
 };

@@ -40,7 +40,7 @@ class Client : public ModuleClient {
     task->Wait();
     id_ = task->id_;
     Init(id_, CHI_ADMIN->queue_id_);
-    CHI_CLIENT->DelTask(task);
+    CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
   }
 
   /** Destroy task state + queue */
@@ -54,15 +54,15 @@ class Client : public ModuleClient {
   void AsyncRegisterStagerConstruct(RegisterStagerTask *task,
                                     const TaskNode &task_node,
                                     const BucketId &bkt_id,
-                                    const hshm::charbuf &path,
-                                    const hshm::charbuf &params) {
+                                    const chi::charbuf &path,
+                                    const chi::charbuf &params) {
     CHI_CLIENT->ConstructTask<RegisterStagerTask>(
         task, task_node, id_, bkt_id, path, params);
   }
   HSHM_ALWAYS_INLINE
   void RegisterStager(const BucketId &bkt_id,
-                          const hshm::charbuf &path,
-                          const hshm::charbuf params) {
+                          const chi::charbuf &path,
+                          const chi::charbuf params) {
     LPointer<RegisterStagerTask> task =
         AsyncRegisterStager(bkt_id, path, params);
     task.ptr_->Wait();
@@ -90,7 +90,7 @@ class Client : public ModuleClient {
   void AsyncStageInConstruct(StageInTask *task,
                             const TaskNode &task_node,
                             const BucketId &bkt_id,
-                            const hshm::charbuf &blob_name,
+                            const chi::charbuf &blob_name,
                             float score,
                             u32 node_id) {
     CHI_CLIENT->ConstructTask<StageInTask>(
@@ -99,7 +99,7 @@ class Client : public ModuleClient {
   }
   HSHM_ALWAYS_INLINE
   void StageIn(const BucketId &bkt_id,
-               const hshm::charbuf &blob_name,
+               const chi::charbuf &blob_name,
                float score,
                u32 node_id) {
     LPointer<StageInTask> task =
@@ -113,7 +113,7 @@ class Client : public ModuleClient {
   void AsyncStageOutConstruct(StageOutTask *task,
                               const TaskNode &task_node,
                               const BucketId &bkt_id,
-                              const hshm::charbuf &blob_name,
+                              const chi::charbuf &blob_name,
                               const hipc::Pointer &data,
                               size_t data_size,
                               u32 task_flags) {
@@ -123,7 +123,7 @@ class Client : public ModuleClient {
   }
   HSHM_ALWAYS_INLINE
   void StageOut(const BucketId &bkt_id,
-                    const hshm::charbuf &blob_name,
+                    const chi::charbuf &blob_name,
                     const hipc::Pointer &data,
                     size_t data_size,
                     u32 task_flags) {
@@ -138,7 +138,7 @@ class Client : public ModuleClient {
   void AsyncUpdateSizeConstruct(UpdateSizeTask *task,
                               const TaskNode &task_node,
                               const BucketId &bkt_id,
-                              const hshm::charbuf &blob_name,
+                              const chi::charbuf &blob_name,
                               size_t blob_off,
                               size_t data_size,
                               u32 task_flags) {
@@ -148,7 +148,7 @@ class Client : public ModuleClient {
   }
   HSHM_ALWAYS_INLINE
   void UpdateSize(const BucketId &bkt_id,
-                    const hshm::charbuf &blob_name,
+                    const chi::charbuf &blob_name,
                     size_t blob_off,
                     size_t data_size,
                     u32 task_flags) {

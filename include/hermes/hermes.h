@@ -49,24 +49,25 @@ class Hermes {
 //  }
 //
   /** Collect a snapshot of all metadata in Hermes */
-  MetadataTable CollectMetadataSnapshot() {
+  MetadataTable CollectMetadataSnapshot(const hipc::MemContext &mctx) {
     MetadataTable table;
     table.blob_info_ =
         HERMES_CONF->mdm_.PollBlobMetadata(
-            chi::DomainQuery::GetGlobalBcast());
+            mctx, chi::DomainQuery::GetGlobalBcast());
     table.target_info_ = HERMES_CONF->mdm_.PollTargetMetadata(
-        chi::DomainQuery::GetGlobalBcast());
+        mctx, chi::DomainQuery::GetGlobalBcast());
     table.bkt_info_ = HERMES_CONF->mdm_.PollTagMetadata(
-        chi::DomainQuery::GetGlobalBcast());
+        mctx, chi::DomainQuery::GetGlobalBcast());
     return table;
   }
 //
   /** Get or create a bucket */
-  hermes::Bucket GetBucket(const std::string &path,
+  hermes::Bucket GetBucket(const hipc::MemContext &mctx,
+                           const std::string &path,
                            Context ctx = Context(),
                            size_t backend_size = 0,
                            u32 flags = 0) {
-    return hermes::Bucket(path, ctx, backend_size, flags);
+    return hermes::Bucket(mctx, path, ctx, backend_size, flags);
   }
 //
 //  /** Register an operation graph */

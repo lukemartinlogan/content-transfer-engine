@@ -16,6 +16,7 @@
 #include "status.h"
 #include "statuses.h"
 #include "bdev/bdev.h"
+#include "chimaera/chimaera_types.h"
 
 namespace hapi = hermes;
 
@@ -64,7 +65,7 @@ enum class TraitType {
 };
 
 /** Represents a blob */
-typedef hshm::charbuf Blob;
+typedef chi::charbuf Blob;
 
 /** Supported data placement policies */
 enum class PlacementPolicy {
@@ -238,7 +239,7 @@ struct BufferInfo : public chi::Block {
 struct BlobInfo {
   TagId tag_id_;    /**< Tag the blob is on */
   BlobId blob_id_;  /**< Unique ID of the blob */
-  hshm::charbuf name_;  /**< Name of the blob (without tag_id) */
+  chi::charbuf name_;  /**< Name of the blob (without tag_id) */
   std::vector<BufferInfo> buffers_;  /**< Set of buffers */
   std::vector<TagId> tags_;  /**< Set of tags */
   size_t blob_size_;      /**< The overall size of the blob */
@@ -294,10 +295,10 @@ struct BlobInfo {
   }
 
   /** Get the globally unique blob name */
-  static const hshm::charbuf GetBlobNameWithBucket(
+  static const chi::charbuf GetBlobNameWithBucket(
       const TagId &tag_id,
-      const hshm::charbuf &blob_name) {
-    hshm::charbuf new_name(sizeof(TagId) + blob_name.size());
+      const chi::charbuf &blob_name) {
+    chi::charbuf new_name(sizeof(TagId) + blob_name.size());
     chi::LocalSerialize srl(new_name);
     srl << tag_id;
     srl << blob_name;
@@ -305,7 +306,7 @@ struct BlobInfo {
   }
 
   /** Return the unique blob name for blob_id_map */
-  hshm::charbuf GetBlobNameWithBucket() {
+  chi::charbuf GetBlobNameWithBucket() {
     return GetBlobNameWithBucket(tag_id_, name_);
   }
 };
@@ -313,7 +314,7 @@ struct BlobInfo {
 /** Data structure used to store Bucket information */
 struct TagInfo {
   TagId tag_id_;
-  hshm::charbuf name_;
+  chi::charbuf name_;
   std::list<BlobId> blobs_;
   std::list<Task *> traits_;
   size_t internal_size_;

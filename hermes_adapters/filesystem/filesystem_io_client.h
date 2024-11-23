@@ -308,7 +308,7 @@ class FilesystemIoClient {
   virtual ~FilesystemIoClient() = default;
 
   /** Get initial statistics from the backend */
-  virtual size_t GetBackendSize(const hipc::charbuf &bkt_name) = 0;
+  virtual size_t GetBackendSize(const chi::charbuf &bkt_name) = 0;
 
   /** Write blob to backend */
   virtual void WriteBlob(const std::string &bkt_name,

@@ -37,7 +37,7 @@ class BinaryFileStager : public AbstractStager {
   static std::string BuildFileParams(size_t page_size,
                                      u32 flags = 0,
                                      size_t elmt_size = 1) {
-    hshm::charbuf params(32);
+    chi::charbuf params(32);
     page_size = (page_size / elmt_size) * elmt_size;
     chi::LocalSerialize srl(params);
     srl << std::string("file");
@@ -101,7 +101,7 @@ class BinaryFileStager : public AbstractStager {
                               0, real_size, blob.shm_, task->score_, 0,
                               ctx, TASK_DATA_OWNER | TASK_LOW_LATENCY);
     put_task->Wait<TASK_YIELD_CO>(task);
-    HRUN_CLIENT->DelTask(put_task);
+    HRUN_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, put_task);
   }
 
   /** Stage data out to remote source */

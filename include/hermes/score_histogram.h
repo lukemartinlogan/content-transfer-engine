@@ -15,7 +15,7 @@
 
 #include <vector>
 #include <atomic>
-#include <hermes_shm/types/atomic.h>
+#include <chimaera/chimaea_types.h>
 
 namespace hermes {
 

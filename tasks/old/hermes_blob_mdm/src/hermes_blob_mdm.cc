@@ -16,7 +16,7 @@
 namespace hermes::blob_mdm {
 
 /** Type name simplification for the various map types */
-typedef std::unordered_map<hshm::charbuf, BlobId> BLOB_ID_MAP_T;
+typedef std::unordered_map<chi::charbuf, BlobId> BLOB_ID_MAP_T;
 typedef std::unordered_map<BlobId, BlobInfo> BLOB_MAP_T;
 typedef hipc::mpsc_queue<IoStat> IO_PATTERN_LOG_T;
 
@@ -123,8 +123,8 @@ class Server : public Module {
 
  private:
   /** Get the globally unique blob name */
-  const hshm::charbuf GetBlobNameWithBucket(TagId tag_id, const hshm::charbuf &blob_name) {
-    hshm::charbuf new_name(sizeof(TagId) + blob_name.size());
+  const chi::charbuf GetBlobNameWithBucket(TagId tag_id, const chi::charbuf &blob_name) {
+    chi::charbuf new_name(sizeof(TagId) + blob_name.size());
     chi::LocalSerialize srl(new_name);
     srl << tag_id;
     srl << blob_name;
@@ -277,12 +277,12 @@ class Server : public Module {
         LPointer<ReorganizeBlobTask> reorg_task =
             blob_mdm_.AsyncReorganizeBlob(task->task_node_ + 1,
                                           blob_info.tag_id_,
-                                          hshm::charbuf(""),
+                                          chi::charbuf(""),
                                           blob_info.blob_id_,
                                           new_score, false, ctx,
                                           TASK_LOW_LATENCY);
         reorg_task->Wait<TASK_YIELD_CO>(task);
-        CHI_CLIENT->DelTask(reorg_task);
+        CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, reorg_task);
       }
       blob_info.access_freq_ = 0;
 
@@ -304,7 +304,7 @@ class Server : public Module {
                                    0, blob_info.blob_size_,
                                    data.shm_);
         get_blob->Wait<TASK_YIELD_CO>(task);
-        CHI_CLIENT->DelTask(get_blob);
+        CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, get_blob);
         flush_info.stage_task_ =
           stager_mdm_.AsyncStageOut(task->task_node_ + 1,
                                     blob_info.tag_id_,
@@ -322,7 +322,7 @@ class Server : public Module {
       BlobInfo &blob_info = *flush_info.blob_info_;
       flush_info.stage_task_->Wait<TASK_YIELD_CO>(task);
       blob_info.last_flush_ = flush_info.mod_count_;
-      CHI_CLIENT->DelTask(flush_info.stage_task_);
+      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, flush_info.stage_task_);
     }
   }
   void MonitorFlushData(u32 mode, FlushDataTask *task, RunContext &rctx) {
@@ -342,13 +342,13 @@ class Server : public Module {
    * */
   void PutBlob(PutBlobTask *task, RunContext &rctx) {
     // Get the blob info data structure
-    hshm::charbuf blob_name = hshm::to_charbuf(*task->blob_name_);
+    chi::charbuf blob_name = hshm::to_charbuf(*task->blob_name_);
     if (task->blob_id_.IsNull()) {
       task->blob_id_ = GetOrCreateBlobId(task->tag_id_, task->lane_hash_,
                                          blob_name, rctx, task->flags_);
     }
     HILOG(kDebug, "Beginning PUT for (hash: {})",
-          std::hash<hshm::charbuf>{}(blob_name));
+          std::hash<chi::charbuf>{}(blob_name));
     BLOB_MAP_T &blob_map = blob_map_[rctx.lane_id_];
     BlobInfo &blob_info = blob_map[task->blob_id_];
     blob_info.score_ = task->score_;
@@ -365,7 +365,7 @@ class Server : public Module {
                                    task->score_, 0);
       stage_task->Wait<TASK_YIELD_CO>(task);
       blob_info.mod_count_ = 1;
-      CHI_CLIENT->DelTask(stage_task);
+      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, stage_task);
     }
     if (task->flags_.Any(HERMES_SHOULD_STAGE)) {
       HILOG(kDebug, "This is marked as a file: {} {}",
@@ -421,7 +421,7 @@ class Server : public Module {
           next_placement.size_ += diff;
         }
         // bdev.monitor_task_->rem_cap_ -= alloc_task->alloc_size_;
-        CHI_CLIENT->DelTask(alloc_task);
+        CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, alloc_task);
       }
     }
 
@@ -466,7 +466,7 @@ class Server : public Module {
     // Wait for the placements to complete
     for (LPointer<bdev::WriteTask> &write_task : write_tasks) {
       write_task->Wait<TASK_YIELD_CO>(task);
-      CHI_CLIENT->DelTask(write_task);
+      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, write_task);
     }
 
     // Update information
@@ -521,7 +521,7 @@ class Server : public Module {
   /** Get a blob's data */
   void GetBlob(GetBlobTask *task, RunContext &rctx) {
     if (task->blob_id_.IsNull()) {
-      hshm::charbuf blob_name = hshm::to_charbuf(*task->blob_name_);
+      chi::charbuf blob_name = hshm::to_charbuf(*task->blob_name_);
       task->blob_id_ = GetOrCreateBlobId(task->tag_id_, task->lane_hash_,
                                          blob_name, rctx, task->flags_);
     }
@@ -538,7 +538,7 @@ class Server : public Module {
                                    blob_info.name_,
                                    1, 0);
       stage_task->Wait<TASK_YIELD_CO>(task);
-      CHI_CLIENT->DelTask(stage_task);
+      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, stage_task);
     }
 
     // Read blob from buffers
@@ -580,7 +580,7 @@ class Server : public Module {
     }
     for (bdev::ReadTask *&read_task : read_tasks) {
       read_task->Wait<TASK_YIELD_CO>(task);
-      CHI_CLIENT->DelTask(read_task);
+      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, read_task);
     }
     task->data_size_ = buf_off;
     task->SetModuleComplete();
@@ -628,9 +628,9 @@ class Server : public Module {
    * Create \a blob_id BLOB ID
    * */
   BlobId GetOrCreateBlobId(TagId &tag_id, u32 lane_hash,
-                           const hshm::charbuf &blob_name, RunContext &rctx,
+                           const chi::charbuf &blob_name, RunContext &rctx,
                            bitfield32_t &flags) {
-    hshm::charbuf blob_name_unique = GetBlobNameWithBucket(tag_id, blob_name);
+    chi::charbuf blob_name_unique = GetBlobNameWithBucket(tag_id, blob_name);
     BLOB_ID_MAP_T &blob_id_map = blob_id_map_[rctx.lane_id_];
     auto it = blob_id_map.find(blob_name_unique);
     if (it == blob_id_map.end()) {
@@ -654,7 +654,7 @@ class Server : public Module {
     return it->second;
   }
   void GetOrCreateBlobId(GetOrCreateBlobIdTask *task, RunContext &rctx) {
-    hshm::charbuf blob_name = hshm::to_charbuf(*task->blob_name_);
+    chi::charbuf blob_name = hshm::to_charbuf(*task->blob_name_);
     bitfield32_t flags;
     task->blob_id_ = GetOrCreateBlobId(task->tag_id_, task->lane_hash_, blob_name, rctx, flags);
     task->SetModuleComplete();
@@ -667,8 +667,8 @@ class Server : public Module {
    * */
   HSHM_ALWAYS_INLINE
   void GetBlobId(GetBlobIdTask *task, RunContext &rctx) {
-    hshm::charbuf blob_name = hshm::to_charbuf(*task->blob_name_);
-    hshm::charbuf blob_name_unique = GetBlobNameWithBucket(task->tag_id_, blob_name);
+    chi::charbuf blob_name = hshm::to_charbuf(*task->blob_name_);
+    chi::charbuf blob_name_unique = GetBlobNameWithBucket(task->tag_id_, blob_name);
     BLOB_ID_MAP_T &blob_id_map = blob_id_map_[rctx.lane_id_];
     auto it = blob_id_map.find(blob_name_unique);
     if (it == blob_id_map.end()) {
@@ -811,7 +811,7 @@ class Server : public Module {
         }
         BLOB_ID_MAP_T &blob_id_map = blob_id_map_[rctx.lane_id_];
         BlobInfo &blob_info = it->second;
-        hshm::charbuf unique_name = GetBlobNameWithBucket(blob_info.tag_id_, blob_info.name_);
+        chi::charbuf unique_name = GetBlobNameWithBucket(blob_info.tag_id_, blob_info.name_);
         blob_id_map.erase(unique_name);
         HSHM_MAKE_AR0(task->free_tasks_, nullptr);
         task->free_tasks_->reserve(blob_info.buffers_.size());
@@ -833,7 +833,7 @@ class Server : public Module {
           }
         }
         for (bdev::FreeTask *&free_task : free_tasks) {
-          CHI_CLIENT->DelTask(free_task);
+          CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, free_task);
         }
         BLOB_MAP_T &blob_map = blob_map_[rctx.lane_id_];
         BlobInfo &blob_info = blob_map[task->blob_id_];
@@ -858,7 +858,7 @@ class Server : public Module {
   void ReorganizeBlob(ReorganizeBlobTask *task, RunContext &rctx) {
     switch (task->phase_) {
       case ReorganizeBlobPhase::kGet: {
-        hshm::charbuf blob_name = hshm::to_charbuf(*task->blob_name_);
+        chi::charbuf blob_name = hshm::to_charbuf(*task->blob_name_);
         if (task->blob_id_.IsNull()) {
           bitfield32_t flags;
           task->blob_id_ = GetOrCreateBlobId(task->tag_id_, task->lane_hash_,
@@ -886,7 +886,7 @@ class Server : public Module {
         task->data_size_ = blob_info.blob_size_;
         task->get_task_ = blob_mdm_.AsyncGetBlob(task->task_node_ + 1,
                                                  task->tag_id_,
-                                                 hshm::charbuf(""),
+                                                 chi::charbuf(""),
                                                  task->blob_id_,
                                                  0,
                                                  task->data_size_,
@@ -898,13 +898,13 @@ class Server : public Module {
         if (!task->get_task_->IsComplete()) {
           return;
         }
-        CHI_CLIENT->DelTask(task->get_task_);
+        CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task->get_task_);
         task->phase_ = ReorganizeBlobPhase::kPut;
       }
       case ReorganizeBlobPhase::kPut: {
         task->put_task_ = blob_mdm_.AsyncPutBlob(
             task->task_node_ + 1,
-            task->tag_id_, hshm::charbuf(""),
+            task->tag_id_, chi::charbuf(""),
             task->blob_id_, 0,
             task->data_size_,
             task->data_,

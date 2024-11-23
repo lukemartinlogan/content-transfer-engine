@@ -185,7 +185,7 @@ class PosixFs : public hermes::adapter::Filesystem {
   }
 
   /** Get initial statistics from the backend */
-  size_t GetBackendSize(const hipc::charbuf &bkt_name) override {
+  size_t GetBackendSize(const chi::charbuf &bkt_name) override {
     size_t true_size = 0;
     std::string filename = bkt_name.str();
     int fd = real_api_->open(filename.c_str(), O_RDONLY);

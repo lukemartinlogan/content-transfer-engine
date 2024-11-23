@@ -29,12 +29,12 @@ struct ConstructTask : public CreateTaskStateTask {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  ConstructTask(hipc::Allocator *alloc)
+  ConstructTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : CreateTaskStateTask(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  ConstructTask(hipc::Allocator *alloc,
+  ConstructTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                 const TaskNode &task_node,
                 const DomainQuery &dom_query,
                 const std::string &state_name,
@@ -73,12 +73,12 @@ using chi::Admin::DestroyTaskStateTask;
 struct DestructTask : public DestroyTaskStateTask {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  DestructTask(hipc::Allocator *alloc)
+  DestructTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : DestroyTaskStateTask(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  DestructTask(hipc::Allocator *alloc,
+  DestructTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                const TaskNode &task_node,
                const DomainQuery &dom_query,
                PoolId &pool_id)
@@ -86,7 +86,7 @@ struct DestructTask : public DestroyTaskStateTask {
 
   /** Create group */
   HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
+  u32 GetGroup(chi::charbuf &group) {
     return TASK_UNORDERED;
   }
 };
@@ -96,21 +96,21 @@ struct DestructTask : public DestroyTaskStateTask {
  * */
 struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
   hermes::BucketId bkt_id_;
-  hipc::string tag_name_;
-  hipc::string params_;
+  chi::string tag_name_;
+  chi::string params_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  RegisterStagerTask(hipc::Allocator *alloc) : Task(alloc) {}
+  RegisterStagerTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  RegisterStagerTask(hipc::Allocator *alloc,
+  RegisterStagerTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                      const TaskNode &task_node,
                      const PoolId &pool_id,
                      hermes::BucketId bkt_id,
-                     const hshm::charbuf &tag_name,
-                     const hshm::charbuf &params) : Task(alloc) {
+                     const chi::charbuf &tag_name,
+                     const chi::charbuf &params) : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     lane_hash_ = bkt_id.hash_;
@@ -127,7 +127,7 @@ struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
   }
 
   /** Duplicate message */
-  void Dup(hipc::Allocator *alloc, RegisterStagerTask &other) {
+  void Dup(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, RegisterStagerTask &other) {
     task_dup(other);
   }
 
@@ -155,7 +155,7 @@ struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
 
   /** Create group */
   HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
+  u32 GetGroup(chi::charbuf &group) {
     return TASK_UNORDERED;
   }
 };
@@ -168,11 +168,11 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  UnregisterStagerTask(hipc::Allocator *alloc) : Task(alloc) {}
+  UnregisterStagerTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  UnregisterStagerTask(hipc::Allocator *alloc,
+  UnregisterStagerTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                        const TaskNode &task_node,
                        const PoolId &pool_id,
                        const hermes::BucketId &bkt_id) : Task(alloc) {
@@ -190,7 +190,7 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
   }
 
   /** Duplicate message */
-  void Dup(hipc::Allocator *alloc, UnregisterStagerTask &other) {
+  void Dup(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, UnregisterStagerTask &other) {
     task_dup(other);
   }
 
@@ -218,7 +218,7 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
 
   /** Create group */
   HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
+  u32 GetGroup(chi::charbuf &group) {
     return TASK_UNORDERED;
   }
 };
@@ -228,21 +228,21 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
  * */
 struct StageInTask : public Task, TaskFlags<TF_LOCAL> {
   IN hermes::BucketId bkt_id_;
-  IN hipc::charbuf blob_name_;
+  IN chi::charbuf blob_name_;
   IN float score_;
   IN u32 node_id_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  StageInTask(hipc::Allocator *alloc) : Task(alloc) {}
+  StageInTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  StageInTask(hipc::Allocator *alloc,
+  StageInTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
               const TaskNode &task_node,
               const PoolId &pool_id,
               const BucketId &bkt_id,
-              const hshm::charbuf &blob_name,
+              const chi::charbuf &blob_name,
               float score,
               u32 node_id) : Task(alloc) {
     // Initialize task
@@ -263,7 +263,7 @@ struct StageInTask : public Task, TaskFlags<TF_LOCAL> {
 
   /** Create group */
   HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
+  u32 GetGroup(chi::charbuf &group) {
 //    chi::LocalSerialize srl(group);
 //    srl << bkt_id_.unique_;
 //    srl << bkt_id_.node_id_;
@@ -277,21 +277,21 @@ struct StageInTask : public Task, TaskFlags<TF_LOCAL> {
  * */
 struct StageOutTask : public Task, TaskFlags<TF_LOCAL> {
   IN hermes::BucketId bkt_id_;
-  IN hipc::charbuf blob_name_;
+  IN chi::charbuf blob_name_;
   IN hipc::Pointer data_;
   IN size_t data_size_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  StageOutTask(hipc::Allocator *alloc) : Task(alloc) {}
+  StageOutTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  StageOutTask(hipc::Allocator *alloc,
+  StageOutTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                const TaskNode &task_node,
                const PoolId &pool_id,
                const BucketId &bkt_id,
-               const hshm::charbuf &blob_name,
+               const chi::charbuf &blob_name,
                const hipc::Pointer &data,
                size_t data_size,
                u32 task_flags): Task(alloc) {
@@ -321,7 +321,7 @@ struct StageOutTask : public Task, TaskFlags<TF_LOCAL> {
 
   /** Create group */
   HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
+  u32 GetGroup(chi::charbuf &group) {
     return TASK_UNORDERED;
   }
 };
@@ -331,20 +331,20 @@ struct StageOutTask : public Task, TaskFlags<TF_LOCAL> {
  * */
 struct UpdateSizeTask : public Task, TaskFlags<TF_LOCAL> {
   IN hermes::BucketId bkt_id_;
-  IN hipc::charbuf blob_name_;
+  IN chi::charbuf blob_name_;
   IN size_t blob_off_, data_size_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  UpdateSizeTask(hipc::Allocator *alloc) : Task(alloc) {}
+  UpdateSizeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  UpdateSizeTask(hipc::Allocator *alloc,
+  UpdateSizeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                  const TaskNode &task_node,
                  const PoolId &pool_id,
                  const BucketId &bkt_id,
-                 const hshm::charbuf &blob_name,
+                 const chi::charbuf &blob_name,
                  size_t blob_off,
                  size_t data_size,
                  u32 task_flags): Task(alloc) {
@@ -366,7 +366,7 @@ struct UpdateSizeTask : public Task, TaskFlags<TF_LOCAL> {
 
   /** Create group */
   HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
+  u32 GetGroup(chi::charbuf &group) {
     return TASK_UNORDERED;
   }
 };

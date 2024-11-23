@@ -54,7 +54,7 @@ class Client : public ModuleClient {
     task->Wait();
     std::vector<TagInfo> target_mdms =
         task->DeserializeTagMetadata();
-    CHI_CLIENT->DelTask(task);
+    CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
     return target_mdms;
   }
   CHI_TASK_METHODS(PollTagMetadata);

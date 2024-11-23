@@ -151,7 +151,7 @@ void LoadEnd(u32 replica, u32 method, BinaryInputArchive<false> &ar, Task *task)
   }
 }
 /** Get the grouping of the task */
-u32 GetGroup(u32 method, Task *task, hshm::charbuf &group) override {
+u32 GetGroup(u32 method, Task *task, chi::charbuf &group) override {
   switch (method) {
     case Method::kConstruct: {
       return reinterpret_cast<ConstructTask*>(task)->GetGroup(group);

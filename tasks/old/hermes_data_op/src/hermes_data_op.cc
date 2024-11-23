@@ -66,14 +66,14 @@ class Server : public Module {
       for (OpBucketName &bkt_name : op.in_) {
         bkt_name.bkt_id_task_ =
             bkt_mdm_.AsyncGetOrCreateTag(task->task_node_ + 1,
-                                         hshm::charbuf(bkt_name.url_),
+                                         chi::charbuf(bkt_name.url_),
                                          true,
                                          traits, 0, 0);
       }
       // Spawn bucket ID task for the output
       op.var_name_.bkt_id_task_ =
           bkt_mdm_.AsyncGetOrCreateTag(task->task_node_ + 1,
-                                       hshm::charbuf(op.var_name_.url_),
+                                       chi::charbuf(op.var_name_.url_),
                                        true,
                                        traits, 0, 0);
       // Set the op ID
@@ -87,13 +87,13 @@ class Server : public Module {
         bkt_name.bkt_id_task_->Wait<TASK_YIELD_CO>(task);
         bkt_name.bkt_id_ = bkt_name.bkt_id_task_->tag_id_;
         op_data_map_.emplace(bkt_name.bkt_id_, OpPendingData());
-        CHI_CLIENT->DelTask(bkt_name.bkt_id_task_);
+        CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, bkt_name.bkt_id_task_);
       }
       // Spawn bucket ID task for the output
       op.var_name_.bkt_id_task_->Wait<TASK_YIELD_CO>(task);
       op.var_name_.bkt_id_ = op.var_name_.bkt_id_task_->tag_id_;
       op_data_map_.emplace(op.var_name_.bkt_id_, OpPendingData());
-      CHI_CLIENT->DelTask(op.var_name_.bkt_id_task_);
+      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, op.var_name_.bkt_id_task_);
     }
 
     // Get number of operations that depend on each data object
@@ -187,7 +187,7 @@ class Server : public Module {
       LPointer<blob_mdm::GetBlobTask> in_task =
           blob_mdm_.AsyncGetBlob(task->task_node_ + 1,
                                  data.bkt_id_,
-                                 hshm::charbuf(""), data.blob_id_,
+                                 chi::charbuf(""), data.blob_id_,
                                  data.off_, data.size_,
                                  data_ptr.shm_);
       in_tasks.emplace_back(data, data_ptr, in_task);
@@ -214,12 +214,12 @@ class Server : public Module {
       std::string min_blob_name = data.blob_name_;
       blob_mdm_.AsyncPutBlob(task->task_node_ + 1,
                              op.var_name_.bkt_id_,
-                             hshm::charbuf(min_blob_name),
+                             chi::charbuf(min_blob_name),
                              BlobId::GetNull(),
                              0, sizeof(float),
                              min_lptr.shm_, 0, 0);
       CHI_CLIENT->FreeBuffer(in_task->data_);
-      CHI_CLIENT->DelTask(in_task);
+      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, in_task);
     }
   }
 

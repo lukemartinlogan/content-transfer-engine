@@ -38,12 +38,12 @@ using chi::Admin::CreateContainerTask;
 struct CreateTask : public CreateContainerTask {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  CreateTask(hipc::Allocator *alloc)
+  CreateTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : CreateContainerTask(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  CreateTask(hipc::Allocator *alloc,
+  CreateTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
              const TaskNode &task_node,
              const PoolId &pool_id,
              const DomainQuery &dom_query,
@@ -87,8 +87,8 @@ typedef chi::Admin::DestroyContainerTask DestroyTask;
  * Create a tag
  * */
 struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN hipc::string tag_name_;
-  IN hipc::string params_;
+  IN chi::string tag_name_;
+  IN chi::string params_;
   IN bool blob_owner_;
   IN size_t backend_size_;
   IN bitfield32_t flags_;
@@ -96,16 +96,16 @@ struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetOrCreateTagTask(hipc::Allocator *alloc)
+  GetOrCreateTagTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), tag_name_(alloc), params_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetOrCreateTagTask(hipc::Allocator *alloc,
+  GetOrCreateTagTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                      const TaskNode &task_node,
                      const PoolId &pool_id,
                      const DomainQuery &dom_query,
-                     const hshm::charbuf &tag_name,
+                     const chi::charbuf &tag_name,
                      bool blob_owner,
                      size_t backend_size,
                      u32 flags,
@@ -150,21 +150,21 @@ struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
 
 /** A task to get a tag id */
 struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN hipc::string tag_name_;
+  IN chi::string tag_name_;
   OUT TagId tag_id_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetTagIdTask(hipc::Allocator *alloc)
+  GetTagIdTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), tag_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetTagIdTask(hipc::Allocator *alloc,
+  GetTagIdTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                const TaskNode &task_node,
                const PoolId &pool_id,
                const DomainQuery &dom_query,
-               const hshm::charbuf &tag_name)
+               const chi::charbuf &tag_name)
       : Task(alloc), tag_name_(alloc, tag_name) {
     // Initialize task
     task_node_ = task_node;
@@ -197,16 +197,16 @@ struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM> {
 /** A task to get a tag name */
 struct GetTagNameTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
-  OUT hipc::string tag_name_;
+  OUT chi::string tag_name_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetTagNameTask(hipc::Allocator *alloc)
+  GetTagNameTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), tag_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetTagNameTask(hipc::Allocator *alloc,
+  GetTagNameTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                  const TaskNode &task_node,
                  const PoolId &pool_id,
                  const DomainQuery &dom_query,
@@ -249,11 +249,11 @@ struct DestroyTagTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  DestroyTagTask(hipc::Allocator *alloc) : Task(alloc) {}
+  DestroyTagTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  DestroyTagTask(hipc::Allocator *alloc,
+  DestroyTagTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                  const TaskNode &task_node,
                  const PoolId &pool_id,
                  const DomainQuery &dom_query,
@@ -293,11 +293,11 @@ struct TagAddBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  TagAddBlobTask(hipc::Allocator *alloc) : Task(alloc) {}
+  TagAddBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  TagAddBlobTask(hipc::Allocator *alloc,
+  TagAddBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                  const TaskNode &task_node,
                  const PoolId &pool_id,
                  const DomainQuery &dom_query,
@@ -340,11 +340,11 @@ struct TagRemoveBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  TagRemoveBlobTask(hipc::Allocator *alloc) : Task(alloc) {}
+  TagRemoveBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  TagRemoveBlobTask(hipc::Allocator *alloc,
+  TagRemoveBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                     const TaskNode &task_node,
                     const PoolId &pool_id,
                     const DomainQuery &dom_query,
@@ -386,11 +386,11 @@ struct TagClearBlobsTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  TagClearBlobsTask(hipc::Allocator *alloc) : Task(alloc) {}
+  TagClearBlobsTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  TagClearBlobsTask(hipc::Allocator *alloc,
+  TagClearBlobsTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                     const TaskNode &task_node,
                     const PoolId &pool_id,
                     const DomainQuery &dom_query,
@@ -430,11 +430,11 @@ struct TagGetSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  TagGetSizeTask(hipc::Allocator *alloc) : Task(alloc) {}
+  TagGetSizeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  TagGetSizeTask(hipc::Allocator *alloc,
+  TagGetSizeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                  const TaskNode &task_node,
                  const PoolId &pool_id,
                  const DomainQuery &dom_query,
@@ -478,11 +478,11 @@ struct TagUpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  TagUpdateSizeTask(hipc::Allocator *alloc) : Task(alloc) {}
+  TagUpdateSizeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  TagUpdateSizeTask(hipc::Allocator *alloc,
+  TagUpdateSizeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                     const TaskNode &task_node,
                     const PoolId &pool_id,
                     const DomainQuery &dom_query,
@@ -529,12 +529,12 @@ struct TagGetContainedBlobIdsTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  TagGetContainedBlobIdsTask(hipc::Allocator *alloc)
+  TagGetContainedBlobIdsTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_ids_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  TagGetContainedBlobIdsTask(hipc::Allocator *alloc,
+  TagGetContainedBlobIdsTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                              const TaskNode &task_node,
                              const PoolId &pool_id,
                              const DomainQuery &dom_query,
@@ -593,22 +593,22 @@ struct TagGetContainedBlobIdsTask : public Task, TaskFlags<TF_SRL_SYM> {
  * */
 struct GetOrCreateBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
-  IN hipc::charbuf blob_name_;
+  IN chi::charbuf blob_name_;
   OUT BlobId blob_id_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetOrCreateBlobIdTask(hipc::Allocator *alloc)
+  GetOrCreateBlobIdTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetOrCreateBlobIdTask(hipc::Allocator *alloc,
+  GetOrCreateBlobIdTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                         const TaskNode &task_node,
                         const PoolId &pool_id,
                         const DomainQuery &dom_query,
                         const TagId &tag_id,
-                        const hshm::charbuf &blob_name)
+                        const chi::charbuf &blob_name)
       : Task(alloc), blob_name_(alloc) {
     // Initialize task
     task_node_ = task_node;
@@ -648,22 +648,22 @@ struct GetOrCreateBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
  * */
 struct GetBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
-  IN hipc::charbuf blob_name_;
+  IN chi::charbuf blob_name_;
   OUT BlobId blob_id_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetBlobIdTask(hipc::Allocator *alloc)
+  GetBlobIdTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetBlobIdTask(hipc::Allocator *alloc,
+  GetBlobIdTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                 const TaskNode &task_node,
                 const PoolId &pool_id,
                 const DomainQuery &dom_query,
                 const TagId &tag_id,
-                const hshm::charbuf &blob_name)
+                const chi::charbuf &blob_name)
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
@@ -703,16 +703,16 @@ struct GetBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
 struct GetBlobNameTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
   IN BlobId blob_id_;
-  OUT hipc::string blob_name_;
+  OUT chi::string blob_name_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetBlobNameTask(hipc::Allocator *alloc)
+  GetBlobNameTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetBlobNameTask(hipc::Allocator *alloc,
+  GetBlobNameTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                   const TaskNode &task_node,
                   const PoolId &pool_id,
                   const DomainQuery &dom_query,
@@ -756,23 +756,23 @@ struct GetBlobNameTask : public Task, TaskFlags<TF_SRL_SYM> {
 /** Get \a score from \a blob_id BLOB id */
 struct GetBlobSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
-  IN hipc::charbuf blob_name_;
+  IN chi::charbuf blob_name_;
   IN BlobId blob_id_;
   OUT size_t size_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetBlobSizeTask(hipc::Allocator *alloc)
+  GetBlobSizeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetBlobSizeTask(hipc::Allocator *alloc,
+  GetBlobSizeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                   const TaskNode &task_node,
                   const PoolId &pool_id,
                   const DomainQuery &dom_query,
                   const TagId &tag_id,
-                  const hshm::charbuf &blob_name,
+                  const chi::charbuf &blob_name,
                   const BlobId &blob_id)
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
@@ -817,11 +817,11 @@ struct GetBlobScoreTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetBlobScoreTask(hipc::Allocator *alloc) : Task(alloc) {}
+  GetBlobScoreTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetBlobScoreTask(hipc::Allocator *alloc,
+  GetBlobScoreTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                    const TaskNode &task_node,
                    const PoolId &pool_id,
                    const DomainQuery &dom_query,
@@ -868,12 +868,12 @@ struct GetBlobBuffersTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetBlobBuffersTask(hipc::Allocator *alloc)
+  GetBlobBuffersTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), buffers_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetBlobBuffersTask(hipc::Allocator *alloc,
+  GetBlobBuffersTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                      const TaskNode &task_node,
                      const PoolId &pool_id,
                      const DomainQuery &dom_query,
@@ -924,12 +924,12 @@ struct BlobHasTagTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  BlobHasTagTask(hipc::Allocator *alloc)
+  BlobHasTagTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  BlobHasTagTask(hipc::Allocator *alloc,
+  BlobHasTagTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                  const TaskNode &task_node,
                  const PoolId &pool_id,
                  const DomainQuery &dom_query,
@@ -980,11 +980,11 @@ struct TruncateBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  TruncateBlobTask(hipc::Allocator *alloc) : Task(alloc) {}
+  TruncateBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  TruncateBlobTask(hipc::Allocator *alloc,
+  TruncateBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                    const TaskNode &task_node,
                    const PoolId &pool_id,
                    const DomainQuery &dom_query,
@@ -1034,11 +1034,11 @@ struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  DestroyBlobTask(hipc::Allocator *alloc) : Task(alloc) {}
+  DestroyBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  DestroyBlobTask(hipc::Allocator *alloc,
+  DestroyBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                   const TaskNode &task_node,
                   const PoolId &pool_id,
                   const DomainQuery &dom_query,
@@ -1081,7 +1081,7 @@ struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 
 /** A task to reorganize a blob's composition in the hierarchy */
 struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN hipc::charbuf blob_name_;
+  IN chi::charbuf blob_name_;
   IN TagId tag_id_;
   IN BlobId blob_id_;
   IN float score_;
@@ -1090,17 +1090,17 @@ struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  ReorganizeBlobTask(hipc::Allocator *alloc)
+  ReorganizeBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  ReorganizeBlobTask(hipc::Allocator *alloc,
+  ReorganizeBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                      const TaskNode &task_node,
                      const PoolId &pool_id,
                      const DomainQuery &dom_query,
                      const TagId &tag_id,
-                     const hshm::charbuf &blob_name,
+                     const chi::charbuf &blob_name,
                      const BlobId &blob_id,
                      float score,
                      bool is_user_score,
@@ -1153,11 +1153,11 @@ struct TagBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  TagBlobTask(hipc::Allocator *alloc) : Task(alloc) {}
+  TagBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  TagBlobTask(hipc::Allocator *alloc,
+  TagBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
               const TaskNode &task_node,
               const PoolId &pool_id,
               const DomainQuery &dom_query,
@@ -1200,7 +1200,7 @@ struct TagBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 /** A task to put data in a blob */
 struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
-  IN hipc::charbuf blob_name_;
+  IN chi::charbuf blob_name_;
   IN size_t blob_off_;
   IN size_t data_size_;
   IN hipc::Pointer data_;
@@ -1210,17 +1210,17 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  PutBlobTask(hipc::Allocator *alloc)
+  PutBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  PutBlobTask(hipc::Allocator *alloc,
+  PutBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
               const TaskNode &task_node,
               const PoolId &pool_id,
               const DomainQuery &dom_query,
               const TagId &tag_id,
-              const hshm::charbuf &blob_name,
+              const chi::charbuf &blob_name,
               const BlobId &blob_id,
               size_t blob_off,
               size_t data_size,
@@ -1287,7 +1287,7 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 /** A task to get data from a blob */
 struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
-  IN hipc::charbuf blob_name_;
+  IN chi::charbuf blob_name_;
   INOUT BlobId blob_id_;
   IN size_t blob_off_;
   IN hipc::Pointer data_;
@@ -1296,17 +1296,17 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetBlobTask(hipc::Allocator *alloc)
+  GetBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  GetBlobTask(hipc::Allocator *alloc,
+  GetBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
               const TaskNode &task_node,
               const PoolId &pool_id,
               const DomainQuery &dom_query,
               const TagId &tag_id,
-              const hshm::charbuf &blob_name,
+              const chi::charbuf &blob_name,
               const BlobId &blob_id,
               size_t off,
               size_t data_size,
@@ -1382,11 +1382,11 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 struct FlushDataTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  FlushDataTask(hipc::Allocator *alloc) : Task(alloc) {}
+  FlushDataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  FlushDataTask(hipc::Allocator *alloc,
+  FlushDataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                 const TaskNode &task_node,
                 const PoolId &pool_id,
                 const DomainQuery &dom_query,
@@ -1421,15 +1421,15 @@ struct FlushDataTask : public Task, TaskFlags<TF_SRL_SYM> {
 
 /** The PollBlobMetadataTask task */
 struct PollBlobMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
-  hipc::string stats_buf_;
+  chi::string stats_buf_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  PollBlobMetadataTask(hipc::Allocator *alloc) : Task(alloc), stats_buf_(alloc) {}
+  PollBlobMetadataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc), stats_buf_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  PollBlobMetadataTask(hipc::Allocator *alloc,
+  PollBlobMetadataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                        const TaskNode &task_node,
                        const PoolId &pool_id,
                        const DomainQuery &dom_query)
@@ -1496,16 +1496,16 @@ struct TargetStats {
   }
 };
 struct PollTargetMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
-  hipc::string stats_buf_;
+  chi::string stats_buf_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  PollTargetMetadataTask(hipc::Allocator *alloc)
+  PollTargetMetadataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
   : Task(alloc), stats_buf_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  PollTargetMetadataTask(hipc::Allocator *alloc,
+  PollTargetMetadataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                          const TaskNode &task_node,
                          const PoolId &pool_id,
                          const DomainQuery &dom_query)
@@ -1557,16 +1557,16 @@ struct PollTargetMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
 
 /** The PollTagMetadataTask task */
 struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
-  hipc::string stats_buf_;
+  chi::string stats_buf_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  PollTagMetadataTask(hipc::Allocator *alloc)
+  PollTagMetadataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
   : Task(alloc), stats_buf_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  PollTagMetadataTask(hipc::Allocator *alloc,
+  PollTagMetadataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                       const TaskNode &task_node,
                       const PoolId &pool_id,
                       const DomainQuery &dom_query)
@@ -1625,23 +1625,23 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
 /** The RegisterStagerTask task */
 struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN hermes::BucketId bkt_id_;
-  IN hipc::string tag_name_;
-  IN hipc::string params_;
+  IN chi::string tag_name_;
+  IN chi::string params_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  RegisterStagerTask(hipc::Allocator *alloc)
+  RegisterStagerTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
   : Task(alloc), tag_name_(alloc), params_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  RegisterStagerTask(hipc::Allocator *alloc,
+  RegisterStagerTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                      const TaskNode &task_node,
                      const PoolId &pool_id,
                      const DomainQuery &dom_query,
                      const hermes::BucketId &bkt_id,
-                     const hshm::charbuf &tag_name,
-                     const hshm::charbuf &params)
+                     const chi::charbuf &tag_name,
+                     const chi::charbuf &params)
  : Task(alloc), tag_name_(alloc, tag_name), params_(alloc, params) {
     // Initialize task
     task_node_ = task_node;
@@ -1681,11 +1681,11 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  UnregisterStagerTask(hipc::Allocator *alloc) : Task(alloc) {}
+  UnregisterStagerTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  UnregisterStagerTask(hipc::Allocator *alloc,
+  UnregisterStagerTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                        const TaskNode &task_node,
                        const PoolId &pool_id,
                        const DomainQuery &dom_query,
@@ -1723,22 +1723,22 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
 /** The StageInTask task */
 struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN hermes::BucketId bkt_id_;
-  IN hipc::charbuf blob_name_;
+  IN chi::charbuf blob_name_;
   IN float score_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  StageInTask(hipc::Allocator *alloc)
+  StageInTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
   : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  StageInTask(hipc::Allocator *alloc,
+  StageInTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
               const TaskNode &task_node,
               const PoolId &pool_id,
               const DomainQuery &dom_query,
               const BucketId &bkt_id,
-              const hshm::charbuf &blob_name,
+              const chi::charbuf &blob_name,
               float score)
   : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
@@ -1777,23 +1777,23 @@ struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
 /** The StageOutTask task */
 struct StageOutTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN hermes::BucketId bkt_id_;
-  IN hipc::charbuf blob_name_;
+  IN chi::charbuf blob_name_;
   IN hipc::Pointer data_;
   IN size_t data_size_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  StageOutTask(hipc::Allocator *alloc)
+  StageOutTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
   : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  StageOutTask(hipc::Allocator *alloc,
+  StageOutTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                const TaskNode &task_node,
                const PoolId &pool_id,
                const DomainQuery &dom_query,
                const BucketId &bkt_id,
-               const hshm::charbuf &blob_name,
+               const chi::charbuf &blob_name,
                const hipc::Pointer &data,
                size_t data_size,
                u32 task_flags)

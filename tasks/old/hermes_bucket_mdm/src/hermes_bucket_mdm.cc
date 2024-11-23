@@ -13,7 +13,7 @@
 
 namespace hermes::bucket_mdm {
 
-typedef std::unordered_map<hshm::charbuf, TagId> TAG_ID_MAP_T;
+typedef std::unordered_map<chi::charbuf, TagId> TAG_ID_MAP_T;
 typedef std::unordered_map<TagId, TagInfo> TAG_MAP_T;
 
 class Server : public Module {
@@ -128,7 +128,7 @@ class Server : public Module {
               CHI_CLIENT->node_id_, task->tag_id_, task->task_node_)
         for (AppendInfo &append : append_info) {
           append.blob_id_ = append.blob_id_task_->blob_id_;
-          CHI_CLIENT->DelTask(append.blob_id_task_);
+          CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, append.blob_id_task_);
         }
         task->SetModuleComplete();
       }
@@ -197,10 +197,10 @@ class Server : public Module {
         HILOG(kDebug, "(node {}) PUT blobs for tag {} (task_node={})",
               CHI_CLIENT->node_id_, task->tag_id_, task->task_node_)
         for (AppendInfo &append : append_info) {
-          CHI_CLIENT->DelTask(append.put_task_);
+          CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, append.put_task_);
         }
         HSHM_DESTROY_AR(task->schema_->append_info_);
-        CHI_CLIENT->DelTask(task->schema_);
+        CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task->schema_);
         task->SetModuleComplete();
       }
     }
@@ -215,7 +215,7 @@ class Server : public Module {
     // Check if the tag exists
     TAG_ID_MAP_T &tag_id_map = tag_id_map_[rctx.lane_id_];
     hshm::string url = hshm::to_charbuf(*task->tag_name_);
-    hshm::charbuf tag_name = data_stager::Client::GetTagNameFromUrl(url);
+    chi::charbuf tag_name = data_stager::Client::GetTagNameFromUrl(url);
     bool did_create = false;
     if (tag_name.size() > 0) {
       did_create = tag_id_map.find(tag_name) == tag_id_map.end();
@@ -239,8 +239,8 @@ class Server : public Module {
       if (task->flags_.Any(HERMES_SHOULD_STAGE)) {
         stager_mdm_.AsyncRegisterStager(task->task_node_ + 1,
                                         tag_id,
-                                        hshm::charbuf(task->tag_name_->str()),
-                                        hshm::charbuf(task->params_->str()));
+                                        chi::charbuf(task->tag_name_->str()),
+                                        chi::charbuf(task->params_->str()));
         tag_info.flags_.SetBits(HERMES_SHOULD_STAGE);
       }
     } else {
@@ -263,7 +263,7 @@ class Server : public Module {
   /** Get tag ID */
   void GetTagId(GetTagIdTask *task, RunContext &rctx) {
     TAG_ID_MAP_T &tag_id_map = tag_id_map_[rctx.lane_id_];
-    hshm::charbuf tag_name = hshm::to_charbuf(*task->tag_name_);
+    chi::charbuf tag_name = hshm::to_charbuf(*task->tag_name_);
     auto it = tag_id_map.find(tag_name);
     if (it == tag_id_map.end()) {
       task->tag_id_ = TagId::GetNull();
@@ -335,7 +335,7 @@ class Server : public Module {
           }
         }
         for (blob_mdm::DestroyBlobTask *&blob_task : blob_tasks) {
-          CHI_CLIENT->DelTask(blob_task);
+          CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, blob_task);
         }
         HSHM_DESTROY_AR(task->destroy_blob_tasks_);
         TAG_MAP_T &tag_map = tag_map_[rctx.lane_id_];

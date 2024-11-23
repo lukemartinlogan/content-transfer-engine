@@ -35,16 +35,16 @@ struct BlobPlacement {
   size_t blob_size_;  /**< Size after offset to read */
 
   /** create a BLOB name from index. */
-  static hshm::charbuf CreateBlobName(size_t page) {
-    hshm::charbuf buf(sizeof(page));
+  static chi::charbuf CreateBlobName(size_t page) {
+    chi::charbuf buf(sizeof(page));
     chi::LocalSerialize srl(buf);
     srl << page;
     return buf;
   }
 
   /** create a BLOB name from index. */
-  hshm::charbuf CreateBlobName() const {
-    hshm::charbuf buf(sizeof(page_));
+  chi::charbuf CreateBlobName() const {
+    chi::charbuf buf(sizeof(page_));
     chi::LocalSerialize srl(buf);
     srl << page_;
     return buf;

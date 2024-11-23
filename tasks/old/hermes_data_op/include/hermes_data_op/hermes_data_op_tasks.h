@@ -73,12 +73,12 @@ struct ConstructTask : public CreateTaskStateTask {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  ConstructTask(hipc::Allocator *alloc)
+  ConstructTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
   : CreateTaskStateTask(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  ConstructTask(hipc::Allocator *alloc,
+  ConstructTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                 const TaskNode &task_node,
                 const DomainQuery &dom_query,
                 const std::string &state_name,
@@ -117,12 +117,12 @@ using chi::Admin::DestroyTaskStateTask;
 struct DestructTask : public DestroyTaskStateTask {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  DestructTask(hipc::Allocator *alloc)
+  DestructTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
   : DestroyTaskStateTask(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  DestructTask(hipc::Allocator *alloc,
+  DestructTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                const TaskNode &task_node,
                const DomainQuery &dom_query,
                PoolId &pool_id)
@@ -130,7 +130,7 @@ struct DestructTask : public DestroyTaskStateTask {
 
   /** Create group */
   HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
+  u32 GetGroup(chi::charbuf &group) {
     return TASK_UNORDERED;
   }
 };
@@ -139,15 +139,15 @@ struct DestructTask : public DestroyTaskStateTask {
  * Register an operation to perform on data
  * */
 struct RegisterOpTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
-  IN hipc::string op_graph_;
+  IN chi::string op_graph_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  RegisterOpTask(hipc::Allocator *alloc) : Task(alloc) {}
+  RegisterOpTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  RegisterOpTask(hipc::Allocator *alloc,
+  RegisterOpTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
                  const TaskNode &task_node,
                  const DomainQuery &dom_query,
                  const PoolId &pool_id,
@@ -196,7 +196,7 @@ struct RegisterOpTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
   }
 
   /** Duplicate message */
-  void Dup(hipc::Allocator *alloc, RegisterOpTask &other) {
+  void Dup(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, RegisterOpTask &other) {
     task_dup(other);
     HSHM_MAKE_AR(op_graph_, alloc, *other.op_graph_);
   }
@@ -213,7 +213,7 @@ struct RegisterOpTask : public Task, TaskFlags<TF_SRL_SYM | TF_REPLICA> {
 
   /** Create group */
   HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
+  u32 GetGroup(chi::charbuf &group) {
     return TASK_UNORDERED;
   }
 };
@@ -238,11 +238,11 @@ struct RegisterDataTask : public Task, TaskFlags<TF_LOCAL> {
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  RegisterDataTask(hipc::Allocator *alloc) : Task(alloc) {}
+  RegisterDataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  RegisterDataTask(hipc::Allocator *alloc,
+  RegisterDataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
             const TaskNode &task_node,
             const PoolId &pool_id,
             const BucketId &bkt_id,
@@ -269,7 +269,7 @@ struct RegisterDataTask : public Task, TaskFlags<TF_LOCAL> {
 
   /** Create group */
   HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
+  u32 GetGroup(chi::charbuf &group) {
     return TASK_UNORDERED;
   }
 };
@@ -280,11 +280,11 @@ struct RegisterDataTask : public Task, TaskFlags<TF_LOCAL> {
 struct RunOpTask : public Task, TaskFlags<TF_LOCAL | TF_REPLICA> {
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
-  RunOpTask(hipc::Allocator *alloc) : Task(alloc) {}
+  RunOpTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
 
   /** Emplace constructor */
   HSHM_ALWAYS_INLINE explicit
-  RunOpTask(hipc::Allocator *alloc,
+  RunOpTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
              const TaskNode &task_node,
              const PoolId &pool_id) : Task(alloc) {
     // Initialize task
@@ -301,7 +301,7 @@ struct RunOpTask : public Task, TaskFlags<TF_LOCAL | TF_REPLICA> {
   }
 
   /** Duplicate message */
-  void Dup(hipc::Allocator *alloc, RunOpTask &other) {
+  void Dup(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, RunOpTask &other) {
     task_dup(other);
   }
 
@@ -316,7 +316,7 @@ struct RunOpTask : public Task, TaskFlags<TF_LOCAL | TF_REPLICA> {
 
   /** Create group */
   HSHM_ALWAYS_INLINE
-  u32 GetGroup(hshm::charbuf &group) {
+  u32 GetGroup(chi::charbuf &group) {
     return TASK_UNORDERED;
   }
 };

@@ -25,9 +25,9 @@ namespace hermes {
 #define HERMES_LANES 32
 
 /** Type name simplification for the various map types */
-typedef std::unordered_map<hshm::charbuf, TagId> TAG_ID_MAP_T;
+typedef std::unordered_map<chi::charbuf, TagId> TAG_ID_MAP_T;
 typedef std::unordered_map<TagId, TagInfo> TAG_MAP_T;
-typedef std::unordered_map<hshm::charbuf, BlobId> BLOB_ID_MAP_T;
+typedef std::unordered_map<chi::charbuf, BlobId> BLOB_ID_MAP_T;
 typedef std::unordered_map<BlobId, BlobInfo> BLOB_MAP_T;
 typedef hipc::mpsc_queue<IoStat> IO_PATTERN_LOG_T;
 typedef std::unordered_map<TagId, std::shared_ptr<AbstractStager>> STAGER_MAP_T;
@@ -55,8 +55,8 @@ class Server : public Module {
 
  private:
   /** Get the globally unique blob name */
-  const hshm::charbuf GetBlobNameWithBucket(
-      const TagId &tag_id, const hshm::charbuf &blob_name) {
+  const chi::charbuf GetBlobNameWithBucket(
+      const TagId &tag_id, const chi::charbuf &blob_name) {
     return BlobInfo::GetBlobNameWithBucket(tag_id, blob_name);
   }
 
@@ -78,6 +78,7 @@ class Server : public Module {
         targets_.emplace_back();
         TargetInfo &target = targets_.back();
         target.client_.Create(
+            CHI_DEFAULT_MEM_CTX,
             DomainQuery::GetDirectHash(
                 chi::SubDomainId::kGlobalContainers, CHI_CLIENT->node_id_ + i),
             DomainQuery::GetDirectHash(
@@ -89,6 +90,7 @@ class Server : public Module {
             dev.capacity_);
         target.id_ = target.client_.id_;
         target.poll_stats_ = target.client_.AsyncPollStats(
+            CHI_DEFAULT_MEM_CTX,
             chi::DomainQuery::GetDirectHash(
                 chi::SubDomainId::kGlobalContainers, 0), 25);
         target.stats_ = &target.poll_stats_->stats_;
@@ -98,6 +100,7 @@ class Server : public Module {
     fallback_target_ = &targets_.back();
     // Create flushing task
     client_.AsyncFlushData(
+        CHI_DEFAULT_MEM_CTX,
         chi::DomainQuery::GetDirectHash(
             chi::SubDomainId::kLocalContainers, 0), 5);
     task->SetModuleComplete();
@@ -133,7 +136,7 @@ class Server : public Module {
     // Check if the tag exists
     TAG_ID_MAP_T &tag_id_map =
         tls.tag_id_map_;
-    hshm::string tag_name = hshm::to_charbuf(task->tag_name_);
+    chi::string tag_name(task->tag_name_);
     bool did_create = false;
     if (tag_name.size() > 0) {
       did_create = tag_id_map.find(tag_name) == tag_id_map.end();
@@ -156,10 +159,11 @@ class Server : public Module {
       tag.internal_size_ = task->backend_size_;
       if (task->flags_.Any(HERMES_SHOULD_STAGE)) {
         client_.RegisterStager(
+            CHI_DEFAULT_MEM_CTX,
             chi::DomainQuery::GetGlobalBcast(),
             tag_id,
-            hshm::charbuf(task->tag_name_.str()),
-            hshm::charbuf(task->params_.str()));
+            chi::charbuf(task->tag_name_.str()),
+            chi::charbuf(task->params_.str()));
         tag.flags_.SetBits(HERMES_SHOULD_STAGE);
       }
     } else {
@@ -184,7 +188,7 @@ class Server : public Module {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_ID_MAP_T &tag_id_map = tls.tag_id_map_;
-    hshm::charbuf tag_name = hshm::to_charbuf(task->tag_name_);
+    chi::charbuf tag_name(task->tag_name_);
     auto it = tag_id_map.find(tag_name);
     if (it == tag_id_map.end()) {
       task->tag_id_ = TagId::GetNull();
@@ -227,6 +231,7 @@ class Server : public Module {
     if (tag.owner_) {
       for (BlobId &blob_id : tag.blobs_) {
         client_.AsyncDestroyBlob(
+            CHI_DEFAULT_MEM_CTX,
             chi::DomainQuery::GetDirectHash(
                 chi::SubDomainId::kLocalContainers, 0),
             task->tag_id_, blob_id, DestroyBlobTask::kKeepInTag,
@@ -235,6 +240,7 @@ class Server : public Module {
     }
     if (tag.flags_.Any(HERMES_SHOULD_STAGE)) {
       client_.UnregisterStager(
+          CHI_DEFAULT_MEM_CTX,
           chi::DomainQuery::GetGlobalBcast(),
           task->tag_id_);
     }
@@ -296,6 +302,7 @@ class Server : public Module {
     if (tag.owner_) {
       for (BlobId &blob_id : tag.blobs_) {
         client_.AsyncDestroyBlob(
+            CHI_DEFAULT_MEM_CTX,
             chi::DomainQuery::GetDirectHash(
                 chi::SubDomainId::kLocalContainers, 0),
             task->tag_id_, blob_id, DestroyBlobTask::kKeepInTag,
@@ -376,9 +383,9 @@ class Server : public Module {
 
   /** Get or create a blob ID */
   BlobId GetOrCreateBlobId(HermesLane &tls, TagId &tag_id, u32 name_hash,
-                           const hshm::charbuf &blob_name,
+                           const chi::charbuf &blob_name,
                            bitfield32_t &flags) {
-    hshm::charbuf blob_name_unique = GetBlobNameWithBucket(tag_id, blob_name);
+    chi::charbuf blob_name_unique = GetBlobNameWithBucket(tag_id, blob_name);
     BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
     auto it = blob_id_map.find(blob_name_unique);
     if (it == blob_id_map.end()) {
@@ -405,7 +412,7 @@ class Server : public Module {
   void GetOrCreateBlobId(GetOrCreateBlobIdTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
-    hshm::charbuf blob_name = hshm::to_charbuf(task->blob_name_);
+    chi::charbuf blob_name(task->blob_name_);
     bitfield32_t flags;
     task->blob_id_ = GetOrCreateBlobId(
         tls, task->tag_id_,
@@ -422,8 +429,8 @@ class Server : public Module {
   void GetBlobId(GetBlobIdTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
-    hshm::charbuf blob_name = hshm::to_charbuf(task->blob_name_);
-    hshm::charbuf blob_name_unique = GetBlobNameWithBucket(task->tag_id_, blob_name);
+    chi::charbuf blob_name(task->blob_name_);
+    chi::charbuf blob_name_unique = GetBlobNameWithBucket(task->tag_id_, blob_name);
     BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
     auto it = blob_id_map.find(blob_name_unique);
     if (it == blob_id_map.end()) {
@@ -468,7 +475,7 @@ class Server : public Module {
       task->blob_id_ = GetOrCreateBlobId(
           tls, task->tag_id_,
           HashBlobName(task->tag_id_, task->blob_name_),
-          hshm::to_charbuf(task->blob_name_), flags);
+          chi::charbuf(task->blob_name_), flags);
     }
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
@@ -524,7 +531,7 @@ class Server : public Module {
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
 
     // Get blob ID
-    hshm::charbuf blob_name = hshm::to_charbuf(task->blob_name_);
+    chi::charbuf blob_name(task->blob_name_);
     if (task->blob_id_.IsNull()) {
       task->blob_id_ = GetOrCreateBlobId(
           tls, task->tag_id_,
@@ -547,6 +554,7 @@ class Server : public Module {
       // TODO(llogan): Don't hardcore score = 1
       blob_info.last_flush_ = 1;
       client_.StageIn(
+          CHI_DEFAULT_MEM_CTX,
           chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
           task->tag_id_,
           blob_info.name_, 1);
@@ -587,6 +595,7 @@ class Server : public Module {
           continue;
         }
         std::vector<chi::Block> blocks = bdev.client_.Allocate(
+            CHI_DEFAULT_MEM_CTX,
             chi::DomainQuery::GetDirectHash(
                 chi::SubDomainId::kGlobalContainers, bdev.id_.node_id_),
             placement.size_);
@@ -637,6 +646,7 @@ class Server : public Module {
         TargetInfo &target = *target_map_[buf.tid_];
         LPointer<chi::bdev::WriteTask> write_task =
             target.client_.AsyncWrite(
+                CHI_DEFAULT_MEM_CTX,
                 chi::DomainQuery::GetDirectHash(
                     chi::SubDomainId::kGlobalContainers, 0),
                 task->data_ + buf_off,
@@ -652,7 +662,7 @@ class Server : public Module {
     // Wait for the placements to complete
     task->Wait(write_tasks, TASK_MODULE_COMPLETE);
     for (LPointer<chi::bdev::WriteTask> &write_task : write_tasks) {
-      CHI_CLIENT->DelTask(write_task);
+      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, write_task);
     }
 
     // Update information
@@ -664,7 +674,8 @@ class Server : public Module {
         HELOG(kWarning, "Could not find stager for tag {}. Not updating size", task->tag_id_);
       } else {
         std::shared_ptr<AbstractStager> &stager = it->second;
-        stager->UpdateSize(client_,
+        stager->UpdateSize(CHI_DEFAULT_MEM_CTX,
+                           client_,
                            task->tag_id_,
                            blob_info.name_.str(),
                            task->blob_off_,
@@ -672,6 +683,7 @@ class Server : public Module {
       }
     } else {
       client_.AsyncTagUpdateSize(
+          CHI_DEFAULT_MEM_CTX,
           chi::DomainQuery::GetDirectHash(
               chi::SubDomainId::kGlobalContainers, 0),
           task->tag_id_,
@@ -680,6 +692,7 @@ class Server : public Module {
     }
     if (task->flags_.Any(HERMES_BLOB_DID_CREATE)) {
       client_.AsyncTagAddBlob(
+          CHI_DEFAULT_MEM_CTX,
           chi::DomainQuery::GetDirectHash(
               chi::SubDomainId::kGlobalContainers, 0),
           task->tag_id_,
@@ -708,7 +721,7 @@ class Server : public Module {
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     // Get blob struct
     if (task->blob_id_.IsNull()) {
-      hshm::charbuf blob_name = hshm::to_charbuf(task->blob_name_);
+      chi::charbuf blob_name(task->blob_name_);
       task->blob_id_ = GetOrCreateBlobId(
           tls, task->tag_id_,
           HashBlobName(task->tag_id_, blob_name),
@@ -723,6 +736,7 @@ class Server : public Module {
       // TODO(llogan): Don't hardcore score = 1
       blob_info.last_flush_ = 1;
       client_.StageIn(
+          CHI_DEFAULT_MEM_CTX,
           chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
           task->tag_id_,
           blob_info.name_, 1);
@@ -756,6 +770,7 @@ class Server : public Module {
         HILOG(kDebug, "Loading {} bytes at off {} from target {}", buf_size, tgt_off, buf.tid_)
         TargetInfo &target = *target_map_[buf.tid_];
         LPointer<chi::bdev::ReadTask> read_task = target.client_.AsyncRead(
+            CHI_DEFAULT_MEM_CTX,
             chi::DomainQuery::GetDirectHash(
                 chi::SubDomainId::kGlobalContainers, 0),
             task->data_ + buf_off,
@@ -768,7 +783,7 @@ class Server : public Module {
     }
     task->Wait(read_tasks, TASK_MODULE_COMPLETE);
     for (LPointer<chi::bdev::ReadTask> &read_task : read_tasks) {
-      CHI_CLIENT->DelTask(read_task);
+      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, read_task);
     }
     task->data_size_ = buf_off;
     blob_info.UpdateReadStats();
@@ -800,6 +815,7 @@ class Server : public Module {
     for (BufferInfo &buf : blob.buffers_) {
       TargetInfo &target = *target_map_[buf.tid_];
       target.client_.Free(
+          CHI_DEFAULT_MEM_CTX,
           chi::DomainQuery::GetDirectHash(
               chi::SubDomainId::kGlobalContainers, 0),
           buf);
@@ -808,6 +824,7 @@ class Server : public Module {
     // Remove blob from the tag
     if (!task->flags_.Any(DestroyBlobTask::kKeepInTag)) {
       client_.TagRemoveBlob(
+          CHI_DEFAULT_MEM_CTX,
           chi::DomainQuery::GetDirectHash(
               chi::SubDomainId::kLocalContainers, 0),
           blob.tag_id_, task->blob_id_);
@@ -864,7 +881,7 @@ class Server : public Module {
     BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
     BLOB_MAP_T &blob_map = tls.blob_map_;
     // Get blob ID
-    hshm::charbuf blob_name = hshm::to_charbuf(task->blob_name_);
+    chi::charbuf blob_name(task->blob_name_);
     if (task->blob_id_.IsNull()) {
       auto blob_id_map_it = blob_id_map.find(blob_name);
       if (blob_id_map_it == blob_id_map.end()) {
@@ -890,17 +907,20 @@ class Server : public Module {
       blob_info.score_ = task->score_;
     }
     // Get the blob
-    LPointer<char> data = CHI_CLIENT->AllocateBuffer(blob_info.blob_size_);
+    LPointer<char> data = CHI_CLIENT->AllocateBuffer(CHI_DEFAULT_MEM_CTX,
+                                                     blob_info.blob_size_);
     client_.GetBlob(
+        CHI_DEFAULT_MEM_CTX,
         chi::DomainQuery::GetDirectHash(
             chi::SubDomainId::kLocalContainers, 0),
         task->tag_id_, task->blob_id_,
         0, blob_info.blob_size_, data.shm_, 0);
     // Put the blob with the new score
     client_.AsyncPutBlob(
+        CHI_DEFAULT_MEM_CTX,
         chi::DomainQuery::GetDirectHash(
             chi::SubDomainId::kLocalContainers, 0),
-        task->tag_id_, hshm::charbuf(""), task->blob_id_,
+        task->tag_id_, chi::charbuf(""), task->blob_id_,
         0, blob_info.blob_size_, data.shm_, blob_info.score_,
         TASK_FIRE_AND_FORGET | TASK_DATA_OWNER, 0);
     task->SetModuleComplete();
@@ -933,12 +953,12 @@ class Server : public Module {
 //        LPointer<ReorganizeBlobTask> reorg_task =
 //            blob_mdm_.AsyncReorganizeBlob(task->task_node_ + 1,
 //                                          blob_info.tag_id_,
-//                                          hshm::charbuf(""),
+//                                          chi::charbuf(""),
 //                                          blob_info.blob_id_,
 //                                          new_score, false, ctx,
 //                                          TASK_LOW_LATENCY);
 //        reorg_task->Wait<TASK_YIELD_CO>(task);
-//        CHI_CLIENT->DelTask(reorg_task);
+//        CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, reorg_task);
 //      }
 //      blob_info.access_freq_ = 0;
 
@@ -955,8 +975,10 @@ class Server : public Module {
           ++rctx.flush_->count_;
         }
         LPointer<char> data = CHI_CLIENT->AllocateBuffer(
+            CHI_DEFAULT_MEM_CTX,
             blob_info.blob_size_);
         client_.GetBlob(
+            CHI_DEFAULT_MEM_CTX,
             chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
             blob_info.tag_id_,
             blob_info.blob_id_,
@@ -967,6 +989,7 @@ class Server : public Module {
         HILOG(kInfo, "Flushing blob {} with first entry {}",
               plcmnt.page_, (int)data.ptr_[0]);
         client_.StageOut(
+            CHI_DEFAULT_MEM_CTX,
             chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
             blob_info.tag_id_,
             blob_info.name_,
@@ -1058,7 +1081,8 @@ class Server : public Module {
     std::string params = task->params_.str();
     HILOG(kDebug, "Registering stager {}: {}", task->bkt_id_, tag_name);
     std::shared_ptr<AbstractStager> stager = StagerFactory::Get(tag_name, params);
-    stager->RegisterStager(task->tag_name_.str(),
+    stager->RegisterStager(CHI_DEFAULT_MEM_CTX,
+                           task->tag_name_.str(),
                            task->params_.str());
     stager_map.emplace(task->bkt_id_, std::move(stager));
     task->SetModuleComplete();
@@ -1107,7 +1131,8 @@ class Server : public Module {
       return;
     }
     std::shared_ptr<AbstractStager> &stager = it->second;
-    stager->StageIn(client_,
+    stager->StageIn(CHI_DEFAULT_MEM_CTX,
+                    client_,
                     task->bkt_id_,
                     task->blob_name_.str(),
                     task->score_);
@@ -1135,7 +1160,8 @@ class Server : public Module {
       return;
     }
     std::shared_ptr<AbstractStager> &stager = it->second;
-    stager->StageOut(client_,
+    stager->StageOut(CHI_DEFAULT_MEM_CTX,
+                     client_,
                      task->bkt_id_,
                      task->blob_name_.str(),
                      task->data_,
