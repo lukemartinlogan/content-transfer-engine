@@ -65,6 +65,7 @@ class Bucket {
                   u32 flags = 0) {
     mctx_ = mctx;
     mdm_ = &HERMES_CONF->mdm_;
+    chi::charbuf x;
     id_ = mdm_->GetOrCreateTag(
         mctx_,
         chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),

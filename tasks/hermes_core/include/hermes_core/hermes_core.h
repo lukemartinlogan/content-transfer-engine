@@ -95,7 +95,7 @@ class Client : public ModuleClient {
     LPointer<GetTagNameTask> task =
         AsyncGetTagName(mctx, dom_query, tag_id);
     task->Wait();
-    hshm::string tag_name = hshm::to_charbuf<chi::string>(task->tag_name_);
+    hshm::string tag_name(task->tag_name_.str());
     CHI_CLIENT->DelTask(mctx, task);
     return tag_name;
   }
@@ -368,8 +368,7 @@ class Client : public ModuleClient {
     LPointer<GetBlobBuffersTask> task =
         AsyncGetBlobBuffers(mctx, dom_query, tag_id, blob_id);
     task->Wait();
-    std::vector<BufferInfo> buffers =
-        hshm::to_stl_vector<BufferInfo>(task->buffers_);
+    std::vector<BufferInfo> buffers(task->buffers_.vec());
     CHI_CLIENT->DelTask(mctx, task);
     return buffers;
   }
