@@ -299,7 +299,7 @@ struct BlobInfo {
       const TagId &tag_id,
       const chi::charbuf &blob_name) {
     chi::charbuf new_name(sizeof(TagId) + blob_name.size());
-    chi::LocalSerialize srl(new_name);
+    hipc::LocalSerialize srl(new_name);
     srl << tag_id;
     srl << blob_name;
     return new_name;

@@ -125,7 +125,7 @@ class Server : public Module {
   /** Get the globally unique blob name */
   const chi::charbuf GetBlobNameWithBucket(TagId tag_id, const chi::charbuf &blob_name) {
     chi::charbuf new_name(sizeof(TagId) + blob_name.size());
-    chi::LocalSerialize srl(new_name);
+    hipc::LocalSerialize srl(new_name);
     srl << tag_id;
     srl << blob_name;
     return new_name;
@@ -282,7 +282,7 @@ class Server : public Module {
                                           new_score, false, ctx,
                                           TASK_LOW_LATENCY);
         reorg_task->Wait<TASK_YIELD_CO>(task);
-        CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, reorg_task);
+        CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, reorg_task);
       }
       blob_info.access_freq_ = 0;
 
@@ -304,7 +304,7 @@ class Server : public Module {
                                    0, blob_info.blob_size_,
                                    data.shm_);
         get_blob->Wait<TASK_YIELD_CO>(task);
-        CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, get_blob);
+        CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, get_blob);
         flush_info.stage_task_ =
           stager_mdm_.AsyncStageOut(task->task_node_ + 1,
                                     blob_info.tag_id_,
@@ -322,7 +322,7 @@ class Server : public Module {
       BlobInfo &blob_info = *flush_info.blob_info_;
       flush_info.stage_task_->Wait<TASK_YIELD_CO>(task);
       blob_info.last_flush_ = flush_info.mod_count_;
-      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, flush_info.stage_task_);
+      CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, flush_info.stage_task_);
     }
   }
   void MonitorFlushData(u32 mode, FlushDataTask *task, RunContext &rctx) {
@@ -365,7 +365,7 @@ class Server : public Module {
                                    task->score_, 0);
       stage_task->Wait<TASK_YIELD_CO>(task);
       blob_info.mod_count_ = 1;
-      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, stage_task);
+      CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, stage_task);
     }
     if (task->flags_.Any(HERMES_SHOULD_STAGE)) {
       HILOG(kDebug, "This is marked as a file: {} {}",
@@ -421,7 +421,7 @@ class Server : public Module {
           next_placement.size_ += diff;
         }
         // bdev.monitor_task_->rem_cap_ -= alloc_task->alloc_size_;
-        CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, alloc_task);
+        CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, alloc_task);
       }
     }
 
@@ -466,7 +466,7 @@ class Server : public Module {
     // Wait for the placements to complete
     for (LPointer<bdev::WriteTask> &write_task : write_tasks) {
       write_task->Wait<TASK_YIELD_CO>(task);
-      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, write_task);
+      CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, write_task);
     }
 
     // Update information
@@ -538,7 +538,7 @@ class Server : public Module {
                                    blob_info.name_,
                                    1, 0);
       stage_task->Wait<TASK_YIELD_CO>(task);
-      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, stage_task);
+      CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, stage_task);
     }
 
     // Read blob from buffers
@@ -580,7 +580,7 @@ class Server : public Module {
     }
     for (bdev::ReadTask *&read_task : read_tasks) {
       read_task->Wait<TASK_YIELD_CO>(task);
-      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, read_task);
+      CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, read_task);
     }
     task->data_size_ = buf_off;
     task->SetModuleComplete();
@@ -833,7 +833,7 @@ class Server : public Module {
           }
         }
         for (bdev::FreeTask *&free_task : free_tasks) {
-          CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, free_task);
+          CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, free_task);
         }
         BLOB_MAP_T &blob_map = blob_map_[rctx.lane_id_];
         BlobInfo &blob_info = blob_map[task->blob_id_];
@@ -898,7 +898,7 @@ class Server : public Module {
         if (!task->get_task_->IsComplete()) {
           return;
         }
-        CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task->get_task_);
+        CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task->get_task_);
         task->phase_ = ReorganizeBlobPhase::kPut;
       }
       case ReorganizeBlobPhase::kPut: {

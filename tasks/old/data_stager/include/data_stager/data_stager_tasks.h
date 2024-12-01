@@ -264,7 +264,7 @@ struct StageInTask : public Task, TaskFlags<TF_LOCAL> {
   /** Create group */
   HSHM_ALWAYS_INLINE
   u32 GetGroup(chi::charbuf &group) {
-//    chi::LocalSerialize srl(group);
+//    hipc::LocalSerialize srl(group);
 //    srl << bkt_id_.unique_;
 //    srl << bkt_id_.node_id_;
 //    return 0;

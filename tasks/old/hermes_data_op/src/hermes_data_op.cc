@@ -87,13 +87,13 @@ class Server : public Module {
         bkt_name.bkt_id_task_->Wait<TASK_YIELD_CO>(task);
         bkt_name.bkt_id_ = bkt_name.bkt_id_task_->tag_id_;
         op_data_map_.emplace(bkt_name.bkt_id_, OpPendingData());
-        CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, bkt_name.bkt_id_task_);
+        CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, bkt_name.bkt_id_task_);
       }
       // Spawn bucket ID task for the output
       op.var_name_.bkt_id_task_->Wait<TASK_YIELD_CO>(task);
       op.var_name_.bkt_id_ = op.var_name_.bkt_id_task_->tag_id_;
       op_data_map_.emplace(op.var_name_.bkt_id_, OpPendingData());
-      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, op.var_name_.bkt_id_task_);
+      CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, op.var_name_.bkt_id_task_);
     }
 
     // Get number of operations that depend on each data object
@@ -219,7 +219,7 @@ class Server : public Module {
                              0, sizeof(float),
                              min_lptr.shm_, 0, 0);
       CHI_CLIENT->FreeBuffer(in_task->data_);
-      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, in_task);
+      CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, in_task);
     }
   }
 

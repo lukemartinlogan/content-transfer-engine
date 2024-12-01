@@ -270,7 +270,7 @@ class Bucket {
       if (hermes_flags.Any(HERMES_GET_BLOB_ID)) {
         task->Wait();
         blob_id = task->blob_id_;
-        CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
+        CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
       }
     }
     return blob_id;
@@ -547,7 +547,7 @@ class Bucket {
                            blob_off, blob_size, ctx);
     task->Wait();
     blob_id = task->blob_id_;
-    CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
+    CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
     return blob_id;
   }
 
@@ -578,7 +578,7 @@ class Bucket {
     memcpy(blob.data(), data, task->data_size_);
     blob.resize(task->data_size_);
     CHI_CLIENT->FreeBuffer(task->data_);
-    CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
+    CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
     return blob_id;
   }
 

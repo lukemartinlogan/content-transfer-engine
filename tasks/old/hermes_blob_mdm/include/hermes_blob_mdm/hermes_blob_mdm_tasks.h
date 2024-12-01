@@ -291,7 +291,7 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_ASYM_START | TF_SRL_SYM_END> 
    /** Create group */
   HSHM_ALWAYS_INLINE
   u32 GetGroup(chi::charbuf &group) {
-    chi::LocalSerialize srl(group);
+    hipc::LocalSerialize srl(group);
     srl << std::string("blob_op");
     srl << tag_id_;
     return 0;
@@ -413,7 +413,7 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_ASYM_START | TF_SRL_SYM_END> 
    /** Create group */
   HSHM_ALWAYS_INLINE
   u32 GetGroup(chi::charbuf &group) {
-    chi::LocalSerialize srl(group);
+    hipc::LocalSerialize srl(group);
     srl << std::string("blob_op");
     srl << tag_id_;
     return 0;
@@ -469,7 +469,7 @@ struct TagBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
    /** Create group */
   HSHM_ALWAYS_INLINE
   u32 GetGroup(chi::charbuf &group) {
-    chi::LocalSerialize srl(group);
+    hipc::LocalSerialize srl(group);
     srl << std::string("blob_op");
     srl << tag_id_;
     return 0;
@@ -530,7 +530,7 @@ struct BlobHasTagTask : public Task, TaskFlags<TF_SRL_SYM> {
    /** Create group */
   HSHM_ALWAYS_INLINE
   u32 GetGroup(chi::charbuf &group) {
-    chi::LocalSerialize srl(group);
+    hipc::LocalSerialize srl(group);
     srl << std::string("blob_op");
     srl << tag_id_;
     return 0;
@@ -592,7 +592,7 @@ struct GetBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
    /** Create group */
   HSHM_ALWAYS_INLINE
   u32 GetGroup(chi::charbuf &group) {
-    chi::LocalSerialize srl(group);
+    hipc::LocalSerialize srl(group);
     srl << std::string("blob_op");
     srl << tag_id_;
     return 0;
@@ -655,7 +655,7 @@ struct GetBlobNameTask : public Task, TaskFlags<TF_SRL_SYM> {
    /** Create group */
   HSHM_ALWAYS_INLINE
   u32 GetGroup(chi::charbuf &group) {
-    chi::LocalSerialize srl(group);
+    hipc::LocalSerialize srl(group);
     srl << std::string("blob_op");
     srl << tag_id_;
     return 0;
@@ -723,7 +723,7 @@ struct GetBlobSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
    /** Create group */
   HSHM_ALWAYS_INLINE
   u32 GetGroup(chi::charbuf &group) {
-    chi::LocalSerialize srl(group);
+    hipc::LocalSerialize srl(group);
     srl << std::string("blob_op");
     srl << tag_id_;
     return 0;
@@ -778,7 +778,7 @@ struct GetBlobScoreTask : public Task, TaskFlags<TF_SRL_SYM> {
    /** Create group */
   HSHM_ALWAYS_INLINE
   u32 GetGroup(chi::charbuf &group) {
-    chi::LocalSerialize srl(group);
+    hipc::LocalSerialize srl(group);
     srl << std::string("blob_op");
     srl << tag_id_;
     return 0;
@@ -839,7 +839,7 @@ struct GetBlobBuffersTask : public Task, TaskFlags<TF_SRL_SYM> {
    /** Create group */
   HSHM_ALWAYS_INLINE
   u32 GetGroup(chi::charbuf &group) {
-    chi::LocalSerialize srl(group);
+    hipc::LocalSerialize srl(group);
     srl << std::string("blob_op");
     srl << tag_id_;
     return 0;
@@ -904,7 +904,7 @@ struct RenameBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
    /** Create group */
   HSHM_ALWAYS_INLINE
   u32 GetGroup(chi::charbuf &group) {
-    chi::LocalSerialize srl(group);
+    hipc::LocalSerialize srl(group);
     srl << std::string("blob_op");
     srl << tag_id_;
     return 0;
@@ -960,7 +960,7 @@ struct TruncateBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
    /** Create group */
   HSHM_ALWAYS_INLINE
   u32 GetGroup(chi::charbuf &group) {
-    chi::LocalSerialize srl(group);
+    hipc::LocalSerialize srl(group);
     srl << std::string("blob_op");
     srl << tag_id_;
     return 0;
@@ -1024,7 +1024,7 @@ struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
    /** Create group */
   HSHM_ALWAYS_INLINE
   u32 GetGroup(chi::charbuf &group) {
-    chi::LocalSerialize srl(group);
+    hipc::LocalSerialize srl(group);
     srl << std::string("blob_op");
     srl << tag_id_;
     return 0;
@@ -1107,7 +1107,7 @@ struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
    /** Create group */
   HSHM_ALWAYS_INLINE
   u32 GetGroup(chi::charbuf &group) {
-    chi::LocalSerialize srl(group);
+    hipc::LocalSerialize srl(group);
     srl << std::string("blob_op");
     srl << tag_id_;
     return 0;

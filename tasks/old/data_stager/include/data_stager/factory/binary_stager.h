@@ -39,7 +39,7 @@ class BinaryFileStager : public AbstractStager {
                                      size_t elmt_size = 1) {
     chi::charbuf params(32);
     page_size = (page_size / elmt_size) * elmt_size;
-    chi::LocalSerialize srl(params);
+    hipc::LocalSerialize srl(params);
     srl << std::string("file");
     srl << flags;
     srl << page_size;
@@ -50,7 +50,7 @@ class BinaryFileStager : public AbstractStager {
   void RegisterStager(RegisterStagerTask *task, RunContext &rctx) override {
     std::string params = task->params_->str();
     std::string protocol;
-    chi::LocalDeserialize srl(params);
+    hipc::LocalDeserialize srl(params);
     srl >> protocol;
     srl >> flags_.bits_;
     srl >> page_size_;
@@ -101,7 +101,7 @@ class BinaryFileStager : public AbstractStager {
                               0, real_size, blob.shm_, task->score_, 0,
                               ctx, TASK_DATA_OWNER | TASK_LOW_LATENCY);
     put_task->Wait<TASK_YIELD_CO>(task);
-    HRUN_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, put_task);
+    HRUN_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, put_task);
   }
 
   /** Stage data out to remote source */

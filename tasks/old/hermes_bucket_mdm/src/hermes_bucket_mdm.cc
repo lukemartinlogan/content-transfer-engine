@@ -128,7 +128,7 @@ class Server : public Module {
               CHI_CLIENT->node_id_, task->tag_id_, task->task_node_)
         for (AppendInfo &append : append_info) {
           append.blob_id_ = append.blob_id_task_->blob_id_;
-          CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, append.blob_id_task_);
+          CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, append.blob_id_task_);
         }
         task->SetModuleComplete();
       }
@@ -197,10 +197,10 @@ class Server : public Module {
         HILOG(kDebug, "(node {}) PUT blobs for tag {} (task_node={})",
               CHI_CLIENT->node_id_, task->tag_id_, task->task_node_)
         for (AppendInfo &append : append_info) {
-          CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, append.put_task_);
+          CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, append.put_task_);
         }
         HSHM_DESTROY_AR(task->schema_->append_info_);
-        CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task->schema_);
+        CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task->schema_);
         task->SetModuleComplete();
       }
     }
@@ -335,7 +335,7 @@ class Server : public Module {
           }
         }
         for (blob_mdm::DestroyBlobTask *&blob_task : blob_tasks) {
-          CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, blob_task);
+          CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, blob_task);
         }
         HSHM_DESTROY_AR(task->destroy_blob_tasks_);
         TAG_MAP_T &tag_map = tag_map_[rctx.lane_id_];

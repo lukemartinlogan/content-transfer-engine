@@ -100,12 +100,12 @@ class Filesystem : public FilesystemIoClient {
       // Get or create the bucket
       if (stat.hflags_.Any(HERMES_FS_TRUNC)) {
         // The file was opened with TRUNCATION
-        stat.bkt_id_ = HERMES->GetBucket(CHI_DEFAULT_MEM_CTX, stat.path_, ctx, 0, HERMES_SHOULD_STAGE);
+        stat.bkt_id_ = HERMES->GetBucket(HSHM_DEFAULT_MEM_CTX, stat.path_, ctx, 0, HERMES_SHOULD_STAGE);
         stat.bkt_id_.Clear();
       } else {
         // The file was opened regularly
         stat.file_size_ = GetBackendSize(*path_shm);
-        stat.bkt_id_ = HERMES->GetBucket(CHI_DEFAULT_MEM_CTX, stat.path_, ctx, stat.file_size_, HERMES_SHOULD_STAGE);
+        stat.bkt_id_ = HERMES->GetBucket(HSHM_DEFAULT_MEM_CTX, stat.path_, ctx, stat.file_size_, HERMES_SHOULD_STAGE);
       }
       HILOG(kDebug, "BKT vs file size: {} {}", stat.bkt_id_.GetSize(), stat.file_size_);
       // Update file position pointer
@@ -307,7 +307,7 @@ class Filesystem : public FilesystemIoClient {
   size_t Wait(FsAsyncTask *fstask) {
     for (LPointer<PutBlobTask> &task : fstask->put_tasks_) {
       task->Wait();
-      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
+      CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
     }
 
     // Update I/O status for gets
@@ -316,7 +316,7 @@ class Filesystem : public FilesystemIoClient {
       for (LPointer<GetBlobTask> &task : fstask->get_tasks_) {
         task->Wait();
         get_size += task->data_size_;
-        CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
+        CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
       }
       fstask->io_status_.size_ = get_size;
       UpdateIoStatus(fstask->opts_, fstask->io_status_);
@@ -393,7 +393,7 @@ class Filesystem : public FilesystemIoClient {
     if (HERMES_CLIENT_CONF.flushing_mode_ == FlushingMode::kSync) {
       // NOTE(llogan): only for the unit tests
       // Please don't enable synchronous flushing
-      CHI_ADMIN->Flush(CHI_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast());
+      CHI_ADMIN->Flush(HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast());
     }
     return 0;
   }
@@ -430,7 +430,7 @@ class Filesystem : public FilesystemIoClient {
     int ret = RealRemove(pathname);
     // Destroy the bucket
     std::string canon_path = stdfs::absolute(pathname).string();
-    Bucket bkt = HERMES->GetBucket(CHI_DEFAULT_MEM_CTX, canon_path);
+    Bucket bkt = HERMES->GetBucket(HSHM_DEFAULT_MEM_CTX, canon_path);
     bkt.Destroy();
     // Destroy all file descriptors
     std::list<File>* filesp = mdm->Find(pathname);

@@ -34,7 +34,7 @@ class Client : public ModuleClient {
     if (task->IsModuleComplete()) {
       id_ = task->id_;
       queue_id_ = QueueId(id_);
-      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
+      CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
     }
   }
   HRUN_TASK_NODE_ROOT(AsyncCreate);
@@ -79,7 +79,7 @@ class Client : public ModuleClient {
     task->Wait();
     std::vector<BlobInfo> blob_mdms =
         task->DeserializeBlobMetadata();
-    CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
+    CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
     return blob_mdms;
   }
   CHI_TASK_METHODS(PollBlobMetadata);
@@ -98,7 +98,7 @@ class Client : public ModuleClient {
     task->Wait();
     std::vector<TargetStats> target_mdms =
         task->DeserializeTargetMetadata();
-    CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
+    CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
     return target_mdms;
   }
   CHI_TASK_METHODS(PollTargetMetadata);

@@ -45,7 +45,7 @@ TEST_CASE("TestHshmAllocateFree") {
       tasks[j] = CHI_CLIENT->NewTask<chi::Task>().ptr_;
     }
     for (size_t j = 0; j < count; ++j) {
-      CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, tasks[j]);
+      CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, tasks[j]);
     }
   }
   t.Pause();
@@ -111,7 +111,7 @@ TEST_CASE("TestHshmQueueEmplacePop") {
   }
   t.Pause();
 
-  CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
+  CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
   HILOG(kInfo, "Latency: {} MOps", ops / t.GetUsec());
 }
 
@@ -156,7 +156,7 @@ TEST_CASE("TestHshmQueueAllocateEmplacePop") {
     entry.p_ = task.shm_;
     queue->Emplace(0, 0, entry);
     lane.pop();
-    CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
+    CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
   }
   t.Pause();
 
@@ -234,7 +234,7 @@ void TestWorkerIterationLatency(u32 num_queues, u32 num_lanes) {
                                      task_node,
                                      chi::DomainId::GetLocal());
     worker.Run(false);
-    CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
+    CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
   }
   t.Pause();
 

@@ -15,7 +15,7 @@ class StagerFactory {
   static std::unique_ptr<AbstractStager> Get(const std::string &path,
                                              const std::string &params) {
     std::string protocol;
-    chi::LocalDeserialize srl(params);
+    hipc::LocalDeserialize srl(params);
     srl >> protocol;
 
     std::unique_ptr<AbstractStager> stager;

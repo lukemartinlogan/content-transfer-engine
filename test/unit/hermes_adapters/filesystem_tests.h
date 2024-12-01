@@ -168,7 +168,7 @@ class FilesystemTests {
   void Flush() {
 #if HERMES_INTERCEPT == 1
     // HERMES->Clear();
-    CHI_ADMIN->Flush(CHI_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast());
+    CHI_ADMIN->Flush(HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast());
 #endif
   }
 
@@ -270,7 +270,7 @@ class FilesystemTests {
       HELOG(kFatal, "Failed to remove: {}", path)
     }
 #ifdef HERMES_INTERCEPT
-    hermes::Bucket bkt = HERMES->GetBucket(CHI_DEFAULT_MEM_CTX, path);
+    hermes::Bucket bkt = HERMES->GetBucket(HSHM_DEFAULT_MEM_CTX, path);
     bkt.Destroy();
 #endif
   }

@@ -897,199 +897,199 @@ TaskPointer LoadStart(    u32 method, BinaryInputArchive<true> &ar) override {
   switch (method) {
     case Method::kCreate: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<CreateTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<CreateTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kDestroy: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<DestroyTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<DestroyTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetOrCreateTag: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetOrCreateTagTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetOrCreateTagTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetTagId: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetTagIdTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetTagIdTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetTagName: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetTagNameTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetTagNameTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kDestroyTag: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<DestroyTagTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<DestroyTagTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTagAddBlob: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagAddBlobTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<TagAddBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTagRemoveBlob: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagRemoveBlobTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<TagRemoveBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTagClearBlobs: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagClearBlobsTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<TagClearBlobsTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTagGetSize: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagGetSizeTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<TagGetSizeTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTagUpdateSize: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagUpdateSizeTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<TagUpdateSizeTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTagGetContainedBlobIds: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagGetContainedBlobIdsTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<TagGetContainedBlobIdsTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetOrCreateBlobId: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetOrCreateBlobIdTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetOrCreateBlobIdTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlobId: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobIdTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobIdTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlobName: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobNameTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobNameTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlobSize: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobSizeTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobSizeTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlobScore: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobScoreTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobScoreTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlobBuffers: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobBuffersTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobBuffersTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kPutBlob: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PutBlobTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<PutBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kGetBlob: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<GetBlobTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<GetBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTruncateBlob: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TruncateBlobTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<TruncateBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kDestroyBlob: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<DestroyBlobTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<DestroyBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kTagBlob: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TagBlobTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<TagBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kBlobHasTag: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<BlobHasTagTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<BlobHasTagTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kReorganizeBlob: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<ReorganizeBlobTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<ReorganizeBlobTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kFlushData: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<FlushDataTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<FlushDataTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kPollBlobMetadata: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PollBlobMetadataTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<PollBlobMetadataTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kPollTargetMetadata: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PollTargetMetadataTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<PollTargetMetadataTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kPollTagMetadata: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PollTagMetadataTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<PollTagMetadataTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kRegisterStager: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<RegisterStagerTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<RegisterStagerTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kUnregisterStager: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<UnregisterStagerTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<UnregisterStagerTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kStageIn: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<StageInTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<StageInTask*>(task_ptr.ptr_);
       break;
     }
     case Method::kStageOut: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<StageOutTask>(
-             CHI_DEFAULT_MEM_CTX, task_ptr.shm_);
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
       ar >> *reinterpret_cast<StageOutTask*>(task_ptr.ptr_);
       break;
     }

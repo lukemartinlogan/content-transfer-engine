@@ -239,7 +239,7 @@ TEST_CASE("Open", "[process=" + std::to_string(TESTER->comm_size_) +
 //  TESTER->test_open(TESTER->existing_file_, O_WRONLY | O_TRUNC);
 //  TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
 //  stdfs::remove(TESTER->existing_file_.hermes_);
-//  hermes::Bucket bkt = HERMES->GetBucket(CHI_DEFAULT_MEM_CTX, TESTER->existing_file_.hermes_);
+//  hermes::Bucket bkt = HERMES->GetBucket(HSHM_DEFAULT_MEM_CTX, TESTER->existing_file_.hermes_);
 //  bkt.Destroy();
 // }
 

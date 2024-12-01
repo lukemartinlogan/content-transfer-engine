@@ -39,7 +39,7 @@ class BinaryFileStager : public AbstractStager {
                                      size_t elmt_size = 1) {
     chi::charbuf params(32);
     page_size = (page_size / elmt_size) * elmt_size;
-    chi::LocalSerialize srl(params);
+    hipc::LocalSerialize srl(params);
     srl << std::string("file");
     srl << flags;
     srl << page_size;
@@ -51,7 +51,7 @@ class BinaryFileStager : public AbstractStager {
                       const std::string &tag_name,
                       const std::string &params) override {
     std::string protocol;
-    chi::LocalDeserialize srl(params);
+    hipc::LocalDeserialize srl(params);
     srl >> protocol;
     srl >> flags_.bits_;
     srl >> page_size_;

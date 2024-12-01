@@ -42,7 +42,7 @@ class Client : public ModuleClient {
     task->Wait();
     id_ = task->id_;
     Init(id_, CHI_ADMIN->queue_id_);
-    CHI_CLIENT->DelTask(CHI_DEFAULT_MEM_CTX, task);
+    CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
   }
 
   /** Destroy task state + queue */
