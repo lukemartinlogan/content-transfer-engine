@@ -499,7 +499,7 @@ TEST_CASE("TestHermesDataStager") {
     // Put a blob
     hermes::Blob blob(page_size);
     memset(blob.data(), i % 256, blob.size());
-    chi::charbuf blob_name = hermes::adapter::BlobPlacement::CreateBlobName(i);
+    chi::string blob_name = hermes::adapter::BlobPlacement::CreateBlobName(i);
     bkt.Put(blob_name.str(), blob, ctx);
     hermes::Blob blob2;
     bkt.Get(blob_name.str(), blob2, ctx);
@@ -507,7 +507,7 @@ TEST_CASE("TestHermesDataStager") {
     REQUIRE(blob2 == blob);
   }
   for (size_t i = off; i < proc_count; ++i) {
-    chi::charbuf blob_name = hermes::adapter::BlobPlacement::CreateBlobName(i);
+    chi::string blob_name = hermes::adapter::BlobPlacement::CreateBlobName(i);
     HILOG(kInfo, "ContainsBlob Iteration: {}", i);
     REQUIRE(bkt.ContainsBlob(blob_name.str()));
   }

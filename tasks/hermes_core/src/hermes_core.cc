@@ -25,9 +25,9 @@ namespace hermes {
 #define HERMES_LANES 32
 
 /** Type name simplification for the various map types */
-typedef std::unordered_map<chi::charbuf, TagId> TAG_ID_MAP_T;
+typedef std::unordered_map<chi::string, TagId> TAG_ID_MAP_T;
 typedef std::unordered_map<TagId, TagInfo> TAG_MAP_T;
-typedef std::unordered_map<chi::charbuf, BlobId> BLOB_ID_MAP_T;
+typedef std::unordered_map<chi::string, BlobId> BLOB_ID_MAP_T;
 typedef std::unordered_map<BlobId, BlobInfo> BLOB_MAP_T;
 typedef hipc::mpsc_queue<IoStat> IO_PATTERN_LOG_T;
 typedef std::unordered_map<TagId, std::shared_ptr<AbstractStager>> STAGER_MAP_T;
@@ -55,8 +55,8 @@ class Server : public Module {
 
  private:
   /** Get the globally unique blob name */
-  const chi::charbuf GetBlobNameWithBucket(
-      const TagId &tag_id, const chi::charbuf &blob_name) {
+  const chi::string GetBlobNameWithBucket(
+      const TagId &tag_id, const chi::string &blob_name) {
     return BlobInfo::GetBlobNameWithBucket(tag_id, blob_name);
   }
 
@@ -162,8 +162,8 @@ class Server : public Module {
             HSHM_DEFAULT_MEM_CTX,
             chi::DomainQuery::GetGlobalBcast(),
             tag_id,
-            chi::charbuf(task->tag_name_.str()),
-            chi::charbuf(task->params_.str()));
+            chi::string(task->tag_name_.str()),
+            chi::string(task->params_.str()));
         tag.flags_.SetBits(HERMES_SHOULD_STAGE);
       }
     } else {
@@ -188,7 +188,7 @@ class Server : public Module {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_ID_MAP_T &tag_id_map = tls.tag_id_map_;
-    chi::charbuf tag_name(task->tag_name_);
+    chi::string tag_name(task->tag_name_);
     auto it = tag_id_map.find(tag_name);
     if (it == tag_id_map.end()) {
       task->tag_id_ = TagId::GetNull();
@@ -383,9 +383,9 @@ class Server : public Module {
 
   /** Get or create a blob ID */
   BlobId GetOrCreateBlobId(HermesLane &tls, TagId &tag_id, u32 name_hash,
-                           const chi::charbuf &blob_name,
+                           const chi::string &blob_name,
                            bitfield32_t &flags) {
-    chi::charbuf blob_name_unique = GetBlobNameWithBucket(tag_id, blob_name);
+    chi::string blob_name_unique = GetBlobNameWithBucket(tag_id, blob_name);
     BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
     auto it = blob_id_map.find(blob_name_unique);
     if (it == blob_id_map.end()) {
@@ -412,7 +412,7 @@ class Server : public Module {
   void GetOrCreateBlobId(GetOrCreateBlobIdTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
-    chi::charbuf blob_name(task->blob_name_);
+    chi::string blob_name(task->blob_name_);
     bitfield32_t flags;
     task->blob_id_ = GetOrCreateBlobId(
         tls, task->tag_id_,
@@ -429,8 +429,8 @@ class Server : public Module {
   void GetBlobId(GetBlobIdTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
-    chi::charbuf blob_name(task->blob_name_);
-    chi::charbuf blob_name_unique = GetBlobNameWithBucket(task->tag_id_, blob_name);
+    chi::string blob_name(task->blob_name_);
+    chi::string blob_name_unique = GetBlobNameWithBucket(task->tag_id_, blob_name);
     BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
     auto it = blob_id_map.find(blob_name_unique);
     if (it == blob_id_map.end()) {
@@ -475,7 +475,7 @@ class Server : public Module {
       task->blob_id_ = GetOrCreateBlobId(
           tls, task->tag_id_,
           HashBlobName(task->tag_id_, task->blob_name_),
-          chi::charbuf(task->blob_name_), flags);
+          chi::string(task->blob_name_), flags);
     }
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
@@ -531,7 +531,7 @@ class Server : public Module {
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
 
     // Get blob ID
-    chi::charbuf blob_name(task->blob_name_);
+    chi::string blob_name(task->blob_name_);
     if (task->blob_id_.IsNull()) {
       task->blob_id_ = GetOrCreateBlobId(
           tls, task->tag_id_,
@@ -721,7 +721,7 @@ class Server : public Module {
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     // Get blob struct
     if (task->blob_id_.IsNull()) {
-      chi::charbuf blob_name(task->blob_name_);
+      chi::string blob_name(task->blob_name_);
       task->blob_id_ = GetOrCreateBlobId(
           tls, task->tag_id_,
           HashBlobName(task->tag_id_, blob_name),
@@ -881,7 +881,7 @@ class Server : public Module {
     BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
     BLOB_MAP_T &blob_map = tls.blob_map_;
     // Get blob ID
-    chi::charbuf blob_name(task->blob_name_);
+    chi::string blob_name(task->blob_name_);
     if (task->blob_id_.IsNull()) {
       auto blob_id_map_it = blob_id_map.find(blob_name);
       if (blob_id_map_it == blob_id_map.end()) {
@@ -920,7 +920,7 @@ class Server : public Module {
         HSHM_DEFAULT_MEM_CTX,
         chi::DomainQuery::GetDirectHash(
             chi::SubDomainId::kLocalContainers, 0),
-        task->tag_id_, chi::charbuf(""), task->blob_id_,
+        task->tag_id_, chi::string(""), task->blob_id_,
         0, blob_info.blob_size_, data.shm_, blob_info.score_,
         TASK_FIRE_AND_FORGET | TASK_DATA_OWNER, 0);
     task->SetModuleComplete();
@@ -953,7 +953,7 @@ class Server : public Module {
 //        LPointer<ReorganizeBlobTask> reorg_task =
 //            blob_mdm_.AsyncReorganizeBlob(task->task_node_ + 1,
 //                                          blob_info.tag_id_,
-//                                          chi::charbuf(""),
+//                                          chi::string(""),
 //                                          blob_info.blob_id_,
 //                                          new_score, false, ctx,
 //                                          TASK_LOW_LATENCY);

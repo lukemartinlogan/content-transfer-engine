@@ -37,7 +37,7 @@ class BinaryFileStager : public AbstractStager {
   static std::string BuildFileParams(size_t page_size,
                                      u32 flags = 0,
                                      size_t elmt_size = 1) {
-    chi::charbuf params(32);
+    chi::string params(32);
     page_size = (page_size / elmt_size) * elmt_size;
     hipc::LocalSerialize srl(params);
     srl << std::string("file");
@@ -103,7 +103,7 @@ class BinaryFileStager : public AbstractStager {
     client.PutBlob(
         mctx, chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
         tag_id,
-        chi::charbuf(blob_name),
+        chi::string(blob_name),
         hermes::BlobId::GetNull(),
         0, real_size, blob.shm_, score,
         TASK_DATA_OWNER, 0, ctx);

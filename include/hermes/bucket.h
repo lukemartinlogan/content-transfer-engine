@@ -47,7 +47,7 @@ class Bucket {
     mdm_ = &HERMES_CONF->mdm_;
     id_ = mdm_->GetOrCreateTag(
         mctx_, chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        chi::charbuf(bkt_name), true,
+        chi::string(bkt_name), true,
         backend_size, flags);
     name_ = bkt_name;
   }
@@ -65,11 +65,11 @@ class Bucket {
                   u32 flags = 0) {
     mctx_ = mctx;
     mdm_ = &HERMES_CONF->mdm_;
-    chi::charbuf x;
+    chi::string x;
     id_ = mdm_->GetOrCreateTag(
         mctx_,
         chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        chi::charbuf(bkt_name), true,
+        chi::string(bkt_name), true,
         backend_size, flags, ctx);
     name_ = bkt_name;
   }
@@ -148,7 +148,7 @@ class Bucket {
    * Rename this bucket
    * */
   void Rename(const std::string &new_bkt_name) {
-    // mdm_->RenameTag(id_, chi::charbuf(new_bkt_name));
+    // mdm_->RenameTag(id_, chi::string(new_bkt_name));
   }
 
   /**
@@ -191,7 +191,7 @@ class Bucket {
   BlobId GetBlobId(const std::string &blob_name) {
     return mdm_->GetBlobId(
         mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, chi::charbuf(blob_name));
+        id_, chi::string(blob_name));
   }
 
   /**
@@ -246,7 +246,7 @@ class Bucket {
     BlobId blob_id = orig_blob_id;
     bitfield32_t hermes_flags;
     // Put to shared memory
-    chi::charbuf blob_name_buf(blob_name);
+    chi::string blob_name_buf(blob_name);
     if constexpr (!ASYNC) {
       if (blob_id.IsNull()) {
         hermes_flags.SetBits(HERMES_GET_BLOB_ID);
@@ -435,7 +435,7 @@ class Bucket {
                       const Context &ctx = Context()) {
     mdm_->AsyncReorganizeBlob(
         mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, chi::charbuf(name), BlobId::GetNull(), score, true, ctx);
+        id_, chi::string(name), BlobId::GetNull(), score, true, ctx);
   }
 
   /**
@@ -446,7 +446,7 @@ class Bucket {
                       const Context &ctx = Context()) {
     mdm_->AsyncReorganizeBlob(
         mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, chi::charbuf(""), blob_id, score, true, ctx);
+        id_, chi::string(""), blob_id, score, true, ctx);
   }
 
   /**
@@ -461,7 +461,7 @@ class Bucket {
     ctx.node_id_ = node_id;
     mdm_->AsyncReorganizeBlob(
         mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, chi::charbuf(""), blob_id, score, true, ctx);
+        id_, chi::string(""), blob_id, score, true, ctx);
   }
 
   /**
@@ -470,7 +470,7 @@ class Bucket {
   size_t GetBlobSize(const BlobId &blob_id) {
     return mdm_->GetBlobSize(
         mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, chi::charbuf(""), blob_id);
+        id_, chi::string(""), blob_id);
   }
 
   /**
@@ -479,7 +479,7 @@ class Bucket {
   size_t GetBlobSize(const std::string &name) {
     return mdm_->GetBlobSize(
         mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, chi::charbuf(name), BlobId::GetNull());
+        id_, chi::string(name), BlobId::GetNull());
   }
 
   /**
@@ -502,7 +502,7 @@ class Bucket {
     LPointer<GetBlobTask> task;
     task = mdm_->AsyncGetBlob(
         mctx_, chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, chi::charbuf(blob_name),
+        id_, chi::string(blob_name),
         blob_id, blob_off,
         blob_size, blob.shm_,
         hermes_flags.bits_, ctx);
@@ -564,7 +564,7 @@ class Bucket {
     if (blob.size() == 0) {
       data_size = mdm_->GetBlobSize(
           mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-          id_, chi::charbuf(blob_name),
+          id_, chi::string(blob_name),
           orig_blob_id);
       blob.resize(data_size);
     }
@@ -697,7 +697,7 @@ class Bucket {
   bool ContainsBlob(const std::string &blob_name) {
     BlobId new_blob_id = mdm_->GetBlobId(
         mctx_, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, chi::charbuf(blob_name));
+        id_, chi::string(blob_name));
     return !new_blob_id.IsNull();
   }
 
@@ -707,7 +707,7 @@ class Bucket {
   void RenameBlob(const BlobId &blob_id,
                   std::string new_blob_name,
                   Context &ctx) {
-    // mdm_->RenameBlob(id_, blob_id, chi::charbuf(new_blob_name));
+    // mdm_->RenameBlob(id_, blob_id, chi::string(new_blob_name));
   }
 
   /**

@@ -82,7 +82,7 @@ class Filesystem : public FilesystemIoClient {
       HILOG(kDebug, "File not opened before by adapter")
       // Normalize path strings
       stat.path_ = stdfs::absolute(path).string();
-      auto path_shm = hipc::make_uptr<chi::charbuf>(stat.path_);
+      auto path_shm = hipc::make_uptr<chi::string>(stat.path_);
       // Verify the bucket exists if not in CREATE mode
       if (stat.adapter_mode_ == AdapterMode::kScratch &&
           !stat.hflags_.Any(HERMES_FS_EXISTS) &&

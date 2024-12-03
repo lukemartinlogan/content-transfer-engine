@@ -19,7 +19,7 @@ class StagerFactory {
     srl >> protocol;
 
     std::unique_ptr<AbstractStager> stager;
-    if (protocol == "file") {
+    if (protocol == "file" || protocol == "") {
       stager = std::make_unique<BinaryFileStager>();
     } else if (protocol == "parquet") {
     } else if (protocol == "hdf5") {

@@ -65,7 +65,7 @@ enum class TraitType {
 };
 
 /** Represents a blob */
-typedef chi::charbuf Blob;
+typedef chi::charwrap Blob;
 
 /** Supported data placement policies */
 enum class PlacementPolicy {
@@ -239,7 +239,7 @@ struct BufferInfo : public chi::Block {
 struct BlobInfo {
   TagId tag_id_;    /**< Tag the blob is on */
   BlobId blob_id_;  /**< Unique ID of the blob */
-  chi::charbuf name_;  /**< Name of the blob (without tag_id) */
+  chi::string name_;  /**< Name of the blob (without tag_id) */
   std::vector<BufferInfo> buffers_;  /**< Set of buffers */
   std::vector<TagId> tags_;  /**< Set of tags */
   size_t blob_size_;      /**< The overall size of the blob */
@@ -295,10 +295,10 @@ struct BlobInfo {
   }
 
   /** Get the globally unique blob name */
-  static const chi::charbuf GetBlobNameWithBucket(
+  static const chi::string GetBlobNameWithBucket(
       const TagId &tag_id,
-      const chi::charbuf &blob_name) {
-    chi::charbuf new_name(sizeof(TagId) + blob_name.size());
+      const chi::string &blob_name) {
+    chi::string new_name(sizeof(TagId) + blob_name.size());
     hipc::LocalSerialize srl(new_name);
     srl << tag_id;
     srl << blob_name;
@@ -306,7 +306,7 @@ struct BlobInfo {
   }
 
   /** Return the unique blob name for blob_id_map */
-  chi::charbuf GetBlobNameWithBucket() {
+  chi::string GetBlobNameWithBucket() {
     return GetBlobNameWithBucket(tag_id_, name_);
   }
 };
@@ -314,7 +314,7 @@ struct BlobInfo {
 /** Data structure used to store Bucket information */
 struct TagInfo {
   TagId tag_id_;
-  chi::charbuf name_;
+  chi::string name_;
   std::list<BlobId> blobs_;
   std::list<Task *> traits_;
   size_t internal_size_;

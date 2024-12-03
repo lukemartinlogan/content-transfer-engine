@@ -87,8 +87,8 @@ typedef chi::Admin::DestroyContainerTask DestroyTask;
  * Create a tag
  * */
 struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN chi::string tag_name_;
-  IN chi::string params_;
+  IN chi::ipc::string tag_name_;
+  IN chi::ipc::string params_;
   IN bool blob_owner_;
   IN size_t backend_size_;
   IN bitfield32_t flags_;
@@ -105,7 +105,7 @@ struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
                      const TaskNode &task_node,
                      const PoolId &pool_id,
                      const DomainQuery &dom_query,
-                     const chi::charbuf &tag_name,
+                     const chi::string &tag_name,
                      bool blob_owner,
                      size_t backend_size,
                      u32 flags,
@@ -150,7 +150,7 @@ struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
 
 /** A task to get a tag id */
 struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN chi::string tag_name_;
+  IN chi::ipc::string tag_name_;
   OUT TagId tag_id_;
 
   /** SHM default constructor */
@@ -164,7 +164,7 @@ struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM> {
                const TaskNode &task_node,
                const PoolId &pool_id,
                const DomainQuery &dom_query,
-               const chi::charbuf &tag_name)
+               const chi::string &tag_name)
       : Task(alloc), tag_name_(alloc, tag_name) {
     // Initialize task
     task_node_ = task_node;
@@ -197,7 +197,7 @@ struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM> {
 /** A task to get a tag name */
 struct GetTagNameTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
-  OUT chi::string tag_name_;
+  OUT chi::ipc::string tag_name_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
@@ -593,7 +593,7 @@ struct TagGetContainedBlobIdsTask : public Task, TaskFlags<TF_SRL_SYM> {
  * */
 struct GetOrCreateBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
-  IN chi::charbuf blob_name_;
+  IN chi::string blob_name_;
   OUT BlobId blob_id_;
 
   /** SHM default constructor */
@@ -608,7 +608,7 @@ struct GetOrCreateBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
                         const PoolId &pool_id,
                         const DomainQuery &dom_query,
                         const TagId &tag_id,
-                        const chi::charbuf &blob_name)
+                        const chi::string &blob_name)
       : Task(alloc), blob_name_(alloc) {
     // Initialize task
     task_node_ = task_node;
@@ -648,7 +648,7 @@ struct GetOrCreateBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
  * */
 struct GetBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
-  IN chi::charbuf blob_name_;
+  IN chi::string blob_name_;
   OUT BlobId blob_id_;
 
   /** SHM default constructor */
@@ -663,7 +663,7 @@ struct GetBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
                 const PoolId &pool_id,
                 const DomainQuery &dom_query,
                 const TagId &tag_id,
-                const chi::charbuf &blob_name)
+                const chi::string &blob_name)
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
@@ -703,7 +703,7 @@ struct GetBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
 struct GetBlobNameTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
   IN BlobId blob_id_;
-  OUT chi::string blob_name_;
+  OUT chi::ipc::string blob_name_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
@@ -756,7 +756,7 @@ struct GetBlobNameTask : public Task, TaskFlags<TF_SRL_SYM> {
 /** Get \a score from \a blob_id BLOB id */
 struct GetBlobSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
-  IN chi::charbuf blob_name_;
+  IN chi::string blob_name_;
   IN BlobId blob_id_;
   OUT size_t size_;
 
@@ -772,7 +772,7 @@ struct GetBlobSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
                   const PoolId &pool_id,
                   const DomainQuery &dom_query,
                   const TagId &tag_id,
-                  const chi::charbuf &blob_name,
+                  const chi::string &blob_name,
                   const BlobId &blob_id)
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
@@ -1081,7 +1081,7 @@ struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 
 /** A task to reorganize a blob's composition in the hierarchy */
 struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN chi::charbuf blob_name_;
+  IN chi::string blob_name_;
   IN TagId tag_id_;
   IN BlobId blob_id_;
   IN float score_;
@@ -1100,7 +1100,7 @@ struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
                      const PoolId &pool_id,
                      const DomainQuery &dom_query,
                      const TagId &tag_id,
-                     const chi::charbuf &blob_name,
+                     const chi::string &blob_name,
                      const BlobId &blob_id,
                      float score,
                      bool is_user_score,
@@ -1200,7 +1200,7 @@ struct TagBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 /** A task to put data in a blob */
 struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
-  IN chi::charbuf blob_name_;
+  IN chi::string blob_name_;
   IN size_t blob_off_;
   IN size_t data_size_;
   IN hipc::Pointer data_;
@@ -1220,7 +1220,7 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
               const PoolId &pool_id,
               const DomainQuery &dom_query,
               const TagId &tag_id,
-              const chi::charbuf &blob_name,
+              const chi::string &blob_name,
               const BlobId &blob_id,
               size_t blob_off,
               size_t data_size,
@@ -1287,7 +1287,7 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 /** A task to get data from a blob */
 struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
-  IN chi::charbuf blob_name_;
+  IN chi::string blob_name_;
   INOUT BlobId blob_id_;
   IN size_t blob_off_;
   IN hipc::Pointer data_;
@@ -1306,7 +1306,7 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
               const PoolId &pool_id,
               const DomainQuery &dom_query,
               const TagId &tag_id,
-              const chi::charbuf &blob_name,
+              const chi::string &blob_name,
               const BlobId &blob_id,
               size_t off,
               size_t data_size,
@@ -1625,8 +1625,8 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
 /** The RegisterStagerTask task */
 struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN hermes::BucketId bkt_id_;
-  IN chi::string tag_name_;
-  IN chi::string params_;
+  IN chi::ipc::string tag_name_;
+  IN chi::ipc::string params_;
 
   /** SHM default constructor */
   HSHM_ALWAYS_INLINE explicit
@@ -1640,8 +1640,8 @@ struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
                      const PoolId &pool_id,
                      const DomainQuery &dom_query,
                      const hermes::BucketId &bkt_id,
-                     const chi::charbuf &tag_name,
-                     const chi::charbuf &params)
+                     const chi::string &tag_name,
+                     const chi::string &params)
  : Task(alloc), tag_name_(alloc, tag_name), params_(alloc, params) {
     // Initialize task
     task_node_ = task_node;
@@ -1723,7 +1723,7 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
 /** The StageInTask task */
 struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN hermes::BucketId bkt_id_;
-  IN chi::charbuf blob_name_;
+  IN chi::string blob_name_;
   IN float score_;
 
   /** SHM default constructor */
@@ -1738,7 +1738,7 @@ struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
               const PoolId &pool_id,
               const DomainQuery &dom_query,
               const BucketId &bkt_id,
-              const chi::charbuf &blob_name,
+              const chi::string &blob_name,
               float score)
   : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
@@ -1777,7 +1777,7 @@ struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
 /** The StageOutTask task */
 struct StageOutTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN hermes::BucketId bkt_id_;
-  IN chi::charbuf blob_name_;
+  IN chi::string blob_name_;
   IN hipc::Pointer data_;
   IN size_t data_size_;
 
@@ -1793,7 +1793,7 @@ struct StageOutTask : public Task, TaskFlags<TF_SRL_SYM> {
                const PoolId &pool_id,
                const DomainQuery &dom_query,
                const BucketId &bkt_id,
-               const chi::charbuf &blob_name,
+               const chi::string &blob_name,
                const hipc::Pointer &data,
                size_t data_size,
                u32 task_flags)

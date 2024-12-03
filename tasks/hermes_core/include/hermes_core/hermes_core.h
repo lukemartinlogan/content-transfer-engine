@@ -60,7 +60,7 @@ class Client : public ModuleClient {
   HSHM_ALWAYS_INLINE
   TagId GetOrCreateTag(const hipc::MemContext &mctx,
                        const DomainQuery &dom_query,
-                       const chi::charbuf &tag_name,
+                       const chi::string &tag_name,
                        bool blob_owner,
                        size_t backend_size,
                        u32 flags,
@@ -78,7 +78,7 @@ class Client : public ModuleClient {
   /** Get tag ID */
   TagId GetTagId(const hipc::MemContext &mctx,
                  const DomainQuery &dom_query,
-                 const chi::charbuf &tag_name) {
+                 const chi::string &tag_name) {
     LPointer<GetTagIdTask> task =
         AsyncGetTagId(mctx, dom_query, tag_name);
     task->Wait();
@@ -89,13 +89,13 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(GetTagId);
 
   /** Get tag name */
-  hshm::string GetTagName(const hipc::MemContext &mctx,
+  chi::string GetTagName(const hipc::MemContext &mctx,
                           const DomainQuery &dom_query,
                           const TagId &tag_id) {
     LPointer<GetTagNameTask> task =
         AsyncGetTagName(mctx, dom_query, tag_id);
     task->Wait();
-    hshm::string tag_name(task->tag_name_.str());
+    chi::string tag_name(task->tag_name_.str());
     CHI_CLIENT->DelTask(mctx, task);
     return tag_name;
   }
@@ -182,7 +182,7 @@ class Client : public ModuleClient {
   BlobId GetOrCreateBlob(const hipc::MemContext &mctx,
                          const DomainQuery &dom_query,
                            const TagId &tag_id,
-                           const chi::charbuf &blob_name) {
+                           const chi::string &blob_name) {
     LPointer<GetOrCreateBlobIdTask> task =
         AsyncGetOrCreateBlobId(mctx, dom_query, tag_id, blob_name);
     task->Wait();
@@ -208,7 +208,7 @@ class Client : public ModuleClient {
   size_t PutBlob(const hipc::MemContext &mctx,
                  const DomainQuery &dom_query,
                  TagId tag_id,
-                 const chi::charbuf &blob_name,
+                 const chi::string &blob_name,
                  const BlobId &blob_id,
                  size_t blob_off, size_t blob_size,
                  const hipc::Pointer &blob,
@@ -239,7 +239,7 @@ class Client : public ModuleClient {
                  u32 hermes_flags,
                  const Context &ctx = Context()) {
     LPointer<GetBlobTask> task =
-        AsyncGetBlob(mctx, dom_query, tag_id, chi::charbuf(""),
+        AsyncGetBlob(mctx, dom_query, tag_id, chi::string(""),
                      blob_id, off, data_size, data, hermes_flags, ctx);
     task->Wait();
     data = task->data_;
@@ -299,7 +299,7 @@ class Client : public ModuleClient {
   BlobId GetBlobId(const hipc::MemContext &mctx,
                    const DomainQuery &dom_query,
                    const TagId &tag_id,
-                   const chi::charbuf &blob_name) {
+                   const chi::string &blob_name) {
     LPointer<GetBlobIdTask> task =
         AsyncGetBlobId(mctx, dom_query, tag_id, blob_name);
     task->Wait();
@@ -331,7 +331,7 @@ class Client : public ModuleClient {
   size_t GetBlobSize(const hipc::MemContext &mctx,
                      const DomainQuery &dom_query,
                      const TagId &tag_id,
-                     const chi::charbuf &blob_name,
+                     const chi::string &blob_name,
                      const BlobId &blob_id) {
     LPointer<GetBlobSizeTask> task =
         AsyncGetBlobSize(mctx, dom_query, tag_id, blob_name, blob_id);
@@ -461,8 +461,8 @@ class Client : public ModuleClient {
   void RegisterStager(const hipc::MemContext &mctx,
                       const DomainQuery &dom_query,
                       const hermes::BucketId &bkt_id,
-                      const chi::charbuf &tag_name,
-                      const chi::charbuf &params) {
+                      const chi::string &tag_name,
+                      const chi::string &params) {
     LPointer<RegisterStagerTask> task =
         AsyncRegisterStager(mctx, dom_query, bkt_id, tag_name, params);
     task->Wait();
@@ -487,7 +487,7 @@ class Client : public ModuleClient {
   void StageIn(const hipc::MemContext &mctx,
                const DomainQuery &dom_query,
                const BucketId &bkt_id,
-               const chi::charbuf &blob_name,
+               const chi::string &blob_name,
                float score) {
     LPointer<StageInTask> task =
         AsyncStageIn(mctx, dom_query, bkt_id, blob_name, score);
@@ -501,7 +501,7 @@ class Client : public ModuleClient {
   void StageOut(const hipc::MemContext &mctx,
                 const DomainQuery &dom_query,
                 const BucketId &bkt_id,
-                const chi::charbuf &blob_name,
+                const chi::string &blob_name,
                 const hipc::Pointer &data,
                 size_t data_size,
                 u32 task_flags) {

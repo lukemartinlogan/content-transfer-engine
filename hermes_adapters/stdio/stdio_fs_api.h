@@ -177,7 +177,7 @@ class StdioFs : public hermes::adapter::Filesystem {
   }
 
   /** Get initial statistics from the backend */
-  size_t GetBackendSize(const chi::charbuf &bkt_name) override {
+  size_t GetBackendSize(const chi::string &bkt_name) override {
     size_t true_size = 0;
     std::string filename = bkt_name.str();
     int fd = open(filename.c_str(), O_RDONLY);
