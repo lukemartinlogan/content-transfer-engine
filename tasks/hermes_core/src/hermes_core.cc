@@ -84,7 +84,7 @@ class Server : public Module {
             DomainQuery::GetDirectHash(
                 chi::SubDomainId::kGlobalContainers, CHI_CLIENT->node_id_ + i),
             hshm::Formatter::format(
-                "hermes_{}_{}/{}",
+                "hermes_{}/{}",
                 dev.dev_name_, CHI_CLIENT->node_id_),
             dev.mount_point_,
             dev.capacity_);
@@ -1079,7 +1079,7 @@ class Server : public Module {
     STAGER_MAP_T &stager_map = tls.stager_map_;
     std::string tag_name = task->tag_name_.str();
     std::string params = task->params_.str();
-    HILOG(kDebug, "Registering stager {}: {}", task->bkt_id_, tag_name);
+    HILOG(kInfo, "Registering stager {}: {}", task->bkt_id_, tag_name);
     std::shared_ptr<AbstractStager> stager = StagerFactory::Get(tag_name, params);
     stager->RegisterStager(HSHM_DEFAULT_MEM_CTX,
                            task->tag_name_.str(),
