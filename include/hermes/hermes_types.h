@@ -65,7 +65,11 @@ enum class TraitType {
 };
 
 /** Represents a blob */
-typedef chi::charwrap Blob;
+class Blob : public chi::charwrap {
+ public:
+  template<typename ...Args>
+  Blob(Args&& ...args) : chi::charwrap(CHI_CLIENT->data_alloc_, std::forward<Args>(args)...) {}
+};
 
 /** Supported data placement policies */
 enum class PlacementPolicy {
