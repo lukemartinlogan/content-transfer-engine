@@ -13,13 +13,15 @@
 #ifndef HERMES_ADAPTER_FILESYSTEM_FILESYSTEM_IO_CLIENT_H_
 #define HERMES_ADAPTER_FILESYSTEM_FILESYSTEM_IO_CLIENT_H_
 
-#include "hermes_adapters/mapper/balanced_mapper.h"
-#include "hermes/hermes.h"
-#include "hermes/bucket.h"
-#include <filesystem>
-#include <limits>
-#include <future>
 #include <mpi.h>
+
+#include <filesystem>
+#include <future>
+#include <limits>
+
+#include "hermes/bucket.h"
+#include "hermes/hermes.h"
+#include "hermes_adapters/mapper/balanced_mapper.h"
 
 namespace stdfs = std::filesystem;
 
@@ -42,17 +44,18 @@ namespace hermes::adapter {
 
 /** A structure to represent IO status */
 struct IoStatus {
-  size_t size_;           /**< POSIX/STDIO return value */
+  size_t size_;                /**< POSIX/STDIO return value */
   int mpi_ret_;                /**< MPI return value */
   MPI_Status mpi_status_;      /**< MPI status */
   MPI_Status *mpi_status_ptr_; /**< MPI status pointer */
   bool success_;               /**< Whether the I/O succeeded */
 
   /** Default constructor */
-  IoStatus() : size_(0),
-               mpi_ret_(MPI_SUCCESS),
-               mpi_status_ptr_(&mpi_status_),
-               success_(true) {}
+  IoStatus()
+      : size_(0),
+        mpi_ret_(MPI_SUCCESS),
+        mpi_status_ptr_(&mpi_status_),
+        success_(true) {}
 
   /** Copy constructor */
   void Copy(const IoStatus &other) {
@@ -73,61 +76,54 @@ struct IoStatus {
  * For now, nothing additional than the typical FsIoOptions.
  * */
 struct FsIoOptions {
-  bitfield32_t flags_;     /**< various I/O flags */
-  MPI_Datatype mpi_type_;  /**< MPI data type */
-  int mpi_count_;          /**< The number of types */
-  int type_size_;          /**< The size of type */
-  size_t backend_off_;     /**< Offset in the backend to begin I/O */
-  size_t backend_size_;    /**< Size of I/O to perform at backend */
+  bitfield32_t flags_;    /**< various I/O flags */
+  MPI_Datatype mpi_type_; /**< MPI data type */
+  int mpi_count_;         /**< The number of types */
+  int type_size_;         /**< The size of type */
+  size_t backend_off_;    /**< Offset in the backend to begin I/O */
+  size_t backend_size_;   /**< Size of I/O to perform at backend */
 
   /** Default constructor */
-  FsIoOptions() : flags_(),
-                  mpi_type_(MPI_CHAR),
-                  mpi_count_(0),
-                  type_size_(1),
-                  backend_off_(0),
-                  backend_size_(0) {
+  FsIoOptions()
+      : flags_(),
+        mpi_type_(MPI_CHAR),
+        mpi_count_(0),
+        type_size_(1),
+        backend_off_(0),
+        backend_size_(0) {
     SetSeek();
   }
 
   /** Enable seek for this I/O */
-  void SetSeek() {
-    flags_.SetBits(HERMES_FS_SEEK);
-  }
+  void SetSeek() { flags_.SetBits(HERMES_FS_SEEK); }
 
   /** Disable seek for this I/O */
-  void UnsetSeek() {
-    flags_.UnsetBits(HERMES_FS_SEEK);
-  }
+  void UnsetSeek() { flags_.UnsetBits(HERMES_FS_SEEK); }
 
   /** Whether or not to perform seek in FS adapter */
-  bool DoSeek() const {
-    return flags_.Any(HERMES_FS_SEEK);
-  }
+  bool DoSeek() const { return flags_.Any(HERMES_FS_SEEK); }
 
   /** Marks the file as truncated */
-  void MarkTruncated() {
-    flags_.SetBits(HERMES_FS_TRUNC);
-  }
+  void MarkTruncated() { flags_.SetBits(HERMES_FS_TRUNC); }
 
   /** Whether a file is marked truncated */
-  bool IsTruncated() const {
-    return flags_.Any(HERMES_FS_TRUNC);
-  }
+  bool IsTruncated() const { return flags_.Any(HERMES_FS_TRUNC); }
 
   /** return IO options with \a mpi_type MPI data type */
   static FsIoOptions DataType(MPI_Datatype mpi_type, bool seek = true) {
     FsIoOptions opts;
     opts.mpi_type_ = mpi_type;
-    if (!seek) { opts.UnsetSeek(); }
+    if (!seek) {
+      opts.UnsetSeek();
+    }
     return opts;
   }
 };
 
 /** A structure to represent Hermes request */
 struct FsAsyncTask {
-  std::vector<LPointer<PutBlobTask>> put_tasks_;
-  std::vector<LPointer<GetBlobTask>> get_tasks_;
+  std::vector<FullPtr<PutBlobTask>> put_tasks_;
+  std::vector<FullPtr<GetBlobTask>> get_tasks_;
   IoStatus io_status_;
   FsIoOptions opts_;
 };
@@ -135,7 +131,7 @@ struct FsAsyncTask {
 /** Represents an object in the I/O client (e.g., a file) */
 struct File {
   AdapterType type_;     /**< Client to forward I/O request to */
-  std::string filename_;  /**< Filename to read from */
+  std::string filename_; /**< Filename to read from */
 
   int hermes_fd_;          /**< fake file descriptor (SCRATCH MODE) */
   FILE *hermes_fh_;        /**< fake file handler (SCRATCH MODE) */
@@ -183,8 +179,8 @@ struct File {
   std::size_t hash() const {
     std::size_t result;
     std::size_t h1 = std::hash<int>{}(hermes_fd_);
-    std::size_t h2 = std::hash<void*>{}(hermes_fh_);
-    std::size_t h3 = std::hash<void*>{}(hermes_mpi_fh_);
+    std::size_t h2 = std::hash<void *>{}(hermes_fh_);
+    std::size_t h3 = std::hash<void *>{}(hermes_mpi_fh_);
     result = h1 ^ h2 ^ h3;
     return result;
   }
@@ -192,19 +188,19 @@ struct File {
 
 /** Any relevant statistics from the I/O client */
 struct AdapterStat {
-  std::string path_;     /**< The URL of this file */
-  int flags_;            /**< open() flags for POSIX */
-  bitfield32_t hflags_;  /**< Flags used by FS adapter */
-  mode_t st_mode_;       /**< protection */
-  uid_t st_uid_;         /**< user ID of owner */
-  gid_t st_gid_;         /**< group ID of owner */
-  size_t st_ptr_;        /**< current ptr of FILE */
-  size_t file_size_;     /**< Size of file at backend at time of open */
-  timespec st_atim_;     /**< time of last access */
-  timespec st_mtim_;     /**< time of last modification */
-  timespec st_ctim_;     /**< time of last status change */
-  std::string mode_str_; /**< mode used for fopen() */
-  AdapterMode adapter_mode_;  /**< Mode used for adapter */
+  std::string path_;         /**< The URL of this file */
+  int flags_;                /**< open() flags for POSIX */
+  bitfield32_t hflags_;      /**< Flags used by FS adapter */
+  mode_t st_mode_;           /**< protection */
+  uid_t st_uid_;             /**< user ID of owner */
+  gid_t st_gid_;             /**< group ID of owner */
+  size_t st_ptr_;            /**< current ptr of FILE */
+  size_t file_size_;         /**< Size of file at backend at time of open */
+  timespec st_atim_;         /**< time of last access */
+  timespec st_mtim_;         /**< time of last modification */
+  timespec st_ctim_;         /**< time of last status change */
+  std::string mode_str_;     /**< mode used for fopen() */
+  AdapterMode adapter_mode_; /**< Mode used for adapter */
 
   int fd_;          /**< real file descriptor */
   FILE *fh_;        /**< real STDIO file handler */
@@ -255,8 +251,8 @@ struct AdapterStat {
  * Metadta required by Filesystem I/O clients to perform a HermesOpen
  * */
 struct FsIoClientMetadata {
-  int hermes_fd_min_, hermes_fd_max_;  /**< Min and max fd values (inclusive)*/
-  std::atomic<int> hermes_fd_cur_;     /**< Current fd */
+  int hermes_fd_min_, hermes_fd_max_; /**< Min and max fd values (inclusive)*/
+  std::atomic<int> hermes_fd_cur_;    /**< Current fd */
 
   /** Default constructor */
   FsIoClientMetadata() {
@@ -274,7 +270,7 @@ struct FsIoClientMetadata {
   /** Release a Hermes FD */
   void ReleaseFd(int hermes_fd) {
     // TODO(llogan): recycle instead of ignore
-    (void) hermes_fd;
+    (void)hermes_fd;
   }
 };
 
@@ -295,7 +291,7 @@ struct FilesystemIoClientState {
 
   /** Default constructor */
   FilesystemIoClientState(FsIoClientMetadata *mdm, void *stat)
-  : mdm_(mdm), stat_(stat) {}
+      : mdm_(mdm), stat_(stat) {}
 };
 
 /**
@@ -311,20 +307,15 @@ class FilesystemIoClient {
   virtual size_t GetBackendSize(const chi::string &bkt_name) = 0;
 
   /** Write blob to backend */
-  virtual void WriteBlob(const std::string &bkt_name,
-                         const Blob &full_blob,
-                         const FsIoOptions &opts,
-                         IoStatus &status) = 0;
+  virtual void WriteBlob(const std::string &bkt_name, const Blob &full_blob,
+                         const FsIoOptions &opts, IoStatus &status) = 0;
 
   /** Read blob from the backend */
-  virtual void ReadBlob(const std::string &bkt_name,
-                        Blob &full_blob,
-                        const FsIoOptions &opts,
-                        IoStatus &status) = 0;
+  virtual void ReadBlob(const std::string &bkt_name, Blob &full_blob,
+                        const FsIoOptions &opts, IoStatus &status) = 0;
 
   /** real open */
-  virtual void RealOpen(File &f,
-                        AdapterStat &stat,
+  virtual void RealOpen(File &f, AdapterStat &stat,
                         const std::string &path) = 0;
 
   /**
@@ -333,17 +324,14 @@ class FilesystemIoClient {
    * and hermes file handler. These are not the same as POSIX file
    * descriptor and STDIO file handler.
    * */
-  virtual void HermesOpen(File &f,
-                          const AdapterStat &stat,
+  virtual void HermesOpen(File &f, const AdapterStat &stat,
                           FilesystemIoClientState &fs_mdm) = 0;
 
   /** real sync */
-  virtual int RealSync(const File &f,
-                       const AdapterStat &stat) = 0;
+  virtual int RealSync(const File &f, const AdapterStat &stat) = 0;
 
   /** real close */
-  virtual int RealClose(const File &f,
-                        AdapterStat &stat) = 0;
+  virtual int RealClose(const File &f, AdapterStat &stat) = 0;
 
   /** real remove */
   virtual int RealRemove(const std::string &path) = 0;
@@ -352,8 +340,7 @@ class FilesystemIoClient {
    * Called before RealClose. Releases information provisioned during
    * the allocation phase.
    * */
-  virtual void HermesClose(File &f,
-                           const AdapterStat &stat,
+  virtual void HermesClose(File &f, const AdapterStat &stat,
                            FilesystemIoClientState &fs_mdm) = 0;
 
   /** Updates I/O status after read/write operations */

@@ -3,14 +3,15 @@
 //
 
 #include <thread>
+
 #include "basic_test.h"
 #include "chimaera/api/chimaera_client.h"
-#include "chimaera_admin/chimaera_admin.h"
-#include "small_message/small_message.h"
-#include "hermes_shm/util/timer.h"
-#include "chimaera/work_orchestrator/affinity.h"
-#include "hermes/hermes.h"
 #include "chimaera/api/chimaera_runtime.h"
+#include "chimaera/work_orchestrator/affinity.h"
+#include "chimaera_admin/chimaera_admin.h"
+#include "hermes/hermes.h"
+#include "hermes_shm/util/timer.h"
+#include "small_message/small_message.h"
 
 /** The performance of getting a queue */
 TEST_CASE("TestGetQueue") {
@@ -40,7 +41,7 @@ TEST_CASE("TestHshmAllocateFree") {
   size_t count = (1 << 8);
   size_t reps = ops / count;
   for (size_t i = 0; i < reps; ++i) {
-    std::vector<chi::Task*> tasks(count);
+    std::vector<chi::Task *> tasks(count);
     for (size_t j = 0; j < count; ++j) {
       tasks[j] = CHI_CLIENT->NewTask<chi::Task>().ptr_;
     }
@@ -72,7 +73,8 @@ TEST_CASE("TestPointerQueueEmplacePop") {
 
 /** Single-thread performance of empacling + popping vec<mpsc_ptr_queue> */
 TEST_CASE("TestPointerQueueVecEmplacePop") {
-  auto queues_ptr = hipc::make_uptr<hipc::vector<hipc::mpsc_ptr_queue<hipc::Pointer>>>(16);
+  auto queues_ptr =
+      hipc::make_uptr<hipc::vector<hipc::mpsc_ptr_queue<hipc::Pointer>>>(16);
   auto queues = queues_ptr.get();
   hipc::Pointer p;
 
@@ -93,11 +95,8 @@ TEST_CASE("TestPointerQueueVecEmplacePop") {
 TEST_CASE("TestHshmQueueEmplacePop") {
   chi::QueueId qid(0, 3);
   u32 ops = (1 << 20);
-  std::vector<PriorityInfo> queue_info = {
-      {TaskPrio::kAdmin, 16, 16, ops, 0}
-  };
-  auto queue = hipc::make_uptr<chi::MultiQueue>(
-      qid, queue_info);
+  std::vector<PriorityInfo> queue_info = {{TaskPrio::kAdmin, 16, 16, ops, 0}};
+  auto queue = hipc::make_uptr<chi::MultiQueue>(qid, queue_info);
   chi::LaneData entry;
   auto task = CHI_CLIENT->NewTask<chi::Task>();
   entry.p_ = task.shm_;
@@ -118,11 +117,8 @@ TEST_CASE("TestHshmQueueEmplacePop") {
 /** Single-thread performance of getting a lane from a queue */
 TEST_CASE("TestHshmQueueGetLane") {
   chi::QueueId qid(0, 3);
-  std::vector<PriorityInfo> queue_info = {
-      {TaskPrio::kAdmin, 16, 16, 256, 0}
-  };
-  auto queue = hipc::make_uptr<chi::MultiQueue>(
-      qid, queue_info);
+  std::vector<PriorityInfo> queue_info = {{TaskPrio::kAdmin, 16, 16, 256, 0}};
+  auto queue = hipc::make_uptr<chi::MultiQueue>(qid, queue_info);
   chi::LaneGroup group = queue->GetGroup(0);
 
   hshm::Timer t;
@@ -140,11 +136,8 @@ TEST_CASE("TestHshmQueueGetLane") {
 TEST_CASE("TestHshmQueueAllocateEmplacePop") {
   TRANSPARENT_HERMES();
   chi::QueueId qid(0, 3);
-  std::vector<PriorityInfo> queue_info = {
-      {TaskPrio::kAdmin, 16, 16, 256, 0}
-  };
-  auto queue = hipc::make_uptr<chi::MultiQueue>(
-      qid, queue_info);
+  std::vector<PriorityInfo> queue_info = {{TaskPrio::kAdmin, 16, 16, 256, 0}};
+  auto queue = hipc::make_uptr<chi::MultiQueue>(qid, queue_info);
   chi::Lane &lane = queue->GetLane(0, 0);
 
   hshm::Timer t;
@@ -169,7 +162,7 @@ TEST_CASE("TestSpawnJoinThread") {
   t.Resume();
   size_t count = 16 * (1 << 10);
   for (int i = 0; i < count; ++i) {
-    std::thread thread([]() { });
+    std::thread thread([]() {});
     thread.join();
   }
   t.Pause();
@@ -189,9 +182,8 @@ TEST_CASE("TestSpawnJoinArgoThread") {
     HELOG(kFatal, "Could not create argobots xstream");
   }
   for (int i = 0; i < count; ++i) {
-    int ret = ABT_thread_create_on_xstream(xstream,
-                                           [](void *args) { }, nullptr,
-                                           ABT_THREAD_ATTR_NULL, &tl_thread_);
+    int ret = ABT_thread_create_on_xstream(
+        xstream, [](void *args) {}, nullptr, ABT_THREAD_ATTR_NULL, &tl_thread_);
     if (ret != ABT_SUCCESS) {
       HELOG(kFatal, "Couldn't spawn worker");
     }
@@ -209,10 +201,8 @@ void TestWorkerIterationLatency(u32 num_queues, u32 num_lanes) {
   for (u32 i = 0; i < num_queues; ++i) {
     chi::QueueId qid(0, i + 1);
     std::vector<PriorityInfo> queue_info = {
-        {TaskPrio::kAdmin, num_lanes, num_lanes, 256, 0}
-    };
-    auto queue = hipc::make_uptr<chi::MultiQueue>(
-        qid, queue_info);
+        {TaskPrio::kAdmin, num_lanes, num_lanes, 256, 0}};
+    auto queue = hipc::make_uptr<chi::MultiQueue>(qid, queue_info);
     queues.emplace_back(std::move(queue));
     for (u32 j = 0; j < num_lanes; ++j) {
       worker.PollQueues({{0, j, queue.get()}});
@@ -220,7 +210,7 @@ void TestWorkerIterationLatency(u32 num_queues, u32 num_lanes) {
   }
 
   chi::small_message::Client client;
-  CHI_ADMIN->RegisterModule(chi::DomainId::GetLocal(), "small_message");\
+  CHI_ADMIN->RegisterModule(chi::DomainId::GetLocal(), "small_message");
   client.Create(chi::DomainId::GetLocal(), "ipc_test");
 
   hshm::Timer t;
@@ -228,10 +218,9 @@ void TestWorkerIterationLatency(u32 num_queues, u32 num_lanes) {
   // size_t ops = (1 << 20);
   size_t ops = 256;
   for (size_t i = 0; i < ops; ++i) {
-    hipc::LPointer<chi::small_message::MdPushTask> task;
+    hipc::FullPtr<chi::small_message::MdPushTask> task;
     chi::TaskNode task_node(chi::TaskId((u32)0, (u64)i));
-    task = client.AsyncMdPushEmplace(queues[num_queues - 1].get(),
-                                     task_node,
+    task = client.AsyncMdPushEmplace(queues[num_queues - 1].get(), task_node,
                                      chi::DomainId::GetLocal());
     worker.Run(false);
     CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
@@ -255,11 +244,12 @@ TEST_CASE("TestRoundTripLatency") {
   TRANSPARENT_HERMES();
   chi::small_message::Client client;
   CHI_ADMIN->RegisterModule(chi::DomainId::GetLocal(), "small_message");
-//  int count = 25;
-//  for (int i = 0; i < count; ++i) {
-//    chi::small_message::Client client2;
-//    client2.Create(chi::DomainId::GetLocal(), "ipc_test" + std::to_string(i));
-//  }
+  //  int count = 25;
+  //  for (int i = 0; i < count; ++i) {
+  //    chi::small_message::Client client2;
+  //    client2.Create(chi::DomainId::GetLocal(), "ipc_test" +
+  //    std::to_string(i));
+  //  }
   client.Create(chi::DomainId::GetLocal(), "ipc_test");
   hshm::Timer t;
 
@@ -322,70 +312,76 @@ TEST_CASE("TestTimepointLatency") {
 }
 
 /** Time to process a request */
-//TEST_CASE("TestHermesGetBlobIdLatency") {
-//  HERMES->ClientInit();
-//  hshm::Timer t;
+// TEST_CASE("TestHermesGetBlobIdLatency") {
+//   HERMES->ClientInit();
+//   hshm::Timer t;
 //
-//  int pid = getpid();
-//  ProcessAffiner::SetCpuAffinity(pid, 8);
-//  hermes::Bucket bkt = HERMES_FILESYSTEM_API->Open("/home/lukemartinlogan/hi.txt");
+//   int pid = getpid();
+//   ProcessAffiner::SetCpuAffinity(pid, 8);
+//   hermes::Bucket bkt =
+//   HERMES_FILESYSTEM_API->Open("/home/lukemartinlogan/hi.txt");
 //
-//  t.Resume();
-//  size_t ops = (1 << 20);
-//  hermes::Context ctx;
-//  std::string data(ctx.page_size_, 0);
-//  for (size_t i = 0; i < ops; ++i) {
-//    bkt.GetBlobId(std::to_string(i));
-//  }
-//  t.Pause();
+//   t.Resume();
+//   size_t ops = (1 << 20);
+//   hermes::Context ctx;
+//   std::string data(ctx.page_size_, 0);
+//   for (size_t i = 0; i < ops; ++i) {
+//     bkt.GetBlobId(std::to_string(i));
+//   }
+//   t.Pause();
 //
-//  HILOG(kInfo, "Latency: {} MOps", ops / t.GetUsec());
-//}
-//
-///** Time to process a request */
-//TEST_CASE("TestHermesFsWriteLatency") {
-//  HERMES->ClientInit();
-//  hshm::Timer t;
-//
-//  int pid = getpid();
-//  ProcessAffiner::SetCpuAffinity(pid, 8);
-//  hermes::Bucket bkt = HERMES_FILESYSTEM_API->Open("/home/lukemartinlogan/hi.txt");
-//
-//  t.Resume();
-//  size_t ops = 150;
-//  hermes::Context ctx;
-//  ctx.page_size_ = 4096;
-//  std::string data(ctx.page_size_, 0);
-//  for (size_t i = 0; i < ops; ++i) {
-//    HERMES_FILESYSTEM_API->Write(bkt, data.data(), i * ctx.page_size_, data.size(), false, rctx);
-//  }
-//  t.Pause();
-//
-//  HILOG(kInfo, "Latency: {} MBps", ops * 4096 / t.GetUsec());
-//}
+//   HILOG(kInfo, "Latency: {} MOps", ops / t.GetUsec());
+// }
 //
 ///** Time to process a request */
-//TEST_CASE("TestHermesFsReadLatency") {
-//  HERMES->ClientInit();
-//  hshm::Timer t;
+// TEST_CASE("TestHermesFsWriteLatency") {
+//   HERMES->ClientInit();
+//   hshm::Timer t;
 //
-//  int pid = getpid();
-//  ProcessAffiner::SetCpuAffinity(pid, 8);
-//  hermes::Bucket bkt = HERMES_FILESYSTEM_API->Open("/home/lukemartinlogan/hi.txt");
+//   int pid = getpid();
+//   ProcessAffiner::SetCpuAffinity(pid, 8);
+//   hermes::Bucket bkt =
+//   HERMES_FILESYSTEM_API->Open("/home/lukemartinlogan/hi.txt");
 //
-//  size_t ops = 1024;
-//  hermes::Context ctx;
-//  ctx.page_size_ = 4096;
-//  std::string data(ctx.page_size_, 0);
-//  for (size_t i = 0; i < ops; ++i) {
-//    HERMES_FILESYSTEM_API->Write(bkt, data.data(), i * ctx.page_size_, data.size(), false, rctx);
-//  }
+//   t.Resume();
+//   size_t ops = 150;
+//   hermes::Context ctx;
+//   ctx.page_size_ = 4096;
+//   std::string data(ctx.page_size_, 0);
+//   for (size_t i = 0; i < ops; ++i) {
+//     HERMES_FILESYSTEM_API->Write(bkt, data.data(), i * ctx.page_size_,
+//     data.size(), false, rctx);
+//   }
+//   t.Pause();
 //
-//  t.Resume();
-//  for (size_t i = 0; i < ops; ++i) {
-//    HERMES_FILESYSTEM_API->Read(bkt, data.data(), i * ctx.page_size_, data.size(), false, rctx);
-//  }
-//  t.Pause();
+//   HILOG(kInfo, "Latency: {} MBps", ops * 4096 / t.GetUsec());
+// }
 //
-//  HILOG(kInfo, "Latency: {} MBps", ops * 4096 / t.GetUsec());
-//}
+///** Time to process a request */
+// TEST_CASE("TestHermesFsReadLatency") {
+//   HERMES->ClientInit();
+//   hshm::Timer t;
+//
+//   int pid = getpid();
+//   ProcessAffiner::SetCpuAffinity(pid, 8);
+//   hermes::Bucket bkt =
+//   HERMES_FILESYSTEM_API->Open("/home/lukemartinlogan/hi.txt");
+//
+//   size_t ops = 1024;
+//   hermes::Context ctx;
+//   ctx.page_size_ = 4096;
+//   std::string data(ctx.page_size_, 0);
+//   for (size_t i = 0; i < ops; ++i) {
+//     HERMES_FILESYSTEM_API->Write(bkt, data.data(), i * ctx.page_size_,
+//     data.size(), false, rctx);
+//   }
+//
+//   t.Resume();
+//   for (size_t i = 0; i < ops; ++i) {
+//     HERMES_FILESYSTEM_API->Read(bkt, data.data(), i * ctx.page_size_,
+//     data.size(), false, rctx);
+//   }
+//   t.Pause();
+//
+//   HILOG(kInfo, "Latency: {} MBps", ops * 4096 / t.GetUsec());
+// }

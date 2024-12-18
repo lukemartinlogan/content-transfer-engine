@@ -13,24 +13,24 @@
 #ifndef HERMES_TEST_UNIT_HERMES_ADAPTERS_FILESYSTEM_TESTS_H_
 #define HERMES_TEST_UNIT_HERMES_ADAPTERS_FILESYSTEM_TESTS_H_
 
+#include <basic_test.h>
 #include <fcntl.h>
 #include <stdarg.h>
-#include <unistd.h>
-
-#include <filesystem>
-#include <iostream>
 #include <stdio.h>
+#include <unistd.h>
 
 #include <cmath>
 #include <cstdio>
+#include <filesystem>
+#include <iostream>
 #include <string>
-#include <basic_test.h>
 
-#include "hermes_shm/util/singleton.h"
 #include "hermes/hermes.h"
+#include "hermes_shm/util/singleton.h"
 
 #define CATCH_CONFIG_RUNNER
 #include <mpi.h>
+
 #include <catch2/catch_all.hpp>
 
 namespace hermes::adapter::test {
@@ -43,12 +43,12 @@ namespace hermes::adapter::test {
 #define TEST_FILE_SHARED BIT_OPT(u32, 2)
 
 struct FileInfo {
-  std::string hermes_;  /** The file produced by Hermes */
-  std::string cmp_;     /** The file to verify against */
-  bitfield32_t flags_;           /** Various flags */
+  std::string hermes_; /** The file produced by Hermes */
+  std::string cmp_;    /** The file to verify against */
+  bitfield32_t flags_; /** Various flags */
 };
 
-template<typename T>
+template <typename T>
 class FilesystemTests {
  public:
   bool supports_tmpfile;
@@ -62,18 +62,18 @@ class FilesystemTests {
   std::string dir_ = "/tmp/test_hermes";
   size_t request_size_ = KILOBYTES(64);
   size_t num_iterations_ = 64;
-  size_t total_size_;    // The size of the EXISTING file
+  size_t total_size_;  // The size of the EXISTING file
   int rank_ = 0;
   int comm_size_ = 1;
 
  public:
   cl::Parser DefineOptions() {
     return cl::Opt(filename_, "filename")["-f"]["--filename"](
-        "Filename used for performing I/O") |
-        cl::Opt(dir_, "dir")["-d"]["--directory"](
-            "Directory used for performing I/O") |
-        cl::Opt(request_size_, "request_size")["-s"]["--request_size"](
-            "Request size used for performing I/O");
+               "Filename used for performing I/O") |
+           cl::Opt(dir_, "dir")["-d"]["--directory"](
+               "Directory used for performing I/O") |
+           cl::Opt(request_size_, "request_size")["-s"]["--request_size"](
+               "Request size used for performing I/O");
   }
 
   int Init(int argc, char **argv) {
@@ -105,9 +105,7 @@ class FilesystemTests {
     return rc;
   }
 
-  void RegisterPath(const std::string &basename,
-                    u32 flags,
-                    FileInfo &info) {
+  void RegisterPath(const std::string &basename, u32 flags, FileInfo &info) {
     info.hermes_ = dir_ + "/" + filename_ + "_" + basename + "_";
     info.cmp_ = info.hermes_ + "cmp_";
     info.flags_.SetBits(flags | TEST_WITH_HERMES);
@@ -209,9 +207,8 @@ class FilesystemTests {
   virtual std::vector<T> GenerateData() = 0;
   virtual void CompareFiles(FileInfo &info) = 0;
 
-  static size_t GetRandomOffset(
-      size_t i, unsigned int offset_seed,
-      size_t stride, size_t total_size) {
+  static size_t GetRandomOffset(size_t i, unsigned int offset_seed,
+                                size_t stride, size_t total_size) {
     return abs((int)(((i * rand_r(&offset_seed)) % stride) % total_size));
   }
 
@@ -267,7 +264,7 @@ class FilesystemTests {
   void RemoveFile(const std::string &path) {
     stdfs::remove(path);
     if (stdfs::exists(path)) {
-      HELOG(kFatal, "Failed to remove: {}", path)
+      HELOG(kFatal, "Failed to remove: {}", path);
     }
 #ifdef HERMES_INTERCEPT
     hermes::Bucket bkt = HERMES->GetBucket(HSHM_DEFAULT_MEM_CTX, path);

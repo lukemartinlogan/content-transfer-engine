@@ -13,26 +13,26 @@
 #ifndef HERMES_TEST_UNIT_HERMES_ADAPTERS_HDF5_VFD_TESTS_H_
 #define HERMES_TEST_UNIT_HERMES_ADAPTERS_HDF5_VFD_TESTS_H_
 
-#include "filesystem_tests.h"
-#include <hdf5.h>
+#include <basic_test.h>
 #include <fcntl.h>
+#include <hdf5.h>
 #include <stdarg.h>
-#include <unistd.h>
-
-#include <filesystem>
-#include <iostream>
 #include <stdio.h>
+#include <unistd.h>
 
 #include <cmath>
 #include <cstdio>
+#include <filesystem>
+#include <iostream>
 #include <string>
-#include <basic_test.h>
 
-#include "hermes_shm/util/singleton.h"
+#include "filesystem_tests.h"
 #include "hermes/hermes.h"
+#include "hermes_shm/util/singleton.h"
 
 #define CATCH_CONFIG_RUNNER
 #include <mpi.h>
+
 #include <catch2/catch_all.hpp>
 
 namespace hermes::adapter::test {
@@ -44,8 +44,8 @@ namespace hermes::adapter::test {
  * want to clutter the output with HDF5 error messages.
  */
 class MuteHdf5Errors {
-  H5E_auto2_t old_func;         /**<  error handler callback function */
-  void *old_client_data;        /**<  pointer to client data for old_func */
+  H5E_auto2_t old_func;  /**<  error handler callback function */
+  void *old_client_data; /**<  pointer to client data for old_func */
 
  public:
   MuteHdf5Errors() {
@@ -66,9 +66,9 @@ class MuteHdf5Errors {
  * HDF5 identifiers required for reads and writes.
  */
 struct RwIds {
-  hid_t dset_id;                /**< dataset ID */
-  hid_t dspace_id;              /**< data space ID */
-  hid_t mspace_id;              /**< memory space ID */
+  hid_t dset_id;   /**< dataset ID */
+  hid_t dspace_id; /**< data space ID */
+  hid_t mspace_id; /**< memory space ID */
 };
 
 /**
@@ -216,8 +216,8 @@ struct Hdf5Api {
     hid_t dspace_id = H5Dget_space(dset_id);
     REQUIRE(dspace_id != H5I_INVALID_HID);
 
-    status = H5Dwrite(dset_id, H5T_NATIVE_FLOAT, memspace_id,
-                      dspace_id, H5P_DEFAULT, data);
+    status = H5Dwrite(dset_id, H5T_NATIVE_FLOAT, memspace_id, dspace_id,
+                      H5P_DEFAULT, data);
     REQUIRE(status >= 0);
     REQUIRE(H5Sclose(memspace_id) >= 0);
     REQUIRE(H5Sclose(dspace_id) >= 0);
@@ -233,8 +233,8 @@ struct Hdf5Api {
    * starting at element @p offset. The dataset will be created if it doesn't
    * already exist.
    */
-  void WritePartial1d(hid_t hid, const std::string &dset_name,
-                      const f32 *data, hsize_t offset, hsize_t nelems) {
+  void WritePartial1d(hid_t hid, const std::string &dset_name, const f32 *data,
+                      hsize_t offset, hsize_t nelems) {
     RwIds ids = RwPreamble(hid, dset_name, offset, nelems);
     herr_t status = H5Dwrite(ids.dset_id, H5T_NATIVE_FLOAT, ids.mspace_id,
                              ids.dspace_id, H5P_DEFAULT, data);
@@ -252,7 +252,7 @@ struct Hdf5Api {
   }
 };
 
-template<bool WITH_MPI>
+template <bool WITH_MPI>
 class Hdf5VfdTests : public FilesystemTests<f32> {
  public:
   FileInfo new_file_;
@@ -271,15 +271,15 @@ class Hdf5VfdTests : public FilesystemTests<f32> {
   // size_t large_min = KILOBYTES(256) + 1;
   // size_t large_max = MEGABYTES(3);
 
-  hid_t hermes_hid_;               /**< Hermes handle ID */
-  hid_t sec2_hid_;                 /**< POSIX driver handle ID */
-  herr_t hermes_herr_;             /**< Hermes error return value */
+  hid_t hermes_hid_;   /**< Hermes handle ID */
+  hid_t sec2_hid_;     /**< POSIX driver handle ID */
+  herr_t hermes_herr_; /**< Hermes error return value */
 
  public:
   void RegisterFiles() override {
     RegisterPath("new", 0, new_file_);
     RegisterPath("ext", TEST_DO_CREATE, existing_file_);
-    if constexpr(WITH_MPI) {
+    if constexpr (WITH_MPI) {
       RegisterPath("shared_new", TEST_FILE_SHARED, shared_new_file_);
       RegisterPath("shared_ext", TEST_DO_CREATE | TEST_FILE_SHARED,
                    shared_existing_file_);
@@ -294,7 +294,7 @@ class Hdf5VfdTests : public FilesystemTests<f32> {
     std::string h5diff_cmd = "h5diff " + info.hermes_ + " " + info.cmp_;
     int status = system(h5diff_cmd.c_str());
     if (status != 0) {
-      HELOG(kError, "Failing h5diff command: {}", h5diff_cmd)
+      HELOG(kError, "Failing h5diff command: {}", h5diff_cmd);
     }
     if (driver != nullptr) {
       setenv("HDF5_DRIVER", driver, 1);
@@ -311,13 +311,13 @@ class Hdf5VfdTests : public FilesystemTests<f32> {
   }
 
   /**
-   * Create an HDF5 file called @p fname with @p num_datasets datasets, each with
+   * Create an HDF5 file called @p fname with @p num_datasets datasets, each
+   * with
    * @p num_dataset_elems elements.
    * */
-  void CreateFile(const std::string &path,
-                  std::vector<f32> &data) override {
+  void CreateFile(const std::string &path, std::vector<f32> &data) override {
     Hdf5Api api;
-    f32 *at = (f32*)data.data();
+    f32 *at = (f32 *)data.data();
     hid_t file_id = api.CreatePosix(path, H5F_ACC_TRUNC);
     REQUIRE(file_id != H5I_INVALID_HID);
     for (size_t i = 0; i < num_iterations_; ++i) {
@@ -342,7 +342,7 @@ class Hdf5VfdTests : public FilesystemTests<f32> {
     }
     bool is_same =
         (sec2_hid_ != H5I_INVALID_HID && hermes_hid_ != H5I_INVALID_HID) ||
-            (sec2_hid_ == H5I_INVALID_HID && hermes_hid_ == H5I_INVALID_HID);
+        (sec2_hid_ == H5I_INVALID_HID && hermes_hid_ == H5I_INVALID_HID);
 
     REQUIRE(is_same);
   }
@@ -376,7 +376,6 @@ class Hdf5VfdTests : public FilesystemTests<f32> {
     api.MakeDataset(sec2_hid_, dset_name, data);
   }
 
-
   /**
    * Test making compact dataset.
    * */
@@ -396,8 +395,8 @@ class Hdf5VfdTests : public FilesystemTests<f32> {
     api.Read(hermes_hid_, dset_name, buf, offset, nelems);
     std::vector<f32> sec2_read_buf(nelems, 0.0f);
     api.Read(sec2_hid_, dset_name, sec2_read_buf, offset, nelems);
-    REQUIRE(std::equal(buf.begin(), buf.begin() + nelems,
-                       sec2_read_buf.begin()));
+    REQUIRE(
+        std::equal(buf.begin(), buf.begin() + nelems, sec2_read_buf.begin()));
   }
 };
 

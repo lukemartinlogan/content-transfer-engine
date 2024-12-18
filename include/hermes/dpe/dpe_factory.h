@@ -13,11 +13,11 @@
 #ifndef HERMES_SRC_DPE_DATA_PLACEMENT_ENGINE_FACTORY_H_
 #define HERMES_SRC_DPE_DATA_PLACEMENT_ENGINE_FACTORY_H_
 
+#include "dpe.h"
+#include "hermes/hermes.h"
 #include "minimize_io_time.h"
 #include "random.h"
 #include "round_robin.h"
-#include "dpe.h"
-#include "hermes/hermes.h"
 
 namespace hermes {
 
@@ -50,7 +50,7 @@ class DpeFactory {
       }
       case PlacementPolicy::kNone:
       default: {
-        HELOG(kFatal, "PlacementPolicy not implemented")
+        HELOG(kFatal, "PlacementPolicy not implemented");
         return NULL;
       }
     }

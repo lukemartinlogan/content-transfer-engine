@@ -19,7 +19,6 @@ namespace hermes {
 
 /** Create hermes_core requests */
 class Client : public ModuleClient {
-
  public:
   /** Default constructor */
   Client() = default;
@@ -28,14 +27,11 @@ class Client : public ModuleClient {
   ~Client() = default;
 
   /** Create a task state */
-  void Create(const hipc::MemContext &mctx,
-              const DomainQuery &dom_query,
-              const DomainQuery &affinity,
-              const std::string &pool_name,
+  void Create(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+              const DomainQuery &affinity, const std::string &pool_name,
               const CreateContext &ctx = CreateContext()) {
-    LPointer<CreateTask> task = AsyncCreate(
-        mctx,
-        dom_query, affinity, pool_name, ctx);
+    FullPtr<CreateTask> task =
+        AsyncCreate(mctx, dom_query, affinity, pool_name, ctx);
     task->Wait();
     Init(task->ctx_.id_);
     CHI_CLIENT->DelTask(mctx, task);
@@ -43,9 +39,8 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(Create);
 
   /** Destroy task state + queue */
-  HSHM_ALWAYS_INLINE
-  void Destroy(const hipc::MemContext &mctx,
-               const DomainQuery &dom_query) {
+  HSHM_INLINE
+  void Destroy(const hipc::MemContext &mctx, const DomainQuery &dom_query) {
     CHI_ADMIN->DestroyContainer(mctx, dom_query, id_);
   }
 
@@ -57,17 +52,14 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(TagUpdateSize);
 
   /** Create a tag or get the ID of existing tag */
-  HSHM_ALWAYS_INLINE
+  HSHM_INLINE
   TagId GetOrCreateTag(const hipc::MemContext &mctx,
                        const DomainQuery &dom_query,
-                       const chi::string &tag_name,
-                       bool blob_owner,
-                       size_t backend_size,
-                       u32 flags,
+                       const chi::string &tag_name, bool blob_owner,
+                       size_t backend_size, u32 flags,
                        const Context &ctx = Context()) {
-    LPointer<GetOrCreateTagTask> task =
-        AsyncGetOrCreateTag(mctx, dom_query, tag_name, blob_owner,
-                            backend_size, flags, ctx);
+    FullPtr<GetOrCreateTagTask> task = AsyncGetOrCreateTag(
+        mctx, dom_query, tag_name, blob_owner, backend_size, flags, ctx);
     task->Wait();
     TagId tag_id = task->tag_id_;
     CHI_CLIENT->DelTask(mctx, task);
@@ -76,11 +68,9 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(GetOrCreateTag);
 
   /** Get tag ID */
-  TagId GetTagId(const hipc::MemContext &mctx,
-                 const DomainQuery &dom_query,
+  TagId GetTagId(const hipc::MemContext &mctx, const DomainQuery &dom_query,
                  const chi::string &tag_name) {
-    LPointer<GetTagIdTask> task =
-        AsyncGetTagId(mctx, dom_query, tag_name);
+    FullPtr<GetTagIdTask> task = AsyncGetTagId(mctx, dom_query, tag_name);
     task->Wait();
     TagId tag_id = task->tag_id_;
     CHI_CLIENT->DelTask(mctx, task);
@@ -90,10 +80,8 @@ class Client : public ModuleClient {
 
   /** Get tag name */
   chi::string GetTagName(const hipc::MemContext &mctx,
-                          const DomainQuery &dom_query,
-                          const TagId &tag_id) {
-    LPointer<GetTagNameTask> task =
-        AsyncGetTagName(mctx, dom_query, tag_id);
+                         const DomainQuery &dom_query, const TagId &tag_id) {
+    FullPtr<GetTagNameTask> task = AsyncGetTagName(mctx, dom_query, tag_id);
     task->Wait();
     chi::string tag_name(task->tag_name_.str());
     CHI_CLIENT->DelTask(mctx, task);
@@ -102,21 +90,18 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(GetTagName);
 
   /** Destroy tag */
-  void DestroyTag(const hipc::MemContext &mctx,
-                  const DomainQuery &dom_query, const TagId &tag_id) {
-    LPointer<DestroyTagTask> task =
-        AsyncDestroyTag(mctx, dom_query, tag_id);
+  void DestroyTag(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+                  const TagId &tag_id) {
+    FullPtr<DestroyTagTask> task = AsyncDestroyTag(mctx, dom_query, tag_id);
     task->Wait();
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(DestroyTag);
 
   /** Add a blob to a tag */
-  void TagAddBlob(const hipc::MemContext &mctx,
-                  const DomainQuery &dom_query,
-                  const TagId &tag_id,
-                  const BlobId &blob_id) {
-    LPointer<TagAddBlobTask> task =
+  void TagAddBlob(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+                  const TagId &tag_id, const BlobId &blob_id) {
+    FullPtr<TagAddBlobTask> task =
         AsyncTagAddBlob(mctx, dom_query, tag_id, blob_id);
     task->Wait();
     CHI_CLIENT->DelTask(mctx, task);
@@ -124,11 +109,9 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(TagAddBlob);
 
   /** Remove a blob from a tag */
-  void TagRemoveBlob(const hipc::MemContext &mctx,
-                     const DomainQuery &dom_query,
-                     const TagId &tag_id,
-                     const BlobId &blob_id) {
-    LPointer<TagRemoveBlobTask> task =
+  void TagRemoveBlob(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+                     const TagId &tag_id, const BlobId &blob_id) {
+    FullPtr<TagRemoveBlobTask> task =
         AsyncTagRemoveBlob(mctx, dom_query, tag_id, blob_id);
     task->Wait();
     CHI_CLIENT->DelTask(mctx, task);
@@ -136,10 +119,9 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(TagRemoveBlob);
 
   /** Clear blobs from a tag */
-  void TagClearBlobs(const hipc::MemContext &mctx,
-                     const DomainQuery &dom_query,
+  void TagClearBlobs(const hipc::MemContext &mctx, const DomainQuery &dom_query,
                      const TagId &tag_id) {
-    LPointer<TagClearBlobsTask> task =
+    FullPtr<TagClearBlobsTask> task =
         AsyncTagClearBlobs(mctx, dom_query, tag_id);
     task->Wait();
     CHI_CLIENT->DelTask(mctx, task);
@@ -147,11 +129,9 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(TagClearBlobs);
 
   /** Get the size of a bucket */
-  size_t GetSize(const hipc::MemContext &mctx,
-                 const DomainQuery &dom_query,
+  size_t GetSize(const hipc::MemContext &mctx, const DomainQuery &dom_query,
                  const TagId &tag_id) {
-    LPointer<TagGetSizeTask> task =
-        AsyncTagGetSize(mctx, dom_query, tag_id);
+    FullPtr<TagGetSizeTask> task = AsyncTagGetSize(mctx, dom_query, tag_id);
     task->Wait();
     size_t size = task->size_;
     CHI_CLIENT->DelTask(mctx, task);
@@ -163,7 +143,7 @@ class Client : public ModuleClient {
   std::vector<BlobId> TagGetContainedBlobIds(const hipc::MemContext &mctx,
                                              const DomainQuery &dom_query,
                                              const TagId &tag_id) {
-    LPointer<TagGetContainedBlobIdsTask> task =
+    FullPtr<TagGetContainedBlobIdsTask> task =
         AsyncTagGetContainedBlobIds(mctx, dom_query, tag_id);
     task->Wait();
     std::vector<BlobId> blob_ids = task->blob_ids_.vec();
@@ -180,10 +160,9 @@ class Client : public ModuleClient {
    * Get \a blob_name BLOB from \a bkt_id bucket
    * */
   BlobId GetOrCreateBlob(const hipc::MemContext &mctx,
-                         const DomainQuery &dom_query,
-                           const TagId &tag_id,
-                           const chi::string &blob_name) {
-    LPointer<GetOrCreateBlobIdTask> task =
+                         const DomainQuery &dom_query, const TagId &tag_id,
+                         const chi::string &blob_name) {
+    FullPtr<GetOrCreateBlobIdTask> task =
         AsyncGetOrCreateBlobId(mctx, dom_query, tag_id, blob_name);
     task->Wait();
     BlobId blob_id = task->blob_id_;
@@ -193,34 +172,26 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(GetOrCreateBlobId);
 
   /**
-  * Create a blob's metadata
-  *
-  * @param tag_id id of the bucket
-  * @param blob_name semantic blob name
-  * @param blob_id the id of the blob
-  * @param blob_off the offset of the data placed in existing blob
-  * @param blob_size the amount of data being placed
-  * @param blob a SHM pointer to the data to place
-  * @param score the current score of the blob
-  * @param replace whether to replace the blob if it exists
-  * @param[OUT] did_create whether the blob was created or not
-  * */
-  size_t PutBlob(const hipc::MemContext &mctx,
-                 const DomainQuery &dom_query,
-                 TagId tag_id,
-                 const chi::string &blob_name,
-                 const BlobId &blob_id,
-                 size_t blob_off, size_t blob_size,
-                 const hipc::Pointer &blob,
-                 float score,
-                 u32 task_flags,
-                 u32 hermes_flags,
-                 Context ctx = Context()) {
-    LPointer<PutBlobTask> task =
-        AsyncPutBlob(mctx, dom_query,
-                     tag_id, blob_name, blob_id,
-                     blob_off, blob_size,
-                     blob, score, task_flags, hermes_flags, ctx);
+   * Create a blob's metadata
+   *
+   * @param tag_id id of the bucket
+   * @param blob_name semantic blob name
+   * @param blob_id the id of the blob
+   * @param blob_off the offset of the data placed in existing blob
+   * @param blob_size the amount of data being placed
+   * @param blob a SHM pointer to the data to place
+   * @param score the current score of the blob
+   * @param replace whether to replace the blob if it exists
+   * @param[OUT] did_create whether the blob was created or not
+   * */
+  size_t PutBlob(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+                 TagId tag_id, const chi::string &blob_name,
+                 const BlobId &blob_id, size_t blob_off, size_t blob_size,
+                 const hipc::Pointer &blob, float score, u32 task_flags,
+                 u32 hermes_flags, Context ctx = Context()) {
+    FullPtr<PutBlobTask> task =
+        AsyncPutBlob(mctx, dom_query, tag_id, blob_name, blob_id, blob_off,
+                     blob_size, blob, score, task_flags, hermes_flags, ctx);
     task->Wait();
     size_t true_size = task->data_size_;
     CHI_CLIENT->DelTask(mctx, task);
@@ -229,18 +200,13 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(PutBlob);
 
   /** Get a blob's data */
-  size_t GetBlob(const hipc::MemContext &mctx,
-                 const DomainQuery &dom_query,
-                 const TagId &tag_id,
-                 const BlobId &blob_id,
-                 size_t off,
-                 ssize_t data_size,
-                 hipc::Pointer &data,
-                 u32 hermes_flags,
+  size_t GetBlob(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+                 const TagId &tag_id, const BlobId &blob_id, size_t off,
+                 ssize_t data_size, hipc::Pointer &data, u32 hermes_flags,
                  const Context &ctx = Context()) {
-    LPointer<GetBlobTask> task =
-        AsyncGetBlob(mctx, dom_query, tag_id, chi::string(""),
-                     blob_id, off, data_size, data, hermes_flags, ctx);
+    FullPtr<GetBlobTask> task =
+        AsyncGetBlob(mctx, dom_query, tag_id, chi::string(""), blob_id, off,
+                     data_size, data, hermes_flags, ctx);
     task->Wait();
     data = task->data_;
     size_t true_size = task->data_size_;
@@ -259,17 +225,14 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(ReorganizeBlob);
 
   /**
- * Tag a blob
- *
- * @param blob_id id of the blob being tagged
- * @param tag_name tag name
- * */
-  void TagBlob(const hipc::MemContext &mctx,
-               const DomainQuery &dom_query,
-               const TagId &tag_id,
-               const BlobId &blob_id,
-               const TagId &tag) {
-    LPointer<TagBlobTask> task =
+   * Tag a blob
+   *
+   * @param blob_id id of the blob being tagged
+   * @param tag_name tag name
+   * */
+  void TagBlob(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+               const TagId &tag_id, const BlobId &blob_id, const TagId &tag) {
+    FullPtr<TagBlobTask> task =
         AsyncTagBlob(mctx, dom_query, tag_id, blob_id, tag);
     task->Wait();
     CHI_CLIENT->DelTask(mctx, task);
@@ -279,12 +242,10 @@ class Client : public ModuleClient {
   /**
    * Check if blob has a tag
    * */
-  bool BlobHasTag(const hipc::MemContext &mctx,
-                  const DomainQuery &dom_query,
-                  const TagId &tag_id,
-                  const BlobId &blob_id,
+  bool BlobHasTag(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+                  const TagId &tag_id, const BlobId &blob_id,
                   const TagId &tag) {
-    LPointer<BlobHasTagTask> task =
+    FullPtr<BlobHasTagTask> task =
         AsyncBlobHasTag(mctx, dom_query, tag_id, blob_id, tag);
     task->Wait();
     bool has_tag = task->has_tag_;
@@ -296,11 +257,9 @@ class Client : public ModuleClient {
   /**
    * Get \a blob_name BLOB from \a bkt_id bucket
    * */
-  BlobId GetBlobId(const hipc::MemContext &mctx,
-                   const DomainQuery &dom_query,
-                   const TagId &tag_id,
-                   const chi::string &blob_name) {
-    LPointer<GetBlobIdTask> task =
+  BlobId GetBlobId(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+                   const TagId &tag_id, const chi::string &blob_name) {
+    FullPtr<GetBlobIdTask> task =
         AsyncGetBlobId(mctx, dom_query, tag_id, blob_name);
     task->Wait();
     BlobId blob_id = task->blob_id_;
@@ -313,10 +272,9 @@ class Client : public ModuleClient {
    * Get \a blob_name BLOB name from \a blob_id BLOB id
    * */
   std::string GetBlobName(const hipc::MemContext &mctx,
-                          const DomainQuery &dom_query,
-                          const TagId &tag_id,
+                          const DomainQuery &dom_query, const TagId &tag_id,
                           const BlobId &blob_id) {
-    LPointer<GetBlobNameTask> task =
+    FullPtr<GetBlobNameTask> task =
         AsyncGetBlobName(mctx, dom_query, tag_id, blob_id);
     task->Wait();
     std::string blob_name = task->blob_name_.str();
@@ -328,12 +286,10 @@ class Client : public ModuleClient {
   /**
    * Get \a size from \a blob_id BLOB id
    * */
-  size_t GetBlobSize(const hipc::MemContext &mctx,
-                     const DomainQuery &dom_query,
-                     const TagId &tag_id,
-                     const chi::string &blob_name,
+  size_t GetBlobSize(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+                     const TagId &tag_id, const chi::string &blob_name,
                      const BlobId &blob_id) {
-    LPointer<GetBlobSizeTask> task =
+    FullPtr<GetBlobSizeTask> task =
         AsyncGetBlobSize(mctx, dom_query, tag_id, blob_name, blob_id);
     task->Wait();
     size_t size = task->size_;
@@ -345,11 +301,9 @@ class Client : public ModuleClient {
   /**
    * Get \a score from \a blob_id BLOB id
    * */
-  float GetBlobScore(const hipc::MemContext &mctx,
-                     const DomainQuery &dom_query,
-                     const TagId &tag_id,
-                     const BlobId &blob_id) {
-    LPointer<GetBlobScoreTask> task =
+  float GetBlobScore(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+                     const TagId &tag_id, const BlobId &blob_id) {
+    FullPtr<GetBlobScoreTask> task =
         AsyncGetBlobScore(mctx, dom_query, tag_id, blob_id);
     task->Wait();
     float score = task->score_;
@@ -365,7 +319,7 @@ class Client : public ModuleClient {
                                          const DomainQuery &dom_query,
                                          const TagId &tag_id,
                                          const BlobId &blob_id) {
-    LPointer<GetBlobBuffersTask> task =
+    FullPtr<GetBlobBuffersTask> task =
         AsyncGetBlobBuffers(mctx, dom_query, tag_id, blob_id);
     task->Wait();
     std::vector<BufferInfo> buffers(task->buffers_.vec());
@@ -377,12 +331,10 @@ class Client : public ModuleClient {
   /**
    * Truncate a blob to a new size
    * */
-  void TruncateBlob(const hipc::MemContext &mctx,
-                    const DomainQuery &dom_query,
-                    const TagId &tag_id,
-                    const BlobId &blob_id,
+  void TruncateBlob(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+                    const TagId &tag_id, const BlobId &blob_id,
                     size_t new_size) {
-    LPointer<TruncateBlobTask> task =
+    FullPtr<TruncateBlobTask> task =
         AsyncTruncateBlob(mctx, dom_query, tag_id, blob_id, new_size);
     task->Wait();
     CHI_CLIENT->DelTask(mctx, task);
@@ -392,12 +344,10 @@ class Client : public ModuleClient {
   /**
    * Destroy \a blob_id blob in \a bkt_id bucket
    * */
-  void DestroyBlob(const hipc::MemContext &mctx,
-                   const DomainQuery &dom_query,
-                   const TagId &tag_id,
-                   const BlobId &blob_id,
+  void DestroyBlob(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+                   const TagId &tag_id, const BlobId &blob_id,
                    u32 blob_flags = 0) {
-    LPointer<DestroyBlobTask> task =
+    FullPtr<DestroyBlobTask> task =
         AsyncDestroyBlob(mctx, dom_query, tag_id, blob_id, blob_flags);
     task->Wait();
     CHI_CLIENT->DelTask(mctx, task);
@@ -405,11 +355,9 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(DestroyBlob);
 
   /** FlushData task */
-  void FlushData(const hipc::MemContext &mctx,
-                 const DomainQuery &dom_query,
+  void FlushData(const hipc::MemContext &mctx, const DomainQuery &dom_query,
                  int period_sec = 5) {
-    LPointer<FlushDataTask> task =
-        AsyncFlushData(mctx, dom_query, period_sec);
+    FullPtr<FlushDataTask> task = AsyncFlushData(mctx, dom_query, period_sec);
     task->Wait();
     CHI_CLIENT->DelTask(mctx, task);
   }
@@ -418,8 +366,7 @@ class Client : public ModuleClient {
   /** PollBlobMetadata task */
   std::vector<BlobInfo> PollBlobMetadata(const hipc::MemContext &mctx,
                                          const DomainQuery &dom_query) {
-    LPointer<PollBlobMetadataTask> task =
-        AsyncPollBlobMetadata(mctx, dom_query);
+    FullPtr<PollBlobMetadataTask> task = AsyncPollBlobMetadata(mctx, dom_query);
     task->Wait();
     std::vector<BlobInfo> stats = task->GetStats();
     CHI_CLIENT->DelTask(mctx, task);
@@ -430,7 +377,7 @@ class Client : public ModuleClient {
   /** PollTargetMetadata task */
   std::vector<TargetStats> PollTargetMetadata(const hipc::MemContext &mctx,
                                               const DomainQuery &dom_query) {
-    LPointer<PollTargetMetadataTask> task =
+    FullPtr<PollTargetMetadataTask> task =
         AsyncPollTargetMetadata(mctx, dom_query);
     task->Wait();
     std::vector<TargetStats> stats = task->GetStats();
@@ -442,8 +389,7 @@ class Client : public ModuleClient {
   /** PollTagMetadata task */
   std::vector<TagInfo> PollTagMetadata(const hipc::MemContext &mctx,
                                        const DomainQuery &dom_query) {
-    LPointer<PollTagMetadataTask> task =
-        AsyncPollTagMetadata(mctx, dom_query);
+    FullPtr<PollTagMetadataTask> task = AsyncPollTagMetadata(mctx, dom_query);
     task->Wait();
     std::vector<TagInfo> stats = task->GetStats();
     CHI_CLIENT->DelTask(mctx, task);
@@ -461,58 +407,47 @@ class Client : public ModuleClient {
   void RegisterStager(const hipc::MemContext &mctx,
                       const DomainQuery &dom_query,
                       const hermes::BucketId &bkt_id,
-                      const chi::string &tag_name,
-                      const chi::string &params) {
-    LPointer<RegisterStagerTask> task =
+                      const chi::string &tag_name, const chi::string &params) {
+    FullPtr<RegisterStagerTask> task =
         AsyncRegisterStager(mctx, dom_query, bkt_id, tag_name, params);
     task->Wait();
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(RegisterStager);
 
-
   /** UnregisterStager task */
   void UnregisterStager(const hipc::MemContext &mctx,
-                        const DomainQuery &dom_query,
-                        const BucketId &bkt_id) {
-    LPointer<UnregisterStagerTask> task =
+                        const DomainQuery &dom_query, const BucketId &bkt_id) {
+    FullPtr<UnregisterStagerTask> task =
         AsyncUnregisterStager(mctx, dom_query, bkt_id);
     task->Wait();
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(UnregisterStager);
 
-
   /** StageIn task */
-  void StageIn(const hipc::MemContext &mctx,
-               const DomainQuery &dom_query,
-               const BucketId &bkt_id,
-               const chi::string &blob_name,
+  void StageIn(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+               const BucketId &bkt_id, const chi::string &blob_name,
                float score) {
-    LPointer<StageInTask> task =
+    FullPtr<StageInTask> task =
         AsyncStageIn(mctx, dom_query, bkt_id, blob_name, score);
     task->Wait();
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(StageIn);
 
-
   /** StageOut task */
-  void StageOut(const hipc::MemContext &mctx,
-                const DomainQuery &dom_query,
-                const BucketId &bkt_id,
-                const chi::string &blob_name,
-                const hipc::Pointer &data,
-                size_t data_size,
-                u32 task_flags) {
-    LPointer<StageOutTask> task =
-        AsyncStageOut(mctx, dom_query, bkt_id, blob_name, data, data_size, task_flags);
+  void StageOut(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+                const BucketId &bkt_id, const chi::string &blob_name,
+                const hipc::Pointer &data, size_t data_size, u32 task_flags) {
+    FullPtr<StageOutTask> task = AsyncStageOut(
+        mctx, dom_query, bkt_id, blob_name, data, data_size, task_flags);
     task->Wait();
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(StageOut);
 };
 
-}  // namespace chi
+}  // namespace hermes
 
 #endif  // CHI_hermes_core_H_

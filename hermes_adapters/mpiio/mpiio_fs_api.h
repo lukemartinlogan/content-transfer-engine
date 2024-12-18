@@ -43,14 +43,11 @@ class MpiioSeekModeConv {
 class MpiioFs : public Filesystem {
  public:
   HERMES_MPIIO_API_T real_api_; /**< pointer to real APIs */
-  
-  MpiioFs() : Filesystem(AdapterType::kMpiio) {
-    real_api_ = HERMES_MPIIO_API;
-  }
+
+  MpiioFs() : Filesystem(AdapterType::kMpiio) { real_api_ = HERMES_MPIIO_API; }
 
   /** Initialize I/O opts using count + datatype */
-  static size_t IoSizeFromCount(int count,
-                                MPI_Datatype datatype,
+  static size_t IoSizeFromCount(int count, MPI_Datatype datatype,
                                 FsIoOptions &opts) {
     opts.mpi_type_ = datatype;
     opts.mpi_count_ = count;
@@ -60,8 +57,11 @@ class MpiioFs : public Filesystem {
 
   inline bool IsMpiFpTracked(MPI_File *fh, std::shared_ptr<AdapterStat> &stat) {
     auto mdm = HERMES_FS_METADATA_MANAGER;
-    if (fh == nullptr) { return false; }
-    File f; f.hermes_mpi_fh_ = (*fh);
+    if (fh == nullptr) {
+      return false;
+    }
+    File f;
+    f.hermes_mpi_fh_ = (*fh);
     stat = mdm->Find(f);
     return stat != nullptr;
   }
@@ -85,8 +85,9 @@ class MpiioFs : public Filesystem {
     auto mdm = HERMES_FS_METADATA_MANAGER;
     IoStatus io_status;
     size_t total_size = IoSizeFromCount(count, datatype, opts);
-    FsAsyncTask *fstask = Filesystem::ARead(f, stat, ptr, offset, total_size,
-                                            reinterpret_cast<size_t>(request), io_status, opts);
+    FsAsyncTask *fstask =
+        Filesystem::ARead(f, stat, ptr, offset, total_size,
+                          reinterpret_cast<size_t>(request), io_status, opts);
     mdm->EmplaceTask(reinterpret_cast<size_t>(request), fstask);
     return io_status.mpi_ret_;
   }
@@ -127,17 +128,18 @@ class MpiioFs : public Filesystem {
     auto mdm = HERMES_FS_METADATA_MANAGER;
     IoStatus io_status;
     size_t total_size = IoSizeFromCount(count, datatype, opts);
-    FsAsyncTask *fstask = Filesystem::AWrite(f, stat, ptr, offset, total_size,
-                                             reinterpret_cast<size_t>(request), io_status, opts);
+    FsAsyncTask *fstask =
+        Filesystem::AWrite(f, stat, ptr, offset, total_size,
+                           reinterpret_cast<size_t>(request), io_status, opts);
     mdm->EmplaceTask(reinterpret_cast<size_t>(request), fstask);
     return io_status.mpi_ret_;
   }
 
-  template<bool ASYNC>
+  template <bool ASYNC>
   int BaseWriteAll(File &f, AdapterStat &stat, const void *ptr, size_t offset,
                    int count, MPI_Datatype datatype, MPI_Status *status,
                    MPI_Request *request, FsIoOptions opts) {
-    if constexpr(!ASYNC) {
+    if constexpr (!ASYNC) {
       MPI_Barrier(stat.comm_);
       int ret = Write(f, stat, ptr, offset, count, datatype, status, opts);
       MPI_Barrier(stat.comm_);
@@ -155,20 +157,20 @@ class MpiioFs : public Filesystem {
   }
 
   int AWriteAll(File &f, AdapterStat &stat, const void *ptr, size_t offset,
-               int count, MPI_Datatype datatype, MPI_Request *request,
-               FsIoOptions opts) {
+                int count, MPI_Datatype datatype, MPI_Request *request,
+                FsIoOptions opts) {
     return BaseWriteAll<true>(f, stat, ptr, offset, count, datatype, nullptr,
                               request, opts);
   }
 
-  template<bool ASYNC>
+  template <bool ASYNC>
   int BaseWriteOrdered(File &f, AdapterStat &stat, const void *ptr, int count,
                        MPI_Datatype datatype, MPI_Status *status,
                        MPI_Request *request, FsIoOptions opts) {
     int total;
     MPI_Scan(&count, &total, 1, MPI_INT, MPI_SUM, stat.comm_);
     MPI_Offset my_offset = total - count;
-    if constexpr(!ASYNC) {
+    if constexpr (!ASYNC) {
       size_t ret =
           WriteAll(f, stat, ptr, my_offset, count, datatype, status, opts);
       return ret;
@@ -178,8 +180,8 @@ class MpiioFs : public Filesystem {
   }
 
   int WriteOrdered(File &f, AdapterStat &stat, const void *ptr, int count,
-                   MPI_Datatype datatype,
-                   MPI_Status *status, FsIoOptions opts) {
+                   MPI_Datatype datatype, MPI_Status *status,
+                   FsIoOptions opts) {
     return BaseWriteOrdered<false>(f, stat, ptr, count, datatype, status,
                                    nullptr, opts);
   }
@@ -187,7 +189,7 @@ class MpiioFs : public Filesystem {
   int AWriteOrdered(File &f, AdapterStat &stat, const void *ptr, int count,
                     MPI_Datatype datatype, MPI_Request *request,
                     FsIoOptions opts) {
-    HILOG(kDebug, "Starting an asynchronous write")
+    HILOG(kDebug, "Starting an asynchronous write");
     return BaseWriteOrdered<true>(f, stat, ptr, count, datatype, nullptr,
                                   request, opts);
   }
@@ -230,12 +232,14 @@ class MpiioFs : public Filesystem {
                   stat.comm_);
     MPI_Allreduce(&whence, &sum_whence, 1, MPI_INT, MPI_SUM, stat.comm_);
     if (sum_offset / comm_participators != offset) {
-      HELOG(kError, "Same offset should be passed "
-            "across the opened file communicator.")
+      HELOG(kError,
+            "Same offset should be passed "
+            "across the opened file communicator.");
     }
     if (sum_whence / comm_participators != whence) {
-      HELOG(kError, "Same whence should be passed "
-            "across the opened file communicator.")
+      HELOG(kError,
+            "Same whence should be passed "
+            "across the opened file communicator.");
     }
     Seek(f, stat, offset, whence);
     return 0;
@@ -498,9 +502,7 @@ class MpiioFs : public Filesystem {
 
  public:
   /** Allocate an fd for the file f */
-  void RealOpen(File &f,
-                AdapterStat &stat,
-                const std::string &path) override {
+  void RealOpen(File &f, AdapterStat &stat, const std::string &path) override {
     if (stat.amode_ & MPI_MODE_CREATE) {
       stat.hflags_.SetBits(HERMES_FS_CREATE);
       stat.hflags_.SetBits(HERMES_FS_TRUNC);
@@ -542,22 +544,19 @@ class MpiioFs : public Filesystem {
    * and hermes file handler. These are not the same as STDIO file
    * descriptor and STDIO file handler.
    * */
-  void HermesOpen(File &f,
-                  const AdapterStat &stat,
+  void HermesOpen(File &f, const AdapterStat &stat,
                   FilesystemIoClientState &fs_mdm) override {
     // f.hermes_mpi_fh_ = (MPI_File)fs_mdm.stat_;
     f.hermes_mpi_fh_ = stat.mpi_fh_;
   }
 
   /** Synchronize \a file FILE f */
-  int RealSync(const File &f,
-               const AdapterStat &stat) override {
+  int RealSync(const File &f, const AdapterStat &stat) override {
     return real_api_->MPI_File_sync(stat.mpi_fh_);
   }
 
   /** Close \a file FILE f */
-  int RealClose(const File &f,
-                AdapterStat &stat) override {
+  int RealClose(const File &f, AdapterStat &stat) override {
     return real_api_->MPI_File_close(&stat.mpi_fh_);
   }
 
@@ -565,10 +564,11 @@ class MpiioFs : public Filesystem {
    * Called before RealClose. Releases information provisioned during
    * the allocation phase.
    * */
-  void HermesClose(File &f,
-                   const AdapterStat &stat,
+  void HermesClose(File &f, const AdapterStat &stat,
                    FilesystemIoClientState &fs_mdm) override {
-    (void) f; (void) stat; (void) fs_mdm;
+    (void)f;
+    (void)stat;
+    (void)fs_mdm;
   }
 
   /** Remove \a file FILE f */
@@ -581,104 +581,94 @@ class MpiioFs : public Filesystem {
     size_t true_size = 0;
     std::string filename = bkt_name.str();
     int fd = open(filename.c_str(), O_RDONLY);
-    if (fd < 0) { return 0; }
+    if (fd < 0) {
+      return 0;
+    }
     struct stat buf;
     fstat(fd, &buf);
     true_size = buf.st_size;
     close(fd);
 
-    HILOG(kDebug, "The size of the file {} on disk is {} bytes",
-          filename, true_size)
+    HILOG(kDebug, "The size of the file {} on disk is {} bytes", filename,
+          true_size);
     return true_size;
   }
 
   /** Write blob to backend */
-  void WriteBlob(const std::string &bkt_name,
-                 const Blob &full_blob,
-                 const FsIoOptions &opts,
-                 IoStatus &status) override {
+  void WriteBlob(const std::string &bkt_name, const Blob &full_blob,
+                 const FsIoOptions &opts, IoStatus &status) override {
     status.success_ = true;
     HILOG(kDebug,
           "Write called for: {}"
           " on offset: {}"
           " and size: {}",
-          bkt_name, opts.backend_off_, full_blob.size())
+          bkt_name, opts.backend_off_, full_blob.size());
     MPI_File fh;
     int write_count = 0;
-    status.mpi_ret_ = real_api_->MPI_File_open(MPI_COMM_SELF, bkt_name.c_str(),
-                                              MPI_MODE_RDONLY,
-                                              MPI_INFO_NULL, &fh);
+    status.mpi_ret_ = real_api_->MPI_File_open(
+        MPI_COMM_SELF, bkt_name.c_str(), MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
     if (status.mpi_ret_ != MPI_SUCCESS) {
       status.success_ = false;
       return;
     }
 
-    status.mpi_ret_ = real_api_->MPI_File_seek(fh, opts.backend_off_,
-                                              MPI_SEEK_SET);
+    status.mpi_ret_ =
+        real_api_->MPI_File_seek(fh, opts.backend_off_, MPI_SEEK_SET);
     if (status.mpi_ret_ != MPI_SUCCESS) {
       status.success_ = false;
       goto ERROR;
     }
-    status.mpi_ret_ = real_api_->MPI_File_write(fh,
-                                               full_blob.data(),
-                                               opts.mpi_count_,
-                                               opts.mpi_type_,
-                                               status.mpi_status_ptr_);
-    MPI_Get_count(status.mpi_status_ptr_,
-                  opts.mpi_type_, &write_count);
+    status.mpi_ret_ =
+        real_api_->MPI_File_write(fh, full_blob.data(), opts.mpi_count_,
+                                  opts.mpi_type_, status.mpi_status_ptr_);
+    MPI_Get_count(status.mpi_status_ptr_, opts.mpi_type_, &write_count);
     if (write_count != opts.mpi_count_) {
       status.success_ = false;
-      HELOG(kError, "writing failed: wrote {} / {}",
-            write_count, opts.mpi_count_)
+      HELOG(kError, "writing failed: wrote {} / {}", write_count,
+            opts.mpi_count_);
     }
 
-    ERROR:
+  ERROR:
     real_api_->MPI_File_close(&fh);
     status.size_ = full_blob.size();
     UpdateIoStatus(opts, status);
   }
 
   /** Read blob from the backend */
-  void ReadBlob(const std::string &bkt_name,
-                Blob &full_blob,
-                const FsIoOptions &opts,
-                IoStatus &status) override {
+  void ReadBlob(const std::string &bkt_name, Blob &full_blob,
+                const FsIoOptions &opts, IoStatus &status) override {
     status.success_ = true;
     HILOG(kDebug,
           "Reading from: {}"
           " on offset: {}"
           " and size: {}",
-          bkt_name, opts.backend_off_, full_blob.size())
+          bkt_name, opts.backend_off_, full_blob.size());
     MPI_File fh;
     int read_count = 0;
-    status.mpi_ret_ = real_api_->MPI_File_open(MPI_COMM_SELF, bkt_name.c_str(),
-                                              MPI_MODE_RDONLY, MPI_INFO_NULL,
-                                              &fh);
+    status.mpi_ret_ = real_api_->MPI_File_open(
+        MPI_COMM_SELF, bkt_name.c_str(), MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
     if (status.mpi_ret_ != MPI_SUCCESS) {
       status.success_ = false;
       return;
     }
 
-    status.mpi_ret_ = real_api_->MPI_File_seek(fh, opts.backend_off_,
-                                              MPI_SEEK_SET);
+    status.mpi_ret_ =
+        real_api_->MPI_File_seek(fh, opts.backend_off_, MPI_SEEK_SET);
     if (status.mpi_ret_ != MPI_SUCCESS) {
       status.success_ = false;
       goto ERROR;
     }
-    status.mpi_ret_ = real_api_->MPI_File_read(fh,
-                                              full_blob.data(),
-                                              opts.mpi_count_,
-                                              opts.mpi_type_,
-                                              status.mpi_status_ptr_);
-    MPI_Get_count(status.mpi_status_ptr_,
-                  opts.mpi_type_, &read_count);
+    status.mpi_ret_ =
+        real_api_->MPI_File_read(fh, full_blob.data(), opts.mpi_count_,
+                                 opts.mpi_type_, status.mpi_status_ptr_);
+    MPI_Get_count(status.mpi_status_ptr_, opts.mpi_type_, &read_count);
     if (read_count != opts.mpi_count_) {
       status.success_ = false;
-      HELOG(kError, "reading failed: read {} / {}",
-            read_count, opts.mpi_count_)
+      HELOG(kError, "reading failed: read {} / {}", read_count,
+            opts.mpi_count_);
     }
 
-    ERROR:
+  ERROR:
     real_api_->MPI_File_close(&fh);
     status.size_ = full_blob.size();
     UpdateIoStatus(opts, status);
@@ -688,10 +678,10 @@ class MpiioFs : public Filesystem {
   void UpdateIoStatus(const FsIoOptions &opts, IoStatus &status) override {
 #ifdef HERMES_OPENMPI
     status.mpi_status_ptr_->_cancelled = 0;
-  status.mpi_status_ptr_->_ucount = (int) (status.size_ / opts.type_size_);
+    status.mpi_status_ptr_->_ucount = (int)(status.size_ / opts.type_size_);
 #elif defined(HERMES_MPICH)
     status.mpi_status_ptr_->count_hi_and_cancelled = 0;
-    status.mpi_status_ptr_->count_lo = (int) (status.size_ / opts.type_size_);
+    status.mpi_status_ptr_->count_lo = (int)(status.size_ / opts.type_size_);
 #else
 #error "No MPI implementation specified for MPIIO adapter"
 #endif
@@ -703,6 +693,6 @@ class MpiioFs : public Filesystem {
 /** Simplify access to the stateless StdioFs Singleton */
 #define HERMES_MPIIO_FS \
   hshm::EasySingleton<::hermes::adapter::MpiioFs>::GetInstance()
-#define HERMES_STDIO_FS_T hermes::adapter::MpiioFs*
+#define HERMES_STDIO_FS_T hermes::adapter::MpiioFs *
 
 #endif  // HERMES_ADAPTER_MPIIO_MPIIO_FS_API_H_

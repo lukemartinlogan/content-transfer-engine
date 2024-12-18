@@ -15,6 +15,7 @@
 
 #include <cstdio>
 #include <unordered_map>
+
 #include "filesystem_io_client.h"
 
 namespace hermes::adapter {
@@ -25,15 +26,15 @@ namespace hermes::adapter {
 class MetadataManager {
  private:
   std::unordered_map<std::string, std::list<File>>
-      path_to_hermes_file_;  /**< Map to determine if path is buffered. */
+      path_to_hermes_file_; /**< Map to determine if path is buffered. */
   std::unordered_map<File, std::shared_ptr<AdapterStat>>
-      hermes_file_to_stat_;  /**< Map for metadata */
-  RwLock lock_;              /**< Lock to synchronize MD updates*/
+      hermes_file_to_stat_; /**< Map for metadata */
+  RwLock lock_;             /**< Lock to synchronize MD updates*/
 
  public:
   std::unordered_map<uint64_t, FsAsyncTask*>
-      request_map_;  /**< Map for async FS requests */
-  FsIoClientMetadata fs_mdm_;  /**< Context needed for I/O clients */
+      request_map_;           /**< Map for async FS requests */
+  FsIoClientMetadata fs_mdm_; /**< Context needed for I/O clients */
 
   /** Constructor */
   MetadataManager() = default;
@@ -45,13 +46,13 @@ class MetadataManager {
   }
 
   /** Get the adapter mode for a particular file */
-  AdapterMode GetAdapterMode(const std::string &path) {
+  AdapterMode GetAdapterMode(const std::string& path) {
     ScopedRwReadLock md_lock(lock_, 2);
     return HERMES_CLIENT_CONF.GetAdapterConfig(path).mode_;
   }
 
   /** Get the adapter page size for a particular file */
-  size_t GetAdapterPageSize(const std::string &path) {
+  size_t GetAdapterPageSize(const std::string& path) {
     ScopedRwReadLock md_lock(lock_, 3);
     return HERMES_CLIENT_CONF.GetAdapterConfig(path).page_size_;
   }
@@ -64,8 +65,8 @@ class MetadataManager {
    * @return    true, if operation was successful.
    *            false, if operation was unsuccessful.
    */
-  bool Create(const File& f, std::shared_ptr<AdapterStat> &stat) {
-    HILOG(kDebug, "Create metadata for file handler")
+  bool Create(const File& f, std::shared_ptr<AdapterStat>& stat) {
+    HILOG(kDebug, "Create metadata for file handler");
     ScopedRwWriteLock md_lock(lock_, kMDM_Create);
     if (path_to_hermes_file_.find(stat->path_) == path_to_hermes_file_.end()) {
       path_to_hermes_file_.emplace(stat->path_, std::list<File>());
@@ -83,7 +84,7 @@ class MetadataManager {
    *            false, if operation was unsuccessful or entry doesn't exist.
    */
   bool Update(const File& f, const AdapterStat& stat) {
-    HILOG(kDebug, "Update metadata for file handler")
+    HILOG(kDebug, "Update metadata for file handler");
     ScopedRwWriteLock md_lock(lock_, kMDM_Update);
     auto iter = hermes_file_to_stat_.find(f);
     if (iter != hermes_file_to_stat_.end()) {
@@ -100,13 +101,13 @@ class MetadataManager {
    * @return    true, if operation was successful.
    *            false, if operation was unsuccessful.
    */
-  bool Delete(const std::string &path, const File& f) {
-    HILOG(kDebug, "Delete metadata for file handler")
+  bool Delete(const std::string& path, const File& f) {
+    HILOG(kDebug, "Delete metadata for file handler");
     ScopedRwWriteLock md_lock(lock_, kMDM_Delete);
     auto iter = hermes_file_to_stat_.find(f);
     if (iter != hermes_file_to_stat_.end()) {
       hermes_file_to_stat_.erase(iter);
-      auto &list = path_to_hermes_file_[path];
+      auto& list = path_to_hermes_file_[path];
       auto f_iter = std::find(list.begin(), list.end(), f);
       path_to_hermes_file_[path].erase(f_iter);
       if (list.size() == 0) {
@@ -123,7 +124,7 @@ class MetadataManager {
    * @param path the path being checked
    * @return The hermes file.
    * */
-  std::list<File>* Find(const std::string &path) {
+  std::list<File>* Find(const std::string& path) {
     std::string canon_path = stdfs::absolute(path).string();
     ScopedRwReadLock md_lock(lock_, kMDM_Find);
     auto iter = path_to_hermes_file_.find(canon_path);
@@ -188,6 +189,5 @@ class MetadataManager {
 #define HERMES_FS_METADATA_MANAGER \
   hshm::Singleton<::hermes::adapter::MetadataManager>::GetInstance()
 #define HERMES_FS_METADATA_MANAGER_T hermes::adapter::MetadataManager*
-
 
 #endif  // HERMES_ADAPTER_METADATA_MANAGER_H

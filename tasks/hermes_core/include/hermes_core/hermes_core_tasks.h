@@ -13,18 +13,18 @@ namespace hermes {
 #include "hermes_core_methods.h"
 CHI_NAMESPACE_INIT
 
-template<typename StringT>
+template <typename StringT>
 static inline u32 HashBucketName(const StringT &bucket_name) {
   u32 h1 = 0;
   for (size_t i = 0; i < bucket_name.size(); ++i) {
     auto shift = static_cast<u32>(i % sizeof(u32));
     auto c = static_cast<u32>((unsigned char)bucket_name[i]);
-    h1 = 31*h1 + (c << shift);
+    h1 = 31 * h1 + (c << shift);
   }
   return std::hash<u32>{}(h1);
 }
 
-template<typename StringT>
+template <typename StringT>
 static inline u32 HashBlobName(const TagId &tag_id, const StringT &blob_name) {
   u32 h1 = HashBucketName(blob_name);
   u32 h2 = std::hash<TagId>{}(tag_id);
@@ -34,45 +34,17 @@ static inline u32 HashBlobName(const TagId &tag_id, const StringT &blob_name) {
 /**
  * A task to create hermes_core
  * */
-using chi::Admin::CreateContainerTask;
-struct CreateTask : public CreateContainerTask {
-  /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  CreateTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
-      : CreateContainerTask(alloc) {}
+struct CreateTaskParams {
+  CLS_CONST char *lib_name_ = "hermes_core";
 
-  /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  CreateTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-             const TaskNode &task_node,
-             const PoolId &pool_id,
-             const DomainQuery &dom_query,
-             const DomainQuery &affinity,
-             const std::string &pool_name,
-             const CreateContext &ctx)
-      : CreateContainerTask(alloc, task_node, pool_id, dom_query, affinity,
-                            pool_name, "hermes_core", ctx) {
-    // Custom params
-  }
+  CreateTaskParams() = default;
 
-  /** Duplicate message */
-  template<typename CreateTaskT = CreateContainerTask>
-  void CopyStart(const CreateTaskT &other, bool deep) {
-    BaseCopyStart(other, deep);
-  }
+  CreateTaskParams(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) {}
 
-  /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-    BaseSerializeStart(ar);
-  }
-
-  /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(Ar &ar) {
-    BaseSerializeEnd(ar);
-  }
+  template <typename Ar>
+  void serialize(Ar &ar) {}
 };
+typedef chi::Admin::CreateContainerBaseTask<CreateTaskParams> CreateTask;
 
 /** A task to destroy hermes_core */
 typedef chi::Admin::DestroyContainerTask DestroyTask;
@@ -95,21 +67,16 @@ struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
   OUT TagId tag_id_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetOrCreateTagTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+  HSHM_INLINE explicit GetOrCreateTagTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), tag_name_(alloc), params_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetOrCreateTagTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                     const TaskNode &task_node,
-                     const PoolId &pool_id,
-                     const DomainQuery &dom_query,
-                     const chi::string &tag_name,
-                     bool blob_owner,
-                     size_t backend_size,
-                     u32 flags,
-                     const Context &ctx)
+  HSHM_INLINE explicit GetOrCreateTagTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query,
+      const chi::string &tag_name, bool blob_owner, size_t backend_size,
+      u32 flags, const Context &ctx)
       : Task(alloc), tag_name_(alloc, tag_name), params_(alloc) {
     // Initialize task
     task_node_ = task_node;
@@ -136,13 +103,13 @@ struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_name_, params_, blob_owner_, backend_size_, flags_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar(tag_id_);
   }
@@ -154,17 +121,15 @@ struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM> {
   OUT TagId tag_id_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetTagIdTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+  HSHM_INLINE explicit GetTagIdTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), tag_name_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetTagIdTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-               const TaskNode &task_node,
-               const PoolId &pool_id,
-               const DomainQuery &dom_query,
-               const chi::string &tag_name)
+  HSHM_INLINE explicit GetTagIdTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query,
+      const chi::string &tag_name)
       : Task(alloc), tag_name_(alloc, tag_name) {
     // Initialize task
     task_node_ = task_node;
@@ -182,13 +147,13 @@ struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_name_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar(tag_id_);
   }
@@ -200,17 +165,14 @@ struct GetTagNameTask : public Task, TaskFlags<TF_SRL_SYM> {
   OUT chi::ipc::string tag_name_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetTagNameTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+  HSHM_INLINE explicit GetTagNameTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), tag_name_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetTagNameTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                 const TaskNode &task_node,
-                 const PoolId &pool_id,
-                 const DomainQuery &dom_query,
-                 const TagId &tag_id)
+  HSHM_INLINE explicit GetTagNameTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id)
       : Task(alloc), tag_name_(alloc) {
     // Initialize task
     task_node_ = task_node;
@@ -231,13 +193,13 @@ struct GetTagNameTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar(tag_name_);
   }
@@ -248,16 +210,15 @@ struct DestroyTagTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  DestroyTagTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
+  HSHM_INLINE explicit DestroyTagTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  DestroyTagTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                 const TaskNode &task_node,
-                 const PoolId &pool_id,
-                 const DomainQuery &dom_query,
-                 const TagId &tag_id) : Task(alloc) {
+  HSHM_INLINE explicit DestroyTagTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id)
+      : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -276,13 +237,13 @@ struct DestroyTagTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
 
@@ -292,17 +253,16 @@ struct TagAddBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN BlobId blob_id_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagAddBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
+  HSHM_INLINE explicit TagAddBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagAddBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                 const TaskNode &task_node,
-                 const PoolId &pool_id,
-                 const DomainQuery &dom_query,
-                 TagId tag_id,
-                 const BlobId &blob_id) : Task(alloc) {
+  HSHM_INLINE explicit TagAddBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, TagId tag_id,
+      const BlobId &blob_id)
+      : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -323,13 +283,13 @@ struct TagAddBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_id_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
 
@@ -339,17 +299,16 @@ struct TagRemoveBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN BlobId blob_id_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagRemoveBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
+  HSHM_INLINE explicit TagRemoveBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagRemoveBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                    const TaskNode &task_node,
-                    const PoolId &pool_id,
-                    const DomainQuery &dom_query,
-                    TagId tag_id,
-                    const BlobId &blob_id) : Task(alloc) {
+  HSHM_INLINE explicit TagRemoveBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, TagId tag_id,
+      const BlobId &blob_id)
+      : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -370,13 +329,13 @@ struct TagRemoveBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_id_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
 
@@ -385,16 +344,15 @@ struct TagClearBlobsTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_id_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagClearBlobsTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
+  HSHM_INLINE explicit TagClearBlobsTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagClearBlobsTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                    const TaskNode &task_node,
-                    const PoolId &pool_id,
-                    const DomainQuery &dom_query,
-                    TagId tag_id) : Task(alloc) {
+  HSHM_INLINE explicit TagClearBlobsTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, TagId tag_id)
+      : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -413,13 +371,13 @@ struct TagClearBlobsTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
 
@@ -429,16 +387,15 @@ struct TagGetSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
   OUT size_t size_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagGetSizeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
+  HSHM_INLINE explicit TagGetSizeTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagGetSizeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                 const TaskNode &task_node,
-                 const PoolId &pool_id,
-                 const DomainQuery &dom_query,
-                 TagId tag_id) : Task(alloc) {
+  HSHM_INLINE explicit TagGetSizeTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, TagId tag_id)
+      : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -458,13 +415,13 @@ struct TagGetSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar(size_);
   }
@@ -477,18 +434,16 @@ struct TagUpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN int mode_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagUpdateSizeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
+  HSHM_INLINE explicit TagUpdateSizeTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagUpdateSizeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                    const TaskNode &task_node,
-                    const PoolId &pool_id,
-                    const DomainQuery &dom_query,
-                    TagId tag_id,
-                    ssize_t update,
-                    int mode) : Task(alloc) {
+  HSHM_INLINE explicit TagUpdateSizeTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, TagId tag_id,
+      ssize_t update, int mode)
+      : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -511,16 +466,15 @@ struct TagUpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_, update_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
-
 
 /** A task to destroy all blobs in the tag */
 struct TagGetContainedBlobIdsTask : public Task, TaskFlags<TF_SRL_SYM> {
@@ -528,17 +482,14 @@ struct TagGetContainedBlobIdsTask : public Task, TaskFlags<TF_SRL_SYM> {
   OUT hipc::vector<BlobId> blob_ids_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagGetContainedBlobIdsTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+  HSHM_INLINE explicit TagGetContainedBlobIdsTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_ids_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagGetContainedBlobIdsTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                             const TaskNode &task_node,
-                             const PoolId &pool_id,
-                             const DomainQuery &dom_query,
-                             const TagId &tag_id)
+  HSHM_INLINE explicit TagGetContainedBlobIdsTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id)
       : Task(alloc), blob_ids_(alloc) {
     // Initialize task
     task_node_ = task_node;
@@ -559,13 +510,13 @@ struct TagGetContainedBlobIdsTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_ids_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar(blob_ids_);
   }
@@ -597,18 +548,15 @@ struct GetOrCreateBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
   OUT BlobId blob_id_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetOrCreateBlobIdTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+  HSHM_INLINE explicit GetOrCreateBlobIdTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetOrCreateBlobIdTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                        const TaskNode &task_node,
-                        const PoolId &pool_id,
-                        const DomainQuery &dom_query,
-                        const TagId &tag_id,
-                        const chi::string &blob_name)
+  HSHM_INLINE explicit GetOrCreateBlobIdTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id,
+      const chi::string &blob_name)
       : Task(alloc), blob_name_(alloc) {
     // Initialize task
     task_node_ = task_node;
@@ -630,14 +578,14 @@ struct GetOrCreateBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     task_serialize<Ar>(ar);
     ar(tag_id_, blob_name_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar(blob_id_);
   }
@@ -652,18 +600,15 @@ struct GetBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
   OUT BlobId blob_id_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetBlobIdTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+  HSHM_INLINE explicit GetBlobIdTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetBlobIdTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                const TaskNode &task_node,
-                const PoolId &pool_id,
-                const DomainQuery &dom_query,
-                const TagId &tag_id,
-                const chi::string &blob_name)
+  HSHM_INLINE explicit GetBlobIdTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id,
+      const chi::string &blob_name)
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
@@ -685,13 +630,13 @@ struct GetBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_name_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar(blob_id_);
   }
@@ -706,18 +651,15 @@ struct GetBlobNameTask : public Task, TaskFlags<TF_SRL_SYM> {
   OUT chi::ipc::string blob_name_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetBlobNameTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+  HSHM_INLINE explicit GetBlobNameTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetBlobNameTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                  const TaskNode &task_node,
-                  const PoolId &pool_id,
-                  const DomainQuery &dom_query,
-                  const TagId &tag_id,
-                  const BlobId &blob_id)
+  HSHM_INLINE explicit GetBlobNameTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id,
+      const BlobId &blob_id)
       : Task(alloc), blob_name_(alloc) {
     // Initialize task
     task_node_ = task_node;
@@ -740,14 +682,14 @@ struct GetBlobNameTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     task_serialize<Ar>(ar);
     ar(tag_id_, blob_id_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar(blob_name_);
   }
@@ -761,19 +703,15 @@ struct GetBlobSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
   OUT size_t size_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetBlobSizeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+  HSHM_INLINE explicit GetBlobSizeTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetBlobSizeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                  const TaskNode &task_node,
-                  const PoolId &pool_id,
-                  const DomainQuery &dom_query,
-                  const TagId &tag_id,
-                  const chi::string &blob_name,
-                  const BlobId &blob_id)
+  HSHM_INLINE explicit GetBlobSizeTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id,
+      const chi::string &blob_name, const BlobId &blob_id)
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
@@ -797,13 +735,13 @@ struct GetBlobSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_name_, blob_id_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar(size_);
   }
@@ -816,17 +754,16 @@ struct GetBlobScoreTask : public Task, TaskFlags<TF_SRL_SYM> {
   OUT float score_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetBlobScoreTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
+  HSHM_INLINE explicit GetBlobScoreTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetBlobScoreTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                   const TaskNode &task_node,
-                   const PoolId &pool_id,
-                   const DomainQuery &dom_query,
-                   const TagId &tag_id,
-                   const BlobId &blob_id) : Task(alloc) {
+  HSHM_INLINE explicit GetBlobScoreTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id,
+      const BlobId &blob_id)
+      : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -848,13 +785,13 @@ struct GetBlobScoreTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_id_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar(score_);
   }
@@ -867,18 +804,15 @@ struct GetBlobBuffersTask : public Task, TaskFlags<TF_SRL_SYM> {
   OUT hipc::vector<BufferInfo> buffers_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetBlobBuffersTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+  HSHM_INLINE explicit GetBlobBuffersTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), buffers_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetBlobBuffersTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                     const TaskNode &task_node,
-                     const PoolId &pool_id,
-                     const DomainQuery &dom_query,
-                     const TagId &tag_id,
-                     const BlobId &blob_id)
+  HSHM_INLINE explicit GetBlobBuffersTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id,
+      const BlobId &blob_id)
       : Task(alloc), buffers_(alloc) {
     // Initialize task
     task_node_ = task_node;
@@ -901,13 +835,13 @@ struct GetBlobBuffersTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_id_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar(buffers_);
   }
@@ -923,19 +857,16 @@ struct BlobHasTagTask : public Task, TaskFlags<TF_SRL_SYM> {
   OUT bool has_tag_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  BlobHasTagTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+  HSHM_INLINE explicit BlobHasTagTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  BlobHasTagTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                 const TaskNode &task_node,
-                 const PoolId &pool_id,
-                 const DomainQuery &dom_query,
-                 const TagId &tag_id,
-                 const BlobId &blob_id,
-                 const TagId &tag) : Task(alloc) {
+  HSHM_INLINE explicit BlobHasTagTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id,
+      const BlobId &blob_id, const TagId &tag)
+      : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     task_node_ = task_node;
@@ -960,13 +891,13 @@ struct BlobHasTagTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_id_, tag_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar(has_tag_);
   }
@@ -979,18 +910,16 @@ struct TruncateBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN u64 size_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TruncateBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
+  HSHM_INLINE explicit TruncateBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TruncateBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                   const TaskNode &task_node,
-                   const PoolId &pool_id,
-                   const DomainQuery &dom_query,
-                   const TagId &tag_id,
-                   const BlobId &blob_id,
-                   u64 size) : Task(alloc) {
+  HSHM_INLINE explicit TruncateBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id,
+      const BlobId &blob_id, u64 size)
+      : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1013,15 +942,14 @@ struct TruncateBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_id_, size_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(Ar &ar) {
-  }
+  template <typename Ar>
+  void SerializeEnd(Ar &ar) {}
 };
 
 /** A task to destroy a blob */
@@ -1033,19 +961,16 @@ struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN bitfield32_t flags_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  DestroyBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
+  HSHM_INLINE explicit DestroyBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  DestroyBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                  const TaskNode &task_node,
-                  const PoolId &pool_id,
-                  const DomainQuery &dom_query,
-                  const TagId &tag_id,
-                  const BlobId &blob_id,
-                  u32 blob_flags,
-                  u32 task_flags = 0) : Task(alloc) {
+  HSHM_INLINE explicit DestroyBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id,
+      const BlobId &blob_id, u32 blob_flags, u32 task_flags = 0)
+      : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1068,15 +993,14 @@ struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_id_, flags_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(Ar &ar) {
-  }
+  template <typename Ar>
+  void SerializeEnd(Ar &ar) {}
 };
 
 /** A task to reorganize a blob's composition in the hierarchy */
@@ -1089,23 +1013,17 @@ struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN bool is_user_score_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  ReorganizeBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+  HSHM_INLINE explicit ReorganizeBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  ReorganizeBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                     const TaskNode &task_node,
-                     const PoolId &pool_id,
-                     const DomainQuery &dom_query,
-                     const TagId &tag_id,
-                     const chi::string &blob_name,
-                     const BlobId &blob_id,
-                     float score,
-                     bool is_user_score,
-                     const Context &ctx,
-                     u32 task_flags = TASK_FIRE_AND_FORGET)
+  HSHM_INLINE explicit ReorganizeBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id,
+      const chi::string &blob_name, const BlobId &blob_id, float score,
+      bool is_user_score, const Context &ctx,
+      u32 task_flags = TASK_FIRE_AND_FORGET)
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
@@ -1134,15 +1052,14 @@ struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_name_, blob_id_, score_, node_id_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(Ar &ar) {
-  }
+  template <typename Ar>
+  void SerializeEnd(Ar &ar) {}
 };
 
 /** A task to tag a blob */
@@ -1152,18 +1069,17 @@ struct TagBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN TagId tag_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
+  HSHM_INLINE explicit TagBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  TagBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-              const TaskNode &task_node,
-              const PoolId &pool_id,
-              const DomainQuery &dom_query,
-              const TagId &tag_id,
-              const BlobId &blob_id,
-              const TagId &tag) : Task(alloc) {
+  HSHM_INLINE explicit TagBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
+                                   const TaskNode &task_node,
+                                   const PoolId &pool_id,
+                                   const DomainQuery &dom_query,
+                                   const TagId &tag_id, const BlobId &blob_id,
+                                   const TagId &tag)
+      : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1186,15 +1102,14 @@ struct TagBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(blob_id_, tag_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(Ar &ar) {
-  }
+  template <typename Ar>
+  void SerializeEnd(Ar &ar) {}
 };
 
 /** A task to put data in a blob */
@@ -1209,26 +1124,16 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN BlobId blob_id_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  PutBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+  HSHM_INLINE explicit PutBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  PutBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-              const TaskNode &task_node,
-              const PoolId &pool_id,
-              const DomainQuery &dom_query,
-              const TagId &tag_id,
-              const chi::string &blob_name,
-              const BlobId &blob_id,
-              size_t blob_off,
-              size_t data_size,
-              const hipc::Pointer &data,
-              float score,
-              u32 task_flags,
-              u32 hermes_flags,
-              const Context &ctx = Context())
+  HSHM_INLINE explicit PutBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id,
+      const chi::string &blob_name, const BlobId &blob_id, size_t blob_off,
+      size_t data_size, const hipc::Pointer &data, float score, u32 task_flags,
+      u32 hermes_flags, const Context &ctx = Context())
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
@@ -1251,7 +1156,8 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** Destructor */
   ~PutBlobTask() {
     if (IsDataOwner()) {
-      // HILOG(kInfo, "Actually freeing PUT {} of size {}", task_node_, data_size_);
+      // HILOG(kInfo, "Actually freeing PUT {} of size {}", task_node_,
+      // data_size_);
       CHI_CLIENT->FreeBuffer(data_);
     }
   }
@@ -1269,14 +1175,14 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_name_, blob_id_, blob_off_, data_size_, score_, flags_);
     ar.bulk(DT_WRITE, data_, data_size_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     if (flags_.Any(HERMES_GET_BLOB_ID)) {
       ar(blob_id_);
@@ -1295,24 +1201,16 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN bitfield32_t flags_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+  HSHM_INLINE explicit GetBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  GetBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-              const TaskNode &task_node,
-              const PoolId &pool_id,
-              const DomainQuery &dom_query,
-              const TagId &tag_id,
-              const chi::string &blob_name,
-              const BlobId &blob_id,
-              size_t off,
-              size_t data_size,
-              hipc::Pointer &data,
-              u32 hermes_flags,
-              const Context &ctx = Context())
+  HSHM_INLINE explicit GetBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id,
+      const chi::string &blob_name, const BlobId &blob_id, size_t off,
+      size_t data_size, hipc::Pointer &data, u32 hermes_flags,
+      const Context &ctx = Context())
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
@@ -1332,9 +1230,8 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** Convert data to a data structure */
-  template<typename T>
-  HSHM_ALWAYS_INLINE
-  void Get(T &obj) {
+  template <typename T>
+  HSHM_INLINE void Get(T &obj) {
     char *data = CHI_CLIENT->GetDataPointer(data_);
     std::stringstream ss(std::string(data, data_size_));
     cereal::BinaryInputArchive ar(ss);
@@ -1342,9 +1239,8 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** Convert data to a data structure */
-  template<typename T>
-  HSHM_ALWAYS_INLINE
-  T Get() {
+  template <typename T>
+  HSHM_INLINE T Get() {
     T obj;
     return Get(obj);
   }
@@ -1361,14 +1257,14 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_name_, blob_id_, blob_off_, data_size_, flags_);
     ar.bulk(DT_EXPOSE, data_, data_size_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar.bulk(DT_WRITE, data_, data_size_);
     if (flags_.Any(HERMES_GET_BLOB_ID)) {
@@ -1381,16 +1277,15 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 /** The FlushDataTask task */
 struct FlushDataTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  FlushDataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
+  HSHM_INLINE explicit FlushDataTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  FlushDataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                const TaskNode &task_node,
-                const PoolId &pool_id,
-                const DomainQuery &dom_query,
-                int period_sec) : Task(alloc) {
+  HSHM_INLINE explicit FlushDataTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, int period_sec)
+      : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1404,36 +1299,31 @@ struct FlushDataTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** Duplicate message */
-  void CopyStart(const FlushDataTask &other, bool deep) {
-  }
+  void CopyStart(const FlushDataTask &other, bool deep) {}
 
   /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-  }
+  template <typename Ar>
+  void SerializeStart(Ar &ar) {}
 
   /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(Ar &ar) {
-  }
+  template <typename Ar>
+  void SerializeEnd(Ar &ar) {}
 };
-
 
 /** The PollBlobMetadataTask task */
 struct PollBlobMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
   chi::string stats_buf_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  PollBlobMetadataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc), stats_buf_(alloc) {}
+  HSHM_INLINE explicit PollBlobMetadataTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc), stats_buf_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  PollBlobMetadataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                       const TaskNode &task_node,
-                       const PoolId &pool_id,
-                       const DomainQuery &dom_query)
-  : Task(alloc), stats_buf_(alloc) {
+  HSHM_INLINE explicit PollBlobMetadataTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query)
+      : Task(alloc), stats_buf_(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1468,17 +1358,15 @@ struct PollBlobMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-  }
+  template <typename Ar>
+  void SerializeStart(Ar &ar) {}
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar(stats_buf_);
   }
 };
-
 
 /** The PollTargetMetadataTask task */
 struct TargetStats {
@@ -1490,7 +1378,7 @@ struct TargetStats {
   float latency_;
   float score_;
 
-  template<typename Ar>
+  template <typename Ar>
   void serialize(Ar &ar) {
     ar(tgt_id_, node_id_, rem_cap_, max_cap_, bandwidth_, latency_, score_);
   }
@@ -1499,17 +1387,15 @@ struct PollTargetMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
   chi::string stats_buf_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  PollTargetMetadataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
-  : Task(alloc), stats_buf_(alloc) {}
+  HSHM_INLINE explicit PollTargetMetadataTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc), stats_buf_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  PollTargetMetadataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                         const TaskNode &task_node,
-                         const PoolId &pool_id,
-                         const DomainQuery &dom_query)
-  : Task(alloc), stats_buf_(alloc) {
+  HSHM_INLINE explicit PollTargetMetadataTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query)
+      : Task(alloc), stats_buf_(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1544,12 +1430,11 @@ struct PollTargetMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-  }
+  template <typename Ar>
+  void SerializeStart(Ar &ar) {}
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar(stats_buf_);
   }
@@ -1560,17 +1445,15 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
   chi::string stats_buf_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  PollTagMetadataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
-  : Task(alloc), stats_buf_(alloc) {}
+  HSHM_INLINE explicit PollTagMetadataTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc), stats_buf_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  PollTagMetadataTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                      const TaskNode &task_node,
-                      const PoolId &pool_id,
-                      const DomainQuery &dom_query)
-  : Task(alloc), stats_buf_(alloc) {
+  HSHM_INLINE explicit PollTagMetadataTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query)
+      : Task(alloc), stats_buf_(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1605,12 +1488,11 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-  }
+  template <typename Ar>
+  void SerializeStart(Ar &ar) {}
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar(stats_buf_);
   }
@@ -1629,20 +1511,17 @@ struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN chi::ipc::string params_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  RegisterStagerTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
-  : Task(alloc), tag_name_(alloc), params_(alloc) {}
+  HSHM_INLINE explicit RegisterStagerTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc), tag_name_(alloc), params_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  RegisterStagerTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                     const TaskNode &task_node,
-                     const PoolId &pool_id,
-                     const DomainQuery &dom_query,
-                     const hermes::BucketId &bkt_id,
-                     const chi::string &tag_name,
-                     const chi::string &params)
- : Task(alloc), tag_name_(alloc, tag_name), params_(alloc, params) {
+  HSHM_INLINE explicit RegisterStagerTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query,
+      const hermes::BucketId &bkt_id, const chi::string &tag_name,
+      const chi::string &params)
+      : Task(alloc), tag_name_(alloc, tag_name), params_(alloc, params) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1663,33 +1542,31 @@ struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(bkt_id_, tag_name_, params_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(Ar &ar) {
-  }
+  template <typename Ar>
+  void SerializeEnd(Ar &ar) {}
 };
-
 
 /** The UnregisterStagerTask task */
 struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN hermes::BucketId bkt_id_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  UnregisterStagerTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
+  HSHM_INLINE explicit UnregisterStagerTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  UnregisterStagerTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                       const TaskNode &task_node,
-                       const PoolId &pool_id,
-                       const DomainQuery &dom_query,
-                       const BucketId &bkt_id) : Task(alloc) {
+  HSHM_INLINE explicit UnregisterStagerTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query,
+      const BucketId &bkt_id)
+      : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1708,17 +1585,15 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(bkt_id_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(Ar &ar) {
-  }
+  template <typename Ar>
+  void SerializeEnd(Ar &ar) {}
 };
-
 
 /** The StageInTask task */
 struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
@@ -1727,20 +1602,17 @@ struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN float score_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  StageInTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
-  : Task(alloc), blob_name_(alloc) {}
+  HSHM_INLINE explicit StageInTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  StageInTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-              const TaskNode &task_node,
-              const PoolId &pool_id,
-              const DomainQuery &dom_query,
-              const BucketId &bkt_id,
-              const chi::string &blob_name,
-              float score)
-  : Task(alloc), blob_name_(alloc, blob_name) {
+  HSHM_INLINE explicit StageInTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
+                                   const TaskNode &task_node,
+                                   const PoolId &pool_id,
+                                   const DomainQuery &dom_query,
+                                   const BucketId &bkt_id,
+                                   const chi::string &blob_name, float score)
+      : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1762,17 +1634,15 @@ struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(bkt_id_, blob_name_, score_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(Ar &ar) {
-  }
+  template <typename Ar>
+  void SerializeEnd(Ar &ar) {}
 };
-
 
 /** The StageOutTask task */
 struct StageOutTask : public Task, TaskFlags<TF_SRL_SYM> {
@@ -1782,22 +1652,17 @@ struct StageOutTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN size_t data_size_;
 
   /** SHM default constructor */
-  HSHM_ALWAYS_INLINE explicit
-  StageOutTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
-  : Task(alloc), blob_name_(alloc) {}
+  HSHM_INLINE explicit StageOutTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_ALWAYS_INLINE explicit
-  StageOutTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-               const TaskNode &task_node,
-               const PoolId &pool_id,
-               const DomainQuery &dom_query,
-               const BucketId &bkt_id,
-               const chi::string &blob_name,
-               const hipc::Pointer &data,
-               size_t data_size,
-               u32 task_flags)
-   : Task(alloc), blob_name_(alloc, blob_name) {
+  HSHM_INLINE explicit StageOutTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query,
+      const BucketId &bkt_id, const chi::string &blob_name,
+      const hipc::Pointer &data, size_t data_size, u32 task_flags)
+      : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrio::kLowLatency;
@@ -1821,15 +1686,14 @@ struct StageOutTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(bkt_id_, blob_name_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(Ar &ar) {
-  }
+  template <typename Ar>
+  void SerializeEnd(Ar &ar) {}
 };
 
 }  // namespace hermes
