@@ -95,7 +95,8 @@ TEST_CASE("TestPointerQueueVecEmplacePop") {
 TEST_CASE("TestHshmQueueEmplacePop") {
   chi::QueueId qid(0, 3);
   u32 ops = (1 << 20);
-  std::vector<PriorityInfo> queue_info = {{TaskPrio::kAdmin, 16, 16, ops, 0}};
+  std::vector<PriorityInfo> queue_info = {
+      {TaskPrioOpt::kAdmin, 16, 16, ops, 0}};
   auto queue = hipc::make_uptr<chi::MultiQueue>(qid, queue_info);
   chi::LaneData entry;
   auto task = CHI_CLIENT->NewTask<chi::Task>();
@@ -117,7 +118,8 @@ TEST_CASE("TestHshmQueueEmplacePop") {
 /** Single-thread performance of getting a lane from a queue */
 TEST_CASE("TestHshmQueueGetLane") {
   chi::QueueId qid(0, 3);
-  std::vector<PriorityInfo> queue_info = {{TaskPrio::kAdmin, 16, 16, 256, 0}};
+  std::vector<PriorityInfo> queue_info = {
+      {TaskPrioOpt::kAdmin, 16, 16, 256, 0}};
   auto queue = hipc::make_uptr<chi::MultiQueue>(qid, queue_info);
   chi::LaneGroup group = queue->GetGroup(0);
 
@@ -136,7 +138,8 @@ TEST_CASE("TestHshmQueueGetLane") {
 TEST_CASE("TestHshmQueueAllocateEmplacePop") {
   TRANSPARENT_HERMES();
   chi::QueueId qid(0, 3);
-  std::vector<PriorityInfo> queue_info = {{TaskPrio::kAdmin, 16, 16, 256, 0}};
+  std::vector<PriorityInfo> queue_info = {
+      {TaskPrioOpt::kAdmin, 16, 16, 256, 0}};
   auto queue = hipc::make_uptr<chi::MultiQueue>(qid, queue_info);
   chi::Lane &lane = queue->GetLane(0, 0);
 
@@ -201,7 +204,7 @@ void TestWorkerIterationLatency(u32 num_queues, u32 num_lanes) {
   for (u32 i = 0; i < num_queues; ++i) {
     chi::QueueId qid(0, i + 1);
     std::vector<PriorityInfo> queue_info = {
-        {TaskPrio::kAdmin, num_lanes, num_lanes, 256, 0}};
+        {TaskPrioOpt::kAdmin, num_lanes, num_lanes, 256, 0}};
     auto queue = hipc::make_uptr<chi::MultiQueue>(qid, queue_info);
     queues.emplace_back(std::move(queue));
     for (u32 j = 0; j < num_lanes; ++j) {

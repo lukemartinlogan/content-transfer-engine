@@ -14,6 +14,7 @@
 
 #include "bdev/bdev.h"
 #include "chimaera/api/chimaera_runtime.h"
+#include "chimaera/chimaera_types.h"
 #include "chimaera/monitor/monitor.h"
 #include "chimaera/work_orchestrator/work_orchestrator.h"
 #include "chimaera_admin/chimaera_admin.h"
@@ -46,6 +47,7 @@ struct HermesLane {
 
 class Server : public Module {
  public:
+  CLS_CONST LaneGroupId kDefaultGroup = 0;
   Client client_;
   std::vector<HermesLane> tls_;
   std::atomic<u64> id_alloc_;
@@ -69,7 +71,7 @@ class Server : public Module {
     // Create a set of lanes for holding tasks
     HERMES_CONF->ServerInit();
     client_.Init(id_);
-    CreateLaneGroup(0, HERMES_LANES, QUEUE_LOW_LATENCY);
+    CreateLaneGroup(kDefaultGroup, HERMES_LANES, QUEUE_LOW_LATENCY);
     tls_.resize(HERMES_LANES);
     // Create block devices
     for (int i = 0; i < 3; ++i) {
@@ -93,6 +95,9 @@ class Server : public Module {
             chi::DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
                                             0),
             25);
+        target.poll_stats_->stats_ = target.client_.PollStats(
+            HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetDirectHash(
+                                      chi::SubDomainId::kGlobalContainers, 0));
         target.stats_ = &target.poll_stats_->stats_;
         target_map_[target.id_] = &target;
       }
@@ -112,7 +117,7 @@ class Server : public Module {
     // Route tasks to lanes based on their properties
     // E.g., a strongly consistent filesystem could map tasks to a lane
     // by the hash of an absolute filename path.
-    return GetLaneByHash(0, 0);
+    return GetLaneByHash(kDefaultGroup, task->prio_, 0);
   }
 
   /** Destroy hermes_core */
@@ -130,7 +135,7 @@ class Server : public Module {
 
   /** Get or create a tag */
   void GetOrCreateTag(GetOrCreateTagTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     // Check if the tag exists
     TAG_ID_MAP_T &tag_id_map = tls.tag_id_map_;
@@ -182,7 +187,7 @@ class Server : public Module {
 
   /** Get an existing tag ID */
   void GetTagId(GetTagIdTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_ID_MAP_T &tag_id_map = tls.tag_id_map_;
     chi::string tag_name(task->tag_name_);
@@ -200,7 +205,7 @@ class Server : public Module {
 
   /** Get the name of a tag */
   void GetTagName(GetTagNameTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
@@ -216,7 +221,7 @@ class Server : public Module {
 
   /** Destroy a tag */
   void DestroyTag(DestroyTagTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwWriteLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
@@ -251,7 +256,7 @@ class Server : public Module {
 
   /** Add a blob to the tag */
   void TagAddBlob(TagAddBlobTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
@@ -268,7 +273,7 @@ class Server : public Module {
 
   /** Remove a blob from the tag */
   void TagRemoveBlob(TagRemoveBlobTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
@@ -287,7 +292,7 @@ class Server : public Module {
 
   /** Clear blobs from the tag */
   void TagClearBlobs(TagClearBlobsTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
@@ -315,7 +320,7 @@ class Server : public Module {
 
   /** Get the size of a tag */
   void TagGetSize(TagGetSizeTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
@@ -333,7 +338,7 @@ class Server : public Module {
 
   /** Update the size of a tag */
   void TagUpdateSize(TagUpdateSizeTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
     TagInfo &tag = tag_map[task->tag_id_];
@@ -356,7 +361,7 @@ class Server : public Module {
   /** Get the set of blobs in the tag */
   void TagGetContainedBlobIds(TagGetContainedBlobIdsTask *task,
                               RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
@@ -410,7 +415,7 @@ class Server : public Module {
     return it->second;
   }
   void GetOrCreateBlobId(GetOrCreateBlobIdTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     chi::string blob_name(task->blob_name_);
     bitfield32_t flags;
@@ -424,7 +429,7 @@ class Server : public Module {
 
   /** Get the blob ID */
   void GetBlobId(GetBlobIdTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     chi::string blob_name(task->blob_name_);
     chi::string blob_name_unique =
@@ -446,7 +451,7 @@ class Server : public Module {
 
   /** Get blob name */
   void GetBlobName(GetBlobNameTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
@@ -463,7 +468,7 @@ class Server : public Module {
 
   /** Get the blob size */
   void GetBlobSize(GetBlobSizeTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     if (task->blob_id_.IsNull()) {
       bitfield32_t flags;
@@ -487,7 +492,7 @@ class Server : public Module {
 
   /** Get the score of a blob */
   void GetBlobScore(GetBlobScoreTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
@@ -504,7 +509,7 @@ class Server : public Module {
 
   /** Get blob buffers */
   void GetBlobBuffers(GetBlobBuffersTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
@@ -521,7 +526,7 @@ class Server : public Module {
 
   /** Put a blob */
   void PutBlob(PutBlobTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
 
     // Get blob ID
@@ -704,7 +709,7 @@ class Server : public Module {
 
   /** Get a blob */
   void GetBlob(GetBlobTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     // Get blob struct
     if (task->blob_id_.IsNull()) {
@@ -782,7 +787,7 @@ class Server : public Module {
 
   /** Truncate a blob (TODO) */
   void TruncateBlob(TruncateBlobTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     task->SetModuleComplete();
   }
   void MonitorTruncateBlob(MonitorModeId mode, TruncateBlobTask *task,
@@ -790,7 +795,7 @@ class Server : public Module {
 
   /** Destroy blob */
   void DestroyBlob(DestroyBlobTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwWriteLock blob_map_lock(tls.blob_map_lock_);
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
@@ -826,7 +831,7 @@ class Server : public Module {
 
   /** Tag a blob */
   void TagBlob(TagBlobTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
@@ -843,7 +848,7 @@ class Server : public Module {
 
   /** Check if blob has a tag */
   void BlobHasTag(BlobHasTagTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
@@ -861,7 +866,7 @@ class Server : public Module {
 
   /** Change blob composition */
   void ReorganizeBlob(ReorganizeBlobTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
     BLOB_MAP_T &blob_map = tls.blob_map_;
@@ -916,12 +921,10 @@ class Server : public Module {
     size_t mod_count_;
   };
   void FlushData(FlushDataTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
     BLOB_MAP_T &blob_map = tls.blob_map_;
-    hshm::Timepoint now;
-    now.Now();
     std::vector<FlushInfo> stage_tasks;
     stage_tasks.reserve(256);
     for (auto &it : blob_map) {
@@ -965,13 +968,15 @@ class Server : public Module {
                         blob_info.blob_size_, data.shm_, 0);
         adapter::BlobPlacement plcmnt;
         plcmnt.DecodeBlobName(blob_info.name_, 4096);
-        HILOG(kInfo, "Flushing blob {} with first entry {}", plcmnt.page_,
+        HILOG(kDebug, "Flushing blob {} with first entry {}", plcmnt.page_,
               (int)data.ptr_[0]);
         client_.StageOut(HSHM_DEFAULT_MEM_CTX,
                          chi::DomainQuery::GetDirectHash(
                              chi::SubDomainId::kLocalContainers, 0),
                          blob_info.tag_id_, blob_info.name_, data.shm_,
                          blob_info.blob_size_, TASK_DATA_OWNER);
+        HILOG(kDebug, "Finished flushing blob {} with first entry {}",
+              plcmnt.page_, (int)data.ptr_[0]);
         blob_info.last_flush_ = flush_info.mod_count_;
       }
     }
@@ -982,7 +987,7 @@ class Server : public Module {
 
   /** Poll blob metadata */
   void PollBlobMetadata(PollBlobMetadataTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     BLOB_MAP_T &blob_map = tls.blob_map_;
     std::vector<BlobInfo> blob_mdms;
@@ -1025,7 +1030,7 @@ class Server : public Module {
 
   /** The PollTagMetadata method */
   void PollTagMetadata(PollTagMetadataTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
     std::vector<TagInfo> stats;
@@ -1053,7 +1058,7 @@ class Server : public Module {
 
   /** The RegisterStager method */
   void RegisterStager(RegisterStagerTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoMutex stager_map_lock(tls.stager_map_lock_);
     STAGER_MAP_T &stager_map = tls.stager_map_;
     std::string tag_name = task->tag_name_.str();
@@ -1078,7 +1083,7 @@ class Server : public Module {
   /** The UnregisterStager method */
   void UnregisterStager(UnregisterStagerTask *task, RunContext &rctx) {
     HILOG(kDebug, "Unregistering stager {}", task->bkt_id_);
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoMutex stager_map_lock(tls.stager_map_lock_);
     STAGER_MAP_T &stager_map = tls.stager_map_;
     if (stager_map.find(task->bkt_id_) == stager_map.end()) {
@@ -1099,7 +1104,7 @@ class Server : public Module {
 
   /** The StageIn method */
   void StageIn(StageInTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoMutex stager_map_lock(tls.stager_map_lock_);
     STAGER_MAP_T &stager_map = tls.stager_map_;
     STAGER_MAP_T::iterator it = stager_map.find(task->bkt_id_);
@@ -1124,7 +1129,7 @@ class Server : public Module {
 
   /** The StageOut method */
   void StageOut(StageOutTask *task, RunContext &rctx) {
-    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_.unique_];
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoMutex stager_map_lock(tls.stager_map_lock_);
     STAGER_MAP_T &stager_map = tls.stager_map_;
     STAGER_MAP_T::iterator it = stager_map.find(task->bkt_id_);

@@ -80,7 +80,7 @@ struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), tag_name_(alloc, tag_name), params_(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kGetOrCreateTag;
     task_flags_.SetBits(0);
@@ -133,7 +133,7 @@ struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), tag_name_(alloc, tag_name) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kGetTagId;
     task_flags_.SetBits(0);
@@ -176,7 +176,7 @@ struct GetTagNameTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), tag_name_(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kGetTagName;
     task_flags_.SetBits(0);
@@ -221,7 +221,7 @@ struct DestroyTagTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kDestroyTag;
     task_flags_.SetBits(0);
@@ -265,7 +265,7 @@ struct TagAddBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kTagAddBlob;
     task_flags_.SetBits(TASK_FIRE_AND_FORGET);
@@ -311,7 +311,7 @@ struct TagRemoveBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kTagRemoveBlob;
     task_flags_.SetBits(0);
@@ -355,7 +355,7 @@ struct TagClearBlobsTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kTagClearBlobs;
     task_flags_.SetBits(0);
@@ -398,7 +398,7 @@ struct TagGetSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kTagGetSize;
     task_flags_.SetBits(0);
@@ -446,7 +446,7 @@ struct TagUpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kTagUpdateSize;
     task_flags_.SetBits(TASK_FIRE_AND_FORGET);
@@ -493,7 +493,7 @@ struct TagGetContainedBlobIdsTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), blob_ids_(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kTagGetContainedBlobIds;
     task_flags_.SetBits(0);
@@ -560,7 +560,7 @@ struct GetOrCreateBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), blob_name_(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kGetOrCreateBlobId;
     task_flags_.SetBits(0);
@@ -612,7 +612,7 @@ struct GetBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kGetBlobId;
     task_flags_.SetBits(0);
@@ -663,7 +663,7 @@ struct GetBlobNameTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), blob_name_(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kGetBlobName;
     task_flags_.SetBits(0);
@@ -715,7 +715,7 @@ struct GetBlobSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kGetBlobSize;
     task_flags_.SetBits(0);
@@ -766,7 +766,7 @@ struct GetBlobScoreTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kGetBlobScore;
     task_flags_.SetBits(0);
@@ -816,7 +816,7 @@ struct GetBlobBuffersTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), buffers_(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kGetBlobBuffers;
     task_flags_.SetBits(0);
@@ -870,7 +870,7 @@ struct BlobHasTagTask : public Task, TaskFlags<TF_SRL_SYM> {
     // Initialize task
     task_node_ = task_node;
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kBlobHasTag;
     task_flags_.SetBits(0);
@@ -922,7 +922,7 @@ struct TruncateBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kTruncateBlob;
     task_flags_.SetBits(0);
@@ -973,7 +973,7 @@ struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kDestroyBlob;
     task_flags_.SetBits(task_flags);
@@ -1027,7 +1027,7 @@ struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kReorganizeBlob;
     task_flags_.SetBits(task_flags);
@@ -1082,7 +1082,7 @@ struct TagBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kTagBlob;
     task_flags_.SetBits(0);
@@ -1137,7 +1137,7 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kPutBlob;
     task_flags_.SetBits(task_flags);
@@ -1214,7 +1214,7 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kGetBlob;
     task_flags_.SetBits(TASK_COROUTINE);
@@ -1288,7 +1288,7 @@ struct FlushDataTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kFlushData;
     task_flags_.SetBits(TASK_LONG_RUNNING);
@@ -1326,7 +1326,7 @@ struct PollBlobMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), stats_buf_(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kPollBlobMetadata;
     task_flags_.SetBits(0);
@@ -1398,7 +1398,7 @@ struct PollTargetMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), stats_buf_(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kPollTargetMetadata;
     task_flags_.SetBits(0);
@@ -1456,7 +1456,7 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), stats_buf_(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kPollTagMetadata;
     task_flags_.SetBits(0);
@@ -1524,7 +1524,7 @@ struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), tag_name_(alloc, tag_name), params_(alloc, params) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kRegisterStager;
     task_flags_.SetBits(0);
@@ -1569,7 +1569,7 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kUnregisterStager;
     task_flags_.SetBits(0);
@@ -1615,7 +1615,7 @@ struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kStageIn;
     task_flags_.SetBits(0);
@@ -1665,7 +1665,7 @@ struct StageOutTask : public Task, TaskFlags<TF_SRL_SYM> {
       : Task(alloc), blob_name_(alloc, blob_name) {
     // Initialize task
     task_node_ = task_node;
-    prio_ = TaskPrio::kLowLatency;
+    prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
     method_ = Method::kStageOut;
     task_flags_.SetBits(task_flags);
