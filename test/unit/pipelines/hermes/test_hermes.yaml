@@ -7,7 +7,6 @@ pkgs:
     do_dbg: true
     dbg_port: 4000
     modules: ['hermes_core']
-    worker_cpus: [0, 1, 1]
   - pkg_type: hermes_run
     pkg_name: hermes_run
     do_dbg: true

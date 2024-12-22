@@ -96,14 +96,12 @@ foreach(program ${POSIX_TESTS})
           MPI::MPI_CXX OpenMP::OpenMP_CXX)
 endforeach()
 
-if(HERMES_INSTALL_TESTS)
-    foreach(program ${POSIX_TESTS})
-        install(
-                TARGETS
-                ${program}
-                LIBRARY DESTINATION ${HERMES_INSTALL_LIB_DIR}
-                ARCHIVE DESTINATION ${HERMES_INSTALL_LIB_DIR}
-                RUNTIME DESTINATION ${HERMES_INSTALL_BIN_DIR}
-        )
-    endforeach()
-endif()
+foreach(program ${POSIX_TESTS})
+  install(
+          TARGETS
+          ${program}
+          LIBRARY DESTINATION ${HERMES_INSTALL_LIB_DIR}
+          ARCHIVE DESTINATION ${HERMES_INSTALL_LIB_DIR}
+          RUNTIME DESTINATION ${HERMES_INSTALL_BIN_DIR}
+  )
+endforeach()
