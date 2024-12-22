@@ -29,7 +29,7 @@ class HermesUnitTests(Application):
                 'name': 'TEST_CASE',
                 'msg': 'Destroy previous configuration and rebuild',
                 'type': str,
-                'default': 'TestIpc'
+                'default': 'hermes'
             },
             {
                 'name': 'nprocs',
