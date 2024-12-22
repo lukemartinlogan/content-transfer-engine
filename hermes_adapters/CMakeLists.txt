@@ -1,20 +1,20 @@
 #------------------------------------------------------------------------------
-# Build Hrun Admin Task Library
+# Build adapters
 #------------------------------------------------------------------------------
 add_subdirectory(filesystem)
 add_subdirectory(posix)
-# if (HERMES_ENABLE_STDIO_ADAPTER)
-#     add_subdirectory(stdio)
-# endif()
-# if (HERMES_ENABLE_MPIIO_ADAPTER)
-#     add_subdirectory(mpiio)
-# endif()
-# if (HERMES_ENABLE_VFD)
-#     add_subdirectory(vfd)
-# endif()
+if (HERMES_ENABLE_STDIO_ADAPTER)
+    add_subdirectory(stdio)
+endif()
+if (HERMES_ENABLE_MPIIO_ADAPTER)
+    add_subdirectory(mpiio)
+endif()
+if (HERMES_ENABLE_VFD)
+    add_subdirectory(vfd)
+endif()
 
 #-----------------------------------------------------------------------------
-# Install HRUN Admin Task Library Headers
+# Install adapter headers
 #-----------------------------------------------------------------------------
 file(GLOB_RECURSE HERMES_HEADERS "*.h")
 install(

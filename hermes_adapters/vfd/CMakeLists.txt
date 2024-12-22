@@ -30,9 +30,10 @@ target_include_directories(hdf5_hermes_vfd
         SYSTEM PUBLIC ${HDF5_HERMES_VFD_EXT_INCLUDE_DEPENDENCIES}
         )
 add_dependencies(hdf5_hermes_vfd
-        hermes hermes_fs_base)
+        hermes_client hermes_fs_base)
 target_link_libraries(hdf5_hermes_vfd
-        hermes hermes_fs_base
+                hermes_client hermes_fs_base)
+ hermes_fs_base
         MPI::MPI_CXX
         ${HDF5_HERMES_VFD_EXT_LIB_DEPENDENCIES})
 

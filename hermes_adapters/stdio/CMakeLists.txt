@@ -7,7 +7,7 @@ include_directories(
 
 # Create the STDIO interceptor
 set(INTERCEPTOR_DEPS
-        hermes hermes_fs_base)
+        hermes_client hermes_fs_base)
 add_library(hermes_stdio SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/stdio_api.cc)
 add_dependencies(hermes_stdio ${INTERCEPTOR_DEPS})

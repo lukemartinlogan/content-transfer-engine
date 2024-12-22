@@ -30,6 +30,7 @@
 #include "hermes/bucket.h"
 #include "hermes/data_stager/binary_stager.h"
 #include "hermes/hermes.h"
+#include "hermes_adapters/adapter_types.h"
 #include "hermes_adapters/mapper/mapper_factory.h"
 
 namespace hermes::adapter {

@@ -12,14 +12,16 @@
 
 #ifndef HERMES_ADAPTER_POSIX_H
 #define HERMES_ADAPTER_POSIX_H
-#include <string>
-#include <iostream>
-#include "hermes_shm/util/logging.h"
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
 #include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+#include <iostream>
+#include <string>
+
 #include "hermes_adapters/real_api.h"
+#include "hermes_shm/util/logging.h"
 
 #ifndef O_TMPFILE
 #define O_TMPFILE 0
@@ -30,41 +32,43 @@
 #endif
 
 extern "C" {
-typedef int (*open_t)(const char * path, int flags,  ...);
-typedef int (*open64_t)(const char * path, int flags,  ...);
-typedef int (*__open_2_t)(const char * path, int oflag);
-typedef int (*creat_t)(const char * path, mode_t mode);
-typedef int (*creat64_t)(const char * path, mode_t mode);
-typedef ssize_t (*read_t)(int fd, void * buf, size_t count);
-typedef ssize_t (*write_t)(int fd, const void * buf, size_t count);
-typedef ssize_t (*pread_t)(int fd, void * buf, size_t count, off_t offset);
-typedef ssize_t (*pwrite_t)(int fd, const void * buf, size_t count, off_t offset);
-typedef ssize_t (*pread64_t)(int fd, void * buf, size_t count, off64_t offset);
-typedef ssize_t (*pwrite64_t)(int fd, const void * buf, size_t count, off64_t offset);
+typedef int (*open_t)(const char *path, int flags, ...);
+typedef int (*open64_t)(const char *path, int flags, ...);
+typedef int (*__open_2_t)(const char *path, int oflag);
+typedef int (*creat_t)(const char *path, mode_t mode);
+typedef int (*creat64_t)(const char *path, mode_t mode);
+typedef ssize_t (*read_t)(int fd, void *buf, size_t count);
+typedef ssize_t (*write_t)(int fd, const void *buf, size_t count);
+typedef ssize_t (*pread_t)(int fd, void *buf, size_t count, off_t offset);
+typedef ssize_t (*pwrite_t)(int fd, const void *buf, size_t count,
+                            off_t offset);
+typedef ssize_t (*pread64_t)(int fd, void *buf, size_t count, off64_t offset);
+typedef ssize_t (*pwrite64_t)(int fd, const void *buf, size_t count,
+                              off64_t offset);
 typedef off_t (*lseek_t)(int fd, off_t offset, int whence);
 typedef off64_t (*lseek64_t)(int fd, off64_t offset, int whence);
 
 // stat functions
-typedef int (*__fxstat_t)(int __ver, int __filedesc, struct stat * __stat_buf);
+typedef int (*__fxstat_t)(int __ver, int __filedesc, struct stat *__stat_buf);
 typedef int (*__xstat_t)(int __ver, const char *__filename,
                          struct stat *__stat_buf);
 typedef int (*__lxstat_t)(int __ver, const char *__filename,
                           struct stat *__stat_buf);
 typedef int (*__fxstatat_t)(int __ver, int __fildes, const char *__filename,
                             struct stat *__stat_buf, int __flag);
-typedef int (*stat_t)(const char * pathname, struct stat * __stat_buf);
-typedef int (*fstat_t)(int __filedesc, struct stat * __stat_buf);
+typedef int (*stat_t)(const char *pathname, struct stat *__stat_buf);
+typedef int (*fstat_t)(int __filedesc, struct stat *__stat_buf);
 
 // fxstat functions
 typedef int (*__fxstat64_t)(int __ver, int __fildes, struct stat64 *__stat_buf);
 typedef int (*__xstat64_t)(int __ver, const char *__filename,
-                     struct stat64 *__stat_buf);
+                           struct stat64 *__stat_buf);
 typedef int (*__lxstat64_t)(int __ver, const char *__filename,
-                      struct stat64 *__stat_buf);
+                            struct stat64 *__stat_buf);
 typedef int (*__fxstatat64_t)(int __ver, int __fildes, const char *__filename,
-                        struct stat64 *__stat_buf, int __flag);
-typedef int (*stat64_t)(const char * pathname, struct stat64 * __stat_buf);
-typedef int (*fstat64_t)(int __filedesc, struct stat64 * __stat_buf);
+                              struct stat64 *__stat_buf, int __flag);
+typedef int (*stat64_t)(const char *pathname, struct stat64 *__stat_buf);
+typedef int (*fstat64_t)(int __filedesc, struct stat64 *__stat_buf);
 
 typedef int (*fsync_t)(int fd);
 typedef int (*close_t)(int fd);
@@ -73,17 +77,16 @@ typedef int (*fchdir_t)(int fd);
 typedef int (*fchmod_t)(int fd, mode_t mode);
 typedef int (*fchmod_t)(int fd, mode_t mode);
 typedef int (*fchown_t)(int fd, uid_t owner, gid_t group);
-typedef int (*fchownat_t)(int dirfd, const char *pathname,
-                          uid_t owner, gid_t group, int flags);
+typedef int (*fchownat_t)(int dirfd, const char *pathname, uid_t owner,
+                          gid_t group, int flags);
 typedef int (*close_range_t)(unsigned int first, unsigned int last,
                              unsigned int flags);
-typedef ssize_t (*copy_file_range_t)(int fd_in, off64_t *off_in,
-                                     int fd_out, off64_t *off_out,
-                                     size_t len, unsigned int flags);
+typedef ssize_t (*copy_file_range_t)(int fd_in, off64_t *off_in, int fd_out,
+                                     off64_t *off_out, size_t len,
+                                     unsigned int flags);
 
 // TODO(llogan): fadvise
-typedef int (*posix_fadvise_t)(int fd, off_t offset,
-                               off_t len, int advice);
+typedef int (*posix_fadvise_t)(int fd, off_t offset, off_t len, int advice);
 typedef int (*flock_t)(int fd, int operation);
 typedef int (*remove_t)(const char *pathname);
 typedef int (*unlink_t)(const char *pathname);
@@ -94,7 +97,7 @@ typedef int (*ftruncate64_t)(int fd, off64_t length);
 namespace hermes::adapter {
 
 /** Used for compatability with older kernel versions */
-static int fxstat_to_fstat(int fd, struct stat * stbuf);
+static int fxstat_to_fstat(int fd, struct stat *stbuf);
 
 /** Pointers to the real posix API */
 class PosixApi : public RealApi {
@@ -237,11 +240,12 @@ class PosixApi : public RealApi {
   }
 
   bool IsInterceptorLoaded() {
-    if (is_loaded_) {
-      return true;
-    }
-    InterceptorApi<PosixApi> check("open", "posix_intercepted");
-    is_loaded_ = check.is_loaded_;
+    is_loaded_ = true;
+    // if (is_loaded_) {
+    //   return true;
+    // }
+    // InterceptorApi<PosixApi> check("open", "posix_intercepted");
+    // is_loaded_ = check.is_loaded_;
     return is_loaded_;
   }
 };
@@ -253,8 +257,7 @@ class PosixApi : public RealApi {
 
 #define HERMES_POSIX_API \
   hshm::EasySingleton<::hermes::adapter::PosixApi>::GetInstance()
-#define HERMES_POSIX_API_T hermes::adapter::PosixApi*
-
+#define HERMES_POSIX_API_T hermes::adapter::PosixApi *
 
 namespace hermes::adapter {
 /** Used for compatability with older kernel versions */
