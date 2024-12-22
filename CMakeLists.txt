@@ -281,7 +281,7 @@ set(Hermes_RUNTIME_DEPS hermes_runtime)
 
 set(TEST_MAIN ${CMAKE_SOURCE_DIR}/test/unit)
 add_subdirectory(src)
-# add_subdirectory(hermes_adapters)
+add_subdirectory(hermes_adapters)
 add_subdirectory(tasks)
 # add_subdirectory(benchmark)
 # add_subdirectory(wrapper)
