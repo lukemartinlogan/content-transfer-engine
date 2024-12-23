@@ -399,8 +399,9 @@ class Filesystem : public FilesystemIoClient {
     if (HERMES_CLIENT_CONF.flushing_mode_ == FlushingMode::kSync) {
       // NOTE(llogan): only for the unit tests
       // Please don't enable synchronous flushing
-      CHI_ADMIN->Flush(HSHM_DEFAULT_MEM_CTX,
-                       chi::DomainQuery::GetGlobalBcast());
+      stat.bkt_id_.Flush();
+      // CHI_ADMIN->Flush(HSHM_DEFAULT_MEM_CTX,
+      //                  chi::DomainQuery::GetGlobalBcast());
     }
     return 0;
   }
@@ -426,7 +427,7 @@ class Filesystem : public FilesystemIoClient {
     if (HERMES_CLIENT_CONF.flushing_mode_ == FlushingMode::kSync) {
       // NOTE(llogan): only for the unit tests
       // Please don't enable synchronous flushing
-      // stat.bkt_id_.Destroy();
+      stat.bkt_id_.Destroy();
     }
     return 0;
   }

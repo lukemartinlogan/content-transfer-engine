@@ -26,6 +26,12 @@ namespace hermes {
 
 #define HERMES_LANES 32
 
+struct FlushInfo {
+  BlobInfo *blob_info_;
+  FullPtr<StageOutTask> stage_task_;
+  size_t mod_count_;
+};
+
 /** Type name simplification for the various map types */
 typedef std::unordered_map<chi::string, TagId> TAG_ID_MAP_T;
 typedef std::unordered_map<TagId, TagInfo> TAG_MAP_T;
@@ -380,6 +386,29 @@ class Server : public Module {
   void MonitorTagGetContainedBlobIds(MonitorModeId mode,
                                      TagGetContainedBlobIdsTask *task,
                                      RunContext &rctx) {}
+
+  /** Flush tag */
+  void TagFlush(TagFlushTask *task, RunContext &rctx) {
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
+    chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
+    TAG_MAP_T &tag_map = tls.tag_map_;
+    auto it = tag_map.find(task->tag_id_);
+    if (it == tag_map.end()) {
+      task->SetModuleComplete();
+      return;
+    }
+    TagInfo &tag = it->second;
+    for (BlobId &blob_id : tag.blobs_) {
+      client_.FlushBlob(HSHM_DEFAULT_MEM_CTX,
+                        chi::DomainQuery::GetDirectHash(
+                            chi::SubDomainId::kLocalContainers, 0),
+                        blob_id);
+    }
+    // Flush blobs
+    task->SetModuleComplete();
+  }
+  void MonitorTagFlush(MonitorModeId mode, TagFlushTask *task,
+                       RunContext &rctx) {}
 
   /**
    * ========================================
@@ -918,19 +947,64 @@ class Server : public Module {
   void MonitorReorganizeBlob(MonitorModeId mode, ReorganizeBlobTask *task,
                              RunContext &rctx) {}
 
+  /** FlushBlob */
+  void _FlushBlob(HermesLane &tls, BlobId blob_id, RunContext &rctx) {
+    BLOB_MAP_T &blob_map = tls.blob_map_;
+    // Can we find the blob
+    auto it = blob_map.find(blob_id);
+    if (it == blob_map.end()) {
+      return;
+    }
+    BlobInfo &blob_info = it->second;
+    FlushInfo flush_info;
+    flush_info.blob_info_ = &blob_info;
+    flush_info.mod_count_ = blob_info.mod_count_;
+    // Is the blob already flushed?
+    if (blob_info.last_flush_ <= 0 ||
+        flush_info.mod_count_ <= blob_info.last_flush_) {
+      return;
+    }
+    HILOG(kDebug, "Flushing blob {} (mod_count={}, last_flush={})",
+          blob_info.blob_id_, flush_info.mod_count_, blob_info.last_flush_);
+    // If the worker is being flushed
+    if (rctx.worker_props_.Any(CHI_WORKER_IS_FLUSHING)) {
+      ++rctx.flush_->count_;
+    }
+    FullPtr<char> data =
+        CHI_CLIENT->AllocateBuffer(HSHM_DEFAULT_MEM_CTX, blob_info.blob_size_);
+    client_.GetBlob(
+        HSHM_DEFAULT_MEM_CTX,
+        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        blob_info.tag_id_, blob_info.blob_id_, 0, blob_info.blob_size_,
+        data.shm_, 0);
+    adapter::BlobPlacement plcmnt;
+    plcmnt.DecodeBlobName(blob_info.name_, 4096);
+    HILOG(kDebug, "Flushing blob {} with first entry {}", plcmnt.page_,
+          (int)data.ptr_[0]);
+    client_.StageOut(
+        HSHM_DEFAULT_MEM_CTX,
+        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        blob_info.tag_id_, blob_info.name_, data.shm_, blob_info.blob_size_,
+        TASK_DATA_OWNER);
+    HILOG(kDebug, "Finished flushing blob {} with first entry {}", plcmnt.page_,
+          (int)data.ptr_[0]);
+    blob_info.last_flush_ = flush_info.mod_count_;
+  }
+  void FlushBlob(FlushBlobTask *task, RunContext &rctx) {
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
+    chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
+    _FlushBlob(tls, task->blob_id_, rctx);
+    task->SetModuleComplete();
+  }
+  void MonitorFlushBlob(MonitorModeId mode, FlushBlobTask *task,
+                        RunContext &rctx) {}
+
   /** Flush blobs back to storage */
-  struct FlushInfo {
-    BlobInfo *blob_info_;
-    FullPtr<StageOutTask> stage_task_;
-    size_t mod_count_;
-  };
   void FlushData(FlushDataTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
     BLOB_MAP_T &blob_map = tls.blob_map_;
-    std::vector<FlushInfo> stage_tasks;
-    stage_tasks.reserve(256);
     for (auto &it : blob_map) {
       BlobInfo &blob_info = it.second;
       // Update blob scores
@@ -952,37 +1026,7 @@ class Server : public Module {
       //      blob_info.access_freq_ = 0;
 
       // Flush data
-      FlushInfo flush_info;
-      flush_info.blob_info_ = &blob_info;
-      flush_info.mod_count_ = blob_info.mod_count_;
-      if (blob_info.last_flush_ > 0 &&
-          flush_info.mod_count_ > blob_info.last_flush_) {
-        HILOG(kDebug, "Flushing blob {} (mod_count={}, last_flush={})",
-              blob_info.blob_id_, flush_info.mod_count_, blob_info.last_flush_);
-        // If the worker is being flushed
-        if (rctx.worker_props_.Any(CHI_WORKER_IS_FLUSHING)) {
-          ++rctx.flush_->count_;
-        }
-        FullPtr<char> data = CHI_CLIENT->AllocateBuffer(HSHM_DEFAULT_MEM_CTX,
-                                                        blob_info.blob_size_);
-        client_.GetBlob(HSHM_DEFAULT_MEM_CTX,
-                        chi::DomainQuery::GetDirectHash(
-                            chi::SubDomainId::kLocalContainers, 0),
-                        blob_info.tag_id_, blob_info.blob_id_, 0,
-                        blob_info.blob_size_, data.shm_, 0);
-        adapter::BlobPlacement plcmnt;
-        plcmnt.DecodeBlobName(blob_info.name_, 4096);
-        HILOG(kDebug, "Flushing blob {} with first entry {}", plcmnt.page_,
-              (int)data.ptr_[0]);
-        client_.StageOut(HSHM_DEFAULT_MEM_CTX,
-                         chi::DomainQuery::GetDirectHash(
-                             chi::SubDomainId::kLocalContainers, 0),
-                         blob_info.tag_id_, blob_info.name_, data.shm_,
-                         blob_info.blob_size_, TASK_DATA_OWNER);
-        HILOG(kDebug, "Finished flushing blob {} with first entry {}",
-              plcmnt.page_, (int)data.ptr_[0]);
-        blob_info.last_flush_ = flush_info.mod_count_;
-      }
+      _FlushBlob(tls, blob_info.blob_id_, rctx);
     }
     task->UnsetStarted();
   }
@@ -1039,8 +1083,8 @@ class Server : public Module {
     TAG_MAP_T &tag_map = tls.tag_map_;
     std::vector<TagInfo> stats;
     for (auto &it : tag_map) {
-      TagInfo &tag_info = it.second;
-      stats.emplace_back(tag_info);
+      TagInfo &tag = it.second;
+      stats.emplace_back(tag);
     }
     task->SetStats(stats);
     task->SetModuleComplete();

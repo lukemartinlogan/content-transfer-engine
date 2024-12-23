@@ -152,6 +152,15 @@ class Client : public ModuleClient {
   }
   CHI_TASK_METHODS(TagGetContainedBlobIds);
 
+  /** Flush tag */
+  void TagFlush(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+                const TagId &tag_id) {
+    FullPtr<TagFlushTask> task = AsyncTagFlush(mctx, dom_query, tag_id);
+    task->Wait();
+    CHI_CLIENT->DelTask(mctx, task);
+  }
+  CHI_TASK_METHODS(TagFlush);
+
   /**====================================
    * Blob Operations
    * ===================================*/
@@ -353,6 +362,15 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(DestroyBlob);
+
+  /** FlushBlob task */
+  void FlushBlob(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+                 const BlobId &blob_id) {
+    FullPtr<FlushBlobTask> task = AsyncFlushBlob(mctx, dom_query, blob_id);
+    task->Wait();
+    CHI_CLIENT->DelTask(mctx, task);
+  }
+  CHI_TASK_METHODS(FlushBlob);
 
   /** FlushData task */
   void FlushData(const hipc::MemContext &mctx, const DomainQuery &dom_query,
