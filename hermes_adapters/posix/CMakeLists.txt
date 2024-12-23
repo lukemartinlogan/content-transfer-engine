@@ -7,7 +7,7 @@ include_directories(
 
 # Create the POSIX interceptor
 set(INTERCEPTOR_DEPS
-        hermes hermes_fs_base)
+        hermes_client hermes_fs_base)
 add_library(hermes_posix SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/posix_api.cc)
 add_dependencies(hermes_posix ${INTERCEPTOR_DEPS})

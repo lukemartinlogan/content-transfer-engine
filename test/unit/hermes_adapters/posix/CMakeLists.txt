@@ -10,9 +10,9 @@ add_executable(posix_adapter_test
         posix_adapter_basic_test.cc
         posix_adapter_rs_test.cc)
 add_dependencies(posix_adapter_test
-        hermes)
+        hermes_client)
 target_link_libraries(posix_adapter_test
-        hermes)
+        hermes_client)
 target_compile_definitions(posix_adapter_test PUBLIC
         HERMES_MPI_TESTS=false)
 jarvis_test(posix test_posix_basic)
@@ -37,9 +37,9 @@ add_executable(posix_adapter_mpi_test
         # posix_adapter_shared_test.cc
 )
 add_dependencies(posix_adapter_mpi_test
-        hermes)
+        hermes_client)
 target_link_libraries(posix_adapter_mpi_test
-        hermes Catch2::Catch2 MPI::MPI_CXX)
+        hermes_client Catch2::Catch2 MPI::MPI_CXX)
 target_compile_definitions(posix_adapter_mpi_test PUBLIC
         HERMES_MPI_TESTS=true)
 jarvis_test(posix test_posix_basic_mpi)
@@ -96,14 +96,12 @@ foreach(program ${POSIX_TESTS})
           MPI::MPI_CXX OpenMP::OpenMP_CXX)
 endforeach()
 
-if(HERMES_INSTALL_TESTS)
-    foreach(program ${POSIX_TESTS})
-        install(
-                TARGETS
-                ${program}
-                LIBRARY DESTINATION ${HERMES_INSTALL_LIB_DIR}
-                ARCHIVE DESTINATION ${HERMES_INSTALL_LIB_DIR}
-                RUNTIME DESTINATION ${HERMES_INSTALL_BIN_DIR}
-        )
-    endforeach()
-endif()
+foreach(program ${POSIX_TESTS})
+  install(
+          TARGETS
+          ${program}
+          LIBRARY DESTINATION ${HERMES_INSTALL_LIB_DIR}
+          ARCHIVE DESTINATION ${HERMES_INSTALL_LIB_DIR}
+          RUNTIME DESTINATION ${HERMES_INSTALL_BIN_DIR}
+  )
+endforeach()

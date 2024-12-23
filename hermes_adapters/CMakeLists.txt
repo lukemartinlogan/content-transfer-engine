@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------
-# Build Hrun Admin Task Library
+# Build adapters
 #------------------------------------------------------------------------------
 add_subdirectory(filesystem)
 add_subdirectory(posix)
@@ -14,7 +14,7 @@ if (HERMES_ENABLE_VFD)
 endif()
 
 #-----------------------------------------------------------------------------
-# Install HRUN Admin Task Library Headers
+# Install adapter headers
 #-----------------------------------------------------------------------------
 file(GLOB_RECURSE HERMES_HEADERS "*.h")
 install(

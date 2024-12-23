@@ -30,6 +30,18 @@ option(HERMES_ENABLE_ADIOS "Build the Hermes Python wrapper" OFF)
 option(HERMES_MPICH "Specify that this a MPICH build" OFF)
 option(HERMES_OPENMPI "Specify that this a OpenMPI build" OFF)
 
+# A hack for spack to get dependencies
+option(HERMES_NO_COMPILE "Don't compile the code" OFF)
+if (HERMES_NO_COMPILE)
+    install(
+            FILES
+            ${CMAKE_SOURCE_DIR}/.gitignore
+            DESTINATION
+            ${CMAKE_INSTALL_PREFIX}/.gitignore
+    )
+    return()
+endif()
+
 #-----------------------------------------------------------------------------
 # Compiler Optimization
 #-----------------------------------------------------------------------------
@@ -281,7 +293,7 @@ set(Hermes_RUNTIME_DEPS hermes_runtime)
 
 set(TEST_MAIN ${CMAKE_SOURCE_DIR}/test/unit)
 add_subdirectory(src)
-# add_subdirectory(hermes_adapters)
+add_subdirectory(hermes_adapters)
 add_subdirectory(tasks)
 # add_subdirectory(benchmark)
 # add_subdirectory(wrapper)

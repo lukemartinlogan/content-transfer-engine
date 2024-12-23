@@ -29,52 +29,50 @@ struct MetadataTable {
 class Hermes {
  public:
   /** Init hermes client */
-  void ClientInit() {
-    HERMES_CONF->ClientInit();
-  }
+  void ClientInit() { HERMES_CONF->ClientInit(); }
 
   /** Init hermes server */
-  void ServerInit() {
-    HERMES_CONF->ServerInit();
-  }
+  void ServerInit() { HERMES_CONF->ServerInit(); }
 
   /** Check if initialized */
-  bool IsInitialized() {
-    return HERMES_CONF->is_initialized_;
-  }
+  bool IsInitialized() { return HERMES_CONF->is_initialized_; }
 
   /** Get tag ID */
-//  TagId GetTagId(const std::string &tag_name) {
-//    return HERMES_CONF->bkt_mdm_.GetTagId(hshm::to_charbuf(tag_name));
-//  }
-//
+  //  TagId GetTagId(const std::string &tag_name) {
+  //    return HERMES_CONF->bkt_mdm_.GetTagId(hshm::to_charbuf(tag_name));
+  //  }
+  //
   /** Collect a snapshot of all metadata in Hermes */
   MetadataTable CollectMetadataSnapshot(const hipc::MemContext &mctx) {
     MetadataTable table;
-    table.blob_info_ =
-        HERMES_CONF->mdm_.PollBlobMetadata(
-            mctx, chi::DomainQuery::GetGlobalBcast());
+    table.blob_info_ = HERMES_CONF->mdm_.PollBlobMetadata(
+        mctx, chi::DomainQuery::GetGlobalBcast());
     table.target_info_ = HERMES_CONF->mdm_.PollTargetMetadata(
         mctx, chi::DomainQuery::GetGlobalBcast());
     table.bkt_info_ = HERMES_CONF->mdm_.PollTagMetadata(
         mctx, chi::DomainQuery::GetGlobalBcast());
     return table;
   }
-//
+
+  /** Get tag id */
+  TagId GetTagId(const hipc::MemContext &mctx, const std::string &tag_name) {
+    return HERMES_CONF->mdm_.GetTagId(
+        mctx, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
+        chi::string(tag_name));
+  }
+
   /** Get or create a bucket */
   hermes::Bucket GetBucket(const hipc::MemContext &mctx,
-                           const std::string &path,
-                           Context ctx = Context(),
-                           size_t backend_size = 0,
-                           u32 flags = 0) {
+                           const std::string &path, Context ctx = Context(),
+                           size_t backend_size = 0, u32 flags = 0) {
     return hermes::Bucket(mctx, path, ctx, backend_size, flags);
   }
-  
-//
-//  /** Register an operation graph */
-//  void RegisterOp(hermes::data_op::OpGraph &op_graph) {
-//    HERMES_CONF->op_mdm_.RegisterOp(op_graph);
-//  }
+
+  //
+  //  /** Register an operation graph */
+  //  void RegisterOp(hermes::data_op::OpGraph &op_graph) {
+  //    HERMES_CONF->op_mdm_.RegisterOp(op_graph);
+  //  }
 
   /** Clear all data from hermes */
   void Clear() {

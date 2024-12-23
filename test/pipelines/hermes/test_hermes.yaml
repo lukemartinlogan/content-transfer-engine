@@ -7,10 +7,9 @@ pkgs:
     do_dbg: true
     dbg_port: 4000
     modules: ['hermes_core']
-    worker_cpus: [0, 1, 1]
   - pkg_type: hermes_run
     pkg_name: hermes_run
-    do_dbg: true
+    do_dbg: false
     dbg_port: 4000
   - pkg_type: hermes_unit_tests
     pkg_name: hermes_unit_tests
@@ -18,4 +17,4 @@ pkgs:
     dbg_port: 4001
     nprocs: 1
     ppn: 8
-    TEST_CASE: TestHermesDataStager # TestHermesPutGet
+    TEST_CASE: TestHermesAsyncPut # TestHermesPutGet

@@ -14,7 +14,7 @@ elseif(HERMES_OPENMPI)
     add_definitions(-DHERMES_OPENMPI)
 endif()
 set(INTERCEPTOR_DEPS
-        hermes hermes_fs_base)
+        hermes_client hermes_fs_base)
 add_library(hermes_mpiio SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/mpiio_api.cc)
 add_dependencies(hermes_mpiio ${INTERCEPTOR_DEPS})

@@ -9,10 +9,10 @@ include_directories(
 add_library(hermes_fs_base SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/filesystem_mdm_singleton.cc)
 add_dependencies(hermes_fs_base
-        hermes)
+        hermes_client)
 target_link_libraries(hermes_fs_base
         MPI::MPI_CXX
-        hermes)
+        hermes_client)
 
 #-----------------------------------------------------------------------------
 # Add Target(s) to CMake Install

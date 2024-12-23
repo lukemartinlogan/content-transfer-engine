@@ -28,8 +28,9 @@
 #include "filesystem_io_client.h"
 #include "filesystem_mdm.h"
 #include "hermes/bucket.h"
+#include "hermes/data_stager/binary_stager.h"
 #include "hermes/hermes.h"
-#include "hermes/staging/binary_stager.h"
+#include "hermes_adapters/adapter_types.h"
 #include "hermes_adapters/mapper/mapper_factory.h"
 
 namespace hermes::adapter {
@@ -80,12 +81,12 @@ class Filesystem : public FilesystemIoClient {
       HILOG(kDebug, "File not opened before by adapter");
       // Normalize path strings
       stat.path_ = stdfs::absolute(path).string();
-      auto path_shm = hipc::make_uptr<chi::string>(stat.path_);
+      chi::string path_shm(stat.path_);
       // Verify the bucket exists if not in CREATE mode
       if (stat.adapter_mode_ == AdapterMode::kScratch &&
           !stat.hflags_.Any(HERMES_FS_EXISTS) &&
           !stat.hflags_.Any(HERMES_FS_CREATE)) {
-        TagId bkt_id = HERMES->GetTagId(stat.path_);
+        TagId bkt_id = HERMES->GetTagId(HSHM_DEFAULT_MEM_CTX, stat.path_);
         if (bkt_id.IsNull()) {
           f.status_ = false;
           return;
@@ -94,8 +95,8 @@ class Filesystem : public FilesystemIoClient {
       // Update page size
       stat.page_size_ = mdm->GetAdapterPageSize(path);
       // Bucket parameters
-      ctx.bkt_params_ = hermes::data_stager::BinaryFileStager::BuildFileParams(
-          stat.page_size_);
+      ctx.bkt_params_ =
+          hermes::BinaryFileStager::BuildFileParams(stat.page_size_);
       // Get or create the bucket
       if (stat.hflags_.Any(HERMES_FS_TRUNC)) {
         // The file was opened with TRUNCATION
@@ -104,7 +105,7 @@ class Filesystem : public FilesystemIoClient {
         stat.bkt_id_.Clear();
       } else {
         // The file was opened regularly
-        stat.file_size_ = GetBackendSize(*path_shm);
+        stat.file_size_ = GetBackendSize(path_shm);
         stat.bkt_id_ = HERMES->GetBucket(HSHM_DEFAULT_MEM_CTX, stat.path_, ctx,
                                          stat.file_size_, HERMES_SHOULD_STAGE);
       }
