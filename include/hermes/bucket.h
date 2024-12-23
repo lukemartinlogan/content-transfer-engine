@@ -654,6 +654,13 @@ class Bucket {
         mctx_,
         DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_);
   }
+
+  /** Flush the bucket */
+  void Flush() {
+    mdm_->TagFlush(
+        mctx_,
+        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_);
+  }
 };
 
 }  // namespace hermes

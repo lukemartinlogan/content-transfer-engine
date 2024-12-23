@@ -399,10 +399,10 @@ class Server : public Module {
     }
     TagInfo &tag = it->second;
     for (BlobId &blob_id : tag.blobs_) {
-      client_.AsyncFlushBlob(HSHM_DEFAULT_MEM_CTX,
-                             chi::DomainQuery::GetDirectHash(
-                                 chi::SubDomainId::kLocalContainers, 0),
-                             blob_id, TASK_FIRE_AND_FORGET);
+      client_.FlushBlob(HSHM_DEFAULT_MEM_CTX,
+                        chi::DomainQuery::GetDirectHash(
+                            chi::SubDomainId::kLocalContainers, 0),
+                        blob_id);
     }
     // Flush blobs
     task->SetModuleComplete();
