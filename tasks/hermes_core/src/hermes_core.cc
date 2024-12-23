@@ -718,9 +718,10 @@ class Server : public Module {
                                          HashBlobName(task->tag_id_, blob_name),
                                          blob_name, task->flags_);
     }
+
+    // Get blob map struct
     BLOB_MAP_T &blob_map = tls.blob_map_;
     BlobInfo &blob_info = blob_map[task->blob_id_];
-    chi::ScopedCoRwReadLock blob_info_lock(blob_info.lock_);
 
     // Stage Blob
     if (task->flags_.Any(HERMES_SHOULD_STAGE) && blob_info.last_flush_ == 0) {
@@ -731,6 +732,9 @@ class Server : public Module {
                           chi::SubDomainId::kLocalContainers, 0),
                       task->tag_id_, blob_info.name_, 1);
     }
+
+    // Get blob struct
+    chi::ScopedCoRwReadLock blob_info_lock(blob_info.lock_);
 
     // Read blob from buffers
     std::vector<FullPtr<chi::bdev::ReadTask>> read_tasks;
