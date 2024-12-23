@@ -522,6 +522,44 @@ struct TagGetContainedBlobIdsTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 };
 
+/** The TagFlushTask task */
+struct TagFlushTask : public Task, TaskFlags<TF_SRL_SYM> {
+  IN TagId tag_id_;
+
+  /** SHM default constructor */
+  HSHM_INLINE explicit TagFlushTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
+
+  /** Emplace constructor */
+  HSHM_INLINE explicit TagFlushTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id)
+      : Task(alloc) {
+    // Initialize task
+    task_node_ = task_node;
+    prio_ = TaskPrioOpt::kLowLatency;
+    pool_ = pool_id;
+    method_ = Method::kTagFlush;
+    task_flags_.SetBits(0);
+    dom_query_ = dom_query;
+
+    // Custom
+    tag_id_ = tag_id;
+  }
+
+  /** Duplicate message */
+  void CopyStart(const TagFlushTask &other, bool deep) {}
+
+  /** (De)serialize message call */
+  template <typename Ar>
+  void SerializeStart(Ar &ar) {}
+
+  /** (De)serialize message return */
+  template <typename Ar>
+  void SerializeEnd(Ar &ar) {}
+};
+
 /**
  * ========================================
  * BLOB Tasks
@@ -1056,6 +1094,45 @@ struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_name_, blob_id_, score_, node_id_);
   }
+
+  /** (De)serialize message return */
+  template <typename Ar>
+  void SerializeEnd(Ar &ar) {}
+};
+
+/** The FlushBlobTask task */
+struct FlushBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
+  IN BlobId blob_id_;
+
+  /** SHM default constructor */
+  HSHM_INLINE explicit FlushBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
+
+  /** Emplace constructor */
+  HSHM_INLINE explicit FlushBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query,
+      const BlobId &blob_id, u32 task_flags = 0)
+      : Task(alloc) {
+    // Initialize task
+    task_node_ = task_node;
+    prio_ = TaskPrioOpt::kLowLatency;
+    pool_ = pool_id;
+    method_ = Method::kFlushBlob;
+    task_flags_.SetBits(task_flags);
+    dom_query_ = dom_query;
+
+    // Custom
+    blob_id_ = blob_id;
+  }
+
+  /** Duplicate message */
+  void CopyStart(const FlushBlobTask &other, bool deep) {}
+
+  /** (De)serialize message call */
+  template <typename Ar>
+  void SerializeStart(Ar &ar) {}
 
   /** (De)serialize message return */
   template <typename Ar>

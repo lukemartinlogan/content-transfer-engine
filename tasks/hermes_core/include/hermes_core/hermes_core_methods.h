@@ -13,6 +13,7 @@ struct Method : public TaskMethod {
   TASK_METHOD_T kTagGetSize = 18;
   TASK_METHOD_T kTagUpdateSize = 19;
   TASK_METHOD_T kTagGetContainedBlobIds = 20;
+  TASK_METHOD_T kTagFlush = 21;
   TASK_METHOD_T kGetOrCreateBlobId = 30;
   TASK_METHOD_T kGetBlobId = 31;
   TASK_METHOD_T kGetBlobName = 32;
@@ -26,7 +27,8 @@ struct Method : public TaskMethod {
   TASK_METHOD_T kTagBlob = 41;
   TASK_METHOD_T kBlobHasTag = 42;
   TASK_METHOD_T kReorganizeBlob = 43;
-  TASK_METHOD_T kFlushData = 44;
+  TASK_METHOD_T kFlushBlob = 44;
+  TASK_METHOD_T kFlushData = 45;
   TASK_METHOD_T kPollBlobMetadata = 50;
   TASK_METHOD_T kPollTargetMetadata = 51;
   TASK_METHOD_T kPollTagMetadata = 52;

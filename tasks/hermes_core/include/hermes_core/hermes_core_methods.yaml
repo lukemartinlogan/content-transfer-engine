@@ -18,6 +18,7 @@ kTagClearBlobs: 17
 kTagGetSize: 18
 kTagUpdateSize: 19
 kTagGetContainedBlobIds: 20
+kTagFlush: 21
 
 # Blob Methods
 kGetOrCreateBlobId: 30
@@ -34,7 +35,8 @@ kDestroyBlob: 40
 kTagBlob: 41
 kBlobHasTag: 42
 kReorganizeBlob: 43
-kFlushData: 44
+kFlushBlob: 44
+kFlushData: 45
 
 # Metadata Methods
 kPollBlobMetadata: 50
