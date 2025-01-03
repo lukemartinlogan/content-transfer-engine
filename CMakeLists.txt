@@ -18,6 +18,7 @@ option(HERMES_ENABLE_COVERAGE "Check how well tests cover code" OFF)
 option(HERMES_ENABLE_DOXYGEN "Check how well the code is documented" ON)
 option(HERMES_REMOTE_DEBUG "Enable remote debug mode on hrun" OFF)
 
+option(HERMES_ENABLE_NVIDIA_GDS_ADAPTER "Build the Hermes NVIDIA GDS adapter." OFF)
 option(HERMES_ENABLE_POSIX_ADAPTER "Build the Hermes POSIX adapter." ON)
 option(HERMES_ENABLE_STDIO_ADAPTER "Build the Hermes stdio adapter." OFF)
 option(HERMES_ENABLE_MPIIO_ADAPTER "Build the Hermes MPI-IO adapter." OFF)
