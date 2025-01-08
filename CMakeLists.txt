@@ -251,6 +251,7 @@ configure_file(
 
 install(
         FILES
+        ${PROJECT_BINARY_DIR}/CMakeFiles/HermesCommonConfig.cmake
         ${PROJECT_BINARY_DIR}/CMakeFiles/HermesConfig.cmake
         DESTINATION
         ${CMAKE_INSTALL_PREFIX}/cmake
