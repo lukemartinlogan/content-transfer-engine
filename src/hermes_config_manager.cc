@@ -11,5 +11,3 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "hermes/config_manager.h"
-
-DEFINE_SINGLETON_CC(hermes::ConfigurationManager)

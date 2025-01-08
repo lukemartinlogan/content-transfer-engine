@@ -247,7 +247,7 @@ class PosixFs : public hermes::adapter::Filesystem {
 
 /** Simplify access to the stateless PosixFs Singleton */
 #define HERMES_POSIX_FS \
-  hshm::EasySingleton<::hermes::adapter::PosixFs>::GetInstance()
+  hshm::Singleton<::hermes::adapter::PosixFs>::GetInstance()
 #define HERMES_POSIX_FS_T hermes::adapter::PosixFs *
 
 }  // namespace hermes::adapter

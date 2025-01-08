@@ -238,7 +238,7 @@ class StdioFs : public hermes::adapter::Filesystem {
 
 /** Simplify access to the stateless StdioFs Singleton */
 #define HERMES_STDIO_FS \
-  hshm::EasySingleton<::hermes::adapter::StdioFs>::GetInstance()
+  hshm::Singleton<::hermes::adapter::StdioFs>::GetInstance()
 #define HERMES_STDIO_FS_T hermes::adapter::StdioFs *
 
 }  // namespace hermes::adapter

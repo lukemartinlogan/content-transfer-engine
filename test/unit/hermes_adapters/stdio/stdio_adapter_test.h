@@ -98,11 +98,11 @@ class StdioTest : public BinaryFileTests {
 
 #if defined(HERMES_MPI_TESTS)
 #define TESTER \
-  hshm::EasySingleton< \
+  hshm::Singleton< \
     hermes::adapter::test::StdioTest<HERMES_MPI_TESTS>>::GetInstance()
 #else
 #define TESTER \
-  hshm::EasySingleton<hermes::adapter::test::StdioTest<false>>::GetInstance()
+  hshm::Singleton<hermes::adapter::test::StdioTest<false>>::GetInstance()
 #endif
 
 #endif  // HERMES_TEST_UNIT_HERMES_ADAPTERS_STDIO_STDIO_ADAPTER_TEST_H_

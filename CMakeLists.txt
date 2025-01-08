@@ -226,6 +226,18 @@ if(HERMES_ENABLE_VFD)
     endif()
 endif()
 
+set(Hermes_CLIENT_DEPS hermes_client)
+set(Hermes_RUNTIME_DEPS hermes_runtime)
+
+# Dependencies for the client
+add_library(client_deps INTERFACE)
+target_link_libraries(client_deps INTERFACE
+    Chimaera::client)
+
+# Dependencies for the runtime 
+add_library(runtime_deps INTERFACE)
+target_link_libraries(runtime_deps INTERFACE
+    Chimaera::runtime)
 
 #------------------------------------------------------------------------------
 # Setup CMake Environment
@@ -266,30 +278,6 @@ include_directories(${CMAKE_SOURCE_DIR}/tasks)
 include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_core/include)
 # Test includes
 include_directories(${CMAKE_SOURCE_DIR}/test/unit)
-
-set(_Hermes_CLIENT_LIBRARIES
-        ${HermesShm_LIBRARIES}
-        ${Chimaera_CLIENT_LIBRARIES}
-        yaml-cpp
-        cereal::cereal
-        -ldl -lrt -lc -pthread
-        pybind11::embed)
-set(Hermes_CLIENT_LIBRARIES
-        ${_Hermes_CLIENT_LIBRARIES}
-        hermes_client)
-set(Hermes_CLIENT_DEPS hermes_client)
-set(_Hermes_RUNTIME_LIBRARIES
-        ${HermesShm_LIBRARIES}
-        ${Chimaera_RUNTIME_LIBRARIES}
-        yaml-cpp
-        cereal::cereal
-        -ldl -lrt -lc -pthread)
-set(Hermes_RUNTIME_LIBRARIES
-        ${_Hermes_RUNTIME_LIBRARIES}
-        hermes_runtime)
-set(Hermes_RUNTIME_DEFINITIONS
-    ${Chimaera_RUNTIME_DEFINITIONS})
-set(Hermes_RUNTIME_DEPS hermes_runtime)
 
 set(TEST_MAIN ${CMAKE_SOURCE_DIR}/test/unit)
 add_subdirectory(src)

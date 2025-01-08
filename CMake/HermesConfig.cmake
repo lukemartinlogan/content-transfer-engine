@@ -114,7 +114,7 @@ set(_Hermes_CLIENT_LIBRARIES
 # Set Hermes client dirs (equal to Hermes dirs)
 set(Hermes_CLIENT_LIBRARIES
         ${Hermes_LIBRARY}
-        ${_Hermes_CLIENT_LIBRARIES})
+        client_deps)
 set(Hermes_CLIENT_LIBRARY_DIRS
         ${HermeShm_LIBRARY_DIRS})
 set(Hermes_RUNTIME_LIBRARY_DIRS ${HermeShm_LIBRARY_DIRS})

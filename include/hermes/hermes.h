@@ -80,7 +80,7 @@ class Hermes {
   }
 };
 
-#define HERMES hshm::EasySingleton<::hermes::Hermes>::GetInstance()
+#define HERMES hshm::Singleton<::hermes::Hermes>::GetInstance()
 
 }  // namespace hermes
 

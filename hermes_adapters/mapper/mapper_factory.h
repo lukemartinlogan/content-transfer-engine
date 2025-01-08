@@ -32,7 +32,7 @@ class MapperFactory {
   static AbstractMapper* Get(const MapperType& type) {
     switch (type) {
       case MapperType::kBalancedMapper: {
-        return hshm::EasySingleton<BalancedMapper>::GetInstance();
+        return hshm::Singleton<BalancedMapper>::GetInstance();
       }
       default: {
         // TODO(llogan): @error_handling Mapper not implemented
