@@ -64,7 +64,7 @@ add_compile_options(-march=native -fomit-frame-pointer)
 # by other projects.
 #-----------------------------------------------------------------------------
 if(NOT HERMES_EXPORTED_TARGETS)
-    set(HERMES_EXPORTED_TARGETS "hrun-targets")
+    set(HERMES_EXPORTED_TARGETS "Hermes")
 endif()
 
 
@@ -113,89 +113,17 @@ add_custom_target(coverage COMMAND bash ${CMAKE_SOURCE_DIR}/ci/coverage.sh
 #-----------------------------------------------------------------------------
 # Find Packages
 #-----------------------------------------------------------------------------
-# This is for compatability with SPACK
-SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
-# HermesShm
-find_package(HermesShm CONFIG REQUIRED)
-message(STATUS "found hermes_shm.h at ${HermesShm_INCLUDE_DIRS}")
-include_directories(${HermesShm_INCLUDE_DIRS})
-link_directories(${HermesShm_LIBRARY_DIRS})
-
-# Chimaera
-find_package(Chimaera CONFIG REQUIRED)
-message(STATUS "found chimaera at ${Chimaera_LIBRARY_DIR}")
-include_directories(${Chimaera_INCLUDE_DIRS})
-link_directories(${Chimaera_LIBRARY_DIRS})
-
-# YAML-CPP
-find_package(yaml-cpp REQUIRED)
-message(STATUS "found yaml-cpp at ${yaml-cpp_DIR}")
-
-# Catch2
-find_package(Catch2 3.0.1 REQUIRED)
-message(STATUS "found catch2.h at ${Catch2_CXX_INCLUDE_DIRS}")
-
-# MPI
-if(BUILD_MPI_TESTS)
-    find_package(MPI REQUIRED COMPONENTS C CXX)
-    message(STATUS "found mpi.h at ${MPI_CXX_INCLUDE_DIRS}")
-endif()
-
-# OpenMP
-if(BUILD_OpenMP_TESTS)
-    find_package(OpenMP REQUIRED COMPONENTS C CXX)
-    message(STATUS "found omp.h at ${OpenMP_CXX_INCLUDE_DIRS}")
-endif()
-
-# Cereal
-find_package(cereal REQUIRED)
-if(cereal)
-    message(STATUS "found cereal")
-endif()
-
-# Pkg-Config
-find_package(PkgConfig REQUIRED)
-if(PkgConfig)
-    message(STATUS "found pkg config")
-endif()
-
-# LIBAIO
-#find_library(LIBAIO_LIBRARY NAMES aio)
-#if(LIBAIO_LIBRARY)
-#    message(STATUS "found libaio at ${LIBAIO_LIBRARY}")
-#else()
-#    set(LIBAIO_LIBRARY aio)
-#    message(STATUS "Assuming it was installed with our aio spack")
-#endif()
+include(CMake/HermesCommonConfig.cmake)
+set(Hermes_CLIENT_DEPS hermes_client)
+set(Hermes_RUNTIME_DEPS hermes_runtime)
 
 # Zeromq
 #pkg_check_modules(ZMQ REQUIRED libzmq)
 #include_directories(${ZMQ_INCLUDE_DIRS})
 #message("Found libzmq at: ${ZMQ_INCLUDE_DIRS}")
 
-# Thallium
-find_package(thallium CONFIG REQUIRED)
-if(thallium_FOUND)
-    message(STATUS "found thallium at ${thallium_DIR}")
-endif()
-
-# Boost
-# find_package(Boost REQUIRED COMPONENTS regex system filesystem fiber REQUIRED)
-find_package(Boost REQUIRED COMPONENTS fiber REQUIRED)
-if (Boost_FOUND)
-    message(STATUS "found boost at ${Boost_INCLUDE_DIRS}")
-endif()
-include_directories(${Boost_INCLUDE_DIRS})
-message("Boost: ${Boost_LIBRARIES}")
-
-# Libelf
-pkg_check_modules(libelf REQUIRED libelf)
-message(STATUS "found libelf at ${libelf_INCLUDE_DIRS}")
-include_directories(${libelf_INCLUDE_DIRS})
-link_directories(${libelf_LIBRARY_DIRS})
-
-# HDF5
+# HDF5 (only for VFD, not the basic client)
 if(HERMES_ENABLE_VFD)
     set(HERMES_REQUIRED_HDF5_VERSION 1.14.0)
     set(HERMES_REQUIRED_HDF5_COMPONENTS C)
@@ -226,18 +154,21 @@ if(HERMES_ENABLE_VFD)
     endif()
 endif()
 
-set(Hermes_CLIENT_DEPS hermes_client)
-set(Hermes_RUNTIME_DEPS hermes_runtime)
-
 # Dependencies for the client
 add_library(client_deps INTERFACE)
 target_link_libraries(client_deps INTERFACE
     Chimaera::client)
+target_include_directories(client_deps INTERFACE ${libelf_INCLUDE_DIRS})
+target_link_directories(client_deps INTERFACE ${libelf_LIBRARY_DIRS})
+target_link_libraries(client_deps INTERFACE ${libelf_LIBRARIES})
 
 # Dependencies for the runtime 
 add_library(runtime_deps INTERFACE)
 target_link_libraries(runtime_deps INTERFACE
     Chimaera::runtime)
+target_include_directories(runtime_deps INTERFACE ${libelf_INCLUDE_DIRS})
+target_link_directories(runtime_deps INTERFACE ${libelf_LIBRARY_DIRS})
+target_link_libraries(runtime_deps INTERFACE ${libelf_LIBRARIES})
 
 #------------------------------------------------------------------------------
 # Setup CMake Environment
@@ -309,6 +240,11 @@ add_subdirectory(test)
 # Install Hermes Headers
 #-----------------------------------------------------------------------------
 configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/CMake/HermesCommonConfig.cmake
+        ${PROJECT_BINARY_DIR}/CMakeFiles/HermesCommonConfig.cmake @ONLY
+)
+
+configure_file(
         ${CMAKE_CURRENT_SOURCE_DIR}/CMake/HermesConfig.cmake
         ${PROJECT_BINARY_DIR}/CMakeFiles/HermesConfig.cmake @ONLY
 )
@@ -321,3 +257,8 @@ install(
 )
 
 install(DIRECTORY include DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(EXPORT ${HERMES_EXPORTED_TARGETS}
+  FILE ${HERMES_EXPORTED_TARGETS}CoreConfig.cmake
+  NAMESPACE Hermes::
+  DESTINATION cmake
+)

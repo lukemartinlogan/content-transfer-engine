@@ -16,106 +16,24 @@ set(HERMES_VERSION_PATCH @HERMES_VERSION_PATCH@)
 
 set(BUILD_MPI_TESTS @BUILD_MPI_TESTS@)
 set(BUILD_OpenMP_TESTS @BUILD_OpenMP_TESTS@)
-set(HERMES_ENABLE_COMPRESS @HERMES_ENABLE_COMPRESS@)
-set(HERMES_ENABLE_ENCRYPT @HERMES_ENABLE_ENCRYPT@)
+set(HERMES_ENABLE_COVERAGE @HERMES_ENABLE_COVERAGE@)
+set(HERMES_ENABLE_DOXYGEN @HERMES_ENABLE_DOXYGEN@)
+set(HERMES_REMOTE_DEBUG @HERMES_REMOTE_DEBUG@)
 
-#-----------------------------------------------------------------------------
-# Find hermes header
-#-----------------------------------------------------------------------------
-find_path(
-  Hermes_INCLUDE_DIR
-        hermes/hermes_types.h
-  HINTS ENV PATH ENV CPATH
-)
-if (NOT Hermes_INCLUDE_DIR)
-  message(STATUS "FindHermes: Could not find Hermes.h")
-  set(Hermes_FOUND FALSE)
-  return()
-endif()
-get_filename_component(Hermes_DIR ${Hermes_INCLUDE_DIR} PATH)
+set(HERMES_ENABLE_POSIX_ADAPTER @HERMES_ENABLE_POSIX_ADAPTER@)
+set(HERMES_ENABLE_STDIO_ADAPTER @HERMES_ENABLE_STDIO_ADAPTER@)
+set(HERMES_ENABLE_MPIIO_ADAPTER @HERMES_ENABLE_MPIIO_ADAPTER@)
+set(HERMES_ENABLE_VFD @HERMES_ENABLE_VFD@)
+set(HERMES_ENABLE_PUBSUB_ADAPTER @HERMES_ENABLE_PUBSUB_ADAPTER@)
+set(HERMES_ENABLE_KVSTORE @HERMES_ENABLE_KVSTORE@)
+set(HERMES_ENABLE_PYTHON @HERMES_ENABLE_PYTHON@)
+set(HERMES_ENABLE_ADIOS @HERMES_ENABLE_ADIOS@)
 
-#-----------------------------------------------------------------------------
-# Find hermes library
-#-----------------------------------------------------------------------------
-find_library(
-        Hermes_LIBRARY
-        NAMES hermes
-        HINTS ENV LD_LIBRARY_PATH ENV PATH
-)
-if (NOT Hermes_LIBRARY)
-    message(STATUS "FindHermes: Could not find libhermes.so")
-    set(Hermes_FOUND OFF)
-    message(STATUS "LIBS: $ENV{LD_LIBRARY_PATH}")
-    return()
-endif()
+set(HERMES_MPICH @HERMES_MPICH@)
+set(HERMES_OPENMPI @HERMES_OPENMPI@)
 
-#-----------------------------------------------------------------------------
-# Find all packages needed by Hermes
-#-----------------------------------------------------------------------------
+# Find the Hermes Package
+find_package(HermesCore REQUIRED)
 
-# HermesShm
-find_package(HermesShm CONFIG REQUIRED)
-message(STATUS "found hermes_shm.h at ${HermesShm_INCLUDE_DIRS}")
-
-# Chimaera
-find_package(Chimaera CONFIG REQUIRED)
-message(STATUS "found chimaera at ${Chimaera_INCLUDE_DIRS}")
-
-# YAML-CPP
-find_package(yaml-cpp REQUIRED)
-message(STATUS "found yaml-cpp at ${yaml-cpp_DIR}")
-
-# Catch2
-find_package(Catch2 3.0.1 REQUIRED)
-message(STATUS "found catch2.h at ${Catch2_CXX_INCLUDE_DIRS}")
-
-# MPICH
-if(BUILD_MPI_TESTS)
-  find_package(MPI REQUIRED COMPONENTS C CXX)
-  message(STATUS "found mpi.h at ${MPI_CXX_INCLUDE_DIRS}")
-endif()
-
-# OpenMP
-if(BUILD_OpenMP_TESTS)
-  find_package(OpenMP REQUIRED COMPONENTS C CXX)
-  message(STATUS "found omp.h at ${OpenMP_CXX_INCLUDE_DIRS}")
-endif()
-
-# Cereal
-find_package(cereal REQUIRED)
-message(STATUS "found cereal")
-
-# Boost
-find_package(Boost REQUIRED COMPONENTS regex system filesystem fiber REQUIRED)
-message(STATUS "found boost at ${Boost_INCLUDE_DIRS}")
-
-# Thallium
-find_package(thallium CONFIG REQUIRED)
-if(thallium_FOUND)
-  message(STATUS "found thallium at ${thallium_DIR}")
-endif()
-
-#-----------------------------------------------------------------------------
-# Mark hermes as found and set all needed packages
-#-----------------------------------------------------------------------------
-set(Hermes_LIBRARY_DIR "")
-get_filename_component(Hermes_LIBRARY_DIRS ${Hermes_LIBRARY} PATH)
-# Set uncached variables as per standard.
-set(Hermes_FOUND ON)
-# Set Hermes dirs
-set(Hermes_INCLUDE_DIRS ${Boost_INCLUDE_DIRS} ${Hermes_INCLUDE_DIR})
-set(_Hermes_CLIENT_LIBRARIES
-        ${HermesShm_LIBRARIES}
-        ${CHIMAERA_CLIENT_LIBRARIES}
-        yaml-cpp
-        cereal::cereal
-        -ldl -lrt -lc -pthread
-        ${Boost_LIBRARIES})
-# Set Hermes client dirs (equal to Hermes dirs)
-set(Hermes_CLIENT_LIBRARIES
-        ${Hermes_LIBRARY}
-        client_deps)
-set(Hermes_CLIENT_LIBRARY_DIRS
-        ${HermeShm_LIBRARY_DIRS})
-set(Hermes_RUNTIME_LIBRARY_DIRS ${HermeShm_LIBRARY_DIRS})
-set(Hermes_RUNTIME_DEPS "")
+# Find the Hermes dependencies
+find_package(HermesCommon REQUIRED)
