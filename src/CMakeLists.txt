@@ -2,14 +2,14 @@
 # Build Hermes Task Library
 #------------------------------------------------------------------------------
 # The client-facing library
-add_library(hermes_client hermes_config_manager.cc)
-target_link_libraries(hermes_client client_deps)
+add_library(hermes_client INTERFACE)
+target_link_libraries(hermes_client INTERFACE client_deps)
 add_library(client INTERFACE)
 target_link_libraries(client INTERFACE hermes_client)
 
 # The runtime-facing library
-add_library(hermes_runtime hermes_config_manager.cc)
-target_link_libraries(hermes_runtime runtime_deps)
+add_library(hermes_runtime INTERFACE)
+target_link_libraries(hermes_runtime INTERFACE runtime_deps)
 add_library(runtime INTERFACE)
 target_link_libraries(client INTERFACE hermes_runtime)
 #------------------------------------------------------------------------------

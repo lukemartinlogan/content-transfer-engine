@@ -1,10 +1,7 @@
 #------------------------------------------------------------------------------
 # Build hermes_core Task Library
 #------------------------------------------------------------------------------
-add_library(hermes_core SHARED
-        hermes_core.cc)
-add_chimaera_run_deps(hermes_core)
-target_link_libraries(hermes_core Chimaera::runtime)
+add_chimod_library(hermes_core hermes_core.cc)
 #------------------------------------------------------------------------------
 # Install hermes_core Task Library
 #------------------------------------------------------------------------------
