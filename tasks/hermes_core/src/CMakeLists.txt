@@ -1,13 +1,13 @@
 #------------------------------------------------------------------------------
 # Build hermes_core Task Library
 #------------------------------------------------------------------------------
-add_chimod_library(hermes_core hermes_core.cc)
+add_chimod_library(hermes core hermes_core.cc)
 #------------------------------------------------------------------------------
 # Install hermes_core Task Library
 #------------------------------------------------------------------------------
 install(
         TARGETS
-        hermes_core
+        ${hermes_core_exports}
         LIBRARY DESTINATION ${HERMES_INSTALL_LIB_DIR}
         ARCHIVE DESTINATION ${HERMES_INSTALL_LIB_DIR}
         RUNTIME DESTINATION ${HERMES_INSTALL_BIN_DIR}

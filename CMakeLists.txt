@@ -157,7 +157,7 @@ endif()
 # Dependencies for the client
 add_library(client_deps INTERFACE)
 target_link_libraries(client_deps INTERFACE
-    Chimaera::client)
+    chimaera::client_host)
 target_include_directories(client_deps INTERFACE ${libelf_INCLUDE_DIRS})
 target_link_directories(client_deps INTERFACE ${libelf_LIBRARY_DIRS})
 target_link_libraries(client_deps INTERFACE ${libelf_LIBRARIES})
@@ -165,7 +165,7 @@ target_link_libraries(client_deps INTERFACE ${libelf_LIBRARIES})
 # Dependencies for the runtime 
 add_library(runtime_deps INTERFACE)
 target_link_libraries(runtime_deps INTERFACE
-    Chimaera::runtime)
+    chimaera::runtime)
 target_include_directories(runtime_deps INTERFACE ${libelf_INCLUDE_DIRS})
 target_link_directories(runtime_deps INTERFACE ${libelf_LIBRARY_DIRS})
 target_link_libraries(runtime_deps INTERFACE ${libelf_LIBRARIES})
