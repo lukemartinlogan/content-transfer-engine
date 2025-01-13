@@ -4,8 +4,8 @@ project(hermes)
 #-----------------------------------------------------------------------------
 # Define Constants
 #-----------------------------------------------------------------------------
-set(HERMES_VERSION_MAJOR 1)
-set(HERMES_VERSION_MINOR 3)
+set(HERMES_VERSION_MAJOR 2)
+set(HERMES_VERSION_MINOR 0)
 set(HERMES_VERSION_PATCH 0)
 
 #-----------------------------------------------------------------------------
@@ -29,6 +29,9 @@ option(HERMES_ENABLE_ADIOS "Build the Hermes Python wrapper" OFF)
 
 option(HERMES_MPICH "Specify that this a MPICH build" OFF)
 option(HERMES_OPENMPI "Specify that this a OpenMPI build" OFF)
+
+option(HERMES_ENABLE_CUDA "Enable CUDA support" OFF)
+option(HERMES_ENABLE_ROCM "Enable ROCm support" OFF)
 
 # A hack for spack to get dependencies
 option(HERMES_NO_COMPILE "Don't compile the code" OFF)
@@ -114,9 +117,19 @@ add_custom_target(coverage COMMAND bash ${CMAKE_SOURCE_DIR}/ci/coverage.sh
 # Find Packages
 #-----------------------------------------------------------------------------
 
+# Include most packages needed by both client and host
 include(CMake/HermesCommonConfig.cmake)
 set(Hermes_CLIENT_DEPS hermes_client)
 set(Hermes_RUNTIME_DEPS hermes_runtime)
+
+# ENABLE GPU SUPPORT
+if (CHIMAERA_ENABLE_CUDA)
+    hshm_enable_cuda(17)
+endif()
+if (CHIMAERA_ENABLE_ROCM)
+    hshm_enable_rocm("HIP" 17)
+endif()
+    
 
 # Zeromq
 #pkg_check_modules(ZMQ REQUIRED libzmq)
