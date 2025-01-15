@@ -13,6 +13,10 @@ if(HERMES_ENABLE_POSIX_ADAPTER)
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/posix)
 endif()
 
+if(HERMES_ENABLE_NVIDIA_GDS_ADAPTER)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/nvidia_gds)
+endif()
+
 if(HERMES_ENABLE_STDIO_ADAPTER)
   add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/stdio)
 endif()
