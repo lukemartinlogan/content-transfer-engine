@@ -16,7 +16,7 @@
 #include "binary_file_tests.h"
 
 namespace hermes::adapter::test {
-template<bool WITH_MPI>
+template <bool WITH_MPI>
 class PosixTest : public BinaryFileTests {
  public:
   FileInfo new_file_;
@@ -47,7 +47,7 @@ class PosixTest : public BinaryFileTests {
   void RegisterFiles() override {
     RegisterPath("new", 0, new_file_);
     RegisterPath("ext", TEST_DO_CREATE, existing_file_);
-    if constexpr(WITH_MPI) {
+    if constexpr (WITH_MPI) {
       RegisterPath("shared_new", TEST_FILE_SHARED, shared_new_file_);
       RegisterPath("shared_ext", TEST_DO_CREATE | TEST_FILE_SHARED,
                    shared_existing_file_);
@@ -82,13 +82,13 @@ class PosixTest : public BinaryFileTests {
     REQUIRE(status == status_orig_);
   }
 
-  void test_write(const void* ptr, size_t size) {
+  void test_write(const void *ptr, size_t size) {
     size_written_orig_ = write(fh_orig_, ptr, size);
     size_t size_written = write(fh_cmp_, ptr, size);
     REQUIRE(size_written == size_written_orig_);
   }
 
-  void test_read(char* ptr, size_t size) {
+  void test_read(char *ptr, size_t size) {
     size_read_orig_ = read(fh_orig_, ptr, size);
     std::vector<unsigned char> read_data(size, 'r');
     size_t size_read = read(fh_cmp_, read_data.data(), size);
@@ -118,9 +118,9 @@ class PosixTest : public BinaryFileTests {
 }  // namespace hermes::adapter::test
 
 #if defined(HERMES_MPI_TESTS)
-#define TESTER \
+#define TESTER     \
   hshm::Singleton< \
-    hermes::adapter::test::PosixTest<HERMES_MPI_TESTS>>::GetInstance()
+      hermes::adapter::test::PosixTest<HERMES_MPI_TESTS>>::GetInstance()
 #else
 #define TESTER \
   hshm::Singleton<hermes::adapter::test::PosixTest<false>>::GetInstance()
