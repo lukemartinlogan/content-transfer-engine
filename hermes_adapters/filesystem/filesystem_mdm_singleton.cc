@@ -10,7 +10,5 @@
  * have access to the file, you may request a copy from help@hdfgroup.org.   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "hermes_shm/util/singleton.h"
-
 #include "filesystem_mdm.h"
-DEFINE_SINGLETON_CC(hermes::adapter::MetadataManager)
+#include "hermes_shm/util/singleton.h"

@@ -62,36 +62,10 @@ install(
 install(
         TARGETS
         hdf5_hermes_vfd
-        EXPORT
-        ${HERMES_EXPORTED_TARGETS}
         LIBRARY DESTINATION ${HERMES_INSTALL_LIB_DIR}/${HERMES_VFD_DIR_NAME}
         ARCHIVE DESTINATION ${HERMES_INSTALL_LIB_DIR}/${HERMES_VFD_DIR_NAME}
         RUNTIME DESTINATION ${HERMES_INSTALL_BIN_DIR}
 )
-
-#-----------------------------------------------------------------------------
-# Add Target(s) to CMake Install for import into other projects
-#-----------------------------------------------------------------------------
-install(
-        EXPORT
-        ${HERMES_EXPORTED_TARGETS}
-        DESTINATION
-        ${HERMES_INSTALL_DATA_DIR}/cmake/hdf5_hermes_vfd
-        FILE
-        ${HERMES_EXPORTED_TARGETS}.cmake
-)
-
-#-----------------------------------------------------------------------------
-# Export all exported targets to the build tree for use by parent project
-
-if(NOT HDF5_HERMES_VFD_EXTERNALLY_CONFIGURED)
-  export(
-          TARGETS
-          ${HDF5_HERMES_VFD_EXPORTED_LIBS}
-          FILE
-          ${HERMES_EXPORTED_TARGETS}.cmake
-  )
-endif()
 
 #------------------------------------------------------------------------------
 # Set variables for parent scope

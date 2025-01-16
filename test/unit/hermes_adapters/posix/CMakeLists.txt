@@ -72,7 +72,7 @@ target_link_libraries(hermes_posix_simple_io_omp
 
 add_executable(posix_simple_io_omp posix_simple_io_omp.cc)
 target_link_libraries(posix_simple_io_omp
-        ${HermesShm_LIBRARIES} Catch2::Catch2 OpenMP::OpenMP_CXX)
+        hshm::cxx Catch2::Catch2 OpenMP::OpenMP_CXX)
 
 jarvis_test(posix test_posix_simple_io_omp)
 jarvis_test(posix test_hermes_posix_simple_io_omp)

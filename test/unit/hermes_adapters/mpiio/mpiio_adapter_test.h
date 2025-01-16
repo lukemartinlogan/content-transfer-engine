@@ -491,6 +491,6 @@ class MpiioTest : public BinaryFileTests {
 }  // namespace hermes::adapter::test
 
 #define TESTER \
-  hshm::EasySingleton<hermes::adapter::test::MpiioTest<true>>::GetInstance()
+  hshm::Singleton<hermes::adapter::test::MpiioTest<true>>::GetInstance()
 
 #endif  // HERMES_TEST_UNIT_HERMES_ADAPTERS_POSIX_POSIX_ADAPTER_BASE_TEST_H_
