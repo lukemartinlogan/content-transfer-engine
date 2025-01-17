@@ -38,7 +38,17 @@ set_target_properties(gds_adapter_simple_test PROPERTIES
 jarvis_test(gds test_nvidia_gds_simple) 
 
 
-SET(POSIX_TESTS
+SET(NVIDIA_GDS_TESTS
   gds_adapter_basic_test
   gds_adapter_simple_test
 )
+
+foreach(program ${NVIDIA_GDS_TESTS})
+  install(
+          TARGETS
+          ${program}
+          LIBRARY DESTINATION ${HERMES_INSTALL_LIB_DIR}
+          ARCHIVE DESTINATION ${HERMES_INSTALL_LIB_DIR}
+          RUNTIME DESTINATION ${HERMES_INSTALL_BIN_DIR}
+  )
+endforeach()
