@@ -12,26 +12,33 @@ include_directories(${HermesShm_INCLUDE_DIRS})
 link_directories(${HermesShm_LIBRARY_DIRS})
 
 
-add_executable(test_cufile_isa test_cufile_isa.cc)
-# add_dependencies(test_cufile_isa simple_lib ${HermesShm_LIBRARIES} cufile_api cufile hermes)  #hermes added
-target_link_libraries(test_cufile_isa 
+add_executable(gds_adapter_basic_test 
+                gds_adapter_basic_test.cc)
+target_link_libraries(gds_adapter_basic_test 
         PUBLIC  ${HermesShm_LIBRARIES} cufile ) #hermes added
-set_source_files_properties(test_cufile_isa.cc PROPERTIES LANGUAGE CUDA)
-set_target_properties(test_cufile_isa PROPERTIES
+set_source_files_properties(gds_adapter_basic_test.cc PROPERTIES LANGUAGE CUDA)
+set_target_properties(gds_adapter_basic_test PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON
 #        CUDA_RUNTIME_LIBRARY Shared
 #        POSITION_INDEPENDENT_CODE ON
 )
-jarvis_test(gds cufile_isa_test) #added jarvis test? eventully need to add jarvis test
+jarvis_test(gds test_nvidia_gds_basic) 
 
 
-add_executable(test_cufile_shazzadul test_cufile_shazzadul.cc)
-target_link_libraries(test_cufile_shazzadul 
+add_executable(gds_adapter_simple_test 
+        gds_adapter_simple_test.cc)
+target_link_libraries(gds_adapter_simple_test 
         PUBLIC  ${HermesShm_LIBRARIES} cufile ) #hermes added
-set_source_files_properties(test_cufile_shazzadul.cc PROPERTIES LANGUAGE CUDA)
-set_target_properties(test_cufile_shazzadul PROPERTIES
+set_source_files_properties(gds_adapter_simple_test.cc PROPERTIES LANGUAGE CUDA)
+set_target_properties(gds_adapter_simple_test PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON
 #        CUDA_RUNTIME_LIBRARY Shared
 #        POSITION_INDEPENDENT_CODE ON
 )
-jarvis_test(gds cufile_shazzadul_test) #added jarvis test?  eventully need to add jarvis test
+jarvis_test(gds test_nvidia_gds_simple) 
+
+
+SET(POSIX_TESTS
+  gds_adapter_basic_test
+  gds_adapter_simple_test
+)
