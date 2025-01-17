@@ -40,13 +40,13 @@ class DpeFactory {
     }
     switch (type) {
       case PlacementPolicy::kRandom: {
-        return hshm::EasySingleton<Random>::GetInstance();
+        return hshm::Singleton<Random>::GetInstance();
       }
       case PlacementPolicy::kRoundRobin: {
-        return hshm::EasySingleton<RoundRobin>::GetInstance();
+        return hshm::Singleton<RoundRobin>::GetInstance();
       }
       case PlacementPolicy::kMinimizeIoTime: {
-        return hshm::EasySingleton<MinimizeIoTime>::GetInstance();
+        return hshm::Singleton<MinimizeIoTime>::GetInstance();
       }
       case PlacementPolicy::kNone:
       default: {

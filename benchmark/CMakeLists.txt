@@ -24,7 +24,7 @@ target_link_libraries(test_performance_exec
 #add_dependencies(test_performance_exec
 #        ${Hermes_CLIENT_DEPS} hermes)
 #target_link_libraries(test_performance_exec
-#        ${Hermes_CLIENT_LIBRARIES} hermes Catch2::Catch2
+#        hermes_client hermes Catch2::Catch2
 #        MPI::MPI_CXX ${ZMQ_LIBRARIES})
 
 add_executable(hermes_api_bench
@@ -32,7 +32,7 @@ add_executable(hermes_api_bench
 add_dependencies(hermes_api_bench
         ${Hermes_CLIENT_DEPS})
 target_link_libraries(hermes_api_bench
-        ${Hermes_CLIENT_LIBRARIES} hermes
+        hermes_client hermes
         Catch2::Catch2 MPI::MPI_CXX)
 
 #------------------------------------------------------------------------------
@@ -49,8 +49,6 @@ target_link_libraries(hermes_api_bench
 install(TARGETS
         test_performance_exec
         hermes_api_bench
-        EXPORT
-        ${HERMES_EXPORTED_TARGETS}
         LIBRARY DESTINATION ${HERMES_INSTALL_LIB_DIR}
         ARCHIVE DESTINATION ${HERMES_INSTALL_LIB_DIR}
         RUNTIME DESTINATION ${HERMES_INSTALL_BIN_DIR})

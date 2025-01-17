@@ -2,16 +2,16 @@
 # Build Hermes Task Library
 #------------------------------------------------------------------------------
 # The client-facing library
-add_library(hermes_client SHARED
-        hermes_config_manager.cc
-)
-target_link_libraries(hermes_client ${_Hermes_CLIENT_LIBRARIES})
+add_library(hermes_client INTERFACE)
+target_link_libraries(hermes_client INTERFACE client_deps)
+add_library(client INTERFACE)
+target_link_libraries(client INTERFACE hermes_client)
+
 # The runtime-facing library
-add_library(hermes_runtime SHARED
-        hermes_config_manager.cc
-)
-target_link_libraries(hermes_runtime ${_Hermes_RUNTIME_LIBRARIES})
-target_compile_definitions(hermes_runtime PUBLIC ${Hermes_RUNTIME_DEFINITIONS})
+add_library(hermes_runtime INTERFACE)
+target_link_libraries(hermes_runtime INTERFACE runtime_deps)
+add_library(runtime INTERFACE)
+target_link_libraries(client INTERFACE hermes_runtime)
 #------------------------------------------------------------------------------
 # Install Hermes library
 #------------------------------------------------------------------------------
@@ -19,40 +19,16 @@ install(
         TARGETS
         hermes_client
         hermes_runtime
+        client_deps
+        runtime_deps
+        runtime
+        client
         EXPORT
         ${HERMES_EXPORTED_TARGETS}
         LIBRARY DESTINATION ${HERMES_INSTALL_LIB_DIR}
         ARCHIVE DESTINATION ${HERMES_INSTALL_LIB_DIR}
         RUNTIME DESTINATION ${HERMES_INSTALL_BIN_DIR}
 )
-
-#-----------------------------------------------------------------------------
-# Add Target(s) to CMake Install for import into other projects
-#-----------------------------------------------------------------------------
-install(
-        EXPORT
-        ${HERMES_EXPORTED_TARGETS}
-        DESTINATION
-        ${HERMES_INSTALL_DATA_DIR}/cmake/hermes
-        FILE
-        ${HERMES_EXPORTED_TARGETS}.cmake
-)
-
-#-----------------------------------------------------------------------------
-# Export all exported targets to the build tree for use by parent project
-#-----------------------------------------------------------------------------
-set(HERMES_EXPORTED_LIBS
-        hermes_client
-        hermes_runtime
-        ${HERMES_EXPORTED_LIBS})
-if(NOT CHIMAERA_EXTERNALLY_CONFIGURED)
-    EXPORT (
-            TARGETS
-            ${HERMES_EXPORTED_LIBS}
-            FILE
-            ${HERMES_EXPORTED_TARGETS}.cmake
-    )
-endif()
 
 #------------------------------------------------------------------------------
 # Coverage

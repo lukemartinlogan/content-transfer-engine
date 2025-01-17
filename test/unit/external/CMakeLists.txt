@@ -9,6 +9,4 @@ add_executable(test_hermes_external_compile
         external.cc
 )
 target_link_libraries(test_hermes_external_compile
-        ${Hermes_LIBRARIES} Catch2::Catch2 MPI::MPI_CXX)
-message("${Hermes_LIBRARIES}")
-
+        Hermes::client Catch2::Catch2 MPI::MPI_CXX)

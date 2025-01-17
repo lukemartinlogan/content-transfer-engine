@@ -11,7 +11,7 @@ set(INTERCEPTOR_DEPS
 add_library(hermes_posix SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/posix_api.cc)
 add_dependencies(hermes_posix ${INTERCEPTOR_DEPS})
-target_link_libraries(hermes_posix MPI::MPI_CXX stdc++fs ${libelf_LIBRARIES} dl ${INTERCEPTOR_DEPS})
+target_link_libraries(hermes_posix MPI::MPI_CXX stdc++fs ${libelf_LIBRARIES} ${INTERCEPTOR_DEPS})
 
 #-----------------------------------------------------------------------------
 # Add Target(s) to CMake Install
@@ -19,27 +19,10 @@ target_link_libraries(hermes_posix MPI::MPI_CXX stdc++fs ${libelf_LIBRARIES} dl 
 install(
         TARGETS
         hermes_posix
-        EXPORT
-        ${HERMES_EXPORTED_TARGETS}
         LIBRARY DESTINATION ${HERMES_INSTALL_LIB_DIR}
         ARCHIVE DESTINATION ${HERMES_INSTALL_LIB_DIR}
         RUNTIME DESTINATION ${HERMES_INSTALL_BIN_DIR}
 )
-
-#-----------------------------------------------------------------------------
-# Export all exported targets to the build tree for use by parent project
-#-----------------------------------------------------------------------------
-set(HERMES_EXPORTED_LIBS
-        hermes_posix
-        ${HERMES_EXPORTED_LIBS})
-if(NOT HERMES_EXTERNALLY_CONFIGURED)
-EXPORT (
-        TARGETS
-        ${HERMES_EXPORTED_LIBS}
-        FILE
-        ${HERMES_EXPORTED_TARGETS}.cmake
-)
-endif()
 
 #-----------------------------------------------------------------------------
 # Install headers

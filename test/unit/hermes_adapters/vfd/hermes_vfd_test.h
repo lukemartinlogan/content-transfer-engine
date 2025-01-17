@@ -403,6 +403,6 @@ class Hdf5VfdTests : public FilesystemTests<f32> {
 }  // namespace hermes::adapter::test
 
 #define TESTER \
-  hshm::EasySingleton<hermes::adapter::test::Hdf5VfdTests<true>>::GetInstance()
+  hshm::Singleton<hermes::adapter::test::Hdf5VfdTests<true>>::GetInstance()
 
 #endif  // HERMES_TEST_UNIT_HERMES_ADAPTERS_HDF5_VFD_TESTS_H_

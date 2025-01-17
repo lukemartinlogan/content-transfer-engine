@@ -167,7 +167,7 @@ class StdioApi : public RealApi {
 
 // Singleton macros
 #define HERMES_STDIO_API \
-  hshm::EasySingleton<::hermes::adapter::StdioApi>::GetInstance()
+  hshm::Singleton<::hermes::adapter::StdioApi>::GetInstance()
 #define HERMES_STDIO_API_T hermes::adapter::StdioApi*
 
 #endif  // HERMES_ADAPTER_STDIO_H

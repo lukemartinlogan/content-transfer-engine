@@ -22,6 +22,15 @@
 #include "hermes/dpe/dpe_factory.h"
 #include "hermes/hermes.h"
 
+/** NOTE(llogan): std::hash function for string. This is because NVCC is bugged
+ */
+namespace std {
+template <>
+struct hash<chi::string> {
+  size_t operator()(const chi::string &text) const { return text.Hash(); }
+};
+}  // namespace std
+
 namespace hermes {
 
 #define HERMES_LANES 32
