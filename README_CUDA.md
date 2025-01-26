@@ -3,17 +3,17 @@
 This project includes CUDA-enabled documentation to get hermes and dependencies up and running. 
 
 1. **Compile IOWarp(Chimaera) with CUDA-enabled support**\
-    cd ~/iowarp-runtime\
-    git pull\
-    git checkout dev\
-    mkdir build\
-    cd build\
-    spack load chimaera@dev+nocompile\
-    module load hermes_shm\
-    cmake ../ -DCMAKE_INSTALL_PREFIX=$(scspkg pkg root chimaera) -DCHIMAERA_ENABLE_CUDA=ON\
-    make -j32 install\
-    cd ..\
-    pip install -r requirements.txt
+    `cd ~/iowarp-runtime\`
+    `git pull\`
+    `git checkout dev\`
+    `mkdir build\`
+    `cd build\`
+    `spack load chimaera@dev+nocompile\`
+    `module load hermes_shm\`
+    `cmake ../ -DCMAKE_INSTALL_PREFIX=$(scspkg pkg root chimaera) -DCHIMAERA_ENABLE_CUDA=ON\`
+    `make -j32 install\`
+    `cd ..\`
+    `pip install -r requirements.txt`
 
 2. **Compile Content Transfer Engine with CUDA-enabled support**\
     cd ~/content-transfer-engine\
