@@ -23,7 +23,7 @@ This project includes CUDA-enabled documentation to get hermes and dependencies 
     `cd build`\
     `spack load chimaera@dev+nocompile`\
     `module load hermes_shm chimaera`\
-    `cmake ../ -DCMAKE_INSTALL_PREFIX=$(scspkg pkg root hermes)`\
+    `cmake ../ -DCMAKE_INSTALL_PREFIX=$(scspkg pkg root hermes) -DHERMES_ENABLE_NVIDIA_GDS_ADAPTER=ON`\
     `make -j32 install`
 
 3. **Run CUDA unit tests using Jarvis**\
