@@ -27,8 +27,8 @@ This project includes CUDA-enabled documentation to get hermes and dependencies 
     make -j32 install
 
 3. **Run CUDA unit tests using Jarvis**
-   a. Jarvis package is used for defining how to run GDS unit test. It is located in **/test/jarvis_hermes/jarvis_hermes/hermes_nvidia_gds_tests**
-   b. In order to run the tests, we need to call Jarvis pipeline. The pipeline for Nvidia GDS is located in **test/pipelines/nvidia_gds**
+   >Jarvis package is used for defining how to run GDS unit test. It is located in **/test/jarvis_hermes/jarvis_hermes/hermes_nvidia_gds_tests**
+   - In order to run the tests, we need to call Jarvis pipeline. The pipeline for Nvidia GDS is located in **test/pipelines/nvidia_gds**
 
 
     > [!NOTE]
@@ -37,6 +37,6 @@ This project includes CUDA-enabled documentation to get hermes and dependencies 
     -  test_nvidia_gds_basic.yaml   (*Unit test without hermes*)
 
     To run either of abovementioned pipelines use following command:
-    - jarvis ppl load yaml test/pipelines/nvidia_gds/<test_name>
-    - jarvis ppl run
+    - `jarvis ppl load yaml test/pipelines/nvidia_gds/<test_name>`
+    - `jarvis ppl run`
 
