@@ -26,7 +26,7 @@ This project includes CUDA-enabled documentation to get hermes and dependencies 
     `cmake ../ -DCMAKE_INSTALL_PREFIX=$(scspkg pkg root hermes)`\
     `make -j32 install`
 
-3. **Run CUDA unit tests using Jarvis**
+3. **Run CUDA unit tests using Jarvis**\
    Jarvis package is used for defining how to run GDS unit test. It is located in **/test/jarvis_hermes/jarvis_hermes/hermes_nvidia_gds_tests**\
    In order to run the tests, we need to call Jarvis pipeline. The pipeline for Nvidia GDS is located in **test/pipelines/nvidia_gds**
 
