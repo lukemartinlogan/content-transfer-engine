@@ -16,15 +16,15 @@ This project includes CUDA-enabled documentation to get hermes and dependencies 
     `pip install -r requirements.txt`
 
 2. **Compile Content Transfer Engine with CUDA-enabled support**\
-    cd ~/content-transfer-engine\
-    git pull\
-    git checkout dev\
-    mkdir build\
-    cd build\
-    spack load chimaera@dev+nocompile\
-    module load hermes_shm chimaera\
-    cmake ../ -DCMAKE_INSTALL_PREFIX=$(scspkg pkg root hermes)\
-    make -j32 install
+    `cd ~/content-transfer-engine`\
+    `git pull`\
+    `git checkout dev`\
+    `mkdir build`\
+    `cd build`\
+    `spack load chimaera@dev+nocompile`\
+    `module load hermes_shm chimaera`\
+    `cmake ../ -DCMAKE_INSTALL_PREFIX=$(scspkg pkg root hermes)`\
+    `make -j32 install`
 
 3. **Run CUDA unit tests using Jarvis**
    >Jarvis package is used for defining how to run GDS unit test. It is located in **/test/jarvis_hermes/jarvis_hermes/hermes_nvidia_gds_tests**
