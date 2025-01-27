@@ -4,8 +4,9 @@ pkgs:
   - pkg_type: chimaera_run
     pkg_name: chimaera_run
     sleep: 5
-    do_dbg: true
+    do_dbg: false
     dbg_port: 4000
+    port: 6000
     modules: ['hermes_core']
   - pkg_type: hermes_run
     pkg_name: hermes_run
@@ -13,8 +14,8 @@ pkgs:
     dbg_port: 4000
   - pkg_type: hermes_unit_tests
     pkg_name: hermes_unit_tests
-    do_dbg: true
+    do_dbg: false
     dbg_port: 4001
     nprocs: 1
     ppn: 8
-    TEST_CASE: TestHermesAsyncPut # TestHermesPutGet
+    TEST_CASE: TestCuda # TestHermesPutGet

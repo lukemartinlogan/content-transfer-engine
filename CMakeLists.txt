@@ -7,6 +7,8 @@ project(hermes)
 set(HERMES_VERSION_MAJOR 2)
 set(HERMES_VERSION_MINOR 0)
 set(HERMES_VERSION_PATCH 0)
+set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --diag-suppress=20012")
+
 
 # -----------------------------------------------------------------------------
 # Define Options
