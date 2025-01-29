@@ -19,18 +19,22 @@ bool cuFile_Intercepted = true;
 
 #include <cstdio>
 
+#include "hermes_adapters/posix/posix_api.h"
+
 namespace stdfs = std::filesystem;
 
 extern "C" {
 // Interceptor functions
 CUfileError_t cuFileHandleRegister(CUfileHandle_t *fh, CUfileDescr_t *descr) {
   //    printf("Intercepted the REAL API\n");
-  return HERMES_CUFILE_API->cuFileHandleRegister(fh, descr);
+  (*fh) = descr;
+  // return HERMES_CUFILE_API->cuFileHandleRegister(fh, descr);
 }
 
 void cuFileHandleDeregister(CUfileHandle_t fh) {
   //    printf("Intercepted the REAL API\n");
-  HERMES_CUFILE_API->cuFileHandleDeregister(fh);
+  close(((CUfileDescr_t *)fh)->handle.fd);
+  // HERMES_CUFILE_API->cuFileHandleDeregister(fh);
 }
 
 CUfileError_t cuFileBufRegister(const void *buf, size_t size, int flags) {
@@ -46,14 +50,28 @@ CUfileError_t cuFileBufDeregister(const void *buf) {
 ssize_t cuFileRead(CUfileHandle_t fh, void *buf, size_t size, off_t offset,
                    off_t offset2) {
   //    printf("Intercepted the REAL API\n");
-  return HERMES_CUFILE_API->cuFileRead(fh, buf, size, offset, offset2);
+  char *host_data = (char *)malloc(size);
+  CUfileDescr_t *descr = (CUfileDescr_t *)fh;
+  ssize_t ret = read(descr->handle.fd, host_data, size);
+  cudaMemcpy(host_data, buf, size, cudaMemcpyHostToDevice);
+  free(host_data);
+  return ret;
+  // return HERMES_CUFILE_API->cuFileRead(fh, buf, size, offset, offset2);
 }
 
 ssize_t cuFileWrite(CUfileHandle_t fh, const void *buf, size_t size,
                     off_t offset, off_t offset2) {
   //    printf("Intercepted the REAL API\n");
-
-  return HERMES_CUFILE_API->cuFileWrite(fh, buf, size, offset, offset2);
+  // Read data from GPU using cudaMemcpy
+  // FullPtr<char> p = CHI_CLIENT->AllocateBuffer(size);
+  char *host_data = (char *)malloc(size);
+  cudaMemcpy(buf, host_data, size, cudaMemcpyDeviceToHost);
+  // Write data to Hermes
+  CUfileDescr_t *descr = (CUfileDescr_t *)fh;
+  ssize_t ret = write(descr->handle.fd, host_data, size);
+  free(host_data);
+  return ret;
+  // return HERMES_CUFILE_API->cuFileWrite(fh, buf, size, offset, offset2);
 }
 
 long cuFileUseCount() {
