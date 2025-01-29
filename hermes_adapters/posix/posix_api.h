@@ -221,7 +221,7 @@ class PosixApi : public RealApi {
     __xstat64 = (__xstat64_t)dlsym(real_lib_, "__xstat64");
     __lxstat64 = (__lxstat64_t)dlsym(real_lib_, "__lxstat64");
     stat64 = (stat64_t)dlsym(real_lib_, "stat64");
-    fstat64 = (fstat64_t)dlsym(real_lib_, "fstat6464");
+    fstat64 = (fstat64_t)dlsym(real_lib_, "fstat64");
 
     fsync = (fsync_t)dlsym(real_lib_, "fsync");
     REQUIRE_API(fsync)

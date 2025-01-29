@@ -77,8 +77,8 @@ class HermesNvidiaGdsTests(Application):
 
     def test_nvidia_gds_basic(self):
         cmd = 'gds_adapter_basic_test'
-        if self.config['hermes']:
-            cmd = f'hermes_{cmd}'
+        # if self.config['hermes']:
+        #     cmd = f'hermes_{cmd}'
         if self.config['test_case']:
             cmd = (f'{cmd} {self.config["test_case"]}')
             cmd = (f'{cmd} BatchedWriteTemporalFixed,BatchedReadSequentialTemporalFixed')

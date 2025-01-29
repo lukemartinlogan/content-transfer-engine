@@ -696,6 +696,9 @@ class Filesystem : public FilesystemIoClient {
     if (!HERMES_CONF->is_initialized_) {
       return false;
     }
+    if (path.empty()) {
+      return false;
+    }
     std::string abs_path = stdfs::absolute(path).string();
     auto &paths = HERMES_CLIENT_CONF.path_list_;
     // Check if path is included or excluded

@@ -10,3 +10,8 @@
 
  26-01-2025 22:07:08:820 [pid=76482 tid=76482] WARN   0:172 failed to open /proc/driver/nvidia-fs/devcount  error: No such file or directory
  26-01-2025 22:07:08:820 [pid=76482 tid=76482] NOTICE  cufio-drv:705 running in compatible mode
+ 29-01-2025 03:01:51:789 [pid=280671 tid=280671] NOTICE  cufio-drv:830 running in compatible mode
+ 29-01-2025 03:01:52:171 [pid=280671 tid=280671] ERROR  cufio-fs:79 mount option not found in mount table data device: /dev/nvme0n1p6
+ 29-01-2025 03:17:36:454 [pid=283674 tid=283674] NOTICE  cufio-drv:830 running in compatible mode
+ 29-01-2025 03:19:25:889 [pid=284238 tid=284238] NOTICE  cufio-drv:830 running in compatible mode
+ 29-01-2025 03:19:26:384 [pid=284238 tid=284238] ERROR  cufio-fs:79 mount option not found in mount table data device: /dev/nvme0n1p6
