@@ -126,7 +126,7 @@ int main(int argc, char **argv) {
   MPI_Barrier(MPI_COMM_WORLD);
 
   // Initialize Hermes on all nodes
-  HERMES->ClientInit();
+  TRANSPARENT_HERMES();
 
   // Create a stageable bucket
   hermes::Context ctx = hermes::BinaryFileStager::BuildContext(page_size);

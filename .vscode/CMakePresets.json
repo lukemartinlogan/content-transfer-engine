@@ -1,0 +1,42 @@
+// scspkg build profile m=cmake path=.env.cmake
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 19,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "debug",
+            "hidden": false,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_INSTALL_PREFIX": "/home/llogan/.scspkg/packages/hermes_run"
+            }
+        },
+        {
+            "name": "cuda-debug",
+            "hidden": false,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_INSTALL_PREFIX": "/home/llogan/.scspkg/packages/hermes_run",
+                "HERMES_ENABLE_CUDA": "ON"
+            }
+        },
+        {
+            "name": "release",
+            "hidden": false,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_INSTALL_PREFIX": "/home/llogan/.scspkg/packages/hermes_run"
+            }
+        }
+    ]
+}
