@@ -9,6 +9,9 @@ pkgs:
     modules: ['hermes_core']
   - pkg_type: hermes_run
     pkg_name: hermes_run
+  - pkg_type: hermes_api
+    posix: true
+    nvidia_gds: true
   - pkg_type: hermes_nvidia_gds_tests
     pkg_name: hermes_nvidia_gds_tests
     test_file: nvidia_gds_basic

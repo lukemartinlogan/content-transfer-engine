@@ -28,6 +28,9 @@ extern "C" {
 CUfileError_t cuFileHandleRegister(CUfileHandle_t *fh, CUfileDescr_t *descr) {
   //    printf("Intercepted the REAL API\n");
   (*fh) = descr;
+  CUfileError_t ret;
+  ret.err = CU_FILE_SUCCESS;
+  return ret;
   // return HERMES_CUFILE_API->cuFileHandleRegister(fh, descr);
 }
 
@@ -53,7 +56,7 @@ ssize_t cuFileRead(CUfileHandle_t fh, void *buf, size_t size, off_t offset,
   char *host_data = (char *)malloc(size);
   CUfileDescr_t *descr = (CUfileDescr_t *)fh;
   ssize_t ret = read(descr->handle.fd, host_data, size);
-  cudaMemcpy(host_data, buf, size, cudaMemcpyHostToDevice);
+  cudaMemcpy(buf, host_data, size, cudaMemcpyHostToDevice);
   free(host_data);
   return ret;
   // return HERMES_CUFILE_API->cuFileRead(fh, buf, size, offset, offset2);
@@ -65,7 +68,7 @@ ssize_t cuFileWrite(CUfileHandle_t fh, const void *buf, size_t size,
   // Read data from GPU using cudaMemcpy
   // FullPtr<char> p = CHI_CLIENT->AllocateBuffer(size);
   char *host_data = (char *)malloc(size);
-  cudaMemcpy(buf, host_data, size, cudaMemcpyDeviceToHost);
+  cudaMemcpy(host_data, buf, size, cudaMemcpyDeviceToHost);
   // Write data to Hermes
   CUfileDescr_t *descr = (CUfileDescr_t *)fh;
   ssize_t ret = write(descr->handle.fd, host_data, size);
