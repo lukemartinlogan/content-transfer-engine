@@ -83,6 +83,7 @@ class HermesUnitTests(Application):
         test_latency_execs = ['TestRoundTripLatency',
                               'TestHshmQueueAllocateEmplacePop',
                               'TestWorkerLatency']
+        test_cuda_execs = ['TestCuda']
         test_ping_pong = ['TestPingPong']
         print(self.config['TEST_CASE'])
         if self.config['TEST_CASE'] in test_config_execs:
@@ -122,6 +123,15 @@ class HermesUnitTests(Application):
                 MpiExecInfo(nprocs=2,
                             ppn=2,
                             env=self.env,
+                             do_dbg=self.config['do_dbg'],
+                             dbg_port=self.config['dbg_port']))
+                             
+        elif self.config['TEST_CASE'] in test_cuda_execs:
+            Exec(f'test_bucket_cuda',
+                 MpiExecInfo(hostfile=self.jarvis.hostfile,
+                             nprocs=nprocs,
+                             ppn=self.config['ppn'],
+                             env=self.env,
                              do_dbg=self.config['do_dbg'],
                              dbg_port=self.config['dbg_port']))
 
