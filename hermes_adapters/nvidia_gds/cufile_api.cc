@@ -28,7 +28,7 @@ extern "C" {
 CUfileError_t cuFileHandleRegister(CUfileHandle_t *fh, CUfileDescr_t *descr) {
   //    printf("Intercepted the REAL API\n");
   (*fh) = descr;
-  CUfileError_t ret;
+  CuFileErr_t ret;
   ret.err = CU_FILE_SUCCESS;
   return ret;
   // return HERMES_CUFILE_API->cuFileHandleRegister(fh, descr);

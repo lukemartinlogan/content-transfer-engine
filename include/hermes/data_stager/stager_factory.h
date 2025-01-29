@@ -26,7 +26,7 @@ class StagerFactory {
     } else if (protocol == "hdf5") {
     }
 #ifdef HERMES_ENABLE_NVIDIA_GDS_ADAPTER
-    if (protocol == "nvidia_gds") {
+    else if (protocol == "nvidia_gds") {
       stager = std::make_unique<NvidiaGdsStager>();
     }
 #endif

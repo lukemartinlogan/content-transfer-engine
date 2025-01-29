@@ -18,7 +18,7 @@
 #endif
 
 #include <ftw.h>
-#include <mpi.h>
+// #include <mpi.h>
 
 #include <filesystem>
 #include <future>
@@ -367,7 +367,7 @@ class Filesystem : public FilesystemIoClient {
       }
       default: {
         HELOG(kError, "Invalid seek mode");
-        return -1;
+        return (size_t)-1;
       }
     }
     mdm->Update(f, stat);
@@ -624,7 +624,7 @@ class Filesystem : public FilesystemIoClient {
     auto stat = mdm->Find(f);
     if (!stat) {
       stat_exists = false;
-      return -1;
+      return (size_t)-1;
     }
     stat_exists = true;
     return Seek(f, *stat, whence, offset);
@@ -636,7 +636,7 @@ class Filesystem : public FilesystemIoClient {
     auto stat = mdm->Find(f);
     if (!stat) {
       stat_exists = false;
-      return -1;
+      return (size_t)-1;
     }
     stat_exists = true;
     return GetSize(f, *stat);
@@ -648,7 +648,7 @@ class Filesystem : public FilesystemIoClient {
     auto stat = mdm->Find(f);
     if (!stat) {
       stat_exists = false;
-      return -1;
+      return (size_t)-1;
     }
     stat_exists = true;
     return Tell(f, *stat);

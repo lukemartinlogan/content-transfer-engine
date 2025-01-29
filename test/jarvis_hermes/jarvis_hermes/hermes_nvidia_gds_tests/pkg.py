@@ -130,6 +130,15 @@ class HermesNvidiaGdsTests(Application):
         """
         pass
 
+    def kill(self):
+        """
+        Kill a running application. E.g., OrangeFS will terminate the servers,
+        clients, and metadata services.
+
+        :return: None
+        """
+        Kill('gds_adapter_basic_test', LocalExecInfo(env=self.env))
+
     def clean(self):
         """
         Destroy all data for an application. E.g., OrangeFS will delete all

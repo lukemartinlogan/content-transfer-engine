@@ -122,3 +122,5 @@ class HermesApi(Interceptor):
                 str(pathlib.Path(self.env['HERMES_VFD']).parent))
             self.setenv('HDF5_PLUGIN_PATH', plugin_path_parent)
             self.setenv('HDF5_DRIVER', 'hdf5_hermes_vfd')
+        if self.config['nvidia_gds']:
+            self.append_env('LD_PRELOAD', self.env['HERMES_NVIDIA_GDS'])
