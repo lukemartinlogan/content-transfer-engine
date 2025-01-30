@@ -20,8 +20,8 @@
 #include <iostream>
 #include <string>
 
-#include "hermes_adapters/real_api.h"
 #include "hermes_shm/util/logging.h"
+#include "hermes_shm/util/real_api.h"
 
 #ifndef O_TMPFILE
 #define O_TMPFILE 0
@@ -95,6 +95,10 @@ typedef int (*ftruncate64_t)(int fd, off64_t length);
 }
 
 namespace hermes::adapter {
+
+template <typename PosixT>
+using PreloadProgress = hshm::PreloadProgress<PosixT>;
+using hshm::RealApi;
 
 /** Used for compatability with older kernel versions */
 static int fxstat_to_fstat(int fd, struct stat *stbuf);
@@ -240,12 +244,12 @@ class PosixApi : public RealApi {
   }
 
   bool IsInterceptorLoaded() {
-    is_loaded_ = true;
-    // if (is_loaded_) {
-    //   return true;
-    // }
-    // InterceptorApi<PosixApi> check("open", "posix_intercepted");
-    // is_loaded_ = check.is_loaded_;
+    // is_loaded_ = true;
+    if (is_loaded_) {
+      return true;
+    }
+    PreloadProgress<PosixApi> check(*this);
+    is_loaded_ = check.is_loaded_;
     return is_loaded_;
   }
 };
