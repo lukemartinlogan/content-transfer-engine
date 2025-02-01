@@ -19,7 +19,7 @@
 #include <string>
 
 #include "hermes_shm/util/logging.h"
-#include "hermes_shm/util/real_api/real_api.h"
+#include "hermes_shm/util/real_api.h"
 
 extern "C" {
 typedef FILE* (*fopen_t)(const char* path, const char* mode);

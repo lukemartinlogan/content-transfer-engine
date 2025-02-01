@@ -13,23 +13,64 @@ namespace hermes {
 #include "hermes_core_methods.h"
 CHI_NAMESPACE_INIT
 
+/** Hash tag name */
 template <typename StringT>
-static inline u32 HashBucketName(const StringT &bucket_name) {
+static inline u32 HashTagName(const StringT &tag_name) {
   u32 h1 = 0;
-  for (size_t i = 0; i < bucket_name.size(); ++i) {
+  for (size_t i = 0; i < tag_name.size(); ++i) {
     auto shift = static_cast<u32>(i % sizeof(u32));
-    auto c = static_cast<u32>((unsigned char)bucket_name[i]);
+    auto c = static_cast<u32>((unsigned char)tag_name[i]);
     h1 = 31 * h1 + (c << shift);
   }
-  return std::hash<u32>{}(h1);
+  return hshm::hash<u32>{}(h1);
 }
 
+/** Hash tag name or ID */
+template <typename StringT>
+static inline u32 HashTagNameOrId(const TagId &tag_id,
+                                  const StringT &tag_name) {
+  if (tag_name.size() > 0) {
+    return HashTagName(tag_name);
+  }
+  return tag_id.hash_;
+}
+
+/** Hash blob name + TagId */
 template <typename StringT>
 static inline u32 HashBlobName(const TagId &tag_id, const StringT &blob_name) {
-  u32 h1 = HashBucketName(blob_name);
-  u32 h2 = std::hash<TagId>{}(tag_id);
-  return std::hash<u32>{}(h1 ^ h2);
+  u32 h1 = HashTagName(blob_name);
+  u32 h2 = hshm::hash<TagId>{}(tag_id);
+  return hshm::hash<u32>{}(h1 ^ h2);
 }
+
+/** Hash by blob name or ID */
+template <typename StringT>
+static inline u32 HashBlobNameOrId(const TagId &tag_id,
+                                   const StringT &blob_name,
+                                   const BlobId &blob_id) {
+  if (blob_name.size() > 0) {
+    return HashBlobName(tag_id, blob_name);
+  }
+  return blob_id.hash_;
+}
+
+/** Blob with ID */
+class BlobWithId {};
+
+/** Blob with name */
+class BlobWithName {};
+
+/** Blob with ID and name */
+class BlobWithIdAndName {};
+
+/** Tag with ID */
+class TagWithId {};
+
+/** Tag with name */
+class TagWithName {};
+
+/** Tag with ID and name */
+class TagWithIdAndName {};
 
 /**
  * A task to create hermes_core
@@ -58,7 +99,7 @@ typedef chi::Admin::DestroyContainerTask DestroyTask;
 /**
  * Create a tag
  * */
-struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithName {
   IN chi::ipc::string tag_name_;
   IN chi::ipc::string params_;
   IN bool blob_owner_;
@@ -116,7 +157,7 @@ struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** A task to get a tag id */
-struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithName {
   IN chi::ipc::string tag_name_;
   OUT TagId tag_id_;
 
@@ -160,7 +201,7 @@ struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** A task to get a tag name */
-struct GetTagNameTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct GetTagNameTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   IN TagId tag_id_;
   OUT chi::ipc::string tag_name_;
 
@@ -206,7 +247,7 @@ struct GetTagNameTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** A task to destroy a tag */
-struct DestroyTagTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct DestroyTagTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   IN TagId tag_id_;
 
   /** SHM default constructor */
@@ -248,7 +289,7 @@ struct DestroyTagTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** A task to add a blob to the tag */
-struct TagAddBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct TagAddBlobTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   IN TagId tag_id_;
   IN BlobId blob_id_;
 
@@ -294,7 +335,7 @@ struct TagAddBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** A task to remove a blob from a tag */
-struct TagRemoveBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct TagRemoveBlobTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   IN TagId tag_id_;
   IN BlobId blob_id_;
 
@@ -340,7 +381,7 @@ struct TagRemoveBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** A task to destroy all blobs in the tag */
-struct TagClearBlobsTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct TagClearBlobsTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   IN TagId tag_id_;
 
   /** SHM default constructor */
@@ -382,7 +423,7 @@ struct TagClearBlobsTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** A task to destroy all blobs in the tag */
-struct TagGetSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct TagGetSizeTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   IN TagId tag_id_;
   OUT size_t size_;
 
@@ -428,7 +469,7 @@ struct TagGetSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** A task to destroy all blobs in the tag */
-struct TagUpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct TagUpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   IN TagId tag_id_;
   IN ssize_t update_;
   IN int mode_;
@@ -477,7 +518,9 @@ struct TagUpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** A task to destroy all blobs in the tag */
-struct TagGetContainedBlobIdsTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct TagGetContainedBlobIdsTask : public Task,
+                                    TaskFlags<TF_SRL_SYM>,
+                                    TagWithId {
   IN TagId tag_id_;
   OUT hipc::vector<BlobId> blob_ids_;
 
@@ -523,7 +566,7 @@ struct TagGetContainedBlobIdsTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** The TagFlushTask task */
-struct TagFlushTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct TagFlushTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   IN TagId tag_id_;
 
   /** SHM default constructor */
@@ -580,7 +623,9 @@ struct TagFlushTask : public Task, TaskFlags<TF_SRL_SYM> {
 /**
  * Get \a blob_name BLOB from \a bkt_id bucket
  * */
-struct GetOrCreateBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct GetOrCreateBlobIdTask : public Task,
+                               TaskFlags<TF_SRL_SYM>,
+                               BlobWithName {
   IN TagId tag_id_;
   IN chi::string blob_name_;
   OUT BlobId blob_id_;
@@ -632,7 +677,7 @@ struct GetOrCreateBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
 /**
  * Get \a blob_name BLOB from \a bkt_id bucket
  * */
-struct GetBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct GetBlobIdTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithName {
   IN TagId tag_id_;
   IN chi::string blob_name_;
   OUT BlobId blob_id_;
@@ -683,7 +728,7 @@ struct GetBlobIdTask : public Task, TaskFlags<TF_SRL_SYM> {
 /**
  * Get \a blob_name BLOB name from \a blob_id BLOB id
  * */
-struct GetBlobNameTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct GetBlobNameTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN TagId tag_id_;
   IN BlobId blob_id_;
   OUT chi::ipc::string blob_name_;
@@ -734,7 +779,7 @@ struct GetBlobNameTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** Get \a score from \a blob_id BLOB id */
-struct GetBlobSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct GetBlobSizeTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN TagId tag_id_;
   IN chi::string blob_name_;
   IN BlobId blob_id_;
@@ -786,7 +831,7 @@ struct GetBlobSizeTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** Get \a score from \a blob_id BLOB id */
-struct GetBlobScoreTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct GetBlobScoreTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN TagId tag_id_;
   IN BlobId blob_id_;
   OUT float score_;
@@ -836,7 +881,7 @@ struct GetBlobScoreTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** Get \a blob_id blob's buffers */
-struct GetBlobBuffersTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct GetBlobBuffersTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN TagId tag_id_;
   IN BlobId blob_id_;
   OUT hipc::vector<BufferInfo> buffers_;
@@ -888,7 +933,7 @@ struct GetBlobBuffersTask : public Task, TaskFlags<TF_SRL_SYM> {
 /**
  * Check if blob has a tag
  * */
-struct BlobHasTagTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct BlobHasTagTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN TagId tag_id_;
   IN BlobId blob_id_;
   IN TagId tag_;
@@ -942,7 +987,7 @@ struct BlobHasTagTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** A task to truncate a blob */
-struct TruncateBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct TruncateBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN TagId tag_id_;
   IN BlobId blob_id_;
   IN u64 size_;
@@ -991,7 +1036,7 @@ struct TruncateBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** A task to destroy a blob */
-struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   CLS_CONST u32 kKeepInTag = BIT_OPT(u32, 0);
 
   IN TagId tag_id_;
@@ -1042,7 +1087,7 @@ struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** A task to reorganize a blob's composition in the hierarchy */
-struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN chi::string blob_name_;
   IN TagId tag_id_;
   IN BlobId blob_id_;
@@ -1101,7 +1146,7 @@ struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** The FlushBlobTask task */
-struct FlushBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct FlushBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN BlobId blob_id_;
 
   /** SHM default constructor */
@@ -1140,7 +1185,7 @@ struct FlushBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** A task to tag a blob */
-struct TagBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct TagBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN TagId tag_id_;
   IN BlobId blob_id_;
   IN TagId tag_;
@@ -1190,15 +1235,15 @@ struct TagBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** A task to put data in a blob */
-struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   IN TagId tag_id_;
   IN chi::string blob_name_;
+  IN BlobId blob_id_;
   IN size_t blob_off_;
   IN size_t data_size_;
   IN hipc::Pointer data_;
   IN float score_;
   IN bitfield32_t flags_;
-  IN BlobId blob_id_;
 
   /** SHM default constructor */
   HSHM_INLINE explicit PutBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
@@ -1268,7 +1313,7 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** A task to get data from a blob */
-struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM> {
+struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   IN TagId tag_id_;
   IN chi::string blob_name_;
   INOUT BlobId blob_id_;

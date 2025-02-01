@@ -18,4 +18,4 @@ pkgs:
     dbg_port: 4001
     nprocs: 1
     ppn: 8
-    TEST_CASE: TestHermesPutGet
+    TEST_CASE: TestCuda # TestHermesPutGet
