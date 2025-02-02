@@ -217,6 +217,7 @@ class Server : public Module {
     task->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers,
         HashBlobNameOrId(tag_id, blob_name, blob_id));
+    task->SetDirect();
     task->UnsetRouted();
   }
 
@@ -239,7 +240,7 @@ class Server : public Module {
     task_dup->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers,
         HashBlobNameOrId(tag_id, blob_name, blob_id));
-    CHI_CLIENT->ScheduleTask(task, task_dup);
+    task->SetDirect();
     task->UnsetRouted();
   }
 
@@ -260,7 +261,7 @@ class Server : public Module {
     FullPtr<TaskT> task_dup = CHI_CLIENT->NewCopyTask<TaskT>(task, false);
     task_dup->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
-    CHI_CLIENT->ScheduleTask(task, task_dup);
+    task->SetDirect();
     task->UnsetRouted();
   }
 
@@ -281,9 +282,18 @@ class Server : public Module {
     FullPtr<TaskT> task_dup = CHI_CLIENT->NewCopyTask<TaskT>(task, false);
     task_dup->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
-    CHI_CLIENT->ScheduleTask(task, task_dup);
+    task->SetDirect();
     task->UnsetRouted();
   }
+
+  void PutBlobBegin(PutBlobTask *task, char *data, size_t data_size,
+                    RunContext &rctx) {}
+
+  void PutBlobEnd(PutBlobTask *task, RunContext &rctx) {}
+
+  void GetBlobBegin(GetBlobTask *task, RunContext &rctx) {}
+
+  void GetBlobEnd(GetBlobTask *task, RunContext &rctx) {}
 
   void PutBlobBegin(PutBlobTask *task, char *data, size_t data_size,
                     RunContext &rctx) {}
