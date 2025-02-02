@@ -56,9 +56,8 @@ class Hermes {
 
   /** Get tag id */
   TagId GetTagId(const hipc::MemContext &mctx, const std::string &tag_name) {
-    return HERMES_CONF->mdm_.GetTagId(
-        mctx, DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        chi::string(tag_name));
+    return HERMES_CONF->mdm_.GetTagId(mctx, DomainQuery::GetDynamic(),
+                                      chi::string(tag_name));
   }
 
   /** Get or create a bucket */

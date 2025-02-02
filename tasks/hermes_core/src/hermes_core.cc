@@ -130,7 +130,7 @@ class Server : public Module {
   void MonitorCreate(MonitorModeId mode, CreateTask *task, RunContext &rctx) {}
 
   /** Route a task to a lane */
-  Lane *Route(const Task *task) override {
+  Lane *MapTaskToLane(const Task *task) override {
     // Route tasks to lanes based on their properties
     // E.g., a strongly consistent filesystem could map tasks to a lane
     // by the hash of an absolute filename path.
@@ -200,7 +200,7 @@ class Server : public Module {
   }
 
   template <typename TaskT>
-  bool BlobCacheWriteRoute(TaskT *task) {
+  void BlobCacheWriteRoute(TaskT *task) {
     std::string blob_name;
     BlobId blob_id(BlobId::GetNull());
     TagId tag_id(task->tag_id_);
@@ -212,18 +212,16 @@ class Server : public Module {
     }
     BlobInfo *blob_info = GetBlobInfo(blob_name, blob_id);
     if (blob_info || task->IsDirect()) {
-      return false;
+      return;
     }
-    FullPtr<TaskT> task_dup = CHI_CLIENT->NewCopyTask<TaskT>(task, false);
-    task_dup->dom_query_ = chi::DomainQuery::GetDirectHash(
+    task->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers,
         HashBlobNameOrId(tag_id, blob_name, blob_id));
-    CHI_CLIENT->ScheduleTask(task, task_dup);
-    return true;
+    task->UnsetRouted();
   }
 
   template <typename TaskT>
-  bool BlobCacheReadRoute(TaskT *task) {
+  void BlobCacheReadRoute(TaskT *task) {
     std::string blob_name;
     BlobId blob_id(BlobId::GetNull());
     TagId tag_id(task->tag_id_);
@@ -235,18 +233,18 @@ class Server : public Module {
     }
     BlobInfo *blob_info = GetBlobInfo(blob_name, blob_id);
     if (blob_info || task->IsDirect()) {
-      return false;
+      return;
     }
     FullPtr<TaskT> task_dup = CHI_CLIENT->NewCopyTask<TaskT>(task, false);
     task_dup->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers,
         HashBlobNameOrId(tag_id, blob_name, blob_id));
     CHI_CLIENT->ScheduleTask(task, task_dup);
-    return true;
+    task->UnsetRouted();
   }
 
   template <typename TaskT>
-  bool TagCacheWriteRoute(TaskT *task) {
+  void TagCacheWriteRoute(TaskT *task) {
     std::string tag_name;
     TagId tag_id(TagId::GetNull());
     if constexpr (std::is_base_of_v<TaskT, TagWithId>) {
@@ -257,17 +255,17 @@ class Server : public Module {
     }
     TagInfo *tag_info = GetTagInfo(tag_name, tag_id);
     if (tag_info || task->IsDirect()) {
-      return false;
+      return;
     }
     FullPtr<TaskT> task_dup = CHI_CLIENT->NewCopyTask<TaskT>(task, false);
     task_dup->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
     CHI_CLIENT->ScheduleTask(task, task_dup);
-    return true;
+    task->UnsetRouted();
   }
 
   template <typename TaskT>
-  bool TagCacheReadRoute(TaskT *task) {
+  void TagCacheReadRoute(TaskT *task) {
     std::string tag_name;
     TagId tag_id(TagId::GetNull());
     if constexpr (std::is_base_of_v<TaskT, TagWithId>) {
@@ -278,13 +276,13 @@ class Server : public Module {
     }
     TagInfo *tag_info = GetTagInfo(tag_name, tag_id);
     if (tag_info || task->IsDirect()) {
-      return false;
+      return;
     }
     FullPtr<TaskT> task_dup = CHI_CLIENT->NewCopyTask<TaskT>(task, false);
     task_dup->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
     CHI_CLIENT->ScheduleTask(task, task_dup);
-    return true;
+    task->UnsetRouted();
   }
 
   void PutBlobBegin(PutBlobTask *task, char *data, size_t data_size,
@@ -306,11 +304,6 @@ class Server : public Module {
   void GetOrCreateTag(GetOrCreateTagTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
-    // Check if the tag exists
-    if (TagCacheWriteRoute<GetOrCreateTagTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     TAG_ID_MAP_T &tag_id_map = tls.tag_id_map_;
     TAG_MAP_T &tag_map = tls.tag_map_;
     chi::string tag_name(task->tag_name_);
@@ -357,16 +350,18 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorGetOrCreateTag(MonitorModeId mode, GetOrCreateTagTask *task,
-                             RunContext &rctx) {}
-
+                             RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        TagCacheWriteRoute<GetOrCreateTagTask>(task);
+        return;
+      }
+    }
+  }
   /** Get an existing tag ID */
   void GetTagId(GetTagIdTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
-    if (TagCacheReadRoute<GetTagIdTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     TAG_ID_MAP_T &tag_id_map = tls.tag_id_map_;
     chi::string tag_name(task->tag_name_);
     auto it = tag_id_map.find(tag_name);
@@ -379,16 +374,19 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorGetTagId(MonitorModeId mode, GetTagIdTask *task,
-                       RunContext &rctx) {}
+                       RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        TagCacheReadRoute<GetTagIdTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Get the name of a tag */
   void GetTagName(GetTagNameTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
-    if (TagCacheReadRoute<GetTagNameTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
@@ -399,16 +397,19 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorGetTagName(MonitorModeId mode, GetTagNameTask *task,
-                         RunContext &rctx) {}
+                         RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        TagCacheReadRoute<GetTagNameTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Destroy a tag */
   void DestroyTag(DestroyTagTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwWriteLock tag_map_lock(tls.tag_map_lock_);
-    if (TagCacheWriteRoute<DestroyTagTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
@@ -438,16 +439,19 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorDestroyTag(MonitorModeId mode, DestroyTagTask *task,
-                         RunContext &rctx) {}
+                         RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        TagCacheWriteRoute<DestroyTagTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Add a blob to the tag */
   void TagAddBlob(TagAddBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
-    if (TagCacheWriteRoute<TagAddBlobTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
@@ -459,16 +463,19 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorTagAddBlob(MonitorModeId mode, TagAddBlobTask *task,
-                         RunContext &rctx) {}
+                         RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        TagCacheWriteRoute<TagAddBlobTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Remove a blob from the tag */
   void TagRemoveBlob(TagRemoveBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
-    if (TagCacheWriteRoute<TagRemoveBlobTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
@@ -482,16 +489,19 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorTagRemoveBlob(MonitorModeId mode, TagRemoveBlobTask *task,
-                            RunContext &rctx) {}
+                            RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        TagCacheWriteRoute<TagRemoveBlobTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Clear blobs from the tag */
   void TagClearBlobs(TagClearBlobsTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
-    if (TagCacheWriteRoute<TagClearBlobsTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
@@ -514,16 +524,19 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorTagClearBlobs(MonitorModeId mode, TagClearBlobsTask *task,
-                            RunContext &rctx) {}
+                            RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        TagCacheWriteRoute<TagClearBlobsTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Get the size of a tag */
   void TagGetSize(TagGetSizeTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
-    if (TagCacheReadRoute<TagGetSizeTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
@@ -536,16 +549,19 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorTagGetSize(MonitorModeId mode, TagGetSizeTask *task,
-                         RunContext &rctx) {}
+                         RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        TagCacheReadRoute<TagGetSizeTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Update the size of a tag */
   void TagUpdateSize(TagUpdateSizeTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
-    if (TagCacheWriteRoute<TagUpdateSizeTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     TAG_MAP_T &tag_map = tls.tag_map_;
     TagInfo &tag = tag_map[task->tag_id_];
     ssize_t internal_size = (ssize_t)tag.internal_size_;
@@ -562,17 +578,20 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorTagUpdateSize(MonitorModeId mode, TagUpdateSizeTask *task,
-                            RunContext &rctx) {}
+                            RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        TagCacheWriteRoute<TagUpdateSizeTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Get the set of blobs in the tag */
   void TagGetContainedBlobIds(TagGetContainedBlobIdsTask *task,
                               RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
-    if (TagCacheReadRoute<TagGetContainedBlobIdsTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
@@ -589,7 +608,14 @@ class Server : public Module {
   }
   void MonitorTagGetContainedBlobIds(MonitorModeId mode,
                                      TagGetContainedBlobIdsTask *task,
-                                     RunContext &rctx) {}
+                                     RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        TagCacheReadRoute<TagGetContainedBlobIdsTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Flush tag */
   void TagFlush(TagFlushTask *task, RunContext &rctx) {
@@ -598,7 +624,6 @@ class Server : public Module {
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
-      task->SetModuleComplete();
       return;
     }
     TagInfo &tag = it->second;
@@ -650,10 +675,6 @@ class Server : public Module {
   void GetOrCreateBlobId(GetOrCreateBlobIdTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
-    if (BlobCacheReadRoute<GetOrCreateBlobIdTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     chi::string blob_name(task->blob_name_);
     bitfield32_t flags;
     task->blob_id_ = GetOrCreateBlobId(tls, task->tag_id_,
@@ -662,16 +683,19 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorGetOrCreateBlobId(MonitorModeId mode, GetOrCreateBlobIdTask *task,
-                                RunContext &rctx) {}
+                                RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        BlobCacheReadRoute<GetOrCreateBlobIdTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Get the blob ID */
   void GetBlobId(GetBlobIdTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
-    if (BlobCacheReadRoute<GetBlobIdTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     chi::string blob_name(task->blob_name_);
     chi::string blob_name_unique =
         GetBlobNameWithBucket(task->tag_id_, blob_name);
@@ -688,16 +712,19 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorGetBlobId(MonitorModeId mode, GetBlobIdTask *task,
-                        RunContext &rctx) {}
+                        RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        BlobCacheReadRoute<GetBlobIdTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Get blob name */
   void GetBlobName(GetBlobNameTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
-    if (BlobCacheReadRoute<GetBlobNameTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
@@ -709,16 +736,19 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorGetBlobName(MonitorModeId mode, GetBlobNameTask *task,
-                          RunContext &rctx) {}
+                          RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        BlobCacheReadRoute<GetBlobNameTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Get the blob size */
   void GetBlobSize(GetBlobSizeTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
-    if (BlobCacheReadRoute<GetBlobSizeTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     if (task->blob_id_.IsNull()) {
       bitfield32_t flags;
       task->blob_id_ = GetOrCreateBlobId(
@@ -737,16 +767,19 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorGetBlobSize(MonitorModeId mode, GetBlobSizeTask *task,
-                          RunContext &rctx) {}
+                          RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        BlobCacheReadRoute<GetBlobSizeTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Get the score of a blob */
   void GetBlobScore(GetBlobScoreTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
-    if (BlobCacheReadRoute<GetBlobScoreTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
@@ -758,16 +791,19 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorGetBlobScore(MonitorModeId mode, GetBlobScoreTask *task,
-                           RunContext &rctx) {}
+                           RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        BlobCacheReadRoute<GetBlobScoreTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Get blob buffers */
   void GetBlobBuffers(GetBlobBuffersTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
-    if (BlobCacheReadRoute<GetBlobBuffersTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
@@ -779,16 +815,19 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorGetBlobBuffers(MonitorModeId mode, GetBlobBuffersTask *task,
-                             RunContext &rctx) {}
+                             RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        BlobCacheReadRoute<GetBlobBuffersTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Put a blob */
   void PutBlob(PutBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
-    if (BlobCacheWriteRoute<PutBlobTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     // Get blob ID
     chi::string blob_name(task->blob_name_);
     if (task->blob_id_.IsNull()) {
@@ -965,16 +1004,18 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorPutBlob(MonitorModeId mode, PutBlobTask *task, RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        BlobCacheWriteRoute<PutBlobTask>(task);
+        return;
+      }
+    }
   }
 
   /** Get a blob */
   void GetBlob(GetBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
-    if (BlobCacheReadRoute<GetBlobTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     // Get blob struct
     if (task->blob_id_.IsNull()) {
       chi::string blob_name(task->blob_name_);
@@ -1051,6 +1092,12 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorGetBlob(MonitorModeId mode, GetBlobTask *task, RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        BlobCacheReadRoute<GetBlobTask>(task);
+        return;
+      }
+    }
   }
 
   /** Truncate a blob (TODO) */
@@ -1065,10 +1112,6 @@ class Server : public Module {
   void DestroyBlob(DestroyBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwWriteLock blob_map_lock(tls.blob_map_lock_);
-    if (BlobCacheWriteRoute<DestroyBlobTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
@@ -1099,16 +1142,19 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorDestroyBlob(MonitorModeId mode, DestroyBlobTask *task,
-                          RunContext &rctx) {}
+                          RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        BlobCacheWriteRoute<DestroyBlobTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Tag a blob */
   void TagBlob(TagBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
-    if (BlobCacheWriteRoute<TagBlobTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
@@ -1120,16 +1166,18 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorTagBlob(MonitorModeId mode, TagBlobTask *task, RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        BlobCacheWriteRoute<TagBlobTask>(task);
+        return;
+      }
+    }
   }
 
   /** Check if blob has a tag */
   void BlobHasTag(BlobHasTagTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
-    if (BlobCacheReadRoute<BlobHasTagTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
@@ -1142,16 +1190,19 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorBlobHasTag(MonitorModeId mode, BlobHasTagTask *task,
-                         RunContext &rctx) {}
+                         RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        BlobCacheReadRoute<BlobHasTagTask>(task);
+        return;
+      }
+    }
+  }
 
   /** Change blob composition */
   void ReorganizeBlob(ReorganizeBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
-    if (BlobCacheWriteRoute<ReorganizeBlobTask>(task)) {
-      task->SetModuleComplete();
-      return;
-    }
     BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
     BLOB_MAP_T &blob_map = tls.blob_map_;
     // Get blob ID
@@ -1198,7 +1249,14 @@ class Server : public Module {
     task->SetModuleComplete();
   }
   void MonitorReorganizeBlob(MonitorModeId mode, ReorganizeBlobTask *task,
-                             RunContext &rctx) {}
+                             RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kSchedule: {
+        BlobCacheWriteRoute<ReorganizeBlobTask>(task);
+        return;
+      }
+    }
+  }
 
   /** FlushBlob */
   void _FlushBlob(HermesLane &tls, BlobId blob_id, RunContext &rctx) {

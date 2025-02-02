@@ -43,10 +43,9 @@ class Bucket {
                   size_t backend_size = 0, u32 flags = 0) {
     mctx_ = mctx;
     mdm_ = &HERMES_CONF->mdm_;
-    id_ = mdm_->GetOrCreateTag(
-        mctx_,
-        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        chi::string(bkt_name), true, backend_size, flags);
+    id_ =
+        mdm_->GetOrCreateTag(mctx_, chi::DomainQuery::GetDynamic(),
+                             chi::string(bkt_name), true, backend_size, flags);
     name_ = bkt_name;
   }
 
@@ -61,10 +60,9 @@ class Bucket {
     mctx_ = mctx;
     mdm_ = &HERMES_CONF->mdm_;
     chi::string x;
-    id_ = mdm_->GetOrCreateTag(
-        mctx_,
-        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        chi::string(bkt_name), true, backend_size, flags, ctx);
+    id_ = mdm_->GetOrCreateTag(mctx_, chi::DomainQuery::GetDynamic(),
+                               chi::string(bkt_name), true, backend_size, flags,
+                               ctx);
     name_ = bkt_name;
   }
 
@@ -119,9 +117,7 @@ class Bucket {
    * Get the current size of the bucket
    * */
   size_t GetSize() {
-    return mdm_->GetSize(
-        mctx_,
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_);
+    return mdm_->GetSize(mctx_, DomainQuery::GetDynamic(), id_);
   }
 
   /**
@@ -141,20 +137,12 @@ class Bucket {
   /**
    * Clears the buckets contents, but doesn't destroy its metadata
    * */
-  void Clear() {
-    mdm_->TagClearBlobs(
-        mctx_,
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_);
-  }
+  void Clear() { mdm_->TagClearBlobs(mctx_, DomainQuery::GetDynamic(), id_); }
 
   /**
    * Destroys this bucket along with all its contents.
    * */
-  void Destroy() {
-    mdm_->DestroyTag(
-        mctx_,
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_);
-  }
+  void Destroy() { mdm_->DestroyTag(mctx_, DomainQuery::GetDynamic(), id_); }
 
   /**
    * Check if this bucket is valid
@@ -174,10 +162,8 @@ class Bucket {
    * @return
    * */
   BlobId GetBlobId(const std::string &blob_name) {
-    return mdm_->GetBlobId(
-        mctx_,
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_,
-        chi::string(blob_name));
+    return mdm_->GetBlobId(mctx_, DomainQuery::GetDynamic(), id_,
+                           chi::string(blob_name));
   }
 
   /**
@@ -188,10 +174,7 @@ class Bucket {
    * @return The Status of the operation
    * */
   std::string GetBlobName(const BlobId &blob_id) {
-    return mdm_->GetBlobName(
-        mctx_,
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_,
-        blob_id);
+    return mdm_->GetBlobName(mctx_, DomainQuery::GetDynamic(), id_, blob_id);
   }
 
   /**
@@ -201,20 +184,14 @@ class Bucket {
    * @return The Status of the operation
    * */
   float GetBlobScore(const BlobId &blob_id) {
-    return mdm_->GetBlobScore(
-        mctx_,
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_,
-        blob_id);
+    return mdm_->GetBlobScore(mctx_, DomainQuery::GetDynamic(), id_, blob_id);
   }
 
   /**
    * Label \a blob_id blob with \a tag_name TAG
    * */
   Status TagBlob(BlobId &blob_id, TagId &tag_id) {
-    mdm_->TagAddBlob(
-        mctx_,
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        tag_id, blob_id);
+    mdm_->TagAddBlob(mctx_, DomainQuery::GetDynamic(), tag_id, blob_id);
     return Status();
   }
 
@@ -243,11 +220,10 @@ class Bucket {
       hermes_flags.SetBits(HERMES_BLOB_REPLACE);
     }
     FullPtr<PutBlobTask> task;
-    task = mdm_->AsyncPutBlob(
-        mctx_,
-        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, blob_name_buf, blob_id, blob_off, blob_size, blob.shm_,
-        ctx.blob_score_, task_flags.bits_, hermes_flags.bits_, ctx);
+    task = mdm_->AsyncPutBlob(mctx_, chi::DomainQuery::GetDynamic(), id_,
+                              blob_name_buf, blob_id, blob_off, blob_size,
+                              blob.shm_, ctx.blob_score_, task_flags.bits_,
+                              hermes_flags.bits_, ctx);
     if constexpr (!ASYNC) {
       if (hermes_flags.Any(HERMES_GET_BLOB_ID)) {
         task->Wait();
@@ -391,10 +367,9 @@ class Bucket {
    * */
   void ReorganizeBlob(const std::string &name, float score,
                       const Context &ctx = Context()) {
-    mdm_->AsyncReorganizeBlob(
-        mctx_,
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_,
-        chi::string(name), BlobId::GetNull(), score, true, ctx);
+    mdm_->AsyncReorganizeBlob(mctx_, DomainQuery::GetDynamic(), id_,
+                              chi::string(name), BlobId::GetNull(), score, true,
+                              ctx);
   }
 
   /**
@@ -402,10 +377,8 @@ class Bucket {
    * */
   void ReorganizeBlob(const BlobId &blob_id, float score,
                       const Context &ctx = Context()) {
-    mdm_->AsyncReorganizeBlob(
-        mctx_,
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_,
-        chi::string(""), blob_id, score, true, ctx);
+    mdm_->AsyncReorganizeBlob(mctx_, DomainQuery::GetDynamic(), id_,
+                              chi::string(""), blob_id, score, true, ctx);
   }
 
   /**
@@ -416,30 +389,24 @@ class Bucket {
   void ReorganizeBlob(const BlobId &blob_id, float score, u32 node_id,
                       Context &ctx) {
     ctx.node_id_ = node_id;
-    mdm_->AsyncReorganizeBlob(
-        mctx_,
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_,
-        chi::string(""), blob_id, score, true, ctx);
+    mdm_->AsyncReorganizeBlob(mctx_, DomainQuery::GetDynamic(), id_,
+                              chi::string(""), blob_id, score, true, ctx);
   }
 
   /**
    * Get the current size of the blob in the bucket
    * */
   size_t GetBlobSize(const BlobId &blob_id) {
-    return mdm_->GetBlobSize(
-        mctx_,
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_,
-        chi::string(""), blob_id);
+    return mdm_->GetBlobSize(mctx_, DomainQuery::GetDynamic(), id_,
+                             chi::string(""), blob_id);
   }
 
   /**
    * Get the current size of the blob in the bucket
    * */
   size_t GetBlobSize(const std::string &name) {
-    return mdm_->GetBlobSize(
-        mctx_,
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_,
-        chi::string(name), BlobId::GetNull());
+    return mdm_->GetBlobSize(mctx_, DomainQuery::GetDynamic(), id_,
+                             chi::string(name), BlobId::GetNull());
   }
 
   /**
@@ -455,11 +422,9 @@ class Bucket {
     }
     // Get from shared memory
     FullPtr<GetBlobTask> task;
-    task = mdm_->AsyncGetBlob(
-        mctx_,
-        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        id_, chi::string(blob_name), blob_id, blob_off, blob_size, blob.shm_,
-        hermes_flags.bits_, ctx);
+    task = mdm_->AsyncGetBlob(mctx_, chi::DomainQuery::GetDynamic(), id_,
+                              chi::string(blob_name), blob_id, blob_off,
+                              blob_size, blob.shm_, hermes_flags.bits_, ctx);
     return task;
   }
 
@@ -507,10 +472,8 @@ class Bucket {
     // TODO(llogan): intercept mmap to avoid copy
     size_t data_size = blob.size();
     if (blob.size() == 0) {
-      data_size = mdm_->GetBlobSize(
-          mctx_,
-          DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-          id_, chi::string(blob_name), orig_blob_id);
+      data_size = mdm_->GetBlobSize(mctx_, DomainQuery::GetDynamic(), id_,
+                                    chi::string(blob_name), orig_blob_id);
       blob.resize(data_size);
     }
     HILOG(kDebug, "Getting blob of size {}", data_size);
@@ -621,10 +584,8 @@ class Bucket {
    * Determine if the bucket contains \a blob_id BLOB
    * */
   bool ContainsBlob(const std::string &blob_name) {
-    BlobId new_blob_id = mdm_->GetBlobId(
-        mctx_,
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_,
-        chi::string(blob_name));
+    BlobId new_blob_id = mdm_->GetBlobId(mctx_, DomainQuery::GetDynamic(), id_,
+                                         chi::string(blob_name));
     return !new_blob_id.IsNull();
   }
 
@@ -640,27 +601,18 @@ class Bucket {
    * Delete \a blob_id blob
    * */
   void DestroyBlob(const BlobId &blob_id, Context &ctx) {
-    mdm_->DestroyBlob(
-        mctx_,
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_,
-        blob_id);
+    mdm_->DestroyBlob(mctx_, DomainQuery::GetDynamic(), id_, blob_id);
   }
 
   /**
    * Get the set of blob IDs contained in the bucket
    * */
   std::vector<BlobId> GetContainedBlobIds() {
-    return mdm_->TagGetContainedBlobIds(
-        mctx_,
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_);
+    return mdm_->TagGetContainedBlobIds(mctx_, DomainQuery::GetDynamic(), id_);
   }
 
   /** Flush the bucket */
-  void Flush() {
-    mdm_->TagFlush(
-        mctx_,
-        DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0), id_);
-  }
+  void Flush() { mdm_->TagFlush(mctx_, DomainQuery::GetDynamic(), id_); }
 };
 
 }  // namespace hermes
