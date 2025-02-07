@@ -295,15 +295,6 @@ class Server : public Module {
 
   void GetBlobEnd(GetBlobTask *task, RunContext &rctx) {}
 
-  void PutBlobBegin(PutBlobTask *task, char *data, size_t data_size,
-                    RunContext &rctx) {}
-
-  void PutBlobEnd(PutBlobTask *task, RunContext &rctx) {}
-
-  void GetBlobBegin(GetBlobTask *task, RunContext &rctx) {}
-
-  void GetBlobEnd(GetBlobTask *task, RunContext &rctx) {}
-
   /**
    * ========================================
    * TAG Methods
