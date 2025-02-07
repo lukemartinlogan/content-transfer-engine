@@ -303,3 +303,5 @@ install(EXPORT ${HERMES_EXPORTED_TARGETS}
     NAMESPACE Hermes::
     DESTINATION cmake
 )
+
+jarvis_repo_add("${CMAKE_SOURCE_DIR}/test/jarvis_hermes" "${CMAKE_SOURCE_DIR}/test/pipelines")
