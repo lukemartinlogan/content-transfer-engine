@@ -17,7 +17,7 @@ option(BUILD_MPI_TESTS "Build tests which depend on MPI" ON)
 option(BUILD_OpenMP_TESTS "Build tests which depend on OpenMP" ON)
 option(HERMES_ENABLE_COVERAGE "Check how well tests cover code" OFF)
 option(HERMES_ENABLE_DOXYGEN "Check how well the code is documented" ON)
-option(HERMES_REMOTE_DEBUG "Enable remote debug mode on hrun" OFF)
+option(HERMES_ENABLE_CMAKE_DOTENV "Load environment variables from .env.cmake" OFF)
 
 option(HERMES_ENABLE_NVIDIA_GDS_ADAPTER "Build the Hermes NVIDIA GDS adapter." OFF)
 option(HERMES_ENABLE_POSIX_ADAPTER "Build the Hermes POSIX adapter." ON)
@@ -51,6 +51,15 @@ if(HERMES_NO_COMPILE)
         ${CMAKE_INSTALL_PREFIX}/.gitignore
     )
     return()
+endif()
+
+# ------------------------------------------------------------------------------
+# DOTENV
+# ------------------------------------------------------------------------------
+if(HERMES_ENABLE_CMAKE_DOTENV)
+    if(EXISTS ${CMAKE_SOURCE_DIR}/.env.cmake)
+        include(.env.cmake)
+    endif()
 endif()
 
 # -----------------------------------------------------------------------------
