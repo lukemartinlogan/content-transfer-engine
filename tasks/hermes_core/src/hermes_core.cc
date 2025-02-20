@@ -236,8 +236,7 @@ class Server : public Module {
     if (blob_info || task->IsDirect()) {
       return;
     }
-    FullPtr<TaskT> task_dup = CHI_CLIENT->NewCopyTask<TaskT>(task, false);
-    task_dup->dom_query_ = chi::DomainQuery::GetDirectHash(
+    task->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers,
         HashBlobNameOrId(tag_id, blob_name, blob_id));
     task->SetDirect();
@@ -258,8 +257,7 @@ class Server : public Module {
     if (tag_info || task->IsDirect()) {
       return;
     }
-    FullPtr<TaskT> task_dup = CHI_CLIENT->NewCopyTask<TaskT>(task, false);
-    task_dup->dom_query_ = chi::DomainQuery::GetDirectHash(
+    task->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
     task->SetDirect();
     task->UnsetRouted();
@@ -279,8 +277,7 @@ class Server : public Module {
     if (tag_info || task->IsDirect()) {
       return;
     }
-    FullPtr<TaskT> task_dup = CHI_CLIENT->NewCopyTask<TaskT>(task, false);
-    task_dup->dom_query_ = chi::DomainQuery::GetDirectHash(
+    task->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
     task->SetDirect();
     task->UnsetRouted();
