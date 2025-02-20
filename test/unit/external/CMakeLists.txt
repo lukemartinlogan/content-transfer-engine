@@ -1,6 +1,3 @@
-cmake_minimum_required(VERSION 3.10)
-project(hermes)
-
 set(CMAKE_CXX_STANDARD 17)
 find_package(Hermes REQUIRED)
 find_package(MPI REQUIRED COMPONENTS C CXX)
