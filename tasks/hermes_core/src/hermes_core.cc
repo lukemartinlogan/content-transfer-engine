@@ -115,6 +115,7 @@ class Server : public Module {
           chi::DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
                                           node_id),
           25);
+      HILOG(kInfo, "Polling stats async for target: {}", target.id_);
       target.poll_stats_->stats_ = target.client_.PollStats(
           HSHM_DEFAULT_MEM_CTX,
           chi::DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
