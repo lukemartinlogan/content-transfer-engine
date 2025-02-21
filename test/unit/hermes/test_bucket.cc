@@ -136,6 +136,7 @@ TEST_CASE("TestHermesPutGet") {
 
   // Initialize Hermes on all nodes
   HERMES->ClientInit();
+  HILOG(kInfo, "HERMES INITIALIZED!!!");
 
   if (rank == 0) {
     HILOG(kInfo, "Allocator sizes: task={} data={} rdata={}",
