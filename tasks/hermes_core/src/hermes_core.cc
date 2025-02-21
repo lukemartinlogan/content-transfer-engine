@@ -106,8 +106,7 @@ class Server : public Module {
                                      node_id),
           DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
                                      node_id),
-          hshm::Formatter::format("hermes_{}/{}", dev.dev_name_,
-                                  CHI_CLIENT->node_id_),
+          hshm::Formatter::format("hermes_{}/{}", dev.dev_name_, node_id),
           dev.mount_point_, dev.capacity_);
       target.id_ = target.client_.id_;
       HILOG(kInfo, "Created target: {}", target.id_);
