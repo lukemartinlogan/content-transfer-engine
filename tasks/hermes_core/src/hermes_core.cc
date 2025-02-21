@@ -219,6 +219,7 @@ class Server : public Module {
         HashBlobNameOrId(tag_id, blob_name, blob_id));
     task->SetDirect();
     task->UnsetRouted();
+    HILOG(kInfo, "Routing to: {}", task->dom_query_);
   }
 
   template <typename TaskT>
@@ -241,6 +242,7 @@ class Server : public Module {
         HashBlobNameOrId(tag_id, blob_name, blob_id));
     task->SetDirect();
     task->UnsetRouted();
+    HILOG(kInfo, "Routing to: {}", task->dom_query_);
   }
 
   template <typename TaskT>
@@ -261,6 +263,7 @@ class Server : public Module {
         chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
     task->SetDirect();
     task->UnsetRouted();
+    HILOG(kInfo, "Routing to: {}", task->dom_query_);
   }
 
   template <typename TaskT>
@@ -281,6 +284,7 @@ class Server : public Module {
         chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
     task->SetDirect();
     task->UnsetRouted();
+    HILOG(kInfo, "Routing to: {}", task->dom_query_);
   }
 
   void PutBlobBegin(PutBlobTask *task, char *data, size_t data_size,
