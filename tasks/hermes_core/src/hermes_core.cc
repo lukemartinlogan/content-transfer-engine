@@ -130,7 +130,6 @@ class Server : public Module {
         HSHM_DEFAULT_MEM_CTX,
         chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
         5);  // OK
-    task->SetModuleComplete();
   }
   void MonitorCreate(MonitorModeId mode, CreateTask *task, RunContext &rctx) {}
 
@@ -146,9 +145,7 @@ class Server : public Module {
   }
 
   /** Destroy hermes_core */
-  void Destroy(DestroyTask *task, RunContext &rctx) {
-    task->SetModuleComplete();
-  }
+  void Destroy(DestroyTask *task, RunContext &rctx) {}
   void MonitorDestroy(MonitorModeId mode, DestroyTask *task, RunContext &rctx) {
   }
 
@@ -354,7 +351,6 @@ class Server : public Module {
 
     task->tag_id_ = tag_id;
     // task->did_create_ = did_create;
-    task->SetModuleComplete();
   }
   void MonitorGetOrCreateTag(MonitorModeId mode, GetOrCreateTagTask *task,
                              RunContext &rctx) {
@@ -374,11 +370,9 @@ class Server : public Module {
     auto it = tag_id_map.find(tag_name);
     if (it == tag_id_map.end()) {
       task->tag_id_ = TagId::GetNull();
-      task->SetModuleComplete();
       return;
     }
     task->tag_id_ = it->second;
-    task->SetModuleComplete();
   }
   void MonitorGetTagId(MonitorModeId mode, GetTagIdTask *task,
                        RunContext &rctx) {
@@ -397,11 +391,9 @@ class Server : public Module {
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
-      task->SetModuleComplete();
       return;
     }
     task->tag_name_ = it->second.name_;
-    task->SetModuleComplete();
   }
   void MonitorGetTagName(MonitorModeId mode, GetTagNameTask *task,
                          RunContext &rctx) {
@@ -420,7 +412,6 @@ class Server : public Module {
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
-      task->SetModuleComplete();
       return;
     }
     TagInfo &tag = it->second;
@@ -443,7 +434,6 @@ class Server : public Module {
     TAG_ID_MAP_T &tag_id_map = tls.tag_id_map_;
     tag_id_map.erase(tag.name_);
     tag_map.erase(it);
-    task->SetModuleComplete();
   }
   void MonitorDestroyTag(MonitorModeId mode, DestroyTagTask *task,
                          RunContext &rctx) {
@@ -462,12 +452,10 @@ class Server : public Module {
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
-      task->SetModuleComplete();
       return;
     }
     TagInfo &tag = it->second;
     tag.blobs_.emplace_back(task->blob_id_);
-    task->SetModuleComplete();
   }
   void MonitorTagAddBlob(MonitorModeId mode, TagAddBlobTask *task,
                          RunContext &rctx) {
@@ -486,14 +474,12 @@ class Server : public Module {
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
-      task->SetModuleComplete();
       return;
     }
     TagInfo &tag = it->second;
     auto blob_it =
         std::find(tag.blobs_.begin(), tag.blobs_.end(), task->blob_id_);
     tag.blobs_.erase(blob_it);
-    task->SetModuleComplete();
   }
   void MonitorTagRemoveBlob(MonitorModeId mode, TagRemoveBlobTask *task,
                             RunContext &rctx) {
@@ -512,7 +498,6 @@ class Server : public Module {
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
-      task->SetModuleComplete();
       return;
     }
     TagInfo &tag = it->second;
@@ -528,7 +513,6 @@ class Server : public Module {
     }
     tag.blobs_.clear();
     tag.internal_size_ = 0;
-    task->SetModuleComplete();
   }
   void MonitorTagClearBlobs(MonitorModeId mode, TagClearBlobsTask *task,
                             RunContext &rctx) {
@@ -548,12 +532,10 @@ class Server : public Module {
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
       task->size_ = 0;
-      task->SetModuleComplete();
       return;
     }
     TagInfo &tag = it->second;
     task->size_ = tag.internal_size_;
-    task->SetModuleComplete();
   }
   void MonitorTagGetSize(MonitorModeId mode, TagGetSizeTask *task,
                          RunContext &rctx) {
@@ -582,7 +564,6 @@ class Server : public Module {
           task->tag_id_, tag.internal_size_, internal_size, task->update_,
           task->mode_);
     tag.internal_size_ = (size_t)internal_size;
-    task->SetModuleComplete();
   }
   void MonitorTagUpdateSize(MonitorModeId mode, TagUpdateSizeTask *task,
                             RunContext &rctx) {
@@ -602,7 +583,6 @@ class Server : public Module {
     TAG_MAP_T &tag_map = tls.tag_map_;
     auto it = tag_map.find(task->tag_id_);
     if (it == tag_map.end()) {
-      task->SetModuleComplete();
       return;
     }
     TagInfo &tag = it->second;
@@ -611,7 +591,6 @@ class Server : public Module {
     for (BlobId &blob_id : tag.blobs_) {
       blobs.emplace_back(blob_id);
     }
-    task->SetModuleComplete();
   }
   void MonitorTagGetContainedBlobIds(MonitorModeId mode,
                                      TagGetContainedBlobIdsTask *task,
@@ -641,7 +620,6 @@ class Server : public Module {
                         blob_id);  // TODO(llogan): route
     }
     // Flush blobs
-    task->SetModuleComplete();
   }
   void MonitorTagFlush(MonitorModeId mode, TagFlushTask *task,
                        RunContext &rctx) {}
@@ -687,7 +665,6 @@ class Server : public Module {
     task->blob_id_ = GetOrCreateBlobId(tls, task->tag_id_,
                                        HashBlobName(task->tag_id_, blob_name),
                                        blob_name, flags);
-    task->SetModuleComplete();
   }
   void MonitorGetOrCreateBlobId(MonitorModeId mode, GetOrCreateBlobIdTask *task,
                                 RunContext &rctx) {
@@ -710,13 +687,11 @@ class Server : public Module {
     auto it = blob_id_map.find(blob_name_unique);
     if (it == blob_id_map.end()) {
       task->blob_id_ = BlobId::GetNull();
-      task->SetModuleComplete();
       HILOG(kDebug, "Failed to find blob {} in {}", blob_name.str(),
             task->tag_id_);
       return;
     }
     task->blob_id_ = it->second;
-    task->SetModuleComplete();
   }
   void MonitorGetBlobId(MonitorModeId mode, GetBlobIdTask *task,
                         RunContext &rctx) {
@@ -735,12 +710,10 @@ class Server : public Module {
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
-      task->SetModuleComplete();
       return;
     }
     BlobInfo &blob = it->second;
     task->blob_name_ = blob.name_;
-    task->SetModuleComplete();
   }
   void MonitorGetBlobName(MonitorModeId mode, GetBlobNameTask *task,
                           RunContext &rctx) {
@@ -766,12 +739,10 @@ class Server : public Module {
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
       task->size_ = 0;
-      task->SetModuleComplete();
       return;
     }
     BlobInfo &blob = it->second;
     task->size_ = blob.blob_size_;
-    task->SetModuleComplete();
   }
   void MonitorGetBlobSize(MonitorModeId mode, GetBlobSizeTask *task,
                           RunContext &rctx) {
@@ -790,12 +761,10 @@ class Server : public Module {
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
-      task->SetModuleComplete();
       return;
     }
     BlobInfo &blob = it->second;
     task->score_ = blob.score_;
-    task->SetModuleComplete();
   }
   void MonitorGetBlobScore(MonitorModeId mode, GetBlobScoreTask *task,
                            RunContext &rctx) {
@@ -814,12 +783,10 @@ class Server : public Module {
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
-      task->SetModuleComplete();
       return;
     }
     BlobInfo &blob = it->second;
     task->buffers_ = blob.buffers_;
-    task->SetModuleComplete();
   }
   void MonitorGetBlobBuffers(MonitorModeId mode, GetBlobBuffersTask *task,
                              RunContext &rctx) {
@@ -847,7 +814,6 @@ class Server : public Module {
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
-      task->SetModuleComplete();
       return;
     }
     BlobInfo &blob_info = it->second;
@@ -1008,7 +974,6 @@ class Server : public Module {
     // Free data
     HILOG(kDebug, "Completing PUT for {}", blob_name.str());
     blob_info.UpdateWriteStats();
-    task->SetModuleComplete();
   }
   void MonitorPutBlob(MonitorModeId mode, PutBlobTask *task, RunContext &rctx) {
     switch (mode) {
@@ -1096,7 +1061,6 @@ class Server : public Module {
     }
     task->data_size_ = buf_off;
     blob_info.UpdateReadStats();
-    task->SetModuleComplete();
   }
   void MonitorGetBlob(MonitorModeId mode, GetBlobTask *task, RunContext &rctx) {
     switch (mode) {
@@ -1110,7 +1074,6 @@ class Server : public Module {
   /** Truncate a blob (TODO) */
   void TruncateBlob(TruncateBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
-    task->SetModuleComplete();
   }
   void MonitorTruncateBlob(MonitorModeId mode, TruncateBlobTask *task,
                            RunContext &rctx) {}
@@ -1122,7 +1085,6 @@ class Server : public Module {
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
-      task->SetModuleComplete();
       return;
     }
     BlobInfo &blob = it->second;
@@ -1146,7 +1108,6 @@ class Server : public Module {
     BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
     blob_id_map.erase(blob.GetBlobNameWithBucket());
     blob_map.erase(it);
-    task->SetModuleComplete();
   }
   void MonitorDestroyBlob(MonitorModeId mode, DestroyBlobTask *task,
                           RunContext &rctx) {
@@ -1165,12 +1126,10 @@ class Server : public Module {
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
-      task->SetModuleComplete();
       return;
     }
     BlobInfo &blob = it->second;
     blob.tags_.push_back(task->tag_);
-    task->SetModuleComplete();
   }
   void MonitorTagBlob(MonitorModeId mode, TagBlobTask *task, RunContext &rctx) {
     switch (mode) {
@@ -1188,13 +1147,11 @@ class Server : public Module {
     BLOB_MAP_T &blob_map = tls.blob_map_;
     auto it = blob_map.find(task->blob_id_);
     if (it == blob_map.end()) {
-      task->SetModuleComplete();
       return;
     }
     BlobInfo &blob = it->second;
     task->has_tag_ = std::find(blob.tags_.begin(), blob.tags_.end(),
                                task->tag_) != blob.tags_.end();
-    task->SetModuleComplete();
   }
   void MonitorBlobHasTag(MonitorModeId mode, BlobHasTagTask *task,
                          RunContext &rctx) {
@@ -1217,7 +1174,6 @@ class Server : public Module {
     if (task->blob_id_.IsNull()) {
       auto blob_id_map_it = blob_id_map.find(blob_name);
       if (blob_id_map_it == blob_id_map.end()) {
-        task->SetModuleComplete();
         return;
       }
       task->blob_id_ = blob_id_map_it->second;
@@ -1225,7 +1181,6 @@ class Server : public Module {
     // Get blob struct
     auto blob_map_it = blob_map.find(task->blob_id_);
     if (blob_map_it == blob_map.end()) {
-      task->SetModuleComplete();
       return;
     }
     BlobInfo &blob_info = blob_map_it->second;
@@ -1253,7 +1208,6 @@ class Server : public Module {
         task->tag_id_, chi::string(""), task->blob_id_, 0, blob_info.blob_size_,
         data.shm_, blob_info.score_, TASK_FIRE_AND_FORGET | TASK_DATA_OWNER,
         0);  // OK
-    task->SetModuleComplete();
   }
   void MonitorReorganizeBlob(MonitorModeId mode, ReorganizeBlobTask *task,
                              RunContext &rctx) {
@@ -1312,7 +1266,6 @@ class Server : public Module {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     _FlushBlob(tls, task->blob_id_, rctx);
-    task->SetModuleComplete();
   }
   void MonitorFlushBlob(MonitorModeId mode, FlushBlobTask *task,
                         RunContext &rctx) {}
@@ -1346,7 +1299,6 @@ class Server : public Module {
       // Flush data
       _FlushBlob(tls, blob_info.blob_id_, rctx);
     }
-    task->UnsetStarted();
   }
   void MonitorFlushData(MonitorModeId mode, FlushDataTask *task,
                         RunContext &rctx) {}
@@ -1363,7 +1315,6 @@ class Server : public Module {
       blob_mdms.emplace_back(blob_info);
     }
     task->SetStats(blob_mdms);
-    task->SetModuleComplete();
   }
   void MonitorPollBlobMetadata(MonitorModeId mode, PollBlobMetadataTask *task,
                                RunContext &rctx) {}
@@ -1388,7 +1339,6 @@ class Server : public Module {
       target_mdms.emplace_back(stats);
     }
     task->SetStats(target_mdms);
-    task->SetModuleComplete();
   }
   void MonitorPollTargetMetadata(MonitorModeId mode,
                                  PollTargetMetadataTask *task,
@@ -1405,7 +1355,6 @@ class Server : public Module {
       stats.emplace_back(tag);
     }
     task->SetStats(stats);
-    task->SetModuleComplete();
   }
   void MonitorPollTagMetadata(MonitorModeId mode, PollTagMetadataTask *task,
                               RunContext &rctx) {
@@ -1435,7 +1384,6 @@ class Server : public Module {
     stager->RegisterStager(HSHM_DEFAULT_MEM_CTX, task->tag_name_.str(),
                            task->params_.str());
     stager_map.emplace(task->bkt_id_, std::move(stager));
-    task->SetModuleComplete();
   }
   void MonitorRegisterStager(MonitorModeId mode, RegisterStagerTask *task,
                              RunContext &rctx) {
@@ -1453,11 +1401,9 @@ class Server : public Module {
     chi::ScopedCoMutex stager_map_lock(tls.stager_map_lock_);
     STAGER_MAP_T &stager_map = tls.stager_map_;
     if (stager_map.find(task->bkt_id_) == stager_map.end()) {
-      task->SetModuleComplete();
       return;
     }
     stager_map.erase(task->bkt_id_);
-    task->SetModuleComplete();
   }
   void MonitorUnregisterStager(MonitorModeId mode, UnregisterStagerTask *task,
                                RunContext &rctx) {
@@ -1483,7 +1429,6 @@ class Server : public Module {
     std::shared_ptr<AbstractStager> &stager = it->second;
     stager->StageIn(HSHM_DEFAULT_MEM_CTX, client_, task->bkt_id_,
                     task->blob_name_.str(), task->score_);
-    task->SetModuleComplete();
   }
   void MonitorStageIn(MonitorModeId mode, StageInTask *task, RunContext &rctx) {
     switch (mode) {
@@ -1501,13 +1446,11 @@ class Server : public Module {
     STAGER_MAP_T::iterator it = stager_map.find(task->bkt_id_);
     if (it == stager_map.end()) {
       HELOG(kError, "Could not find stager for bucket: {}", task->bkt_id_);
-      task->SetModuleComplete();
       return;
     }
     std::shared_ptr<AbstractStager> &stager = it->second;
     stager->StageOut(HSHM_DEFAULT_MEM_CTX, client_, task->bkt_id_,
                      task->blob_name_.str(), task->data_, task->data_size_);
-    task->SetModuleComplete();
   }
   void MonitorStageOut(MonitorModeId mode, StageOutTask *task,
                        RunContext &rctx) {
