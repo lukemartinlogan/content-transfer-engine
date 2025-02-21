@@ -91,34 +91,36 @@ class Server : public Module {
     CreateLaneGroup(kDefaultGroup, HERMES_LANES, QUEUE_LOW_LATENCY);
     tls_.resize(HERMES_LANES);
     // Create block devices
-    // for (int i = 0; i < 3; ++i) {
-    for (DeviceInfo &dev : HERMES_SERVER_CONF.devices_) {
-      dev.mount_point_ =
-          hshm::Formatter::format("{}/{}", dev.mount_dir_, dev.dev_name_);
-      targets_.emplace_back();
-      TargetInfo &target = targets_.back();
-      target.client_.Create(
-          HSHM_DEFAULT_MEM_CTX,
-          DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
-                                     CHI_CLIENT->node_id_ + i),
-          DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
-                                     CHI_CLIENT->node_id_ + i),
-          hshm::Formatter::format("hermes_{}/{}", dev.dev_name_,
-                                  CHI_CLIENT->node_id_),
-          dev.mount_point_, dev.capacity_);
-      target.id_ = target.client_.id_;
-      target.poll_stats_ = target.client_.AsyncPollStats(
-          HSHM_DEFAULT_MEM_CTX,
-          chi::DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
-                                          0),
-          25);
-      target.poll_stats_->stats_ = target.client_.PollStats(
-          HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetDirectHash(
-                                    chi::SubDomainId::kGlobalContainers, 0));
-      target.stats_ = &target.poll_stats_->stats_;
-      target_map_[target.id_] = &target;
+    for (int i = 0; i < 3; ++i) {
+      for (DeviceInfo &dev : HERMES_SERVER_CONF.devices_) {
+        dev.mount_point_ =
+            hshm::Formatter::format("{}/{}", dev.mount_dir_, dev.dev_name_);
+        targets_.emplace_back();
+        TargetInfo &target = targets_.back();
+        NodeId node_id = CHI_CLIENT->node_id_ + i;
+        target.client_.Create(
+            HSHM_DEFAULT_MEM_CTX,
+            DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
+                                       node_id),
+            DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
+                                       node_id),
+            hshm::Formatter::format("hermes_{}/{}", dev.dev_name_,
+                                    CHI_CLIENT->node_id_),
+            dev.mount_point_, dev.capacity_);
+        target.id_ = target.client_.id_;
+        target.poll_stats_ = target.client_.AsyncPollStats(
+            HSHM_DEFAULT_MEM_CTX,
+            chi::DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
+                                            node_id),
+            25);
+        target.poll_stats_->stats_ = target.client_.PollStats(
+            HSHM_DEFAULT_MEM_CTX,
+            chi::DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
+                                            node_id));
+        target.stats_ = &target.poll_stats_->stats_;
+        target_map_[target.id_] = &target;
+      }
     }
-    // }
     fallback_target_ = &targets_.back();
     // Create flushing task
     client_.AsyncFlushData(
