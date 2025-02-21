@@ -930,7 +930,7 @@ class Server : public Module {
     blob_info.max_blob_size_ = blob_off;
 
     // Wait for the placements to complete
-    task->Wait(write_tasks, TASK_MODULE_COMPLETE);
+    task->Wait(write_tasks);
     for (FullPtr<chi::bdev::WriteTask> &write_task : write_tasks) {
       CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, write_task);
     }
@@ -1055,7 +1055,7 @@ class Server : public Module {
       }
       buf_left += buf.size_;
     }
-    task->Wait(read_tasks, TASK_MODULE_COMPLETE);
+    task->Wait(read_tasks);
     for (FullPtr<chi::bdev::ReadTask> &read_task : read_tasks) {
       CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, read_task);
     }
