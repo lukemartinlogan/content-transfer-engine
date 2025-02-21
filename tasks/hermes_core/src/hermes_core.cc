@@ -99,6 +99,7 @@ class Server : public Module {
       targets_.emplace_back();
       TargetInfo &target = targets_.back();
       NodeId node_id = CHI_CLIENT->node_id_ + i;
+      HILOG(kInfo, "Creating target: {}", dev.dev_name_);
       target.client_.Create(
           HSHM_DEFAULT_MEM_CTX,
           DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
@@ -109,6 +110,7 @@ class Server : public Module {
                                   CHI_CLIENT->node_id_),
           dev.mount_point_, dev.capacity_);
       target.id_ = target.client_.id_;
+      HILOG(kInfo, "Created target: {}", target.id_);
       target.poll_stats_ = target.client_.AsyncPollStats(
           HSHM_DEFAULT_MEM_CTX,
           chi::DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
@@ -120,6 +122,7 @@ class Server : public Module {
                                           node_id));
       target.stats_ = &target.poll_stats_->stats_;
       target_map_[target.id_] = &target;
+      HILOG(kInfo, "Polling stats for target: {}", target.id_);
     }
     // }
     fallback_target_ = &targets_.back();
