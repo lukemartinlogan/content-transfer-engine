@@ -109,6 +109,9 @@ class Server : public Module {
           hshm::Formatter::format("hermes_{}/{}", dev.dev_name_, node_id),
           dev.mount_point_, dev.capacity_);
       target.id_ = target.client_.id_;
+      if (target_map_.find(target.id_) != target_map_.end()) {
+        continue;
+      }
       HILOG(kInfo, "Created target: {}", target.id_);
       target.poll_stats_ = target.client_.AsyncPollStats(
           HSHM_DEFAULT_MEM_CTX,
