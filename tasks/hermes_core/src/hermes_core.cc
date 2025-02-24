@@ -91,6 +91,7 @@ class Server : public Module {
     CreateLaneGroup(kDefaultGroup, HERMES_LANES, QUEUE_LOW_LATENCY);
     tls_.resize(HERMES_LANES);
     // Create block devices
+    targets_.reserve(128);  // TODO(llogan): Calculate number of buffering devices
     // for (int i = 0; i < 3; ++i) {
     int i = 0;
     for (DeviceInfo &dev : HERMES_SERVER_CONF.devices_) {
@@ -110,6 +111,7 @@ class Server : public Module {
           dev.mount_point_, dev.capacity_);
       target.id_ = target.client_.id_;
       if (target_map_.find(target.id_) != target_map_.end()) {
+        targets_.pop_back();
         continue;
       }
       HILOG(kInfo, "Created target: {}", target.id_);
