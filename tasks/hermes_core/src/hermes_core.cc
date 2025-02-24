@@ -105,8 +105,7 @@ class Server : public Module {
           HSHM_DEFAULT_MEM_CTX,
           DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
                                      node_id),
-          DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
-                                     node_id),
+          DomainQuery::GetGlobalBcast(),
           hshm::Formatter::format("hermes_{}/{}", dev.dev_name_, node_id),
           dev.mount_point_, dev.capacity_);
       target.id_ = target.client_.id_;
