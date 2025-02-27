@@ -1389,6 +1389,7 @@ class Server : public Module {
     stager->RegisterStager(HSHM_DEFAULT_MEM_CTX, task->tag_name_.str(),
                            task->params_.str());
     stager_map.emplace(task->bkt_id_, std::move(stager));
+    HILOG(kInfo, "Finished registering stager {}: {}", task->bkt_id_, tag_name);
   }
   void MonitorRegisterStager(MonitorModeId mode, RegisterStagerTask *task,
                              RunContext &rctx) {
