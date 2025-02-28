@@ -70,7 +70,7 @@ class Filesystem : public FilesystemIoClient {
     return f;
   }
 
-  /** open \a f File in \a path*/
+  /** open \a f File in \a path */
   void Open(AdapterStat &stat, File &f, const std::string &path) {
     auto mdm = HERMES_FS_METADATA_MANAGER;
     Context ctx;
