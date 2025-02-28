@@ -63,10 +63,12 @@ class Filesystem : public FilesystemIoClient {
     if (stat.adapter_mode_ == AdapterMode::kNone) {
       stat.adapter_mode_ = mdm->GetAdapterMode(path);
     }
+    HILOG(kInfo, "Beginning to real open");
     RealOpen(f, stat, path);
     if (!f.status_) {
       return f;
     }
+    HILOG(kInfo, "Beginning to hermes open");
     Open(stat, f, path);
     return f;
   }
