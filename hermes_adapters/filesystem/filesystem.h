@@ -79,7 +79,9 @@ class Filesystem : public FilesystemIoClient {
     Context ctx;
     ctx.flags_.SetBits(HERMES_SHOULD_STAGE);
 
+    HILOG(kInfo, "Beginning to find adapter based on file");
     std::shared_ptr<AdapterStat> exists = mdm->Find(f);
+    HILOG(kInfo, "Did find adapter based on file");
     if (!exists) {
       HILOG(kInfo, "File not opened before by adapter");
       // Normalize path strings
