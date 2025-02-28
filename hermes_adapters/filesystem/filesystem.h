@@ -78,7 +78,7 @@ class Filesystem : public FilesystemIoClient {
 
     std::shared_ptr<AdapterStat> exists = mdm->Find(f);
     if (!exists) {
-      HILOG(kDebug, "File not opened before by adapter");
+      HILOG(kInfo, "File not opened before by adapter");
       // Normalize path strings
       stat.path_ = stdfs::absolute(path).string();
       chi::string path_shm(stat.path_);
@@ -109,7 +109,7 @@ class Filesystem : public FilesystemIoClient {
         stat.bkt_id_ = HERMES->GetBucket(HSHM_DEFAULT_MEM_CTX, stat.path_, ctx,
                                          stat.file_size_, HERMES_SHOULD_STAGE);
       }
-      HILOG(kDebug, "BKT vs file size: {} {}", stat.bkt_id_.GetSize(),
+      HILOG(kInfo, "BKT vs file size: {} {}", stat.bkt_id_.GetSize(),
             stat.file_size_);
       // Update file position pointer
       if (stat.hflags_.Any(HERMES_FS_APPEND)) {
@@ -123,7 +123,7 @@ class Filesystem : public FilesystemIoClient {
       HermesOpen(f, stat, fs_ctx);
       mdm->Create(f, stat_ptr);
     } else {
-      HILOG(kDebug, "File already opened by adapter");
+      HILOG(kInfo, "File already opened by adapter");
       exists->UpdateTime();
     }
   }
@@ -137,7 +137,7 @@ class Filesystem : public FilesystemIoClient {
     std::string filename = bkt.GetName();
     bool is_append = stat.st_ptr_ == std::numeric_limits<size_t>::max();
 
-    HILOG(kDebug,
+    HILOG(kInfo,
           "Write called for filename: {}"
           " on offset: {}"
           " from position: {}"
@@ -152,7 +152,7 @@ class Filesystem : public FilesystemIoClient {
       Blob blob_wrap((char *)ptr, total_size);
       WriteBlob(bkt.GetName(), blob_wrap, opts, io_status);
       if (!io_status.success_) {
-        HILOG(kDebug, "Failed to write blob of size {} to backend",
+        HILOG(kInfo, "Failed to write blob of size {} to backend",
               opts.backend_size_);
         return 0;
       }
@@ -190,7 +190,7 @@ class Filesystem : public FilesystemIoClient {
     io_status.size_ = total_size;
     UpdateIoStatus(opts, io_status);
 
-    HILOG(kDebug, "The size of file after write: {}", GetSize(f, stat));
+    HILOG(kInfo, "The size of file after write: {}", GetSize(f, stat));
     return total_size;
   }
 
@@ -203,7 +203,7 @@ class Filesystem : public FilesystemIoClient {
     (void)f;
     hapi::Bucket &bkt = stat.bkt_id_;
 
-    HILOG(kDebug,
+    HILOG(kInfo,
           "Read called for filename: {}"
           " on offset: {}"
           " from position: {}"
@@ -232,7 +232,7 @@ class Filesystem : public FilesystemIoClient {
         Blob blob_wrap((char *)ptr, total_size);
         ReadBlob(bkt.GetName(), blob_wrap, opts, io_status);
         if (!io_status.success_) {
-          HILOG(kDebug, "Failed to read blob of size {} from backend",
+          HILOG(kInfo, "Failed to read blob of size {} from backend",
                 opts.backend_size_);
           return 0;
         }
@@ -445,7 +445,7 @@ class Filesystem : public FilesystemIoClient {
     if (filesp == nullptr) {
       return ret;
     }
-    HILOG(kDebug, "Destroying the file descriptors: {}", pathname);
+    HILOG(kInfo, "Destroying the file descriptors: {}", pathname);
     std::list<File> files = *filesp;
     for (File &f : files) {
       std::shared_ptr<AdapterStat> stat = mdm->Find(f);
