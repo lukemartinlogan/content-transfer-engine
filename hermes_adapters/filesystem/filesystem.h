@@ -57,6 +57,7 @@ class Filesystem : public FilesystemIoClient {
 
   /** open \a path */
   File Open(AdapterStat &stat, const std::string &path) {
+    HILOG(kInfo, "Beginning to open");
     File f;
     auto mdm = HERMES_FS_METADATA_MANAGER;
     if (stat.adapter_mode_ == AdapterMode::kNone) {
