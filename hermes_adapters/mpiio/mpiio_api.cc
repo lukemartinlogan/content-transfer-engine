@@ -39,26 +39,26 @@ extern "C" {
  * MPI
  */
 int HERMES_DECL(MPI_Init)(int *argc, char ***argv) {
-  HILOG(kDebug, "MPI Init intercepted.");
+  HILOG(kInfo, "MPI Init intercepted.");
   TRANSPARENT_HERMES();
   auto real_api = HERMES_MPIIO_API;
   return real_api->MPI_Init(argc, argv);
 }
 
 int HERMES_DECL(MPI_Finalize)(void) {
-  HILOG(kDebug, "MPI Finalize intercepted.");
+  HILOG(kInfo, "MPI Finalize intercepted.");
   auto real_api = HERMES_MPIIO_API;
   return real_api->MPI_Finalize();
 }
 
 int HERMES_DECL(MPI_Wait)(MPI_Request *req, MPI_Status *status) {
-  HILOG(kDebug, "In MPI_Wait.");
+  HILOG(kInfo, "In MPI_Wait.");
   auto fs_api = HERMES_MPIIO_FS;
   return fs_api->Wait(req, status);
 }
 
 int HERMES_DECL(MPI_Waitall)(int count, MPI_Request *req, MPI_Status *status) {
-  HILOG(kDebug, "In MPI_Waitall.");
+  HILOG(kInfo, "In MPI_Waitall.");
   auto fs_api = HERMES_MPIIO_FS;
   return fs_api->WaitAll(count, req, status);
 }
@@ -71,7 +71,7 @@ int HERMES_DECL(MPI_File_open)(MPI_Comm comm, const char *filename, int amode,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsPathTracked(filename)) {
-    HILOG(kDebug, "Intercept MPI_File_open for filename: {} and mode {}",
+    HILOG(kInfo, "Intercept MPI_File_open for filename: {} and mode {}",
           filename, amode);
     AdapterStat stat;
     stat.comm_ = comm;
@@ -89,7 +89,7 @@ int HERMES_DECL(MPI_File_close)(MPI_File *fh) {
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(fh)) {
-    HILOG(kDebug, "Intercept MPI_File_close");
+    HILOG(kInfo, "Intercept MPI_File_close");
     File f;
     f.hermes_mpi_fh_ = *fh;
     return fs_api->Close(f, stat_exists);
@@ -102,7 +102,7 @@ int HERMES_DECL(MPI_File_seek)(MPI_File fh, MPI_Offset offset, int whence) {
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_seek");
+    HILOG(kInfo, "Intercept MPI_File_seek");
     File f;
     f.hermes_mpi_fh_ = fh;
     return fs_api->Seek(f, stat_exists, offset, whence);
@@ -116,7 +116,7 @@ int HERMES_DECL(MPI_File_seek_shared)(MPI_File fh, MPI_Offset offset,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_seek_shared offset: {} whence: {}",
+    HILOG(kInfo, "Intercept MPI_File_seek_shared offset: {} whence: {}",
           offset, whence);
     File f;
     f.hermes_mpi_fh_ = fh;
@@ -130,7 +130,7 @@ int HERMES_DECL(MPI_File_get_position)(MPI_File fh, MPI_Offset *offset) {
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_get_position");
+    HILOG(kInfo, "Intercept MPI_File_get_position");
     File f;
     f.hermes_mpi_fh_ = fh;
     (*offset) = static_cast<MPI_Offset>(fs_api->Tell(f, stat_exists));
@@ -145,7 +145,7 @@ int HERMES_DECL(MPI_File_read_all)(MPI_File fh, void *buf, int count,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_read_all");
+    HILOG(kInfo, "Intercept MPI_File_read_all");
     File f;
     f.hermes_mpi_fh_ = fh;
     return fs_api->ReadAll(f, stat_exists, buf, count, datatype, status);
@@ -159,7 +159,7 @@ int HERMES_DECL(MPI_File_read_at_all)(MPI_File fh, MPI_Offset offset, void *buf,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_read_at_all");
+    HILOG(kInfo, "Intercept MPI_File_read_at_all");
     File f;
     f.hermes_mpi_fh_ = fh;
     return fs_api->ReadAll(f, stat_exists, buf, offset, count, datatype,
@@ -175,7 +175,7 @@ int HERMES_DECL(MPI_File_read_at)(MPI_File fh, MPI_Offset offset, void *buf,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_read_at");
+    HILOG(kInfo, "Intercept MPI_File_read_at");
     File f;
     f.hermes_mpi_fh_ = fh;
     return fs_api->Read(f, stat_exists, buf, offset, count, datatype, status);
@@ -188,7 +188,7 @@ int HERMES_DECL(MPI_File_read)(MPI_File fh, void *buf, int count,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_read");
+    HILOG(kInfo, "Intercept MPI_File_read");
     File f;
     f.hermes_mpi_fh_ = fh;
     int ret = fs_api->Read(f, stat_exists, buf, count, datatype, status);
@@ -203,7 +203,7 @@ int HERMES_DECL(MPI_File_read_ordered)(MPI_File fh, void *buf, int count,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_read_ordered");
+    HILOG(kInfo, "Intercept MPI_File_read_ordered");
     File f;
     f.hermes_mpi_fh_ = fh;
     return fs_api->ReadOrdered(f, stat_exists, buf, count, datatype, status);
@@ -217,7 +217,7 @@ int HERMES_DECL(MPI_File_read_shared)(MPI_File fh, void *buf, int count,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_read_shared");
+    HILOG(kInfo, "Intercept MPI_File_read_shared");
     File f;
     f.hermes_mpi_fh_ = fh;
     return fs_api->Read(f, stat_exists, buf, count, datatype, status);
@@ -230,7 +230,7 @@ int HERMES_DECL(MPI_File_write_all)(MPI_File fh, const void *buf, int count,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_write_all");
+    HILOG(kInfo, "Intercept MPI_File_write_all");
     File f;
     f.hermes_mpi_fh_ = fh;
     return fs_api->WriteAll(f, stat_exists, buf, count, datatype, status);
@@ -245,7 +245,7 @@ int HERMES_DECL(MPI_File_write_at_all)(MPI_File fh, MPI_Offset offset,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_write_at_all");
+    HILOG(kInfo, "Intercept MPI_File_write_at_all");
     File f;
     f.hermes_mpi_fh_ = fh;
     return fs_api->WriteAll(f, stat_exists, buf, offset, count, datatype,
@@ -261,7 +261,7 @@ int HERMES_DECL(MPI_File_write_at)(MPI_File fh, MPI_Offset offset,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_write_at");
+    HILOG(kInfo, "Intercept MPI_File_write_at");
     File f;
     f.hermes_mpi_fh_ = fh;
     return fs_api->Write(f, stat_exists, buf, offset, count, datatype, status);
@@ -274,7 +274,7 @@ int HERMES_DECL(MPI_File_write)(MPI_File fh, const void *buf, int count,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_write");
+    HILOG(kInfo, "Intercept MPI_File_write");
     File f;
     f.hermes_mpi_fh_ = fh;
     return fs_api->Write(f, stat_exists, buf, count, datatype, status);
@@ -288,7 +288,7 @@ int HERMES_DECL(MPI_File_write_ordered)(MPI_File fh, const void *buf, int count,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_write_ordered");
+    HILOG(kInfo, "Intercept MPI_File_write_ordered");
     File f;
     f.hermes_mpi_fh_ = fh;
     return fs_api->WriteOrdered(f, stat_exists, buf, count, datatype, status);
@@ -303,7 +303,7 @@ int HERMES_DECL(MPI_File_write_shared)(MPI_File fh, const void *buf, int count,
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
     // NOTE(llogan): originally WriteOrdered
-    HILOG(kDebug, "Intercept MPI_File_write_shared");
+    HILOG(kInfo, "Intercept MPI_File_write_shared");
     File f;
     f.hermes_mpi_fh_ = fh;
     return fs_api->WriteOrdered(f, stat_exists, buf, count, datatype, status);
@@ -321,7 +321,7 @@ int HERMES_DECL(MPI_File_iread_at)(MPI_File fh, MPI_Offset offset, void *buf,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_iread_at");
+    HILOG(kInfo, "Intercept MPI_File_iread_at");
     File f;
     f.hermes_mpi_fh_ = fh;
     fs_api->ARead(f, stat_exists, buf, offset, count, datatype, request);
@@ -335,7 +335,7 @@ int HERMES_DECL(MPI_File_iread)(MPI_File fh, void *buf, int count,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_iread");
+    HILOG(kInfo, "Intercept MPI_File_iread");
     File f;
     f.hermes_mpi_fh_ = fh;
     fs_api->ARead(f, stat_exists, buf, count, datatype, request);
@@ -349,7 +349,7 @@ int HERMES_DECL(MPI_File_iread_shared)(MPI_File fh, void *buf, int count,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_iread_shared");
+    HILOG(kInfo, "Intercept MPI_File_iread_shared");
     File f;
     f.hermes_mpi_fh_ = fh;
     fs_api->ARead(f, stat_exists, buf, count, datatype, request);
@@ -365,7 +365,7 @@ int HERMES_DECL(MPI_File_iwrite_at)(MPI_File fh, MPI_Offset offset,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_iwrite_at");
+    HILOG(kInfo, "Intercept MPI_File_iwrite_at");
     File f;
     f.hermes_mpi_fh_ = fh;
     fs_api->AWrite(f, stat_exists, buf, offset, count, datatype, request);
@@ -381,7 +381,7 @@ int HERMES_DECL(MPI_File_iwrite)(MPI_File fh, const void *buf, int count,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_iwrite");
+    HILOG(kInfo, "Intercept MPI_File_iwrite");
     File f;
     f.hermes_mpi_fh_ = fh;
     fs_api->AWrite(f, stat_exists, buf, count, datatype, request);
@@ -396,7 +396,7 @@ int HERMES_DECL(MPI_File_iwrite_shared)(MPI_File fh, const void *buf, int count,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_iwrite_shared");
+    HILOG(kInfo, "Intercept MPI_File_iwrite_shared");
     File f;
     f.hermes_mpi_fh_ = fh;
     fs_api->AWriteOrdered(f, stat_exists, buf, count, datatype, request);
@@ -413,7 +413,7 @@ int HERMES_DECL(MPI_File_sync)(MPI_File fh) {
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsMpiFpTracked(&fh)) {
-    HILOG(kDebug, "Intercept MPI_File_sync");
+    HILOG(kInfo, "Intercept MPI_File_sync");
     File f;
     f.hermes_mpi_fh_ = fh;
     fs_api->Sync(f, stat_exists);
