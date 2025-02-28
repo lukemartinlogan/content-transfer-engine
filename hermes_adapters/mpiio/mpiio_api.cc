@@ -71,8 +71,8 @@ int HERMES_DECL(MPI_File_open)(MPI_Comm comm, const char *filename, int amode,
   auto real_api = HERMES_MPIIO_API;
   auto fs_api = HERMES_MPIIO_FS;
   if (fs_api->IsPathTracked(filename)) {
-    HILOG(kInfo, "Intercept MPI_File_open for filename: {} and mode {}",
-          filename, amode);
+    HILOG(kInfo, "Intercept MPI_File_open ({}) for filename: {} and mode {}",
+          MPI_File_open, filename, amode);
     AdapterStat stat;
     stat.comm_ = comm;
     stat.amode_ = amode;

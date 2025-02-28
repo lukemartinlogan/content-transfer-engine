@@ -513,7 +513,7 @@ class MpiioFs : public Filesystem {
 
     // NOTE(llogan): Allowing scratch mode to create empty files for MPI to
     // satisfy IOR.
-    HILOG(kInfo, "Beginning real MPI open");
+    HILOG(kInfo, "Beginning real MPI open: {}", real_api_->MPI_File_open);
     f.mpi_status_ = real_api_->MPI_File_open(
         stat.comm_, path.c_str(), stat.amode_, stat.info_, &stat.mpi_fh_);
     if (f.mpi_status_ != MPI_SUCCESS) {
