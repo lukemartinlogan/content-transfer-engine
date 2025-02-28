@@ -75,6 +75,7 @@ class Filesystem : public FilesystemIoClient {
 
   /** open \a f File in \a path */
   void Open(AdapterStat &stat, File &f, const std::string &path) {
+    HILOG(kInfo, "Loading mdm");
     auto mdm = HERMES_FS_METADATA_MANAGER;
     Context ctx;
     ctx.flags_.SetBits(HERMES_SHOULD_STAGE);
