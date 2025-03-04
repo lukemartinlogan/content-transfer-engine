@@ -85,7 +85,7 @@ struct CreateTaskParams {
   template <typename Ar>
   void serialize(Ar &ar) {}
 };
-typedef chi::Admin::CreateContainerBaseTask<CreateTaskParams> CreateTask;
+typedef chi::Admin::CreatePoolBaseTask<CreateTaskParams> CreateTask;
 
 /** A task to destroy hermes_core */
 typedef chi::Admin::DestroyContainerTask DestroyTask;
