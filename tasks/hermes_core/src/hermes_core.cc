@@ -226,7 +226,7 @@ class Server : public Module {
         HashBlobNameOrId(tag_id, blob_name, blob_id));
     task->SetDirect();
     task->UnsetRouted();
-    HILOG(kInfo, "Routing to: {}", task->dom_query_);
+    // HILOG(kInfo, "Routing to: {}", task->dom_query_);
   }
 
   template <typename TaskT>
@@ -249,7 +249,7 @@ class Server : public Module {
         HashBlobNameOrId(tag_id, blob_name, blob_id));
     task->SetDirect();
     task->UnsetRouted();
-    HILOG(kInfo, "Routing to: {}", task->dom_query_);
+    // HILOG(kInfo, "Routing to: {}", task->dom_query_);
   }
 
   template <typename TaskT>
@@ -270,7 +270,7 @@ class Server : public Module {
         chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
     task->SetDirect();
     task->UnsetRouted();
-    HILOG(kInfo, "Routing to: {}", task->dom_query_);
+    // HILOG(kInfo, "Routing to: {}", task->dom_query_);
   }
 
   template <typename TaskT>
@@ -291,7 +291,7 @@ class Server : public Module {
         chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
     task->SetDirect();
     task->UnsetRouted();
-    HILOG(kInfo, "Routing to: {}", task->dom_query_);
+    // HILOG(kInfo, "Routing to: {}", task->dom_query_);
   }
 
   void PutBlobBegin(PutBlobTask *task, char *data, size_t data_size,
@@ -1383,13 +1383,13 @@ class Server : public Module {
     STAGER_MAP_T &stager_map = tls.stager_map_;
     std::string tag_name = task->tag_name_.str();
     std::string params = task->params_.str();
-    HILOG(kInfo, "Registering stager {}: {}", task->bkt_id_, tag_name);
+    HILOG(kDebug, "Registering stager {}: {}", task->bkt_id_, tag_name);
     std::shared_ptr<AbstractStager> stager =
         StagerFactory::Get(tag_name, params);
     stager->RegisterStager(HSHM_DEFAULT_MEM_CTX, task->tag_name_.str(),
                            task->params_.str());
     stager_map.emplace(task->bkt_id_, std::move(stager));
-    HILOG(kInfo, "Finished registering stager {}: {}", task->bkt_id_, tag_name);
+    HILOG(kDebug, "Finished registering stager {}: {}", task->bkt_id_, tag_name);
   }
   void MonitorRegisterStager(MonitorModeId mode, RegisterStagerTask *task,
                              RunContext &rctx) {
