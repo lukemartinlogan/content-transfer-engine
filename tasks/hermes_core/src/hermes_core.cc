@@ -48,7 +48,7 @@ typedef std::unordered_map<chi::string, TagId> TAG_ID_MAP_T;
 typedef std::unordered_map<TagId, TagInfo> TAG_MAP_T;
 typedef std::unordered_map<chi::string, BlobId> BLOB_ID_MAP_T;
 typedef std::unordered_map<BlobId, BlobInfo> BLOB_MAP_T;
-typedef hipc::mpsc_queue<IoStat> IO_PATTERN_LOG_T;
+typedef hipc::circular_mpsc_queue<IoStat> IO_PATTERN_LOG_T;
 typedef std::unordered_map<TagId, std::shared_ptr<AbstractStager>> STAGER_MAP_T;
 
 struct HermesLane {
@@ -71,6 +71,7 @@ class Server : public Module {
   std::vector<TargetInfo> targets_;
   std::unordered_map<TargetId, TargetInfo *> target_map_;
   chi::RollingAverage monitor_[Method::kCount];
+  IO_PATTERN_LOG_T io_pattern_;
   TargetInfo *fallback_target_;
 
  private:
@@ -90,6 +91,7 @@ class Server : public Module {
     client_.Init(id_);
     CreateLaneGroup(kDefaultGroup, HERMES_LANES, QUEUE_LOW_LATENCY);
     tls_.resize(HERMES_LANES);
+    io_pattern_.resize(8192);
     // Create block devices
     targets_.reserve(128);  // TODO(llogan): Calculate number of buffering devices
     // for (int i = 0; i < 3; ++i) {
@@ -979,6 +981,10 @@ class Server : public Module {
     // Free data
     HILOG(kDebug, "Completing PUT for {}", blob_name.str());
     blob_info.UpdateWriteStats();
+    IoStat *stat;
+    hshm::qtok_t qtok = io_pattern_.push(IoStat{IoType::kWrite, task->blob_id_, task->tag_id_, task->data_size_, 0});
+    io_pattern_.peek(stat, qtok); 
+    stat->id_ = qtok.id_;
   }
   void MonitorPutBlob(MonitorModeId mode, PutBlobTask *task, RunContext &rctx) {
     switch (mode) {
@@ -1066,6 +1072,10 @@ class Server : public Module {
     }
     task->data_size_ = buf_off;
     blob_info.UpdateReadStats();
+    IoStat *stat;
+    hshm::qtok_t qtok = io_pattern_.push(IoStat{IoType::kRead, task->blob_id_, task->tag_id_, task->data_size_, 0});
+    io_pattern_.peek(stat, qtok); 
+    stat->id_ = qtok.id_;
   }
   void MonitorGetBlob(MonitorModeId mode, GetBlobTask *task, RunContext &rctx) {
     switch (mode) {
@@ -1363,6 +1373,17 @@ class Server : public Module {
   }
   void MonitorPollTagMetadata(MonitorModeId mode, PollTagMetadataTask *task,
                               RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kReplicaAgg: {
+        std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
+      }
+    }
+  }
+
+  /** The PollAccessPattern method */
+  void PollAccessPattern(PollAccessPatternTask *task, RunContext &rctx) {
+  }
+  void MonitorPollAccessPattern(MonitorModeId mode, PollAccessPatternTask *task, RunContext &rctx) {
     switch (mode) {
       case MonitorMode::kReplicaAgg: {
         std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;

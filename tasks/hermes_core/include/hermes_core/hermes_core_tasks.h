@@ -1620,6 +1620,53 @@ struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 };
 
+/** The PollAccessPatternTask task */
+struct PollAccessPatternTask : public Task, TaskFlags<TF_SRL_SYM> {
+  INOUT hshm::min_u64 last_access_;
+  OUT hipc::vector<IoStat> io_pattern_;
+
+  /** SHM default constructor */
+  HSHM_INLINE explicit
+  PollAccessPatternTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
+
+  /** Emplace constructor */
+  HSHM_INLINE explicit
+  PollAccessPatternTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
+                const TaskNode &task_node,
+                const PoolId &pool_id,
+                const DomainQuery &dom_query,
+                hshm::min_u64 last_access) : Task(alloc) {
+    // Initialize task
+    task_node_ = task_node;
+    prio_ = TaskPrioOpt::kLowLatency;
+    pool_ = pool_id;
+    method_ = Method::kPollAccessPattern;
+    task_flags_.SetBits(0);
+    dom_query_ = dom_query;
+
+    // Custom
+    last_access_ = last_access;
+  }
+
+  /** Duplicate message */
+  void CopyStart(const PollAccessPatternTask &other, bool deep) {
+    last_access_ = other.last_access_;
+  }
+
+  /** (De)serialize message call */
+  template<typename Ar>
+  void SerializeStart(Ar &ar) {
+    ar(last_access_);
+  }
+
+  /** (De)serialize message return */
+  template<typename Ar>
+  void SerializeEnd(Ar &ar) {
+    ar(last_access_);
+    ar(io_pattern_);
+  }
+};
+
 /**
  * ========================================
  * STAGING Tasks

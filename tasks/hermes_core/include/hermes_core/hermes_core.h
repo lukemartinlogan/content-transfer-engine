@@ -415,6 +415,20 @@ class Client : public ModuleClient {
   }
   CHI_TASK_METHODS(PollTagMetadata);
 
+  /** PollAccessPattern task */
+  std::vector<IoStat> PollAccessPattern(const hipc::MemContext &mctx,
+                         const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
+                         const DomainQuery &dom_query,
+                         hshm::min_u64 last_access = 0) {
+    FullPtr<PollAccessPatternTask> task =
+      AsyncPollAccessPattern(mctx, dom_query, last_access);
+    task->Wait();
+    std::vector<IoStat> stats = task->io_pattern_.vec();
+    CHI_CLIENT->DelTask(mctx, task);
+    return stats;
+  }
+  CHI_TASK_METHODS(PollAccessPattern);
+
   /**
    * ========================================
    * STAGING Tasks

@@ -32,6 +32,7 @@ struct Method : public TaskMethod {
   TASK_METHOD_T kPollBlobMetadata = 50;
   TASK_METHOD_T kPollTargetMetadata = 51;
   TASK_METHOD_T kPollTagMetadata = 52;
+  TASK_METHOD_T kPollAccessPattern = 53;
   TASK_METHOD_T kRegisterStager = 60;
   TASK_METHOD_T kUnregisterStager = 61;
   TASK_METHOD_T kStageIn = 62;

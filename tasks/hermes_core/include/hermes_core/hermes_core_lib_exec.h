@@ -128,6 +128,10 @@ void Run(u32 method, Task *task, RunContext &rctx) override {
       PollTagMetadata(reinterpret_cast<PollTagMetadataTask *>(task), rctx);
       break;
     }
+    case Method::kPollAccessPattern: {
+      PollAccessPattern(reinterpret_cast<PollAccessPatternTask *>(task), rctx);
+      break;
+    }
     case Method::kRegisterStager: {
       RegisterStager(reinterpret_cast<RegisterStagerTask *>(task), rctx);
       break;
@@ -273,6 +277,10 @@ void Monitor(MonitorModeId mode, MethodId method, Task *task, RunContext &rctx) 
       MonitorPollTagMetadata(mode, reinterpret_cast<PollTagMetadataTask *>(task), rctx);
       break;
     }
+    case Method::kPollAccessPattern: {
+      MonitorPollAccessPattern(mode, reinterpret_cast<PollAccessPatternTask *>(task), rctx);
+      break;
+    }
     case Method::kRegisterStager: {
       MonitorRegisterStager(mode, reinterpret_cast<RegisterStagerTask *>(task), rctx);
       break;
@@ -416,6 +424,10 @@ void Del(const hipc::MemContext &mctx, u32 method, Task *task) override {
     }
     case Method::kPollTagMetadata: {
       CHI_CLIENT->DelTask<PollTagMetadataTask>(mctx, reinterpret_cast<PollTagMetadataTask *>(task));
+      break;
+    }
+    case Method::kPollAccessPattern: {
+      CHI_CLIENT->DelTask<PollAccessPatternTask>(mctx, reinterpret_cast<PollAccessPatternTask *>(task));
       break;
     }
     case Method::kRegisterStager: {
@@ -625,6 +637,12 @@ void CopyStart(u32 method, const Task *orig_task, Task *dup_task, bool deep) ove
         reinterpret_cast<PollTagMetadataTask*>(dup_task), deep);
       break;
     }
+    case Method::kPollAccessPattern: {
+      chi::CALL_COPY_START(
+        reinterpret_cast<const PollAccessPatternTask*>(orig_task), 
+        reinterpret_cast<PollAccessPatternTask*>(dup_task), deep);
+      break;
+    }
     case Method::kRegisterStager: {
       chi::CALL_COPY_START(
         reinterpret_cast<const RegisterStagerTask*>(orig_task), 
@@ -778,6 +796,10 @@ void NewCopyStart(u32 method, const Task *orig_task, FullPtr<Task> &dup_task, bo
       chi::CALL_NEW_COPY_START(reinterpret_cast<const PollTagMetadataTask*>(orig_task), dup_task, deep);
       break;
     }
+    case Method::kPollAccessPattern: {
+      chi::CALL_NEW_COPY_START(reinterpret_cast<const PollAccessPatternTask*>(orig_task), dup_task, deep);
+      break;
+    }
     case Method::kRegisterStager: {
       chi::CALL_NEW_COPY_START(reinterpret_cast<const RegisterStagerTask*>(orig_task), dup_task, deep);
       break;
@@ -923,6 +945,10 @@ void SaveStart(
     }
     case Method::kPollTagMetadata: {
       ar << *reinterpret_cast<PollTagMetadataTask*>(task);
+      break;
+    }
+    case Method::kPollAccessPattern: {
+      ar << *reinterpret_cast<PollAccessPatternTask*>(task);
       break;
     }
     case Method::kRegisterStager: {
@@ -1133,6 +1159,12 @@ TaskPointer LoadStart(    u32 method, BinaryInputArchive<true> &ar) override {
       ar >> *reinterpret_cast<PollTagMetadataTask*>(task_ptr.ptr_);
       break;
     }
+    case Method::kPollAccessPattern: {
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<PollAccessPatternTask>(
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
+      ar >> *reinterpret_cast<PollAccessPatternTask*>(task_ptr.ptr_);
+      break;
+    }
     case Method::kRegisterStager: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<RegisterStagerTask>(
              HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
@@ -1287,6 +1319,10 @@ void SaveEnd(u32 method, BinaryOutputArchive<false> &ar, Task *task) override {
       ar << *reinterpret_cast<PollTagMetadataTask*>(task);
       break;
     }
+    case Method::kPollAccessPattern: {
+      ar << *reinterpret_cast<PollAccessPatternTask*>(task);
+      break;
+    }
     case Method::kRegisterStager: {
       ar << *reinterpret_cast<RegisterStagerTask*>(task);
       break;
@@ -1430,6 +1466,10 @@ void LoadEnd(u32 method, BinaryInputArchive<false> &ar, Task *task) override {
     }
     case Method::kPollTagMetadata: {
       ar >> *reinterpret_cast<PollTagMetadataTask*>(task);
+      break;
+    }
+    case Method::kPollAccessPattern: {
+      ar >> *reinterpret_cast<PollAccessPatternTask*>(task);
       break;
     }
     case Method::kRegisterStager: {
