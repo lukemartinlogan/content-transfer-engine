@@ -1382,6 +1382,21 @@ class Server : public Module {
 
   /** The PollAccessPattern method */
   void PollAccessPattern(PollAccessPatternTask *task, RunContext &rctx) {
+    std::vector<IoStat> io_pattern;
+    io_pattern.reserve(io_pattern_.GetDepth());
+    for (int i = 0; i < io_pattern_.GetDepth(); ++i) {
+      IoStat *stat;
+      hshm::qtok_t qtok = io_pattern_.peek(stat, i);
+      if (stat->id_ < task->last_access_) {
+        continue;
+      }
+      io_pattern.emplace_back(*stat);
+    }
+    std::sort(io_pattern.begin(), io_pattern.end(),
+              [](const IoStat &a, const IoStat &b) {
+                return a.id_ < b.id_;
+              });
+    task->io_pattern_ = io_pattern;
   }
   void MonitorPollAccessPattern(MonitorModeId mode, PollAccessPatternTask *task, RunContext &rctx) {
     switch (mode) {
