@@ -10,25 +10,26 @@
  * have access to the file, you may request a copy from help@hdfgroup.org.   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include <chimaera/chimaera_types.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <chimaera/chimaera_types.h>
-#include "hermes/hermes.h"
+
 #include "hermes/bucket.h"
+#include "hermes/hermes.h"
 
 namespace py = pybind11;
 
-using hermes::BlobId;
-using hermes::BucketId;
-using hermes::TagId;
-using hermes::TargetId;
-using hermes::BufferInfo;
-using hermes::BlobInfo;
-using hermes::TargetStats;
-using hermes::TagInfo;
-using hermes::MetadataTable;
-using hermes::Hermes;
 using chi::UniqueId;
+using hermes::BlobId;
+using hermes::BlobInfo;
+using hermes::BucketId;
+using hermes::BufferInfo;
+using hermes::Hermes;
+using hermes::MetadataTable;
+using hermes::TagId;
+using hermes::TagInfo;
+using hermes::TargetId;
+using hermes::TargetStats;
 
 bool TRANSPARENT_HERMES_FUN() {
   if (CHIMAERA_CLIENT_INIT()) {
@@ -38,12 +39,13 @@ bool TRANSPARENT_HERMES_FUN() {
   return false;
 }
 
-template<typename UniqueT>
+template <typename UniqueT>
 void BindUniqueId(py::module &m, const std::string &name) {
   py::class_<UniqueT>(m, name.c_str())
       .def(py::init<>())
       .def(py::init<u32, u64>(), py::arg("node_id"), py::arg("unique"))
-      .def(py::init<u32, u32, u64>(), py::arg("node_id"), py::arg("hash"), py::arg("unique"))
+      .def(py::init<u32, u32, u64>(), py::arg("node_id"), py::arg("hash"),
+           py::arg("unique"))
       .def("IsNull", &UniqueT::IsNull)
       .def("GetNull", &UniqueT::GetNull)
       .def("SetNull", &UniqueT::SetNull)
@@ -59,9 +61,8 @@ void BindBufferInfo(py::module &m) {
   py::class_<BufferInfo>(m, "BufferInfo")
       .def(py::init<>())
       .def_readwrite("tid", &BufferInfo::tid_)
-      .def_readwrite("t_slab", &BufferInfo::t_slab_)
-      .def_readwrite("t_off", &BufferInfo::t_off_)
-      .def_readwrite("t_size", &BufferInfo::t_size_);
+      .def_readwrite("t_slab", &BufferInfo::off_)
+      .def_readwrite("t_off", &BufferInfo::size_);
 }
 
 void BindBlobInfo(py::module &m) {

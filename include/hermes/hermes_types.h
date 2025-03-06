@@ -300,6 +300,9 @@ struct BlobInfo {
   chi::string GetBlobNameWithBucket() {
     return GetBlobNameWithBucket(tag_id_, name_);
   }
+
+  /** Get std::string of name */
+  std::string GetName() { return name_.str(); }
 };
 
 /** Data structure used to store Bucket information */
