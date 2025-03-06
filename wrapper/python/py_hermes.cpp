@@ -61,8 +61,8 @@ void BindBufferInfo(py::module &m) {
   py::class_<BufferInfo>(m, "BufferInfo")
       .def(py::init<>())
       .def_readwrite("tid", &BufferInfo::tid_)
-      .def_readwrite("t_slab", &BufferInfo::off_)
-      .def_readwrite("t_off", &BufferInfo::size_);
+      .def_readwrite("off", &BufferInfo::off_)
+      .def_readwrite("size", &BufferInfo::size_);
 }
 
 void BindBlobInfo(py::module &m) {
