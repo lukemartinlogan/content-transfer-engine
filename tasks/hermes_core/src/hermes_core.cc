@@ -1404,6 +1404,11 @@ class Server : public Module {
     switch (mode) {
       case MonitorMode::kReplicaAgg: {
         std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
+        for (FullPtr<Task> &replica : replicas) {
+          PollAccessPatternTask *replica_task =
+              replica.Cast<PollAccessPatternTask>().ptr_;
+          // Merge replicas
+        }
       }
     }
   }
