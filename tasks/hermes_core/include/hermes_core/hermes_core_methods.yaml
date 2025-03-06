@@ -42,6 +42,7 @@ kFlushData: 45
 kPollBlobMetadata: 50
 kPollTargetMetadata: 51
 kPollTagMetadata: 52
+kPollAccessPattern: 53
 
 # Staging Methods
 kRegisterStager: 60

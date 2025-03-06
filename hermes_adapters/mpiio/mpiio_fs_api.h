@@ -513,11 +513,13 @@ class MpiioFs : public Filesystem {
 
     // NOTE(llogan): Allowing scratch mode to create empty files for MPI to
     // satisfy IOR.
+    HILOG(kDebug, "Beginning real MPI open: {}", (void*)real_api_->MPI_File_open);
     f.mpi_status_ = real_api_->MPI_File_open(
         stat.comm_, path.c_str(), stat.amode_, stat.info_, &stat.mpi_fh_);
     if (f.mpi_status_ != MPI_SUCCESS) {
       f.status_ = false;
     }
+    HILOG(kDebug, "Finished real MPI open");
 
     /*if (stat.hflags_.Any(HERMES_FS_CREATE)) {
       if (stat.adapter_mode_ != AdapterMode::kScratch) {

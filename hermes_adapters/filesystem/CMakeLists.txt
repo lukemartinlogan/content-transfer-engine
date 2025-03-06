@@ -6,11 +6,10 @@ include_directories(
         .)
 
 # Create the metadata manager singleton + FS base class
-add_library(hermes_fs_base SHARED
-        ${CMAKE_CURRENT_SOURCE_DIR}/filesystem_mdm_singleton.cc)
+add_library(hermes_fs_base INTERFACE)
 add_dependencies(hermes_fs_base
         hermes_client)
-target_link_libraries(hermes_fs_base
+target_link_libraries(hermes_fs_base INTERFACE
         MPI::MPI_CXX
         hermes_client)
 

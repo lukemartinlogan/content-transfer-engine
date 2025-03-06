@@ -348,9 +348,20 @@ struct IoStat {
   TagId tag_id_;
   size_t blob_size_;
   int rank_;
+  hshm::qtok_id id_;
+  
 
   /** Default constructor */
   IoStat() = default;
+
+  /** Emplace constructor */
+  IoStat(IoType type, const BlobId &blob_id, const TagId &tag_id,
+         size_t blob_size, int rank)
+      : type_(type),
+        blob_id_(blob_id),
+        tag_id_(tag_id),
+        blob_size_(blob_size),
+        rank_(rank) {}
 
   /** Copy constructor */
   IoStat(const IoStat &other) { Copy(other); }

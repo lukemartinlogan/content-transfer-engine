@@ -48,7 +48,7 @@ typedef std::unordered_map<chi::string, TagId> TAG_ID_MAP_T;
 typedef std::unordered_map<TagId, TagInfo> TAG_MAP_T;
 typedef std::unordered_map<chi::string, BlobId> BLOB_ID_MAP_T;
 typedef std::unordered_map<BlobId, BlobInfo> BLOB_MAP_T;
-typedef hipc::mpsc_queue<IoStat> IO_PATTERN_LOG_T;
+typedef hipc::circular_mpsc_queue<IoStat> IO_PATTERN_LOG_T;
 typedef std::unordered_map<TagId, std::shared_ptr<AbstractStager>> STAGER_MAP_T;
 
 struct HermesLane {
@@ -71,6 +71,7 @@ class Server : public Module {
   std::vector<TargetInfo> targets_;
   std::unordered_map<TargetId, TargetInfo *> target_map_;
   chi::RollingAverage monitor_[Method::kCount];
+  IO_PATTERN_LOG_T io_pattern_;
   TargetInfo *fallback_target_;
 
  private:
@@ -90,7 +91,9 @@ class Server : public Module {
     client_.Init(id_);
     CreateLaneGroup(kDefaultGroup, HERMES_LANES, QUEUE_LOW_LATENCY);
     tls_.resize(HERMES_LANES);
+    io_pattern_.resize(8192);
     // Create block devices
+    targets_.reserve(128);  // TODO(llogan): Calculate number of buffering devices
     // for (int i = 0; i < 3; ++i) {
     int i = 0;
     for (DeviceInfo &dev : HERMES_SERVER_CONF.devices_) {
@@ -104,11 +107,14 @@ class Server : public Module {
           HSHM_DEFAULT_MEM_CTX,
           DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
                                      node_id),
-          DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
-                                     node_id),
+          DomainQuery::GetGlobalBcast(),
           hshm::Formatter::format("hermes_{}/{}", dev.dev_name_, node_id),
           dev.mount_point_, dev.capacity_);
       target.id_ = target.client_.id_;
+      if (target_map_.find(target.id_) != target_map_.end()) {
+        targets_.pop_back();
+        continue;
+      }
       HILOG(kInfo, "Created target: {}", target.id_);
       target.poll_stats_ = target.client_.AsyncPollStats(
           HSHM_DEFAULT_MEM_CTX,
@@ -222,7 +228,7 @@ class Server : public Module {
         HashBlobNameOrId(tag_id, blob_name, blob_id));
     task->SetDirect();
     task->UnsetRouted();
-    HILOG(kInfo, "Routing to: {}", task->dom_query_);
+    // HILOG(kInfo, "Routing to: {}", task->dom_query_);
   }
 
   template <typename TaskT>
@@ -245,7 +251,7 @@ class Server : public Module {
         HashBlobNameOrId(tag_id, blob_name, blob_id));
     task->SetDirect();
     task->UnsetRouted();
-    HILOG(kInfo, "Routing to: {}", task->dom_query_);
+    // HILOG(kInfo, "Routing to: {}", task->dom_query_);
   }
 
   template <typename TaskT>
@@ -266,7 +272,7 @@ class Server : public Module {
         chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
     task->SetDirect();
     task->UnsetRouted();
-    HILOG(kInfo, "Routing to: {}", task->dom_query_);
+    // HILOG(kInfo, "Routing to: {}", task->dom_query_);
   }
 
   template <typename TaskT>
@@ -287,7 +293,7 @@ class Server : public Module {
         chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
     task->SetDirect();
     task->UnsetRouted();
-    HILOG(kInfo, "Routing to: {}", task->dom_query_);
+    // HILOG(kInfo, "Routing to: {}", task->dom_query_);
   }
 
   void PutBlobBegin(PutBlobTask *task, char *data, size_t data_size,
@@ -975,6 +981,10 @@ class Server : public Module {
     // Free data
     HILOG(kDebug, "Completing PUT for {}", blob_name.str());
     blob_info.UpdateWriteStats();
+    IoStat *stat;
+    hshm::qtok_t qtok = io_pattern_.push(IoStat{IoType::kWrite, task->blob_id_, task->tag_id_, task->data_size_, 0});
+    io_pattern_.peek(stat, qtok); 
+    stat->id_ = qtok.id_;
   }
   void MonitorPutBlob(MonitorModeId mode, PutBlobTask *task, RunContext &rctx) {
     switch (mode) {
@@ -1062,6 +1072,10 @@ class Server : public Module {
     }
     task->data_size_ = buf_off;
     blob_info.UpdateReadStats();
+    IoStat *stat;
+    hshm::qtok_t qtok = io_pattern_.push(IoStat{IoType::kRead, task->blob_id_, task->tag_id_, task->data_size_, 0});
+    io_pattern_.peek(stat, qtok); 
+    stat->id_ = qtok.id_;
   }
   void MonitorGetBlob(MonitorModeId mode, GetBlobTask *task, RunContext &rctx) {
     switch (mode) {
@@ -1366,6 +1380,32 @@ class Server : public Module {
     }
   }
 
+  /** The PollAccessPattern method */
+  void PollAccessPattern(PollAccessPatternTask *task, RunContext &rctx) {
+    std::vector<IoStat> io_pattern;
+    io_pattern.reserve(io_pattern_.GetDepth());
+    for (int i = 0; i < io_pattern_.GetDepth(); ++i) {
+      IoStat *stat;
+      hshm::qtok_t qtok = io_pattern_.peek(stat, i);
+      if (stat->id_ < task->last_access_) {
+        continue;
+      }
+      io_pattern.emplace_back(*stat);
+    }
+    std::sort(io_pattern.begin(), io_pattern.end(),
+              [](const IoStat &a, const IoStat &b) {
+                return a.id_ < b.id_;
+              });
+    task->io_pattern_ = io_pattern;
+  }
+  void MonitorPollAccessPattern(MonitorModeId mode, PollAccessPatternTask *task, RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kReplicaAgg: {
+        std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
+      }
+    }
+  }
+
   /**
    * ========================================
    * STAGING Tasks
@@ -1379,12 +1419,13 @@ class Server : public Module {
     STAGER_MAP_T &stager_map = tls.stager_map_;
     std::string tag_name = task->tag_name_.str();
     std::string params = task->params_.str();
-    HILOG(kInfo, "Registering stager {}: {}", task->bkt_id_, tag_name);
+    HILOG(kDebug, "Registering stager {}: {}", task->bkt_id_, tag_name);
     std::shared_ptr<AbstractStager> stager =
         StagerFactory::Get(tag_name, params);
     stager->RegisterStager(HSHM_DEFAULT_MEM_CTX, task->tag_name_.str(),
                            task->params_.str());
     stager_map.emplace(task->bkt_id_, std::move(stager));
+    HILOG(kDebug, "Finished registering stager {}: {}", task->bkt_id_, tag_name);
   }
   void MonitorRegisterStager(MonitorModeId mode, RegisterStagerTask *task,
                              RunContext &rctx) {
