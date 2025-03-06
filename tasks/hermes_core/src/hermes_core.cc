@@ -93,7 +93,8 @@ class Server : public Module {
     tls_.resize(HERMES_LANES);
     io_pattern_.resize(8192);
     // Create block devices
-    targets_.reserve(128);  // TODO(llogan): Calculate number of buffering devices
+    targets_.reserve(
+        128);  // TODO(llogan): Calculate number of buffering devices
     // for (int i = 0; i < 3; ++i) {
     int i = 0;
     for (DeviceInfo &dev : HERMES_SERVER_CONF.devices_) {
@@ -982,8 +983,9 @@ class Server : public Module {
     HILOG(kDebug, "Completing PUT for {}", blob_name.str());
     blob_info.UpdateWriteStats();
     IoStat *stat;
-    hshm::qtok_t qtok = io_pattern_.push(IoStat{IoType::kWrite, task->blob_id_, task->tag_id_, task->data_size_, 0});
-    io_pattern_.peek(stat, qtok); 
+    hshm::qtok_t qtok = io_pattern_.push(IoStat{
+        IoType::kWrite, task->blob_id_, task->tag_id_, task->data_size_, 0});
+    io_pattern_.peek(stat, qtok);
     stat->id_ = qtok.id_;
   }
   void MonitorPutBlob(MonitorModeId mode, PutBlobTask *task, RunContext &rctx) {
@@ -1073,8 +1075,9 @@ class Server : public Module {
     task->data_size_ = buf_off;
     blob_info.UpdateReadStats();
     IoStat *stat;
-    hshm::qtok_t qtok = io_pattern_.push(IoStat{IoType::kRead, task->blob_id_, task->tag_id_, task->data_size_, 0});
-    io_pattern_.peek(stat, qtok); 
+    hshm::qtok_t qtok = io_pattern_.push(IoStat{
+        IoType::kRead, task->blob_id_, task->tag_id_, task->data_size_, 0});
+    io_pattern_.peek(stat, qtok);
     stat->id_ = qtok.id_;
   }
   void MonitorGetBlob(MonitorModeId mode, GetBlobTask *task, RunContext &rctx) {
@@ -1347,7 +1350,7 @@ class Server : public Module {
       stats.tgt_id_ = bdev_client.id_;
       stats.node_id_ = CHI_CLIENT->node_id_;
       stats.rem_cap_ = bdev_client.stats_->free_;
-      // stats.max_cap_ = bdev_client.stats_->max_cap_;
+      stats.max_cap_ = bdev_client.stats_->max_cap_;
       stats.bandwidth_ = bdev_client.stats_->write_bw_;
       stats.latency_ = bdev_client.stats_->write_latency_;
       stats.score_ = bdev_client.score_;
@@ -1393,12 +1396,11 @@ class Server : public Module {
       io_pattern.emplace_back(*stat);
     }
     std::sort(io_pattern.begin(), io_pattern.end(),
-              [](const IoStat &a, const IoStat &b) {
-                return a.id_ < b.id_;
-              });
+              [](const IoStat &a, const IoStat &b) { return a.id_ < b.id_; });
     task->io_pattern_ = io_pattern;
   }
-  void MonitorPollAccessPattern(MonitorModeId mode, PollAccessPatternTask *task, RunContext &rctx) {
+  void MonitorPollAccessPattern(MonitorModeId mode, PollAccessPatternTask *task,
+                                RunContext &rctx) {
     switch (mode) {
       case MonitorMode::kReplicaAgg: {
         std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
@@ -1425,7 +1427,8 @@ class Server : public Module {
     stager->RegisterStager(HSHM_DEFAULT_MEM_CTX, task->tag_name_.str(),
                            task->params_.str());
     stager_map.emplace(task->bkt_id_, std::move(stager));
-    HILOG(kDebug, "Finished registering stager {}: {}", task->bkt_id_, tag_name);
+    HILOG(kDebug, "Finished registering stager {}: {}", task->bkt_id_,
+          tag_name);
   }
   void MonitorRegisterStager(MonitorModeId mode, RegisterStagerTask *task,
                              RunContext &rctx) {
