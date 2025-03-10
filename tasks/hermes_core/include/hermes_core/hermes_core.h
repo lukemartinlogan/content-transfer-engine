@@ -383,20 +383,24 @@ class Client : public ModuleClient {
 
   /** PollBlobMetadata task */
   std::vector<BlobInfo> PollBlobMetadata(const hipc::MemContext &mctx,
-                                         const DomainQuery &dom_query) {
-    FullPtr<PollBlobMetadataTask> task = AsyncPollBlobMetadata(mctx, dom_query);
+                                         const DomainQuery &dom_query,
+                                         const std::string &filter,
+                                         int max_count) {
+    FullPtr<PollBlobMetadataTask> task = AsyncPollBlobMetadata(mctx, dom_query, filter, max_count);
     task->Wait();
     std::vector<BlobInfo> stats = task->GetStats();
     CHI_CLIENT->DelTask(mctx, task);
     return stats;
   }
   CHI_TASK_METHODS(PollBlobMetadata);
-
+ 
   /** PollTargetMetadata task */
   std::vector<TargetStats> PollTargetMetadata(const hipc::MemContext &mctx,
-                                              const DomainQuery &dom_query) {
+                                              const DomainQuery &dom_query,
+                                              const std::string &filter,
+                                              int max_count) {
     FullPtr<PollTargetMetadataTask> task =
-        AsyncPollTargetMetadata(mctx, dom_query);
+        AsyncPollTargetMetadata(mctx, dom_query, filter, max_count);
     task->Wait();
     std::vector<TargetStats> stats = task->GetStats();
     CHI_CLIENT->DelTask(mctx, task);
@@ -406,8 +410,10 @@ class Client : public ModuleClient {
 
   /** PollTagMetadata task */
   std::vector<TagInfo> PollTagMetadata(const hipc::MemContext &mctx,
-                                       const DomainQuery &dom_query) {
-    FullPtr<PollTagMetadataTask> task = AsyncPollTagMetadata(mctx, dom_query);
+                                       const DomainQuery &dom_query,
+                                         const std::string &filter,
+                                         int max_count) {
+    FullPtr<PollTagMetadataTask> task = AsyncPollTagMetadata(mctx, dom_query, filter, max_count);
     task->Wait();
     std::vector<TagInfo> stats = task->GetStats();
     CHI_CLIENT->DelTask(mctx, task);

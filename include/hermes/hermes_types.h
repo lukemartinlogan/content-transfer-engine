@@ -53,6 +53,22 @@ struct TargetInfo {
   size_t GetRemCap() { return stats_->free_; }
 };
 
+/** Basic target statistics summary */
+struct TargetStats {
+  TargetId tgt_id_;
+  chi::NodeId node_id_;
+  ssize_t rem_cap_;
+  ssize_t max_cap_;
+  float bandwidth_;
+  float latency_;
+  float score_;
+
+  template <typename Ar>
+  void serialize(Ar &ar) {
+    ar(tgt_id_, node_id_, rem_cap_, max_cap_, bandwidth_, latency_, score_);
+  }
+};
+
 /** Represents a trait */
 typedef PoolId TraitId;
 

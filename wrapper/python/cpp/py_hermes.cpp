@@ -26,7 +26,6 @@ using hermes::BufferInfo;
 using hermes::BlobInfo;
 using hermes::TargetStats;
 using hermes::TagInfo;
-using hermes::MetadataTable;
 using hermes::Hermes;
 using chi::UniqueId;
 
@@ -106,21 +105,15 @@ void BindTagInfo(py::module &m) {
       .def_readonly("owner", &TagInfo::owner_);
 }
 
-void BindMetadataTable(py::module &m) {
-  py::class_<MetadataTable>(m, "MetadataTable")
-      .def(py::init<>())
-      .def_readonly("blob_info", &MetadataTable::blob_info_)
-      .def_readonly("target_info", &MetadataTable::target_info_)
-      .def_readonly("bkt_info", &MetadataTable::bkt_info_);
-}
-
 void BindHermes(py::module &m) {
   py::class_<Hermes>(m, "Hermes")
       .def(py::init<>())
       .def("ClientInit", &Hermes::ClientInit)
       .def("IsInitialized", &Hermes::IsInitialized)
       .def("GetTagId", &Hermes::GetTagId)
-      .def("CollectMetadataSnapshot", &Hermes::CollectMetadataSnapshot);
+      .def("PollTargetMetadata", &Hermes::PollTargetMetadata)
+      .def("PollTagMetadata", &Hermes::PollTagMetadata)
+      .def("PollBlobMetadata", &Hermes::PollBlobMetadata);
   m.def("TRANSPARENT_HERMES", &TRANSPARENT_HERMES_FUN);
 }
 
@@ -133,6 +126,5 @@ PYBIND11_MODULE(py_hermes, m) {
   BindBlobInfo(m);
   BindTargetStats(m);
   BindTagInfo(m);
-  BindMetadataTable(m);
   BindHermes(m);
 }

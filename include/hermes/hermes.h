@@ -20,12 +20,6 @@
 
 namespace hermes {
 
-struct MetadataTable {
-  std::vector<BlobInfo> blob_info_;
-  std::vector<TargetStats> target_info_;
-  std::vector<TagInfo> bkt_info_;
-};
-
 class Hermes {
  public:
   /** Init hermes client */
@@ -37,21 +31,22 @@ class Hermes {
   /** Check if initialized */
   bool IsInitialized() { return HERMES_CONF->is_initialized_; }
 
-  /** Get tag ID */
-  //  TagId GetTagId(const std::string &tag_name) {
-  //    return HERMES_CONF->bkt_mdm_.GetTagId(hshm::to_charbuf(tag_name));
-  //  }
-  //
-  /** Collect a snapshot of all metadata in Hermes */
-  MetadataTable CollectMetadataSnapshot(const hipc::MemContext &mctx) {
-    MetadataTable table;
-    table.blob_info_ = HERMES_CONF->mdm_.PollBlobMetadata(
-        mctx, chi::DomainQuery::GetGlobalBcast());
-    table.target_info_ = HERMES_CONF->mdm_.PollTargetMetadata(
-        mctx, chi::DomainQuery::GetGlobalBcast());
-    table.bkt_info_ = HERMES_CONF->mdm_.PollTagMetadata(
-        mctx, chi::DomainQuery::GetGlobalBcast());
-    return table;
+  /** Collects blob metadata */
+  std::vector<BlobInfo> PollBlobInfo(const std::string &filter, int max_count) {
+    return  HERMES_CONF->mdm_.PollBlobMetadata(
+        HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast(), filter, max_count);
+  }
+
+  /** Collects tag metadata */
+  std::vector<TagInfo> PollTagInfo(const std::string &filter, int max_count) {
+    return  HERMES_CONF->mdm_.PollTagMetadata(
+        HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast(), filter, max_count);
+  }
+  
+  /** Collects target metadata */
+  std::vector<TargetStats> PollTargetInfo(const std::string &filter, int max_count) {
+    return HERMES_CONF->mdm_.PollTargetMetadata(
+        HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast(), filter, max_count);
   }
 
   /** Get tag id */

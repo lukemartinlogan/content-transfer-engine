@@ -1432,193 +1432,76 @@ struct FlushDataTask : public Task, TaskFlags<TF_SRL_SYM> {
   void SerializeEnd(Ar &ar) {}
 };
 
-/** The PollBlobMetadataTask task */
-struct PollBlobMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
-  chi::string stats_buf_;
+/** Base task for various metadata queries */
+template<typename MD, int METHOD>
+struct PollMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
+  IN hipc::string filter_;
+  IN int max_count_;
+  OUT hipc::vector<MD> stats_;
 
   /** SHM default constructor */
-  HSHM_INLINE explicit PollBlobMetadataTask(
+  HSHM_INLINE explicit PollMetadataTask(
       const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
-      : Task(alloc), stats_buf_(alloc) {}
+      : Task(alloc), filter_(alloc), stats_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_INLINE explicit PollBlobMetadataTask(
+  HSHM_INLINE explicit PollMetadataTask(
       const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
-      const PoolId &pool_id, const DomainQuery &dom_query)
-      : Task(alloc), stats_buf_(alloc) {
+      const PoolId &pool_id, const DomainQuery &dom_query,
+      const std::string &filter,
+      int max_count)
+      : Task(alloc), filter_(alloc), stats_(alloc)  {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrioOpt::kLowLatency;
     pool_ = pool_id;
-    method_ = Method::kPollBlobMetadata;
+    method_ = METHOD;
     task_flags_.SetBits(0);
     dom_query_ = dom_query;
 
     // Custom
+    filter_ = filter;
+    max_count_ = max_count;
   }
 
   /** Serialize stats buf */
-  void SetStats(const std::vector<BlobInfo> &stats) {
-    std::stringstream ss;
-    cereal::BinaryOutputArchive ar(ss);
-    ar(stats);
-    stats_buf_ = ss.str();
+  void SetStats(const std::vector<MD> &stats) {
+    stats_ = stats;
   }
 
   /** Get stats buf */
-  std::vector<BlobInfo> GetStats() {
-    std::vector<BlobInfo> stats;
-    std::stringstream ss(stats_buf_.str());
-    cereal::BinaryInputArchive ar(ss);
-    ar(stats);
-    return stats;
+  std::vector<MD> GetStats() {
+    return stats_.vec();
   }
 
   /** Duplicate message */
-  void CopyStart(const PollBlobMetadataTask &other, bool deep) {
-    stats_buf_ = other.stats_buf_;
+  void CopyStart(const PollMetadataTask &other, bool deep) {
+    filter_ = other.filter_;
+    max_count_ = other.max_count_;
+    stats_ = other.stats_;
   }
 
   /** (De)serialize message call */
   template <typename Ar>
-  void SerializeStart(Ar &ar) {}
+  void SerializeStart(Ar &ar) {
+    ar(filter_, max_count_);
+  }
 
   /** (De)serialize message return */
   template <typename Ar>
   void SerializeEnd(Ar &ar) {
-    ar(stats_buf_);
+    ar(stats_);
   }
 };
+
+/** The PollBlobMetadataTask task */
+using PollBlobMetadataTask = PollMetadataTask<BlobInfo, Method::kPollBlobMetadata>;
 
 /** The PollTargetMetadataTask task */
-struct TargetStats {
-  TargetId tgt_id_;
-  chi::NodeId node_id_;
-  ssize_t rem_cap_;
-  ssize_t max_cap_;
-  float bandwidth_;
-  float latency_;
-  float score_;
-
-  template <typename Ar>
-  void serialize(Ar &ar) {
-    ar(tgt_id_, node_id_, rem_cap_, max_cap_, bandwidth_, latency_, score_);
-  }
-};
-struct PollTargetMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
-  chi::string stats_buf_;
-
-  /** SHM default constructor */
-  HSHM_INLINE explicit PollTargetMetadataTask(
-      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
-      : Task(alloc), stats_buf_(alloc) {}
-
-  /** Emplace constructor */
-  HSHM_INLINE explicit PollTargetMetadataTask(
-      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
-      const PoolId &pool_id, const DomainQuery &dom_query)
-      : Task(alloc), stats_buf_(alloc) {
-    // Initialize task
-    task_node_ = task_node;
-    prio_ = TaskPrioOpt::kLowLatency;
-    pool_ = pool_id;
-    method_ = Method::kPollTargetMetadata;
-    task_flags_.SetBits(0);
-    dom_query_ = dom_query;
-
-    // Custom
-  }
-
-  /** Serialize stats buf */
-  void SetStats(const std::vector<TargetStats> &stats) {
-    std::stringstream ss;
-    cereal::BinaryOutputArchive ar(ss);
-    ar(stats);
-    stats_buf_ = ss.str();
-  }
-
-  /** Get stats buf */
-  std::vector<TargetStats> GetStats() {
-    std::vector<TargetStats> stats;
-    std::stringstream ss(stats_buf_.str());
-    cereal::BinaryInputArchive ar(ss);
-    ar(stats);
-    return stats;
-  }
-
-  /** Duplicate message */
-  void CopyStart(const PollTargetMetadataTask &other, bool deep) {
-    stats_buf_ = other.stats_buf_;
-  }
-
-  /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {}
-
-  /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
-    ar(stats_buf_);
-  }
-};
+using PollTargetMetadataTask = PollMetadataTask<TargetStats, Method::kPollTargetMetadata>;
 
 /** The PollTagMetadataTask task */
-struct PollTagMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
-  chi::string stats_buf_;
-
-  /** SHM default constructor */
-  HSHM_INLINE explicit PollTagMetadataTask(
-      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
-      : Task(alloc), stats_buf_(alloc) {}
-
-  /** Emplace constructor */
-  HSHM_INLINE explicit PollTagMetadataTask(
-      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
-      const PoolId &pool_id, const DomainQuery &dom_query)
-      : Task(alloc), stats_buf_(alloc) {
-    // Initialize task
-    task_node_ = task_node;
-    prio_ = TaskPrioOpt::kLowLatency;
-    pool_ = pool_id;
-    method_ = Method::kPollTagMetadata;
-    task_flags_.SetBits(0);
-    dom_query_ = dom_query;
-
-    // Custom
-  }
-
-  /** Serialize stats buf */
-  void SetStats(const std::vector<TagInfo> &stats) {
-    std::stringstream ss;
-    cereal::BinaryOutputArchive ar(ss);
-    ar(stats);
-    stats_buf_ = ss.str();
-  }
-
-  /** Get stats buf */
-  std::vector<TagInfo> GetStats() {
-    std::vector<TagInfo> stats;
-    std::stringstream ss(stats_buf_.str());
-    cereal::BinaryInputArchive ar(ss);
-    ar(stats);
-    return stats;
-  }
-
-  /** Duplicate message */
-  void CopyStart(const PollTagMetadataTask &other, bool deep) {
-    stats_buf_ = other.stats_buf_;
-  }
-
-  /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {}
-
-  /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
-    ar(stats_buf_);
-  }
-};
+using PollTagMetadataTask = PollMetadataTask<TagInfo, Method::kPollTagMetadata>;
 
 /** The PollAccessPatternTask task */
 struct PollAccessPatternTask : public Task, TaskFlags<TF_SRL_SYM> {
