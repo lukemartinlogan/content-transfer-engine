@@ -32,19 +32,19 @@ class Hermes {
   bool IsInitialized() { return HERMES_CONF->is_initialized_; }
 
   /** Collects blob metadata */
-  std::vector<BlobInfo> PollBlobInfo(const std::string &filter, int max_count) {
+  std::vector<BlobInfo> PollBlobMetadata(const std::string &filter, int max_count) {
     return  HERMES_CONF->mdm_.PollBlobMetadata(
         HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast(), filter, max_count);
   }
 
   /** Collects tag metadata */
-  std::vector<TagInfo> PollTagInfo(const std::string &filter, int max_count) {
+  std::vector<TagInfo> PollTagMetadata(const std::string &filter, int max_count) {
     return  HERMES_CONF->mdm_.PollTagMetadata(
         HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast(), filter, max_count);
   }
   
   /** Collects target metadata */
-  std::vector<TargetStats> PollTargetInfo(const std::string &filter, int max_count) {
+  std::vector<TargetStats> PollTargetMetadata(const std::string &filter, int max_count) {
     return HERMES_CONF->mdm_.PollTargetMetadata(
         HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast(), filter, max_count);
   }
