@@ -1321,6 +1321,23 @@ class Server : public Module {
   void MonitorFlushData(MonitorModeId mode, FlushDataTask *task,
                         RunContext &rctx) {}
 
+  /** Monitor function used by all metadata poll functions */
+  template <typename PollTaskT>
+  void MonitorPollMetadata(MonitorModeId mode, PollTaskT *task,
+                           RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kReplicaAgg: {
+        std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
+        for (FullPtr<Task> &replica : replicas) {
+          PollTaskT *replica_task = replica.Cast<PollTaskT>().ptr_;
+          // Merge replicas
+          task->stats_.assign(replica_task->stats_.begin(),
+                              replica_task->stats_.end(), task->max_count_);
+        }
+      }
+    }
+  }
+
   /** Poll blob metadata */
   void PollBlobMetadata(PollBlobMetadataTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -1328,14 +1345,22 @@ class Server : public Module {
     BLOB_MAP_T &blob_map = tls.blob_map_;
     std::vector<BlobInfo> blob_mdms;
     blob_mdms.reserve(blob_map.size());
+    std::string filter = task->filter_.str();
     for (const std::pair<BlobId, BlobInfo> &blob_part : blob_map) {
       const BlobInfo &blob_info = blob_part.second;
+      if (!filter.empty()) {
+        if (!std::regex_match(blob_info.name_.str(), std::regex(filter))) {
+          continue;
+        }
+      }
       blob_mdms.emplace_back(blob_info);
     }
     task->SetStats(blob_mdms);
   }
   void MonitorPollBlobMetadata(MonitorModeId mode, PollBlobMetadataTask *task,
-                               RunContext &rctx) {}
+                               RunContext &rctx) {
+    MonitorPollMetadata<PollBlobMetadataTask>(mode, task, rctx);
+  }
 
   /** Poll target metadata */
   void PollTargetMetadata(PollTargetMetadataTask *task, RunContext &rctx) {
@@ -1360,7 +1385,9 @@ class Server : public Module {
   }
   void MonitorPollTargetMetadata(MonitorModeId mode,
                                  PollTargetMetadataTask *task,
-                                 RunContext &rctx) {}
+                                 RunContext &rctx) {
+    MonitorPollMetadata<PollTargetMetadataTask>(mode, task, rctx);
+  }
 
   /** The PollTagMetadata method */
   void PollTagMetadata(PollTagMetadataTask *task, RunContext &rctx) {
@@ -1368,22 +1395,21 @@ class Server : public Module {
     chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
     TAG_MAP_T &tag_map = tls.tag_map_;
     std::vector<TagInfo> stats;
+    std::string filter = task->filter_.str();
     for (auto &it : tag_map) {
       TagInfo &tag = it.second;
+      if (!filter.empty()) {
+        if (!std::regex_match(tag.name_.str(), std::regex(filter))) {
+          continue;
+        }
+      }
       stats.emplace_back(tag);
     }
     task->SetStats(stats);
   }
   void MonitorPollTagMetadata(MonitorModeId mode, PollTagMetadataTask *task,
                               RunContext &rctx) {
-    switch (mode) {
-      case MonitorMode::kReplicaAgg: {
-        std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
-        for (FullPtr<Task> &task : replicas) {
-          // task.Cast<PollTagMetadataTask>.stats_;
-        }
-      }
-    }
+    MonitorPollMetadata<PollTagMetadataTask>(mode, task, rctx);
   }
 
   /** The PollAccessPattern method */
@@ -1403,18 +1429,7 @@ class Server : public Module {
     task->io_pattern_ = io_pattern;
   }
   void MonitorPollAccessPattern(MonitorModeId mode, PollAccessPatternTask *task,
-                                RunContext &rctx) {
-    switch (mode) {
-      case MonitorMode::kReplicaAgg: {
-        std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
-        for (FullPtr<Task> &replica : replicas) {
-          PollAccessPatternTask *replica_task =
-              replica.Cast<PollAccessPatternTask>().ptr_;
-          // Merge replicas
-        }
-      }
-    }
-  }
+                                RunContext &rctx) {}
 
   /**
    * ========================================
