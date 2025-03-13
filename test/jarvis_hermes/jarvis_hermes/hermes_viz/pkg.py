@@ -79,9 +79,7 @@ class HermesViz(Service):
 
     def kill(self):
        Kill('.*hermes_viz_server.*',
-            LocalExecInfo(env=self.env,
-                          do_dbg=self.config['do_dbg'],
-                          dbg_port=self.config['dbg_port']))
+            LocalExecInfo(env=self.env))
 
     def clean(self):
         """

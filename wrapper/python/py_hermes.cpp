@@ -99,7 +99,7 @@ void BindTagInfo(py::module &m) {
       .def_readonly("owner", &TagInfo::owner_);
 }
 
-void BinIoType(py::module &m) {
+void BindIoType(py::module &m) {
   py::enum_<IoType>(m, "IoType")
       .value("kRead", IoType::kRead)
       .value("kWrite", IoType::kWrite)
@@ -144,5 +144,7 @@ PYBIND11_MODULE(py_hermes, m) {
   BindBlobInfo(m);
   BindTargetStats(m);
   BindTagInfo(m);
+  BindIoType(m);
+  BindIoStat(m);
   BindHermes(m);
 }
