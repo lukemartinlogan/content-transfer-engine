@@ -20,22 +20,16 @@
 namespace py = pybind11;
 
 using hermes::BlobId;
-using hermes::BucketId;
-using hermes::TagId;
-using hermes::TargetId;
-using hermes::BufferInfo;
 using hermes::BlobInfo;
-using hermes::TargetStats;
-using hermes::TagInfo;
+using hermes::BucketId;
+using hermes::BufferInfo;
 using hermes::Hermes;
-
-bool TRANSPARENT_HERMES_FUN() {
-  if (CHIMAERA_CLIENT_INIT()) {
-    HERMES_CONF->ClientInit();
-    return true;
-  }
-  return false;
-}
+using hermes::IoStat;
+using hermes::IoType;
+using hermes::TagId;
+using hermes::TagInfo;
+using hermes::TargetId;
+using hermes::TargetStats;
 
 template <typename UniqueT>
 void BindUniqueId(py::module &m, const std::string &name) {
@@ -105,6 +99,28 @@ void BindTagInfo(py::module &m) {
       .def_readonly("owner", &TagInfo::owner_);
 }
 
+void BinIoType(py::module &m) {
+  py::enum_<IoType>(m, "IoType")
+      .value("kRead", IoType::kRead)
+      .value("kWrite", IoType::kWrite)
+      .value("kNone", IoType::kNone)
+      .export_values();
+}
+
+void BindIoStat(py::module &m) {
+  py::class_<IoStat>(m, "IoStat")
+      .def(py::init<>())
+      .def(py::init<IoType, const BlobId &, const TagId &, size_t, int>(),
+           py::arg("type"), py::arg("blob_id"), py::arg("tag_id"),
+           py::arg("blob_size"), py::arg("rank"))
+      .def_readonly("id", &IoStat::id_)
+      .def_readonly("type", &IoStat::type_)
+      .def_readonly("blob_id", &IoStat::blob_id_)
+      .def_readonly("tag_id", &IoStat::tag_id_)
+      .def_readonly("blob_size", &IoStat::blob_size_)
+      .def_readonly("rank", &IoStat::rank_);
+}
+
 void BindHermes(py::module &m) {
   py::class_<Hermes>(m, "Hermes")
       .def(py::init<>())
@@ -113,8 +129,10 @@ void BindHermes(py::module &m) {
       .def("GetTagId", &Hermes::GetTagId)
       .def("PollTargetMetadata", &Hermes::PollTargetMetadata)
       .def("PollTagMetadata", &Hermes::PollTagMetadata)
-      .def("PollBlobMetadata", &Hermes::PollBlobMetadata);
-  m.def("TRANSPARENT_HERMES", &TRANSPARENT_HERMES_FUN);
+      .def("PollBlobMetadata", &Hermes::PollBlobMetadata)
+      .def("PollAccessPattern", &Hermes::PollAccessPattern);
+  m.def("TRANSPARENT_HERMES", &HERMES_INIT);
+  m.def("HERMES_INIT", &HERMES_INIT);
 }
 
 PYBIND11_MODULE(py_hermes, m) {

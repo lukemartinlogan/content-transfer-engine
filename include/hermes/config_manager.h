@@ -67,8 +67,6 @@ class ConfigurationManager {
   }
 };
 
-}  // namespace hermes
-
 #define HERMES_CONF \
   hshm::Singleton<::hermes::ConfigurationManager>::GetInstance()
 #define HERMES_CLIENT_CONF HERMES_CONF->client_config_
@@ -82,5 +80,13 @@ static inline bool TRANSPARENT_HERMES() {
   }
   return false;
 }
+
+/** Wrapper for client-side hermes init */
+static inline bool HERMES_INIT() { return TRANSPARENT_HERMES(); }
+
+}  // namespace hermes
+
+using hermes::HERMES_INIT;
+using hermes::TRANSPARENT_HERMES;
 
 #endif  // HRUN_TASKS_HERMES_INCLUDE_hermes_H_

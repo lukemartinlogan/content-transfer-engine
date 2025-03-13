@@ -386,14 +386,15 @@ class Client : public ModuleClient {
                                          const DomainQuery &dom_query,
                                          const std::string &filter,
                                          int max_count) {
-    FullPtr<PollBlobMetadataTask> task = AsyncPollBlobMetadata(mctx, dom_query, filter, max_count);
+    FullPtr<PollBlobMetadataTask> task =
+        AsyncPollBlobMetadata(mctx, dom_query, filter, max_count);
     task->Wait();
     std::vector<BlobInfo> stats = task->GetStats();
     CHI_CLIENT->DelTask(mctx, task);
     return stats;
   }
   CHI_TASK_METHODS(PollBlobMetadata);
- 
+
   /** PollTargetMetadata task */
   std::vector<TargetStats> PollTargetMetadata(const hipc::MemContext &mctx,
                                               const DomainQuery &dom_query,
@@ -411,9 +412,10 @@ class Client : public ModuleClient {
   /** PollTagMetadata task */
   std::vector<TagInfo> PollTagMetadata(const hipc::MemContext &mctx,
                                        const DomainQuery &dom_query,
-                                         const std::string &filter,
-                                         int max_count) {
-    FullPtr<PollTagMetadataTask> task = AsyncPollTagMetadata(mctx, dom_query, filter, max_count);
+                                       const std::string &filter,
+                                       int max_count) {
+    FullPtr<PollTagMetadataTask> task =
+        AsyncPollTagMetadata(mctx, dom_query, filter, max_count);
     task->Wait();
     std::vector<TagInfo> stats = task->GetStats();
     CHI_CLIENT->DelTask(mctx, task);
@@ -423,11 +425,10 @@ class Client : public ModuleClient {
 
   /** PollAccessPattern task */
   std::vector<IoStat> PollAccessPattern(const hipc::MemContext &mctx,
-                         const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                         const DomainQuery &dom_query,
-                         hshm::min_u64 last_access = 0) {
+                                        const DomainQuery &dom_query,
+                                        hshm::min_u64 last_access = 0) {
     FullPtr<PollAccessPatternTask> task =
-      AsyncPollAccessPattern(mctx, dom_query, last_access);
+        AsyncPollAccessPattern(mctx, dom_query, last_access);
     task->Wait();
     std::vector<IoStat> stats = task->io_pattern_.vec();
     CHI_CLIENT->DelTask(mctx, task);
