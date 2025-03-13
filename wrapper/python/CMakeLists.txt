@@ -19,3 +19,5 @@ install(TARGETS
         py_hermes
         LIBRARY DESTINATION ${HERMES_INSTALL_LIB_DIR}
         ARCHIVE DESTINATION ${HERMES_INSTALL_LIB_DIR})
+
+message(STATUS "Python executable: ${PYTHON_EXECUTABLE}")

@@ -23,7 +23,7 @@ pkgs:
     pkg_name: hermes_viz
     do_dbg: false
     dbg_port: 4000
-    port: 6000
+    port: 6001
     refresh: 5
   # Launch IOR
   - pkg_type: ior

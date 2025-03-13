@@ -60,10 +60,12 @@ class HermesViz(Service):
 
         :return: None
         """
+        self.log(f'Starting HermesViz on port {self.config["port"]}', Color.GREEN)
         Exec(f'hermes_viz_server {self.config["port"]} {self.config["refresh"]}', 
              LocalExecInfo(env=self.env,
                            do_dbg=self.config['do_dbg'],
-                           dbg_port=self.config['dbg_port']))
+                           dbg_port=self.config['dbg_port'],
+                           exec_async=True))
         pass
 
     def stop(self):
