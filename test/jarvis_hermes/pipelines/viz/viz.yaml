@@ -18,6 +18,13 @@ pkgs:
   - pkg_type: hermes_api
     pkg_name: hermes_api
     mpi: true
+  # Launch vizualizer
+  - pkg_type: hermes_viz
+    pkg_name: hermes_viz
+    do_dbg: false
+    dbg_port: 4000
+    port: 6000
+    refresh: 5
   # Launch IOR
   - pkg_type: ior
     pkg_name: ior
@@ -25,5 +32,5 @@ pkgs:
     out: /tmp/test_hermes/ior.bin  # Output directory
     xfer: 1m
     block: 32m
-    nprocs: 4  # Total number of processes
-    ppn: 16  # Process per node
+    nprocs: 1  # Total number of processes
+    ppn: 1  # Process per node

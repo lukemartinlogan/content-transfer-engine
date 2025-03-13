@@ -26,4 +26,4 @@ pkgs:
     xfer: 1m
     block: 32m
     nprocs: 4  # Total number of processes
-    ppn: 1  # Process per node
+    ppn: 16  # Process per node
