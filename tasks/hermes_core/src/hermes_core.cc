@@ -1430,7 +1430,9 @@ class Server : public Module {
     std::sort(io_pattern.begin(), io_pattern.end(),
               [](const IoStat &a, const IoStat &b) { return a.id_ < b.id_; });
     task->io_pattern_ = io_pattern;
-    task->last_access_ = io_pattern.back().id_;
+    if (!io_pattern.empty()) {
+      task->last_access_ = io_pattern.back().id_;
+    }
   }
   void MonitorPollAccessPattern(MonitorModeId mode, PollAccessPatternTask *task,
                                 RunContext &rctx) {}

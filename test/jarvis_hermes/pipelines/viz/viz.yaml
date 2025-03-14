@@ -4,7 +4,7 @@ pkgs:
   # Launch IOWarp runtime
   - pkg_type: chimaera_run
     pkg_name: chimaera_run
-    sleep: 5
+    sleep: 2
     do_dbg: false
     dbg_port: 4000
     port: 6000
@@ -14,23 +14,23 @@ pkgs:
     pkg_name: hermes_run
     do_dbg: false
     dbg_port: 4000
-  # Intercept client I/O calls
-  - pkg_type: hermes_api
-    pkg_name: hermes_api
-    mpi: true
   # Launch vizualizer
   - pkg_type: hermes_viz
     pkg_name: hermes_viz
     do_dbg: false
-    dbg_port: 4000
+    dbg_port: 4001
     port: 6001
     refresh: 5
+  # Intercept client I/O calls
+  - pkg_type: hermes_api
+    pkg_name: hermes_api
+    mpi: true
   # Launch IOR
-  - pkg_type: ior
-    pkg_name: ior
-    api: mpiio
-    out: /tmp/test_hermes/ior.bin  # Output directory
-    xfer: 1m
-    block: 32m
-    nprocs: 1  # Total number of processes
-    ppn: 1  # Process per node
+  # - pkg_type: ior
+  #   pkg_name: ior
+  #   api: mpiio
+  #   out: /tmp/test_hermes/ior.bin  # Output directory
+  #   xfer: 1m
+  #   block: 32m
+  #   nprocs: 1  # Total number of processes
+  #   ppn: 1  # Process per node

@@ -31,6 +31,8 @@ using hermes::TagInfo;
 using hermes::TargetId;
 using hermes::TargetStats;
 
+void HERMES_INIT_FUN() { HERMES_INIT(); }
+
 template <typename UniqueT>
 void BindUniqueId(py::module &m, const std::string &name) {
   py::class_<UniqueT>(m, name.c_str())
@@ -131,8 +133,8 @@ void BindHermes(py::module &m) {
       .def("PollTagMetadata", &Hermes::PollTagMetadata)
       .def("PollBlobMetadata", &Hermes::PollBlobMetadata)
       .def("PollAccessPattern", &Hermes::PollAccessPattern);
-  m.def("TRANSPARENT_HERMES", &HERMES_INIT);
-  m.def("HERMES_INIT", &HERMES_INIT);
+  m.def("TRANSPARENT_HERMES", &HERMES_INIT_FUN);
+  m.def("HERMES_INIT", &HERMES_INIT_FUN);
 }
 
 PYBIND11_MODULE(py_hermes, m) {
