@@ -21,16 +21,17 @@ pkgs:
     dbg_port: 4001
     port: 6001
     refresh: 5
+    sleep: 15
   # Intercept client I/O calls
   - pkg_type: hermes_api
     pkg_name: hermes_api
     mpi: true
   # Launch IOR
-  # - pkg_type: ior
-  #   pkg_name: ior
-  #   api: mpiio
-  #   out: /tmp/test_hermes/ior.bin  # Output directory
-  #   xfer: 1m
-  #   block: 32m
-  #   nprocs: 1  # Total number of processes
-  #   ppn: 1  # Process per node
+  - pkg_type: ior
+    pkg_name: ior
+    api: mpiio
+    out: /tmp/test_hermes/ior.bin  # Output directory
+    xfer: 1m
+    block: 32m
+    nprocs: 1  # Total number of processes
+    ppn: 1  # Process per node

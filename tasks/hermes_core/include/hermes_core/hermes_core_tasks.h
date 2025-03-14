@@ -1433,24 +1433,23 @@ struct FlushDataTask : public Task, TaskFlags<TF_SRL_SYM> {
 };
 
 /** Base task for various metadata queries */
-template<typename MD, int METHOD>
+template <typename MD, int METHOD>
 struct PollMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN hipc::string filter_;
   IN int max_count_;
-  OUT hipc::vector<MD> stats_;
+  OUT hipc::string stats_buf_;
 
   /** SHM default constructor */
   HSHM_INLINE explicit PollMetadataTask(
       const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
-      : Task(alloc), filter_(alloc), stats_(alloc) {}
+      : Task(alloc), filter_(alloc), stats_buf_(alloc) {}
 
   /** Emplace constructor */
   HSHM_INLINE explicit PollMetadataTask(
       const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
       const PoolId &pool_id, const DomainQuery &dom_query,
-      const std::string &filter,
-      int max_count)
-      : Task(alloc), filter_(alloc), stats_(alloc)  {
+      const std::string &filter, int max_count)
+      : Task(alloc), filter_(alloc), stats_buf_(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrioOpt::kLowLatency;
@@ -1466,19 +1465,26 @@ struct PollMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
 
   /** Serialize stats buf */
   void SetStats(const std::vector<MD> &stats) {
-    stats_ = stats;
+    std::stringstream ss;
+    cereal::BinaryOutputArchive ar(ss);
+    ar(stats);
+    stats_buf_ = ss.str();
   }
 
   /** Get stats buf */
   std::vector<MD> GetStats() {
-    return stats_.vec();
+    std::vector<MD> stats;
+    std::stringstream ss(stats_buf_.str());
+    cereal::BinaryInputArchive ar(ss);
+    ar(stats);
+    return stats;
   }
 
   /** Duplicate message */
   void CopyStart(const PollMetadataTask &other, bool deep) {
     filter_ = other.filter_;
     max_count_ = other.max_count_;
-    stats_ = other.stats_;
+    stats_buf_ = other.stats_buf_;
   }
 
   /** (De)serialize message call */
@@ -1490,15 +1496,17 @@ struct PollMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** (De)serialize message return */
   template <typename Ar>
   void SerializeEnd(Ar &ar) {
-    ar(stats_);
+    ar(stats_buf_);
   }
 };
 
 /** The PollBlobMetadataTask task */
-using PollBlobMetadataTask = PollMetadataTask<BlobInfo, Method::kPollBlobMetadata>;
+using PollBlobMetadataTask =
+    PollMetadataTask<BlobInfo, Method::kPollBlobMetadata>;
 
 /** The PollTargetMetadataTask task */
-using PollTargetMetadataTask = PollMetadataTask<TargetStats, Method::kPollTargetMetadata>;
+using PollTargetMetadataTask =
+    PollMetadataTask<TargetStats, Method::kPollTargetMetadata>;
 
 /** The PollTagMetadataTask task */
 using PollTagMetadataTask = PollMetadataTask<TagInfo, Method::kPollTagMetadata>;
@@ -1509,16 +1517,16 @@ struct PollAccessPatternTask : public Task, TaskFlags<TF_SRL_SYM> {
   OUT hipc::vector<IoStat> io_pattern_;
 
   /** SHM default constructor */
-  HSHM_INLINE explicit
-  PollAccessPatternTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
+  HSHM_INLINE explicit PollAccessPatternTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
 
   /** Emplace constructor */
-  HSHM_INLINE explicit
-  PollAccessPatternTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                const TaskNode &task_node,
-                const PoolId &pool_id,
-                const DomainQuery &dom_query,
-                hshm::min_u64 last_access) : Task(alloc) {
+  HSHM_INLINE explicit PollAccessPatternTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query,
+      hshm::min_u64 last_access)
+      : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrioOpt::kLowLatency;
@@ -1537,13 +1545,13 @@ struct PollAccessPatternTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeStart(Ar &ar) {
     ar(last_access_);
   }
 
   /** (De)serialize message return */
-  template<typename Ar>
+  template <typename Ar>
   void SerializeEnd(Ar &ar) {
     ar(last_access_);
     ar(io_pattern_);

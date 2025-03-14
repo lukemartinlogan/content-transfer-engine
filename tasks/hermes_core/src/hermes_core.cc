@@ -828,7 +828,8 @@ class Server : public Module {
     chi::ScopedCoRwWriteLock blob_info_lock(blob_info.lock_);
 
     // Stage Blob
-    if (task->flags_.Any(HERMES_SHOULD_STAGE) && blob_info.last_flush_ == 0) {
+    if (task->flags_.Any(HERMES_SHOULD_STAGE) &&
+        blob_info.last_flush_ == (size_t)0) {
       // TODO(llogan): Don't hardcore score = 1
       blob_info.last_flush_ = 1;
       client_.StageIn(HSHM_DEFAULT_MEM_CTX,
@@ -1014,7 +1015,8 @@ class Server : public Module {
     BlobInfo &blob_info = blob_map[task->blob_id_];
 
     // Stage Blob
-    if (task->flags_.Any(HERMES_SHOULD_STAGE) && blob_info.last_flush_ == 0) {
+    if (task->flags_.Any(HERMES_SHOULD_STAGE) &&
+        blob_info.last_flush_ == (size_t)0) {
       // TODO(llogan): Don't hardcore score = 1
       blob_info.last_flush_ = 1;
       client_.StageIn(HSHM_DEFAULT_MEM_CTX,
@@ -1322,18 +1324,27 @@ class Server : public Module {
                         RunContext &rctx) {}
 
   /** Monitor function used by all metadata poll functions */
-  template <typename PollTaskT>
+  template <typename PollTaskT, typename MD>
   void MonitorPollMetadata(MonitorModeId mode, PollTaskT *task,
                            RunContext &rctx) {
     switch (mode) {
       case MonitorMode::kReplicaAgg: {
         std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
+        std::vector<MD> stats_agg;
+        stats_agg.reserve(task->max_count_);
         for (FullPtr<Task> &replica : replicas) {
           PollTaskT *replica_task = replica.Cast<PollTaskT>().ptr_;
           // Merge replicas
-          task->stats_.assign(replica_task->stats_.begin(),
-                              replica_task->stats_.end(), task->max_count_);
+          auto stats = replica_task->GetStats();
+          size_t append_count = stats.size();
+          if (task->max_count_ > 0 && stats_agg.size() < task->max_count_) {
+            append_count =
+                std::min(append_count, task->max_count_ - stats_agg.size());
+          }
+          stats_agg.insert(stats_agg.end(), stats.begin(),
+                           stats.begin() + append_count);
         }
+        task->SetStats(stats_agg);
       }
     }
   }
@@ -1359,7 +1370,7 @@ class Server : public Module {
   }
   void MonitorPollBlobMetadata(MonitorModeId mode, PollBlobMetadataTask *task,
                                RunContext &rctx) {
-    MonitorPollMetadata<PollBlobMetadataTask>(mode, task, rctx);
+    MonitorPollMetadata<PollBlobMetadataTask, BlobInfo>(mode, task, rctx);
   }
 
   /** Poll target metadata */
@@ -1386,7 +1397,7 @@ class Server : public Module {
   void MonitorPollTargetMetadata(MonitorModeId mode,
                                  PollTargetMetadataTask *task,
                                  RunContext &rctx) {
-    MonitorPollMetadata<PollTargetMetadataTask>(mode, task, rctx);
+    MonitorPollMetadata<PollTargetMetadataTask, TargetStats>(mode, task, rctx);
   }
 
   /** The PollTagMetadata method */
@@ -1409,7 +1420,7 @@ class Server : public Module {
   }
   void MonitorPollTagMetadata(MonitorModeId mode, PollTagMetadataTask *task,
                               RunContext &rctx) {
-    MonitorPollMetadata<PollTagMetadataTask>(mode, task, rctx);
+    MonitorPollMetadata<PollTagMetadataTask, TagInfo>(mode, task, rctx);
   }
 
   /** The PollAccessPattern method */

@@ -5,6 +5,7 @@ hrun is ....
 
 from jarvis_cd.basic.pkg import Service, Color
 from jarvis_util import *
+import time
 
 
 class HermesViz(Service):
@@ -66,7 +67,7 @@ class HermesViz(Service):
                            do_dbg=self.config['do_dbg'],
                            dbg_port=self.config['dbg_port'],
                            exec_async=True))
-        pass
+        time.sleep(self.config['sleep'])
 
     def stop(self):
         """
