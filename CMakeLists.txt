@@ -132,9 +132,34 @@ endif()
 add_custom_target(coverage COMMAND bash ${CMAKE_SOURCE_DIR}/ci/coverage.sh
     ${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR})
 
+# ------------------------------------------------------------------------------
+# Setup install and output Directories
+# ------------------------------------------------------------------------------
+if(NOT HERMES_INSTALL_BIN_DIR)
+    set(HERMES_INSTALL_BIN_DIR ${CMAKE_INSTALL_PREFIX}/bin)
+endif()
+
+if(NOT HERMES_INSTALL_LIB_DIR)
+    set(HERMES_INSTALL_LIB_DIR ${CMAKE_INSTALL_PREFIX}/lib)
+endif()
+
+if(NOT HERMES_INSTALL_INCLUDE_DIR)
+    set(HERMES_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
+endif()
+
+if(NOT HERMES_INSTALL_DATA_DIR)
+    set(HERMES_INSTALL_DATA_DIR ${CMAKE_INSTALL_PREFIX}/share)
+endif()
+
 # -----------------------------------------------------------------------------
 # Find Packages
 # -----------------------------------------------------------------------------
+
+# This is for compatability with CLANG + Spack
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+list(APPEND CMAKE_INSTALL_RPATH "${HERMES_INSTALL_LIB_DIR}")
+set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
+SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # Include most packages needed by both client and host
 include(CMake/HermesCommonConfig.cmake)
@@ -214,25 +239,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
     ${PROJECT_BINARY_DIR}/bin CACHE PATH "Single Directory for all Libraries")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY
     ${PROJECT_BINARY_DIR}/bin CACHE PATH "Single Directory for all static libraries.")
-
-# ------------------------------------------------------------------------------
-# Setup install and output Directories
-# ------------------------------------------------------------------------------
-if(NOT HERMES_INSTALL_BIN_DIR)
-    set(HERMES_INSTALL_BIN_DIR ${CMAKE_INSTALL_PREFIX}/bin)
-endif()
-
-if(NOT HERMES_INSTALL_LIB_DIR)
-    set(HERMES_INSTALL_LIB_DIR ${CMAKE_INSTALL_PREFIX}/lib)
-endif()
-
-if(NOT HERMES_INSTALL_INCLUDE_DIR)
-    set(HERMES_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
-endif()
-
-if(NOT HERMES_INSTALL_DATA_DIR)
-    set(HERMES_INSTALL_DATA_DIR ${CMAKE_INSTALL_PREFIX}/share)
-endif()
 
 # -----------------------------------------------------------------------------
 # Build Hermes Main Packages
