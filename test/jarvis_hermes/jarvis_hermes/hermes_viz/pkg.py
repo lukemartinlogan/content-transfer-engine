@@ -61,7 +61,10 @@ class HermesViz(Service):
 
         :return: None
         """
-        self.log(f'Starting HermesViz on port {self.config["port"]}', Color.GREEN)
+        self.log(f'Starting HermesViz on port {self.config["port"]}', Color.YELLOW)
+        out = Exec(f'which python', 
+             LocalExecInfo(env=self.env, collect_output=True))
+        self.log(f'Python path: {out.stdout}', Color.YELLOW)
         Exec(f'hermes_viz_server {self.config["port"]} {self.config["refresh"]}', 
              LocalExecInfo(env=self.env,
                            do_dbg=self.config['do_dbg'],

@@ -881,14 +881,15 @@ class Server : public Module {
         // Convert to BufferInfo
         size_t t_alloc = 0;
         for (chi::Block &block : blocks) {
+          if (block.size_ == 0) {
+            continue;
+          }
           blob_info.buffers_.emplace_back(placement.tid_, block);
           t_alloc += block.size_;
         }
-        //        HILOG(kInfo, "(node {}) Placing {}/{} bytes in target {} of bw
-        //        {}",
-        //              CHI_CLIENT->node_id_,
-        //              alloc_task->alloc_size_, task->data_size_,
-        //              placement.tid_, bdev.bandwidth_)
+        // HILOG(kInfo, "(node {}) Placing {}/{} bytes in target {} of bw {}",
+        //       CHI_CLIENT->node_id_, t_alloc, placement.size_, placement.tid_,
+        //       bdev.stats_->write_bw_);
         // Spill to next tier
         if (t_alloc < placement.size_) {
           SubPlacement &next_placement = schema.plcmnts_[sub_idx + 1];

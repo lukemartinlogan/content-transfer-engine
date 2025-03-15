@@ -166,7 +166,7 @@ class Filesystem : public FilesystemIoClient {
 
     if (is_append) {
       // Perform append
-      const Blob page((const char *)ptr, total_size);
+      Blob page((const char *)ptr, total_size);
       bkt.Append(page, stat.page_size_, ctx);
     } else {
       // Fragment I/O request into pages
@@ -177,7 +177,7 @@ class Filesystem : public FilesystemIoClient {
 
       // Perform a PartialPut for each page
       for (const BlobPlacement &p : mapping) {
-        const Blob page((const char *)ptr + data_offset, p.blob_size_);
+        Blob page((const char *)ptr + data_offset, p.blob_size_);
         std::string blob_name(p.CreateBlobName().str());
         bkt.AsyncPartialPut(blob_name, page, p.blob_off_, ctx);
         data_offset += p.blob_size_;

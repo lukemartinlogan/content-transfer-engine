@@ -200,14 +200,17 @@ class Bucket {
    * */
   template <bool PARTIAL, bool ASYNC>
   HSHM_INLINE BlobId ShmBasePut(const std::string &blob_name,
-                                const BlobId &orig_blob_id,
-                                const FullPtr<char> &blob, size_t blob_off,
-                                size_t blob_size, bitfield32_t task_flags,
-                                Context &ctx) {
+                                const BlobId &orig_blob_id, Blob &blob,
+                                size_t blob_off, Context &ctx) {
     BlobId blob_id = orig_blob_id;
+    bitfield32_t task_flags;
     bitfield32_t hermes_flags;
     // Put to shared memory
     chi::string blob_name_buf(blob_name);
+    if (blob.IsOwned()) {
+      blob.Disown();
+      task_flags.SetBits(TASK_DATA_OWNER);
+    }
     if constexpr (!ASYNC) {
       if (blob_id.IsNull()) {
         hermes_flags.SetBits(HERMES_GET_BLOB_ID);
@@ -221,8 +224,8 @@ class Bucket {
     }
     FullPtr<PutBlobTask> task;
     task = mdm_->AsyncPutBlob(mctx_, chi::DomainQuery::GetDynamic(), id_,
-                              blob_name_buf, blob_id, blob_off, blob_size,
-                              blob.shm_, ctx.blob_score_, task_flags.bits_,
+                              blob_name_buf, blob_id, blob_off, blob.size(),
+                              blob.shm(), ctx.blob_score_, task_flags.bits_,
                               hermes_flags.bits_, ctx);
     if constexpr (!ASYNC) {
       if (hermes_flags.Any(HERMES_GET_BLOB_ID)) {
@@ -237,20 +240,6 @@ class Bucket {
   /**
    * Put \a blob_name Blob into the bucket
    * */
-  template <bool PARTIAL, bool ASYNC, typename BlobT = Blob>
-  BlobId PrivateMemBasePut(const std::string &blob_name,
-                           const BlobId &orig_blob_id, const BlobT &blob,
-                           size_t blob_off, Context &ctx) {
-    FullPtr<char> blob_p = CHI_CLIENT->AllocateBuffer(mctx_, blob.size());
-    memcpy(blob_p.ptr_, blob.data(), blob.size());
-    return ShmBasePut<PARTIAL, ASYNC>(blob_name, orig_blob_id, blob_p, blob_off,
-                                      blob.size(),
-                                      bitfield32_t(TASK_DATA_OWNER), ctx);
-  }
-
-  /**
-   * Put \a blob_name Blob into the bucket
-   * */
   template <typename T, bool PARTIAL, bool ASYNC>
   HSHM_INLINE BlobId SrlBasePut(const std::string &blob_name,
                                 const BlobId &orig_blob_id, const T &data,
@@ -258,19 +247,19 @@ class Bucket {
     std::stringstream ss;
     cereal::BinaryOutputArchive ar(ss);
     ar << data;
-    std::string blob = ss.str();
-    return PrivateMemBasePut<PARTIAL, ASYNC, std::string>(
-        blob_name, orig_blob_id, blob, 0, ctx);
+    std::string blob_data = ss.str();
+    Blob blob(blob_data);
+    return ShmBasePut<PARTIAL, ASYNC>(blob_name, orig_blob_id, blob, 0, ctx);
   }
 
   /**
    * Put \a blob_name Blob into the bucket
    * */
   template <typename T = Blob>
-  BlobId Put(const std::string &blob_name, const T &blob, Context &ctx) {
+  BlobId Put(const std::string &blob_name, T &blob, Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
-      return PrivateMemBasePut<false, false>(blob_name, BlobId::GetNull(), blob,
-                                             0, ctx);
+      return ShmBasePut<false, false>(blob_name, BlobId::GetNull(), blob, 0,
+                                      ctx);
     } else {
       return SrlBasePut<T, false, false>(blob_name, BlobId::GetNull(), blob,
                                          ctx);
@@ -281,9 +270,9 @@ class Bucket {
    * Put \a blob_id Blob into the bucket
    * */
   template <typename T = Blob>
-  BlobId Put(const BlobId &blob_id, const T &blob, Context &ctx) {
+  BlobId Put(const BlobId &blob_id, T &blob, Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
-      return PrivateMemBasePut<false, false>("", blob_id, blob, 0, ctx);
+      return ShmBasePut<false, false>("", blob_id, blob, 0, ctx);
     } else {
       return SrlBasePut<T, false, false>("", blob_id, blob, ctx);
     }
@@ -293,11 +282,10 @@ class Bucket {
    * Put \a blob_name Blob into the bucket
    * */
   template <typename T = Blob>
-  HSHM_INLINE void AsyncPut(const std::string &blob_name, const Blob &blob,
+  HSHM_INLINE void AsyncPut(const std::string &blob_name, T &blob,
                             Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
-      PrivateMemBasePut<false, true>(blob_name, BlobId::GetNull(), blob, 0,
-                                     ctx);
+      ShmBasePut<false, true>(blob_name, BlobId::GetNull(), blob, 0, ctx);
     } else {
       SrlBasePut<T, false, true>(blob_name, BlobId::GetNull(), blob, ctx);
     }
@@ -307,10 +295,9 @@ class Bucket {
    * Put \a blob_id Blob into the bucket
    * */
   template <typename T>
-  HSHM_INLINE void AsyncPut(const BlobId &blob_id, const Blob &blob,
-                            Context &ctx) {
+  HSHM_INLINE void AsyncPut(const BlobId &blob_id, T &blob, Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
-      PrivateMemBasePut<false, true>("", blob_id, blob, 0, ctx);
+      ShmBasePut<false, true>("", blob_id, blob, 0, ctx);
     } else {
       SrlBasePut<T, false, true>("", blob_id, blob, ctx);
     }
@@ -319,41 +306,40 @@ class Bucket {
   /**
    * PartialPut \a blob_name Blob into the bucket
    * */
-  BlobId PartialPut(const std::string &blob_name, const Blob &blob,
-                    size_t blob_off, Context &ctx) {
-    return PrivateMemBasePut<true, false>(blob_name, BlobId::GetNull(), blob,
-                                          blob_off, ctx);
+  BlobId PartialPut(const std::string &blob_name, Blob &blob, size_t blob_off,
+                    Context &ctx) {
+    return ShmBasePut<true, false>(blob_name, BlobId::GetNull(), blob, blob_off,
+                                   ctx);
   }
 
   /**
    * PartialPut \a blob_id Blob into the bucket
    * */
-  BlobId PartialPut(const BlobId &blob_id, const Blob &blob, size_t blob_off,
+  BlobId PartialPut(const BlobId &blob_id, Blob &blob, size_t blob_off,
                     Context &ctx) {
-    return PrivateMemBasePut<true, false>("", blob_id, blob, blob_off, ctx);
+    return ShmBasePut<true, false>("", blob_id, blob, blob_off, ctx);
   }
 
   /**
    * AsyncPartialPut \a blob_name Blob into the bucket
    * */
-  void AsyncPartialPut(const std::string &blob_name, const Blob &blob,
+  void AsyncPartialPut(const std::string &blob_name, Blob &blob,
                        size_t blob_off, Context &ctx) {
-    PrivateMemBasePut<true, true>(blob_name, BlobId::GetNull(), blob, blob_off,
-                                  ctx);
+    ShmBasePut<true, true>(blob_name, BlobId::GetNull(), blob, blob_off, ctx);
   }
 
   /**
    * AsyncPartialPut \a blob_id Blob into the bucket
    * */
-  void AsyncPartialPut(const BlobId &blob_id, const Blob &blob, size_t blob_off,
+  void AsyncPartialPut(const BlobId &blob_id, Blob &blob, size_t blob_off,
                        Context &ctx) {
-    PrivateMemBasePut<true, true>("", blob_id, blob, blob_off, ctx);
+    ShmBasePut<true, true>("", blob_id, blob, blob_off, ctx);
   }
 
   /**
    * Append \a blob_name Blob into the bucket (fully asynchronous)
    * */
-  void Append(const Blob &blob, size_t page_size, Context &ctx) {
+  void Append(Blob &blob, size_t page_size, Context &ctx) {
     //    FullPtr<char> p = CHI_CLIENT->AllocateBufferClient(blob.size());
     //    char *data = p.ptr_;
     //    memcpy(data, blob.data(), blob.size());
@@ -412,9 +398,10 @@ class Bucket {
   /**
    * Get \a blob_id Blob from the bucket (async)
    * */
-  FullPtr<GetBlobTask> HSHM_INLINE ShmAsyncBaseGet(
-      const std::string &blob_name, const BlobId &blob_id, FullPtr<char> &blob,
-      size_t blob_off, size_t blob_size, Context &ctx) {
+  FullPtr<GetBlobTask> HSHM_INLINE ShmAsyncBaseGet(const std::string &blob_name,
+                                                   const BlobId &blob_id,
+                                                   Blob &blob, size_t blob_off,
+                                                   Context &ctx) {
     bitfield32_t hermes_flags;
     // Get the blob ID
     if (blob_id.IsNull()) {
@@ -424,68 +411,21 @@ class Bucket {
     FullPtr<GetBlobTask> task;
     task = mdm_->AsyncGetBlob(mctx_, chi::DomainQuery::GetDynamic(), id_,
                               chi::string(blob_name), blob_id, blob_off,
-                              blob_size, blob.shm_, hermes_flags.bits_, ctx);
+                              blob.size(), blob.shm(), hermes_flags.bits_, ctx);
     return task;
-  }
-
-  /**
-   * Get \a blob_id Blob from the bucket (async)
-   * */
-  FullPtr<GetBlobTask> HSHM_INLINE
-  PrivateMemAsyncBaseGet(const std::string &blob_name, const BlobId &blob_id,
-                         Blob &blob, size_t blob_off, Context &ctx) {
-    bitfield32_t hermes_flags;
-    // Get the blob ID
-    if (blob_id.IsNull()) {
-      hermes_flags.SetBits(HERMES_GET_BLOB_ID);
-    }
-    // Get from shared memory
-    size_t data_size = blob.size();
-    FullPtr<char> data_p = CHI_CLIENT->AllocateBuffer(mctx_, blob.size());
-    return ShmAsyncBaseGet(blob_name, blob_id, data_p, blob_off, data_size,
-                           ctx);
   }
 
   /**
    * Get \a blob_id Blob from the bucket (sync)
    * */
   BlobId ShmBaseGet(const std::string &blob_name, const BlobId &orig_blob_id,
-                    FullPtr<char> &blob, size_t blob_off, size_t blob_size,
-                    Context &ctx) {
-    HILOG(kDebug, "Getting blob of size {}", blob_size);
+                    Blob &blob, size_t blob_off, Context &ctx) {
+    HILOG(kDebug, "Getting blob of size {}", blob.size());
     BlobId blob_id;
     FullPtr<GetBlobTask> task;
-    task = ShmAsyncBaseGet(blob_name, orig_blob_id, blob, blob_off, blob_size,
-                           ctx);
+    task = ShmAsyncBaseGet(blob_name, orig_blob_id, blob, blob_off, ctx);
     task->Wait();
     blob_id = task->blob_id_;
-    CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
-    return blob_id;
-  }
-
-  /**
-   * Get \a blob_id Blob from the bucket (sync)
-   * */
-  BlobId PrivateMemBaseGet(const std::string &blob_name,
-                           const BlobId &orig_blob_id, Blob &blob,
-                           size_t blob_off, Context &ctx) {
-    // TODO(llogan): intercept mmap to avoid copy
-    size_t data_size = blob.size();
-    if (blob.size() == 0) {
-      data_size = mdm_->GetBlobSize(mctx_, DomainQuery::GetDynamic(), id_,
-                                    chi::string(blob_name), orig_blob_id);
-      blob.resize(data_size);
-    }
-    HILOG(kDebug, "Getting blob of size {}", data_size);
-    BlobId blob_id;
-    FullPtr<GetBlobTask> task;
-    task = PrivateMemAsyncBaseGet(blob_name, orig_blob_id, blob, blob_off, ctx);
-    task->Wait();
-    blob_id = task->blob_id_;
-    char *data = CHI_CLIENT->GetDataPointer(task->data_);
-    memcpy(blob.data(), data, task->data_size_);
-    blob.resize(task->data_size_);
-    CHI_CLIENT->FreeBuffer(task->data_);
     CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
     return blob_id;
   }
@@ -497,7 +437,7 @@ class Bucket {
   BlobId SrlBaseGet(const std::string &blob_name, const BlobId &orig_blob_id,
                     T &data, Context &ctx) {
     Blob blob;
-    BlobId blob_id = PrivateMemBaseGet(blob_name, orig_blob_id, blob, 0, ctx);
+    BlobId blob_id = ShmBaseGet(blob_name, orig_blob_id, blob, 0, ctx);
     if (blob.size() == 0) {
       return BlobId::GetNull();
     }
@@ -513,7 +453,7 @@ class Bucket {
   template <typename T>
   BlobId Get(const std::string &blob_name, T &blob, Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
-      return PrivateMemBaseGet(blob_name, BlobId::GetNull(), blob, 0, ctx);
+      return ShmBaseGet(blob_name, BlobId::GetNull(), blob, 0, ctx);
     } else {
       return SrlBaseGet<T>(blob_name, BlobId::GetNull(), blob, ctx);
     }
@@ -525,7 +465,7 @@ class Bucket {
   template <typename T>
   BlobId Get(const BlobId &blob_id, T &blob, Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
-      return PrivateMemBaseGet("", blob_id, blob, 0, ctx);
+      return ShmBaseGet("", blob_id, blob, 0, ctx);
     } else {
       return SrlBaseGet<T>("", blob_id, blob, ctx);
     }
@@ -536,7 +476,7 @@ class Bucket {
    * */
   FullPtr<GetBlobTask> AsyncGet(const std::string &blob_name, Blob &blob,
                                 Context &ctx) {
-    return PrivateMemAsyncBaseGet(blob_name, BlobId::GetNull(), blob, 0, ctx);
+    return ShmAsyncBaseGet(blob_name, BlobId::GetNull(), blob, 0, ctx);
   }
 
   /**
@@ -544,7 +484,7 @@ class Bucket {
    * */
   FullPtr<GetBlobTask> AsyncGet(const BlobId &blob_id, Blob &blob,
                                 Context &ctx) {
-    return PrivateMemAsyncBaseGet("", blob_id, blob, 0, ctx);
+    return ShmAsyncBaseGet("", blob_id, blob, 0, ctx);
   }
 
   /**
@@ -552,7 +492,7 @@ class Bucket {
    * */
   BlobId PartialGet(const std::string &blob_name, Blob &blob, size_t blob_off,
                     Context &ctx) {
-    return PrivateMemBaseGet(blob_name, BlobId::GetNull(), blob, blob_off, ctx);
+    return ShmBaseGet(blob_name, BlobId::GetNull(), blob, blob_off, ctx);
   }
 
   /**
@@ -560,7 +500,7 @@ class Bucket {
    * */
   BlobId PartialGet(const BlobId &blob_id, Blob &blob, size_t blob_off,
                     Context &ctx) {
-    return PrivateMemBaseGet("", blob_id, blob, blob_off, ctx);
+    return ShmBaseGet("", blob_id, blob, blob_off, ctx);
   }
 
   /**
@@ -568,8 +508,7 @@ class Bucket {
    * */
   FullPtr<GetBlobTask> AsyncPartialGet(const std::string &blob_name, Blob &blob,
                                        size_t blob_off, Context &ctx) {
-    return PrivateMemAsyncBaseGet(blob_name, BlobId::GetNull(), blob, blob_off,
-                                  ctx);
+    return ShmAsyncBaseGet(blob_name, BlobId::GetNull(), blob, blob_off, ctx);
   }
 
   /**
@@ -577,7 +516,7 @@ class Bucket {
    * */
   FullPtr<GetBlobTask> AsyncPartialGet(const BlobId &blob_id, Blob &blob,
                                        size_t blob_off, Context &ctx) {
-    return PrivateMemAsyncBaseGet("", blob_id, blob, blob_off, ctx);
+    return ShmAsyncBaseGet("", blob_id, blob, blob_off, ctx);
   }
 
   /**

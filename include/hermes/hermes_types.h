@@ -76,11 +76,160 @@ typedef PoolId TraitId;
 enum class TraitType { kStagingTrait, kProducerOpTrait };
 
 /** Represents a blob */
-class Blob : public chi::charwrap {
+class Blob {
  public:
-  template <typename... Args>
-  Blob(Args &&...args)
-      : chi::charwrap(CHI_CLIENT->data_alloc_, std::forward<Args>(args)...) {}
+  hipc::FullPtr<char> data_ = hipc::FullPtr<char>::GetNull();
+  size_t size_ = 0;
+  size_t max_size_ = 0;
+  bool owned_ = false;
+
+ public:
+  /** Default constructor */
+  Blob() = default;
+
+  /** Size constructor */
+  Blob(size_t size) { resize(size); }
+
+  /** Copy string */
+  Blob(const std::string &data) {
+    data_ = CHI_CLIENT->AllocateBuffer(HSHM_DEFAULT_MEM_CTX, data.size());
+    size_ = data.size();
+    max_size_ = data.size();
+    memcpy(data_.ptr_, data.data(), data.size());
+    owned_ = true;
+  }
+
+  /** Potentially wrap a vector */
+  template <typename T>
+  Blob(const chi::vector<T> &data) {
+    if (data.GetAllocatorId() == CHI_CLIENT->data_alloc_->id_) {
+      data_ = FullPtr<T>(data.data());
+      size_ = data.size() * sizeof(T);
+      max_size_ = data.size() * sizeof(T);
+      owned_ = false;
+    } else {
+      data_ = CHI_CLIENT->AllocateBuffer(HSHM_DEFAULT_MEM_CTX,
+                                         data.size() * sizeof(T));
+      size_ = data.size() * sizeof(T);
+      max_size_ = data.size() * sizeof(T);
+      memcpy(data_.ptr_, data.data(), size_);
+      owned_ = true;
+    }
+  }
+
+  /** Potentially wrap data */
+  Blob(const char *data, size_t size) {
+    data_ = FullPtr<char>(data);
+    size_ = size;
+    max_size_ = size;
+    if (data_.shm_.alloc_id_ != CHI_CLIENT->data_alloc_->id_) {
+      data_ = CHI_CLIENT->AllocateBuffer(HSHM_DEFAULT_MEM_CTX, size);
+      memcpy(data_.ptr_, data, size);
+      owned_ = true;
+    } else {
+      owned_ = false;
+    }
+  }
+
+  /** Copy constructor */
+  Blob(const Blob &other) {
+    data_ = other.data_;
+    size_ = other.size_;
+    max_size_ = other.max_size_;
+    owned_ = false;
+  }
+
+  /** Move constructor */
+  Blob(Blob &&other) {
+    data_ = other.data_;
+    size_ = other.size_;
+    max_size_ = other.max_size_;
+    owned_ = other.owned_;
+    other.owned_ = false;
+  }
+
+  /** Copy assignment */
+  Blob &operator=(const Blob &other) {
+    if (this != &other) {
+      data_ = other.data_;
+      size_ = other.size_;
+      max_size_ = other.max_size_;
+      owned_ = false;
+    }
+    return *this;
+  }
+
+  /** Move assignment */
+  Blob &operator=(Blob &&other) {
+    if (this != &other) {
+      data_ = other.data_;
+      size_ = other.size_;
+      max_size_ = other.max_size_;
+      owned_ = other.owned_;
+      other.owned_ = false;
+    }
+    return *this;
+  }
+
+  /** Destructor */
+  ~Blob() {
+    if (owned_) {
+      CHI_CLIENT->FreeBuffer(HSHM_DEFAULT_MEM_CTX, data_);
+    }
+  }
+
+  /** Resize */
+  void resize(size_t new_size) {
+    reserve(new_size);
+    size_ = new_size;
+  }
+
+  /** Reserve */
+  void reserve(size_t new_size) {
+    if (size_) {
+      throw std::runtime_error(
+          "Blobs are not meant to be resized after creation");
+    } else {
+      data_ = CHI_CLIENT->AllocateBuffer(HSHM_DEFAULT_MEM_CTX, new_size);
+      owned_ = true;
+    }
+    max_size_ = new_size;
+  }
+
+  /** Check if owned */
+  bool IsOwned() const { return owned_; }
+
+  /** Own */
+  void Own() { owned_ = true; }
+
+  /** Disown */
+  void Disown() { owned_ = false; }
+
+  /** Get the data */
+  char *data() { return data_.ptr_; }
+
+  /** Get the SHM pointer */
+  hipc::Pointer &shm() { return data_.shm_; }
+
+  /** Get the SHM pointer */
+  const hipc::Pointer &shm() const { return data_.shm_; }
+
+  /** Get the size */
+  size_t size() const { return size_; }
+
+  /** Get the data */
+  const char *data() const { return data_.ptr_; }
+
+  /** Equality */
+  bool operator==(const Blob &other) const {
+    if (size_ != other.size_) {
+      return false;
+    }
+    return memcmp(data_.ptr_, other.data_.ptr_, size_) == 0;
+  }
+
+  /** Inequality */
+  bool operator!=(const Blob &other) const { return !(*this == other); }
 };
 
 /** Supported data placement policies */
@@ -407,24 +556,13 @@ struct IoStat {
     tag_id_ = other.tag_id_;
     blob_size_ = other.blob_size_;
     rank_ = other.rank_;
+    id_ = other.id_;
   }
 
-  /** Serialize */
-  template <class Archive>
-  void save(Archive &ar) const {
-    int type = static_cast<int>(type_);
-    u64 ids[2] = {blob_id_.unique_, tag_id_.unique_};
-    u32 nodes[2] = {blob_id_.node_id_, tag_id_.node_id_};
-    ar(type, ids[0], nodes[0], ids[1], nodes[1], blob_size_, rank_);
-  }
-
-  /** Deserialize */
-  template <class Archive>
-  void load(Archive &ar) {
-    int type;
-    ar(type, blob_id_.unique_, blob_id_.node_id_, tag_id_.unique_,
-       tag_id_.node_id_, blob_size_, rank_);
-    type_ = static_cast<IoType>(type);
+  /** Serialize  */
+  template <typename Ar>
+  void serialize(Ar &ar) {
+    ar(type_, blob_id_, tag_id_, blob_size_, rank_, id_);
   }
 };
 
