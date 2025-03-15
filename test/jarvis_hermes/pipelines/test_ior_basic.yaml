@@ -8,5 +8,7 @@ pkgs:
     out: /tmp/test_hermes/ior.bin  # Output directory
     xfer: 1m
     block: 4g
+    write: true
+    read: true
     nprocs: 4  # Total number of processes
     ppn: 16  # Process per node
