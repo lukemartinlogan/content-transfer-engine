@@ -8,14 +8,14 @@ include_directories(
 # Create the metadata manager singleton + FS base class
 add_library(hermes_fs_base INTERFACE)
 add_dependencies(hermes_fs_base
-        hermes_client)
+        ${Hermes_CLIENT_DEPS})
 target_link_libraries(hermes_fs_base INTERFACE
         MPI::MPI_CXX
-        hermes_client)
+        ${Hermes_CLIENT_DEPS})
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Add Target(s) to CMake Install
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 install(
         TARGETS
         hermes_fs_base
@@ -32,9 +32,9 @@ install(
         headers
 )
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Install headers
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 file(GLOB_RECURSE HERMES_HEADERS "*.h")
 install(
         FILES
@@ -45,9 +45,9 @@ install(
         headers
 )
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Add Target(s) to Coverage
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 if(HERMES_ENABLE_COVERAGE)
-    set_coverage_flags(hermes_fs_base)
+        set_coverage_flags(hermes_fs_base)
 endif()

@@ -3,9 +3,9 @@ add_executable(mpiio_adapter_test
   mpiio_adapter_test.cc
   mpiio_adapter_basic_test.cc)
 target_link_libraries(mpiio_adapter_test
-  hermes_client)
+  ${Hermes_CLIENT_DEPS})
 add_dependencies(mpiio_adapter_test
-  hermes_client)
+  ${Hermes_CLIENT_DEPS})
 target_compile_definitions(mpiio_adapter_test PUBLIC
   HERMES_MPI_TESTS=true)
 jarvis_test(mpiio test_mpiio_basic)

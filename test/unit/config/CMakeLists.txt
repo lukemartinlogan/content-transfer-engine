@@ -10,7 +10,7 @@ add_executable(test_config_exec
 add_dependencies(test_config_exec
         ${Hermes_CLIENT_DEPS})
 target_link_libraries(test_config_exec
-        hermes_client Catch2::Catch2 MPI::MPI_CXX)
+        ${Hermes_CLIENT_DEPS} Catch2::Catch2 MPI::MPI_CXX)
 jarvis_test(hermes test_hermes)
 
 # ------------------------------------------------------------------------------

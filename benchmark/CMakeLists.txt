@@ -19,14 +19,14 @@ target_link_libraries(test_performance_exec
 # add_dependencies(test_performance_exec
 # ${Hermes_CLIENT_DEPS} hermes)
 # target_link_libraries(test_performance_exec
-# hermes_client hermes Catch2::Catch2
+# ${Hermes_CLIENT_DEPS} Catch2::Catch2
 # MPI::MPI_CXX ${ZMQ_LIBRARIES})
 add_executable(hermes_api_bench
         hermes_api_bench.cc)
 add_dependencies(hermes_api_bench
         ${Hermes_CLIENT_DEPS})
 target_link_libraries(hermes_api_bench
-        hermes_client hermes
+        ${Hermes_CLIENT_DEPS}
         Catch2::Catch2 MPI::MPI_CXX)
 
 # ------------------------------------------------------------------------------

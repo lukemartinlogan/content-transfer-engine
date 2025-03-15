@@ -2,7 +2,8 @@
 # Build hermes_core Task Library
 # ------------------------------------------------------------------------------
 add_chimod_library(hermes core hermes_core.cc)
-if (HERMES_ENABLE_NVIDIA_GDS_ADAPTER)
+
+if(HERMES_ENABLE_NVIDIA_GDS_ADAPTER)
     target_compile_definitions(hermes_core PUBLIC HERMES_ENABLE_NVIDIA_GDS_ADAPTER)
     target_link_libraries(hermes_core PUBLIC cufile)
 endif()
@@ -17,6 +18,8 @@ endif()
 install(
     TARGETS
     ${hermes_core_exports}
+    EXPORT
+    ${CHIMAERA_EXPORTED_TARGETS}
     LIBRARY DESTINATION ${HERMES_INSTALL_LIB_DIR}
     ARCHIVE DESTINATION ${HERMES_INSTALL_LIB_DIR}
     RUNTIME DESTINATION ${HERMES_INSTALL_BIN_DIR}

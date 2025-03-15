@@ -10,7 +10,7 @@
 pybind11_add_module(py_hermes MODULE py_hermes.cpp)
 add_dependencies(py_hermes ${Hermes_CLIENT_DEPS})
 target_link_libraries(py_hermes PUBLIC
-        hermes_client pybind11::module)
+        ${Hermes_CLIENT_DEPS} pybind11::module)
 
 # ------------------------------------------------------------------------------
 # Install Targets

@@ -18,14 +18,14 @@ if(HERMES_ENABLE_CUDA)
         add_dependencies(test_bucket_cuda
                 ${Hermes_CLIENT_DEPS})
         target_link_libraries(test_bucket_cuda PUBLIC
-                hermes_client MPI::MPI_CXX hshm::cudacxx)
+                ${Hermes_CLIENT_DEPS} MPI::MPI_CXX hshm::cudacxx)
         list(APPEND TARGETS test_bucket_cuda)
 endif()
 
 add_dependencies(test_hermes_exec
         ${Hermes_CLIENT_DEPS})
 target_link_libraries(test_hermes_exec PUBLIC
-        hermes_client Catch2::Catch2 MPI::MPI_CXX)
+        ${Hermes_CLIENT_DEPS} Catch2::Catch2 MPI::MPI_CXX)
 jarvis_test(hermes test_hermes)
 
 # ------------------------------------------------------------------------------

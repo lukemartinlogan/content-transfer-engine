@@ -84,8 +84,8 @@ add_compile_options(-march=native -fomit-frame-pointer)
 # Targets built within this project are exported at Install time for use
 # by other projects.
 # -----------------------------------------------------------------------------
-if(NOT HERMES_EXPORTED_TARGETS)
-    set(HERMES_EXPORTED_TARGETS "Hermes")
+if(NOT CHIMAERA_EXPORTED_TARGETS)
+    set(CHIMAERA_EXPORTED_TARGETS "Hermes")
 endif()
 
 # -----------------------------------------------------------------------------
@@ -163,8 +163,8 @@ SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # Include most packages needed by both client and host
 include(CMake/HermesCommonConfig.cmake)
-set(Hermes_CLIENT_DEPS hermes_client)
-set(Hermes_RUNTIME_DEPS hermes_runtime)
+set(Hermes_CLIENT_DEPS hermes_core_client)
+set(Hermes_RUNTIME_DEPS hermes_core_runtime)
 
 # ENABLE GPU SUPPORT
 if(CHIMAERA_ENABLE_CUDA)
@@ -213,22 +213,6 @@ if(HERMES_ENABLE_VFD)
     endif()
 endif()
 
-# Dependencies for the client
-add_library(client_deps INTERFACE)
-target_link_libraries(client_deps INTERFACE
-    chimaera::client_host)
-target_include_directories(client_deps INTERFACE ${libelf_INCLUDE_DIRS})
-target_link_directories(client_deps INTERFACE ${libelf_LIBRARY_DIRS})
-target_link_libraries(client_deps INTERFACE ${libelf_LIBRARIES})
-
-# Dependencies for the runtime
-add_library(runtime_deps INTERFACE)
-target_link_libraries(runtime_deps INTERFACE
-    chimaera::runtime)
-target_include_directories(runtime_deps INTERFACE ${libelf_INCLUDE_DIRS})
-target_link_directories(runtime_deps INTERFACE ${libelf_LIBRARY_DIRS})
-target_link_libraries(runtime_deps INTERFACE ${libelf_LIBRARIES})
-
 # ------------------------------------------------------------------------------
 # Setup CMake Environment
 # ------------------------------------------------------------------------------
@@ -256,7 +240,6 @@ include_directories(${CMAKE_SOURCE_DIR}/tasks/hermes_core/include)
 include_directories(${CMAKE_SOURCE_DIR}/test/unit)
 
 set(TEST_MAIN ${CMAKE_SOURCE_DIR}/test/unit)
-add_subdirectory(src)
 add_subdirectory(hermes_adapters)
 add_subdirectory(tasks)
 
@@ -305,8 +288,8 @@ install(
 )
 
 install(DIRECTORY include DESTINATION ${CMAKE_INSTALL_PREFIX})
-install(EXPORT ${HERMES_EXPORTED_TARGETS}
-    FILE ${HERMES_EXPORTED_TARGETS}CoreConfig.cmake
+install(EXPORT ${CHIMAERA_EXPORTED_TARGETS}
+    FILE ${CHIMAERA_EXPORTED_TARGETS}CoreConfig.cmake
     NAMESPACE Hermes::
     DESTINATION cmake
 )
