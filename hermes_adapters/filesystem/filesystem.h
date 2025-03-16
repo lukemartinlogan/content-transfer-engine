@@ -100,14 +100,13 @@ class Filesystem : public FilesystemIoClient {
       // Get or create the bucket
       if (stat.hflags_.Any(HERMES_FS_TRUNC)) {
         // The file was opened with TRUNCATION
-        stat.bkt_id_ = HERMES->GetBucket(HSHM_DEFAULT_MEM_CTX, stat.path_, ctx,
-                                         0, HERMES_SHOULD_STAGE);
+        stat.bkt_id_ = hermes::Bucket(stat.path_, ctx, 0, HERMES_SHOULD_STAGE);
         stat.bkt_id_.Clear();
       } else {
         // The file was opened regularly
         stat.file_size_ = GetBackendSize(path_shm);
-        stat.bkt_id_ = HERMES->GetBucket(HSHM_DEFAULT_MEM_CTX, stat.path_, ctx,
-                                         stat.file_size_, HERMES_SHOULD_STAGE);
+        stat.bkt_id_ = hermes::Bucket(stat.path_, ctx, stat.file_size_,
+                                      HERMES_SHOULD_STAGE);
       }
       HILOG(kDebug, "BKT vs file size: {} {}", stat.bkt_id_.GetSize(),
             stat.file_size_);
@@ -438,7 +437,7 @@ class Filesystem : public FilesystemIoClient {
     int ret = RealRemove(pathname);
     // Destroy the bucket
     std::string canon_path = stdfs::absolute(pathname).string();
-    Bucket bkt = HERMES->GetBucket(HSHM_DEFAULT_MEM_CTX, canon_path);
+    Bucket bkt = hermes::Bucket(canon_path);
     bkt.Destroy();
     // Destroy all file descriptors
     std::list<File> *filesp = mdm->Find(pathname);

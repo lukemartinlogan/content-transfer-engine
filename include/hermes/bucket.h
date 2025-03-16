@@ -35,31 +35,12 @@ class Bucket {
 
   /**
    * Get or create \a bkt_name bucket.
-   *
-   * Called from hermes.h in GetBucket(). Should not
-   * be used directly.
    * */
-  explicit Bucket(const hipc::MemContext &mctx, const std::string &bkt_name,
+  explicit Bucket(const std::string &bkt_name, const Context &ctx = Context(),
                   size_t backend_size = 0, u32 flags = 0) {
-    mctx_ = mctx;
+    mctx_ = ctx.mctx_;
+    ctx_ = ctx;
     mdm_ = &HERMES_CONF->mdm_;
-    id_ =
-        mdm_->GetOrCreateTag(mctx_, chi::DomainQuery::GetDynamic(),
-                             chi::string(bkt_name), true, backend_size, flags);
-    name_ = bkt_name;
-  }
-
-  /**
-   * Get or create \a bkt_name bucket.
-   *
-   * Called from hermes.h in GetBucket(). Should not
-   * be used directly.
-   * */
-  explicit Bucket(const hipc::MemContext &mctx, const std::string &bkt_name,
-                  Context &ctx, size_t backend_size = 0, u32 flags = 0) {
-    mctx_ = mctx;
-    mdm_ = &HERMES_CONF->mdm_;
-    chi::string x;
     id_ = mdm_->GetOrCreateTag(mctx_, chi::DomainQuery::GetDynamic(),
                                chi::string(bkt_name), true, backend_size, flags,
                                ctx);
@@ -69,7 +50,9 @@ class Bucket {
   /**
    * Get an existing bucket.
    * */
-  explicit Bucket(TagId tag_id) {
+  explicit Bucket(TagId tag_id, const Context &ctx = Context()) {
+    mctx_ = ctx.mctx_;
+    ctx_ = ctx;
     id_ = tag_id;
     mdm_ = &HERMES_CONF->mdm_;
   }
@@ -231,7 +214,7 @@ class Bucket {
       if (hermes_flags.Any(HERMES_GET_BLOB_ID)) {
         task->Wait();
         blob_id = task->blob_id_;
-        CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
+        CHI_CLIENT->DelTask(mctx_, task);
       }
     }
     return blob_id;
@@ -426,7 +409,7 @@ class Bucket {
     task = ShmAsyncBaseGet(blob_name, orig_blob_id, blob, blob_off, ctx);
     task->Wait();
     blob_id = task->blob_id_;
-    CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
+    CHI_CLIENT->DelTask(mctx_, task);
     return blob_id;
   }
 

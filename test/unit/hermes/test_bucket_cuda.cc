@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
 
   // Create a stageable bucket
   hermes::Context ctx = hermes::NvidiaGdsStager::BuildContext(page_size);
-  hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, path, ctx, file_size);
+  hermes::Bucket bkt(path, ctx, file_size);
 
   // Put a few blobs in the bucket
   for (size_t i = off; i < proc_count; ++i) {

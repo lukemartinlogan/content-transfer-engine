@@ -267,7 +267,7 @@ class FilesystemTests {
       HELOG(kFatal, "Failed to remove: {}", path);
     }
 #ifdef HERMES_INTERCEPT
-    hermes::Bucket bkt = HERMES->GetBucket(HSHM_DEFAULT_MEM_CTX, path);
+    hermes::Bucket bkt(path);
     bkt.Destroy();
 #endif
   }

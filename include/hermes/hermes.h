@@ -74,13 +74,6 @@ class Hermes {
                                       chi::string(tag_name));
   }
 
-  /** Get or create a bucket */
-  hermes::Bucket GetBucket(const hipc::MemContext &mctx,
-                           const std::string &path, Context ctx = Context(),
-                           size_t backend_size = 0, u32 flags = 0) {
-    return hermes::Bucket(mctx, path, ctx, backend_size, flags);
-  }
-
   /** Clear all data from hermes */
   void Clear() {
     // TODO(llogan)

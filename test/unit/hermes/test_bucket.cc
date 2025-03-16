@@ -40,7 +40,7 @@ TEST_CASE("TestHermesPut1n") {
   if (rank == 0) {
     // Create a bucket
     hermes::Context ctx;
-    hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, "hello");
+    hermes::Bucket bkt("hello");
 
     size_t count_per_proc = 16;
     size_t off = rank * count_per_proc;
@@ -74,7 +74,7 @@ TEST_CASE("TestHermesPut") {
 
   // Create a bucket
   hermes::Context ctx;
-  hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, "hello");
+  hermes::Bucket bkt("hello");
 
   size_t count_per_proc = 16;
   size_t off = rank * count_per_proc;
@@ -105,7 +105,7 @@ TEST_CASE("TestHermesAsyncPut") {
 
   // Create a bucket
   hermes::Context ctx;
-  hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, "hello");
+  hermes::Bucket bkt("hello");
 
   size_t count_per_proc = 256;
   size_t off = rank * count_per_proc;
@@ -155,7 +155,7 @@ TEST_CASE("TestHermesPutGet") {
   // Create a bucket
   HILOG(kInfo, "WE ARE HERE!!!");
   hermes::Context ctx;
-  hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, "hello");
+  hermes::Bucket bkt("hello");
   HILOG(kInfo, "BUCKET LOADED!!!");
 
   size_t count_per_proc = 16;
@@ -197,7 +197,7 @@ TEST_CASE("TestHermesPartialPutGet") {
   // Create a bucket
   HILOG(kInfo, "WE ARE HERE!!!");
   hermes::Context ctx;
-  hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, "hello");
+  hermes::Bucket bkt("hello");
   HILOG(kInfo, "BUCKET LOADED!!!");
 
   size_t count_per_proc = 16;
@@ -242,7 +242,7 @@ TEST_CASE("TestHermesSerializedPutGet") {
 
   // Create a bucket
   hermes::Context ctx;
-  hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, "hello");
+  hermes::Bucket bkt("hello");
 
   size_t count_per_proc = 4;
   size_t off = rank * count_per_proc;
@@ -274,7 +274,7 @@ TEST_CASE("TestHermesBlobDestroy") {
 
   // Create a bucket
   hermes::Context ctx;
-  hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, "hello");
+  hermes::Bucket bkt("hello");
 
   size_t count_per_proc = 16;
   size_t off = rank * count_per_proc;
@@ -302,7 +302,7 @@ TEST_CASE("TestHermesBucketDestroy") {
 
   // Create a bucket
   hermes::Context ctx;
-  hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, "hello");
+  hermes::Bucket bkt("hello");
 
   size_t count_per_proc = 16;
   size_t off = rank * count_per_proc;
@@ -335,7 +335,7 @@ TEST_CASE("TestHermesReorganizeBlob") {
 
   // Create a bucket
   hermes::Context ctx;
-  hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, "hello");
+  hermes::Bucket bkt("hello");
 
   size_t count_per_proc = 16;
   size_t off = rank * count_per_proc;
@@ -372,7 +372,7 @@ TEST_CASE("TestHermesReorganizeBlob") {
 //
 //   // Create a bucket
 //   hermes::Context ctx;
-//   hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, "append_test");
+//   hermes::Bucket bkt("append_test");
 //
 //   // Put a few blobs in the bucket
 //   size_t page_size = KILOBYTES(4);
@@ -408,7 +408,7 @@ TEST_CASE("TestHermesReorganizeBlob") {
 //
 //     // Create a bucket
 //     hermes::Context ctx;
-//     hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, "append_test");
+//     hermes::Bucket bkt("append_test");
 //
 //     // Put a few blobs in the bucket
 //     size_t page_size = KILOBYTES(4);
@@ -445,8 +445,7 @@ TEST_CASE("TestHermesGetContainedBlobIds") {
 
   // Create a bucket
   hermes::Context ctx;
-  hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX,
-                     "append_test" + std::to_string(rank));
+  hermes::Bucket bkt("append_test" + std::to_string(rank));
   u32 num_blobs = 1024;
 
   // Put a few blobs in the bucket
@@ -492,7 +491,7 @@ TEST_CASE("TestHermesDataStager") {
 
   // Create a stageable bucket
   hermes::Context ctx = hermes::BinaryFileStager::BuildContext(page_size);
-  hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, path, ctx, file_size);
+  hermes::Bucket bkt(path, ctx, file_size);
 
   // Put a few blobs in the bucket
   for (size_t i = off; i < proc_count; ++i) {
@@ -571,7 +570,7 @@ TEST_CASE("TestHermesDataStager") {
 
 //   // Create a stageable bucket
 //   hermes::Context ctx = hermes::BinaryFileStager::BuildContext(page_size);
-//   hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, path, ctx, file_size);
+//   hermes::Bucket bkt(path, ctx, file_size);
 
 //   // Put a few blobs in the bucket
 //   for (size_t i = off; i < proc_count; ++i) {
@@ -637,7 +636,7 @@ TEST_CASE("TestHermesDataStager") {
 //   hermes::Context ctx;
 //   ctx.flags_.SetBits(HERMES_HAS_DERIVED);
 //   std::string url = "data_bkt";
-//   hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, url, 0, HERMES_HAS_DERIVED);
+//   hermes::Bucket bkt(url, 0, HERMES_HAS_DERIVED);
 //
 //   // Create the derived quantity with
 //   hermes::data_op::OpGraph op_graph;
@@ -698,8 +697,7 @@ TEST_CASE("TestHermesCollectMetadata") {
 
   // Create a bucket
   hermes::Context ctx;
-  hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX,
-                     "append_test" + std::to_string(rank));
+  hermes::Bucket bkt("append_test" + std::to_string(rank));
   u32 num_blobs = 1024;
 
   // Put a few blobs in the bucket
@@ -732,7 +730,7 @@ TEST_CASE("TestHermesDataPlacement") {
 
   // Create a bucket
   hermes::Context ctx;
-  hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, "hello");
+  hermes::Bucket bkt("hello");
 
   size_t count_per_proc = 16;
   size_t off = rank * count_per_proc;
@@ -783,7 +781,7 @@ TEST_CASE("TestHermesDataPlacementFancy") {
 
   // Create a bucket
   hermes::Context ctx;
-  hermes::Bucket bkt(HSHM_DEFAULT_MEM_CTX, "hello");
+  hermes::Bucket bkt("hello");
 
   size_t count_per_proc = 16;
   size_t off = rank * count_per_proc;

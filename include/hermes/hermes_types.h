@@ -279,6 +279,9 @@ class PlacementPolicyConv {
 
 /** Hermes API call context */
 struct Context {
+  /** Memory context */
+  hipc::MemContext mctx_;
+
   /** Data placement engine */
   PlacementPolicy dpe_;
 
@@ -294,7 +297,11 @@ struct Context {
   /** The node id the blob will be accessed from */
   u32 node_id_;
 
-  Context() : dpe_(PlacementPolicy::kNone), blob_score_(1), node_id_(0) {}
+  Context()
+      : mctx_(HSHM_DEFAULT_MEM_CTX),
+        dpe_(PlacementPolicy::kNone),
+        blob_score_(1),
+        node_id_(0) {}
 };
 
 /**
