@@ -85,7 +85,7 @@ add_compile_options(-march=native -fomit-frame-pointer)
 # by other projects.
 # -----------------------------------------------------------------------------
 if(NOT CHIMAERA_EXPORTED_TARGETS)
-    set(CHIMAERA_EXPORTED_TARGETS "Hermes")
+    set(CHIMAERA_EXPORTED_TARGETS "HermesCore")
 endif()
 
 # -----------------------------------------------------------------------------
@@ -288,10 +288,5 @@ install(
 )
 
 install(DIRECTORY include DESTINATION ${CMAKE_INSTALL_PREFIX})
-install(EXPORT ${CHIMAERA_EXPORTED_TARGETS}
-    FILE ${CHIMAERA_EXPORTED_TARGETS}CoreConfig.cmake
-    NAMESPACE Hermes::
-    DESTINATION cmake
-)
 
 jarvis_repo_add("${CMAKE_SOURCE_DIR}/test/jarvis_hermes" "${CMAKE_SOURCE_DIR}/test/jarvis_hermes/pipelines")
