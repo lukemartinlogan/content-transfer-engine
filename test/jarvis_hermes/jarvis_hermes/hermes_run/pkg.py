@@ -177,19 +177,19 @@ class HermesRun(Service):
         self.env['HERMES_LOG_VERBOSITY'] = str(self.config['log_verbosity'])
 
         # Begin making Hermes client config
-        ${Hermes_CLIENT_DEPS} = {
+        hermes_client = {
             'path_inclusions': ['/tmp/test_hermes'],
             'path_exclusions': ['/'],
             'file_page_size': self.config['page_size']
         }
         if self.config['flush_mode'] == 'async':
-            ${Hermes_CLIENT_DEPS}['flushing_mode'] = 'kAsync'
+            hermes_client['flushing_mode'] = 'kAsync'
         elif self.config['flush_mode'] == 'sync':
-            ${Hermes_CLIENT_DEPS}['flushing_mode'] = 'kSync'
+            hermes_client['flushing_mode'] = 'kSync'
         if self.config['include'] is not None:
-            ${Hermes_CLIENT_DEPS}['path_inclusions'] += self.config['include']
+            hermes_client['path_inclusions'] += self.config['include']
         if self.config['exclude'] is not None:
-            ${Hermes_CLIENT_DEPS}['path_exclusions'] += self.config['exclude']
+            hermes_client['path_exclusions'] += self.config['exclude']
 
         # Get storage info
         if len(self.config['devices']) == 0:
@@ -256,8 +256,8 @@ class HermesRun(Service):
         self.env['HERMES_CONF'] = hermes_server_yaml
 
         # Save Hermes client configurations
-        hermes_client_yaml = f'{self.shared_dir}/${Hermes_CLIENT_DEPS}.yaml'
-        YamlFile(hermes_client_yaml).save(${Hermes_CLIENT_DEPS})
+        hermes_client_yaml = f'{self.shared_dir}/hermes_client.yaml'
+        YamlFile(hermes_client_yaml).save(hermes_client)
         self.env['HERMES_CLIENT_CONF'] = hermes_client_yaml
 
     def start(self):
