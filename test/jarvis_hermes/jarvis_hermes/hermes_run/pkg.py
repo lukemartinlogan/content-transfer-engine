@@ -154,10 +154,7 @@ class HermesRun(Service):
                 'rank': 1,
             }
         ]
-
-    def get_hostfile(self):
-        self.hostfile = self.jarvis.hostfile
-
+    
     def _configure(self, **kwargs):
         """
         Converts the Jarvis configuration to application-specific configuration.
@@ -294,6 +291,7 @@ class HermesRun(Service):
 
         :return: None
         """
+        self.hostfile = self.jarvis.hostfile
         for path in self.config['borg_paths']:
             self.log(f'Removing {path}', Color.YELLOW)
             Rm(path, PsshExecInfo(hostfile=self.hostfile))
