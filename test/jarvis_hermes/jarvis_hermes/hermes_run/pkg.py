@@ -140,14 +140,14 @@ class HermesRun(Service):
                 'default': [],
                 'args': [
                     {
-                        'name': 'type',
-                        'msg': 'The type of the device being queried',
+                        'name': 'mount',
+                        'msg': 'The path to the device',
                         'type': str
                     },
                     {
-                        'name': 'count',
-                        'msg': 'The number of devices being',
-                        'type': int
+                        'name': 'size',
+                        'msg': 'The amount of data to use',
+                        'type': str
                     }
                 ],
                 'class': 'dpe',
@@ -192,19 +192,23 @@ class HermesRun(Service):
             hermes_client['path_exclusions'] += self.config['exclude']
 
         # Get storage info
+        devs = []
         if len(self.config['devices']) == 0:
             # Get all the fastest storage device mount points on machine
             dev_df = rg.find_storage(needs_root=False)
+            devs = dev_df.rows
         else:
-            # Get the storage devices for the user
-            dev_list = [rg.find_storage(dev_types=dev_type,
-                                        count_per_pkg=count,
-                                        needs_root=False)
-                        for dev_type, count in self.config['devices']]
-            dev_df = sdf.concat(dev_list)
+            # Get the storage devices for the user 
+            print(self.config['devices'])
+            for dev in self.config['devices']:
+                devs.append({
+                    'mount': dev['mount'],
+                    'avail': int(SizeConv.to_int(dev['size'])  * 1 / .9),
+                    'shared': False,
+                    'dev_type': 'custom'
+                })
         if len(dev_df) == 0:
             raise Exception('Hermes needs at least one storage device')
-        devs = dev_df.rows
         self.config['borg_paths'] = []
         for i, dev in enumerate(devs):
             dev_type = dev['dev_type']

@@ -12,6 +12,15 @@ pkgs:
   # Add hermes to the runtime
   - pkg_type: hermes_run
     pkg_name: hermes_run
+    devices:
+      - mount: ${HOME}/hermes_data/tier1
+        size: 1g
+      - mount: ${HOME}/hermes_data/tier2
+        size: 1g
+      - mount: ${HOME}/hermes_data/tier3
+        size: 1g
+      - mount: ${HOME}/hermes_data/tier4
+        size: 1g
   # Launch vizualizer
   - pkg_type: hermes_viz
     pkg_name: hermes_viz
@@ -28,7 +37,7 @@ pkgs:
     api: mpiio
     out: /tmp/test_hermes/ior.bin  # Output directory
     xfer: 1m
-    block: 4g
+    block: 32m
     nprocs: 4  # Total number of processes
     ppn: 16  # Process per node
     do_dbg: false
