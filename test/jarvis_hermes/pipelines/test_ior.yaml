@@ -5,7 +5,7 @@ pkgs:
   - pkg_type: chimaera_run
     pkg_name: chimaera_run
     sleep: 5
-    do_dbg: false
+    do_dbg: true
     dbg_port: 4000
     port: 6000
     modules: ['hermes_core']
@@ -16,9 +16,6 @@ pkgs:
   - pkg_type: hermes_api
     pkg_name: hermes_api
     mpi: true
-  # Intercept malloc calls
-  - pkg_type: chimaera_malloc
-    pkg_name: chimaera_malloc
   # Launch IOR
   - pkg_type: ior
     pkg_name: ior
@@ -28,7 +25,7 @@ pkgs:
     out: /tmp/test_hermes/ior.bin  # Output directory
     xfer: 1m
     block: 1g
-    do_dbg: false
+    do_dbg: true
     dbg_port: 4001
     nprocs: 1  # Total number of processes
     ppn: 16  # Process per node

@@ -218,7 +218,7 @@ class Blob {
   size_t size() const { return size_; }
 
   /** Get the data */
-  const char *data() const { return data_.ptr_; }
+  char *data() const { return data_.ptr_; }
 
   /** Equality */
   bool operator==(const Blob &other) const {
