@@ -155,7 +155,7 @@ endif()
 # Find Packages
 # -----------------------------------------------------------------------------
 
-# This is for compatability with CLANG + Spack
+# This is for compatibility with CLANG + Spack
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 list(APPEND CMAKE_INSTALL_RPATH "${HERMES_INSTALL_LIB_DIR}")
 set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
