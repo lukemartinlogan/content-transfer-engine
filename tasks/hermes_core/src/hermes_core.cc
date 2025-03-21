@@ -117,11 +117,11 @@ class Server : public Module {
         continue;
       }
       HILOG(kInfo, "Created target: {}", target.id_);
-      // target.poll_stats_ = target.client_.AsyncPollStats(
-      //     HSHM_MCTX,
-      //     chi::DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
-      //                                     node_id),
-      //     25);
+      target.poll_stats_ = target.client_.AsyncPollStats(
+          HSHM_MCTX,
+          chi::DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
+                                          node_id),
+          25);
       // HILOG(kInfo, "Polling stats async for target: {}", target.id_);
       target.poll_stats_->stats_ = target.client_.PollStats(
           HSHM_MCTX, chi::DomainQuery::GetDirectHash(
