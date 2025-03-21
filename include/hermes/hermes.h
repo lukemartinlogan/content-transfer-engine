@@ -32,6 +32,9 @@ class Hermes {
   /** Check if initialized */
   bool IsInitialized() { return HERMES_CONF->is_initialized_; }
 
+  /** Get a bucket */
+  Bucket GetBucket(const std::string &name) { return hermes::Bucket(name); }
+
   /** Collects blob metadata */
   std::vector<BlobInfo> PollBlobMetadata(const std::string &filter,
                                          int max_count) {
