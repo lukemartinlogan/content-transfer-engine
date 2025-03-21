@@ -118,7 +118,7 @@ TEST_CASE("TestHermesAsyncPut") {
     bkt.AsyncPut(std::to_string(i), blob, ctx);
   }
   MPI_Barrier(MPI_COMM_WORLD);
-  CHI_ADMIN->Flush(HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast());
+  CHI_ADMIN->Flush(HSHM_MCTX, chi::DomainQuery::GetGlobalBcast());
 }
 
 TEST_CASE("TestHermesPutGet") {
@@ -317,7 +317,7 @@ TEST_CASE("TestHermesBucketDestroy") {
 
   bkt.Destroy();
   MPI_Barrier(MPI_COMM_WORLD);
-  CHI_ADMIN->Flush(HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast());
+  CHI_ADMIN->Flush(HSHM_MCTX, chi::DomainQuery::GetGlobalBcast());
 
   for (size_t i = off; i < proc_count; ++i) {
     REQUIRE(!bkt.ContainsBlob(std::to_string(i)));
@@ -514,7 +514,7 @@ TEST_CASE("TestHermesDataStager") {
   MPI_Barrier(MPI_COMM_WORLD);
 
   // Flush all data to final disk
-  CHI_ADMIN->Flush(HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast());
+  CHI_ADMIN->Flush(HSHM_MCTX, chi::DomainQuery::GetGlobalBcast());
   HILOG(kInfo, "Flushing finished");
 
   // Get the size of data on disk
@@ -595,7 +595,7 @@ TEST_CASE("TestHermesDataStager") {
 //   MPI_Barrier(MPI_COMM_WORLD);
 
 //   // Flush all data to final disk
-//   CHI_ADMIN->Flush(HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast());
+//   CHI_ADMIN->Flush(HSHM_MCTX, chi::DomainQuery::GetGlobalBcast());
 //   HILOG(kInfo, "Flushing finished");
 
 //   // Get the size of data on disk
@@ -670,10 +670,10 @@ TEST_CASE("TestHermesDataStager") {
 //   }
 //   MPI_Barrier(MPI_COMM_WORLD);
 //
-//   CHI_ADMIN->Flush(HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast());
+//   CHI_ADMIN->Flush(HSHM_MCTX, chi::DomainQuery::GetGlobalBcast());
 //   // Verify derived operator happens
 //   hermes::Bucket bkt_min("data_bkt_min", 0, 0);
-//   CHI_ADMIN->Flush(HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast());
+//   CHI_ADMIN->Flush(HSHM_MCTX, chi::DomainQuery::GetGlobalBcast());
 //   size_t size = bkt_min.GetSize();
 //   REQUIRE(size == sizeof(float) * count_per_proc * nprocs);
 //
@@ -712,7 +712,7 @@ TEST_CASE("TestHermesCollectMetadata") {
   // Get contained blob ids
   // TODO(llogan): Fix metadata table
   // hermes::MetadataTable table =
-  //     HERMES->CollectMetadataSnapshot(HSHM_DEFAULT_MEM_CTX);
+  //     HERMES->CollectMetadataSnapshot(HSHM_MCTX);
   // REQUIRE(table.blob_info_.size() == 1024 * nprocs);
   // REQUIRE(table.bkt_info_.size() == nprocs);
   // REQUIRE(table.target_info_.size() >= 4);

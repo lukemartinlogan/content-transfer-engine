@@ -92,7 +92,7 @@ class Blob {
 
   /** Copy string */
   Blob(const std::string &data) {
-    data_ = CHI_CLIENT->AllocateBuffer(HSHM_DEFAULT_MEM_CTX, data.size());
+    data_ = CHI_CLIENT->AllocateBuffer(HSHM_MCTX, data.size());
     size_ = data.size();
     max_size_ = data.size();
     memcpy(data_.ptr_, data.data(), data.size());
@@ -108,8 +108,7 @@ class Blob {
       max_size_ = data.size() * sizeof(T);
       owned_ = false;
     } else {
-      data_ = CHI_CLIENT->AllocateBuffer(HSHM_DEFAULT_MEM_CTX,
-                                         data.size() * sizeof(T));
+      data_ = CHI_CLIENT->AllocateBuffer(HSHM_MCTX, data.size() * sizeof(T));
       size_ = data.size() * sizeof(T);
       max_size_ = data.size() * sizeof(T);
       memcpy(data_.ptr_, data.data(), size_);
@@ -123,7 +122,7 @@ class Blob {
     size_ = size;
     max_size_ = size;
     if (data_.shm_.alloc_id_ != CHI_CLIENT->data_alloc_->id_) {
-      data_ = CHI_CLIENT->AllocateBuffer(HSHM_DEFAULT_MEM_CTX, size);
+      data_ = CHI_CLIENT->AllocateBuffer(HSHM_MCTX, size);
       memcpy(data_.ptr_, data, size);
       owned_ = true;
     } else {
@@ -174,7 +173,7 @@ class Blob {
   /** Destructor */
   ~Blob() {
     if (owned_) {
-      CHI_CLIENT->FreeBuffer(HSHM_DEFAULT_MEM_CTX, data_);
+      CHI_CLIENT->FreeBuffer(HSHM_MCTX, data_);
     }
   }
 
@@ -190,7 +189,7 @@ class Blob {
       throw std::runtime_error(
           "Blobs are not meant to be resized after creation");
     } else {
-      data_ = CHI_CLIENT->AllocateBuffer(HSHM_DEFAULT_MEM_CTX, new_size);
+      data_ = CHI_CLIENT->AllocateBuffer(HSHM_MCTX, new_size);
       owned_ = true;
     }
     max_size_ = new_size;
@@ -298,7 +297,7 @@ struct Context {
   u32 node_id_;
 
   Context()
-      : mctx_(HSHM_DEFAULT_MEM_CTX),
+      : mctx_(HSHM_MCTX),
         dpe_(PlacementPolicy::kNone),
         blob_score_(1),
         node_id_(0) {}

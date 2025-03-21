@@ -40,7 +40,7 @@ class ConfigurationManager {
     LoadClientConfig(config_path);
     LoadServerConfig(config_path);
     mdm_.Create(
-        HSHM_DEFAULT_MEM_CTX,
+        HSHM_MCTX,
         chi::DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers, 0),
         chi::DomainQuery::GetGlobalBcast(), "hermes_core");
     is_initialized_ = true;

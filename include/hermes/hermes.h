@@ -39,24 +39,21 @@ class Hermes {
   std::vector<BlobInfo> PollBlobMetadata(const std::string &filter,
                                          int max_count) {
     return HERMES_CONF->mdm_.PollBlobMetadata(
-        HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast(), filter,
-        max_count);
+        HSHM_MCTX, chi::DomainQuery::GetGlobalBcast(), filter, max_count);
   }
 
   /** Collects tag metadata */
   std::vector<TagInfo> PollTagMetadata(const std::string &filter,
                                        int max_count) {
-    return HERMES_CONF->mdm_.PollTagMetadata(HSHM_DEFAULT_MEM_CTX,
-                                             chi::DomainQuery::GetGlobalBcast(),
-                                             filter, max_count);
+    return HERMES_CONF->mdm_.PollTagMetadata(
+        HSHM_MCTX, chi::DomainQuery::GetGlobalBcast(), filter, max_count);
   }
 
   /** Collects target metadata */
   std::vector<TargetStats> PollTargetMetadata(const std::string &filter,
                                               int max_count) {
     return HERMES_CONF->mdm_.PollTargetMetadata(
-        HSHM_DEFAULT_MEM_CTX, chi::DomainQuery::GetGlobalBcast(), filter,
-        max_count);
+        HSHM_MCTX, chi::DomainQuery::GetGlobalBcast(), filter, max_count);
   }
 
   /**
@@ -66,7 +63,7 @@ class Hermes {
    */
   std::vector<IoStat> PollAccessPattern(int last_access) {
     return HERMES_CONF->mdm_.PollAccessPattern(
-        HSHM_DEFAULT_MEM_CTX,
+        HSHM_MCTX,
         chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
         last_access);
   }

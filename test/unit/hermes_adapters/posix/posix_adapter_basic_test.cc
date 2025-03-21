@@ -1,22 +1,23 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-* Distributed under BSD 3-Clause license.                                   *
-* Copyright by The HDF Group.                                               *
-* Copyright by the Illinois Institute of Technology.                        *
-* All rights reserved.                                                      *
-*                                                                           *
-* This file is part of Hermes. The full Hermes copyright notice, including  *
-* terms governing use, modification, and redistribution, is contained in    *
-* the COPYING file, which can be found at the top directory. If you do not  *
-* have access to the file, you may request a copy from help@hdfgroup.org.   *
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+ * Distributed under BSD 3-Clause license.                                   *
+ * Copyright by The HDF Group.                                               *
+ * Copyright by the Illinois Institute of Technology.                        *
+ * All rights reserved.                                                      *
+ *                                                                           *
+ * This file is part of Hermes. The full Hermes copyright notice, including  *
+ * terms governing use, modification, and redistribution, is contained in    *
+ * the COPYING file, which can be found at the top directory. If you do not  *
+ * have access to the file, you may request a copy from help@hdfgroup.org.   *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <sys/stat.h>
+
 #include "posix_adapter_test.h"
 
 TEST_CASE("Open", "[process=" + std::to_string(TESTER->comm_size_) +
-    "]"
-    "[operation=single_open]"
-    "[repetition=1][file=1]") {
+                      "]"
+                      "[operation=single_open]"
+                      "[repetition=1][file=1]") {
   TESTER->Pretest();
   SECTION("open non-existant file") {
     TESTER->test_open(TESTER->new_file_, O_WRONLY);
@@ -100,8 +101,7 @@ TEST_CASE("Open", "[process=" + std::to_string(TESTER->comm_size_) +
     TESTER->test_open(TESTER->existing_file_, O_RDONLY | O_CREAT | O_EXCL,
                       0600);
     REQUIRE(TESTER->fh_orig_ == -1);
-    TESTER->test_open(TESTER->existing_file_, O_RDWR | O_CREAT | O_EXCL,
-                      0600);
+    TESTER->test_open(TESTER->existing_file_, O_RDWR | O_CREAT | O_EXCL, 0600);
     REQUIRE(TESTER->fh_orig_ == -1);
   }
   SECTION("Async I/O") {
@@ -239,15 +239,15 @@ TEST_CASE("Open", "[process=" + std::to_string(TESTER->comm_size_) +
 //  TESTER->test_open(TESTER->existing_file_, O_WRONLY | O_TRUNC);
 //  TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
 //  stdfs::remove(TESTER->existing_file_.hermes_);
-//  hermes::Bucket bkt = HERMES->GetBucket(HSHM_DEFAULT_MEM_CTX, TESTER->existing_file_.hermes_);
-//  bkt.Destroy();
+//  hermes::Bucket bkt = HERMES->GetBucket(HSHM_MCTX,
+//  TESTER->existing_file_.hermes_); bkt.Destroy();
 // }
 
 TEST_CASE("SingleWrite", "[process=" + std::to_string(TESTER->comm_size_) +
-    "]"
-    "[operation=single_write]"
-    "[request_size=type-fixed][repetition=1]"
-    "[file=1]") {
+                             "]"
+                             "[operation=single_write]"
+                             "[request_size=type-fixed][repetition=1]"
+                             "[file=1]") {
   TESTER->Pretest();
   SECTION("write to existing file") {
     TESTER->test_open(TESTER->existing_file_, O_RDWR);
@@ -271,7 +271,7 @@ TEST_CASE("SingleWrite", "[process=" + std::to_string(TESTER->comm_size_) +
     int size = stdfs::file_size(TESTER->new_file_.hermes_);
     int orig_size = TESTER->size_written_orig_;
     REQUIRE(stdfs::file_size(TESTER->new_file_.hermes_) ==
-        TESTER->size_written_orig_);
+            TESTER->size_written_orig_);
   }
 
   SECTION("write to existing file with truncate") {
@@ -282,7 +282,7 @@ TEST_CASE("SingleWrite", "[process=" + std::to_string(TESTER->comm_size_) +
     TESTER->test_close();
     REQUIRE(TESTER->status_orig_ == 0);
     REQUIRE(stdfs::file_size(TESTER->existing_file_.hermes_) ==
-        TESTER->size_written_orig_);
+            TESTER->size_written_orig_);
   }
 
   SECTION("write to existing file at the end") {
@@ -290,14 +290,14 @@ TEST_CASE("SingleWrite", "[process=" + std::to_string(TESTER->comm_size_) +
     REQUIRE(TESTER->fh_orig_ != -1);
     TESTER->test_seek(0, SEEK_END);
     REQUIRE(((size_t)TESTER->status_orig_) ==
-        TESTER->request_size_ * TESTER->num_iterations_);
+            TESTER->request_size_ * TESTER->num_iterations_);
     TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
     REQUIRE(TESTER->size_written_orig_ == TESTER->request_size_);
     TESTER->test_close();
     REQUIRE(TESTER->status_orig_ == 0);
     REQUIRE(stdfs::file_size(TESTER->existing_file_.hermes_) ==
-        TESTER->size_written_orig_ +
-            TESTER->request_size_ * TESTER->num_iterations_);
+            TESTER->size_written_orig_ +
+                TESTER->request_size_ * TESTER->num_iterations_);
   }
 
   SECTION("append to existing file") {
@@ -309,7 +309,7 @@ TEST_CASE("SingleWrite", "[process=" + std::to_string(TESTER->comm_size_) +
     TESTER->test_close();
     REQUIRE(TESTER->status_orig_ == 0);
     REQUIRE(stdfs::file_size(TESTER->existing_file_.hermes_) ==
-        existing_size + TESTER->size_written_orig_);
+            existing_size + TESTER->size_written_orig_);
   }
 
   SECTION("append to new file") {
@@ -320,16 +320,16 @@ TEST_CASE("SingleWrite", "[process=" + std::to_string(TESTER->comm_size_) +
     TESTER->test_close();
     REQUIRE(TESTER->status_orig_ == 0);
     REQUIRE(stdfs::file_size(TESTER->new_file_.hermes_) ==
-        TESTER->size_written_orig_);
+            TESTER->size_written_orig_);
   }
   TESTER->Posttest();
 }
 
 TEST_CASE("SingleRead", "[process=" + std::to_string(TESTER->comm_size_) +
-    "]"
-    "[operation=single_read]"
-    "[request_size=type-fixed][repetition=1]"
-    "[file=1]") {
+                            "]"
+                            "[operation=single_read]"
+                            "[request_size=type-fixed][repetition=1]"
+                            "[file=1]") {
   TESTER->Pretest();
   SECTION("read from non-existing file") {
     TESTER->test_open(TESTER->new_file_, O_RDONLY);
@@ -351,7 +351,7 @@ TEST_CASE("SingleRead", "[process=" + std::to_string(TESTER->comm_size_) +
     REQUIRE(TESTER->fh_orig_ != -1);
     TESTER->test_seek(0, SEEK_END);
     REQUIRE(((size_t)TESTER->status_orig_) ==
-        TESTER->request_size_ * TESTER->num_iterations_);
+            TESTER->request_size_ * TESTER->num_iterations_);
     TESTER->test_read(TESTER->read_data_.data(), TESTER->request_size_);
     REQUIRE(TESTER->size_read_orig_ == 0);
     TESTER->test_close();
@@ -382,7 +382,7 @@ TEST_CASE("BatchedWriteSequential",
     TESTER->test_close();
     REQUIRE(TESTER->status_orig_ == 0);
     REQUIRE(stdfs::file_size(TESTER->new_file_.hermes_) ==
-        TESTER->request_size_);
+            TESTER->request_size_);
   }
 
   SECTION("write to new file always at start") {
@@ -396,7 +396,7 @@ TEST_CASE("BatchedWriteSequential",
     TESTER->test_close();
     REQUIRE(TESTER->status_orig_ == 0);
     REQUIRE(stdfs::file_size(TESTER->new_file_.hermes_) ==
-        TESTER->num_iterations_ * TESTER->request_size_);
+            TESTER->num_iterations_ * TESTER->request_size_);
   }
   TESTER->Posttest();
 }
@@ -440,23 +440,22 @@ TEST_CASE("BatchedReadSequential",
   TESTER->Posttest();
 }
 
-TEST_CASE("BatchedReadRandom", "[process=" +
-    std::to_string(TESTER->comm_size_) +
-    "]"
-    "[operation=batched_read]"
-    "[request_size=type-fixed]"
-    "[repetition=" +
-    std::to_string(TESTER->num_iterations_) +
-    "][pattern=random][file=1]") {
+TEST_CASE("BatchedReadRandom",
+          "[process=" + std::to_string(TESTER->comm_size_) +
+              "]"
+              "[operation=batched_read]"
+              "[request_size=type-fixed]"
+              "[repetition=" +
+              std::to_string(TESTER->num_iterations_) +
+              "][pattern=random][file=1]") {
   TESTER->Pretest();
   SECTION("read from existing file") {
     TESTER->test_open(TESTER->existing_file_, O_RDWR);
     REQUIRE(TESTER->fh_orig_ != -1);
     std::string data(TESTER->request_size_, '1');
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      size_t offset =
-          rand_r(&TESTER->offset_seed_) %
-              (TESTER->total_size_ - TESTER->request_size_);
+      size_t offset = rand_r(&TESTER->offset_seed_) %
+                      (TESTER->total_size_ - TESTER->request_size_);
       TESTER->test_seek(offset, SEEK_SET);
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
       TESTER->test_read(data.data(), TESTER->request_size_);
@@ -468,22 +467,21 @@ TEST_CASE("BatchedReadRandom", "[process=" +
   TESTER->Posttest();
 }
 
-TEST_CASE("BatchedUpdateRandom", "[process=" +
-    std::to_string(TESTER->comm_size_) +
-    "]"
-    "[operation=batched_write]"
-    "[request_size=type-fixed][repetition=" +
-    std::to_string(TESTER->num_iterations_) +
-    "]"
-    "[pattern=random][file=1]") {
+TEST_CASE("BatchedUpdateRandom",
+          "[process=" + std::to_string(TESTER->comm_size_) +
+              "]"
+              "[operation=batched_write]"
+              "[request_size=type-fixed][repetition=" +
+              std::to_string(TESTER->num_iterations_) +
+              "]"
+              "[pattern=random][file=1]") {
   TESTER->Pretest();
   SECTION("update into existing file") {
     TESTER->test_open(TESTER->existing_file_, O_RDWR);
     REQUIRE(TESTER->fh_orig_ != -1);
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      size_t offset =
-          rand_r(&TESTER->offset_seed_) %
-              (TESTER->total_size_ - TESTER->request_size_ - 1);
+      size_t offset = rand_r(&TESTER->offset_seed_) %
+                      (TESTER->total_size_ - TESTER->request_size_ - 1);
       TESTER->test_seek(offset, SEEK_SET);  // 630978
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
       TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
@@ -566,8 +564,7 @@ TEST_CASE("BatchedReadStrideDynamic",
     std::string data(TESTER->request_size_, '1');
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
       size_t offset = TESTER->GetRandomOffset(
-          i, TESTER->offset_seed_, TESTER->stride_size_,
-          TESTER->total_size_);
+          i, TESTER->offset_seed_, TESTER->stride_size_, TESTER->total_size_);
       TESTER->test_seek(offset, SEEK_SET);
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
       TESTER->test_read(data.data(), TESTER->request_size_);
@@ -594,8 +591,7 @@ TEST_CASE("BatchedUpdateStrideDynamic",
     std::string data(TESTER->request_size_, '1');
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
       size_t offset = TESTER->GetRandomOffset(
-          i, TESTER->offset_seed_, TESTER->stride_size_,
-          TESTER->total_size_);
+          i, TESTER->offset_seed_, TESTER->stride_size_, TESTER->total_size_);
       TESTER->test_seek(offset, SEEK_SET);
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
       TESTER->test_read(data.data(), TESTER->request_size_);
@@ -626,7 +622,7 @@ TEST_CASE("BatchedWriteRSVariable",
       REQUIRE(TESTER->status_orig_ == 0);
       size_t request_size =
           TESTER->request_size_ +
-              (rand_r(&TESTER->offset_seed_) % TESTER->request_size_);
+          (rand_r(&TESTER->offset_seed_) % TESTER->request_size_);
       std::string data(request_size, '1');
       TESTER->test_write(data.c_str(), request_size);
       REQUIRE(TESTER->size_written_orig_ == request_size);
@@ -636,7 +632,7 @@ TEST_CASE("BatchedWriteRSVariable",
     TESTER->test_close();
     REQUIRE(TESTER->status_orig_ == 0);
     REQUIRE(stdfs::file_size(TESTER->new_file_.hermes_) ==
-        biggest_size_written);
+            biggest_size_written);
   }
 
   SECTION("write to new file") {
@@ -646,7 +642,7 @@ TEST_CASE("BatchedWriteRSVariable",
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
       size_t request_size =
           TESTER->request_size_ +
-              (rand_r(&TESTER->offset_seed_) % TESTER->request_size_);
+          (rand_r(&TESTER->offset_seed_) % TESTER->request_size_);
       std::string data(request_size, '1');
       TESTER->test_write(data.c_str(), request_size);
       REQUIRE(TESTER->size_written_orig_ == request_size);
@@ -674,8 +670,9 @@ TEST_CASE("BatchedReadSequentialRSVariable",
     std::string data(TESTER->request_size_, '1');
     size_t current_offset = 0;
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      size_t request_size = (TESTER->request_size_ +
-          (rand_r(&TESTER->offset_seed_) % TESTER->request_size_)) %
+      size_t request_size =
+          (TESTER->request_size_ +
+           (rand_r(&TESTER->offset_seed_) % TESTER->request_size_)) %
           (TESTER->total_size_ - current_offset);
       std::string data(request_size, '1');
       TESTER->test_read(data.data(), request_size);
@@ -695,7 +692,7 @@ TEST_CASE("BatchedReadSequentialRSVariable",
       REQUIRE(TESTER->status_orig_ == 0);
       size_t request_size =
           TESTER->request_size_ +
-              (rand_r(&TESTER->offset_seed_) % TESTER->request_size_);
+          (rand_r(&TESTER->offset_seed_) % TESTER->request_size_);
       std::string data(request_size, '1');
       TESTER->test_read(data.data(), request_size);
       REQUIRE(TESTER->size_read_orig_ == request_size);
@@ -721,15 +718,14 @@ TEST_CASE("BatchedReadRandomRSVariable",
     REQUIRE(TESTER->fh_orig_ != -1);
     std::string data(TESTER->request_size_, '1');
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      size_t offset =
-          rand_r(&TESTER->offset_seed_) %
-              (TESTER->total_size_ - TESTER->request_size_);
+      size_t offset = rand_r(&TESTER->offset_seed_) %
+                      (TESTER->total_size_ - TESTER->request_size_);
       TESTER->test_seek(offset, SEEK_SET);
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
       size_t request_size =
           (TESTER->request_size_ +
-              (rand_r(&TESTER->rs_seed_) % TESTER->request_size_)) %
-              (TESTER->total_size_ - offset);
+           (rand_r(&TESTER->rs_seed_) % TESTER->request_size_)) %
+          (TESTER->total_size_ - offset);
       std::string data(request_size, '1');
       TESTER->test_read(data.data(), request_size);
       REQUIRE(TESTER->size_read_orig_ == request_size);
@@ -755,14 +751,12 @@ TEST_CASE("BatchedUpdateRandomRSVariable",
     REQUIRE(TESTER->fh_orig_ != -1);
     std::string data(TESTER->request_size_, '1');
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      size_t offset =
-          rand_r(&TESTER->offset_seed_) %
-              (TESTER->total_size_ - TESTER->request_size_);
+      size_t offset = rand_r(&TESTER->offset_seed_) %
+                      (TESTER->total_size_ - TESTER->request_size_);
       TESTER->test_seek(offset, SEEK_SET);
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
-      size_t request_size =
-          TESTER->request_size_ +
-              (rand_r(&TESTER->rs_seed_) % TESTER->request_size_);
+      size_t request_size = TESTER->request_size_ +
+                            (rand_r(&TESTER->rs_seed_) % TESTER->request_size_);
       std::string data(request_size, '1');
       TESTER->test_write(data.c_str(), request_size);
       REQUIRE(TESTER->size_written_orig_ == request_size);
@@ -792,8 +786,8 @@ TEST_CASE("BatchedReadStrideFixedRSVariable",
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
       size_t request_size =
           (TESTER->request_size_ +
-              (rand_r(&TESTER->rs_seed_) % TESTER->request_size_)) %
-              (TESTER->total_size_ - offset);
+           (rand_r(&TESTER->rs_seed_) % TESTER->request_size_)) %
+          (TESTER->total_size_ - offset);
       std::string data(request_size, '1');
       TESTER->test_read(data.data(), request_size);
       REQUIRE(TESTER->size_read_orig_ == request_size);
@@ -822,9 +816,8 @@ TEST_CASE("BatchedUpdateStrideFixedRSVariable",
       size_t offset = (i * TESTER->stride_size_) % TESTER->total_size_;
       TESTER->test_seek(offset, SEEK_SET);
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
-      size_t request_size =
-          TESTER->request_size_ +
-              (rand_r(&TESTER->rs_seed_) % TESTER->request_size_);
+      size_t request_size = TESTER->request_size_ +
+                            (rand_r(&TESTER->rs_seed_) % TESTER->request_size_);
       std::string data(request_size, '1');
       TESTER->test_write(data.c_str(), request_size);
       REQUIRE(TESTER->size_written_orig_ == request_size);
@@ -850,13 +843,11 @@ TEST_CASE("BatchedReadStrideDynamicRSVariable",
     REQUIRE(TESTER->fh_orig_ != -1);
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
       size_t offset = TESTER->GetRandomOffset(
-          i, TESTER->offset_seed_, TESTER->stride_size_,
-          TESTER->total_size_);
+          i, TESTER->offset_seed_, TESTER->stride_size_, TESTER->total_size_);
       TESTER->test_seek(offset, SEEK_SET);
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
-      size_t request_size =
-          TESTER->request_size_ +
-              (rand_r(&TESTER->rs_seed_) % TESTER->request_size_);
+      size_t request_size = TESTER->request_size_ +
+                            (rand_r(&TESTER->rs_seed_) % TESTER->request_size_);
       std::string data(request_size, '1');
       TESTER->test_read(data.data(), request_size);
       REQUIRE(TESTER->size_read_orig_ == request_size);
@@ -881,13 +872,11 @@ TEST_CASE("BatchedUpdateStrideDynamicRSVariable",
     REQUIRE(TESTER->fh_orig_ != -1);
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
       size_t offset = TESTER->GetRandomOffset(
-          i, TESTER->offset_seed_, TESTER->stride_size_,
-          TESTER->total_size_);
+          i, TESTER->offset_seed_, TESTER->stride_size_, TESTER->total_size_);
       TESTER->test_seek(offset, SEEK_SET);
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
-      size_t request_size =
-          TESTER->request_size_ +
-              (rand_r(&TESTER->rs_seed_) % TESTER->request_size_);
+      size_t request_size = TESTER->request_size_ +
+                            (rand_r(&TESTER->rs_seed_) % TESTER->request_size_);
       std::string data(request_size, '1');
       TESTER->test_write(data.c_str(), request_size);
       REQUIRE(TESTER->size_written_orig_ == request_size);
@@ -916,8 +905,8 @@ TEST_CASE("BatchedReadStrideNegative",
       auto stride_offset = TESTER->total_size_ - i * TESTER->stride_size_;
       REQUIRE(prev_offset > stride_offset);
       prev_offset = stride_offset;
-      size_t offset = (stride_offset) %
-          (TESTER->total_size_ - TESTER->request_size_);
+      size_t offset =
+          (stride_offset) % (TESTER->total_size_ - TESTER->request_size_);
       TESTER->test_seek(offset, SEEK_SET);
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
       TESTER->test_read(data.data(), TESTER->request_size_);
@@ -943,9 +932,8 @@ TEST_CASE("BatchedUpdateStrideNegative",
     REQUIRE(TESTER->fh_orig_ != -1);
     std::string data(TESTER->request_size_, '1');
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      size_t offset =
-          TESTER->total_size_ - ((i * TESTER->stride_size_) %
-              TESTER->total_size_);
+      size_t offset = TESTER->total_size_ -
+                      ((i * TESTER->stride_size_) % TESTER->total_size_);
       TESTER->test_seek(offset, SEEK_SET);
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
       TESTER->test_write(data.data(), TESTER->request_size_);
@@ -972,13 +960,13 @@ TEST_CASE("BatchedReadStrideNegativeRSVariable",
     REQUIRE(TESTER->fh_orig_ != -1);
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
       size_t offset = (TESTER->total_size_ - i * TESTER->stride_size_) %
-          (TESTER->total_size_ - 2 * TESTER->request_size_);
+                      (TESTER->total_size_ - 2 * TESTER->request_size_);
       TESTER->test_seek(offset, SEEK_SET);
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
       size_t request_size =
-          (TESTER->request_size_ + (rand_r(&TESTER->rs_seed_) %
-              TESTER->request_size_)) %
-              (TESTER->total_size_ - offset);
+          (TESTER->request_size_ +
+           (rand_r(&TESTER->rs_seed_) % TESTER->request_size_)) %
+          (TESTER->total_size_ - offset);
       std::string data(request_size, '1');
       TESTER->test_read(data.data(), request_size);
       REQUIRE(TESTER->size_read_orig_ == request_size);
@@ -1004,14 +992,12 @@ TEST_CASE("BatchedUpdateStrideNegativeRSVariable",
     REQUIRE(TESTER->fh_orig_ != -1);
     std::string data(TESTER->request_size_, '1');
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      size_t offset =
-          TESTER->total_size_ - ((i * TESTER->stride_size_) %
-              TESTER->total_size_);
+      size_t offset = TESTER->total_size_ -
+                      ((i * TESTER->stride_size_) % TESTER->total_size_);
       TESTER->test_seek(offset, SEEK_SET);
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
-      size_t request_size =
-          TESTER->request_size_ + (rand_r(&TESTER->rs_seed_) %
-              TESTER->request_size_);
+      size_t request_size = TESTER->request_size_ +
+                            (rand_r(&TESTER->rs_seed_) % TESTER->request_size_);
       std::string data(request_size, '1');
       TESTER->test_write(data.c_str(), request_size);
       REQUIRE(TESTER->size_written_orig_ == request_size);
@@ -1022,14 +1008,14 @@ TEST_CASE("BatchedUpdateStrideNegativeRSVariable",
   TESTER->Posttest();
 }
 
-TEST_CASE("BatchedReadStride2D", "[process=" +
-    std::to_string(TESTER->comm_size_) +
-    "]"
-    "[operation=batched_read]"
-    "[request_size=type-fixed][repetition=" +
-    std::to_string(TESTER->num_iterations_) +
-    "]"
-    "[pattern=stride_2d][file=1]") {
+TEST_CASE("BatchedReadStride2D",
+          "[process=" + std::to_string(TESTER->comm_size_) +
+              "]"
+              "[operation=batched_read]"
+              "[request_size=type-fixed][repetition=" +
+              std::to_string(TESTER->num_iterations_) +
+              "]"
+              "[pattern=stride_2d][file=1]") {
   TESTER->Pretest();
   size_t rows = sqrt(TESTER->total_size_);
   size_t cols = rows;
@@ -1044,11 +1030,11 @@ TEST_CASE("BatchedReadStride2D", "[process=" +
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
       size_t current_cell_col = (prev_cell_col + cell_stride) % cols;
       size_t current_cell_row = prev_cell_col + cell_stride > cols
-                                ? prev_cell_row + 1
-                                : prev_cell_row;
+                                    ? prev_cell_row + 1
+                                    : prev_cell_row;
       prev_cell_row = current_cell_row;
       size_t offset = (current_cell_col * cell_stride + prev_cell_row * cols) %
-          (TESTER->total_size_ - TESTER->request_size_);
+                      (TESTER->total_size_ - TESTER->request_size_);
       TESTER->test_seek(offset, SEEK_SET);
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
       TESTER->test_read(data.data(), TESTER->request_size_);
@@ -1083,11 +1069,11 @@ TEST_CASE("BatchedUpdateStride2D",
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
       size_t current_cell_col = (prev_cell_col + cell_stride) % cols;
       size_t current_cell_row = prev_cell_col + cell_stride > cols
-                                ? prev_cell_row + 1
-                                : prev_cell_row;
+                                    ? prev_cell_row + 1
+                                    : prev_cell_row;
       prev_cell_row = current_cell_row;
       size_t offset = (current_cell_col * cell_stride + prev_cell_row * cols) %
-          (TESTER->total_size_ - TESTER->request_size_);
+                      (TESTER->total_size_ - TESTER->request_size_);
       TESTER->test_seek(offset, SEEK_SET);
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
       TESTER->test_write(data.data(), TESTER->request_size_);
@@ -1120,17 +1106,17 @@ TEST_CASE("BatchedReadStride2DRSVariable",
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
       size_t current_cell_col = (prev_cell_col + cell_stride) % cols;
       size_t current_cell_row = prev_cell_col + cell_stride > cols
-                                ? prev_cell_row + 1
-                                : prev_cell_row;
+                                    ? prev_cell_row + 1
+                                    : prev_cell_row;
       prev_cell_row = current_cell_row;
       size_t offset = (current_cell_col * cell_stride + prev_cell_row * cols) %
-          (TESTER->total_size_ - 2 * TESTER->request_size_);
+                      (TESTER->total_size_ - 2 * TESTER->request_size_);
       TESTER->test_seek(offset, SEEK_SET);
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
       size_t request_size =
-          (TESTER->request_size_ + (rand_r(&TESTER->rs_seed_) %
-              TESTER->request_size_)) %
-              (TESTER->total_size_ - offset);
+          (TESTER->request_size_ +
+           (rand_r(&TESTER->rs_seed_) % TESTER->request_size_)) %
+          (TESTER->total_size_ - offset);
       std::string data(request_size, '1');
       TESTER->test_read(data.data(), request_size);
       REQUIRE(TESTER->size_read_orig_ == request_size);
@@ -1163,16 +1149,15 @@ TEST_CASE("BatchedUpdateStride2DRSVariable",
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
       size_t current_cell_col = (prev_cell_col + cell_stride) % cols;
       size_t current_cell_row = prev_cell_col + cell_stride > cols
-                                ? prev_cell_row + 1
-                                : prev_cell_row;
+                                    ? prev_cell_row + 1
+                                    : prev_cell_row;
       prev_cell_row = current_cell_row;
       size_t offset = (current_cell_col * cell_stride + prev_cell_row * cols) %
-          (TESTER->total_size_ - 2 * TESTER->request_size_);
+                      (TESTER->total_size_ - 2 * TESTER->request_size_);
       TESTER->test_seek(offset, SEEK_SET);
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
-      size_t request_size =
-          TESTER->request_size_ + (rand_r(&TESTER->rs_seed_) %
-              TESTER->request_size_);
+      size_t request_size = TESTER->request_size_ +
+                            (rand_r(&TESTER->rs_seed_) % TESTER->request_size_);
       std::string data(request_size, '1');
       TESTER->test_write(data.c_str(), request_size);
       REQUIRE(TESTER->size_written_orig_ == request_size);
@@ -1184,7 +1169,7 @@ TEST_CASE("BatchedUpdateStride2DRSVariable",
 }
 
 /**
-* Temporal Fixed
+ * Temporal Fixed
  */
 
 TEST_CASE("BatchedWriteTemporalFixed",
@@ -1211,7 +1196,7 @@ TEST_CASE("BatchedWriteTemporalFixed",
     TESTER->test_close();
     REQUIRE(TESTER->status_orig_ == 0);
     REQUIRE(stdfs::file_size(TESTER->new_file_.hermes_) ==
-        TESTER->request_size_);
+            TESTER->request_size_);
   }
 
   SECTION("write to new file always at start") {
@@ -1226,7 +1211,7 @@ TEST_CASE("BatchedWriteTemporalFixed",
     TESTER->test_close();
     REQUIRE(TESTER->status_orig_ == 0);
     REQUIRE(stdfs::file_size(TESTER->new_file_.hermes_) ==
-        TESTER->num_iterations_ * TESTER->request_size_);
+            TESTER->num_iterations_ * TESTER->request_size_);
   }
   TESTER->Posttest();
 }
@@ -1285,9 +1270,9 @@ TEST_CASE("BatchedWriteTemporalVariable",
     REQUIRE(TESTER->fh_orig_ != -1);
 
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      TESTER->temporal_interval_ms_ =
-          rand_r(&TESTER->temporal_interval_seed_) %
-              TESTER->temporal_interval_ms_ + 1;
+      TESTER->temporal_interval_ms_ = rand_r(&TESTER->temporal_interval_seed_) %
+                                          TESTER->temporal_interval_ms_ +
+                                      1;
       usleep(TESTER->temporal_interval_ms_ * 1000);
       TESTER->test_seek(0, SEEK_SET);
       REQUIRE(TESTER->status_orig_ == 0);
@@ -1297,7 +1282,7 @@ TEST_CASE("BatchedWriteTemporalVariable",
     TESTER->test_close();
     REQUIRE(TESTER->status_orig_ == 0);
     REQUIRE(stdfs::file_size(TESTER->new_file_.hermes_) ==
-        TESTER->request_size_);
+            TESTER->request_size_);
   }
 
   SECTION("write to new file always at start") {
@@ -1305,9 +1290,9 @@ TEST_CASE("BatchedWriteTemporalVariable",
     REQUIRE(TESTER->fh_orig_ != -1);
 
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      TESTER->temporal_interval_ms_ =
-          rand_r(&TESTER->temporal_interval_seed_) %
-              TESTER->temporal_interval_ms_ + 1;
+      TESTER->temporal_interval_ms_ = rand_r(&TESTER->temporal_interval_seed_) %
+                                          TESTER->temporal_interval_ms_ +
+                                      1;
       usleep(TESTER->temporal_interval_ms_ * 1000);
       TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
       REQUIRE(TESTER->size_written_orig_ == TESTER->request_size_);
@@ -1315,7 +1300,7 @@ TEST_CASE("BatchedWriteTemporalVariable",
     TESTER->test_close();
     REQUIRE(TESTER->status_orig_ == 0);
     REQUIRE(stdfs::file_size(TESTER->new_file_.hermes_) ==
-        TESTER->num_iterations_ * TESTER->request_size_);
+            TESTER->num_iterations_ * TESTER->request_size_);
   }
   TESTER->Posttest();
 }
@@ -1335,9 +1320,9 @@ TEST_CASE("BatchedReadSequentialTemporalVariable",
     REQUIRE(TESTER->fh_orig_ != -1);
     std::string data(TESTER->request_size_, '1');
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      TESTER->temporal_interval_ms_ =
-          rand_r(&TESTER->temporal_interval_seed_) %
-              TESTER->temporal_interval_ms_ + 1;
+      TESTER->temporal_interval_ms_ = rand_r(&TESTER->temporal_interval_seed_) %
+                                          TESTER->temporal_interval_ms_ +
+                                      1;
       usleep(TESTER->temporal_interval_ms_ * 1000);
       TESTER->test_read(data.data(), TESTER->request_size_);
       REQUIRE(TESTER->size_read_orig_ == TESTER->request_size_);
@@ -1351,9 +1336,9 @@ TEST_CASE("BatchedReadSequentialTemporalVariable",
     REQUIRE(TESTER->fh_orig_ != -1);
 
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      TESTER->temporal_interval_ms_ =
-          rand_r(&TESTER->temporal_interval_seed_) %
-              TESTER->temporal_interval_ms_ + 1;
+      TESTER->temporal_interval_ms_ = rand_r(&TESTER->temporal_interval_seed_) %
+                                          TESTER->temporal_interval_ms_ +
+                                      1;
       usleep(TESTER->temporal_interval_ms_ * 1000);
       TESTER->test_seek(0, SEEK_SET);
       REQUIRE(TESTER->status_orig_ == 0);
@@ -1462,9 +1447,9 @@ TEST_CASE("BatchedMixedSequential",
 }
 
 TEST_CASE("SingleMixed", "[process=" + std::to_string(TESTER->comm_size_) +
-    "][operation=single_mixed]"
-    "[request_size=type-fixed][repetition=1]"
-    "[file=1]") {
+                             "][operation=single_mixed]"
+                             "[request_size=type-fixed][repetition=1]"
+                             "[file=1]") {
   TESTER->Pretest();
   SECTION("read after write from new file") {
     TESTER->test_open(TESTER->new_file_, O_RDWR | O_CREAT | O_EXCL, 0600);

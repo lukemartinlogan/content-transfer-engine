@@ -73,7 +73,7 @@ class BinaryFileStager : public AbstractStager {
     int fd = HERMES_POSIX_API->open(path_.c_str(), O_CREAT | O_RDWR, 0666);
     if (fd < 0) {
       HELOG(kError, "Failed to open file {}", path_);
-      CHI_CLIENT->FreeBuffer(HSHM_DEFAULT_MEM_CTX, blob);
+      CHI_CLIENT->FreeBuffer(HSHM_MCTX, blob);
       return;
     }
     ssize_t real_size = HERMES_POSIX_API->pread(fd, blob.ptr_, page_size_,
@@ -81,10 +81,10 @@ class BinaryFileStager : public AbstractStager {
     HERMES_POSIX_API->close(fd);
     // Verify the data was staged in
     if (real_size < 0) {
-      CHI_CLIENT->FreeBuffer(HSHM_DEFAULT_MEM_CTX, blob);
+      CHI_CLIENT->FreeBuffer(HSHM_MCTX, blob);
       return;
     } else if (real_size == 0) {
-      CHI_CLIENT->FreeBuffer(HSHM_DEFAULT_MEM_CTX, blob);
+      CHI_CLIENT->FreeBuffer(HSHM_MCTX, blob);
       return;
     }
     // Put the new blob into hermes

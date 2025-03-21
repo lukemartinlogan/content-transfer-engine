@@ -86,7 +86,7 @@ class Filesystem : public FilesystemIoClient {
       if (stat.adapter_mode_ == AdapterMode::kScratch &&
           !stat.hflags_.Any(HERMES_FS_EXISTS) &&
           !stat.hflags_.Any(HERMES_FS_CREATE)) {
-        TagId bkt_id = HERMES->GetTagId(HSHM_DEFAULT_MEM_CTX, stat.path_);
+        TagId bkt_id = HERMES->GetTagId(HSHM_MCTX, stat.path_);
         if (bkt_id.IsNull()) {
           f.status_ = false;
           return;
@@ -312,7 +312,7 @@ class Filesystem : public FilesystemIoClient {
   size_t Wait(FsAsyncTask *fstask) {
     for (FullPtr<PutBlobTask> &task : fstask->put_tasks_) {
       task->Wait();
-      CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
+      CHI_CLIENT->DelTask(HSHM_MCTX, task);
     }
 
     // Update I/O status for gets
@@ -321,7 +321,7 @@ class Filesystem : public FilesystemIoClient {
       for (FullPtr<GetBlobTask> &task : fstask->get_tasks_) {
         task->Wait();
         get_size += task->data_size_;
-        CHI_CLIENT->DelTask(HSHM_DEFAULT_MEM_CTX, task);
+        CHI_CLIENT->DelTask(HSHM_MCTX, task);
       }
       fstask->io_status_.size_ = get_size;
       UpdateIoStatus(fstask->opts_, fstask->io_status_);
@@ -399,7 +399,7 @@ class Filesystem : public FilesystemIoClient {
       // NOTE(llogan): only for the unit tests
       // Please don't enable synchronous flushing
       stat.bkt_id_.Flush();
-      // CHI_ADMIN->Flush(HSHM_DEFAULT_MEM_CTX,
+      // CHI_ADMIN->Flush(HSHM_MCTX,
       //                  chi::DomainQuery::GetGlobalBcast());
     }
     return 0;
