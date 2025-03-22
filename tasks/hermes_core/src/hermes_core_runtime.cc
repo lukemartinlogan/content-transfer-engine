@@ -10,8 +10,6 @@
  * have access to the file, you may request a copy from help@hdfgroup.org.   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "hermes_core/hermes_core.h"
-
 #include <string>
 
 #include "bdev/bdev.h"
@@ -23,6 +21,7 @@
 #include "hermes/data_stager/stager_factory.h"
 #include "hermes/dpe/dpe_factory.h"
 #include "hermes/hermes.h"
+#include "hermes_core/hermes_core_client.h"
 
 /** NOTE(llogan): std::hash function for string. This is because NVCC is bugged
  */

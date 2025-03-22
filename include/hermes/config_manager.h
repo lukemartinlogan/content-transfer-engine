@@ -17,7 +17,7 @@
 #include "hermes/config_client.h"
 #include "hermes/config_server.h"
 #include "hermes/hermes_types.h"
-#include "hermes_core/hermes_core.h"
+#include "hermes_core/hermes_core_client.h"
 
 namespace hermes {
 

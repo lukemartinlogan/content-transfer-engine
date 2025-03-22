@@ -163,8 +163,8 @@ SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # Include most packages needed by both client and host
 include(CMake/HermesCommonConfig.cmake)
-set(Hermes_CLIENT_DEPS hermes_core_client)
-set(Hermes_RUNTIME_DEPS hermes_core_runtime)
+set(Hermes_CLIENT_DEPS hermes_hermes_core_client)
+set(Hermes_RUNTIME_DEPS hermes_hermes_core_runtime)
 
 # ENABLE GPU SUPPORT
 if(CHIMAERA_ENABLE_CUDA)
