@@ -38,7 +38,7 @@ class HermesViz(Service):
             {
                 'name': 'refresh',
                 'msg': 'How frequently to poll (seconds)',
-                'type': int,
+                'type': float,
                 'default': 5,
             },
         ]
