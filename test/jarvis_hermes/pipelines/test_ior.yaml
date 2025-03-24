@@ -8,7 +8,7 @@ pkgs:
     do_dbg: true
     dbg_port: 4000
     port: 6000
-    modules: ['hermes_core']
+    modules: ['hermes_hermes_core']
   # Add hermes to the runtime
   - pkg_type: hermes_run
     pkg_name: hermes_run

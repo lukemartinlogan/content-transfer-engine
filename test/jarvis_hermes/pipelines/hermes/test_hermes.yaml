@@ -7,7 +7,7 @@ pkgs:
     do_dbg: false
     dbg_port: 4000
     port: 6000
-    modules: ['hermes_core']
+    modules: ['hermes_hermes_core']
   - pkg_type: hermes_run
     pkg_name: hermes_run
     do_dbg: false
