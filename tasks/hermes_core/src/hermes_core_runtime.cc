@@ -12,12 +12,12 @@
 
 #include <string>
 
-#include "bdev/bdev.h"
+#include "bdev/bdev_client.h"
 #include "chimaera/api/chimaera_runtime.h"
 #include "chimaera/chimaera_types.h"
 #include "chimaera/monitor/monitor.h"
 #include "chimaera/work_orchestrator/work_orchestrator.h"
-#include "chimaera_admin/chimaera_admin.h"
+#include "chimaera_admin/chimaera_admin_client.h"
 #include "hermes/data_stager/stager_factory.h"
 #include "hermes/dpe/dpe_factory.h"
 #include "hermes/hermes.h"

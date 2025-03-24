@@ -15,7 +15,7 @@
 
 #include <map>
 
-#include "bdev/bdev.h"
+#include "bdev/bdev_client.h"
 #include "hermes/hermes_types.h"
 #include "hermes_core/hermes_core_client.h"
 

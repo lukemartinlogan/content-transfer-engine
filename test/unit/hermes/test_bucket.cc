@@ -14,7 +14,7 @@
 
 #include "basic_test.h"
 #include "chimaera/api/chimaera_client.h"
-#include "chimaera_admin/chimaera_admin.h"
+#include "chimaera_admin/chimaera_admin_client.h"
 #include "hermes/bucket.h"
 #include "hermes/data_stager/stager_factory.h"
 #include "hermes/hermes.h"

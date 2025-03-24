@@ -13,7 +13,7 @@
 #ifndef HRUN_TASKS_HERMES_INCLUDE_HERMES_HERMES_TYPES_H_
 #define HRUN_TASKS_HERMES_INCLUDE_HERMES_HERMES_TYPES_H_
 
-#include "bdev/bdev.h"
+#include "bdev/bdev_client.h"
 #include "chimaera/chimaera_types.h"
 #include "status.h"
 #include "statuses.h"

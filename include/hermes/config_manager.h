@@ -13,7 +13,7 @@
 #ifndef HRUN_TASKS_HERMES_INCLUDE_hermes_H_
 #define HRUN_TASKS_HERMES_INCLUDE_hermes_H_
 
-#include "chimaera_admin/chimaera_admin.h"
+#include "chimaera_admin/chimaera_admin_client.h"
 #include "hermes/config_client.h"
 #include "hermes/config_server.h"
 #include "hermes/hermes_types.h"
