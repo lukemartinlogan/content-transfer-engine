@@ -76,7 +76,7 @@ class TagWithIdAndName {};
  * A task to create hermes_core
  * */
 struct CreateTaskParams {
-  CLS_CONST char *lib_name_ = "hermes_core";
+  CLS_CONST char *lib_name_ = "hermes_hermes_core";
 
   CreateTaskParams() = default;
 

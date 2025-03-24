@@ -1,7 +1,7 @@
 
 cmake_minimum_required(VERSION 3.25)
 project(hermes)
-set(MOD_NAMESPACE hermes)
+set(REPO_NAMESPACE hermes)
 
 # FIND CHIMAERA
 if (NOT CHIMAERA_IS_MAIN_PROJECT)
@@ -33,10 +33,8 @@ endif()
 add_subdirectory(hermes_core)
 
 # INSTALL TARGETS
-if (NOT CHIMAERA_IS_MAIN_PROJECT)
-  install(EXPORT ${CHIMAERA_EXPORTED_TARGETS}
-          FILE ${CHIMAERA_EXPORTED_TARGETS}Config.cmake
-          NAMESPACE hermes::
-          DESTINATION cmake
-   )
-endif()
+install(EXPORT ${CHIMAERA_EXPORTED_TARGETS}
+        FILE ${CHIMAERA_EXPORTED_TARGETS}Config.cmake
+        NAMESPACE hermes::
+        DESTINATION cmake
+)

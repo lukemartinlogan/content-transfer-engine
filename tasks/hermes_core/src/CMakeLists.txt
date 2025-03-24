@@ -1,8 +1,8 @@
 # ------------------------------------------------------------------------------
 # Build hermes_core Task Library
 # ------------------------------------------------------------------------------
-add_chimod_runtime_lib(${MOD_NAMESPACE} hermes_core hermes_core_runtime.cc)
-add_chimod_client_lib(${MOD_NAMESPACE} hermes_core hermes_core_client.cc)
+add_chimod_runtime_lib(${REPO_NAMESPACE} hermes_core hermes_core_runtime.cc)
+add_chimod_client_lib(${REPO_NAMESPACE} hermes_core hermes_core_client.cc)
 
 if(HERMES_ENABLE_NVIDIA_GDS_ADAPTER)
     target_compile_definitions(hermes_hermes_core PUBLIC HERMES_ENABLE_NVIDIA_GDS_ADAPTER)
