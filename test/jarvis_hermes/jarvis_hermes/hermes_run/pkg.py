@@ -204,7 +204,7 @@ class HermesRun(Service):
                     'shared': False,
                     'dev_type': 'custom'
                 })
-        if len(dev_df) == 0:
+        if len(devs) == 0:
             raise Exception('Hermes needs at least one storage device')
         self.config['borg_paths'] = []
         for i, dev in enumerate(devs):
