@@ -196,7 +196,6 @@ class HermesRun(Service):
             devs = dev_df.rows
         else:
             # Get the storage devices for the user 
-            print(self.config['devices'])
             for dev in self.config['devices']:
                 devs.append({
                     'mount': dev['mount'],
