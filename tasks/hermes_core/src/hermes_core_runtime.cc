@@ -887,8 +887,9 @@ class Server : public Module {
         //       CHI_CLIENT->node_id_, t_alloc, placement.size_, placement.tid_,
         //       bdev.stats_->write_bw_);
         // Spill to next tier
-        if (t_alloc < placement.size_) {
-          SubPlacement &next_placement = schema.plcmnts_[sub_idx + 1];
+        size_t next_tier = sub_idx + 1;
+        if (t_alloc < placement.size_ && next_tier < schema.plcmnts_.size()) {
+          SubPlacement &next_placement = schema.plcmnts_[next_tier];
           size_t diff = placement.size_ - t_alloc;
           next_placement.size_ += diff;
         }

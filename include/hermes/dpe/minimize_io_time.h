@@ -42,10 +42,12 @@ class MinimizeIoTime : public Dpe {
       PlacementSchema &blob_schema = output.back();
 
       for (u32 tgt_idx = 0; tgt_idx < targets.size(); ++tgt_idx) {
-        if (rem_blob_size == 0) {
-          break;
-        }
+        HILOG(kInfo, "  CHECKING TARGET {}", tgt_idx);
         TargetInfo &target = targets[tgt_idx];
+        if (rem_blob_size == 0) {
+          blob_schema.plcmnts_.emplace_back(rem_blob_size, target.id_);
+          continue;
+        }
         // NOTE(llogan): We skip targets that are too high of priority or
         // targets that can't fit the ENTIRE blob
         size_t rem_cap = target.GetRemCap();
@@ -70,10 +72,6 @@ class MinimizeIoTime : public Dpe {
           blob_schema.plcmnts_.emplace_back(rem_cap, target.id_);
           rem_blob_size -= rem_cap;
           rem_cap = 0;
-        }
-
-        if (rem_blob_size == 0) {
-          break;
         }
       }
 

@@ -5,7 +5,7 @@ pkgs:
   - pkg_type: chimaera_run
     pkg_name: chimaera_run
     sleep: 3
-    do_dbg: false
+    do_dbg: False
     dbg_port: 4000
     port: 6000
     modules: ['hermes_hermes_core']
@@ -14,13 +14,13 @@ pkgs:
     pkg_name: hermes_run
     devices:
       - mount: ${HOME}/hermes_data/tier1
-        size: 1g
+        size: 64m
       - mount: ${HOME}/hermes_data/tier2
-        size: 1g
+        size: 64m
       - mount: ${HOME}/hermes_data/tier3
-        size: 1g
+        size: 64m
       - mount: ${HOME}/hermes_data/tier4
-        size: 1g
+        size: 64m
   # Launch vizualizer
   - pkg_type: hermes_viz
     pkg_name: hermes_viz
@@ -37,8 +37,8 @@ pkgs:
     api: mpiio
     out: /tmp/test_hermes/ior.bin  # Output directory
     xfer: 1m
-    block: 32m
-    nprocs: 4  # Total number of processes
+    block: 200m
+    nprocs: 1  # Total number of processes
     ppn: 16  # Process per node
-    do_dbg: false
+    do_dbg: False
     dbg_port: 4001
