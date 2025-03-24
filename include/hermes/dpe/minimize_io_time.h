@@ -42,7 +42,6 @@ class MinimizeIoTime : public Dpe {
       PlacementSchema &blob_schema = output.back();
 
       for (u32 tgt_idx = 0; tgt_idx < targets.size(); ++tgt_idx) {
-        HILOG(kInfo, "  CHECKING TARGET {}", tgt_idx);
         TargetInfo &target = targets[tgt_idx];
         if (rem_blob_size == 0) {
           blob_schema.plcmnts_.emplace_back(rem_blob_size, target.id_);
