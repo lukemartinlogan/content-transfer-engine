@@ -83,6 +83,7 @@ class Server : public Module {
  public:
   Server() = default;
 
+  CHI_BEGIN(Create)
   /** Construct hermes_core */
   void Create(CreateTask *task, RunContext &rctx) {
     // Create a set of lanes for holding tasks
@@ -138,6 +139,7 @@ class Server : public Module {
         5);  // OK
   }
   void MonitorCreate(MonitorModeId mode, CreateTask *task, RunContext &rctx) {}
+  CHI_END(Create)
 
   /** Route a task to a lane */
   Lane *MapTaskToLane(const Task *task) override {
@@ -150,10 +152,12 @@ class Server : public Module {
     return GetLaneByHash(kDefaultGroup, task->prio_, 0);
   }
 
+  CHI_BEGIN(Destroy)
   /** Destroy hermes_core */
   void Destroy(DestroyTask *task, RunContext &rctx) {}
   void MonitorDestroy(MonitorModeId mode, DestroyTask *task, RunContext &rctx) {
   }
+  CHI_END(Create)
 
   /**
    * ========================================
@@ -310,6 +314,7 @@ class Server : public Module {
    * ========================================
    * */
 
+  CHI_BEGIN(GetOrCreateTag)
   /** Get or create a tag */
   void GetOrCreateTag(GetOrCreateTagTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -366,6 +371,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(GetOrCreateTag)
+
+  CHI_BEGIN(GetTagId)
   /** Get an existing tag ID */
   void GetTagId(GetTagIdTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -388,7 +396,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(GetTagId)
 
+  CHI_BEGIN(GetTagName)
   /** Get the name of a tag */
   void GetTagName(GetTagNameTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -409,7 +419,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(GetTagName)
 
+  CHI_BEGIN(DestroyTag)
   /** Destroy a tag */
   void DestroyTag(DestroyTagTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -448,7 +460,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(DestroyTag)
 
+  CHI_BEGIN(TagAddBlob)
   /** Add a blob to the tag */
   void TagAddBlob(TagAddBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -470,7 +484,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(TagAddBlob)
 
+  CHI_BEGIN(TagRemoveBlob)
   /** Remove a blob from the tag */
   void TagRemoveBlob(TagRemoveBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -494,7 +510,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(TagRemoveBlob)
 
+  CHI_BEGIN(TagClearBlobs)
   /** Clear blobs from the tag */
   void TagClearBlobs(TagClearBlobsTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -527,7 +545,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(TagClearBlobs)
 
+  CHI_BEGIN(TagGetSize)
   /** Get the size of a tag */
   void TagGetSize(TagGetSizeTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -550,7 +570,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(TagGetSize)
 
+  CHI_BEGIN(TagUpdateSize)
   /** Update the size of a tag */
   void TagUpdateSize(TagUpdateSizeTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -578,7 +600,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(TagUpdateSize)
 
+  CHI_BEGIN(TagUpdateSize)
   /** Get the set of blobs in the tag */
   void TagGetContainedBlobIds(TagGetContainedBlobIdsTask *task,
                               RunContext &rctx) {
@@ -606,7 +630,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(TagGetContainedBlobIds)
 
+  CHI_BEGIN(TagFlush)
   /** Flush tag */
   void TagFlush(TagFlushTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -627,6 +653,7 @@ class Server : public Module {
   }
   void MonitorTagFlush(MonitorModeId mode, TagFlushTask *task,
                        RunContext &rctx) {}
+  CHI_END(TagUpdateSize)
 
   /**
    * ========================================
@@ -661,6 +688,9 @@ class Server : public Module {
     }
     return it->second;
   }
+
+  CHI_BEGIN(GetOrCreateBlobId)
+  /** Get or create a blob ID */
   void GetOrCreateBlobId(GetOrCreateBlobIdTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
@@ -679,7 +709,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(GetOrCreateBlobId)
 
+  CHI_BEGIN(GetBlobId)
   /** Get the blob ID */
   void GetBlobId(GetBlobIdTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -706,7 +738,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(GetBlobId)
 
+  CHI_BEGIN(GetBlobName)
   /** Get blob name */
   void GetBlobName(GetBlobNameTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -728,7 +762,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(GetBlobName)
 
+  CHI_BEGIN(GetBlobSize)
   /** Get the blob size */
   void GetBlobSize(GetBlobSizeTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -757,7 +793,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(GetBlobSize)
 
+  CHI_BEGIN(GetBlobScore)
   /** Get the score of a blob */
   void GetBlobScore(GetBlobScoreTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -779,7 +817,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(GetBlobScore)
 
+  CHI_BEGIN(GetBlobBuffers)
   /** Get blob buffers */
   void GetBlobBuffers(GetBlobBuffersTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -801,7 +841,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(GetBlobBuffers)
 
+  CHI_BEGIN(PutBlob)
   /** Put a blob */
   void PutBlob(PutBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -995,7 +1037,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(PutBlob)
 
+  CHI_BEGIN(GetBlob)
   /** Get a blob */
   void GetBlob(GetBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -1088,14 +1132,18 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(GetBlob)
 
+  CHI_BEGIN(TruncateBlob)
   /** Truncate a blob (TODO) */
   void TruncateBlob(TruncateBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
   }
   void MonitorTruncateBlob(MonitorModeId mode, TruncateBlobTask *task,
                            RunContext &rctx) {}
+  CHI_END(TruncateBlob)
 
+  CHI_BEGIN(DestroyBlob)
   /** Destroy blob */
   void DestroyBlob(DestroyBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -1136,7 +1184,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(DestroyBlob)
 
+  CHI_BEGIN(TagBlob)
   /** Tag a blob */
   void TagBlob(TagBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -1157,7 +1207,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(TagBlob)
 
+  CHI_BEGIN(BlobHasTag)
   /** Check if blob has a tag */
   void BlobHasTag(BlobHasTagTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -1180,7 +1232,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(BlobHasTag)
 
+  CHI_BEGIN(ReorganizeBlob)
   /** Change blob composition */
   void ReorganizeBlob(ReorganizeBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -1236,7 +1290,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(ReorganizeBlob)
 
+  CHI_BEGIN(FlushBlob)
   /** FlushBlob */
   void _FlushBlob(HermesLane &tls, BlobId blob_id, RunContext &rctx) {
     BLOB_MAP_T &blob_map = tls.blob_map_;
@@ -1287,7 +1343,9 @@ class Server : public Module {
   }
   void MonitorFlushBlob(MonitorModeId mode, FlushBlobTask *task,
                         RunContext &rctx) {}
+  CHI_END(FlushBlob)
 
+  CHI_BEGIN(FlushData)
   /** Flush blobs back to storage */
   void FlushData(FlushDataTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -1320,6 +1378,7 @@ class Server : public Module {
   }
   void MonitorFlushData(MonitorModeId mode, FlushDataTask *task,
                         RunContext &rctx) {}
+  CHI_END(FlushData)
 
   /** Monitor function used by all metadata poll functions */
   template <typename PollTaskT, typename MD>
@@ -1347,6 +1406,7 @@ class Server : public Module {
     }
   }
 
+  CHI_BEGIN(PollBlobMetadata)
   /** Poll blob metadata */
   void PollBlobMetadata(PollBlobMetadataTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -1370,7 +1430,9 @@ class Server : public Module {
                                RunContext &rctx) {
     MonitorPollMetadata<PollBlobMetadataTask, BlobInfo>(mode, task, rctx);
   }
+  CHI_END(PollBlobMetadata)
 
+  CHI_BEGIN(PollTargetMetadata)
   /** Poll target metadata */
   void PollTargetMetadata(PollTargetMetadataTask *task, RunContext &rctx) {
     std::vector<TargetStats> target_mdms;
@@ -1397,7 +1459,9 @@ class Server : public Module {
                                  RunContext &rctx) {
     MonitorPollMetadata<PollTargetMetadataTask, TargetStats>(mode, task, rctx);
   }
+  CHI_END(PollTargetMetadata)
 
+  CHI_BEGIN(PollTagMetadata)
   /** The PollTagMetadata method */
   void PollTagMetadata(PollTagMetadataTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -1420,7 +1484,9 @@ class Server : public Module {
                               RunContext &rctx) {
     MonitorPollMetadata<PollTagMetadataTask, TagInfo>(mode, task, rctx);
   }
+  CHI_END(PollTagMetadata)
 
+  CHI_BEGIN(PollAccessPattern)
   /** The PollAccessPattern method */
   void PollAccessPattern(PollAccessPatternTask *task, RunContext &rctx) {
     std::vector<IoStat> io_pattern;
@@ -1445,6 +1511,7 @@ class Server : public Module {
   }
   void MonitorPollAccessPattern(MonitorModeId mode, PollAccessPatternTask *task,
                                 RunContext &rctx) {}
+  CHI_END(PollAccessPattern)
 
   /**
    * ========================================
@@ -1452,6 +1519,7 @@ class Server : public Module {
    * ========================================
    * */
 
+  CHI_BEGIN(RegisterStager)
   /** The RegisterStager method */
   void RegisterStager(RegisterStagerTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -1476,7 +1544,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(RegisterStager)
 
+  CHI_BEGIN(UnregisterStager)
   /** The UnregisterStager method */
   void UnregisterStager(UnregisterStagerTask *task, RunContext &rctx) {
     HILOG(kDebug, "Unregistering stager {}", task->bkt_id_);
@@ -1496,7 +1566,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(UnregisterStager)
 
+  CHI_BEGIN(StageIn)
   /** The StageIn method */
   void StageIn(StageInTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -1520,7 +1592,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(StageIn)
 
+  CHI_BEGIN(StageOut)
   /** The StageOut method */
   void StageOut(StageOutTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
@@ -1543,7 +1617,9 @@ class Server : public Module {
       }
     }
   }
+  CHI_END(StageOut)
 
+  CHI_AUTOGEN_METHODS
  public:
 #include "hermes_core/hermes_core_lib_exec.h"
 };

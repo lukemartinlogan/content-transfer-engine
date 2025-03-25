@@ -13,6 +13,7 @@
 #ifndef CHI_hermes_core_H_
 #define CHI_hermes_core_H_
 
+#include "chimaera/module_registry/task.h"
 #include "hermes_core_tasks.h"
 
 namespace hermes {
@@ -26,6 +27,7 @@ class Client : public ModuleClient {
   /** Destructor */
   ~Client() = default;
 
+  CHI_BEGIN(Create)
   /** Create a task state */
   void Create(const hipc::MemContext &mctx, const DomainQuery &dom_query,
               const DomainQuery &affinity, const std::string &pool_name,
@@ -37,20 +39,27 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(Create);
+  CHI_END(Create)
 
+  CHI_BEGIN(Destroy)
   /** Destroy task state + queue */
   HSHM_INLINE
   void Destroy(const hipc::MemContext &mctx, const DomainQuery &dom_query) {
     CHI_ADMIN->DestroyContainer(mctx, dom_query, id_);
   }
+  CHI_TASK_METHODS(Destroy);
+  CHI_END(Destroy)
 
   /**====================================
    * Tag Operations
    * ===================================*/
 
+  CHI_BEGIN(TagUpdateSize)
   /** Update statistics after blob PUT (fire & forget) */
   CHI_TASK_METHODS(TagUpdateSize);
+  CHI_END(TagUpdateSize)
 
+  CHI_BEGIN(GetOrCreateTag)
   /** Create a tag or get the ID of existing tag */
   HSHM_INLINE
   TagId GetOrCreateTag(const hipc::MemContext &mctx,
@@ -66,7 +75,9 @@ class Client : public ModuleClient {
     return tag_id;
   }
   CHI_TASK_METHODS(GetOrCreateTag);
+  CHI_END(GetOrCreateTag)
 
+  CHI_BEGIN(GetTagId)
   /** Get tag ID */
   TagId GetTagId(const hipc::MemContext &mctx, const DomainQuery &dom_query,
                  const chi::string &tag_name) {
@@ -77,7 +88,9 @@ class Client : public ModuleClient {
     return tag_id;
   }
   CHI_TASK_METHODS(GetTagId);
+  CHI_END(GetTagId)
 
+  CHI_BEGIN(GetTagName)
   /** Get tag name */
   chi::string GetTagName(const hipc::MemContext &mctx,
                          const DomainQuery &dom_query, const TagId &tag_id) {
@@ -88,7 +101,9 @@ class Client : public ModuleClient {
     return tag_name;
   }
   CHI_TASK_METHODS(GetTagName);
+  CHI_END(GetTagName)
 
+  CHI_BEGIN(DestroyTag)
   /** Destroy tag */
   void DestroyTag(const hipc::MemContext &mctx, const DomainQuery &dom_query,
                   const TagId &tag_id) {
@@ -97,7 +112,9 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(DestroyTag);
+  CHI_END(DestroyTag)
 
+  CHI_BEGIN(TagAddBlob)
   /** Add a blob to a tag */
   void TagAddBlob(const hipc::MemContext &mctx, const DomainQuery &dom_query,
                   const TagId &tag_id, const BlobId &blob_id) {
@@ -107,7 +124,9 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(TagAddBlob);
+  CHI_END(TagAddBlob)
 
+  CHI_BEGIN(TagRemoveBlob)
   /** Remove a blob from a tag */
   void TagRemoveBlob(const hipc::MemContext &mctx, const DomainQuery &dom_query,
                      const TagId &tag_id, const BlobId &blob_id) {
@@ -117,7 +136,9 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(TagRemoveBlob);
+  CHI_END(TagRemoveBlob)
 
+  CHI_BEGIN(TagClearBlobs)
   /** Clear blobs from a tag */
   void TagClearBlobs(const hipc::MemContext &mctx, const DomainQuery &dom_query,
                      const TagId &tag_id) {
@@ -127,7 +148,9 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(TagClearBlobs);
+  CHI_END(TagClearBlobs)
 
+  CHI_BEGIN(TagGetSize)
   /** Get the size of a bucket */
   size_t GetSize(const hipc::MemContext &mctx, const DomainQuery &dom_query,
                  const TagId &tag_id) {
@@ -138,7 +161,9 @@ class Client : public ModuleClient {
     return size;
   }
   CHI_TASK_METHODS(TagGetSize);
+  CHI_END(TagGetSize)
 
+  CHI_BEGIN(TagGetContainedBlobIds)
   /** Get contained blob ids */
   std::vector<BlobId> TagGetContainedBlobIds(const hipc::MemContext &mctx,
                                              const DomainQuery &dom_query,
@@ -151,7 +176,9 @@ class Client : public ModuleClient {
     return blob_ids;
   }
   CHI_TASK_METHODS(TagGetContainedBlobIds);
+  CHI_END(TagGetContainedBlobIds)
 
+  CHI_BEGIN(TagFlush)
   /** Flush tag */
   void TagFlush(const hipc::MemContext &mctx, const DomainQuery &dom_query,
                 const TagId &tag_id) {
@@ -160,14 +187,14 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(TagFlush);
+  CHI_END(TagFlush)
 
   /**====================================
    * Blob Operations
    * ===================================*/
 
-  /**
-   * Get \a blob_name BLOB from \a bkt_id bucket
-   * */
+  CHI_BEGIN(GetOrCreateBlobId)
+  /** Get \a blob_name BLOB from \a bkt_id bucket */
   BlobId GetOrCreateBlob(const hipc::MemContext &mctx,
                          const DomainQuery &dom_query, const TagId &tag_id,
                          const chi::string &blob_name) {
@@ -179,7 +206,9 @@ class Client : public ModuleClient {
     return blob_id;
   }
   CHI_TASK_METHODS(GetOrCreateBlobId);
+  CHI_END(GetOrCreateBlobId)
 
+  CHI_BEGIN(PutBlob)
   /**
    * Create a blob's metadata
    *
@@ -207,7 +236,9 @@ class Client : public ModuleClient {
     return true_size;
   }
   CHI_TASK_METHODS(PutBlob);
+  CHI_END(PutBlob)
 
+  CHI_BEGIN(GetBlob)
   /** Get a blob's data */
   size_t GetBlob(const hipc::MemContext &mctx, const DomainQuery &dom_query,
                  const TagId &tag_id, const BlobId &blob_id, size_t off,
@@ -223,7 +254,9 @@ class Client : public ModuleClient {
     return true_size;
   }
   CHI_TASK_METHODS(GetBlob);
+  CHI_END(GetBlob)
 
+  CHI_BEGIN(ReorganizeBlob)
   /**
    * Reorganize a blob
    *
@@ -232,7 +265,9 @@ class Client : public ModuleClient {
    * @param node_id the node to reorganize the blob to
    * */
   CHI_TASK_METHODS(ReorganizeBlob);
+  CHI_END(ReorganizeBlob)
 
+  CHI_BEGIN(TagBlob)
   /**
    * Tag a blob
    *
@@ -247,7 +282,9 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(TagBlob);
+  CHI_END(TagBlob)
 
+  CHI_BEGIN(BlobHasTag)
   /**
    * Check if blob has a tag
    * */
@@ -262,7 +299,9 @@ class Client : public ModuleClient {
     return has_tag;
   }
   CHI_TASK_METHODS(BlobHasTag);
+  CHI_END(BlobHasTag)
 
+  CHI_BEGIN(GetBlobId)
   /**
    * Get \a blob_name BLOB from \a bkt_id bucket
    * */
@@ -276,7 +315,9 @@ class Client : public ModuleClient {
     return blob_id;
   }
   CHI_TASK_METHODS(GetBlobId);
+  CHI_END(GetBlobId)
 
+  CHI_BEGIN(GetBlobName)
   /**
    * Get \a blob_name BLOB name from \a blob_id BLOB id
    * */
@@ -291,7 +332,9 @@ class Client : public ModuleClient {
     return blob_name;
   }
   CHI_TASK_METHODS(GetBlobName);
+  CHI_END(GetBlobName)
 
+  CHI_BEGIN(GetBlobSize)
   /**
    * Get \a size from \a blob_id BLOB id
    * */
@@ -306,7 +349,9 @@ class Client : public ModuleClient {
     return size;
   }
   CHI_TASK_METHODS(GetBlobSize);
+  CHI_END(GetBlobSize)
 
+  CHI_BEGIN(GetBlobScore)
   /**
    * Get \a score from \a blob_id BLOB id
    * */
@@ -320,7 +365,9 @@ class Client : public ModuleClient {
     return score;
   }
   CHI_TASK_METHODS(GetBlobScore);
+  CHI_END(GetBlobScore)
 
+  CHI_BEGIN(GetBlobBuffers)
   /**
    * Get \a blob_id blob's buffers
    * */
@@ -336,7 +383,9 @@ class Client : public ModuleClient {
     return buffers;
   }
   CHI_TASK_METHODS(GetBlobBuffers)
+  CHI_END(GetBlobBuffers)
 
+  CHI_BEGIN(TruncateBlob)
   /**
    * Truncate a blob to a new size
    * */
@@ -349,7 +398,9 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(TruncateBlob);
+  CHI_END(TruncateBlob)
 
+  CHI_BEGIN(DestroyBlob)
   /**
    * Destroy \a blob_id blob in \a bkt_id bucket
    * */
@@ -362,7 +413,9 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(DestroyBlob);
+  CHI_END(DestroyBlob)
 
+  CHI_BEGIN(FlushBlob)
   /** FlushBlob task */
   void FlushBlob(const hipc::MemContext &mctx, const DomainQuery &dom_query,
                  const BlobId &blob_id) {
@@ -371,7 +424,9 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(FlushBlob);
+  CHI_END(FlushBlob)
 
+  CHI_BEGIN(FlushData)
   /** FlushData task */
   void FlushData(const hipc::MemContext &mctx, const DomainQuery &dom_query,
                  int period_sec = 5) {
@@ -380,7 +435,9 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(FlushData);
+  CHI_END(FlushData)
 
+  CHI_BEGIN(PollBlobMetadata)
   /** PollBlobMetadata task */
   std::vector<BlobInfo> PollBlobMetadata(const hipc::MemContext &mctx,
                                          const DomainQuery &dom_query,
@@ -394,7 +451,9 @@ class Client : public ModuleClient {
     return stats;
   }
   CHI_TASK_METHODS(PollBlobMetadata);
+  CHI_END(PollBlobMetadata)
 
+  CHI_BEGIN(PollTargetMetadata)
   /** PollTargetMetadata task */
   std::vector<TargetStats> PollTargetMetadata(const hipc::MemContext &mctx,
                                               const DomainQuery &dom_query,
@@ -408,7 +467,9 @@ class Client : public ModuleClient {
     return stats;
   }
   CHI_TASK_METHODS(PollTargetMetadata);
+  CHI_END(PollTargetMetadata)
 
+  CHI_BEGIN(PollTagMetadata)
   /** PollTagMetadata task */
   std::vector<TagInfo> PollTagMetadata(const hipc::MemContext &mctx,
                                        const DomainQuery &dom_query,
@@ -422,7 +483,9 @@ class Client : public ModuleClient {
     return stats;
   }
   CHI_TASK_METHODS(PollTagMetadata);
+  CHI_END(PollTagMetadata)
 
+  CHI_BEGIN(PollAccessPattern)
   /** PollAccessPattern task */
   std::vector<IoStat> PollAccessPattern(const hipc::MemContext &mctx,
                                         const DomainQuery &dom_query,
@@ -435,6 +498,7 @@ class Client : public ModuleClient {
     return stats;
   }
   CHI_TASK_METHODS(PollAccessPattern);
+  CHI_END(PollAccessPattern)
 
   /**
    * ========================================
@@ -442,6 +506,7 @@ class Client : public ModuleClient {
    * ========================================
    * */
 
+  CHI_BEGIN(RegisterStager)
   /** RegisterStager task */
   void RegisterStager(const hipc::MemContext &mctx,
                       const DomainQuery &dom_query,
@@ -453,7 +518,9 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(RegisterStager);
+  CHI_END(RegisterStager)
 
+  CHI_BEGIN(UnregisterStager)
   /** UnregisterStager task */
   void UnregisterStager(const hipc::MemContext &mctx,
                         const DomainQuery &dom_query, const BucketId &bkt_id) {
@@ -463,7 +530,9 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(UnregisterStager);
+  CHI_END(UnregisterStager)
 
+  CHI_BEGIN(StageIn)
   /** StageIn task */
   void StageIn(const hipc::MemContext &mctx, const DomainQuery &dom_query,
                const BucketId &bkt_id, const chi::string &blob_name,
@@ -474,7 +543,9 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(StageIn);
+  CHI_END(StageIn)
 
+  CHI_BEGIN(StageOut)
   /** StageOut task */
   void StageOut(const hipc::MemContext &mctx, const DomainQuery &dom_query,
                 const BucketId &bkt_id, const chi::string &blob_name,
@@ -485,6 +556,9 @@ class Client : public ModuleClient {
     CHI_CLIENT->DelTask(mctx, task);
   }
   CHI_TASK_METHODS(StageOut);
+  CHI_END(StageOut)
+
+  CHI_AUTOGEN_METHODS
 };
 
 }  // namespace hermes

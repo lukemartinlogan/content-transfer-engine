@@ -72,6 +72,7 @@ class TagWithName {};
 /** Tag with ID and name */
 class TagWithIdAndName {};
 
+CHI_BEGIN(Create)
 /**
  * A task to create hermes_core
  * */
@@ -86,9 +87,12 @@ struct CreateTaskParams {
   void serialize(Ar &ar) {}
 };
 typedef chi::Admin::CreatePoolBaseTask<CreateTaskParams> CreateTask;
+CHI_END(Create)
 
+CHI_BEGIN(Destroy)
 /** A task to destroy hermes_core */
 typedef chi::Admin::DestroyContainerTask DestroyTask;
+CHI_END(Destroy)
 
 /**
  * ========================================
@@ -96,6 +100,7 @@ typedef chi::Admin::DestroyContainerTask DestroyTask;
  * ========================================
  * */
 
+CHI_BEGIN(GetOrCreateTag)
 /**
  * Create a tag
  * */
@@ -155,7 +160,9 @@ struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithName {
     ar(tag_id_);
   }
 };
+CHI_END(GetOrCreateTag)
 
+CHI_BEGIN(GetTagId)
 /** A task to get a tag id */
 struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithName {
   IN chi::ipc::string tag_name_;
@@ -199,7 +206,9 @@ struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithName {
     ar(tag_id_);
   }
 };
+CHI_END(GetTagId)
 
+CHI_BEGIN(GetTagName)
 /** A task to get a tag name */
 struct GetTagNameTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   IN TagId tag_id_;
@@ -245,7 +254,9 @@ struct GetTagNameTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
     ar(tag_name_);
   }
 };
+CHI_END(GetTagName)
 
+CHI_BEGIN(DestroyTag)
 /** A task to destroy a tag */
 struct DestroyTagTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   IN TagId tag_id_;
@@ -287,7 +298,9 @@ struct DestroyTagTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
+CHI_END(DestroyTag)
 
+CHI_BEGIN(TagAddBlob)
 /** A task to add a blob to the tag */
 struct TagAddBlobTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   IN TagId tag_id_;
@@ -333,7 +346,9 @@ struct TagAddBlobTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
+CHI_END(TagAddBlob)
 
+CHI_BEGIN(TagRemoveBlob)
 /** A task to remove a blob from a tag */
 struct TagRemoveBlobTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   IN TagId tag_id_;
@@ -379,7 +394,9 @@ struct TagRemoveBlobTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
+CHI_END(TagRemoveBlob)
 
+CHI_BEGIN(TagClearBlobs)
 /** A task to destroy all blobs in the tag */
 struct TagClearBlobsTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   IN TagId tag_id_;
@@ -421,7 +438,9 @@ struct TagClearBlobsTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
+CHI_END(TagClearBlobs)
 
+CHI_BEGIN(TagGetSize)
 /** A task to destroy all blobs in the tag */
 struct TagGetSizeTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   IN TagId tag_id_;
@@ -467,7 +486,9 @@ struct TagGetSizeTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
     ar(size_);
   }
 };
+CHI_END(TagGetSize)
 
+CHI_BEGIN(TagUpdateSize)
 /** A task to destroy all blobs in the tag */
 struct TagUpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   IN TagId tag_id_;
@@ -516,7 +537,9 @@ struct TagUpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
+CHI_END(TagUpdateSize)
 
+CHI_BEGIN(TagGetContainedBlobIds)
 /** A task to destroy all blobs in the tag */
 struct TagGetContainedBlobIdsTask : public Task,
                                     TaskFlags<TF_SRL_SYM>,
@@ -564,7 +587,9 @@ struct TagGetContainedBlobIdsTask : public Task,
     ar(blob_ids_);
   }
 };
+CHI_END(TagGetContainedBlobIds)
 
+CHI_BEGIN(TagFlush)
 /** The TagFlushTask task */
 struct TagFlushTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   IN TagId tag_id_;
@@ -602,6 +627,7 @@ struct TagFlushTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
+CHI_END(TagFlush)
 
 /**
  * ========================================
@@ -620,6 +646,7 @@ struct TagFlushTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
 #define HERMES_HAS_DERIVED BIT_OPT(u32, 8)
 #define HERMES_USER_SCORE_STATIONARY BIT_OPT(u32, 9)
 
+CHI_BEGIN(GetOrCreateBlobId)
 /**
  * Get \a blob_name BLOB from \a bkt_id bucket
  * */
@@ -673,7 +700,9 @@ struct GetOrCreateBlobIdTask : public Task,
     ar(blob_id_);
   }
 };
+CHI_END(GetOrCreateBlobId)
 
+CHI_BEGIN(GetBlobId)
 /**
  * Get \a blob_name BLOB from \a bkt_id bucket
  * */
@@ -724,7 +753,9 @@ struct GetBlobIdTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithName {
     ar(blob_id_);
   }
 };
+CHI_END(GetBlobId)
 
+CHI_BEGIN(GetBlobName)
 /**
  * Get \a blob_name BLOB name from \a blob_id BLOB id
  * */
@@ -777,7 +808,9 @@ struct GetBlobNameTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
     ar(blob_name_);
   }
 };
+CHI_END(GetBlobName)
 
+CHI_BEGIN(GetBlobSize)
 /** Get \a score from \a blob_id BLOB id */
 struct GetBlobSizeTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN TagId tag_id_;
@@ -829,7 +862,9 @@ struct GetBlobSizeTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
     ar(size_);
   }
 };
+CHI_END(GetBlobSize)
 
+CHI_BEGIN(GetBlobScore)
 /** Get \a score from \a blob_id BLOB id */
 struct GetBlobScoreTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN TagId tag_id_;
@@ -879,7 +914,9 @@ struct GetBlobScoreTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
     ar(score_);
   }
 };
+CHI_END(GetBlobScore)
 
+CHI_BEGIN(GetBlobBuffers)
 /** Get \a blob_id blob's buffers */
 struct GetBlobBuffersTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN TagId tag_id_;
@@ -929,7 +966,9 @@ struct GetBlobBuffersTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
     ar(buffers_);
   }
 };
+CHI_END(GetBlobBuffers)
 
+CHI_BEGIN(BlobHasTag)
 /**
  * Check if blob has a tag
  * */
@@ -985,7 +1024,9 @@ struct BlobHasTagTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
     ar(has_tag_);
   }
 };
+CHI_END(BlobHasTag)
 
+CHI_BEGIN(TruncateBlob)
 /** A task to truncate a blob */
 struct TruncateBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN TagId tag_id_;
@@ -1034,7 +1075,9 @@ struct TruncateBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
+CHI_END(TruncateBlob)
 
+CHI_BEGIN(DestroyBlob)
 /** A task to destroy a blob */
 struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   CLS_CONST u32 kKeepInTag = BIT_OPT(u32, 0);
@@ -1085,7 +1128,9 @@ struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
+CHI_END(DestroyBlob)
 
+CHI_BEGIN(ReorganizeBlob)
 /** A task to reorganize a blob's composition in the hierarchy */
 struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN chi::string blob_name_;
@@ -1144,7 +1189,9 @@ struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
+CHI_END(ReorganizeBlob)
 
+CHI_BEGIN(FlushBlob)
 /** The FlushBlobTask task */
 struct FlushBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN BlobId blob_id_;
@@ -1183,7 +1230,9 @@ struct FlushBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
+CHI_END(FlushBlob)
 
+CHI_BEGIN(TagBlob)
 /** A task to tag a blob */
 struct TagBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN TagId tag_id_;
@@ -1233,7 +1282,9 @@ struct TagBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
+CHI_END(TagBlob)
 
+CHI_BEGIN(PutBlob)
 /** A task to put data in a blob */
 struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   IN TagId tag_id_;
@@ -1311,7 +1362,9 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
     }
   }
 };
+CHI_END(PutBlob)
 
+CHI_BEGIN(GetBlob)
 /** A task to get data from a blob */
 struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   IN TagId tag_id_;
@@ -1395,7 +1448,9 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
     ar(data_size_);
   }
 };
+CHI_END(GetBlob)
 
+CHI_BEGIN(FlushData)
 /** The FlushDataTask task */
 struct FlushDataTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** SHM default constructor */
@@ -1431,6 +1486,7 @@ struct FlushDataTask : public Task, TaskFlags<TF_SRL_SYM> {
   template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
+CHI_END(FlushData)
 
 /** Base task for various metadata queries */
 template <typename MD, int METHOD>
@@ -1500,17 +1556,24 @@ struct PollMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 };
 
+CHI_BEGIN(PollBlobMetadata)
 /** The PollBlobMetadataTask task */
 using PollBlobMetadataTask =
     PollMetadataTask<BlobInfo, Method::kPollBlobMetadata>;
+CHI_END(PollBlobMetadata)
 
+CHI_BEGIN(PollTargetMetadata)
 /** The PollTargetMetadataTask task */
 using PollTargetMetadataTask =
     PollMetadataTask<TargetStats, Method::kPollTargetMetadata>;
+CHI_END(PollTargetMetadata)
 
+CHI_BEGIN(PollTagMetadata)
 /** The PollTagMetadataTask task */
 using PollTagMetadataTask = PollMetadataTask<TagInfo, Method::kPollTagMetadata>;
+CHI_END(PollTagMetadata)
 
+CHI_BEGIN(PollAccessPattern)
 /** The PollAccessPatternTask task */
 struct PollAccessPatternTask : public Task, TaskFlags<TF_SRL_SYM> {
   INOUT hshm::min_u64 last_access_;
@@ -1557,6 +1620,7 @@ struct PollAccessPatternTask : public Task, TaskFlags<TF_SRL_SYM> {
     ar(io_pattern_);
   }
 };
+CHI_END(PollAccessPattern)
 
 /**
  * ========================================
@@ -1564,6 +1628,7 @@ struct PollAccessPatternTask : public Task, TaskFlags<TF_SRL_SYM> {
  * ========================================
  * */
 
+CHI_BEGIN(RegisterStager)
 /** The RegisterStagerTask task */
 struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN hermes::BucketId bkt_id_;
@@ -1611,7 +1676,9 @@ struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
   template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
+CHI_END(RegisterStager)
 
+CHI_BEGIN(UnregisterStager)
 /** The UnregisterStagerTask task */
 struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN hermes::BucketId bkt_id_;
@@ -1654,7 +1721,9 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
   template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
+CHI_END(UnregisterStager)
 
+CHI_BEGIN(StageIn)
 /** The StageInTask task */
 struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN hermes::BucketId bkt_id_;
@@ -1703,7 +1772,9 @@ struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
   template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
+CHI_END(StageIn)
 
+CHI_BEGIN(StageOut)
 /** The StageOutTask task */
 struct StageOutTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN hermes::BucketId bkt_id_;
@@ -1755,7 +1826,9 @@ struct StageOutTask : public Task, TaskFlags<TF_SRL_SYM> {
   template <typename Ar>
   void SerializeEnd(Ar &ar) {}
 };
+CHI_END(StageOut)
 
+CHI_AUTOGEN_METHODS
 }  // namespace hermes
 
 #endif  // CHI_TASKS_TASK_TEMPL_INCLUDE_hermes_core_hermes_core_TASKS_H_
