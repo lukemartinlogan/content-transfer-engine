@@ -32,6 +32,10 @@ set(HERMES_LIB_DIR @HERMES_INSTALL_LIB_DIR@)
 set(HERMES_INCLUDE_DIR @HERMES_INSTALL_INCLUDE_DIR@)
 set(HERMES_BIN_DIR @HERMES_INSTALL_BIN_DIR@)
 
+set(Hermes_LIB_DIR ${HERMES_LIB_DIR})
+set(Hermes_INCLUDE_DIR ${HERMES_INCLUDE_DIR})
+set(Hermes_BIN_DIR ${HERMES_BIN_DIR})
+
 # Find the Hermes Package
 include(@CMAKE_INSTALL_PREFIX@/cmake/HermesCoreConfig.cmake)
 include(@CMAKE_INSTALL_PREFIX@/cmake/HermesCommonConfig.cmake)

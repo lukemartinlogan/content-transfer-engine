@@ -6,7 +6,7 @@ SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # Chimaera
 find_package(Chimaera CONFIG REQUIRED)
-message(STATUS "found chimaera at ${Chimaera_INCLUDE_DIRS}")
+message(STATUS "found chimaera at ${CHIMAERA_INCLUDE_DIR}")
 
 # Catch2
 find_package(Catch2 3.0.1 REQUIRED)
