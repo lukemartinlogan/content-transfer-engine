@@ -1071,7 +1071,7 @@ class Server : public Module {
     chi::ScopedCoRwReadLock blob_info_lock(blob_info.lock_);
 
     // Ensure the blob is allocated
-    if (!task->data_size_ && task->data_ == hipc::Pointer::GetNull()) {
+    if (!task->data_size_ /*&& task->data_ == hipc::Pointer::GetNull() */) {
       task->data_size_ = blob_info.blob_size_;
       task->data_ =
           CHI_CLIENT->AllocateBuffer(HSHM_MCTX, task->data_size_).shm_;
