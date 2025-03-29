@@ -614,7 +614,7 @@ class Server : public Module {
       return;
     }
     TagInfo &tag = it->second;
-    hipc::vector<BlobId> &blobs = task->blob_ids_;
+    chi::ipc::vector<BlobId> &blobs = task->blob_ids_;
     blobs.reserve(tag.blobs_.size());
     for (BlobId &blob_id : tag.blobs_) {
       blobs.emplace_back(blob_id);
