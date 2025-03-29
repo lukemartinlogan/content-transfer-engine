@@ -144,14 +144,7 @@ TEST_CASE("TestHermesPutGet") {
           CHI_CLIENT->data_alloc_->GetCurrentlyAllocatedSize(),
           CHI_CLIENT->rdata_alloc_->GetCurrentlyAllocatedSize());
   }
-
-  if (rank == 0) {
-    HILOG(kInfo, "Allocator sizes: task={} data={} rdata={}",
-          CHI_CLIENT->main_alloc_->GetCurrentlyAllocatedSize(),
-          CHI_CLIENT->data_alloc_->GetCurrentlyAllocatedSize(),
-          CHI_CLIENT->rdata_alloc_->GetCurrentlyAllocatedSize());
-  }
-
+  
   // Create a bucket
   HILOG(kInfo, "WE ARE HERE!!!");
   hermes::Context ctx;
@@ -163,12 +156,14 @@ TEST_CASE("TestHermesPutGet") {
   size_t proc_count = off + count_per_proc;
   for (int rep = 0; rep < 4; ++rep) {
     for (size_t i = off; i < proc_count; ++i) {
-      HILOG(kInfo, "Iteration: {} with blob name {}", i, std::to_string(i));
+      HILOG(kInfo, "(node {}) Iteration: {} with blob name {}", 
+        CHI_CLIENT->node_id_, i, std::to_string(i));
       // Put a blob
       hermes::Blob blob(MEGABYTES(1));
       memset(blob.data(), i % 256, blob.size());
       hermes::BlobId blob_id = bkt.Put(std::to_string(i), blob, ctx);
-      HILOG(kInfo, "(iteration {}) Using BlobID: {}", i, blob_id);
+      HILOG(kInfo, "(node {}) (iteration {}) Using BlobID: {}",
+            CHI_CLIENT->node_id_, i, blob_id);
       // Get a blob
       hermes::Blob blob2;
       bkt.Get(blob_id, blob2, ctx);
