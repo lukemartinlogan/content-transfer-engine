@@ -409,6 +409,11 @@ class Bucket {
     task = ShmAsyncBaseGet(blob_name, orig_blob_id, blob, blob_off, ctx);
     task->Wait();
     blob_id = task->blob_id_;
+    blob.size_ = task->data_size_;
+    if (blob.data_.shm_ != task->data_) {
+      blob.data_ = FullPtr<char>(task->data_);
+      blob.Own();
+    }
     CHI_CLIENT->DelTask(mctx_, task);
     return blob_id;
   }

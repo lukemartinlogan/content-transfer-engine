@@ -130,6 +130,21 @@ class Blob {
     }
   }
 
+  /** Potentially wrap data */
+  Blob(const hipc::Pointer &data, size_t size) {
+    FullPtr<char> data_full(data);
+    data_ = data_full;
+    size_ = size;
+    max_size_ = size;
+    if (data_.shm_.alloc_id_ != CHI_CLIENT->data_alloc_->id_) {
+      data_ = CHI_CLIENT->AllocateBuffer(HSHM_MCTX, size);
+      memcpy(data_.ptr_, data_full.ptr_, size);
+      owned_ = true;
+    } else {
+      owned_ = false;
+    }
+  }
+
   /** Copy constructor */
   Blob(const Blob &other) {
     data_ = other.data_;

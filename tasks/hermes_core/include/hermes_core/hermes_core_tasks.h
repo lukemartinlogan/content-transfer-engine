@@ -545,7 +545,7 @@ struct TagGetContainedBlobIdsTask : public Task,
                                     TaskFlags<TF_SRL_SYM>,
                                     TagWithId {
   IN TagId tag_id_;
-  OUT hipc::vector<BlobId> blob_ids_;
+  OUT chi::ipc::vector<BlobId> blob_ids_;
 
   /** SHM default constructor */
   HSHM_INLINE explicit TagGetContainedBlobIdsTask(
@@ -921,7 +921,7 @@ CHI_BEGIN(GetBlobBuffers)
 struct GetBlobBuffersTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN TagId tag_id_;
   IN BlobId blob_id_;
-  OUT hipc::vector<BufferInfo> buffers_;
+  OUT chi::ipc::vector<BufferInfo> buffers_;
 
   /** SHM default constructor */
   HSHM_INLINE explicit GetBlobBuffersTask(
@@ -1491,9 +1491,9 @@ CHI_END(FlushData)
 /** Base task for various metadata queries */
 template <typename MD, int METHOD>
 struct PollMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
-  IN hipc::string filter_;
+  IN chi::ipc::string filter_;
   IN int max_count_;
-  OUT hipc::string stats_buf_;
+  OUT chi::ipc::string stats_buf_;
 
   /** SHM default constructor */
   HSHM_INLINE explicit PollMetadataTask(
@@ -1577,7 +1577,7 @@ CHI_BEGIN(PollAccessPattern)
 /** The PollAccessPatternTask task */
 struct PollAccessPatternTask : public Task, TaskFlags<TF_SRL_SYM> {
   INOUT hshm::min_u64 last_access_;
-  OUT hipc::vector<IoStat> io_pattern_;
+  OUT chi::ipc::vector<IoStat> io_pattern_;
 
   /** SHM default constructor */
   HSHM_INLINE explicit PollAccessPatternTask(
