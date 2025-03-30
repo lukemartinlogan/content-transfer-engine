@@ -379,6 +379,17 @@ class Bucket {
   }
 
   /**
+   * Get the current size of the blob in the bucket
+   */
+  size_t GetBlobSize(const std::string &name, const BlobId &blob_id) {
+    if (!name.empty()) {
+      return GetBlobSize(name);
+    } else {
+      return GetBlobSize(blob_id);
+    }
+  }
+
+  /**
    * Get \a blob_id Blob from the bucket (async)
    * */
   FullPtr<GetBlobTask> HSHM_INLINE ShmAsyncBaseGet(const std::string &blob_name,
@@ -389,6 +400,11 @@ class Bucket {
     // Get the blob ID
     if (blob_id.IsNull()) {
       hermes_flags.SetBits(HERMES_GET_BLOB_ID);
+    }
+    // Get blob size
+    if (blob.data_.shm_.IsNull()) {
+      size_t size = GetBlobSize(blob_name, blob_id);
+      blob.resize(size);
     }
     // Get from shared memory
     FullPtr<GetBlobTask> task;
@@ -409,11 +425,6 @@ class Bucket {
     task = ShmAsyncBaseGet(blob_name, orig_blob_id, blob, blob_off, ctx);
     task->Wait();
     blob_id = task->blob_id_;
-    blob.size_ = task->data_size_;
-    if (blob.data_.shm_ != task->data_) {
-      blob.data_ = FullPtr<char>(task->data_);
-      blob.Own();
-    }
     CHI_CLIENT->DelTask(mctx_, task);
     return blob_id;
   }
