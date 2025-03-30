@@ -1057,6 +1057,8 @@ class Server : public Module {
     BlobInfo &blob_info = blob_map[task->blob_id_];
 
     // Stage Blob
+    HILOG(kInfo, "Getting blob {} of size {} starting at offset {}",
+          task->blob_id_, task->data_size_, task->blob_off_);
     if (task->flags_.Any(HERMES_SHOULD_STAGE) &&
         blob_info.last_flush_ == (size_t)0) {
       // TODO(llogan): Don't hardcore score = 1
@@ -1130,6 +1132,8 @@ class Server : public Module {
         IoType::kRead, task->blob_id_, task->tag_id_, task->data_size_, 0});
     io_pattern_.peek(stat, qtok);
     stat->id_ = qtok.id_;
+    HILOG(kInfo, "Finished getting blob {} of size {} starting at offset {}",
+          task->blob_id_, task->data_size_, task->blob_off_);
   }
   void MonitorGetBlob(MonitorModeId mode, GetBlobTask *task, RunContext &rctx) {
     switch (mode) {
