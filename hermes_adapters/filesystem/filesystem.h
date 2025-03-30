@@ -136,7 +136,7 @@ class Filesystem : public FilesystemIoClient {
     std::string filename = bkt.GetName();
     bool is_append = stat.st_ptr_ == std::numeric_limits<size_t>::max();
 
-    HILOG(kDebug,
+    HILOG(kInfo,
           "Write called for filename: {}"
           " on offset: {}"
           " from position: {}"
@@ -203,7 +203,7 @@ class Filesystem : public FilesystemIoClient {
     (void)f;
     hapi::Bucket &bkt = stat.bkt_id_;
 
-    HILOG(kDebug,
+    HILOG(kInfo,
           "Read called for filename: {}"
           " on offset: {}"
           " from position: {}"
