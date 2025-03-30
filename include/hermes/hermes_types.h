@@ -188,7 +188,7 @@ class Blob {
   /** Destructor */
   ~Blob() {
     if (owned_) {
-      CHI_CLIENT->FreeBuffer(HSHM_MCTX, data_);
+      // CHI_CLIENT->FreeBuffer(HSHM_MCTX, data_);
     }
   }
 
