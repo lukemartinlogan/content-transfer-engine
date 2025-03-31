@@ -898,9 +898,8 @@ class Server : public Module {
       return;
     }
 
-    HILOG(kInfo, "(node {}) Put blob {} with ID {} data_size={}",
-          CHI_CLIENT->node_id_, blob_name.str(), task->blob_id_,
-          task->data_size_);
+    HILOG(kInfo, "(node {}) Put blob with ID {} data_size={}",
+          CHI_CLIENT->node_id_, task->blob_id_, task->data_size_);
 
     // Get blob struct
     BLOB_MAP_T &blob_map = tls.blob_map_;
