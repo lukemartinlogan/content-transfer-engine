@@ -1356,6 +1356,8 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_name_, blob_id_, blob_off_, score_, flags_);
     ar.bulk(DT_WRITE, data_, data_size_);
+    HILOG(kInfo, "(node {}) PUT {} of size {}", CHI_CLIENT->node_id_,
+          task_node_, data_size_);
   }
 
   /** (De)serialize message return */
@@ -1364,6 +1366,8 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
     if (flags_.Any(HERMES_GET_BLOB_ID)) {
       ar(blob_id_);
     }
+    HILOG(kInfo, "(node {}) PUT {} of size {}", CHI_CLIENT->node_id_,
+          task_node_, data_size_);
   }
 };
 CHI_END(PutBlob)
