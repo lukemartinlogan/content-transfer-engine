@@ -1325,9 +1325,8 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
     data_ = data;
     score_ = score;
     flags_ = bitfield32_t(hermes_flags | ctx.flags_.bits_);
-
-    HILOG(kInfo, "(node {}) Creating PUT {} of size {} (pool={})",
-          CHI_CLIENT->node_id_, task_node_, data_size_, pool_);
+    // HILOG(kInfo, "(node {}) Creating PUT {} of size {} (pool={})",
+    //       CHI_CLIENT->node_id_, task_node_, data_size_, pool_);
   }
 
   /** Destructor */
@@ -1356,8 +1355,8 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_name_, blob_id_, blob_off_, score_, flags_);
     ar.bulk(DT_WRITE, data_, data_size_);
-    HILOG(kInfo, "(node {}) PUT {} of size {} pool={} dom={}",
-          CHI_CLIENT->node_id_, task_node_, data_size_, pool_, dom_query_);
+    // HILOG(kInfo, "(node {}) PUT {} of size {} pool={} dom={}",
+    //       CHI_CLIENT->node_id_, task_node_, data_size_, pool_, dom_query_);
   }
 
   /** (De)serialize message return */
@@ -1366,8 +1365,8 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
     if (flags_.Any(HERMES_GET_BLOB_ID)) {
       ar(blob_id_);
     }
-    HILOG(kInfo, "(node {}) PUT {} of size {} pool={} dom={}",
-          CHI_CLIENT->node_id_, task_node_, data_size_, pool_, dom_query_);
+    // HILOG(kInfo, "(node {}) PUT {} of size {} pool={} dom={}",
+    //       CHI_CLIENT->node_id_, task_node_, data_size_, pool_, dom_query_);
   }
 };
 CHI_END(PutBlob)
