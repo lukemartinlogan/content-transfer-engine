@@ -203,7 +203,7 @@ class Filesystem : public FilesystemIoClient {
     (void)f;
     hapi::Bucket &bkt = stat.bkt_id_;
 
-    HILOG(kInfo,
+    HILOG(kDebug,
           "Read called for filename: {}"
           " on offset: {}"
           " from position: {}"

@@ -902,7 +902,7 @@ class Server : public Module {
       return;
     }
 
-    HILOG(kInfo, "(node {}) Put blob with ID {} data_size={} task_node={}",
+    HILOG(kDebug, "(node {}) Put blob with ID {} data_size={} task_node={}",
           CHI_CLIENT->node_id_, task->blob_id_, task->data_size_,
           task->task_node_);
 
@@ -1111,7 +1111,7 @@ class Server : public Module {
     // Read blob from buffers
     std::vector<FullPtr<chi::bdev::ReadTask>> read_tasks;
     read_tasks.reserve(blob_info.buffers_.size());
-    HILOG(kInfo,
+    HILOG(kDebug,
           "(node={}) Getting blob {} of size {} starting at offset {} "
           "(total_blob_size={}, buffers={})",
           CHI_CLIENT->node_id_, task->blob_id_, task->data_size_,
