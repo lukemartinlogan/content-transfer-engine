@@ -229,6 +229,8 @@ class Server : public Module {
     task->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers,
         HashBlobNameOrId(tag_id, blob_name, blob_id));
+    HILOG(kInfo, "(node {}) Routing to: {} ({})", task->dom_query_,
+          task->dom_query_.sel_.hash_ % 8);
     task->SetDirect();
     task->UnsetRouted();
     // HILOG(kInfo, "Routing to: {}", task->dom_query_);
