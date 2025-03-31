@@ -81,7 +81,6 @@ class Blob {
   hipc::FullPtr<char> data_ = hipc::FullPtr<char>::GetNull();
   size_t size_ = 0;
   size_t max_size_ = 0;
-  bool owned_ = false;
 
  public:
   /** Default constructor */
@@ -91,66 +90,44 @@ class Blob {
   Blob(size_t size) { resize(size); }
 
   /** Copy string */
-  Blob(const std::string &data) {
-    data_ = CHI_CLIENT->AllocateBuffer(HSHM_MCTX, data.size());
-    size_ = data.size();
-    max_size_ = data.size();
-    memcpy(data_.ptr_, data.data(), data.size());
-    owned_ = true;
-  }
+  Blob(const std::string &data) { Copy(data.data(), data.size()); }
 
-  /** Potentially wrap a vector */
+  /** Copy vector */
   template <typename T>
   Blob(const chi::vector<T> &data) {
-    if (data.GetAllocatorId() == CHI_CLIENT->data_alloc_->id_) {
-      data_ = FullPtr<T>(data.data());
-      size_ = data.size() * sizeof(T);
-      max_size_ = data.size() * sizeof(T);
-      owned_ = false;
-    } else {
-      data_ = CHI_CLIENT->AllocateBuffer(HSHM_MCTX, data.size() * sizeof(T));
-      size_ = data.size() * sizeof(T);
-      max_size_ = data.size() * sizeof(T);
-      memcpy(data_.ptr_, data.data(), size_);
-      owned_ = true;
-    }
+    Copy(data.data(), data.size() * sizeof(T));
   }
 
-  /** Potentially wrap data */
+  /** Copy char *, size */
   Blob(const char *data, size_t size) {
-    data_ = FullPtr<char>(data);
-    size_ = size;
-    max_size_ = size;
-    if (data_.shm_.alloc_id_ != CHI_CLIENT->data_alloc_->id_) {
-      data_ = CHI_CLIENT->AllocateBuffer(HSHM_MCTX, size);
-      memcpy(data_.ptr_, data, size);
-      owned_ = true;
-    } else {
-      owned_ = false;
-    }
+    FullPtr<char> data_full(data);
+    Copy(data_full.ptr_, size);
   }
 
-  /** Potentially wrap data */
+  /** Copy shm pointer, size */
   Blob(const hipc::Pointer &data, size_t size) {
     FullPtr<char> data_full(data);
-    data_ = data_full;
-    size_ = size;
-    max_size_ = size;
-    if (data_.shm_.alloc_id_ != CHI_CLIENT->data_alloc_->id_) {
-      data_ = CHI_CLIENT->AllocateBuffer(HSHM_MCTX, size);
-      memcpy(data_.ptr_, data_full.ptr_, size);
-      owned_ = true;
-    } else {
-      owned_ = false;
+    Copy(data_full.ptr_, size);
+  }
+
+  /** Copy assignment */
+  Blob &operator=(const Blob &other) {
+    if (this != &other) {
+      Copy(other.data(), other.size());
     }
+    return *this;
   }
 
   /** Copy constructor */
-  Blob(const Blob &other) {
-    data_ = other.data_;
-    size_ = other.size_;
-    max_size_ = other.max_size_;
-    owned_ = false;
+  Blob(const Blob &other) { Copy(other.data(), other.size()); }
+
+  /** Copy */
+  void Copy(const char *other, size_t other_size) {
+    if (!data_.IsNull()) {
+      throw std::runtime_error("Copy to preallocated blob not supported");
+    }
+    resize(other_size);
+    memcpy(data_.ptr_, other, other_size);
   }
 
   /** Move constructor */
@@ -158,19 +135,7 @@ class Blob {
     data_ = other.data_;
     size_ = other.size_;
     max_size_ = other.max_size_;
-    owned_ = other.owned_;
-    other.owned_ = false;
-  }
-
-  /** Copy assignment */
-  Blob &operator=(const Blob &other) {
-    if (this != &other) {
-      data_ = other.data_;
-      size_ = other.size_;
-      max_size_ = other.max_size_;
-      owned_ = false;
-    }
-    return *this;
+    other.Disown();
   }
 
   /** Move assignment */
@@ -179,15 +144,17 @@ class Blob {
       data_ = other.data_;
       size_ = other.size_;
       max_size_ = other.max_size_;
-      owned_ = other.owned_;
-      other.owned_ = false;
+      other.Disown();
     }
     return *this;
   }
 
+  /** Disown */
+  void Disown() { data_ = FullPtr<char>::GetNull(); }
+
   /** Destructor */
   ~Blob() {
-    if (owned_) {
+    if (!data_.IsNull()) {
       CHI_CLIENT->FreeBuffer(HSHM_MCTX, data_);
     }
   }
@@ -205,19 +172,9 @@ class Blob {
           "Blobs are not meant to be resized after creation");
     } else {
       data_ = CHI_CLIENT->AllocateBuffer(HSHM_MCTX, new_size);
-      owned_ = true;
     }
     max_size_ = new_size;
   }
-
-  /** Check if owned */
-  bool IsOwned() const { return owned_; }
-
-  /** Own */
-  void Own() { owned_ = true; }
-
-  /** Disown */
-  void Disown() { owned_ = false; }
 
   /** Get the data */
   char *data() { return data_.ptr_; }
