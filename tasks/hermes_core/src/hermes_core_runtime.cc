@@ -1146,12 +1146,11 @@ class Server : public Module {
               "tgt_id={})",
               CHI_CLIENT->node_id_, task->data_.alloc_id_,
               task->data_.off_.load(), buf_off, buf_size, tgt_off, buf.tid_);
-        // TargetInfo &target = *target_map_[buf.tid_];
-        // FullPtr<chi::bdev::ReadTask> read_task =
-        //     target.client_.AsyncRead(HSHM_MCTX, target.dom_query_,
-        //                              task->data_ + buf_off, tgt_off,
-        //                              buf_size);
-        // read_tasks.emplace_back(read_task);
+        TargetInfo &target = *target_map_[buf.tid_];
+        FullPtr<chi::bdev::ReadTask> read_task =
+            target.client_.AsyncRead(HSHM_MCTX, target.dom_query_,
+                                     task->data_ + buf_off, tgt_off, buf_size);
+        read_tasks.emplace_back(read_task);
         buf_off += buf_size;
         blob_off = buf_right;
       }
