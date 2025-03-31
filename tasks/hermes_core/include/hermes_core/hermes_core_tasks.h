@@ -1334,7 +1334,7 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
     // HILOG(kInfo, "(node {}) Destroying PUT {} of size {}",
     // CHI_CLIENT->node_id_,
     //       task_node_, data_size_);
-    if (IsDataOwner()) {
+    if (IsDataOwner() && !data_.IsNull()) {
       CHI_CLIENT->FreeBuffer(HSHM_MCTX, data_);
     }
   }
@@ -1410,6 +1410,16 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
     data_size_ = data_size;
     data_ = data;
     flags_ = bitfield32_t(hermes_flags | ctx.flags_.bits_);
+  }
+
+  /** Destructor */
+  ~GetBlobTask() {
+    // HILOG(kInfo, "(node {}) Destroying PUT {} of size {}",
+    // CHI_CLIENT->node_id_,
+    //       task_node_, data_size_);
+    if (IsDataOwner() && !data_.IsNull()) {
+      CHI_CLIENT->FreeBuffer(HSHM_MCTX, data_);
+    }
   }
 
   /** Convert data to a data structure */
