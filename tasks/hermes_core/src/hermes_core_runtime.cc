@@ -193,7 +193,8 @@ class Server : public Module {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     TAG_ID_MAP_T &tag_id_map = tls.tag_id_map_;
     TAG_MAP_T &tag_map = tls.tag_map_;
-    HILOG(kInfo, "Lane ID {} / {}", CHI_CUR_LANE->lane_id_, HERMES_LANES);
+    HILOG(kInfo, "{} Lane ID {} / {}", this, CHI_CUR_LANE->lane_id_,
+          tls_.size());
     // Check if tag name is cached on this node
     if (!tag_name.empty()) {
       HILOG(kInfo, "");
