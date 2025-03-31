@@ -136,14 +136,14 @@ class Filesystem : public FilesystemIoClient {
     std::string filename = bkt.GetName();
     bool is_append = stat.st_ptr_ == std::numeric_limits<size_t>::max();
 
-    HILOG(kInfo,
-          "Write called for filename: {}"
-          " on offset: {}"
-          " from position: {}"
-          " and size: {}"
-          " and adapter mode: {}",
-          filename, off, stat.st_ptr_, total_size,
-          AdapterModeConv::str(stat.adapter_mode_));
+    // HILOG(kInfo,
+    //       "Write called for filename: {}"
+    //       " on offset: {}"
+    //       " from position: {}"
+    //       " and size: {}"
+    //       " and adapter mode: {}",
+    //       filename, off, stat.st_ptr_, total_size,
+    //       AdapterModeConv::str(stat.adapter_mode_));
     if (stat.adapter_mode_ == AdapterMode::kBypass) {
       // Bypass mode is handled differently
       opts.backend_size_ = total_size;

@@ -856,8 +856,8 @@ class Server : public Module {
                                          blob_name, task->flags_);
     }
 
-    HILOG(kInfo, "Put blob {} with ID {} data_size={}", blob_name.str(),
-          task->blob_id_, task->data_size_);
+    // HILOG(kInfo, "Put blob {} with ID {} data_size={}", blob_name.str(),
+    //       task->blob_id_, task->data_size_);
 
     // Get blob struct
     BLOB_MAP_T &blob_map = tls.blob_map_;
@@ -1032,8 +1032,9 @@ class Server : public Module {
     io_pattern_.peek(stat, qtok);
     stat->id_ = qtok.id_;
 
-    HILOG(kInfo, "Finish Put blob {} with ID {} data_size={}", blob_name.str(),
-          task->blob_id_, task->data_size_);
+    // HILOG(kInfo, "Finish Put blob {} with ID {} data_size={}",
+    // blob_name.str(),
+    //       task->blob_id_, task->data_size_);
   }
   void MonitorPutBlob(MonitorModeId mode, PutBlobTask *task, RunContext &rctx) {
     switch (mode) {
