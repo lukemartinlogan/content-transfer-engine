@@ -67,6 +67,7 @@ class Server : public Module {
   Client client_;
   std::vector<HermesLane> tls_;
   std::atomic<u64> id_alloc_;
+  std::vector<chi::bdev::Client> tgt_pools_;
   std::vector<TargetInfo> targets_;
   std::unordered_map<TargetId, TargetInfo *> target_map_;
   chi::RollingAverage monitor_[Method::kCount];
@@ -84,6 +85,49 @@ class Server : public Module {
   Server() = default;
 
   CHI_BEGIN(Create)
+  /** Create target pools */
+  void CreateTargetPools() {
+    for (DeviceInfo &dev : HERMES_SERVER_CONF.devices_) {
+      dev.mount_point_ =
+          hshm::Formatter::format("{}/{}", dev.mount_dir_, dev.dev_name_);
+      HILOG(kInfo, "Creating target: {}", dev.dev_name_);
+      chi::bdev::Client target;
+      target.Create(
+          HSHM_MCTX,
+          DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers, 0),
+          DomainQuery::GetGlobalBcast(),
+          hshm::Formatter::format("hermes_{}", dev.dev_name_), dev.mount_point_,
+          dev.capacity_);
+      tgt_pools_.emplace_back(target);
+    }
+  }
+  /** Create target neighborhood */
+  void CreateTargetNeighborhood() {
+    for (chi::bdev::Client &tgt_pool : tgt_pools_) {
+      targets_.emplace_back();
+      TargetInfo &target = targets_.back();
+      target.client_ = tgt_pool;
+      target.dom_query_ = DomainQuery::GetLocalHash(0);
+      target.id_ = target.client_.id_;
+      target.id_.node_id_ = CHI_CLIENT->node_id_;
+      if (target_map_.find(target.id_) != target_map_.end()) {
+        targets_.pop_back();
+        continue;
+      }
+      HILOG(kInfo, "Created target: {}", target.id_);
+      // Poll stats periodically
+      target.poll_stats_ =
+          target.client_.AsyncPollStats(HSHM_MCTX, target.dom_query_, 25);
+      // Get current stats for bdevs
+      target.poll_stats_->stats_ =
+          target.client_.PollStats(HSHM_MCTX, target.dom_query_);
+      target.stats_ = &target.poll_stats_->stats_;
+      target_map_[target.id_] = &target;
+      HILOG(kInfo, "Polling stats for target: {}", target.id_);
+    }
+    // TODO(llogan): We should sort targets first
+    fallback_target_ = &targets_.back();
+  }
   /** Construct hermes_core */
   void Create(CreateTask *task, RunContext &rctx) {
     // Create a set of lanes for holding tasks
@@ -92,47 +136,8 @@ class Server : public Module {
     CreateLaneGroup(kDefaultGroup, HERMES_LANES, QUEUE_LOW_LATENCY);
     tls_.resize(HERMES_LANES);
     io_pattern_.resize(8192);
-    // Create block devices
-    targets_.reserve(
-        128);  // TODO(llogan): Calculate number of buffering devices
-    // for (int i = 0; i < 3; ++i) {
-    int i = 0;
-    for (DeviceInfo &dev : HERMES_SERVER_CONF.devices_) {
-      dev.mount_point_ =
-          hshm::Formatter::format("{}/{}", dev.mount_dir_, dev.dev_name_);
-      targets_.emplace_back();
-      TargetInfo &target = targets_.back();
-      NodeId node_id = CHI_CLIENT->node_id_ + i;
-      HILOG(kInfo, "Creating target: {}", dev.dev_name_);
-      target.client_.Create(
-          HSHM_MCTX,
-          DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
-                                     node_id),
-          DomainQuery::GetGlobalBcast(),
-          hshm::Formatter::format("hermes_{}/{}", dev.dev_name_, node_id),
-          dev.mount_point_, dev.capacity_);
-      target.id_ = target.client_.id_;
-      if (target_map_.find(target.id_) != target_map_.end()) {
-        targets_.pop_back();
-        continue;
-      }
-      HILOG(kInfo, "Created target: {}", target.id_);
-      target.poll_stats_ = target.client_.AsyncPollStats(
-          HSHM_MCTX,
-          chi::DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
-                                          node_id),
-          25);
-      // HILOG(kInfo, "Polling stats async for target: {}", target.id_);
-      target.poll_stats_->stats_ = target.client_.PollStats(
-          HSHM_MCTX, chi::DomainQuery::GetDirectHash(
-                         chi::SubDomainId::kGlobalContainers, node_id));
-      target.stats_ = &target.poll_stats_->stats_;
-      target_map_[target.id_] = &target;
-      HILOG(kInfo, "Polling stats for target: {}", target.id_);
-    }
-    // }
-    fallback_target_ = &targets_.back();
-    // Create flushing task
+    CreateTargetPools();
+    CreateTargetNeighborhood();
     client_.AsyncFlushData(
         HSHM_MCTX,
         chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
@@ -952,15 +957,12 @@ class Server : public Module {
       for (size_t sub_idx = 0; sub_idx < schema.plcmnts_.size(); ++sub_idx) {
         // Allocate chi::blocks
         SubPlacement &placement = schema.plcmnts_[sub_idx];
-        TargetInfo &bdev = *target_map_[placement.tid_];
+        TargetInfo &target = *target_map_[placement.tid_];
         if (placement.size_ == 0) {
           continue;
         }
-        std::vector<chi::Block> blocks = bdev.client_.Allocate(
-            HSHM_MCTX,
-            chi::DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
-                                            bdev.id_.node_id_),
-            placement.size_);
+        std::vector<chi::Block> blocks = target.client_.Allocate(
+            HSHM_MCTX, target.dom_query_, placement.size_);
         // Convert to BufferInfo
         size_t t_alloc = 0;
         for (chi::Block &block : blocks) {
@@ -972,7 +974,7 @@ class Server : public Module {
         }
         // HILOG(kInfo, "(node {}) Placing {}/{} bytes in target {} of bw {}",
         //       CHI_CLIENT->node_id_, t_alloc, placement.size_, placement.tid_,
-        //       bdev.stats_->write_bw_);
+        //       target.stats_->write_bw_);
         // Spill to next tier
         size_t next_tier = sub_idx + 1;
         if (t_alloc < placement.size_ && next_tier < schema.plcmnts_.size()) {
@@ -980,7 +982,7 @@ class Server : public Module {
           size_t diff = placement.size_ - t_alloc;
           next_placement.size_ += diff;
         }
-        bdev.stats_->free_ -= t_alloc;
+        target.stats_->free_ -= t_alloc;
       }
     }
 
@@ -1010,11 +1012,9 @@ class Server : public Module {
         // HILOG(kInfo, "Writing {} bytes at off {} from target {}", buf_size,
         //       tgt_off, buf.tid_);
         TargetInfo &target = *target_map_[buf.tid_];
-        FullPtr<chi::bdev::WriteTask> write_task = target.client_.AsyncWrite(
-            HSHM_MCTX,
-            chi::DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
-                                            0),
-            task->data_ + buf_off, tgt_off, buf_size);
+        FullPtr<chi::bdev::WriteTask> write_task =
+            target.client_.AsyncWrite(HSHM_MCTX, target.dom_query_,
+                                      task->data_ + buf_off, tgt_off, buf_size);
         write_tasks.emplace_back(write_task);
         buf_off += buf_size;
         blob_off = buf_right;
@@ -1143,11 +1143,9 @@ class Server : public Module {
         // HILOG(kInfo, "Loading {} bytes at off {} from target {}", buf_size,
         //       tgt_off, buf.tid_);
         TargetInfo &target = *target_map_[buf.tid_];
-        FullPtr<chi::bdev::ReadTask> read_task = target.client_.AsyncRead(
-            HSHM_MCTX,
-            chi::DomainQuery::GetDirectHash(chi::SubDomainId::kGlobalContainers,
-                                            0),
-            task->data_ + buf_off, tgt_off, buf_size);
+        FullPtr<chi::bdev::ReadTask> read_task =
+            target.client_.AsyncRead(HSHM_MCTX, target.dom_query_,
+                                     task->data_ + buf_off, tgt_off, buf_size);
         read_tasks.emplace_back(read_task);
         buf_off += buf_size;
         blob_off = buf_right;
@@ -1201,10 +1199,7 @@ class Server : public Module {
     // Free blob buffers
     for (BufferInfo &buf : blob.buffers_) {
       TargetInfo &target = *target_map_[buf.tid_];
-      target.client_.Free(HSHM_MCTX,
-                          chi::DomainQuery::GetDirectHash(
-                              chi::SubDomainId::kGlobalContainers, 0),
-                          buf);
+      target.client_.Free(HSHM_MCTX, target.dom_query_, buf);
       target.stats_->free_ += buf.size_;
     }
     // Remove blob from the tag

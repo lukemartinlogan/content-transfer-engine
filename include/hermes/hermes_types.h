@@ -46,6 +46,7 @@ typedef PoolId TargetId;
 struct TargetInfo {
   TargetId id_;
   chi::bdev::Client client_;
+  DomainQuery dom_query_;
   FullPtr<chi::bdev::PollStatsTask> poll_stats_;
   chi::BdevStats *stats_;
   float score_ = 0;  // TODO(llogan): Calculate score
