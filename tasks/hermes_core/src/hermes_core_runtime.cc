@@ -288,13 +288,13 @@ class Server : public Module {
       HILOG(kInfo, "Tag existed");
       return;
     }
-    task->dom_query_ = chi::DomainQuery::GetDirectHash(
-        chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
+    HILOG(kInfo, "Tag did not exist");
     task->SetDirect();
     task->UnsetRouted();
     u32 name_hash = HashTagName(tag_name);
     u32 id_hash = hshm::hash<TagId>{}(tag_id);
     u32 hash = HashTagNameOrId(tag_id, tag_name);
+    HILOG(kInfo, "Hashes calculated");
     task->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers, hash);
     HILOG(kInfo,
