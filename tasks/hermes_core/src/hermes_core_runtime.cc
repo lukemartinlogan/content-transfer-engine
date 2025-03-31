@@ -114,16 +114,19 @@ class Server : public Module {
         targets_.pop_back();
         continue;
       }
-      HILOG(kInfo, "Created target: {}", target.id_);
+      HILOG(kInfo, "(node {}) Created target: {}", CHI_CLIENT->node_id_,
+            target.id_);
       // Poll stats periodically
       target.poll_stats_ =
           target.client_.AsyncPollStats(HSHM_MCTX, target.dom_query_, 25);
+      HILOG(kInfo, "Polling stats periodically {}",
+            target.poll_stats_->task_node_);
       // Get current stats for bdevs
       target.poll_stats_->stats_ =
           target.client_.PollStats(HSHM_MCTX, target.dom_query_);
       target.stats_ = &target.poll_stats_->stats_;
       target_map_[target.id_] = &target;
-      HILOG(kInfo, "Polling stats for target: {}", target.id_);
+      HILOG(kInfo, "Got stats for target: {}", target.id_);
     }
     // TODO(llogan): We should sort targets first
     fallback_target_ = &targets_.back();
@@ -138,10 +141,8 @@ class Server : public Module {
     io_pattern_.resize(8192);
     CreateTargetPools();
     CreateTargetNeighborhood();
-    client_.AsyncFlushData(
-        HSHM_MCTX,
-        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        5);  // OK
+    client_.AsyncFlushData(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
+                           5);  // OK
   }
   void MonitorCreate(MonitorModeId mode, CreateTask *task, RunContext &rctx) {}
   CHI_END(Create)
@@ -476,9 +477,7 @@ class Server : public Module {
     TagInfo &tag = it->second;
     if (tag.owner_) {
       for (BlobId &blob_id : tag.blobs_) {
-        client_.AsyncDestroyBlob(HSHM_MCTX,
-                                 chi::DomainQuery::GetDirectHash(
-                                     chi::SubDomainId::kLocalContainers, 0),
+        client_.AsyncDestroyBlob(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
                                  task->tag_id_, blob_id,
                                  DestroyBlobTask::kKeepInTag,
                                  TASK_FIRE_AND_FORGET);  // TODO(llogan): route
@@ -567,9 +566,7 @@ class Server : public Module {
     TagInfo &tag = it->second;
     if (tag.owner_) {
       for (BlobId &blob_id : tag.blobs_) {
-        client_.AsyncDestroyBlob(HSHM_MCTX,
-                                 chi::DomainQuery::GetDirectHash(
-                                     chi::SubDomainId::kLocalContainers, 0),
+        client_.AsyncDestroyBlob(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
                                  task->tag_id_, blob_id,
                                  DestroyBlobTask::kKeepInTag,
                                  TASK_FIRE_AND_FORGET);  // TODO(llogan): route
@@ -686,9 +683,7 @@ class Server : public Module {
     }
     TagInfo &tag = it->second;
     for (BlobId &blob_id : tag.blobs_) {
-      client_.FlushBlob(HSHM_MCTX,
-                        chi::DomainQuery::GetDirectHash(
-                            chi::SubDomainId::kLocalContainers, 0),
+      client_.FlushBlob(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
                         blob_id);  // TODO(llogan): route
     }
     // Flush blobs
@@ -920,9 +915,7 @@ class Server : public Module {
         blob_info.last_flush_ == (size_t)0) {
       // TODO(llogan): Don't hardcore score = 1
       blob_info.last_flush_ = 1;
-      client_.StageIn(HSHM_MCTX,
-                      chi::DomainQuery::GetDirectHash(
-                          chi::SubDomainId::kLocalContainers, 0),
+      client_.StageIn(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
                       task->tag_id_, blob_info.name_, 1);  // OK
     }
 
@@ -1103,9 +1096,7 @@ class Server : public Module {
         blob_info.last_flush_ == (size_t)0) {
       // TODO(llogan): Don't hardcore score = 1
       blob_info.last_flush_ = 1;
-      client_.StageIn(HSHM_MCTX,
-                      chi::DomainQuery::GetDirectHash(
-                          chi::SubDomainId::kLocalContainers, 0),
+      client_.StageIn(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
                       task->tag_id_, blob_info.name_, 1);  // OK
     }
 
@@ -1204,10 +1195,8 @@ class Server : public Module {
     }
     // Remove blob from the tag
     if (!task->flags_.Any(DestroyBlobTask::kKeepInTag)) {
-      client_.TagRemoveBlob(HSHM_MCTX,
-                            chi::DomainQuery::GetDirectHash(
-                                chi::SubDomainId::kLocalContainers, 0),
-                            blob.tag_id_, task->blob_id_);  // Route
+      client_.TagRemoveBlob(HSHM_MCTX, chi::DomainQuery::GetDynamic(),
+                            blob.tag_id_, task->blob_id_);
     }
     // Remove the blob from the maps
     BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
@@ -1307,18 +1296,15 @@ class Server : public Module {
     // Get the blob
     FullPtr<char> data =
         CHI_CLIENT->AllocateBuffer(HSHM_MCTX, blob_info.blob_size_);
-    client_.GetBlob(
-        HSHM_MCTX,
-        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        task->tag_id_, task->blob_id_, 0, blob_info.blob_size_, data.shm_,
-        0);  // OK
+    client_.GetBlob(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0), task->tag_id_,
+                    task->blob_id_, 0, blob_info.blob_size_, data.shm_,
+                    0);  // OK
     // Put the blob with the new score
-    client_.AsyncPutBlob(
-        HSHM_MCTX,
-        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        task->tag_id_, chi::string(""), task->blob_id_, 0, blob_info.blob_size_,
-        data.shm_, blob_info.score_, TASK_FIRE_AND_FORGET | TASK_DATA_OWNER,
-        0);  // OK
+    client_.AsyncPutBlob(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
+                         task->tag_id_, chi::string(""), task->blob_id_, 0,
+                         blob_info.blob_size_, data.shm_, blob_info.score_,
+                         TASK_FIRE_AND_FORGET | TASK_DATA_OWNER,
+                         0);  // OK
   }
   void MonitorReorganizeBlob(MonitorModeId mode, ReorganizeBlobTask *task,
                              RunContext &rctx) {
@@ -1357,20 +1343,17 @@ class Server : public Module {
     }
     FullPtr<char> data =
         CHI_CLIENT->AllocateBuffer(HSHM_MCTX, blob_info.blob_size_);
-    client_.GetBlob(
-        HSHM_MCTX,
-        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        blob_info.tag_id_, blob_info.blob_id_, 0, blob_info.blob_size_,
-        data.shm_, 0);  // OK
+    client_.GetBlob(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
+                    blob_info.tag_id_, blob_info.blob_id_, 0,
+                    blob_info.blob_size_, data.shm_, 0);  // OK
     adapter::BlobPlacement plcmnt;
     plcmnt.DecodeBlobName(blob_info.name_, 4096);
     HILOG(kDebug, "Flushing blob {} with first entry {}", plcmnt.page_,
           (int)data.ptr_[0]);
-    client_.StageOut(
-        HSHM_MCTX,
-        chi::DomainQuery::GetDirectHash(chi::SubDomainId::kLocalContainers, 0),
-        blob_info.tag_id_, blob_info.name_, data.shm_, blob_info.blob_size_,
-        TASK_DATA_OWNER);  // OK
+    client_.StageOut(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
+                     blob_info.tag_id_, blob_info.name_, data.shm_,
+                     blob_info.blob_size_,
+                     TASK_DATA_OWNER);  // OK
     HILOG(kDebug, "Finished flushing blob {} with first entry {}", plcmnt.page_,
           (int)data.ptr_[0]);
     blob_info.last_flush_ = flush_info.mod_count_;
