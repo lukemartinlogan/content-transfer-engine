@@ -103,6 +103,10 @@ class Server : public Module {
   }
   /** Create target neighborhood */
   void CreateTargetNeighborhood() {
+    // NOTE(llogan): The vector here is a bit dangerous because of the
+    // map assignment. We need to reserve here, or else the vector
+    // will resize and cause the map to be erronous.
+    targets_.reserve(128);
     for (chi::bdev::Client &tgt_pool : tgt_pools_) {
       targets_.emplace_back();
       TargetInfo &target = targets_.back();
