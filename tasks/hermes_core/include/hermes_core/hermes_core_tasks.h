@@ -1445,7 +1445,6 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
     if (flags_.Any(HERMES_GET_BLOB_ID)) {
       ar(blob_id_);
     }
-    ar(data_size_);
   }
 };
 CHI_END(GetBlob)
