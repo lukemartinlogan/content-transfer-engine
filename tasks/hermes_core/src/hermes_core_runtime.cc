@@ -193,36 +193,26 @@ class Server : public Module {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     TAG_ID_MAP_T &tag_id_map = tls.tag_id_map_;
     TAG_MAP_T &tag_map = tls.tag_map_;
-    HILOG(kInfo, "{} Lane ID {} / {}", this, CHI_CUR_LANE->lane_id_,
-          tls_.size());
     // Check if tag name is cached on this node
     if (!tag_name.empty()) {
-      HILOG(kInfo, "");
       auto it = tag_id_map.find(tag_name);
       if (it == tag_id_map.end()) {
-        HILOG(kInfo, "");
         return nullptr;
       }
       tag_id = it->second;
-      HILOG(kInfo, "");
     }
     // Check if tag ID is cached on this node
-    HILOG(kInfo, "");
     if (!tag_id.IsNull()) {
       auto it = tag_map.find(tag_id);
-      HILOG(kInfo, "");
       if (it != tag_map.end()) {
-        HILOG(kInfo, "");
         return &it->second;
       }
     }
-    HILOG(kInfo, "");
     return nullptr;
   }
 
   template <typename TaskT>
   void BlobCacheWriteRoute(TaskT *task) {
-    HILOG(kInfo, "");
     std::string blob_name;
     BlobId blob_id(BlobId::GetNull());
     TagId tag_id(task->tag_id_);
@@ -241,11 +231,11 @@ class Server : public Module {
     u32 hash = HashBlobNameOrId(tag_id, blob_name, blob_id);
     task->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers, hash);
-    HILOG(kInfo,
-          "(node {}) Routing to: hash={} (mod8={} blob_id={} name={} len={}, "
-          "name_hash={} id_hash={})",
-          CHI_CLIENT->node_id_, hash, task->dom_query_.sel_.hash_ % 8, blob_id,
-          blob_name, blob_name.size(), name_hash, id_hash);
+    // HILOG(kInfo,
+    //       "(node {}) Routing to: hash={} (mod8={} blob_id={} name={} len={},
+    //       " "name_hash={} id_hash={})", CHI_CLIENT->node_id_, hash,
+    //       task->dom_query_.sel_.hash_ % 8, blob_id, blob_name,
+    //       blob_name.size(), name_hash, id_hash);
     task->SetDirect();
     task->UnsetRouted();
     // HILOG(kInfo, "Routing to: {}", task->dom_query_);
@@ -253,7 +243,6 @@ class Server : public Module {
 
   template <typename TaskT>
   void BlobCacheReadRoute(TaskT *task) {
-    HILOG(kInfo, "");
     std::string blob_name;
     BlobId blob_id(BlobId::GetNull());
     TagId tag_id(task->tag_id_);
@@ -272,60 +261,51 @@ class Server : public Module {
     u32 hash = HashBlobNameOrId(tag_id, blob_name, blob_id);
     task->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers, hash);
-    HILOG(kInfo,
-          "(node {}) Routing to: hash={} (mod8={} blob_id={} name={} len={}, "
-          "name_hash={} id_hash={})",
-          CHI_CLIENT->node_id_, hash, task->dom_query_.sel_.hash_ % 8, blob_id,
-          blob_name, blob_name.size(), name_hash, id_hash);
+    // HILOG(kInfo,
+    //       "(node {}) Routing to: hash={} (mod8={} blob_id={} name={} len={},
+    //       " "name_hash={} id_hash={})", CHI_CLIENT->node_id_, hash,
+    //       task->dom_query_.sel_.hash_ % 8, blob_id, blob_name,
+    //       blob_name.size(), name_hash, id_hash);
     task->SetDirect();
     task->UnsetRouted();
   }
 
   template <typename TaskT>
   void TagCacheWriteRoute(TaskT *task) {
-    HILOG(kInfo, "");
     std::string tag_name;
-    HILOG(kInfo, "");
     TagId tag_id(TagId::GetNull());
-    HILOG(kInfo, "");
     if constexpr (std::is_base_of_v<TagWithId, TaskT>) {
       tag_id = task->tag_id_;
-      HILOG(kInfo, "");
     }
     if constexpr (std::is_base_of_v<TagWithName, TaskT>) {
       tag_name = task->tag_name_.str();
-      HILOG(kInfo, "");
     }
-    HILOG(kInfo, "");
-    HILOG(kInfo, "TAG NAME: {}", tag_name);
-    HILOG(kInfo, "TAG ID: {}", tag_id);
+    // HILOG(kInfo, "TAG NAME: {}", tag_name);
+    // HILOG(kInfo, "TAG ID: {}", tag_id);
     TagInfo *tag_info = GetTagInfo(tag_name, tag_id);
-    HILOG(kInfo, "");
     if (tag_info || task->IsDirect()) {
-      HILOG(kInfo, "Tag existed");
+      // HILOG(kInfo, "Tag existed");
       return;
     }
-    HILOG(kInfo, "Tag did not exist");
+    // HILOG(kInfo, "Tag did not exist");
     task->SetDirect();
     task->UnsetRouted();
     u32 name_hash = HashTagName(tag_name);
     u32 id_hash = hshm::hash<TagId>{}(tag_id);
     u32 hash = HashTagNameOrId(tag_id, tag_name);
-    HILOG(kInfo, "Hashes calculated");
     task->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers, hash);
-    HILOG(kInfo,
-          "(node {}) Routing to: hash={} (mod8={} tag_id={} name={} len={}, "
-          "name_hash={} id_hash={})",
-          CHI_CLIENT->node_id_, hash, task->dom_query_.sel_.hash_ % 8, tag_id,
-          tag_name, tag_name.size(), name_hash, id_hash);
+    // HILOG(kInfo,
+    //       "(node {}) Routing to: hash={} (mod8={} tag_id={} name={} len={}, "
+    //       "name_hash={} id_hash={})",
+    //       CHI_CLIENT->node_id_, hash, task->dom_query_.sel_.hash_ % 8,
+    //       tag_id, tag_name, tag_name.size(), name_hash, id_hash);
     task->SetDirect();
     task->UnsetRouted();
   }
 
   template <typename TaskT>
   void TagCacheReadRoute(TaskT *task) {
-    HILOG(kInfo, "");
     std::string tag_name;
     TagId tag_id(TagId::GetNull());
     if constexpr (std::is_base_of_v<TagWithId, TaskT>) {
@@ -336,7 +316,6 @@ class Server : public Module {
     }
     TagInfo *tag_info = GetTagInfo(tag_name, tag_id);
     if (tag_info || task->IsDirect()) {
-      HILOG(kInfo, "Tag existed");
       return;
     }
     task->dom_query_ = chi::DomainQuery::GetDirectHash(
@@ -348,11 +327,11 @@ class Server : public Module {
     u32 hash = HashTagNameOrId(tag_id, tag_name);
     task->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers, hash);
-    HILOG(kInfo,
-          "(node {}) Routing to: hash={} (mod8={} tag_id={} name={} len={}, "
-          "name_hash={} id_hash={})",
-          CHI_CLIENT->node_id_, hash, task->dom_query_.sel_.hash_ % 8, tag_id,
-          tag_name, tag_name.size(), name_hash, id_hash);
+    // HILOG(kInfo,
+    //       "(node {}) Routing to: hash={} (mod8={} tag_id={} name={} len={}, "
+    //       "name_hash={} id_hash={})",
+    //       CHI_CLIENT->node_id_, hash, task->dom_query_.sel_.hash_ % 8,
+    //       tag_id, tag_name, tag_name.size(), name_hash, id_hash);
     task->SetDirect();
     task->UnsetRouted();
   }
