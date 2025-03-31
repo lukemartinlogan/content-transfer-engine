@@ -971,8 +971,8 @@ class Server : public Module {
         if (buf_right > blob_right) {
           buf_size = blob_right - (buf_left + rel_off);
         }
-        HILOG(kInfo, "Writing {} bytes at off {} from target {}", buf_size,
-              tgt_off, buf.tid_);
+        // HILOG(kInfo, "Writing {} bytes at off {} from target {}", buf_size,
+        //       tgt_off, buf.tid_);
         TargetInfo &target = *target_map_[buf.tid_];
         FullPtr<chi::bdev::WriteTask> write_task = target.client_.AsyncWrite(
             HSHM_MCTX,
