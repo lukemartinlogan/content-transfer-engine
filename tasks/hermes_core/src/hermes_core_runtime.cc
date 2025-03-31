@@ -285,15 +285,16 @@ class Server : public Module {
     }
     TagInfo *tag_info = GetTagInfo(tag_name, tag_id);
     if (tag_info || task->IsDirect()) {
+      HILOG(kInfo, "Tag existed");
       return;
     }
     task->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
     task->SetDirect();
     task->UnsetRouted();
-    u32 name_hash = HashBlobName(tag_id, tag_name);
-    u32 id_hash = hshm::hash<BlobId>{}(tag_id);
-    u32 hash = HashBlobNameOrId(tag_id, tag_name, tag_id);
+    u32 name_hash = HashTagName(tag_name);
+    u32 id_hash = hshm::hash<TagId>{}(tag_id);
+    u32 hash = HashTagNameOrId(tag_id, tag_name);
     task->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers, hash);
     HILOG(kInfo,
@@ -318,11 +319,16 @@ class Server : public Module {
     }
     TagInfo *tag_info = GetTagInfo(tag_name, tag_id);
     if (tag_info || task->IsDirect()) {
+      HILOG(kInfo, "Tag existed");
       return;
     }
-    u32 name_hash = HashBlobName(tag_id, tag_name);
-    u32 id_hash = hshm::hash<BlobId>{}(tag_id);
-    u32 hash = HashBlobNameOrId(tag_id, tag_name, tag_id);
+    task->dom_query_ = chi::DomainQuery::GetDirectHash(
+        chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
+    task->SetDirect();
+    task->UnsetRouted();
+    u32 name_hash = HashTagName(tag_name);
+    u32 id_hash = hshm::hash<TagId>{}(tag_id);
+    u32 hash = HashTagNameOrId(tag_id, tag_name);
     task->dom_query_ = chi::DomainQuery::GetDirectHash(
         chi::SubDomainId::kGlobalContainers, hash);
     HILOG(kInfo,
@@ -332,7 +338,6 @@ class Server : public Module {
           tag_name, tag_name.size(), name_hash, id_hash);
     task->SetDirect();
     task->UnsetRouted();
-    // HILOG(kInfo, "Routing to: {}", task->dom_query_);
   }
 
   void PutBlobBegin(PutBlobTask *task, char *data, size_t data_size,
