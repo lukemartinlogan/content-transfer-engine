@@ -216,10 +216,10 @@ class Server : public Module {
     std::string blob_name;
     BlobId blob_id(BlobId::GetNull());
     TagId tag_id(task->tag_id_);
-    if constexpr (std::is_base_of_v<TaskT, BlobWithId>) {
+    if constexpr (std::is_base_of_v<BlobWithId, TaskT>) {
       blob_id = task->blob_id_;
     }
-    if constexpr (std::is_base_of_v<TaskT, BlobWithName>) {
+    if constexpr (std::is_base_of_v<BlobWithName, TaskT>) {
       blob_name = task->blob_name_.str();
     }
     BlobInfo *blob_info = GetBlobInfo(blob_name, blob_id);
@@ -246,10 +246,10 @@ class Server : public Module {
     std::string blob_name;
     BlobId blob_id(BlobId::GetNull());
     TagId tag_id(task->tag_id_);
-    if constexpr (std::is_base_of_v<TaskT, BlobWithId>) {
+    if constexpr (std::is_base_of_v<BlobWithId, TaskT>) {
       blob_id = task->blob_id_;
     }
-    if constexpr (std::is_base_of_v<TaskT, BlobWithName>) {
+    if constexpr (std::is_base_of_v<BlobWithName, TaskT>) {
       blob_name = task->blob_name_.str();
     }
     BlobInfo *blob_info = GetBlobInfo(blob_name, blob_id);
@@ -268,10 +268,10 @@ class Server : public Module {
   void TagCacheWriteRoute(TaskT *task) {
     std::string tag_name;
     TagId tag_id(TagId::GetNull());
-    if constexpr (std::is_base_of_v<TaskT, TagWithId>) {
+    if constexpr (std::is_base_of_v<TagWithId, TaskT>) {
       tag_id = task->tag_id_;
     }
-    if constexpr (std::is_base_of_v<TaskT, TagWithName>) {
+    if constexpr (std::is_base_of_v<TagWithName, TaskT>) {
       tag_name = task->tag_name_.str();
     }
     TagInfo *tag_info = GetTagInfo(tag_name, tag_id);
@@ -289,10 +289,10 @@ class Server : public Module {
   void TagCacheReadRoute(TaskT *task) {
     std::string tag_name;
     TagId tag_id(TagId::GetNull());
-    if constexpr (std::is_base_of_v<TaskT, TagWithId>) {
+    if constexpr (std::is_base_of_v<TagWithId, TaskT>) {
       tag_id = task->tag_id_;
     }
-    if constexpr (std::is_base_of_v<TaskT, TagWithName>) {
+    if constexpr (std::is_base_of_v<TagWithName, TaskT>) {
       tag_name = task->tag_name_.str();
     }
     TagInfo *tag_info = GetTagInfo(tag_name, tag_id);
