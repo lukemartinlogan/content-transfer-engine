@@ -1350,7 +1350,7 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   /** (De)serialize message call */
   template <typename Ar>
   void SerializeStart(Ar &ar) {
-    ar(tag_id_, blob_name_, blob_id_, blob_off_, data_size_, score_, flags_);
+    ar(tag_id_, blob_name_, blob_id_, blob_off_, score_, flags_);
     ar.bulk(DT_WRITE, data_, data_size_);
   }
 
@@ -1434,7 +1434,7 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   /** (De)serialize message call */
   template <typename Ar>
   void SerializeStart(Ar &ar) {
-    ar(tag_id_, blob_name_, blob_id_, blob_off_, data_size_, flags_);
+    ar(tag_id_, blob_name_, blob_id_, blob_off_, flags_);
     ar.bulk(DT_EXPOSE, data_, data_size_);
   }
 
