@@ -190,16 +190,16 @@ class Bucket {
     bitfield32_t hermes_flags;
     // Put to shared memory
     chi::string blob_name_buf(blob_name);
-    if (blob.IsOwned()) {
-      blob.Disown();
-      task_flags.SetBits(TASK_DATA_OWNER);
-    }
     if constexpr (!ASYNC) {
       if (blob_id.IsNull()) {
         hermes_flags.SetBits(HERMES_GET_BLOB_ID);
         task_flags.UnsetBits(TASK_FIRE_AND_FORGET);
       }
     } else {
+      if (blob.IsOwned()) {
+        blob.Disown();
+        task_flags.SetBits(TASK_DATA_OWNER);
+      }
       task_flags.SetBits(TASK_FIRE_AND_FORGET);
     }
     if constexpr (!PARTIAL) {
