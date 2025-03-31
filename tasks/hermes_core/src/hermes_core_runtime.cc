@@ -276,14 +276,20 @@ class Server : public Module {
   void TagCacheWriteRoute(TaskT *task) {
     HILOG(kInfo, "");
     std::string tag_name;
+    HILOG(kInfo, "");
     TagId tag_id(TagId::GetNull());
+    HILOG(kInfo, "");
     if constexpr (std::is_base_of_v<TagWithId, TaskT>) {
       tag_id = task->tag_id_;
+      HILOG(kInfo, "");
     }
     if constexpr (std::is_base_of_v<TagWithName, TaskT>) {
       tag_name = task->tag_name_.str();
+      HILOG(kInfo, "");
     }
+    HILOG(kInfo, "");
     TagInfo *tag_info = GetTagInfo(tag_name, tag_id);
+    HILOG(kInfo, "");
     if (tag_info || task->IsDirect()) {
       HILOG(kInfo, "Tag existed");
       return;
