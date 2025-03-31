@@ -62,7 +62,7 @@ class BlobWithId {};
 class BlobWithName {};
 
 /** Blob with ID and name */
-class BlobWithIdAndName {};
+class BlobWithIdAndName : public BlobWithId, public BlobWithName {};
 
 /** Tag with ID */
 class TagWithId {};
