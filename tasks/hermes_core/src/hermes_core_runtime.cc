@@ -1113,9 +1113,6 @@ class Server : public Module {
     // Get blob struct
     chi::ScopedCoRwReadLock blob_info_lock(blob_info.lock_);
 
-    // TODO(llogan): Remove this
-    return;
-
     // Read blob from buffers
     std::vector<FullPtr<chi::bdev::ReadTask>> read_tasks;
     read_tasks.reserve(blob_info.buffers_.size());
@@ -1144,8 +1141,8 @@ class Server : public Module {
         if (buf_right > blob_right) {
           buf_size = blob_right - (buf_left + rel_off);
         }
-        // HILOG(kInfo, "Loading {} bytes at off {} from target {}", buf_size,
-        //       tgt_off, buf.tid_);
+        HILOG(kInfo, "(node {}) Loading {} bytes at off {} from target {}",
+              CHI_CLIENT->node_id_, buf_size, tgt_off, buf.tid_);
         TargetInfo &target = *target_map_[buf.tid_];
         FullPtr<chi::bdev::ReadTask> read_task =
             target.client_.AsyncRead(HSHM_MCTX, target.dom_query_,
