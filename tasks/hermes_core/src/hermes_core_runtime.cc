@@ -916,13 +916,13 @@ class Server : public Module {
     chi::ScopedCoRwWriteLock blob_info_lock(blob_info.lock_);
 
     // Stage Blob
-    if (task->flags_.Any(HERMES_SHOULD_STAGE) &&
-        blob_info.last_flush_ == (size_t)0) {
-      // TODO(llogan): Don't hardcore score = 1
-      blob_info.last_flush_ = 1;
-      client_.StageIn(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
-                      task->tag_id_, blob_info.name_, 1);  // OK
-    }
+    // if (task->flags_.Any(HERMES_SHOULD_STAGE) &&
+    //     blob_info.last_flush_ == (size_t)0) {
+    //   // TODO(llogan): Don't hardcore score = 1
+    //   blob_info.last_flush_ = 1;
+    //   client_.StageIn(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
+    //                   task->tag_id_, blob_info.name_, 1);  // OK
+    // }
 
     // Determine amount of additional buffering space needed
     ssize_t bkt_size_diff = 0;
@@ -1102,13 +1102,13 @@ class Server : public Module {
     BlobInfo &blob_info = blob_map[task->blob_id_];
 
     // Stage Blob
-    if (task->flags_.Any(HERMES_SHOULD_STAGE) &&
-        blob_info.last_flush_ == (size_t)0) {
-      // TODO(llogan): Don't hardcore score = 1
-      blob_info.last_flush_ = 1;
-      client_.StageIn(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
-                      task->tag_id_, blob_info.name_, 1);  // OK
-    }
+    // if (task->flags_.Any(HERMES_SHOULD_STAGE) &&
+    //     blob_info.last_flush_ == (size_t)0) {
+    //   // TODO(llogan): Don't hardcore score = 1
+    //   blob_info.last_flush_ = 1;
+    //   client_.StageIn(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
+    //                   task->tag_id_, blob_info.name_, 1);  // OK
+    // }
 
     // Get blob struct
     chi::ScopedCoRwReadLock blob_info_lock(blob_info.lock_);

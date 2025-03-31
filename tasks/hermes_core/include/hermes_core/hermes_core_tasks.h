@@ -1379,7 +1379,7 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   IN chi::string blob_name_;
   INOUT BlobId blob_id_;
   IN size_t blob_off_;
-  IN hipc::Pointer data_;
+  IN hipc::Pointer data_ = hipc::Pointer::GetNull();
   INOUT size_t data_size_;
   IN bitfield32_t flags_;
 
