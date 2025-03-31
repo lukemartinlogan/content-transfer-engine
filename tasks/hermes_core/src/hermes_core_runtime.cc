@@ -1077,9 +1077,6 @@ class Server : public Module {
   CHI_BEGIN(GetBlob)
   /** Get a blob */
   void GetBlob(GetBlobTask *task, RunContext &rctx) {
-    // TODO(llogan): Remove this
-    return;
-
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     // Get blob struct
@@ -1097,6 +1094,11 @@ class Server : public Module {
 
     // Get blob map struct
     BLOB_MAP_T &blob_map = tls.blob_map_;
+    if (blob_map.find(task->blob_id_) == blob_map.end()) {
+      HELOG(kWarning, "(node {}) Attempting to get non-existent blob {}",
+            CHI_CLIENT->node_id_, task->blob_id_);
+      return;
+    }
     BlobInfo &blob_info = blob_map[task->blob_id_];
 
     // Stage Blob
@@ -1110,6 +1112,9 @@ class Server : public Module {
 
     // Get blob struct
     chi::ScopedCoRwReadLock blob_info_lock(blob_info.lock_);
+
+    // TODO(llogan): Remove this
+    return;
 
     // Read blob from buffers
     std::vector<FullPtr<chi::bdev::ReadTask>> read_tasks;
