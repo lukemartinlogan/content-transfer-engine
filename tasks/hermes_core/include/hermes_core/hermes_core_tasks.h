@@ -1325,12 +1325,16 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
     data_ = data;
     score_ = score;
     flags_ = bitfield32_t(hermes_flags | ctx.flags_.bits_);
+
+    HILOG(kInfo, "(node {}) Creating PUT {} of size {}", CHI_CLIENT->node_id_,
+          task_node_, data_size_);
   }
 
   /** Destructor */
   ~PutBlobTask() {
+    HILOG(kInfo, "(node {}) Destroying PUT {} of size {}", CHI_CLIENT->node_id_,
+          task_node_, data_size_);
     if (IsDataOwner()) {
-      HILOG(kInfo, "Freeing PUT {} of size {}", task_node_, data_size_);
       CHI_CLIENT->FreeBuffer(HSHM_MCTX, data_);
     }
   }
