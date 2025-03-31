@@ -213,6 +213,7 @@ class Server : public Module {
 
   template <typename TaskT>
   void BlobCacheWriteRoute(TaskT *task) {
+    HILOG(kInfo, "");
     std::string blob_name;
     BlobId blob_id(BlobId::GetNull());
     TagId tag_id(task->tag_id_);
@@ -243,6 +244,7 @@ class Server : public Module {
 
   template <typename TaskT>
   void BlobCacheReadRoute(TaskT *task) {
+    HILOG(kInfo, "");
     std::string blob_name;
     BlobId blob_id(BlobId::GetNull());
     TagId tag_id(task->tag_id_);
@@ -272,6 +274,7 @@ class Server : public Module {
 
   template <typename TaskT>
   void TagCacheWriteRoute(TaskT *task) {
+    HILOG(kInfo, "");
     std::string tag_name;
     TagId tag_id(TagId::GetNull());
     if constexpr (std::is_base_of_v<TagWithId, TaskT>) {
@@ -304,6 +307,7 @@ class Server : public Module {
 
   template <typename TaskT>
   void TagCacheReadRoute(TaskT *task) {
+    HILOG(kInfo, "");
     std::string tag_name;
     TagId tag_id(TagId::GetNull());
     if constexpr (std::is_base_of_v<TagWithId, TaskT>) {
