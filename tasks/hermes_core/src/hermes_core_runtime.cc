@@ -953,7 +953,7 @@ class Server : public Module {
     size_t blob_off = task->blob_off_, buf_off = 0;
     size_t buf_left = 0, buf_right = 0;
     size_t blob_right = task->blob_off_ + task->data_size_;
-    HILOG(kDebug, "Number of buffers {}", blob_info.buffers_.size());
+    HILOG(kInfo, "Number of buffers {}", blob_info.buffers_.size());
     bool found_left = false;
     for (BufferInfo &buf : blob_info.buffers_) {
       buf_right = buf_left + buf.size_;
@@ -970,7 +970,7 @@ class Server : public Module {
         if (buf_right > blob_right) {
           buf_size = blob_right - (buf_left + rel_off);
         }
-        HILOG(kDebug, "Writing {} bytes at off {} from target {}", buf_size,
+        HILOG(kInfo, "Writing {} bytes at off {} from target {}", buf_size,
               tgt_off, buf.tid_);
         TargetInfo &target = *target_map_[buf.tid_];
         FullPtr<chi::bdev::WriteTask> write_task = target.client_.AsyncWrite(
@@ -1019,27 +1019,15 @@ class Server : public Module {
                                   chi::SubDomainId::kGlobalContainers, 0),
                               task->tag_id_, task->blob_id_);
     }
-    //    if (task->flags_.Any(HERMES_HAS_DERIVED)) {
-    //      client_.AsyncRegisterData(task->task_node_ + 1,
-    //                                task->tag_id_,
-    //                                task->blob_name_->str(),
-    //                                task->blob_id_,
-    //                                task->blob_off_,
-    //                                task->data_size_);
-    //    }
 
     // Free data
-    HILOG(kDebug, "Completing PUT for {}", blob_name.str());
+    HILOG(kInfo, "Completing PUT for {}", blob_name.str());
     blob_info.UpdateWriteStats();
     IoStat *stat;
     hshm::qtok_t qtok = io_pattern_.push(IoStat{
         IoType::kWrite, task->blob_id_, task->tag_id_, task->data_size_, 0});
     io_pattern_.peek(stat, qtok);
     stat->id_ = qtok.id_;
-
-    // HILOG(kInfo, "Finish Put blob {} with ID {} data_size={}",
-    // blob_name.str(),
-    //       task->blob_id_, task->data_size_);
   }
   void MonitorPutBlob(MonitorModeId mode, PutBlobTask *task, RunContext &rctx) {
     switch (mode) {
@@ -1054,9 +1042,6 @@ class Server : public Module {
   CHI_BEGIN(GetBlob)
   /** Get a blob */
   void GetBlob(GetBlobTask *task, RunContext &rctx) {
-    HILOG(kInfo, "Getting blob {} of size {} starting at offset {}",
-          task->blob_id_, task->data_size_, task->blob_off_);
-
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     // Get blob struct
@@ -1093,7 +1078,7 @@ class Server : public Module {
     // Read blob from buffers
     std::vector<FullPtr<chi::bdev::ReadTask>> read_tasks;
     read_tasks.reserve(blob_info.buffers_.size());
-    HILOG(kDebug,
+    HILOG(kInfo,
           "Getting blob {} of size {} starting at offset {} "
           "(total_blob_size={}, buffers={})",
           task->blob_id_, task->data_size_, task->blob_off_,
@@ -1118,7 +1103,7 @@ class Server : public Module {
         if (buf_right > blob_right) {
           buf_size = blob_right - (buf_left + rel_off);
         }
-        HILOG(kDebug, "Loading {} bytes at off {} from target {}", buf_size,
+        HILOG(kInfo, "Loading {} bytes at off {} from target {}", buf_size,
               tgt_off, buf.tid_);
         TargetInfo &target = *target_map_[buf.tid_];
         FullPtr<chi::bdev::ReadTask> read_task = target.client_.AsyncRead(
