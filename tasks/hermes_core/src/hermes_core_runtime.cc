@@ -256,12 +256,18 @@ class Server : public Module {
     if (blob_info || task->IsDirect()) {
       return;
     }
+    u32 name_hash = HashBlobName(tag_id, blob_name);
+    u32 id_hash = hshm::hash<BlobId>{}(blob_id);
+    u32 hash = HashBlobNameOrId(tag_id, blob_name, blob_id);
     task->dom_query_ = chi::DomainQuery::GetDirectHash(
-        chi::SubDomainId::kGlobalContainers,
-        HashBlobNameOrId(tag_id, blob_name, blob_id));
+        chi::SubDomainId::kGlobalContainers, hash);
+    HILOG(kInfo,
+          "(node {}) Routing to: hash={} (mod8={} blob_id={} name={} len={}, "
+          "name_hash={} id_hash={})",
+          CHI_CLIENT->node_id_, hash, task->dom_query_.sel_.hash_ % 8, blob_id,
+          blob_name, blob_name.size(), name_hash, id_hash);
     task->SetDirect();
     task->UnsetRouted();
-    // HILOG(kInfo, "Routing to: {}", task->dom_query_);
   }
 
   template <typename TaskT>
@@ -282,7 +288,18 @@ class Server : public Module {
         chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
     task->SetDirect();
     task->UnsetRouted();
-    // HILOG(kInfo, "Routing to: {}", task->dom_query_);
+    u32 name_hash = HashBlobName(tag_id, tag_name);
+    u32 id_hash = hshm::hash<BlobId>{}(tag_id);
+    u32 hash = HashBlobNameOrId(tag_id, tag_name, tag_id);
+    task->dom_query_ = chi::DomainQuery::GetDirectHash(
+        chi::SubDomainId::kGlobalContainers, hash);
+    HILOG(kInfo,
+          "(node {}) Routing to: hash={} (mod8={} tag_id={} name={} len={}, "
+          "name_hash={} id_hash={})",
+          CHI_CLIENT->node_id_, hash, task->dom_query_.sel_.hash_ % 8, tag_id,
+          tag_name, tag_name.size(), name_hash, id_hash);
+    task->SetDirect();
+    task->UnsetRouted();
   }
 
   template <typename TaskT>
@@ -299,8 +316,16 @@ class Server : public Module {
     if (tag_info || task->IsDirect()) {
       return;
     }
+    u32 name_hash = HashBlobName(tag_id, tag_name);
+    u32 id_hash = hshm::hash<BlobId>{}(tag_id);
+    u32 hash = HashBlobNameOrId(tag_id, tag_name, tag_id);
     task->dom_query_ = chi::DomainQuery::GetDirectHash(
-        chi::SubDomainId::kGlobalContainers, HashTagNameOrId(tag_id, tag_name));
+        chi::SubDomainId::kGlobalContainers, hash);
+    HILOG(kInfo,
+          "(node {}) Routing to: hash={} (mod8={} tag_id={} name={} len={}, "
+          "name_hash={} id_hash={})",
+          CHI_CLIENT->node_id_, hash, task->dom_query_.sel_.hash_ % 8, tag_id,
+          tag_name, tag_name.size(), name_hash, id_hash);
     task->SetDirect();
     task->UnsetRouted();
     // HILOG(kInfo, "Routing to: {}", task->dom_query_);
