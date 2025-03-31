@@ -188,6 +188,8 @@ class Bucket {
     BlobId blob_id = orig_blob_id;
     bitfield32_t task_flags;
     bitfield32_t hermes_flags;
+    size_t blob_size = blob.size();
+    hipc::Pointer blob_data = blob.shm();
     // Put to shared memory
     chi::string blob_name_buf(blob_name);
     if constexpr (!ASYNC) {
@@ -196,19 +198,16 @@ class Bucket {
         task_flags.UnsetBits(TASK_FIRE_AND_FORGET);
       }
     } else {
-      if (blob.IsOwned()) {
-        blob.Disown();
-        task_flags.SetBits(TASK_DATA_OWNER);
-      }
-      task_flags.SetBits(TASK_FIRE_AND_FORGET);
+      blob.Disown();
+      task_flags.SetBits(TASK_DATA_OWNER | TASK_FIRE_AND_FORGET);
     }
     if constexpr (!PARTIAL) {
       hermes_flags.SetBits(HERMES_BLOB_REPLACE);
     }
     FullPtr<PutBlobTask> task;
     task = mdm_->AsyncPutBlob(mctx_, chi::DomainQuery::GetDynamic(), id_,
-                              blob_name_buf, blob_id, blob_off, blob.size(),
-                              blob.shm(), ctx.blob_score_, task_flags.bits_,
+                              blob_name_buf, blob_id, blob_off, blob_size,
+                              blob_data, ctx.blob_score_, task_flags.bits_,
                               hermes_flags.bits_, ctx);
     if constexpr (!ASYNC) {
       if (hermes_flags.Any(HERMES_GET_BLOB_ID)) {
