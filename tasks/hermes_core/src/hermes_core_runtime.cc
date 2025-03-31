@@ -954,7 +954,7 @@ class Server : public Module {
     size_t blob_off = task->blob_off_, buf_off = 0;
     size_t buf_left = 0, buf_right = 0;
     size_t blob_right = task->blob_off_ + task->data_size_;
-    HILOG(kInfo, "Number of buffers {}", blob_info.buffers_.size());
+    // HILOG(kInfo, "Number of buffers {}", blob_info.buffers_.size());
     bool found_left = false;
     for (BufferInfo &buf : blob_info.buffers_) {
       buf_right = buf_left + buf.size_;
