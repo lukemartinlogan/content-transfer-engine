@@ -1330,8 +1330,7 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   /** Destructor */
   ~PutBlobTask() {
     if (IsDataOwner()) {
-      // HILOG(kInfo, "Actually freeing PUT {} of size {}", task_node_,
-      // data_size_);
+      HILOG(kInfo, "Freeing PUT {} of size {}", task_node_, data_size_);
       CHI_CLIENT->FreeBuffer(HSHM_MCTX, data_);
     }
   }
