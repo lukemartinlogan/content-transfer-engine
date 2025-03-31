@@ -861,8 +861,9 @@ class Server : public Module {
       return;
     }
 
-    // HILOG(kInfo, "Put blob {} with ID {} data_size={}", blob_name.str(),
-    //       task->blob_id_, task->data_size_);
+    HILOG(kInfo, "(node {}) Put blob {} with ID {} data_size={}",
+          CHI_CLIENT->node_id_, blob_name.str(), task->blob_id_,
+          task->data_size_);
 
     // Get blob struct
     BLOB_MAP_T &blob_map = tls.blob_map_;
@@ -1021,7 +1022,7 @@ class Server : public Module {
     }
 
     // Free data
-    HILOG(kInfo, "Completing PUT for {}", blob_name.str());
+    // HILOG(kInfo, "Completing PUT for {}", task->blob_id_);
     blob_info.UpdateWriteStats();
     IoStat *stat;
     hshm::qtok_t qtok = io_pattern_.push(IoStat{
@@ -1079,10 +1080,10 @@ class Server : public Module {
     std::vector<FullPtr<chi::bdev::ReadTask>> read_tasks;
     read_tasks.reserve(blob_info.buffers_.size());
     HILOG(kInfo,
-          "Getting blob {} of size {} starting at offset {} "
+          "(node={}) Getting blob {} of size {} starting at offset {} "
           "(total_blob_size={}, buffers={})",
-          task->blob_id_, task->data_size_, task->blob_off_,
-          blob_info.blob_size_, blob_info.buffers_.size());
+          CHI_CLIENT->node_id_, task->blob_id_, task->data_size_,
+          task->blob_off_, blob_info.blob_size_, blob_info.buffers_.size());
     size_t blob_off = task->blob_off_;
     size_t buf_left = 0, buf_right = 0;
     size_t buf_off = 0;
@@ -1103,8 +1104,8 @@ class Server : public Module {
         if (buf_right > blob_right) {
           buf_size = blob_right - (buf_left + rel_off);
         }
-        HILOG(kInfo, "Loading {} bytes at off {} from target {}", buf_size,
-              tgt_off, buf.tid_);
+        // HILOG(kInfo, "Loading {} bytes at off {} from target {}", buf_size,
+        //       tgt_off, buf.tid_);
         TargetInfo &target = *target_map_[buf.tid_];
         FullPtr<chi::bdev::ReadTask> read_task = target.client_.AsyncRead(
             HSHM_MCTX,
@@ -1128,8 +1129,8 @@ class Server : public Module {
         IoType::kRead, task->blob_id_, task->tag_id_, task->data_size_, 0});
     io_pattern_.peek(stat, qtok);
     stat->id_ = qtok.id_;
-    HILOG(kInfo, "Finished getting blob {} of size {} starting at offset {}",
-          task->blob_id_, task->data_size_, task->blob_off_);
+    // HILOG(kInfo, "Finished getting blob {} of size {} starting at offset {}",
+    //       task->blob_id_, task->data_size_, task->blob_off_);
   }
   void MonitorGetBlob(MonitorModeId mode, GetBlobTask *task, RunContext &rctx) {
     switch (mode) {

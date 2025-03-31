@@ -48,10 +48,11 @@ template <typename StringT>
 static inline u32 HashBlobNameOrId(const TagId &tag_id,
                                    const StringT &blob_name,
                                    const BlobId &blob_id) {
-  if (blob_name.size() > 0) {
+  if (!blob_id.IsNull()) {
+    return blob_id.hash_;
+  } else {
     return HashBlobName(tag_id, blob_name);
   }
-  return blob_id.hash_;
 }
 
 /** Blob with ID */
