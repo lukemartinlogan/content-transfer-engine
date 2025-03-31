@@ -1395,7 +1395,7 @@ class Server : public Module {
       //      blob_info.access_freq_ = 0;
 
       // Flush data
-      _FlushBlob(tls, blob_info.blob_id_, rctx);
+      // _FlushBlob(tls, blob_info.blob_id_, rctx);
     }
   }
   void MonitorFlushData(MonitorModeId mode, FlushDataTask *task,
