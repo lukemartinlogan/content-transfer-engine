@@ -856,6 +856,11 @@ class Server : public Module {
                                          blob_name, task->flags_);
     }
 
+    // Verify data is non-zero
+    if (task->data_size_ == 0) {
+      return;
+    }
+
     // HILOG(kInfo, "Put blob {} with ID {} data_size={}", blob_name.str(),
     //       task->blob_id_, task->data_size_);
 
@@ -1060,6 +1065,11 @@ class Server : public Module {
       task->blob_id_ = GetOrCreateBlobId(tls, task->tag_id_,
                                          HashBlobName(task->tag_id_, blob_name),
                                          blob_name, task->flags_);
+    }
+
+    // Verify data is non-zero
+    if (task->data_size_ == 0) {
+      return;
     }
 
     // Get blob map struct
