@@ -1077,6 +1077,9 @@ class Server : public Module {
   CHI_BEGIN(GetBlob)
   /** Get a blob */
   void GetBlob(GetBlobTask *task, RunContext &rctx) {
+    // TODO(llogan): Remove this
+    return;
+
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     // Get blob struct
