@@ -173,7 +173,7 @@ class Server : public Module {
     // Check if blob name is cached on this node
     if (!blob_name.empty()) {
       auto it = blob_id_map.find(blob_name);
-      if (it != blob_id_map.end()) {
+      if (it == blob_id_map.end()) {
         return nullptr;
       }
       blob_id = it->second;
@@ -199,7 +199,7 @@ class Server : public Module {
     if (!tag_name.empty()) {
       HILOG(kInfo, "");
       auto it = tag_id_map.find(tag_name);
-      if (it != tag_id_map.end()) {
+      if (it == tag_id_map.end()) {
         HILOG(kInfo, "");
         return nullptr;
       }
