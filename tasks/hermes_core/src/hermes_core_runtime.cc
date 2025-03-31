@@ -193,21 +193,29 @@ class Server : public Module {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     TAG_ID_MAP_T &tag_id_map = tls.tag_id_map_;
     TAG_MAP_T &tag_map = tls.tag_map_;
+    HILOG(kInfo, "");
     // Check if tag name is cached on this node
     if (!tag_name.empty()) {
+      HILOG(kInfo, "");
       auto it = tag_id_map.find(tag_name);
       if (it != tag_id_map.end()) {
+        HILOG(kInfo, "");
         return nullptr;
       }
       tag_id = it->second;
+      HILOG(kInfo, "");
     }
     // Check if tag ID is cached on this node
+    HILOG(kInfo, "");
     if (!tag_id.IsNull()) {
       auto it = tag_map.find(tag_id);
+      HILOG(kInfo, "");
       if (it != tag_map.end()) {
+        HILOG(kInfo, "");
         return &it->second;
       }
     }
+    HILOG(kInfo, "");
     return nullptr;
   }
 
@@ -288,6 +296,8 @@ class Server : public Module {
       HILOG(kInfo, "");
     }
     HILOG(kInfo, "");
+    HILOG(kInfo, "TAG NAME: {}", tag_name);
+    HILOG(kInfo, "TAG ID: {}", tag_id);
     TagInfo *tag_info = GetTagInfo(tag_name, tag_id);
     HILOG(kInfo, "");
     if (tag_info || task->IsDirect()) {
