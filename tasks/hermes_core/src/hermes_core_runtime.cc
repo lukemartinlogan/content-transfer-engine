@@ -955,6 +955,7 @@ class Server : public Module {
         if (placement.size_ == 0) {
           continue;
         }
+        HILOG(kInfo, "Chosen target: {} vs {}", placement.tid_, target.id_);
         std::vector<chi::Block> blocks = target.client_.Allocate(
             HSHM_MCTX, target.dom_query_, placement.size_);
         // Convert to BufferInfo
