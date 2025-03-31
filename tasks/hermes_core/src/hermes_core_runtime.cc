@@ -1048,6 +1048,9 @@ class Server : public Module {
   CHI_BEGIN(GetBlob)
   /** Get a blob */
   void GetBlob(GetBlobTask *task, RunContext &rctx) {
+    HILOG(kInfo, "Getting blob {} of size {} starting at offset {}",
+          task->blob_id_, task->data_size_, task->blob_off_);
+
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
     // Get blob struct
@@ -1063,8 +1066,6 @@ class Server : public Module {
     BlobInfo &blob_info = blob_map[task->blob_id_];
 
     // Stage Blob
-    HILOG(kInfo, "Getting blob {} of size {} starting at offset {}",
-          task->blob_id_, task->data_size_, task->blob_off_);
     if (task->flags_.Any(HERMES_SHOULD_STAGE) &&
         blob_info.last_flush_ == (size_t)0) {
       // TODO(llogan): Don't hardcore score = 1
