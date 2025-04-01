@@ -155,9 +155,9 @@ class Blob {
 
   /** Destructor */
   ~Blob() {
-    if (!data_.IsNull()) {
-      CHI_CLIENT->FreeBuffer(HSHM_MCTX, data_);
-    }
+    // if (!data_.IsNull()) {
+    //   CHI_CLIENT->FreeBuffer(HSHM_MCTX, data_);
+    // }
   }
 
   /** Resize */
