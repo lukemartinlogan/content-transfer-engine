@@ -884,6 +884,52 @@ class Server : public Module {
   }
   CHI_END(GetBlobBuffers)
 
+  /** A slice of data in a bigger data element */
+  struct Slice {
+    size_t off_ = 0;
+    size_t size_ = 0;
+  };
+
+  /** Used by PutBlob and GetBlob to do partial I/O */
+  class DataIterator {
+   public:
+    Slice part_;          // part of blob to find
+    Slice rem_;           // remaining part of blob
+    Slice intersect_;     // relative part of buffer
+    size_t tgt_off_;      // actual part of target
+    size_t data_off_;     // actual part of blob
+    size_t cur_off_ = 0;  // beginning of current buffer
+    size_t cutoff_;       // max value of cur_off
+
+   public:
+    DataIterator(const Slice &part) : part_(part), rem_(part) {
+      cutoff_ = part_.off_ + part_.size_;
+    }
+
+    void Intersect(BufferInfo &buf) {
+      // Part of the blob is in this buffer
+      if (cur_off_ <= rem_.off_ && rem_.off_ < cur_off_ + buf.size_) {
+        // Where in the buffer do we write?
+        intersect_.off_ = rem_.off_ - cur_off_;
+        intersect_.size_ = buf.size_ - intersect_.off_;
+        if (intersect_.size_ > rem_.size_) {
+          intersect_.size_ = rem_.size_;
+        }
+        // Real offsets
+        tgt_off_ = buf.off_ + intersect_.off_;
+        data_off_ = rem_.off_ - part_.off_;
+        // How much of the blob is left?
+        rem_.off_ += intersect_.size_;
+        rem_.size_ -= intersect_.size_;
+      }
+      cur_off_ += buf.size_;
+    }
+
+    bool DidIntersect() { return intersect_.size_ > 0; }
+
+    bool IsDone() { return cur_off_ >= cutoff_ || rem_.size_ == 0; }
+  };
+
   CHI_BEGIN(PutBlob)
   /** Put a blob */
   void PutBlob(PutBlobTask *task, RunContext &rctx) {
@@ -933,7 +979,7 @@ class Server : public Module {
     }
     size_t min_blob_size = task->blob_off_ + task->data_size_;
     if (min_blob_size > blob_info.blob_size_) {
-      blob_info.blob_size_ = task->blob_off_ + task->data_size_;
+      blob_info.blob_size_ = min_blob_size;
     }
     bkt_size_diff += (ssize_t)size_diff;
     HILOG(kDebug, "The size diff is {} bytes (bkt diff {})", size_diff,
@@ -987,39 +1033,22 @@ class Server : public Module {
     // Place blob in buffers
     std::vector<FullPtr<chi::bdev::WriteTask>> write_tasks;
     write_tasks.reserve(blob_info.buffers_.size());
-    size_t blob_off = task->blob_off_, buf_off = 0;
-    size_t buf_left = 0, buf_right = 0;
-    size_t blob_right = task->blob_off_ + task->data_size_;
-    // HILOG(kInfo, "Number of buffers {}", blob_info.buffers_.size());
-    bool found_left = false;
+    DataIterator diter(Slice{task->blob_off_, task->data_size_});
+    size_t buf_sum = 0;
     for (BufferInfo &buf : blob_info.buffers_) {
-      buf_right = buf_left + buf.size_;
-      if (blob_off >= blob_right) {
-        break;
-      }
-      if (buf_left <= blob_off && blob_off < buf_right) {
-        found_left = true;
-      }
-      if (found_left) {
-        size_t rel_off = blob_off - buf_left;
-        size_t tgt_off = buf.off_ + rel_off;
-        size_t buf_size = buf.size_ - rel_off;
-        if (buf_right > blob_right) {
-          buf_size = blob_right - (buf_left + rel_off);
-        }
+      diter.Intersect(buf);
+      if (diter.DidIntersect()) {
         // HILOG(kInfo, "Writing {} bytes at off {} from target {}", buf_size,
         //       tgt_off, buf.tid_);
         TargetInfo &target = *target_map_[buf.tid_];
-        FullPtr<chi::bdev::WriteTask> write_task =
-            target.client_.AsyncWrite(HSHM_MCTX, target.dom_query_,
-                                      task->data_ + buf_off, tgt_off, buf_size);
+        FullPtr<chi::bdev::WriteTask> write_task = target.client_.AsyncWrite(
+            HSHM_MCTX, target.dom_query_, task->data_ + diter.data_off_,
+            diter.tgt_off_, diter.intersect_.size_);
         write_tasks.emplace_back(write_task);
-        buf_off += buf_size;
-        blob_off = buf_right;
       }
-      buf_left += buf.size_;
+      buf_sum += buf.size_;
     }
-    blob_info.max_blob_size_ = blob_off;
+    blob_info.max_blob_size_ = buf_sum;
 
     // Wait for the placements to complete
     task->Wait(write_tasks);
@@ -1121,46 +1150,27 @@ class Server : public Module {
           "(total_blob_size={}, buffers={})",
           CHI_CLIENT->node_id_, task->blob_id_, task->data_size_,
           task->blob_off_, blob_info.blob_size_, blob_info.buffers_.size());
-    size_t blob_off = task->blob_off_;
-    size_t buf_left = 0, buf_right = 0;
-    size_t buf_off = 0;
-    size_t blob_right = task->blob_off_ + task->data_size_;
-    bool found_left = false;
+
+    DataIterator diter(Slice{task->blob_off_, task->data_size_});
     for (BufferInfo &buf : blob_info.buffers_) {
-      buf_right = buf_left + buf.size_;
-      if (blob_off >= blob_right) {
-        break;
-      }
-      if (buf_left <= blob_off && blob_off < buf_right) {
-        found_left = true;
-      }
-      if (found_left) {
-        size_t rel_off = blob_off - buf_left;
-        size_t tgt_off = buf.off_ + rel_off;
-        size_t buf_size = buf.size_ - rel_off;
-        if (buf_right > blob_right) {
-          buf_size = blob_right - (buf_left + rel_off);
-        }
+      diter.Intersect(buf);
+      if (diter.DidIntersect()) {
         // HILOG(kInfo,
         //       "(node {}) (alloc={} data={} off={} size={}) (tgt_off={}, "
         //       "tgt_id={})",
         //       CHI_CLIENT->node_id_, task->data_.alloc_id_,
         //       task->data_.off_.load(), buf_off, buf_size, tgt_off, buf.tid_);
         TargetInfo &target = *target_map_[buf.tid_];
-        FullPtr<chi::bdev::ReadTask> read_task =
-            target.client_.AsyncRead(HSHM_MCTX, target.dom_query_,
-                                     task->data_ + buf_off, tgt_off, buf_size);
+        FullPtr<chi::bdev::ReadTask> read_task = target.client_.AsyncRead(
+            HSHM_MCTX, target.dom_query_, task->data_ + diter.data_off_,
+            diter.tgt_off_, diter.intersect_.size_);
         read_tasks.emplace_back(read_task);
-        buf_off += buf_size;
-        blob_off = buf_right;
       }
-      buf_left += buf.size_;
     }
     task->Wait(read_tasks);
     for (FullPtr<chi::bdev::ReadTask> &read_task : read_tasks) {
       CHI_CLIENT->DelTask(HSHM_MCTX, read_task);
     }
-    task->data_size_ = buf_off;
     blob_info.UpdateReadStats();
     IoStat *stat;
     hshm::qtok_t qtok = io_pattern_.push(IoStat{
