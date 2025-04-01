@@ -1071,16 +1071,12 @@ class Server : public Module {
                            task->data_size_);
       }
     } else {
-      client_.AsyncTagUpdateSize(HSHM_MCTX,
-                                 chi::DomainQuery::GetDirectHash(
-                                     chi::SubDomainId::kGlobalContainers, 0),
+      client_.AsyncTagUpdateSize(HSHM_MCTX, chi::DomainQuery::GetDynamic(),
                                  task->tag_id_, bkt_size_diff,
                                  UpdateSizeMode::kAdd);
     }
     if (task->flags_.Any(HERMES_BLOB_DID_CREATE)) {
-      client_.AsyncTagAddBlob(HSHM_MCTX,
-                              chi::DomainQuery::GetDirectHash(
-                                  chi::SubDomainId::kGlobalContainers, 0),
+      client_.AsyncTagAddBlob(HSHM_MCTX, chi::DomainQuery::GetDynamic(),
                               task->tag_id_, task->blob_id_);
     }
 
