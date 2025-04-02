@@ -1337,6 +1337,34 @@ class Server : public Module {
   CHI_END(ReorganizeBlob)
 
   CHI_BEGIN(FlushBlob)
+  /** Check if blob needs to be flushed */
+  bool _BlobNeedsFlush(BlobInfo &blob_info) {
+    FlushInfo flush_info;
+    flush_info.blob_info_ = &blob_info;
+    flush_info.mod_count_ = blob_info.mod_count_;
+    // Is the blob already flushed?
+    if (blob_info.last_flush_ <= 0 ||
+        flush_info.mod_count_ <= blob_info.last_flush_) {
+      return false;
+    }
+    return true;
+  }
+
+  /** Check if any blobs need to be flushed */
+  bool _AnyBlobNeedsFlush() {
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
+    chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
+    BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
+    BLOB_MAP_T &blob_map = tls.blob_map_;
+    for (auto &it : blob_map) {
+      BlobInfo &blob_info = it.second;
+      if (_BlobNeedsFlush(blob_info)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /** FlushBlob */
   void _FlushBlob(HermesLane &tls, BlobId blob_id, RunContext &rctx) {
     BLOB_MAP_T &blob_map = tls.blob_map_;
@@ -1356,10 +1384,6 @@ class Server : public Module {
     }
     HILOG(kDebug, "Flushing blob {} (mod_count={}, last_flush={})",
           blob_info.blob_id_, flush_info.mod_count_, blob_info.last_flush_);
-    // If the worker is being flushed
-    if (rctx.worker_props_.Any(CHI_WORKER_IS_FLUSHING)) {
-      ++rctx.flush_->count_;
-    }
     FullPtr<char> data =
         CHI_CLIENT->AllocateBuffer(HSHM_MCTX, blob_info.blob_size_);
     client_.GetBlob(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
@@ -1377,6 +1401,7 @@ class Server : public Module {
           (int)data.ptr_[0]);
     blob_info.last_flush_ = flush_info.mod_count_;
   }
+
   void FlushBlob(FlushBlobTask *task, RunContext &rctx) {
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
@@ -1418,7 +1443,13 @@ class Server : public Module {
     }
   }
   void MonitorFlushData(MonitorModeId mode, FlushDataTask *task,
-                        RunContext &rctx) {}
+                        RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kFlushWork: {
+        // rctx.flush_->count_ += _AnyBlobNeedsFlush();
+      }
+    }
+  }
   CHI_END(FlushData)
 
   /** Monitor function used by all metadata poll functions */
