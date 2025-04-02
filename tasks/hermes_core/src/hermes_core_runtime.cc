@@ -962,13 +962,13 @@ class Server : public Module {
     chi::ScopedCoRwWriteLock blob_info_lock(blob_info.lock_);
 
     // Stage Blob
-    // if (task->flags_.Any(HERMES_SHOULD_STAGE) &&
-    //     blob_info.last_flush_ == (size_t)0) {
-    //   // TODO(llogan): Don't hardcore score = 1
-    //   blob_info.last_flush_ = 1;
-    //   client_.StageIn(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
-    //                   task->tag_id_, blob_info.name_, 1);  // OK
-    // }
+    if (task->flags_.Any(HERMES_SHOULD_STAGE) &&
+        blob_info.last_flush_ == (size_t)0) {
+      // TODO(llogan): Don't hardcore score = 1
+      blob_info.last_flush_ = 1;
+      client_.StageIn(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
+                      task->tag_id_, blob_info.name_, 1);  // OK
+    }
 
     // Determine amount of additional buffering space needed
     ssize_t bkt_size_diff = 0;
@@ -1057,29 +1057,28 @@ class Server : public Module {
     }
 
     // Update information
-    // if (task->flags_.Any(HERMES_SHOULD_STAGE)) {
-    //   STAGER_MAP_T &stager_map = tls.stager_map_;
-    //   chi::ScopedCoMutex stager_map_lock(tls.stager_map_lock_);
-    //   auto it = stager_map.find(task->tag_id_);
-    //   if (it == stager_map.end()) {
-    //     HELOG(kWarning, "Could not find stager for tag {}. Not updating
-    //     size",
-    //           task->tag_id_);
-    //   } else {
-    //     std::shared_ptr<AbstractStager> &stager = it->second;
-    //     stager->UpdateSize(HSHM_MCTX, client_, task->tag_id_,
-    //                        blob_info.name_.str(), task->blob_off_,
-    //                        task->data_size_);
-    //   }
-    // } else {
-    //   client_.AsyncTagUpdateSize(HSHM_MCTX, chi::DomainQuery::GetDynamic(),
-    //                              task->tag_id_, bkt_size_diff,
-    //                              UpdateSizeMode::kAdd);
-    // }
-    // if (task->flags_.Any(HERMES_BLOB_DID_CREATE)) {
-    //   client_.AsyncTagAddBlob(HSHM_MCTX, chi::DomainQuery::GetDynamic(),
-    //                           task->tag_id_, task->blob_id_);
-    // }
+    if (task->flags_.Any(HERMES_SHOULD_STAGE)) {
+      STAGER_MAP_T &stager_map = tls.stager_map_;
+      chi::ScopedCoMutex stager_map_lock(tls.stager_map_lock_);
+      auto it = stager_map.find(task->tag_id_);
+      if (it == stager_map.end()) {
+        HELOG(kWarning, "Could not find stager for tag {}. Not updating size",
+              task->tag_id_);
+      } else {
+        std::shared_ptr<AbstractStager> &stager = it->second;
+        stager->UpdateSize(HSHM_MCTX, client_, task->tag_id_,
+                           blob_info.name_.str(), task->blob_off_,
+                           task->data_size_);
+      }
+    } else {
+      client_.AsyncTagUpdateSize(HSHM_MCTX, chi::DomainQuery::GetDynamic(),
+                                 task->tag_id_, bkt_size_diff,
+                                 UpdateSizeMode::kAdd);
+    }
+    if (task->flags_.Any(HERMES_BLOB_DID_CREATE)) {
+      client_.AsyncTagAddBlob(HSHM_MCTX, chi::DomainQuery::GetDynamic(),
+                              task->tag_id_, task->blob_id_);
+    }
 
     // Free data
     // HILOG(kInfo, "Completing PUT for {}", task->blob_id_);
@@ -1128,13 +1127,13 @@ class Server : public Module {
     BlobInfo &blob_info = blob_map[task->blob_id_];
 
     // Stage Blob
-    // if (task->flags_.Any(HERMES_SHOULD_STAGE) &&
-    //     blob_info.last_flush_ == (size_t)0) {
-    //   // TODO(llogan): Don't hardcore score = 1
-    //   blob_info.last_flush_ = 1;
-    //   client_.StageIn(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
-    //                   task->tag_id_, blob_info.name_, 1);  // OK
-    // }
+    if (task->flags_.Any(HERMES_SHOULD_STAGE) &&
+        blob_info.last_flush_ == (size_t)0) {
+      // TODO(llogan): Don't hardcore score = 1
+      blob_info.last_flush_ = 1;
+      client_.StageIn(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
+                      task->tag_id_, blob_info.name_, 1);  // OK
+    }
 
     // Get blob struct
     chi::ScopedCoRwReadLock blob_info_lock(blob_info.lock_);
