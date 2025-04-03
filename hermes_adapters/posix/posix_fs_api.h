@@ -93,15 +93,6 @@ class PosixFs : public hermes::adapter::Filesystem {
     return IsFdTracked(fd, stat);
   }
 
-  /** get the file name from \a fd file descriptor */
-  std::string GetFilenameFromFD(int fd) {
-    std::vector<char> proclnk(kMaxPathLen);
-    std::vector<char> filename(kMaxPathLen);
-    snprintf(proclnk.data(), kMaxPathLen - 1, "/proc/self/fd/%d", fd);
-    size_t r = readlink(proclnk.data(), filename.data(), kMaxPathLen);
-    return std::string(filename.data(), r);
-  }
-
  public:
   /** Allocate an fd for the file f */
   void RealOpen(File &f, AdapterStat &stat, const std::string &path) override {

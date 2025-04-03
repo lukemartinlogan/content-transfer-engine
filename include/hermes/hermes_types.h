@@ -384,9 +384,11 @@ struct BlobInfo {
   float user_score_;     /**< The user-defined priority of this blob */
   hipc::atomic<u32> access_freq_; /**< Number of times blob accessed in epoch */
   hshm::Timepoint last_access_;   /**< Last time blob accessed */
-  hipc::atomic<size_t> mod_count_;  /**< The number of times blob modified */
-  hipc::atomic<size_t> last_flush_; /**< The last mod that was flushed */
-  bitfield32_t flags_;              /**< Flags */
+  hipc::atomic<hshm::big_uint>
+      mod_count_; /**< The number of times blob modified */
+  hipc::atomic<hshm::big_uint>
+      last_flush_;     /**< The last mod that was flushed */
+  bitfield32_t flags_; /**< Flags */
 #ifdef CHIMAERA_RUNTIME
   chi::CoRwLock lock_; /**< Lock */
 #endif
