@@ -27,8 +27,9 @@ struct Method : public TaskMethod {
   TASK_METHOD_T kTagBlob = 41;
   TASK_METHOD_T kBlobHasTag = 42;
   TASK_METHOD_T kReorganizeBlob = 43;
-  TASK_METHOD_T kFlushBlob = 44;
-  TASK_METHOD_T kFlushData = 45;
+  TASK_METHOD_T kReorganizeNode = 44;
+  TASK_METHOD_T kFlushBlob = 45;
+  TASK_METHOD_T kFlushData = 46;
   TASK_METHOD_T kPollBlobMetadata = 50;
   TASK_METHOD_T kPollTargetMetadata = 51;
   TASK_METHOD_T kPollTagMetadata = 52;

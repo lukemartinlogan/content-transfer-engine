@@ -35,8 +35,9 @@ kDestroyBlob: 40
 kTagBlob: 41
 kBlobHasTag: 42
 kReorganizeBlob: 43
-kFlushBlob: 44
-kFlushData: 45
+kReorganizeNode: 44
+kFlushBlob: 45
+kFlushData: 46
 
 # Metadata Methods
 kPollBlobMetadata: 50

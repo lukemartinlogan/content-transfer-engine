@@ -267,6 +267,18 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(ReorganizeBlob);
   CHI_END(ReorganizeBlob)
 
+CHI_BEGIN(ReorganizeNode)
+  /** ReorganizeNode task */
+  void ReorganizeNode(const hipc::MemContext &mctx,
+                      const DomainQuery &dom_query) {
+    FullPtr<ReorganizeNodeTask> task =
+      AsyncReorganizeNode(mctx, dom_query);
+    task->Wait();
+    CHI_CLIENT->DelTask(mctx, task);
+  }
+  CHI_TASK_METHODS(ReorganizeNode);
+  CHI_END(ReorganizeNode)
+
   CHI_BEGIN(TagBlob)
   /**
    * Tag a blob
