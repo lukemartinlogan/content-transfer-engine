@@ -108,6 +108,10 @@ void Run(u32 method, Task *task, RunContext &rctx) override {
       ReorganizeBlob(reinterpret_cast<ReorganizeBlobTask *>(task), rctx);
       break;
     }
+    case Method::kReorganizeNode: {
+      ReorganizeNode(reinterpret_cast<ReorganizeNodeTask *>(task), rctx);
+      break;
+    }
     case Method::kFlushBlob: {
       FlushBlob(reinterpret_cast<FlushBlobTask *>(task), rctx);
       break;
@@ -257,6 +261,10 @@ void Monitor(MonitorModeId mode, MethodId method, Task *task, RunContext &rctx) 
       MonitorReorganizeBlob(mode, reinterpret_cast<ReorganizeBlobTask *>(task), rctx);
       break;
     }
+    case Method::kReorganizeNode: {
+      MonitorReorganizeNode(mode, reinterpret_cast<ReorganizeNodeTask *>(task), rctx);
+      break;
+    }
     case Method::kFlushBlob: {
       MonitorFlushBlob(mode, reinterpret_cast<FlushBlobTask *>(task), rctx);
       break;
@@ -404,6 +412,10 @@ void Del(const hipc::MemContext &mctx, u32 method, Task *task) override {
     }
     case Method::kReorganizeBlob: {
       CHI_CLIENT->DelTask<ReorganizeBlobTask>(mctx, reinterpret_cast<ReorganizeBlobTask *>(task));
+      break;
+    }
+    case Method::kReorganizeNode: {
+      CHI_CLIENT->DelTask<ReorganizeNodeTask>(mctx, reinterpret_cast<ReorganizeNodeTask *>(task));
       break;
     }
     case Method::kFlushBlob: {
@@ -607,6 +619,12 @@ void CopyStart(u32 method, const Task *orig_task, Task *dup_task, bool deep) ove
         reinterpret_cast<ReorganizeBlobTask*>(dup_task), deep);
       break;
     }
+    case Method::kReorganizeNode: {
+      chi::CALL_COPY_START(
+        reinterpret_cast<const ReorganizeNodeTask*>(orig_task), 
+        reinterpret_cast<ReorganizeNodeTask*>(dup_task), deep);
+      break;
+    }
     case Method::kFlushBlob: {
       chi::CALL_COPY_START(
         reinterpret_cast<const FlushBlobTask*>(orig_task), 
@@ -776,6 +794,10 @@ void NewCopyStart(u32 method, const Task *orig_task, FullPtr<Task> &dup_task, bo
       chi::CALL_NEW_COPY_START(reinterpret_cast<const ReorganizeBlobTask*>(orig_task), dup_task, deep);
       break;
     }
+    case Method::kReorganizeNode: {
+      chi::CALL_NEW_COPY_START(reinterpret_cast<const ReorganizeNodeTask*>(orig_task), dup_task, deep);
+      break;
+    }
     case Method::kFlushBlob: {
       chi::CALL_NEW_COPY_START(reinterpret_cast<const FlushBlobTask*>(orig_task), dup_task, deep);
       break;
@@ -925,6 +947,10 @@ void SaveStart(
     }
     case Method::kReorganizeBlob: {
       ar << *reinterpret_cast<ReorganizeBlobTask*>(task);
+      break;
+    }
+    case Method::kReorganizeNode: {
+      ar << *reinterpret_cast<ReorganizeNodeTask*>(task);
       break;
     }
     case Method::kFlushBlob: {
@@ -1129,6 +1155,12 @@ TaskPointer LoadStart(    u32 method, BinaryInputArchive<true> &ar) override {
       ar >> *reinterpret_cast<ReorganizeBlobTask*>(task_ptr.ptr_);
       break;
     }
+    case Method::kReorganizeNode: {
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<ReorganizeNodeTask>(
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
+      ar >> *reinterpret_cast<ReorganizeNodeTask*>(task_ptr.ptr_);
+      break;
+    }
     case Method::kFlushBlob: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<FlushBlobTask>(
              HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
@@ -1299,6 +1331,10 @@ void SaveEnd(u32 method, BinaryOutputArchive<false> &ar, Task *task) override {
       ar << *reinterpret_cast<ReorganizeBlobTask*>(task);
       break;
     }
+    case Method::kReorganizeNode: {
+      ar << *reinterpret_cast<ReorganizeNodeTask*>(task);
+      break;
+    }
     case Method::kFlushBlob: {
       ar << *reinterpret_cast<FlushBlobTask*>(task);
       break;
@@ -1446,6 +1482,10 @@ void LoadEnd(u32 method, BinaryInputArchive<false> &ar, Task *task) override {
     }
     case Method::kReorganizeBlob: {
       ar >> *reinterpret_cast<ReorganizeBlobTask*>(task);
+      break;
+    }
+    case Method::kReorganizeNode: {
+      ar >> *reinterpret_cast<ReorganizeNodeTask*>(task);
       break;
     }
     case Method::kFlushBlob: {

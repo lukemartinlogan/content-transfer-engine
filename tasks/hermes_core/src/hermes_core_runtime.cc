@@ -1336,6 +1336,19 @@ class Server : public Module {
   }
   CHI_END(ReorganizeBlob)
 
+CHI_BEGIN(ReorganizeNode)
+  /** The ReorganizeNode method */
+  void ReorganizeNode(ReorganizeNodeTask *task, RunContext &rctx) {
+  }
+  void MonitorReorganizeNode(MonitorModeId mode, ReorganizeNodeTask *task, RunContext &rctx) {
+    switch (mode) {
+      case MonitorMode::kReplicaAgg: {
+        std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
+      }
+    }
+  }
+  CHI_END(ReorganizeNode)
+
   CHI_BEGIN(FlushBlob)
   /** Check if blob needs to be flushed */
   bool _BlobNeedsFlush(BlobInfo &blob_info) {
