@@ -14,7 +14,9 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_INSTALL_PREFIX": "/home/llogan/.scspkg/packages/cte",
-                "HERMES_"
+                "HERMES_ENABLE_CUDA": "OFF",
+                "HERMES_ENABLE_ROCM": "OFF",
+                "HERMES_ENABLE_CMAKE_DOTENV": "ON"
             }
         },
         {
@@ -25,7 +27,22 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_INSTALL_PREFIX": "/home/llogan/.scspkg/packages/cte",
-                "HERMES_ENABLE_CUDA": "ON"
+                "HERMES_ENABLE_CUDA": "ON",
+                "HERMES_ENABLE_ROCM": "OFF",
+                "HERMES_ENABLE_CMAKE_DOTENV": "ON"
+            }
+        },
+        {
+            "name": "rocm-debug",
+            "hidden": false,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_INSTALL_PREFIX": "/home/llogan/.scspkg/packages/cte",
+                "HERMES_ENABLE_CUDA": "OFF",
+                "HERMES_ENABLE_ROCM": "ON",
+                "HERMES_ENABLE_CMAKE_DOTENV": "ON"
             }
         },
         {
@@ -35,7 +52,10 @@
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_INSTALL_PREFIX": "/home/llogan/.scspkg/packages/cte"
+                "CMAKE_INSTALL_PREFIX": "/home/llogan/.scspkg/packages/cte",
+                "HERMES_ENABLE_CUDA": "OFF",
+                "HERMES_ENABLE_ROCM": "OFF",
+                "HERMES_ENABLE_CMAKE_DOTENV": "ON"
             }
         }
     ]
