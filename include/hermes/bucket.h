@@ -23,7 +23,7 @@ class Bucket {
  public:
   hermes::Client *mdm_;
   TagId id_;
-  std::string name_;
+  chi::string name_;
   Context ctx_;
   hipc::MemContext mctx_;
   bitfield32_t flags_;
@@ -34,9 +34,10 @@ class Bucket {
    * ===================================*/
 
   /**
-   * Get or create \a bkt_name bucket.
-   * */
-  explicit Bucket(const std::string &bkt_name, const Context &ctx = Context(),
+  * Get or create \a bkt_name bucket.
+  * */
+  template<typename StringT = std::string>
+  explicit Bucket(const StringT &bkt_name, const Context &ctx = Context(),
                   size_t backend_size = 0, u32 flags = 0) {
     mctx_ = ctx.mctx_;
     ctx_ = ctx;
@@ -77,7 +78,7 @@ class Bucket {
    * Get the name of this bucket. Name is cached instead of
    * making an RPC. Not coherent if Rename is called.
    * */
-  const std::string &GetName() const { return name_; }
+  std::string GetName() const { return name_.str(); }
 
   /**
    * Get the identifier of this bucket
@@ -113,7 +114,8 @@ class Bucket {
   /**
    * Rename this bucket
    * */
-  void Rename(const std::string &new_bkt_name) {
+  template<typename StringT = std::string>
+  void Rename(const StringT &new_bkt_name) {
     // mdm_->RenameTag(id_, chi::string(new_bkt_name));
   }
 
@@ -137,14 +139,15 @@ class Bucket {
    * Blob Operations
    * ===================================*/
 
-  /**
-   * Get the id of a blob from the blob name
-   *
-   * @param blob_name the name of the blob
-   * @param blob_id (output) the returned blob_id
-   * @return
-   * */
-  BlobId GetBlobId(const std::string &blob_name) {
+   /**
+    * Get the id of a blob from the blob name
+    *
+    * @param blob_name the name of the blob
+    * @param blob_id (output) the returned blob_id
+    * @return
+    * */
+  template<typename StringT = std::string>
+  BlobId GetBlobId(const StringT &blob_name) {
     return mdm_->GetBlobId(mctx_, DomainQuery::GetDynamic(), id_,
                            chi::string(blob_name));
   }
@@ -181,8 +184,8 @@ class Bucket {
   /**
    * Put \a blob_name Blob into the bucket
    * */
-  template <bool PARTIAL, bool ASYNC>
-  HSHM_INLINE BlobId ShmBasePut(const std::string &blob_name,
+  template <bool PARTIAL, bool ASYNC, typename StringT = std::string>
+  HSHM_INLINE BlobId ShmBasePut(const StringT &blob_name,
                                 const BlobId &orig_blob_id, Blob &blob,
                                 size_t blob_off, Context &ctx) {
     BlobId blob_id = orig_blob_id;
@@ -222,8 +225,8 @@ class Bucket {
   /**
    * Put \a blob_name Blob into the bucket
    * */
-  template <typename T, bool PARTIAL, bool ASYNC>
-  HSHM_INLINE BlobId SrlBasePut(const std::string &blob_name,
+  template <typename T, bool PARTIAL, bool ASYNC, typename StringT = std::string>
+  HSHM_INLINE BlobId SrlBasePut(const StringT &blob_name,
                                 const BlobId &orig_blob_id, const T &data,
                                 Context &ctx) {
     std::stringstream ss;
@@ -237,8 +240,8 @@ class Bucket {
   /**
    * Put \a blob_name Blob into the bucket
    * */
-  template <typename T = Blob>
-  BlobId Put(const std::string &blob_name, T &blob, Context &ctx) {
+  template <typename T = Blob, typename StringT = std::string>
+  BlobId Put(const StringT &blob_name, T &blob, Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
       return ShmBasePut<false, false>(blob_name, BlobId::GetNull(), blob, 0,
                                       ctx);
@@ -254,17 +257,17 @@ class Bucket {
   template <typename T = Blob>
   BlobId Put(const BlobId &blob_id, T &blob, Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
-      return ShmBasePut<false, false>("", blob_id, blob, 0, ctx);
+      return ShmBasePut<false, false>(chi::string(""), blob_id, blob, 0, ctx);
     } else {
-      return SrlBasePut<T, false, false>("", blob_id, blob, ctx);
+      return SrlBasePut<T, false, false>(chi::string(""), blob_id, blob, ctx);
     }
   }
 
   /**
    * Put \a blob_name Blob into the bucket
    * */
-  template <typename T = Blob>
-  HSHM_INLINE void AsyncPut(const std::string &blob_name, T &blob,
+  template <typename T = Blob, typename StringT = std::string>
+  HSHM_INLINE void AsyncPut(const StringT &blob_name, T &blob,
                             Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
       ShmBasePut<false, true>(blob_name, BlobId::GetNull(), blob, 0, ctx);
@@ -279,16 +282,17 @@ class Bucket {
   template <typename T>
   HSHM_INLINE void AsyncPut(const BlobId &blob_id, T &blob, Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
-      ShmBasePut<false, true>("", blob_id, blob, 0, ctx);
+      ShmBasePut<false, true>(chi::string(""), blob_id, blob, 0, ctx);
     } else {
-      SrlBasePut<T, false, true>("", blob_id, blob, ctx);
+      SrlBasePut<T, false, true>(chi::string(""), blob_id, blob, ctx);
     }
   }
 
   /**
    * PartialPut \a blob_name Blob into the bucket
    * */
-  BlobId PartialPut(const std::string &blob_name, Blob &blob, size_t blob_off,
+  template<typename StringT = std::string>
+  BlobId PartialPut(const StringT &blob_name, Blob &blob, size_t blob_off,
                     Context &ctx) {
     return ShmBasePut<true, false>(blob_name, BlobId::GetNull(), blob, blob_off,
                                    ctx);
@@ -299,13 +303,14 @@ class Bucket {
    * */
   BlobId PartialPut(const BlobId &blob_id, Blob &blob, size_t blob_off,
                     Context &ctx) {
-    return ShmBasePut<true, false>("", blob_id, blob, blob_off, ctx);
+    return ShmBasePut<true, false>(chi::string(""), blob_id, blob, blob_off, ctx);
   }
 
   /**
    * AsyncPartialPut \a blob_name Blob into the bucket
    * */
-  void AsyncPartialPut(const std::string &blob_name, Blob &blob,
+  template<typename StringT = std::string>
+  void AsyncPartialPut(const StringT &blob_name, Blob &blob,
                        size_t blob_off, Context &ctx) {
     ShmBasePut<true, true>(blob_name, BlobId::GetNull(), blob, blob_off, ctx);
   }
@@ -315,7 +320,7 @@ class Bucket {
    * */
   void AsyncPartialPut(const BlobId &blob_id, Blob &blob, size_t blob_off,
                        Context &ctx) {
-    ShmBasePut<true, true>("", blob_id, blob, blob_off, ctx);
+    ShmBasePut<true, true>(chi::string(""), blob_id, blob, blob_off, ctx);
   }
 
   /**
@@ -333,7 +338,8 @@ class Bucket {
   /**
    * Reorganize a blob to a new score or node
    * */
-  void ReorganizeBlob(const std::string &name, float score,
+  template<typename StringT = std::string>
+  void ReorganizeBlob(const StringT &name, float score,
                       const Context &ctx = Context()) {
     mdm_->AsyncReorganizeBlob(mctx_, DomainQuery::GetDynamic(), id_,
                               chi::string(name), BlobId::GetNull(), score, true,
@@ -372,7 +378,8 @@ class Bucket {
   /**
    * Get the current size of the blob in the bucket
    * */
-  size_t GetBlobSize(const std::string &name) {
+  template<typename StringT = std::string>
+  size_t GetBlobSize(const StringT &name) {
     return mdm_->GetBlobSize(mctx_, DomainQuery::GetDynamic(), id_,
                              chi::string(name), BlobId::GetNull());
   }
@@ -380,7 +387,8 @@ class Bucket {
   /**
    * Get the current size of the blob in the bucket
    */
-  size_t GetBlobSize(const std::string &name, const BlobId &blob_id) {
+  template<typename StringT = std::string>
+  size_t GetBlobSize(const StringT &name, const BlobId &blob_id) {
     if (!name.empty()) {
       return GetBlobSize(name);
     } else {
@@ -391,7 +399,8 @@ class Bucket {
   /**
    * Get \a blob_id Blob from the bucket (async)
    * */
-  FullPtr<GetBlobTask> HSHM_INLINE ShmAsyncBaseGet(const std::string &blob_name,
+  template<typename StringT = std::string>
+  FullPtr<GetBlobTask> HSHM_INLINE ShmAsyncBaseGet(const StringT &blob_name,
                                                    const BlobId &blob_id,
                                                    Blob &blob, size_t blob_off,
                                                    Context &ctx) {
@@ -416,7 +425,8 @@ class Bucket {
   /**
    * Get \a blob_id Blob from the bucket (sync)
    * */
-  BlobId ShmBaseGet(const std::string &blob_name, const BlobId &orig_blob_id,
+  template<typename StringT = std::string>
+  BlobId ShmBaseGet(const StringT &blob_name, const BlobId &orig_blob_id,
                     Blob &blob, size_t blob_off, Context &ctx) {
     HILOG(kDebug, "Getting blob of size {}", blob.size());
     BlobId blob_id;
@@ -431,8 +441,8 @@ class Bucket {
   /**
    * Get \a blob_id Blob from the bucket (sync)
    * */
-  template <typename T>
-  BlobId SrlBaseGet(const std::string &blob_name, const BlobId &orig_blob_id,
+  template <typename T, typename StringT = std::string>
+  BlobId SrlBaseGet(const StringT &blob_name, const BlobId &orig_blob_id,
                     T &data, Context &ctx) {
     Blob blob;
     BlobId blob_id = ShmBaseGet(blob_name, orig_blob_id, blob, 0, ctx);
@@ -448,8 +458,8 @@ class Bucket {
   /**
    * Get \a blob_id Blob from the bucket
    * */
-  template <typename T>
-  BlobId Get(const std::string &blob_name, T &blob, Context &ctx) {
+  template <typename T, typename StringT = std::string>
+  BlobId Get(const StringT &blob_name, T &blob, Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
       return ShmBaseGet(blob_name, BlobId::GetNull(), blob, 0, ctx);
     } else {
@@ -463,16 +473,17 @@ class Bucket {
   template <typename T>
   BlobId Get(const BlobId &blob_id, T &blob, Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
-      return ShmBaseGet("", blob_id, blob, 0, ctx);
+      return ShmBaseGet(chi::string(""), blob_id, blob, 0, ctx);
     } else {
-      return SrlBaseGet<T>("", blob_id, blob, ctx);
+      return SrlBaseGet<T>(chi::string(""), blob_id, blob, ctx);
     }
   }
 
   /**
    * AsyncGet \a blob_name Blob from the bucket
    * */
-  FullPtr<GetBlobTask> AsyncGet(const std::string &blob_name, Blob &blob,
+  template<typename StringT = std::string>
+  FullPtr<GetBlobTask> AsyncGet(const StringT &blob_name, Blob &blob,
                                 Context &ctx) {
     return ShmAsyncBaseGet(blob_name, BlobId::GetNull(), blob, 0, ctx);
   }
@@ -482,13 +493,14 @@ class Bucket {
    * */
   FullPtr<GetBlobTask> AsyncGet(const BlobId &blob_id, Blob &blob,
                                 Context &ctx) {
-    return ShmAsyncBaseGet("", blob_id, blob, 0, ctx);
+    return ShmAsyncBaseGet(chi::string(""), blob_id, blob, 0, ctx);
   }
 
   /**
    * Put \a blob_name Blob into the bucket
    * */
-  BlobId PartialGet(const std::string &blob_name, Blob &blob, size_t blob_off,
+  template<typename StringT = std::string>
+  BlobId PartialGet(const StringT &blob_name, Blob &blob, size_t blob_off,
                     Context &ctx) {
     return ShmBaseGet(blob_name, BlobId::GetNull(), blob, blob_off, ctx);
   }
@@ -498,13 +510,14 @@ class Bucket {
    * */
   BlobId PartialGet(const BlobId &blob_id, Blob &blob, size_t blob_off,
                     Context &ctx) {
-    return ShmBaseGet("", blob_id, blob, blob_off, ctx);
+    return ShmBaseGet(chi::string(""), blob_id, blob, blob_off, ctx);
   }
 
   /**
    * AsyncGet \a blob_name Blob from the bucket
    * */
-  FullPtr<GetBlobTask> AsyncPartialGet(const std::string &blob_name, Blob &blob,
+  template<typename StringT = std::string>
+  FullPtr<GetBlobTask> AsyncPartialGet(const StringT &blob_name, Blob &blob,
                                        size_t blob_off, Context &ctx) {
     return ShmAsyncBaseGet(blob_name, BlobId::GetNull(), blob, blob_off, ctx);
   }
@@ -514,13 +527,14 @@ class Bucket {
    * */
   FullPtr<GetBlobTask> AsyncPartialGet(const BlobId &blob_id, Blob &blob,
                                        size_t blob_off, Context &ctx) {
-    return ShmAsyncBaseGet("", blob_id, blob, blob_off, ctx);
+    return ShmAsyncBaseGet(chi::string(""), blob_id, blob, blob_off, ctx);
   }
 
   /**
    * Determine if the bucket contains \a blob_id BLOB
    * */
-  bool ContainsBlob(const std::string &blob_name) {
+  template<typename StringT = std::string>
+  bool ContainsBlob(const StringT &blob_name) {
     BlobId new_blob_id = mdm_->GetBlobId(mctx_, DomainQuery::GetDynamic(), id_,
                                          chi::string(blob_name));
     return !new_blob_id.IsNull();
@@ -529,7 +543,8 @@ class Bucket {
   /**
    * Rename \a blob_id blob to \a new_blob_name new name
    * */
-  void RenameBlob(const BlobId &blob_id, std::string new_blob_name,
+  template<typename StringT = std::string>
+  void RenameBlob(const BlobId &blob_id, const StringT &new_blob_name,
                   Context &ctx) {
     // mdm_->RenameBlob(id_, blob_id, chi::string(new_blob_name));
   }

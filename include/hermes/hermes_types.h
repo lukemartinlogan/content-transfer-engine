@@ -84,10 +84,12 @@ class Blob {
   size_t max_size_ = 0;
 
  public:
-  /** Default constructor */
+   /** Default constructor */
+  HSHM_INLINE_CROSS_FUN
   Blob() = default;
 
   /** Size constructor */
+  HSHM_INLINE_CROSS_FUN
   Blob(size_t size) { resize(size); }
 
   /** Copy string */
@@ -95,23 +97,27 @@ class Blob {
 
   /** Copy vector */
   template <typename T>
+  HSHM_INLINE_CROSS_FUN
   Blob(const chi::vector<T> &data) {
     Copy(data.data(), data.size() * sizeof(T));
   }
 
   /** Copy char *, size */
+  HSHM_INLINE_CROSS_FUN
   Blob(const char *data, size_t size) {
     FullPtr<char> data_full(data);
     Copy(data_full.ptr_, size);
   }
 
   /** Copy shm pointer, size */
+  HSHM_INLINE_CROSS_FUN
   Blob(const hipc::Pointer &data, size_t size) {
     FullPtr<char> data_full(data);
     Copy(data_full.ptr_, size);
   }
 
   /** Copy assignment */
+  HSHM_INLINE_CROSS_FUN
   Blob &operator=(const Blob &other) {
     if (this != &other) {
       Copy(other.data(), other.size());
@@ -120,18 +126,21 @@ class Blob {
   }
 
   /** Copy constructor */
+  HSHM_INLINE_CROSS_FUN
   Blob(const Blob &other) { Copy(other.data(), other.size()); }
 
   /** Copy */
+  HSHM_CROSS_FUN
   void Copy(const char *other, size_t other_size) {
     if (!data_.IsNull()) {
-      throw std::runtime_error("Copy to preallocated blob not supported");
+      HSHM_THROW_STD_ERROR("Copy to preallocated blob not supported");
     }
     resize(other_size);
     memcpy(data_.ptr_, other, other_size);
   }
 
   /** Move constructor */
+  HSHM_CROSS_FUN
   Blob(Blob &&other) {
     data_ = other.data_;
     size_ = other.size_;
@@ -140,6 +149,7 @@ class Blob {
   }
 
   /** Move assignment */
+  HSHM_CROSS_FUN
   Blob &operator=(Blob &&other) {
     if (this != &other) {
       data_ = other.data_;
@@ -151,9 +161,11 @@ class Blob {
   }
 
   /** Disown */
+  HSHM_INLINE_CROSS_FUN
   void Disown() { data_ = FullPtr<char>::GetNull(); }
 
   /** Destructor */
+  HSHM_CROSS_FUN
   ~Blob() {
     if (!data_.IsNull()) {
       CHI_CLIENT->FreeBuffer(HSHM_MCTX, data_);
@@ -161,16 +173,17 @@ class Blob {
   }
 
   /** Resize */
+  HSHM_CROSS_FUN
   void resize(size_t new_size) {
     reserve(new_size);
     size_ = new_size;
   }
 
   /** Reserve */
+  HSHM_CROSS_FUN
   void reserve(size_t new_size) {
     if (size_) {
-      throw std::runtime_error(
-          "Blobs are not meant to be resized after creation");
+      HSHM_THROW_STD_ERROR("Blobs are not meant to be resized after creation");
     } else {
       data_ = CHI_CLIENT->AllocateBuffer(HSHM_MCTX, new_size);
     }
@@ -178,21 +191,27 @@ class Blob {
   }
 
   /** Get the data */
+  HSHM_INLINE_CROSS_FUN
   char *data() { return data_.ptr_; }
 
   /** Get the SHM pointer */
+  HSHM_INLINE_CROSS_FUN
   hipc::Pointer &shm() { return data_.shm_; }
 
   /** Get the SHM pointer */
+  HSHM_INLINE_CROSS_FUN
   const hipc::Pointer &shm() const { return data_.shm_; }
 
   /** Get the size */
+  HSHM_INLINE_CROSS_FUN
   size_t size() const { return size_; }
 
   /** Get the data */
+  HSHM_INLINE_CROSS_FUN
   char *data() const { return data_.ptr_; }
 
   /** Equality */
+  HSHM_INLINE_CROSS_FUN
   bool operator==(const Blob &other) const {
     if (size_ != other.size_) {
       return false;
@@ -201,6 +220,7 @@ class Blob {
   }
 
   /** Inequality */
+  HSHM_INLINE_CROSS_FUN
   bool operator!=(const Blob &other) const { return !(*this == other); }
 };
 
