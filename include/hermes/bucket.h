@@ -36,7 +36,8 @@ class Bucket {
   /**
   * Get or create \a bkt_name bucket.
   * */
-  template<typename StringT = std::string>
+  template <typename StringT = std::string>
+  HSHM_CROSS_FUN
   explicit Bucket(const StringT &bkt_name, const Context &ctx = Context(),
                   size_t backend_size = 0, u32 flags = 0) {
     mctx_ = ctx.mctx_;
@@ -51,6 +52,7 @@ class Bucket {
   /**
    * Get an existing bucket.
    * */
+  HSHM_CROSS_FUN
   explicit Bucket(TagId tag_id, const Context &ctx = Context()) {
     mctx_ = ctx.mctx_;
     ctx_ = ctx;
@@ -59,18 +61,23 @@ class Bucket {
   }
 
   /** Default constructor */
+  HSHM_CROSS_FUN
   Bucket() = default;
 
   /** Default copy constructor */
+  HSHM_CROSS_FUN
   Bucket(const Bucket &other) = default;
 
   /** Default copy assign */
+  HSHM_CROSS_FUN
   Bucket &operator=(const Bucket &other) = default;
 
   /** Default move constructor */
+  HSHM_CROSS_FUN
   Bucket(Bucket &&other) = default;
 
   /** Default move assign */
+  HSHM_CROSS_FUN
   Bucket &operator=(Bucket &&other) = default;
 
  public:
@@ -88,6 +95,7 @@ class Bucket {
   /**
    * Get the context object of this bucket
    * */
+  HSHM_CROSS_FUN
   Context &GetContext() { return ctx_; }
 
   /**
@@ -100,6 +108,7 @@ class Bucket {
   /**
    * Get the current size of the bucket
    * */
+  HSHM_CROSS_FUN
   size_t GetSize() {
     return mdm_->GetSize(mctx_, DomainQuery::GetDynamic(), id_);
   }
@@ -107,6 +116,7 @@ class Bucket {
   /**
    * Set the current size of the bucket
    * */
+  HSHM_CROSS_FUN
   void SetSize(size_t new_size) {
     // mdm_->AsyncUpdateSize(id_, new_size, UpdateSizeMode::kCap);
   }
@@ -114,7 +124,8 @@ class Bucket {
   /**
    * Rename this bucket
    * */
-  template<typename StringT = std::string>
+  template <typename StringT = std::string>
+  HSHM_CROSS_FUN
   void Rename(const StringT &new_bkt_name) {
     // mdm_->RenameTag(id_, chi::string(new_bkt_name));
   }
@@ -122,16 +133,19 @@ class Bucket {
   /**
    * Clears the buckets contents, but doesn't destroy its metadata
    * */
+  HSHM_CROSS_FUN
   void Clear() { mdm_->TagClearBlobs(mctx_, DomainQuery::GetDynamic(), id_); }
 
   /**
    * Destroys this bucket along with all its contents.
    * */
+  HSHM_CROSS_FUN
   void Destroy() { mdm_->DestroyTag(mctx_, DomainQuery::GetDynamic(), id_); }
 
   /**
    * Check if this bucket is valid
    * */
+  HSHM_CROSS_FUN
   bool IsNull() { return id_.IsNull(); }
 
  public:
@@ -147,6 +161,7 @@ class Bucket {
     * @return
     * */
   template<typename StringT = std::string>
+  HSHM_CROSS_FUN
   BlobId GetBlobId(const StringT &blob_name) {
     return mdm_->GetBlobId(mctx_, DomainQuery::GetDynamic(), id_,
                            chi::string(blob_name));
@@ -169,6 +184,7 @@ class Bucket {
    * @param blob_id the blob_id
    * @return The Status of the operation
    * */
+  HSHM_CROSS_FUN
   float GetBlobScore(const BlobId &blob_id) {
     return mdm_->GetBlobScore(mctx_, DomainQuery::GetDynamic(), id_, blob_id);
   }
@@ -176,6 +192,7 @@ class Bucket {
   /**
    * Label \a blob_id blob with \a tag_name TAG
    * */
+  HSHM_CROSS_FUN
   Status TagBlob(BlobId &blob_id, TagId &tag_id) {
     mdm_->TagAddBlob(mctx_, DomainQuery::GetDynamic(), tag_id, blob_id);
     return Status();
@@ -185,6 +202,7 @@ class Bucket {
    * Put \a blob_name Blob into the bucket
    * */
   template <bool PARTIAL, bool ASYNC, typename StringT = std::string>
+  HSHM_CROSS_FUN
   HSHM_INLINE BlobId ShmBasePut(const StringT &blob_name,
                                 const BlobId &orig_blob_id, Blob &blob,
                                 size_t blob_off, Context &ctx) {
@@ -226,6 +244,7 @@ class Bucket {
    * Put \a blob_name Blob into the bucket
    * */
   template <typename T, bool PARTIAL, bool ASYNC, typename StringT = std::string>
+  HSHM_CROSS_FUN
   HSHM_INLINE BlobId SrlBasePut(const StringT &blob_name,
                                 const BlobId &orig_blob_id, const T &data,
                                 Context &ctx) {
@@ -241,6 +260,7 @@ class Bucket {
    * Put \a blob_name Blob into the bucket
    * */
   template <typename T = Blob, typename StringT = std::string>
+  HSHM_CROSS_FUN
   BlobId Put(const StringT &blob_name, T &blob, Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
       return ShmBasePut<false, false>(blob_name, BlobId::GetNull(), blob, 0,
@@ -255,6 +275,7 @@ class Bucket {
    * Put \a blob_id Blob into the bucket
    * */
   template <typename T = Blob>
+  HSHM_CROSS_FUN
   BlobId Put(const BlobId &blob_id, T &blob, Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
       return ShmBasePut<false, false>(chi::string(""), blob_id, blob, 0, ctx);
@@ -267,6 +288,7 @@ class Bucket {
    * Put \a blob_name Blob into the bucket
    * */
   template <typename T = Blob, typename StringT = std::string>
+  HSHM_CROSS_FUN
   HSHM_INLINE void AsyncPut(const StringT &blob_name, T &blob,
                             Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
@@ -280,6 +302,7 @@ class Bucket {
    * Put \a blob_id Blob into the bucket
    * */
   template <typename T>
+  HSHM_CROSS_FUN
   HSHM_INLINE void AsyncPut(const BlobId &blob_id, T &blob, Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
       ShmBasePut<false, true>(chi::string(""), blob_id, blob, 0, ctx);
@@ -291,7 +314,8 @@ class Bucket {
   /**
    * PartialPut \a blob_name Blob into the bucket
    * */
-  template<typename StringT = std::string>
+  template <typename StringT = std::string>
+  HSHM_CROSS_FUN
   BlobId PartialPut(const StringT &blob_name, Blob &blob, size_t blob_off,
                     Context &ctx) {
     return ShmBasePut<true, false>(blob_name, BlobId::GetNull(), blob, blob_off,
@@ -301,6 +325,7 @@ class Bucket {
   /**
    * PartialPut \a blob_id Blob into the bucket
    * */
+  HSHM_CROSS_FUN
   BlobId PartialPut(const BlobId &blob_id, Blob &blob, size_t blob_off,
                     Context &ctx) {
     return ShmBasePut<true, false>(chi::string(""), blob_id, blob, blob_off, ctx);
@@ -310,6 +335,7 @@ class Bucket {
    * AsyncPartialPut \a blob_name Blob into the bucket
    * */
   template<typename StringT = std::string>
+  HSHM_CROSS_FUN
   void AsyncPartialPut(const StringT &blob_name, Blob &blob,
                        size_t blob_off, Context &ctx) {
     ShmBasePut<true, true>(blob_name, BlobId::GetNull(), blob, blob_off, ctx);
@@ -318,6 +344,7 @@ class Bucket {
   /**
    * AsyncPartialPut \a blob_id Blob into the bucket
    * */
+  HSHM_CROSS_FUN
   void AsyncPartialPut(const BlobId &blob_id, Blob &blob, size_t blob_off,
                        Context &ctx) {
     ShmBasePut<true, true>(chi::string(""), blob_id, blob, blob_off, ctx);
@@ -326,6 +353,7 @@ class Bucket {
   /**
    * Append \a blob_name Blob into the bucket (fully asynchronous)
    * */
+  HSHM_CROSS_FUN
   void Append(Blob &blob, size_t page_size, Context &ctx) {
     //    FullPtr<char> p = CHI_CLIENT->AllocateBufferClient(blob.size());
     //    char *data = p.ptr_;
@@ -338,7 +366,8 @@ class Bucket {
   /**
    * Reorganize a blob to a new score or node
    * */
-  template<typename StringT = std::string>
+  template <typename StringT = std::string>
+  HSHM_CROSS_FUN
   void ReorganizeBlob(const StringT &name, float score,
                       const Context &ctx = Context()) {
     mdm_->AsyncReorganizeBlob(mctx_, DomainQuery::GetDynamic(), id_,
@@ -349,6 +378,7 @@ class Bucket {
   /**
    * Reorganize a blob to a new score or node
    * */
+  HSHM_CROSS_FUN
   void ReorganizeBlob(const BlobId &blob_id, float score,
                       const Context &ctx = Context()) {
     mdm_->AsyncReorganizeBlob(mctx_, DomainQuery::GetDynamic(), id_,
@@ -360,6 +390,7 @@ class Bucket {
    *
    * @depricated
    * */
+  HSHM_CROSS_FUN
   void ReorganizeBlob(const BlobId &blob_id, float score, u32 node_id,
                       Context &ctx) {
     ctx.node_id_ = node_id;
@@ -370,6 +401,7 @@ class Bucket {
   /**
    * Get the current size of the blob in the bucket
    * */
+  HSHM_CROSS_FUN
   size_t GetBlobSize(const BlobId &blob_id) {
     return mdm_->GetBlobSize(mctx_, DomainQuery::GetDynamic(), id_,
                              chi::string(""), blob_id);
@@ -379,6 +411,7 @@ class Bucket {
    * Get the current size of the blob in the bucket
    * */
   template<typename StringT = std::string>
+  HSHM_CROSS_FUN
   size_t GetBlobSize(const StringT &name) {
     return mdm_->GetBlobSize(mctx_, DomainQuery::GetDynamic(), id_,
                              chi::string(name), BlobId::GetNull());
@@ -387,7 +420,8 @@ class Bucket {
   /**
    * Get the current size of the blob in the bucket
    */
-  template<typename StringT = std::string>
+  template <typename StringT = std::string>
+  HSHM_CROSS_FUN
   size_t GetBlobSize(const StringT &name, const BlobId &blob_id) {
     if (!name.empty()) {
       return GetBlobSize(name);
@@ -399,7 +433,8 @@ class Bucket {
   /**
    * Get \a blob_id Blob from the bucket (async)
    * */
-  template<typename StringT = std::string>
+  template <typename StringT = std::string>
+  HSHM_CROSS_FUN
   FullPtr<GetBlobTask> HSHM_INLINE ShmAsyncBaseGet(const StringT &blob_name,
                                                    const BlobId &blob_id,
                                                    Blob &blob, size_t blob_off,
@@ -425,7 +460,8 @@ class Bucket {
   /**
    * Get \a blob_id Blob from the bucket (sync)
    * */
-  template<typename StringT = std::string>
+  template <typename StringT = std::string>
+  HSHM_CROSS_FUN
   BlobId ShmBaseGet(const StringT &blob_name, const BlobId &orig_blob_id,
                     Blob &blob, size_t blob_off, Context &ctx) {
     HILOG(kDebug, "Getting blob of size {}", blob.size());
@@ -442,6 +478,7 @@ class Bucket {
    * Get \a blob_id Blob from the bucket (sync)
    * */
   template <typename T, typename StringT = std::string>
+  HSHM_CROSS_FUN
   BlobId SrlBaseGet(const StringT &blob_name, const BlobId &orig_blob_id,
                     T &data, Context &ctx) {
     Blob blob;
@@ -459,6 +496,7 @@ class Bucket {
    * Get \a blob_id Blob from the bucket
    * */
   template <typename T, typename StringT = std::string>
+  HSHM_CROSS_FUN
   BlobId Get(const StringT &blob_name, T &blob, Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
       return ShmBaseGet(blob_name, BlobId::GetNull(), blob, 0, ctx);
@@ -471,6 +509,7 @@ class Bucket {
    * Get \a blob_id Blob from the bucket
    * */
   template <typename T>
+  HSHM_CROSS_FUN
   BlobId Get(const BlobId &blob_id, T &blob, Context &ctx) {
     if constexpr (std::is_same_v<T, Blob>) {
       return ShmBaseGet(chi::string(""), blob_id, blob, 0, ctx);
@@ -482,7 +521,8 @@ class Bucket {
   /**
    * AsyncGet \a blob_name Blob from the bucket
    * */
-  template<typename StringT = std::string>
+  template <typename StringT = std::string>
+  HSHM_CROSS_FUN
   FullPtr<GetBlobTask> AsyncGet(const StringT &blob_name, Blob &blob,
                                 Context &ctx) {
     return ShmAsyncBaseGet(blob_name, BlobId::GetNull(), blob, 0, ctx);
@@ -491,6 +531,7 @@ class Bucket {
   /**
    * AsyncGet \a blob_id Blob from the bucket
    * */
+  HSHM_CROSS_FUN
   FullPtr<GetBlobTask> AsyncGet(const BlobId &blob_id, Blob &blob,
                                 Context &ctx) {
     return ShmAsyncBaseGet(chi::string(""), blob_id, blob, 0, ctx);
@@ -499,7 +540,8 @@ class Bucket {
   /**
    * Put \a blob_name Blob into the bucket
    * */
-  template<typename StringT = std::string>
+  template <typename StringT = std::string>
+  HSHM_CROSS_FUN
   BlobId PartialGet(const StringT &blob_name, Blob &blob, size_t blob_off,
                     Context &ctx) {
     return ShmBaseGet(blob_name, BlobId::GetNull(), blob, blob_off, ctx);
@@ -508,6 +550,7 @@ class Bucket {
   /**
    * Put \a blob_name Blob into the bucket
    * */
+   HSHM_CROSS_FUN
   BlobId PartialGet(const BlobId &blob_id, Blob &blob, size_t blob_off,
                     Context &ctx) {
     return ShmBaseGet(chi::string(""), blob_id, blob, blob_off, ctx);
@@ -517,6 +560,7 @@ class Bucket {
    * AsyncGet \a blob_name Blob from the bucket
    * */
   template<typename StringT = std::string>
+  HSHM_CROSS_FUN
   FullPtr<GetBlobTask> AsyncPartialGet(const StringT &blob_name, Blob &blob,
                                        size_t blob_off, Context &ctx) {
     return ShmAsyncBaseGet(blob_name, BlobId::GetNull(), blob, blob_off, ctx);
@@ -525,6 +569,7 @@ class Bucket {
   /**
    * AsyncGet \a blob_id Blob from the bucket
    * */
+  HSHM_CROSS_FUN
   FullPtr<GetBlobTask> AsyncPartialGet(const BlobId &blob_id, Blob &blob,
                                        size_t blob_off, Context &ctx) {
     return ShmAsyncBaseGet(chi::string(""), blob_id, blob, blob_off, ctx);
@@ -534,6 +579,7 @@ class Bucket {
    * Determine if the bucket contains \a blob_id BLOB
    * */
   template<typename StringT = std::string>
+  HSHM_CROSS_FUN
   bool ContainsBlob(const StringT &blob_name) {
     BlobId new_blob_id = mdm_->GetBlobId(mctx_, DomainQuery::GetDynamic(), id_,
                                          chi::string(blob_name));
@@ -543,7 +589,8 @@ class Bucket {
   /**
    * Rename \a blob_id blob to \a new_blob_name new name
    * */
-  template<typename StringT = std::string>
+  template <typename StringT = std::string>
+  HSHM_CROSS_FUN
   void RenameBlob(const BlobId &blob_id, const StringT &new_blob_name,
                   Context &ctx) {
     // mdm_->RenameBlob(id_, blob_id, chi::string(new_blob_name));
@@ -552,6 +599,7 @@ class Bucket {
   /**
    * Delete \a blob_id blob
    * */
+  HSHM_CROSS_FUN
   void DestroyBlob(const BlobId &blob_id, Context &ctx) {
     mdm_->DestroyBlob(mctx_, DomainQuery::GetDynamic(), id_, blob_id);
   }
@@ -564,6 +612,7 @@ class Bucket {
   }
 
   /** Flush the bucket */
+  HSHM_CROSS_FUN
   void Flush() { mdm_->TagFlush(mctx_, DomainQuery::GetDynamic(), id_); }
 };
 

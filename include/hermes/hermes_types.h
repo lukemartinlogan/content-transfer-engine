@@ -284,7 +284,7 @@ struct Context {
   bitfield32_t flags_;
 
   /** Custom bucket parameters */
-  std::string bkt_params_;
+  chi::string bkt_params_;
 
   /** The node id the blob will be accessed from */
   u32 node_id_;
