@@ -289,6 +289,7 @@ struct Context {
   /** The node id the blob will be accessed from */
   u32 node_id_;
 
+  HSHM_CROSS_FUN
   Context()
       : mctx_(HSHM_MCTX),
         dpe_(PlacementPolicy::kNone),

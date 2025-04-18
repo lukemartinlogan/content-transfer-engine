@@ -15,10 +15,8 @@ add_executable(test_hermes_exec
 
 if(HERMES_ENABLE_CUDA)
         add_cuda_executable(test_bucket_cuda TRUE test_bucket_cuda.cc)
-        add_dependencies(test_bucket_cuda
-                ${Hermes_CLIENT_DEPS})
         target_link_libraries(test_bucket_cuda PUBLIC
-                ${Hermes_CLIENT_DEPS} MPI::MPI_CXX hshm::cudacxx)
+                hermes_hermes_core_client_gpu MPI::MPI_CXX)
         list(APPEND TARGETS test_bucket_cuda)
 endif()
 

@@ -29,7 +29,8 @@
                 "CMAKE_INSTALL_PREFIX": "/home/llogan/.scspkg/packages/cte",
                 "HERMES_ENABLE_CUDA": "ON",
                 "HERMES_ENABLE_ROCM": "OFF",
-                "HERMES_ENABLE_CMAKE_DOTENV": "ON"
+                "HERMES_ENABLE_CMAKE_DOTENV": "ON",
+                "CMAKE_CUDA_ARCHITECTURES": "86"
             }
         },
         {
