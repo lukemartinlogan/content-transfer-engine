@@ -1347,7 +1347,6 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
       size_t data_size, const hipc::Pointer &data, float score, u32 task_flags,
       u32 hermes_flags, const Context &ctx = Context())
       : Task(alloc), blob_name_(alloc, blob_name) {
-    printf("MAKING TASK????\n");
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrioOpt::kLowLatency;
@@ -1364,7 +1363,6 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
     data_ = data;
     score_ = score;
     flags_ = bitfield32_t(hermes_flags | ctx.flags_.bits_);
-    printf("POOL ID: %d.%lu\n", pool_id.node_id_, pool_id.unique_);
     // HILOG(kInfo, "(node {}) Creating PUT {} of size {} (pool={})",
     //       CHI_CLIENT->node_id_, task_node_, data_size_, pool_);
   }

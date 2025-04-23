@@ -216,7 +216,6 @@ class Bucket {
                                           const BlobId &orig_blob_id,
                                           Blob &blob, size_t blob_off,
                                           const Context &ctx) {
-    printf("HERE1???\n");
     BlobId blob_id = orig_blob_id;
     bitfield32_t task_flags;
     bitfield32_t hermes_flags;
@@ -236,13 +235,11 @@ class Bucket {
     if constexpr (!PARTIAL) {
       hermes_flags.SetBits(HERMES_BLOB_REPLACE);
     }
-    printf("HERE2???\n");
     FullPtr<PutBlobTask> task;
     task = mdm_.AsyncPutBlob(mctx_, chi::DomainQuery::GetDynamic(), id_,
                              blob_name_buf, blob_id, blob_off, blob_size,
                              blob_data, ctx.blob_score_, task_flags.bits_,
                              hermes_flags.bits_, ctx);
-    printf("HERE3???\n");
     if constexpr (!ASYNC) {
       if (hermes_flags.Any(HERMES_GET_BLOB_ID)) {
         task->Wait();
