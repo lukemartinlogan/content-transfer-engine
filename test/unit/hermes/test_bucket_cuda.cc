@@ -21,11 +21,6 @@ HSHM_GPU_KERNEL void test_bucket(hermes::Bucket bkt) {
   printf("I DIDN'T DIE?\n");
   memset(blob.data(), 0, blob.size());
   printf("I STILL DIDN'T DIE?\n");
-  // bkt.mdm_.AsyncPutBlobAlloc(
-  //     HSHM_MCTX, CHI_CLIENT->MakeTaskNodeId(),
-  //     chi::DomainQuery::GetDynamic(), bkt.id_, chi::string("a"),
-  //     hermes::BlobId::GetNull(), 0, blob.size(), blob.data(), 1, 0, 0,
-  //     hermes::Context());
   bkt.Put(chi::string("a"), blob, hermes::Context());
 }
 
