@@ -212,10 +212,11 @@ class Bucket {
    * Put \a blob_name Blob into the bucket
    * */
   template <bool PARTIAL, bool ASYNC, typename StringT = std::string>
-  HSHM_CROSS_FUN HSHM_INLINE BlobId ShmBasePut(const StringT &blob_name,
-                                               const BlobId &orig_blob_id,
-                                               Blob &blob, size_t blob_off,
-                                               const Context &ctx) {
+  HSHM_INLINE_CROSS_FUN BlobId ShmBasePut(const StringT &blob_name,
+                                          const BlobId &orig_blob_id,
+                                          Blob &blob, size_t blob_off,
+                                          const Context &ctx) {
+    printf("HERE1???\n");
     BlobId blob_id = orig_blob_id;
     bitfield32_t task_flags;
     bitfield32_t hermes_flags;
@@ -235,11 +236,13 @@ class Bucket {
     if constexpr (!PARTIAL) {
       hermes_flags.SetBits(HERMES_BLOB_REPLACE);
     }
+    printf("HERE2???\n");
     FullPtr<PutBlobTask> task;
     task = mdm_.AsyncPutBlob(mctx_, chi::DomainQuery::GetDynamic(), id_,
                              blob_name_buf, blob_id, blob_off, blob_size,
                              blob_data, ctx.blob_score_, task_flags.bits_,
                              hermes_flags.bits_, ctx);
+    printf("HERE3???\n");
     if constexpr (!ASYNC) {
       if (hermes_flags.Any(HERMES_GET_BLOB_ID)) {
         task->Wait();
@@ -255,10 +258,9 @@ class Bucket {
    * */
   template <typename T, bool PARTIAL, bool ASYNC,
             typename StringT = std::string>
-  HSHM_CROSS_FUN HSHM_INLINE BlobId SrlBasePut(const StringT &blob_name,
-                                               const BlobId &orig_blob_id,
-                                               const T &data,
-                                               const Context &ctx) {
+  HSHM_INLINE_CROSS_FUN BlobId SrlBasePut(const StringT &blob_name,
+                                          const BlobId &orig_blob_id,
+                                          const T &data, const Context &ctx) {
     std::stringstream ss;
     cereal::BinaryOutputArchive ar(ss);
     ar << data;
@@ -271,8 +273,8 @@ class Bucket {
    * Put \a blob_name Blob into the bucket
    * */
   template <typename T = Blob, typename StringT = std::string>
-  HSHM_CROSS_FUN BlobId Put(const StringT &blob_name, T &blob,
-                            const Context &ctx = Context()) {
+  HSHM_INLINE_CROSS_FUN BlobId Put(const StringT &blob_name, T &blob,
+                                   const Context &ctx = Context()) {
     if constexpr (std::is_same_v<T, Blob>) {
       return ShmBasePut<false, false>(blob_name, BlobId::GetNull(), blob, 0,
                                       ctx);
@@ -286,8 +288,8 @@ class Bucket {
    * Put \a blob_id Blob into the bucket
    * */
   template <typename T = Blob>
-  HSHM_CROSS_FUN BlobId Put(const BlobId &blob_id, T &blob,
-                            const Context &ctx = Context()) {
+  HSHM_INLINE_CROSS_FUN BlobId Put(const BlobId &blob_id, T &blob,
+                                   const Context &ctx = Context()) {
     if constexpr (std::is_same_v<T, Blob>) {
       return ShmBasePut<false, false>(chi::string(""), blob_id, blob, 0, ctx);
     } else {
@@ -299,8 +301,8 @@ class Bucket {
    * Put \a blob_name Blob into the bucket
    * */
   template <typename T = Blob, typename StringT = std::string>
-  HSHM_CROSS_FUN HSHM_INLINE void AsyncPut(const StringT &blob_name, T &blob,
-                                           const Context &ctx = Context()) {
+  HSHM_INLINE_CROSS_FUN void AsyncPut(const StringT &blob_name, T &blob,
+                                      const Context &ctx = Context()) {
     if constexpr (std::is_same_v<T, Blob>) {
       ShmBasePut<false, true>(blob_name, BlobId::GetNull(), blob, 0, ctx);
     } else {
@@ -312,8 +314,8 @@ class Bucket {
    * Put \a blob_id Blob into the bucket
    * */
   template <typename T>
-  HSHM_CROSS_FUN HSHM_INLINE void AsyncPut(const BlobId &blob_id, T &blob,
-                                           const Context &ctx = Context()) {
+  HSHM_INLINE_CROSS_FUN void AsyncPut(const BlobId &blob_id, T &blob,
+                                      const Context &ctx = Context()) {
     if constexpr (std::is_same_v<T, Blob>) {
       ShmBasePut<false, true>(chi::string(""), blob_id, blob, 0, ctx);
     } else {

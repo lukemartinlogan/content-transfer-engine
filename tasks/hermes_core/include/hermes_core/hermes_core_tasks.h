@@ -1196,15 +1196,15 @@ CHI_BEGIN(ReorganizeNode)
 /** The ReorganizeNodeTask task */
 struct ReorganizeNodeTask : public Task, TaskFlags<TF_SRL_SYM> {
   /** SHM default constructor */
-  HSHM_INLINE explicit
-  ReorganizeNodeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) : Task(alloc) {}
+  HSHM_INLINE explicit ReorganizeNodeTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
 
   /** Emplace constructor */
-  HSHM_INLINE explicit
-  ReorganizeNodeTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc,
-                const TaskNode &task_node,
-                const PoolId &pool_id,
-                const DomainQuery &dom_query) : Task(alloc) {
+  HSHM_INLINE explicit ReorganizeNodeTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query)
+      : Task(alloc) {
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrioOpt::kLowLatency;
@@ -1217,18 +1217,15 @@ struct ReorganizeNodeTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** Duplicate message */
-  void CopyStart(const ReorganizeNodeTask &other, bool deep) {
-  }
+  void CopyStart(const ReorganizeNodeTask &other, bool deep) {}
 
   /** (De)serialize message call */
-  template<typename Ar>
-  void SerializeStart(Ar &ar) {
-  }
+  template <typename Ar>
+  void SerializeStart(Ar &ar) {}
 
   /** (De)serialize message return */
-  template<typename Ar>
-  void SerializeEnd(Ar &ar) {
-  }
+  template <typename Ar>
+  void SerializeEnd(Ar &ar) {}
 };
 CHI_END(ReorganizeNode);
 
@@ -1338,17 +1335,19 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   IN bitfield32_t flags_;
 
   /** SHM default constructor */
-  HSHM_INLINE explicit PutBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+  HSHM_INLINE_CROSS_FUN explicit PutBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_INLINE explicit PutBlobTask(
+  HSHM_INLINE_CROSS_FUN explicit PutBlobTask(
       const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
       const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id,
       const chi::string &blob_name, const BlobId &blob_id, size_t blob_off,
       size_t data_size, const hipc::Pointer &data, float score, u32 task_flags,
       u32 hermes_flags, const Context &ctx = Context())
       : Task(alloc), blob_name_(alloc, blob_name) {
+    printf("MAKING TASK????\n");
     // Initialize task
     task_node_ = task_node;
     prio_ = TaskPrioOpt::kLowLatency;
@@ -1365,12 +1364,13 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
     data_ = data;
     score_ = score;
     flags_ = bitfield32_t(hermes_flags | ctx.flags_.bits_);
+    printf("POOL ID: %d.%lu\n", pool_id.node_id_, pool_id.unique_);
     // HILOG(kInfo, "(node {}) Creating PUT {} of size {} (pool={})",
     //       CHI_CLIENT->node_id_, task_node_, data_size_, pool_);
   }
 
   /** Destructor */
-  ~PutBlobTask() {
+  HSHM_INLINE_CROSS_FUN ~PutBlobTask() {
     // HILOG(kInfo, "(node {}) Destroying PUT {} of size {}",
     // CHI_CLIENT->node_id_,
     //       task_node_, data_size_);
@@ -1380,7 +1380,7 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   }
 
   /** Duplicate message */
-  void CopyStart(const PutBlobTask &other, bool deep) {
+  HSHM_INLINE_CROSS_FUN void CopyStart(const PutBlobTask &other, bool deep) {
     tag_id_ = other.tag_id_;
     blob_name_ = other.blob_name_;
     blob_id_ = other.blob_id_;
