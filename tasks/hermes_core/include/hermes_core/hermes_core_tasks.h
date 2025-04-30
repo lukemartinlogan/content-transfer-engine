@@ -655,7 +655,7 @@ struct GetOrCreateBlobIdTask : public Task,
                                TaskFlags<TF_SRL_SYM>,
                                BlobWithName {
   IN TagId tag_id_;
-  IN chi::string blob_name_;
+  IN chi::ipc::string blob_name_;
   OUT BlobId blob_id_;
 
   /** SHM default constructor */
@@ -709,7 +709,7 @@ CHI_BEGIN(GetBlobId)
  * */
 struct GetBlobIdTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithName {
   IN TagId tag_id_;
-  IN chi::string blob_name_;
+  IN chi::ipc::string blob_name_;
   OUT BlobId blob_id_;
 
   /** SHM default constructor */
@@ -815,7 +815,7 @@ CHI_BEGIN(GetBlobSize)
 /** Get \a score from \a blob_id BLOB id */
 struct GetBlobSizeTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   IN TagId tag_id_;
-  IN chi::string blob_name_;
+  IN chi::ipc::string blob_name_;
   IN BlobId blob_id_;
   OUT size_t size_;
 
@@ -1134,7 +1134,7 @@ CHI_END(DestroyBlob)
 CHI_BEGIN(ReorganizeBlob)
 /** A task to reorganize a blob's composition in the hierarchy */
 struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
-  IN chi::string blob_name_;
+  IN chi::ipc::string blob_name_;
   IN TagId tag_id_;
   IN BlobId blob_id_;
   IN float score_;
@@ -1326,7 +1326,7 @@ CHI_BEGIN(PutBlob)
 /** A task to put data in a blob */
 struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   IN TagId tag_id_;
-  IN chi::string blob_name_;
+  IN chi::ipc::string blob_name_;
   IN BlobId blob_id_;
   IN size_t blob_off_;
   IN size_t data_size_;
@@ -1414,7 +1414,7 @@ CHI_BEGIN(GetBlob)
 /** A task to get data from a blob */
 struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   IN TagId tag_id_;
-  IN chi::string blob_name_;
+  IN chi::ipc::string blob_name_;
   INOUT BlobId blob_id_;
   IN size_t blob_off_;
   IN hipc::Pointer data_ = hipc::Pointer::GetNull();
@@ -1422,11 +1422,12 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   IN bitfield32_t flags_;
 
   /** SHM default constructor */
-  HSHM_INLINE explicit GetBlobTask(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+  HSHM_INLINE_CROSS_FUN explicit GetBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
       : Task(alloc), blob_name_(alloc) {}
 
   /** Emplace constructor */
-  HSHM_INLINE explicit GetBlobTask(
+  HSHM_INLINE_CROSS_FUN explicit GetBlobTask(
       const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
       const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id,
       const chi::string &blob_name, const BlobId &blob_id, size_t off,
@@ -1451,7 +1452,7 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   }
 
   /** Destructor */
-  ~GetBlobTask() {
+  HSHM_INLINE_CROSS_FUN ~GetBlobTask() {
     // HILOG(kInfo, "(node {}) Destroying PUT {} of size {}",
     // CHI_CLIENT->node_id_,
     //       task_node_, data_size_);
@@ -1463,8 +1464,8 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   /** Convert data to a data structure */
   template <typename T>
   HSHM_INLINE void Get(T &obj) {
-    char *data = CHI_CLIENT->GetDataPointer(data_);
-    std::stringstream ss(std::string(data, data_size_));
+    FullPtr data(data_);
+    std::stringstream ss(std::string(data.ptr_, data_size_));
     cereal::BinaryInputArchive ar(ss);
     ar >> obj;
   }
@@ -1782,7 +1783,7 @@ CHI_BEGIN(StageIn)
 /** The StageInTask task */
 struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN hermes::BucketId bkt_id_;
-  IN chi::string blob_name_;
+  IN chi::ipc::string blob_name_;
   IN float score_;
 
   /** SHM default constructor */
@@ -1833,7 +1834,7 @@ CHI_BEGIN(StageOut)
 /** The StageOutTask task */
 struct StageOutTask : public Task, TaskFlags<TF_SRL_SYM> {
   IN hermes::BucketId bkt_id_;
-  IN chi::string blob_name_;
+  IN chi::ipc::string blob_name_;
   IN hipc::Pointer data_;
   IN size_t data_size_;
 

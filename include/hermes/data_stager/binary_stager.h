@@ -110,13 +110,13 @@ class BinaryFileStager : public AbstractStager {
           "Attempting to stage {} bytes to the backend file {} at offset {}",
           page_size_, path_, plcmnt.bucket_off_);
     // Stage out the data to the file
-    char *data = CHI_CLIENT->GetDataPointer(data_p);
+    FullPtr data(data_p);
     int fd = HERMES_POSIX_API->open(path_.c_str(), O_CREAT | O_RDWR, 0666);
     if (fd < 0) {
       HELOG(kError, "Failed to open file {}", path_);
       return;
     }
-    ssize_t real_size = HERMES_POSIX_API->pwrite(fd, data, data_size,
+    ssize_t real_size = HERMES_POSIX_API->pwrite(fd, data.ptr_, data_size,
                                                  (off_t)plcmnt.bucket_off_);
     HERMES_POSIX_API->close(fd);
     // Verify the data was staged out

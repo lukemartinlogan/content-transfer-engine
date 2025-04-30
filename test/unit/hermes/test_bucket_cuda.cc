@@ -16,12 +16,26 @@
 #include "hermes/data_stager/stager_factory.h"
 
 HSHM_GPU_KERNEL void test_bucket(hermes::Bucket bkt) {
-  printf("IN KERNEL!!! A\n");
-  hermes::Blob blob(1024);
-  printf("I DIDN'T DIE?\n");
-  memset(blob.data(), 0, blob.size());
-  printf("I STILL DIDN'T DIE?\n");
-  bkt.Put(chi::string("a"), blob, hermes::Context());
+  for (int i = 0; i < 10; ++i) {
+    printf("IN KERNEL!!! %p\n", CHI_CLIENT->data_alloc_);
+    hermes::Blob blob(1024);
+    printf("I DIDN'T DIE?\n");
+    memset(blob.data(), 10, blob.size());
+    printf("I STILL DIDN'T DIE?\n");
+    bkt.Put(chi::string("a"), blob, hermes::Context());
+    printf("Finished put\n");
+    hermes::Blob blob2(1024);
+    memset(blob2.data(), 1, blob2.size());
+    printf("Blob2 data set\n");
+    bkt.Get(chi::string("a"), blob2, hermes::Context());
+    printf("Got blob2 data\n");
+    for (int i = 0; i < blob2.size(); ++i) {
+      if (blob2.data()[i] != 10) {
+        return;
+      }
+    }
+    printf("SUCESS!!!\n");
+  }
 }
 
 int main(int argc, char **argv) {
