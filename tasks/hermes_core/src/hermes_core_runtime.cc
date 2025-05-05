@@ -1336,11 +1336,11 @@ class Server : public Module {
   }
   CHI_END(ReorganizeBlob)
 
-CHI_BEGIN(ReorganizeNode)
+  CHI_BEGIN(ReorganizeNode)
   /** The ReorganizeNode method */
-  void ReorganizeNode(ReorganizeNodeTask *task, RunContext &rctx) {
-  }
-  void MonitorReorganizeNode(MonitorModeId mode, ReorganizeNodeTask *task, RunContext &rctx) {
+  void ReorganizeNode(ReorganizeNodeTask *task, RunContext &rctx) {}
+  void MonitorReorganizeNode(MonitorModeId mode, ReorganizeNodeTask *task,
+                             RunContext &rctx) {
     switch (mode) {
       case MonitorMode::kReplicaAgg: {
         std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
