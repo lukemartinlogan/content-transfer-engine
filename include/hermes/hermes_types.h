@@ -82,9 +82,10 @@ class Blob {
   hipc::FullPtr<char> data_ = hipc::FullPtr<char>::GetNull();
   size_t size_ = 0;
   size_t max_size_ = 0;
+  bool owned_ = true;
 
  public:
-   /** Default constructor */
+  /** Default constructor */
   HSHM_INLINE_CROSS_FUN
   Blob() = default;
 
@@ -97,8 +98,7 @@ class Blob {
 
   /** Copy vector */
   template <typename T>
-  HSHM_INLINE_CROSS_FUN
-  Blob(const chi::vector<T> &data) {
+  HSHM_INLINE_CROSS_FUN Blob(const chi::vector<T> &data) {
     Copy(data.data(), data.size() * sizeof(T));
   }
 
@@ -114,6 +114,15 @@ class Blob {
   Blob(const hipc::Pointer &data, size_t size) {
     FullPtr<char> data_full(data);
     Copy(data_full.ptr_, size);
+  }
+
+  /** Wrap shm pointer */
+  HSHM_INLINE_CROSS_FUN
+  Blob(const hipc::Pointer &data, size_t size, bool owned) {
+    FullPtr<char> data_full(data);
+    data_ = data_full;
+    size_ = size;
+    owned_ = false;
   }
 
   /** Copy assignment */
@@ -162,12 +171,12 @@ class Blob {
 
   /** Disown */
   HSHM_INLINE_CROSS_FUN
-  void Disown() { data_ = FullPtr<char>::GetNull(); }
+  void Disown() { owned_ = false; }
 
   /** Destructor */
   HSHM_CROSS_FUN
   ~Blob() {
-    if (!data_.IsNull()) {
+    if (!data_.IsNull() && owned_) {
       CHI_CLIENT->FreeBuffer(HSHM_MCTX, data_);
     }
   }
