@@ -137,6 +137,60 @@ void BindHermes(py::module &m) {
   m.def("HERMES_INIT", &HERMES_INIT_FUN);
 }
 
+void BindBucket(py::module &m) {
+  py::class_<hermes::Bucket>(m, "Bucket")
+      // Constructors
+      .def(py::init<>()) // Default constructor
+      .def(
+          py::init<const std::string &, const hermes::Context &, size_t, u32>(),
+          py::arg("bkt_name"), py::arg("ctx") = hermes::Context(),
+          py::arg("backend_size") = 0, py::arg("flags") = 0)
+      .def(py::init<hermes::TagId, const hermes::Context &>(),
+           py::arg("tag_id"), py::arg("ctx") = hermes::Context())
+      .def(py::init<hermes::TagId, hermes::Client, const hermes::Context &>(),
+           py::arg("tag_id"), py::arg("mdm"),
+           py::arg("ctx") = hermes::Context())
+
+      // Common methods
+      .def("GetName", &hermes::Bucket::GetName)
+      .def("GetId", &hermes::Bucket::GetId)
+      .def("GetContext", &hermes::Bucket::GetContext)
+      .def("GetSize", &hermes::Bucket::GetSize)
+      .def("Clear", &hermes::Bucket::Clear)
+      .def("Destroy", &hermes::Bucket::Destroy)
+      .def("IsNull", &hermes::Bucket::IsNull)
+
+      // Blob interaction methods
+      .def("GetBlobId", &hermes::Bucket::GetBlobId<std::string>,
+           py::arg("blob_name"))
+      .def("GetBlobName", &hermes::Bucket::GetBlobName, py::arg("blob_id"))
+      .def("GetBlobScore", &hermes::Bucket::GetBlobScore, py::arg("blob_id"))
+      .def("GetBlobSize",
+           static_cast<size_t (hermes::Bucket::*)(const hermes::BlobId &)>(
+               &hermes::Bucket::GetBlobSize),
+           py::arg("blob_id"))
+
+      // ReorganizeBlob methods - core functionality
+      .def("ReorganizeBlob",
+           static_cast<void (hermes::Bucket::*)(const std::string &, float,
+                                                const hermes::Context &)>(
+               &hermes::Bucket::ReorganizeBlob),
+           py::arg("name"), py::arg("score"),
+           py::arg("ctx") = hermes::Context())
+      .def("ReorganizeBlob",
+           static_cast<void (hermes::Bucket::*)(const hermes::BlobId &, float,
+                                                const hermes::Context &)>(
+               &hermes::Bucket::ReorganizeBlob),
+           py::arg("blob_id"), py::arg("score"),
+           py::arg("ctx") = hermes::Context());
+  // .def("ReorganizeBlob",
+  //      static_cast<void (hermes::Bucket::*)(const hermes::BlobId &, float,
+  //                                           u32, hermes::Context &)>(
+  //          &hermes::Bucket::ReorganizeBlob),
+  //      py::arg("blob_id"), py::arg("score"), py::arg("node_id"),
+  //      py::arg("ctx"));
+}
+
 PYBIND11_MODULE(py_hermes, m) {
   BindUniqueId<BlobId>(m, "BlobId");
   BindUniqueId<BucketId>(m, "BucketId");
@@ -149,4 +203,5 @@ PYBIND11_MODULE(py_hermes, m) {
   BindIoType(m);
   BindIoStat(m);
   BindHermes(m);
+  BindBucket(m);
 }
