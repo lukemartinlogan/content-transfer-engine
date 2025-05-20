@@ -137,6 +137,38 @@ void BindHermes(py::module &m) {
   m.def("HERMES_INIT", &HERMES_INIT_FUN);
 }
 
+void BindContext(py::module &m) {
+  py::class_<hermes::Context>(m, "Context")
+      .def(py::init<>())
+      .def_readwrite("mctx", &hermes::Context::mctx_)
+      .def_readwrite("dpe", &hermes::Context::dpe_)
+      .def_readwrite("blob_score", &hermes::Context::blob_score_)
+      .def_readwrite("flags", &hermes::Context::flags_)
+      .def_readwrite("bkt_params", &hermes::Context::bkt_params_)
+      .def_readwrite("node_id", &hermes::Context::node_id_);
+}
+
+void BindBucket(py::module &m) {
+  py::class_<hermes::Bucket>(m, "Bucket")
+      // Name + Context constructor
+      .def(py::init<const std::string &, const hermes::Context &>(),
+           py::arg("name"), py::arg("ctx") = hermes::Context())
+
+      // TagID + Context constructor
+      .def(py::init<hermes::TagId, const hermes::Context &>(),
+           py::arg("tag_id"), py::arg("ctx") = hermes::Context())
+
+      // ReorganizeBlob method
+      .def(
+          "reorganize_blob",
+          [](hermes::Bucket &self, const hermes::BlobId &blob_id, float score,
+             const hermes::Context &ctx) {
+            self.ReorganizeBlob(blob_id, score, ctx);
+          },
+          py::arg("blob_id"), py::arg("score"),
+          py::arg("ctx") = hermes::Context());
+}
+
 PYBIND11_MODULE(py_hermes, m) {
   BindUniqueId<BlobId>(m, "BlobId");
   BindUniqueId<BucketId>(m, "BucketId");
@@ -149,4 +181,6 @@ PYBIND11_MODULE(py_hermes, m) {
   BindIoType(m);
   BindIoStat(m);
   BindHermes(m);
+  BindContext(m);
+  BindBucket(m);
 }
