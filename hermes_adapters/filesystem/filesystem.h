@@ -178,8 +178,8 @@ class Filesystem : public FilesystemIoClient {
       for (const BlobPlacement &p : mapping) {
         Blob page((const char *)ptr + data_offset, p.blob_size_);
         std::string blob_name(p.CreateBlobName().str());
-        // bkt.AsyncPartialPut(blob_name, page, p.blob_off_, ctx);
-        bkt.PartialPut(blob_name, page, p.blob_off_, ctx);
+        bkt.AsyncPartialPut(blob_name, page, p.blob_off_, ctx);
+        // bkt.PartialPut(blob_name, page, p.blob_off_, ctx);
         data_offset += p.blob_size_;
       }
       if (opts.DoSeek()) {
