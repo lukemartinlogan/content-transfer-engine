@@ -1,4 +1,4 @@
-name: hermes_unit_ior
+name: iowarp_base
 env: hermes
 pkgs:
   # Launch IOWarp runtime
