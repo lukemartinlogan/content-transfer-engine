@@ -47,7 +47,8 @@ void PutTest(int nprocs, int rank, int repeat, size_t blobs_per_rank,
       // HILOG(kInfo, "On blob {}", i);
       size_t blob_name_int = rank * blobs_per_rank + i;
       std::string name = std::to_string(blob_name_int);
-      bkt.AsyncPut(name, blob, ctx);
+      // bkt.AsyncPut(name, blob, ctx);
+      bkt.Put(name, blob, ctx);
     }
   }
   t.Pause();
