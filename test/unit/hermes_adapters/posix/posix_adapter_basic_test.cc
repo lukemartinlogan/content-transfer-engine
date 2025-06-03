@@ -248,81 +248,82 @@ TEST_CASE("SingleWrite", "[process=" + std::to_string(TESTER->comm_size_) +
                              "[operation=single_write]"
                              "[request_size=type-fixed][repetition=1]"
                              "[file=1]") {
-  TESTER->Pretest();
+  auto *TEST = TESTER;
+  TEST->Pretest();
   SECTION("write to existing file") {
-    TESTER->test_open(TESTER->existing_file_, O_RDWR);
-    REQUIRE(TESTER->fh_orig_ != -1);
-    TESTER->test_seek(0, SEEK_SET);
-    REQUIRE(TESTER->status_orig_ == 0);
-    TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
-    REQUIRE(TESTER->size_written_orig_ == TESTER->request_size_);
-    TESTER->test_close();
-    int status = TESTER->status_orig_;
-    REQUIRE(TESTER->status_orig_ == 0);
+    TEST->test_open(TEST->existing_file_, O_RDWR);
+    REQUIRE(TEST->fh_orig_ != -1);
+    TEST->test_seek(0, SEEK_SET);
+    REQUIRE(TEST->status_orig_ == 0);
+    TEST->test_write(TEST->write_data_.data(), TEST->request_size_);
+    REQUIRE(TEST->size_written_orig_ == TEST->request_size_);
+    TEST->test_close();
+    int status = TEST->status_orig_;
+    REQUIRE(TEST->status_orig_ == 0);
   }
 
   SECTION("write to new file") {
-    TESTER->test_open(TESTER->new_file_, O_WRONLY | O_CREAT | O_EXCL, 0600);
-    REQUIRE(TESTER->fh_orig_ != -1);
-    TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
-    REQUIRE(TESTER->size_written_orig_ == TESTER->request_size_);
-    TESTER->test_close();
-    REQUIRE(TESTER->status_orig_ == 0);
-    int size = stdfs::file_size(TESTER->new_file_.hermes_);
-    int orig_size = TESTER->size_written_orig_;
-    REQUIRE(stdfs::file_size(TESTER->new_file_.hermes_) ==
-            TESTER->size_written_orig_);
+    TEST->test_open(TEST->new_file_, O_WRONLY | O_CREAT | O_EXCL, 0600);
+    REQUIRE(TEST->fh_orig_ != -1);
+    TEST->test_write(TEST->write_data_.data(), TEST->request_size_);
+    REQUIRE(TEST->size_written_orig_ == TEST->request_size_);
+    TEST->test_close();
+    REQUIRE(TEST->status_orig_ == 0);
+    int size = stdfs::file_size(TEST->new_file_.hermes_);
+    int orig_size = TEST->size_written_orig_;
+    REQUIRE(stdfs::file_size(TEST->new_file_.hermes_) ==
+            TEST->size_written_orig_);
   }
 
   SECTION("write to existing file with truncate") {
-    TESTER->test_open(TESTER->existing_file_, O_WRONLY | O_TRUNC);
-    REQUIRE(TESTER->fh_orig_ != -1);
-    TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
-    REQUIRE(TESTER->size_written_orig_ == TESTER->request_size_);
-    TESTER->test_close();
-    REQUIRE(TESTER->status_orig_ == 0);
-    REQUIRE(stdfs::file_size(TESTER->existing_file_.hermes_) ==
-            TESTER->size_written_orig_);
+    TEST->test_open(TEST->existing_file_, O_WRONLY | O_TRUNC);
+    REQUIRE(TEST->fh_orig_ != -1);
+    TEST->test_write(TEST->write_data_.data(), TEST->request_size_);
+    REQUIRE(TEST->size_written_orig_ == TEST->request_size_);
+    TEST->test_close();
+    REQUIRE(TEST->status_orig_ == 0);
+    REQUIRE(stdfs::file_size(TEST->existing_file_.hermes_) ==
+            TEST->size_written_orig_);
   }
 
   SECTION("write to existing file at the end") {
-    TESTER->test_open(TESTER->existing_file_, O_RDWR);
-    REQUIRE(TESTER->fh_orig_ != -1);
-    TESTER->test_seek(0, SEEK_END);
-    REQUIRE(((size_t)TESTER->status_orig_) ==
-            TESTER->request_size_ * TESTER->num_iterations_);
-    TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
-    REQUIRE(TESTER->size_written_orig_ == TESTER->request_size_);
-    TESTER->test_close();
-    REQUIRE(TESTER->status_orig_ == 0);
-    REQUIRE(stdfs::file_size(TESTER->existing_file_.hermes_) ==
-            TESTER->size_written_orig_ +
-                TESTER->request_size_ * TESTER->num_iterations_);
+    TEST->test_open(TEST->existing_file_, O_RDWR);
+    REQUIRE(TEST->fh_orig_ != -1);
+    TEST->test_seek(0, SEEK_END);
+    REQUIRE(((size_t)TEST->status_orig_) ==
+            TEST->request_size_ * TEST->num_iterations_);
+    TEST->test_write(TEST->write_data_.data(), TEST->request_size_);
+    REQUIRE(TEST->size_written_orig_ == TEST->request_size_);
+    TEST->test_close();
+    REQUIRE(TEST->status_orig_ == 0);
+    REQUIRE(stdfs::file_size(TEST->existing_file_.hermes_) ==
+            TEST->size_written_orig_ +
+                TEST->request_size_ * TEST->num_iterations_);
   }
 
   SECTION("append to existing file") {
-    auto existing_size = stdfs::file_size(TESTER->existing_file_.hermes_);
-    TESTER->test_open(TESTER->existing_file_, O_RDWR | O_APPEND);
-    REQUIRE(TESTER->fh_orig_ != -1);
-    TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
-    REQUIRE(TESTER->size_written_orig_ == TESTER->request_size_);
-    TESTER->test_close();
-    REQUIRE(TESTER->status_orig_ == 0);
-    REQUIRE(stdfs::file_size(TESTER->existing_file_.hermes_) ==
-            existing_size + TESTER->size_written_orig_);
+    auto existing_size = stdfs::file_size(TEST->existing_file_.hermes_);
+    TEST->test_open(TEST->existing_file_, O_RDWR | O_APPEND);
+    REQUIRE(TEST->fh_orig_ != -1);
+    TEST->test_write(TEST->write_data_.data(), TEST->request_size_);
+    REQUIRE(TEST->size_written_orig_ == TEST->request_size_);
+    TEST->test_close();
+    REQUIRE(TEST->status_orig_ == 0);
+    REQUIRE(stdfs::file_size(TEST->existing_file_.hermes_) ==
+            existing_size + TEST->size_written_orig_);
   }
 
   SECTION("append to new file") {
-    TESTER->test_open(TESTER->new_file_, O_WRONLY | O_CREAT | O_EXCL, 0600);
-    REQUIRE(TESTER->fh_orig_ != -1);
-    TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
-    REQUIRE(TESTER->size_written_orig_ == TESTER->request_size_);
-    TESTER->test_close();
-    REQUIRE(TESTER->status_orig_ == 0);
-    REQUIRE(stdfs::file_size(TESTER->new_file_.hermes_) ==
-            TESTER->size_written_orig_);
+    TEST->test_open(TEST->new_file_, O_WRONLY | O_CREAT | O_EXCL, 0600);
+    REQUIRE(TEST->fh_orig_ != -1);
+    TEST->test_write(TEST->write_data_.data(), TEST->request_size_);
+    REQUIRE(TEST->size_written_orig_ == TEST->request_size_);
+    TEST->test_close();
+    REQUIRE(TEST->status_orig_ == 0);
+    REQUIRE(stdfs::file_size(TEST->new_file_.hermes_) ==
+            TEST->size_written_orig_);
   }
-  TESTER->Posttest();
+  TEST->Posttest();
 }
 
 TEST_CASE("SingleRead", "[process=" + std::to_string(TESTER->comm_size_) +
@@ -482,7 +483,7 @@ TEST_CASE("BatchedUpdateRandom",
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
       size_t offset = rand_r(&TESTER->offset_seed_) %
                       (TESTER->total_size_ - TESTER->request_size_ - 1);
-      TESTER->test_seek(offset, SEEK_SET);  // 630978
+      TESTER->test_seek(offset, SEEK_SET); // 630978
       REQUIRE(((size_t)TESTER->status_orig_) == offset);
       TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
       REQUIRE(TESTER->size_written_orig_ == TESTER->request_size_);

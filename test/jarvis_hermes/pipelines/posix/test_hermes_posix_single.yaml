@@ -12,8 +12,8 @@ pkgs:
   - pkg_type: hermes_posix_tests
     pkg_name: hermes_posix_tests
     test_file: posix_basic
-    hermes: true
-    size: large
+    test_case: SingleWrite
+    hermes: true 
     dbg_port: 4001
     do_dbg: true
 

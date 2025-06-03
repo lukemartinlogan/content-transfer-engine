@@ -48,10 +48,10 @@ enum class SeekMode {
 
 /** A class to represent file system */
 class Filesystem : public FilesystemIoClient {
- public:
+public:
   AdapterType type_;
 
- public:
+public:
   /** Constructor */
   explicit Filesystem(AdapterType type) : type_(type) {}
 
@@ -341,34 +341,34 @@ class Filesystem : public FilesystemIoClient {
   size_t Seek(File &f, AdapterStat &stat, SeekMode whence, off64_t offset) {
     auto mdm = HERMES_FS_METADATA_MANAGER;
     switch (whence) {
-      case SeekMode::kSet: {
-        stat.st_ptr_ = offset;
-        break;
+    case SeekMode::kSet: {
+      stat.st_ptr_ = offset;
+      break;
+    }
+    case SeekMode::kCurrent: {
+      if (stat.st_ptr_ != std::numeric_limits<size_t>::max()) {
+        stat.st_ptr_ = (off64_t)stat.st_ptr_ + offset;
+        offset = stat.st_ptr_;
+      } else {
+        stat.st_ptr_ = (off64_t)stat.bkt_id_.GetSize() + offset;
+        offset = stat.st_ptr_;
       }
-      case SeekMode::kCurrent: {
-        if (stat.st_ptr_ != std::numeric_limits<size_t>::max()) {
-          stat.st_ptr_ = (off64_t)stat.st_ptr_ + offset;
-          offset = stat.st_ptr_;
-        } else {
-          stat.st_ptr_ = (off64_t)stat.bkt_id_.GetSize() + offset;
-          offset = stat.st_ptr_;
-        }
-        break;
+      break;
+    }
+    case SeekMode::kEnd: {
+      if (offset == 0) {
+        stat.st_ptr_ = std::numeric_limits<size_t>::max();
+        offset = stat.bkt_id_.GetSize();
+      } else {
+        stat.st_ptr_ = (off64_t)stat.bkt_id_.GetSize() + offset;
+        offset = stat.st_ptr_;
       }
-      case SeekMode::kEnd: {
-        if (offset == 0) {
-          stat.st_ptr_ = std::numeric_limits<size_t>::max();
-          offset = stat.bkt_id_.GetSize();
-        } else {
-          stat.st_ptr_ = (off64_t)stat.bkt_id_.GetSize() + offset;
-          offset = stat.st_ptr_;
-        }
-        break;
-      }
-      default: {
-        HELOG(kError, "Invalid seek mode");
-        return (size_t)-1;
-      }
+      break;
+    }
+    default: {
+      HELOG(kError, "Invalid seek mode");
+      return (size_t)-1;
+    }
     }
     mdm->Update(f, stat);
     return offset;
@@ -427,7 +427,7 @@ class Filesystem : public FilesystemIoClient {
     if (HERMES_CLIENT_CONF.flushing_mode_ == FlushingMode::kSync) {
       // NOTE(llogan): only for the unit tests
       // Please don't enable synchronous flushing
-      stat.bkt_id_.Destroy();
+      // stat.bkt_id_.Destroy();
     }
     return 0;
   }
@@ -468,7 +468,7 @@ class Filesystem : public FilesystemIoClient {
    * instead of taking an offset as input.
    */
 
- public:
+public:
   /** write */
   size_t Write(File &f, AdapterStat &stat, const void *ptr, size_t total_size,
                IoStatus &io_status, FsIoOptions opts) {
@@ -503,7 +503,7 @@ class Filesystem : public FilesystemIoClient {
    * call the underlying APIs which take AdapterStat as input.
    */
 
- public:
+public:
   /** write */
   size_t Write(File &f, bool &stat_exists, const void *ptr, size_t total_size,
                IoStatus &io_status, FsIoOptions opts = FsIoOptions()) {
@@ -690,7 +690,7 @@ class Filesystem : public FilesystemIoClient {
     return Close(f, *stat);
   }
 
- public:
+public:
   /** Whether or not \a path PATH is tracked by Hermes */
   static bool IsPathTracked(const std::string &path) {
     if (!HERMES_CONF->is_initialized_) {
@@ -716,6 +716,6 @@ class Filesystem : public FilesystemIoClient {
   }
 };
 
-}  // namespace hermes::adapter
+} // namespace hermes::adapter
 
-#endif  // HERMES_ADAPTER_FILESYSTEM_FILESYSTEM_H_
+#endif // HERMES_ADAPTER_FILESYSTEM_FILESYSTEM_H_

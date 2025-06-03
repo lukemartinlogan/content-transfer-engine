@@ -26,11 +26,10 @@
 /** NOTE(llogan): std::hash function for string. This is because NVCC is bugged
  */
 namespace std {
-template <>
-struct hash<chi::string> {
+template <> struct hash<chi::string> {
   size_t operator()(const chi::string &text) const { return text.Hash(); }
 };
-}  // namespace std
+} // namespace std
 
 namespace hermes {
 
@@ -62,7 +61,7 @@ struct HermesLane {
 };
 
 class Server : public Module {
- public:
+public:
   CLS_CONST LaneGroupId kDefaultGroup = 0;
   Client client_;
   std::vector<HermesLane> tls_;
@@ -74,14 +73,14 @@ class Server : public Module {
   IO_PATTERN_LOG_T io_pattern_;
   TargetInfo *fallback_target_;
 
- private:
+private:
   /** Get the globally unique blob name */
   const chi::string GetBlobNameWithBucket(const TagId &tag_id,
                                           const chi::string &blob_name) {
     return BlobInfo::GetBlobNameWithBucket(tag_id, blob_name);
   }
 
- public:
+public:
   Server() = default;
 
   CHI_BEGIN(Create)
@@ -146,7 +145,7 @@ class Server : public Module {
     CreateTargetPools();
     CreateTargetNeighborhood();
     client_.AsyncFlushData(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
-                           5);  // OK
+                           5); // OK
   }
   void MonitorCreate(MonitorModeId mode, CreateTask *task, RunContext &rctx) {}
   CHI_END(Create)
@@ -221,8 +220,7 @@ class Server : public Module {
     return nullptr;
   }
 
-  template <typename TaskT>
-  void BlobCacheWriteRoute(TaskT *task) {
+  template <typename TaskT> void BlobCacheWriteRoute(TaskT *task) {
     std::string blob_name;
     BlobId blob_id(BlobId::GetNull());
     TagId tag_id(task->tag_id_);
@@ -251,8 +249,7 @@ class Server : public Module {
     // HILOG(kInfo, "Routing to: {}", task->dom_query_);
   }
 
-  template <typename TaskT>
-  void BlobCacheReadRoute(TaskT *task) {
+  template <typename TaskT> void BlobCacheReadRoute(TaskT *task) {
     std::string blob_name;
     BlobId blob_id(BlobId::GetNull());
     TagId tag_id(task->tag_id_);
@@ -280,8 +277,7 @@ class Server : public Module {
     task->UnsetRouted();
   }
 
-  template <typename TaskT>
-  void TagCacheWriteRoute(TaskT *task) {
+  template <typename TaskT> void TagCacheWriteRoute(TaskT *task) {
     std::string tag_name;
     TagId tag_id(TagId::GetNull());
     if constexpr (std::is_base_of_v<TagWithId, TaskT>) {
@@ -314,8 +310,7 @@ class Server : public Module {
     task->UnsetRouted();
   }
 
-  template <typename TaskT>
-  void TagCacheReadRoute(TaskT *task) {
+  template <typename TaskT> void TagCacheReadRoute(TaskT *task) {
     std::string tag_name;
     TagId tag_id(TagId::GetNull());
     if constexpr (std::is_base_of_v<TagWithId, TaskT>) {
@@ -412,10 +407,10 @@ class Server : public Module {
   void MonitorGetOrCreateTag(MonitorModeId mode, GetOrCreateTagTask *task,
                              RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        TagCacheWriteRoute<GetOrCreateTagTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      TagCacheWriteRoute<GetOrCreateTagTask>(task);
+      return;
+    }
     }
   }
   CHI_END(GetOrCreateTag)
@@ -437,10 +432,10 @@ class Server : public Module {
   void MonitorGetTagId(MonitorModeId mode, GetTagIdTask *task,
                        RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        TagCacheReadRoute<GetTagIdTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      TagCacheReadRoute<GetTagIdTask>(task);
+      return;
+    }
     }
   }
   CHI_END(GetTagId)
@@ -460,10 +455,10 @@ class Server : public Module {
   void MonitorGetTagName(MonitorModeId mode, GetTagNameTask *task,
                          RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        TagCacheReadRoute<GetTagNameTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      TagCacheReadRoute<GetTagNameTask>(task);
+      return;
+    }
     }
   }
   CHI_END(GetTagName)
@@ -484,12 +479,12 @@ class Server : public Module {
         client_.AsyncDestroyBlob(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
                                  task->tag_id_, blob_id,
                                  DestroyBlobTask::kKeepInTag,
-                                 TASK_FIRE_AND_FORGET);  // TODO(llogan): route
+                                 TASK_FIRE_AND_FORGET); // TODO(llogan): route
       }
     }
     if (tag.flags_.Any(HERMES_SHOULD_STAGE)) {
       client_.UnregisterStager(HSHM_MCTX, chi::DomainQuery::GetGlobalBcast(),
-                               task->tag_id_);  // OK
+                               task->tag_id_); // OK
     }
     // Remove tag from maps
     TAG_ID_MAP_T &tag_id_map = tls.tag_id_map_;
@@ -499,10 +494,10 @@ class Server : public Module {
   void MonitorDestroyTag(MonitorModeId mode, DestroyTagTask *task,
                          RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        TagCacheWriteRoute<DestroyTagTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      TagCacheWriteRoute<DestroyTagTask>(task);
+      return;
+    }
     }
   }
   CHI_END(DestroyTag)
@@ -523,10 +518,10 @@ class Server : public Module {
   void MonitorTagAddBlob(MonitorModeId mode, TagAddBlobTask *task,
                          RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        TagCacheWriteRoute<TagAddBlobTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      TagCacheWriteRoute<TagAddBlobTask>(task);
+      return;
+    }
     }
   }
   CHI_END(TagAddBlob)
@@ -549,10 +544,10 @@ class Server : public Module {
   void MonitorTagRemoveBlob(MonitorModeId mode, TagRemoveBlobTask *task,
                             RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        TagCacheWriteRoute<TagRemoveBlobTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      TagCacheWriteRoute<TagRemoveBlobTask>(task);
+      return;
+    }
     }
   }
   CHI_END(TagRemoveBlob)
@@ -573,7 +568,7 @@ class Server : public Module {
         client_.AsyncDestroyBlob(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
                                  task->tag_id_, blob_id,
                                  DestroyBlobTask::kKeepInTag,
-                                 TASK_FIRE_AND_FORGET);  // TODO(llogan): route
+                                 TASK_FIRE_AND_FORGET); // TODO(llogan): route
       }
     }
     tag.blobs_.clear();
@@ -582,10 +577,10 @@ class Server : public Module {
   void MonitorTagClearBlobs(MonitorModeId mode, TagClearBlobsTask *task,
                             RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        TagCacheWriteRoute<TagClearBlobsTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      TagCacheWriteRoute<TagClearBlobsTask>(task);
+      return;
+    }
     }
   }
   CHI_END(TagClearBlobs)
@@ -607,10 +602,10 @@ class Server : public Module {
   void MonitorTagGetSize(MonitorModeId mode, TagGetSizeTask *task,
                          RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        TagCacheReadRoute<TagGetSizeTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      TagCacheReadRoute<TagGetSizeTask>(task);
+      return;
+    }
     }
   }
   CHI_END(TagGetSize)
@@ -637,10 +632,10 @@ class Server : public Module {
   void MonitorTagUpdateSize(MonitorModeId mode, TagUpdateSizeTask *task,
                             RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        TagCacheWriteRoute<TagUpdateSizeTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      TagCacheWriteRoute<TagUpdateSizeTask>(task);
+      return;
+    }
     }
   }
   CHI_END(TagUpdateSize)
@@ -667,10 +662,10 @@ class Server : public Module {
                                      TagGetContainedBlobIdsTask *task,
                                      RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        TagCacheReadRoute<TagGetContainedBlobIdsTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      TagCacheReadRoute<TagGetContainedBlobIdsTask>(task);
+      return;
+    }
     }
   }
   CHI_END(TagGetContainedBlobIds)
@@ -688,7 +683,7 @@ class Server : public Module {
     TagInfo &tag = it->second;
     for (BlobId &blob_id : tag.blobs_) {
       client_.FlushBlob(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
-                        blob_id);  // TODO(llogan): route
+                        blob_id); // TODO(llogan): route
     }
     // Flush blobs
   }
@@ -744,10 +739,10 @@ class Server : public Module {
   void MonitorGetOrCreateBlobId(MonitorModeId mode, GetOrCreateBlobIdTask *task,
                                 RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        BlobCacheReadRoute<GetOrCreateBlobIdTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      BlobCacheReadRoute<GetOrCreateBlobIdTask>(task);
+      return;
+    }
     }
   }
   CHI_END(GetOrCreateBlobId)
@@ -773,10 +768,10 @@ class Server : public Module {
   void MonitorGetBlobId(MonitorModeId mode, GetBlobIdTask *task,
                         RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        BlobCacheReadRoute<GetBlobIdTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      BlobCacheReadRoute<GetBlobIdTask>(task);
+      return;
+    }
     }
   }
   CHI_END(GetBlobId)
@@ -797,10 +792,10 @@ class Server : public Module {
   void MonitorGetBlobName(MonitorModeId mode, GetBlobNameTask *task,
                           RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        BlobCacheReadRoute<GetBlobNameTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      BlobCacheReadRoute<GetBlobNameTask>(task);
+      return;
+    }
     }
   }
   CHI_END(GetBlobName)
@@ -828,10 +823,10 @@ class Server : public Module {
   void MonitorGetBlobSize(MonitorModeId mode, GetBlobSizeTask *task,
                           RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        BlobCacheReadRoute<GetBlobSizeTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      BlobCacheReadRoute<GetBlobSizeTask>(task);
+      return;
+    }
     }
   }
   CHI_END(GetBlobSize)
@@ -852,10 +847,10 @@ class Server : public Module {
   void MonitorGetBlobScore(MonitorModeId mode, GetBlobScoreTask *task,
                            RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        BlobCacheReadRoute<GetBlobScoreTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      BlobCacheReadRoute<GetBlobScoreTask>(task);
+      return;
+    }
     }
   }
   CHI_END(GetBlobScore)
@@ -876,10 +871,10 @@ class Server : public Module {
   void MonitorGetBlobBuffers(MonitorModeId mode, GetBlobBuffersTask *task,
                              RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        BlobCacheReadRoute<GetBlobBuffersTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      BlobCacheReadRoute<GetBlobBuffersTask>(task);
+      return;
+    }
     }
   }
   CHI_END(GetBlobBuffers)
@@ -892,16 +887,16 @@ class Server : public Module {
 
   /** Used by PutBlob and GetBlob to do partial I/O */
   class DataIterator {
-   public:
-    Slice part_;          // part of blob to find
-    Slice rem_;           // remaining part of blob
-    Slice intersect_;     // relative part of buffer
-    size_t tgt_off_;      // actual part of target
-    size_t data_off_;     // actual part of blob
-    size_t cur_off_ = 0;  // beginning of current buffer
-    size_t cutoff_;       // max value of cur_off
+  public:
+    Slice part_;         // part of blob to find
+    Slice rem_;          // remaining part of blob
+    Slice intersect_;    // relative part of buffer
+    size_t tgt_off_;     // actual part of target
+    size_t data_off_;    // actual part of blob
+    size_t cur_off_ = 0; // beginning of current buffer
+    size_t cutoff_;      // max value of cur_off
 
-   public:
+  public:
     DataIterator(const Slice &part) : part_(part), rem_(part) {
       cutoff_ = part_.off_ + part_.size_;
     }
@@ -967,7 +962,7 @@ class Server : public Module {
       // TODO(llogan): Don't hardcore score = 1
       blob_info.last_flush_ = 1;
       client_.StageIn(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
-                      task->tag_id_, blob_info.name_, 1);  // OK
+                      task->tag_id_, blob_info.name_, 1); // OK
     }
 
     // Determine amount of additional buffering space needed
@@ -1091,10 +1086,10 @@ class Server : public Module {
   }
   void MonitorPutBlob(MonitorModeId mode, PutBlobTask *task, RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        BlobCacheWriteRoute<PutBlobTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      BlobCacheWriteRoute<PutBlobTask>(task);
+      return;
+    }
     }
   }
   CHI_END(PutBlob)
@@ -1132,7 +1127,7 @@ class Server : public Module {
       // TODO(llogan): Don't hardcore score = 1
       blob_info.last_flush_ = 1;
       client_.StageIn(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
-                      task->tag_id_, blob_info.name_, 1);  // OK
+                      task->tag_id_, blob_info.name_, 1); // OK
     }
 
     // Get blob struct
@@ -1178,10 +1173,10 @@ class Server : public Module {
   }
   void MonitorGetBlob(MonitorModeId mode, GetBlobTask *task, RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        BlobCacheReadRoute<GetBlobTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      BlobCacheReadRoute<GetBlobTask>(task);
+      return;
+    }
     }
   }
   CHI_END(GetBlob)
@@ -1225,10 +1220,10 @@ class Server : public Module {
   void MonitorDestroyBlob(MonitorModeId mode, DestroyBlobTask *task,
                           RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        BlobCacheWriteRoute<DestroyBlobTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      BlobCacheWriteRoute<DestroyBlobTask>(task);
+      return;
+    }
     }
   }
   CHI_END(DestroyBlob)
@@ -1248,10 +1243,10 @@ class Server : public Module {
   }
   void MonitorTagBlob(MonitorModeId mode, TagBlobTask *task, RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        BlobCacheWriteRoute<TagBlobTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      BlobCacheWriteRoute<TagBlobTask>(task);
+      return;
+    }
     }
   }
   CHI_END(TagBlob)
@@ -1273,10 +1268,10 @@ class Server : public Module {
   void MonitorBlobHasTag(MonitorModeId mode, BlobHasTagTask *task,
                          RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        BlobCacheReadRoute<BlobHasTagTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      BlobCacheReadRoute<BlobHasTagTask>(task);
+      return;
+    }
     }
   }
   CHI_END(BlobHasTag)
@@ -1317,34 +1312,59 @@ class Server : public Module {
         CHI_CLIENT->AllocateBuffer(HSHM_MCTX, blob_info.blob_size_);
     client_.GetBlob(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0), task->tag_id_,
                     task->blob_id_, 0, blob_info.blob_size_, data.shm_,
-                    0);  // OK
+                    0); // OK
     // Put the blob with the new score
     client_.AsyncPutBlob(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
                          task->tag_id_, chi::string(""), task->blob_id_, 0,
                          blob_info.blob_size_, data.shm_, blob_info.score_,
                          TASK_FIRE_AND_FORGET | TASK_DATA_OWNER,
-                         0);  // OK
+                         0); // OK
   }
   void MonitorReorganizeBlob(MonitorModeId mode, ReorganizeBlobTask *task,
                              RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kSchedule: {
-        BlobCacheWriteRoute<ReorganizeBlobTask>(task);
-        return;
-      }
+    case MonitorMode::kSchedule: {
+      BlobCacheWriteRoute<ReorganizeBlobTask>(task);
+      return;
+    }
     }
   }
   CHI_END(ReorganizeBlob)
 
   CHI_BEGIN(ReorganizeNode)
   /** The ReorganizeNode method */
-  void ReorganizeNode(ReorganizeNodeTask *task, RunContext &rctx) {}
+  void ReorganizeNode(ReorganizeNodeTask *task, RunContext &rctx) {
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
+    chi::ScopedCoRwReadLock blob_map_lock(tls.blob_map_lock_);
+    BLOB_ID_MAP_T &blob_id_map = tls.blob_id_map_;
+    BLOB_MAP_T &blob_map = tls.blob_map_;
+    for (auto &it : blob_map) {
+      BlobInfo &blob_info = it.second;
+      // Update blob scores
+      //      float new_score = MakeScore(blob_info, now);
+      //      blob_info.score_ = new_score;
+      //      if (ShouldReorganize<true>(blob_info, new_score,
+      //      task->task_node_)) {
+      //        Context ctx;
+      //        FullPtr<ReorganizeBlobTask> reorg_task =
+      //            blob_mdm_.AsyncReorganizeBlob(task->task_node_ + 1,
+      //                                          blob_info.tag_id_,
+      //                                          chi::string(""),
+      //                                          blob_info.blob_id_,
+      //                                          new_score, false, ctx,
+      //                                          TASK_LOW_LATENCY);
+      //        reorg_task->Wait<TASK_YIELD_CO>(task);
+      //        CHI_CLIENT->DelTask(HSHM_MCTX, reorg_task);
+      //      }
+      //      blob_info.access_freq_ = 0;
+    }
+  }
   void MonitorReorganizeNode(MonitorModeId mode, ReorganizeNodeTask *task,
                              RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kReplicaAgg: {
-        std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
-      }
+    case MonitorMode::kReplicaAgg: {
+      std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
+    }
     }
   }
   CHI_END(ReorganizeNode)
@@ -1401,7 +1421,7 @@ class Server : public Module {
         CHI_CLIENT->AllocateBuffer(HSHM_MCTX, blob_info.blob_size_);
     client_.GetBlob(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
                     blob_info.tag_id_, blob_info.blob_id_, 0,
-                    blob_info.blob_size_, data.shm_, 0);  // OK
+                    blob_info.blob_size_, data.shm_, 0); // OK
     adapter::BlobPlacement plcmnt;
     plcmnt.DecodeBlobName(blob_info.name_, 4096);
     HILOG(kDebug, "Flushing blob {} with first entry {}", plcmnt.page_,
@@ -1409,7 +1429,7 @@ class Server : public Module {
     client_.StageOut(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
                      blob_info.tag_id_, blob_info.name_, data.shm_,
                      blob_info.blob_size_,
-                     TASK_DATA_OWNER);  // OK
+                     TASK_DATA_OWNER); // OK
     HILOG(kDebug, "Finished flushing blob {} with first entry {}", plcmnt.page_,
           (int)data.ptr_[0]);
     blob_info.last_flush_ = flush_info.mod_count_;
@@ -1433,34 +1453,15 @@ class Server : public Module {
     BLOB_MAP_T &blob_map = tls.blob_map_;
     for (auto &it : blob_map) {
       BlobInfo &blob_info = it.second;
-      // Update blob scores
-      //      float new_score = MakeScore(blob_info, now);
-      //      blob_info.score_ = new_score;
-      //      if (ShouldReorganize<true>(blob_info, new_score,
-      //      task->task_node_)) {
-      //        Context ctx;
-      //        FullPtr<ReorganizeBlobTask> reorg_task =
-      //            blob_mdm_.AsyncReorganizeBlob(task->task_node_ + 1,
-      //                                          blob_info.tag_id_,
-      //                                          chi::string(""),
-      //                                          blob_info.blob_id_,
-      //                                          new_score, false, ctx,
-      //                                          TASK_LOW_LATENCY);
-      //        reorg_task->Wait<TASK_YIELD_CO>(task);
-      //        CHI_CLIENT->DelTask(HSHM_MCTX, reorg_task);
-      //      }
-      //      blob_info.access_freq_ = 0;
-
-      // Flush data
-      // _FlushBlob(tls, blob_info.blob_id_, rctx);
+      _FlushBlob(tls, blob_info.blob_id_, rctx);
     }
   }
   void MonitorFlushData(MonitorModeId mode, FlushDataTask *task,
                         RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kFlushWork: {
-        // rctx.flush_->count_ += _AnyBlobNeedsFlush();
-      }
+    case MonitorMode::kFlushWork: {
+      rctx.flush_->count_ += _AnyBlobNeedsFlush();
+    }
     }
   }
   CHI_END(FlushData)
@@ -1470,24 +1471,24 @@ class Server : public Module {
   void MonitorPollMetadata(MonitorModeId mode, PollTaskT *task,
                            RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kReplicaAgg: {
-        std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
-        std::vector<MD> stats_agg;
-        stats_agg.reserve(task->max_count_);
-        for (FullPtr<Task> &replica : replicas) {
-          PollTaskT *replica_task = replica.Cast<PollTaskT>().ptr_;
-          // Merge replicas
-          auto stats = replica_task->GetStats();
-          size_t append_count = stats.size();
-          if (task->max_count_ > 0 && stats_agg.size() < task->max_count_) {
-            append_count =
-                std::min(append_count, task->max_count_ - stats_agg.size());
-          }
-          stats_agg.insert(stats_agg.end(), stats.begin(),
-                           stats.begin() + append_count);
+    case MonitorMode::kReplicaAgg: {
+      std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
+      std::vector<MD> stats_agg;
+      stats_agg.reserve(task->max_count_);
+      for (FullPtr<Task> &replica : replicas) {
+        PollTaskT *replica_task = replica.Cast<PollTaskT>().ptr_;
+        // Merge replicas
+        auto stats = replica_task->GetStats();
+        size_t append_count = stats.size();
+        if (task->max_count_ > 0 && stats_agg.size() < task->max_count_) {
+          append_count =
+              std::min(append_count, task->max_count_ - stats_agg.size());
         }
-        task->SetStats(stats_agg);
+        stats_agg.insert(stats_agg.end(), stats.begin(),
+                         stats.begin() + append_count);
       }
+      task->SetStats(stats_agg);
+    }
     }
   }
 
@@ -1612,7 +1613,7 @@ class Server : public Module {
     STAGER_MAP_T &stager_map = tls.stager_map_;
     std::string tag_name = task->tag_name_.str();
     std::string params = task->params_.str();
-    HILOG(kDebug, "Registering stager {}: {}", task->bkt_id_, tag_name);
+    HILOG(kInfo, "Registering stager {}: {}", task->bkt_id_, tag_name);
     std::shared_ptr<AbstractStager> stager =
         StagerFactory::Get(tag_name, params);
     stager->RegisterStager(HSHM_MCTX, task->tag_name_.str(),
@@ -1624,9 +1625,9 @@ class Server : public Module {
   void MonitorRegisterStager(MonitorModeId mode, RegisterStagerTask *task,
                              RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kReplicaAgg: {
-        std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
-      }
+    case MonitorMode::kReplicaAgg: {
+      std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
+    }
     }
   }
   CHI_END(RegisterStager)
@@ -1634,7 +1635,7 @@ class Server : public Module {
   CHI_BEGIN(UnregisterStager)
   /** The UnregisterStager method */
   void UnregisterStager(UnregisterStagerTask *task, RunContext &rctx) {
-    HILOG(kDebug, "Unregistering stager {}", task->bkt_id_);
+    HILOG(kInfo, "Unregistering stager {}", task->bkt_id_);
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoMutex stager_map_lock(tls.stager_map_lock_);
     STAGER_MAP_T &stager_map = tls.stager_map_;
@@ -1646,9 +1647,9 @@ class Server : public Module {
   void MonitorUnregisterStager(MonitorModeId mode, UnregisterStagerTask *task,
                                RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kReplicaAgg: {
-        std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
-      }
+    case MonitorMode::kReplicaAgg: {
+      std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
+    }
     }
   }
   CHI_END(UnregisterStager)
@@ -1672,9 +1673,9 @@ class Server : public Module {
   }
   void MonitorStageIn(MonitorModeId mode, StageInTask *task, RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kReplicaAgg: {
-        std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
-      }
+    case MonitorMode::kReplicaAgg: {
+      std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
+    }
     }
   }
   CHI_END(StageIn)
@@ -1697,18 +1698,18 @@ class Server : public Module {
   void MonitorStageOut(MonitorModeId mode, StageOutTask *task,
                        RunContext &rctx) {
     switch (mode) {
-      case MonitorMode::kReplicaAgg: {
-        std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
-      }
+    case MonitorMode::kReplicaAgg: {
+      std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
+    }
     }
   }
   CHI_END(StageOut)
 
   CHI_AUTOGEN_METHODS
- public:
+public:
 #include "hermes_core/hermes_core_lib_exec.h"
 };
 
-}  // namespace hermes
+} // namespace hermes
 
 CHI_TASK_CC(hermes::Server, "hermes_core");
