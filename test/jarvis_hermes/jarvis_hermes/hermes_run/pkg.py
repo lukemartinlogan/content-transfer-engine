@@ -175,7 +175,7 @@ class HermesRun(Service):
 
         # Begin making Hermes client config
         hermes_client = {
-            'path_inclusions': ['/tmp/test_hermes'],
+            'path_inclusions': [''],
             'path_exclusions': ['/'],
             'file_page_size': self.config['page_size']
         }
