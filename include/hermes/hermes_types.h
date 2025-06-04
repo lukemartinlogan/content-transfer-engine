@@ -49,7 +49,7 @@ struct TargetInfo {
   DomainQuery dom_query_;
   FullPtr<chi::bdev::PollStatsTask> poll_stats_;
   chi::BdevStats *stats_;
-  float score_ = 0;  // TODO(llogan): Calculate score
+  float score_ = 0; // TODO(llogan): Calculate score
 
   size_t GetRemCap() { return stats_->free_; }
 };
@@ -64,8 +64,7 @@ struct TargetStats {
   float latency_;
   float score_;
 
-  template <typename Ar>
-  void serialize(Ar &ar) {
+  template <typename Ar> void serialize(Ar &ar) {
     ar(tgt_id_, node_id_, rem_cap_, max_cap_, bandwidth_, latency_, score_);
   }
 };
@@ -78,13 +77,13 @@ enum class TraitType { kStagingTrait, kProducerOpTrait };
 
 /** Represents a blob */
 class Blob {
- public:
+public:
   hipc::FullPtr<char> data_ = hipc::FullPtr<char>::GetNull();
   size_t size_ = 0;
   size_t max_size_ = 0;
   bool owned_ = true;
 
- public:
+public:
   /** Default constructor */
   HSHM_INLINE_CROSS_FUN
   Blob() = default;
@@ -97,8 +96,7 @@ class Blob {
   Blob(const std::string &data) { Copy(data.data(), data.size()); }
 
   /** Copy vector */
-  template <typename T>
-  HSHM_INLINE_CROSS_FUN Blob(const chi::vector<T> &data) {
+  template <typename T> HSHM_INLINE_CROSS_FUN Blob(const chi::vector<T> &data) {
     Copy(data.data(), data.size() * sizeof(T));
   }
 
@@ -243,22 +241,22 @@ enum class PlacementPolicy {
 
 /** A class to convert placement policy enum value to string */
 class PlacementPolicyConv {
- public:
+public:
   /** A function to return string representation of \a policy */
   static std::string to_str(PlacementPolicy policy) {
     switch (policy) {
-      case PlacementPolicy::kRandom: {
-        return "PlacementPolicy::kRandom";
-      }
-      case PlacementPolicy::kRoundRobin: {
-        return "PlacementPolicy::kRoundRobin";
-      }
-      case PlacementPolicy::kMinimizeIoTime: {
-        return "PlacementPolicy::kMinimizeIoTime";
-      }
-      case PlacementPolicy::kNone: {
-        return "PlacementPolicy::kNone";
-      }
+    case PlacementPolicy::kRandom: {
+      return "PlacementPolicy::kRandom";
+    }
+    case PlacementPolicy::kRoundRobin: {
+      return "PlacementPolicy::kRoundRobin";
+    }
+    case PlacementPolicy::kMinimizeIoTime: {
+      return "PlacementPolicy::kMinimizeIoTime";
+    }
+    case PlacementPolicy::kNone: {
+      return "PlacementPolicy::kNone";
+    }
     }
     return "PlacementPolicy::Invalid";
   }
@@ -300,9 +298,7 @@ struct Context {
 
   HSHM_CROSS_FUN
   Context()
-      : mctx_(HSHM_MCTX),
-        dpe_(PlacementPolicy::kNone),
-        blob_score_(1),
+      : mctx_(HSHM_MCTX), dpe_(PlacementPolicy::kNone), blob_score_(1),
         node_id_(0) {}
 };
 
@@ -348,7 +344,7 @@ enum class FlushingMode { kSync, kAsync };
 
 /** Convert flushing modes to strings */
 class FlushingModeConv {
- public:
+public:
   static FlushingMode GetEnum(const std::string &str) {
     if (str == "kSync") {
       return FlushingMode::kSync;
@@ -363,7 +359,7 @@ class FlushingModeConv {
 /** A class with static constants */
 #define CONST_T static inline const
 class Constant {
- public:
+public:
   /** Hermes server environment variable */
   CONST_T char *kHermesServerConf = "HERMES_CONF";
 
@@ -388,10 +384,7 @@ struct BufferInfo : public chi::Block {
   TargetId tid_; /**< The destination target */
 
   /** Serialization */
-  template <typename Ar>
-  void serialize(Ar &ar) {
-    ar(tid_, off_, size_);
-  }
+  template <typename Ar> void serialize(Ar &ar) { ar(tid_, off_, size_); }
 
   /** Default constructor */
   BufferInfo() = default;
@@ -424,8 +417,7 @@ struct BlobInfo {
 #endif
 
   /** Serialization */
-  template <typename Ar>
-  void serialize(Ar &ar) {
+  template <typename Ar> void serialize(Ar &ar) {
     ar(tag_id_, blob_id_, name_, buffers_, tags_, blob_size_, max_blob_size_,
        score_, access_freq_, mod_count_, last_flush_);
   }
@@ -494,8 +486,7 @@ struct TagInfo {
   // chi::CoRwLock lock_;
 
   /** Serialization */
-  template <typename Ar>
-  void serialize(Ar &ar) {
+  template <typename Ar> void serialize(Ar &ar) {
     ar(tag_id_, name_, internal_size_, page_size_, owner_, flags_);
   }
 
@@ -509,7 +500,7 @@ struct TagInfo {
 
 /** The mode used to update size */
 class UpdateSizeMode {
- public:
+public:
   TASK_METHOD_T kAdd = 0;
   TASK_METHOD_T kCap = 1;
 };
@@ -532,10 +523,7 @@ struct IoStat {
   /** Emplace constructor */
   IoStat(IoType type, const BlobId &blob_id, const TagId &tag_id,
          size_t blob_size, int rank)
-      : type_(type),
-        blob_id_(blob_id),
-        tag_id_(tag_id),
-        blob_size_(blob_size),
+      : type_(type), blob_id_(blob_id), tag_id_(tag_id), blob_size_(blob_size),
         rank_(rank) {}
 
   /** Copy constructor */
@@ -571,8 +559,7 @@ struct IoStat {
   }
 
   /** Serialize  */
-  template <typename Ar>
-  void serialize(Ar &ar) {
+  template <typename Ar> void serialize(Ar &ar) {
     ar(type_, blob_id_, tag_id_, blob_size_, rank_, id_);
   }
 };
@@ -626,6 +613,6 @@ enum LockOwners {
   kMDM_ClearIoStats = 47
 };
 
-}  // namespace hermes
+} // namespace hermes
 
-#endif  // HRUN_TASKS_HERMES_INCLUDE_HERMES_HERMES_TYPES_H_
+#endif // HRUN_TASKS_HERMES_INCLUDE_HERMES_HERMES_TYPES_H_

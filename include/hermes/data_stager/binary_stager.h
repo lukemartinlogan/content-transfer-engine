@@ -11,12 +11,12 @@
 namespace hermes {
 
 class BinaryFileStager : public AbstractStager {
- public:
+public:
   size_t page_size_;
   std::string path_;
   bitfield32_t flags_;
 
- public:
+public:
   /** Default constructor */
   BinaryFileStager() = default;
 
@@ -65,7 +65,7 @@ class BinaryFileStager : public AbstractStager {
     // Get the position of the file to stage in
     adapter::BlobPlacement plcmnt;
     plcmnt.DecodeBlobName(blob_name, page_size_);
-    HILOG(kDebug,
+    HILOG(kInfo,
           "Attempting to stage {} bytes from the backend file {} at offset {}",
           page_size_, path_, plcmnt.bucket_off_);
     // Stage in the data from the file
@@ -88,12 +88,10 @@ class BinaryFileStager : public AbstractStager {
       return;
     }
     // Put the new blob into hermes
-    HILOG(kDebug, "Staged {} bytes from the backend file {}", real_size, path_);
-    hapi::Context ctx;
-    ctx.flags_.SetBits(HERMES_SHOULD_STAGE);
+    HILOG(kInfo, "Staged {} bytes from the backend file {}", real_size, path_);
     client.PutBlob(mctx, chi::DomainQuery::GetDynamic(), tag_id,
                    chi::string(blob_name), hermes::BlobId::GetNull(), 0,
-                   real_size, blob.shm_, score, TASK_DATA_OWNER, 0, ctx);
+                   real_size, blob.shm_, score, TASK_DATA_OWNER, 0);
   }
 
   /** Stage data out to remote source */
@@ -138,6 +136,6 @@ class BinaryFileStager : public AbstractStager {
   }
 };
 
-}  // namespace hermes
+} // namespace hermes
 
-#endif  // HERMES_TASKS_DATA_STAGER_SRC_BINARY_STAGER_H_
+#endif // HERMES_TASKS_DATA_STAGER_SRC_BINARY_STAGER_H_

@@ -720,6 +720,7 @@ public:
       blob_info.mod_count_ = 0;
       blob_info.access_freq_ = 0;
       blob_info.last_flush_ = 0;
+      blob_info.flags_ = flags;
       return blob_id;
     }
     return it->second;
@@ -957,10 +958,8 @@ public:
     chi::ScopedCoRwWriteLock blob_info_lock(blob_info.lock_);
 
     // Stage Blob
-    if (task->flags_.Any(HERMES_SHOULD_STAGE) &&
-        blob_info.last_flush_ == (size_t)0) {
-      // TODO(llogan): Don't hardcore score = 1
-      blob_info.last_flush_ = 1;
+    if (task->flags_.Any(HERMES_SHOULD_STAGE)) {
+      HILOG(kInfo, "Staging blob {} in tag {}", blob_info.name_, task->tag_id_);
       client_.StageIn(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
                       task->tag_id_, blob_info.name_, 1); // OK
     }
@@ -1083,6 +1082,12 @@ public:
         IoType::kWrite, task->blob_id_, task->tag_id_, task->data_size_, 0});
     io_pattern_.peek(stat, qtok);
     stat->id_ = qtok.id_;
+
+    HILOG(kInfo,
+          "(node {}) Put blob with ID {} data_size={} task_node={} "
+          "mod_count={} last_flush={}",
+          CHI_CLIENT->node_id_, task->blob_id_, task->data_size_,
+          task->task_node_, blob_info.mod_count_, blob_info.last_flush_);
   }
   void MonitorPutBlob(MonitorModeId mode, PutBlobTask *task, RunContext &rctx) {
     switch (mode) {
@@ -1122,10 +1127,8 @@ public:
     BlobInfo &blob_info = blob_map[task->blob_id_];
 
     // Stage Blob
-    if (task->flags_.Any(HERMES_SHOULD_STAGE) &&
-        blob_info.last_flush_ == (size_t)0) {
+    if (task->flags_.Any(HERMES_SHOULD_STAGE)) {
       // TODO(llogan): Don't hardcore score = 1
-      blob_info.last_flush_ = 1;
       client_.StageIn(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
                       task->tag_id_, blob_info.name_, 1); // OK
     }
@@ -1194,8 +1197,9 @@ public:
       return;
     }
     TagInfo &tag = tag_it->second;
-    size_t page_size =
-        tag.page_size_ > 0 ? tag.page_size_ : 4096; // Default to 4KB if not set
+    size_t page_size = tag.page_size_ > 0
+                           ? tag.page_size_
+                           : MEGABYTES(1); // Default to 1MB if not set
     size_t current_size = tag.internal_size_;
 
     // Calculate number of pages needed
@@ -1423,15 +1427,8 @@ public:
   CHI_BEGIN(FlushBlob)
   /** Check if blob needs to be flushed */
   bool _BlobNeedsFlush(BlobInfo &blob_info) {
-    FlushInfo flush_info;
-    flush_info.blob_info_ = &blob_info;
-    flush_info.mod_count_ = blob_info.mod_count_;
-    // Is the blob already flushed?
-    if (blob_info.last_flush_ <= 0 ||
-        flush_info.mod_count_ <= blob_info.last_flush_) {
-      return false;
-    }
-    return true;
+    return blob_info.flags_.Any(HERMES_SHOULD_STAGE) &&
+           blob_info.mod_count_ > blob_info.last_flush_;
   }
 
   /** Check if any blobs need to be flushed */
@@ -1458,15 +1455,15 @@ public:
       return;
     }
     BlobInfo &blob_info = it->second;
+    chi::ScopedCoRwReadLock blob_map_lock(blob_info.lock_);
     FlushInfo flush_info;
     flush_info.blob_info_ = &blob_info;
     flush_info.mod_count_ = blob_info.mod_count_;
     // Is the blob already flushed?
-    if (blob_info.last_flush_ <= 0 ||
-        flush_info.mod_count_ <= blob_info.last_flush_) {
+    if (!_BlobNeedsFlush(blob_info)) {
       return;
     }
-    HILOG(kDebug, "Flushing blob {} (mod_count={}, last_flush={})",
+    HILOG(kInfo, "Flushing blob {} (mod_count={}, last_flush={})",
           blob_info.blob_id_, flush_info.mod_count_, blob_info.last_flush_);
     FullPtr<char> data =
         CHI_CLIENT->AllocateBuffer(HSHM_MCTX, blob_info.blob_size_);
@@ -1511,7 +1508,11 @@ public:
                         RunContext &rctx) {
     switch (mode) {
     case MonitorMode::kFlushWork: {
-      rctx.flush_->count_ += _AnyBlobNeedsFlush();
+      bool needs_flush = _AnyBlobNeedsFlush();
+      rctx.flush_->count_ += needs_flush;
+      if (needs_flush) {
+        HILOG(kInfo, "FlushData: needs_flush={}", needs_flush);
+      }
     }
     }
   }
