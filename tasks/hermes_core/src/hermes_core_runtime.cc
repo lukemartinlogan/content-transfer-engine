@@ -1181,6 +1181,57 @@ public:
   }
   CHI_END(GetBlob)
 
+  CHI_BEGIN(AppendBlob)
+  /** The AppendBlob method */
+  void AppendBlob(AppendBlobTask *task, RunContext &rctx) {
+    HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
+    chi::ScopedCoRwReadLock tag_map_lock(tls.tag_map_lock_);
+    TAG_MAP_T &tag_map = tls.tag_map_;
+
+    // Get tag info to get page size and current size
+    auto tag_it = tag_map.find(task->tag_id_);
+    if (tag_it == tag_map.end()) {
+      return;
+    }
+    TagInfo &tag = tag_it->second;
+    size_t page_size =
+        tag.page_size_ > 0 ? tag.page_size_ : 4096; // Default to 4KB if not set
+    size_t current_size = tag.internal_size_;
+
+    // Calculate number of pages needed
+    size_t total_pages = (task->data_size_ + page_size - 1) / page_size;
+
+    // Do partial puts for each page
+    for (size_t i = 0; i < total_pages; i++) {
+      size_t offset = i * page_size;
+      size_t size = std::min(page_size, task->data_size_ - offset);
+
+      // Create blob placement and name for this page
+      adapter::BlobPlacement placement;
+      placement.page_ = i;
+      placement.bucket_off_ = current_size + offset;
+      placement.blob_off_ = 0;
+      placement.blob_size_ = size;
+      chi::string blob_name = placement.CreateBlobName();
+
+      // Create a PutBlob task for this page
+      client_.AsyncPutBlob(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
+                           task->tag_id_, blob_name, BlobId::GetNull(),
+                           current_size + offset, size, task->data_ + offset,
+                           task->score_, TASK_FIRE_AND_FORGET,
+                           task->flags_.bits_);
+    }
+  }
+  void MonitorAppendBlob(MonitorModeId mode, AppendBlobTask *task,
+                         RunContext &rctx) {
+    switch (mode) {
+    case MonitorMode::kReplicaAgg: {
+      std::vector<FullPtr<Task>> &replicas = *rctx.replicas_;
+    }
+    }
+  }
+  CHI_END(AppendBlob)
+
   CHI_BEGIN(TruncateBlob)
   /** Truncate a blob (TODO) */
   void TruncateBlob(TruncateBlobTask *task, RunContext &rctx) {

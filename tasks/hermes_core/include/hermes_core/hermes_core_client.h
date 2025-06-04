@@ -20,7 +20,7 @@ namespace hermes {
 
 /** Create hermes_core requests */
 class Client : public ModuleClient {
- public:
+public:
   /** Default constructor */
   Client() = default;
 
@@ -256,6 +256,21 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(GetBlob);
   CHI_END(GetBlob)
 
+  CHI_BEGIN(AppendBlob)
+  /** AppendBlob task */
+  void AppendBlob(const hipc::MemContext &mctx, const DomainQuery &dom_query,
+                  TagId tag_id, size_t blob_size, const hipc::Pointer &blob,
+                  float score, u32 task_flags, u32 hermes_flags,
+                  Context ctx = Context()) {
+    FullPtr<AppendBlobTask> task =
+        AsyncAppendBlob(mctx, dom_query, tag_id, blob_size, blob, score,
+                        task_flags, hermes_flags, ctx);
+    task->Wait();
+    CHI_CLIENT->DelTask(mctx, task);
+  }
+  CHI_TASK_METHODS(AppendBlob);
+  CHI_END(AppendBlob)
+
   CHI_BEGIN(ReorganizeBlob)
   /**
    * Reorganize a blob
@@ -267,12 +282,11 @@ class Client : public ModuleClient {
   CHI_TASK_METHODS(ReorganizeBlob);
   CHI_END(ReorganizeBlob)
 
-CHI_BEGIN(ReorganizeNode)
+  CHI_BEGIN(ReorganizeNode)
   /** ReorganizeNode task */
   void ReorganizeNode(const hipc::MemContext &mctx,
                       const DomainQuery &dom_query) {
-    FullPtr<ReorganizeNodeTask> task =
-      AsyncReorganizeNode(mctx, dom_query);
+    FullPtr<ReorganizeNodeTask> task = AsyncReorganizeNode(mctx, dom_query);
     task->Wait();
     CHI_CLIENT->DelTask(mctx, task);
   }
@@ -573,6 +587,6 @@ CHI_BEGIN(ReorganizeNode)
   CHI_AUTOGEN_METHODS
 };
 
-}  // namespace hermes
+} // namespace hermes
 
-#endif  // CHI_hermes_core_H_
+#endif // CHI_hermes_core_H_

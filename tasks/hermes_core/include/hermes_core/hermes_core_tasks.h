@@ -84,8 +84,7 @@ struct CreateTaskParams {
 
   CreateTaskParams(const hipc::CtxAllocator<CHI_ALLOC_T> &alloc) {}
 
-  template <typename Ar>
-  void serialize(Ar &ar) {}
+  template <typename Ar> void serialize(Ar &ar) {}
 };
 typedef chi::Admin::CreatePoolBaseTask<CreateTaskParams> CreateTask;
 CHI_END(Create)
@@ -150,16 +149,12 @@ struct GetOrCreateTagTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithName {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
+  template <typename Ar> void SerializeStart(Ar &ar) {
     ar(tag_name_, params_, blob_owner_, backend_size_, flags_);
   }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
-    ar(tag_id_);
-  }
+  template <typename Ar> void SerializeEnd(Ar &ar) { ar(tag_id_); }
 };
 CHI_END(GetOrCreateTag)
 
@@ -196,16 +191,10 @@ struct GetTagIdTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithName {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
-    ar(tag_name_);
-  }
+  template <typename Ar> void SerializeStart(Ar &ar) { ar(tag_name_); }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
-    ar(tag_id_);
-  }
+  template <typename Ar> void SerializeEnd(Ar &ar) { ar(tag_id_); }
 };
 CHI_END(GetTagId)
 
@@ -244,16 +233,10 @@ struct GetTagNameTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
-    ar(tag_id_);
-  }
+  template <typename Ar> void SerializeStart(Ar &ar) { ar(tag_id_); }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
-    ar(tag_name_);
-  }
+  template <typename Ar> void SerializeEnd(Ar &ar) { ar(tag_name_); }
 };
 CHI_END(GetTagName)
 
@@ -290,14 +273,10 @@ struct DestroyTagTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
-    ar(tag_id_);
-  }
+  template <typename Ar> void SerializeStart(Ar &ar) { ar(tag_id_); }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(DestroyTag)
 
@@ -338,14 +317,10 @@ struct TagAddBlobTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
-    ar(tag_id_, blob_id_);
-  }
+  template <typename Ar> void SerializeStart(Ar &ar) { ar(tag_id_, blob_id_); }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(TagAddBlob)
 
@@ -386,14 +361,10 @@ struct TagRemoveBlobTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
-    ar(tag_id_, blob_id_);
-  }
+  template <typename Ar> void SerializeStart(Ar &ar) { ar(tag_id_, blob_id_); }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(TagRemoveBlob)
 
@@ -430,14 +401,10 @@ struct TagClearBlobsTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
-    ar(tag_id_);
-  }
+  template <typename Ar> void SerializeStart(Ar &ar) { ar(tag_id_); }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(TagClearBlobs)
 
@@ -476,16 +443,10 @@ struct TagGetSizeTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
-    ar(tag_id_);
-  }
+  template <typename Ar> void SerializeStart(Ar &ar) { ar(tag_id_); }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
-    ar(size_);
-  }
+  template <typename Ar> void SerializeEnd(Ar &ar) { ar(size_); }
 };
 CHI_END(TagGetSize)
 
@@ -529,14 +490,10 @@ struct TagUpdateSizeTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
-    ar(tag_id_, update_);
-  }
+  template <typename Ar> void SerializeStart(Ar &ar) { ar(tag_id_, update_); }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(TagUpdateSize)
 
@@ -577,16 +534,10 @@ struct TagGetContainedBlobIdsTask : public Task,
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
-    ar(tag_id_, blob_ids_);
-  }
+  template <typename Ar> void SerializeStart(Ar &ar) { ar(tag_id_, blob_ids_); }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
-    ar(blob_ids_);
-  }
+  template <typename Ar> void SerializeEnd(Ar &ar) { ar(blob_ids_); }
 };
 CHI_END(TagGetContainedBlobIds)
 
@@ -621,12 +572,10 @@ struct TagFlushTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
   void CopyStart(const TagFlushTask &other, bool deep) {}
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {}
+  template <typename Ar> void SerializeStart(Ar &ar) {}
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(TagFlush)
 
@@ -689,17 +638,13 @@ struct GetOrCreateBlobIdTask : public Task,
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
+  template <typename Ar> void SerializeStart(Ar &ar) {
     task_serialize<Ar>(ar);
     ar(tag_id_, blob_name_);
   }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
-    ar(blob_id_);
-  }
+  template <typename Ar> void SerializeEnd(Ar &ar) { ar(blob_id_); }
 };
 CHI_END(GetOrCreateBlobId)
 
@@ -743,16 +688,12 @@ struct GetBlobIdTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithName {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
+  template <typename Ar> void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_name_);
   }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
-    ar(blob_id_);
-  }
+  template <typename Ar> void SerializeEnd(Ar &ar) { ar(blob_id_); }
 };
 CHI_END(GetBlobId)
 
@@ -797,17 +738,13 @@ struct GetBlobNameTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
+  template <typename Ar> void SerializeStart(Ar &ar) {
     task_serialize<Ar>(ar);
     ar(tag_id_, blob_id_);
   }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
-    ar(blob_name_);
-  }
+  template <typename Ar> void SerializeEnd(Ar &ar) { ar(blob_name_); }
 };
 CHI_END(GetBlobName)
 
@@ -852,16 +789,12 @@ struct GetBlobSizeTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
+  template <typename Ar> void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_name_, blob_id_);
   }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
-    ar(size_);
-  }
+  template <typename Ar> void SerializeEnd(Ar &ar) { ar(size_); }
 };
 CHI_END(GetBlobSize)
 
@@ -904,16 +837,10 @@ struct GetBlobScoreTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
-    ar(tag_id_, blob_id_);
-  }
+  template <typename Ar> void SerializeStart(Ar &ar) { ar(tag_id_, blob_id_); }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
-    ar(score_);
-  }
+  template <typename Ar> void SerializeEnd(Ar &ar) { ar(score_); }
 };
 CHI_END(GetBlobScore)
 
@@ -956,16 +883,10 @@ struct GetBlobBuffersTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
-    ar(tag_id_, blob_id_);
-  }
+  template <typename Ar> void SerializeStart(Ar &ar) { ar(tag_id_, blob_id_); }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
-    ar(buffers_);
-  }
+  template <typename Ar> void SerializeEnd(Ar &ar) { ar(buffers_); }
 };
 CHI_END(GetBlobBuffers)
 
@@ -1014,16 +935,12 @@ struct BlobHasTagTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
+  template <typename Ar> void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_id_, tag_);
   }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
-    ar(has_tag_);
-  }
+  template <typename Ar> void SerializeEnd(Ar &ar) { ar(has_tag_); }
 };
 CHI_END(BlobHasTag)
 
@@ -1067,14 +984,12 @@ struct TruncateBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
+  template <typename Ar> void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_id_, size_);
   }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(TruncateBlob)
 
@@ -1120,14 +1035,12 @@ struct DestroyBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
+  template <typename Ar> void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_id_, flags_);
   }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(DestroyBlob)
 
@@ -1181,14 +1094,12 @@ struct ReorganizeBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
+  template <typename Ar> void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_name_, blob_id_, score_, node_id_);
   }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(ReorganizeBlob)
 
@@ -1220,12 +1131,10 @@ struct ReorganizeNodeTask : public Task, TaskFlags<TF_SRL_SYM> {
   void CopyStart(const ReorganizeNodeTask &other, bool deep) {}
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {}
+  template <typename Ar> void SerializeStart(Ar &ar) {}
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(ReorganizeNode);
 
@@ -1261,12 +1170,10 @@ struct FlushBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   void CopyStart(const FlushBlobTask &other, bool deep) {}
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {}
+  template <typename Ar> void SerializeStart(Ar &ar) {}
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(FlushBlob)
 
@@ -1311,14 +1218,10 @@ struct TagBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithId {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
-    ar(blob_id_, tag_);
-  }
+  template <typename Ar> void SerializeStart(Ar &ar) { ar(blob_id_, tag_); }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(TagBlob)
 
@@ -1390,8 +1293,7 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
+  template <typename Ar> void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_name_, blob_id_, blob_off_, score_, flags_);
     ar.bulk(DT_WRITE, data_, data_size_);
     // HILOG(kInfo, "(node {}) PUT {} of size {} pool={} dom={}",
@@ -1399,8 +1301,7 @@ struct PutBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
+  template <typename Ar> void SerializeEnd(Ar &ar) {
     if (flags_.Any(HERMES_GET_BLOB_ID)) {
       ar(blob_id_);
     }
@@ -1462,8 +1363,7 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   }
 
   /** Convert data to a data structure */
-  template <typename T>
-  HSHM_INLINE void Get(T &obj) {
+  template <typename T> HSHM_INLINE void Get(T &obj) {
     FullPtr data(data_);
     std::stringstream ss(std::string(data.ptr_, data_size_));
     cereal::BinaryInputArchive ar(ss);
@@ -1471,8 +1371,7 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   }
 
   /** Convert data to a data structure */
-  template <typename T>
-  HSHM_INLINE T Get() {
+  template <typename T> HSHM_INLINE T Get() {
     T obj;
     return Get(obj);
   }
@@ -1489,15 +1388,13 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
+  template <typename Ar> void SerializeStart(Ar &ar) {
     ar(tag_id_, blob_name_, blob_id_, blob_off_, flags_);
     ar.bulk(DT_EXPOSE, data_, data_size_);
   }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
+  template <typename Ar> void SerializeEnd(Ar &ar) {
     ar.bulk(DT_WRITE, data_, data_size_);
     if (flags_.Any(HERMES_GET_BLOB_ID)) {
       ar(blob_id_);
@@ -1505,6 +1402,63 @@ struct GetBlobTask : public Task, TaskFlags<TF_SRL_SYM>, BlobWithIdAndName {
   }
 };
 CHI_END(GetBlob)
+
+CHI_BEGIN(AppendBlob)
+/** The AppendBlobTask task */
+struct AppendBlobTask : public Task, TaskFlags<TF_SRL_SYM>, TagWithId {
+  IN TagId tag_id_;
+  IN size_t data_size_;
+  IN hipc::Pointer data_;
+  IN float score_;
+  IN bitfield32_t flags_;
+
+  /** SHM default constructor */
+  HSHM_INLINE explicit AppendBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc)
+      : Task(alloc) {}
+
+  /** Emplace constructor */
+  HSHM_INLINE explicit AppendBlobTask(
+      const hipc::CtxAllocator<CHI_ALLOC_T> &alloc, const TaskNode &task_node,
+      const PoolId &pool_id, const DomainQuery &dom_query, const TagId &tag_id,
+      size_t data_size, const hipc::Pointer &data, float score, u32 task_flags,
+      u32 hermes_flags, const Context &ctx = Context())
+      : Task(alloc) {
+    // Initialize task
+    task_node_ = task_node;
+    prio_ = TaskPrioOpt::kLowLatency;
+    pool_ = pool_id;
+    method_ = Method::kAppendBlob;
+    task_flags_.SetBits(0);
+    dom_query_ = dom_query;
+
+    // Custom
+    tag_id_ = tag_id;
+    data_size_ = data_size;
+    data_ = data;
+    score_ = score;
+    flags_ = bitfield32_t(hermes_flags | ctx.flags_.bits_);
+  }
+
+  /** Duplicate message */
+  void CopyStart(const AppendBlobTask &other, bool deep) {
+    tag_id_ = other.tag_id_;
+    data_size_ = other.data_size_;
+    data_ = other.data_;
+    score_ = other.score_;
+    flags_ = other.flags_;
+  }
+
+  /** (De)serialize message call */
+  template <typename Ar> void SerializeStart(Ar &ar) {
+    ar(tag_id_, data_size_, score_, flags_);
+    ar.bulk(DT_WRITE, data_, data_size_);
+  }
+
+  /** (De)serialize message return */
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
+};
+CHI_END(AppendBlob);
 
 CHI_BEGIN(FlushData)
 /** The FlushDataTask task */
@@ -1535,12 +1489,10 @@ struct FlushDataTask : public Task, TaskFlags<TF_SRL_SYM> {
   void CopyStart(const FlushDataTask &other, bool deep) {}
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {}
+  template <typename Ar> void SerializeStart(Ar &ar) {}
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(FlushData)
 
@@ -1600,16 +1552,12 @@ struct PollMetadataTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
+  template <typename Ar> void SerializeStart(Ar &ar) {
     ar(filter_, max_count_);
   }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
-    ar(stats_buf_);
-  }
+  template <typename Ar> void SerializeEnd(Ar &ar) { ar(stats_buf_); }
 };
 
 CHI_BEGIN(PollBlobMetadata)
@@ -1664,14 +1612,10 @@ struct PollAccessPatternTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
-    ar(last_access_);
-  }
+  template <typename Ar> void SerializeStart(Ar &ar) { ar(last_access_); }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {
+  template <typename Ar> void SerializeEnd(Ar &ar) {
     ar(last_access_);
     ar(io_pattern_);
   }
@@ -1723,14 +1667,12 @@ struct RegisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
+  template <typename Ar> void SerializeStart(Ar &ar) {
     ar(bkt_id_, tag_name_, params_);
   }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(RegisterStager)
 
@@ -1768,14 +1710,10 @@ struct UnregisterStagerTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
-    ar(bkt_id_);
-  }
+  template <typename Ar> void SerializeStart(Ar &ar) { ar(bkt_id_); }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(UnregisterStager)
 
@@ -1819,14 +1757,12 @@ struct StageInTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
+  template <typename Ar> void SerializeStart(Ar &ar) {
     ar(bkt_id_, blob_name_, score_);
   }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(StageIn)
 
@@ -1873,18 +1809,16 @@ struct StageOutTask : public Task, TaskFlags<TF_SRL_SYM> {
   }
 
   /** (De)serialize message call */
-  template <typename Ar>
-  void SerializeStart(Ar &ar) {
+  template <typename Ar> void SerializeStart(Ar &ar) {
     ar(bkt_id_, blob_name_);
   }
 
   /** (De)serialize message return */
-  template <typename Ar>
-  void SerializeEnd(Ar &ar) {}
+  template <typename Ar> void SerializeEnd(Ar &ar) {}
 };
 CHI_END(StageOut)
 
 CHI_AUTOGEN_METHODS
-}  // namespace hermes
+} // namespace hermes
 
-#endif  // CHI_TASKS_TASK_TEMPL_INCLUDE_hermes_core_hermes_core_TASKS_H_
+#endif // CHI_TASKS_TASK_TEMPL_INCLUDE_hermes_core_hermes_core_TASKS_H_

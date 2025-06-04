@@ -20,7 +20,7 @@
 namespace hermes {
 
 class Bucket {
- public:
+public:
   hermes::Client mdm_;
   TagId id_;
   chi::string name_;
@@ -28,7 +28,7 @@ class Bucket {
   hipc::MemContext mctx_;
   bitfield32_t flags_;
 
- public:
+public:
   /**====================================
    * Bucket Operations
    * ===================================*/
@@ -92,7 +92,7 @@ class Bucket {
   HSHM_CROSS_FUN
   Bucket &operator=(Bucket &&other) = default;
 
- public:
+public:
   /**
    * Get the name of this bucket. Name is cached instead of
    * making an RPC. Not coherent if Rename is called.
@@ -159,7 +159,7 @@ class Bucket {
   HSHM_CROSS_FUN
   bool IsNull() { return id_.IsNull(); }
 
- public:
+public:
   /**====================================
    * Blob Operations
    * ===================================*/
@@ -361,16 +361,44 @@ class Bucket {
   }
 
   /**
+   * Put \a blob_name Blob into the bucket
+   * */
+  template <bool ASYNC>
+  HSHM_INLINE_CROSS_FUN void ShmBaseAppend(Blob &blob, const Context &ctx) {
+    bitfield32_t task_flags;
+    bitfield32_t hermes_flags;
+    size_t blob_size = blob.size();
+    hipc::Pointer blob_data = blob.shm();
+    // Put to shared memory
+    if constexpr (ASYNC) {
+      blob.Disown();
+      task_flags.SetBits(TASK_DATA_OWNER | TASK_FIRE_AND_FORGET);
+    }
+    FullPtr<AppendBlobTask> task;
+    task = mdm_.AsyncAppendBlob(mctx_, DomainQuery::GetDynamic(), id_,
+                                blob.size(), blob_data, ctx.blob_score_,
+                                task_flags.bits_, hermes_flags.bits_, ctx);
+    if constexpr (!ASYNC) {
+      task->Wait();
+      CHI_CLIENT->DelTask(mctx_, task);
+    }
+  }
+
+  /**
+   * Append \a blob_name Blob into the bucket (fully asynchronous)
+   * */
+  HSHM_CROSS_FUN void Append(Blob &blob, size_t page_size,
+                             const Context &ctx = Context()) {
+    ShmBaseAppend<false>(blob, ctx);
+  }
+
+  /**
    * Append \a blob_name Blob into the bucket (fully asynchronous)
    * */
   HSHM_CROSS_FUN
-  void Append(Blob &blob, size_t page_size, const Context &ctx = Context()) {
-    //    FullPtr<char> p = CHI_CLIENT->AllocateBufferClient(blob.size());
-    //    char *data = p.ptr_;
-    //    memcpy(data, blob.data(), blob.size());
-    //    mdm_.AppendBlob(
-    //        id_, blob.size(), p.shm_, page_size,
-    //        ctx.blob_score_, ctx.node_id_, ctx);
+  void AsyncAppend(Blob &blob, size_t page_size,
+                   const Context &ctx = Context()) {
+    ShmBaseAppend<true>(blob, ctx);
   }
 
   /**
@@ -567,9 +595,9 @@ class Bucket {
    * AsyncGet \a blob_name Blob from the bucket
    * */
   template <typename StringT = std::string>
-  HSHM_CROSS_FUN FullPtr<GetBlobTask> AsyncPartialGet(
-      const StringT &blob_name, Blob &blob, size_t blob_off,
-      const Context &ctx = Context()) {
+  HSHM_CROSS_FUN FullPtr<GetBlobTask>
+  AsyncPartialGet(const StringT &blob_name, Blob &blob, size_t blob_off,
+                  const Context &ctx = Context()) {
     return ShmAsyncBaseGet(blob_name, BlobId::GetNull(), blob, blob_off, ctx);
   }
 
@@ -623,6 +651,6 @@ class Bucket {
   void Flush() { mdm_.TagFlush(mctx_, DomainQuery::GetDynamic(), id_); }
 };
 
-}  // namespace hermes
+} // namespace hermes
 
-#endif  // HRUN_TASKS_HERMES_CONF_INCLUDE_HERMES_CONF_BUCKET_H_
+#endif // HRUN_TASKS_HERMES_CONF_INCLUDE_HERMES_CONF_BUCKET_H_

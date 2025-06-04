@@ -178,8 +178,8 @@ public:
       for (const BlobPlacement &p : mapping) {
         Blob page((const char *)ptr + data_offset, p.blob_size_);
         std::string blob_name(p.CreateBlobName().str());
-        bkt.AsyncPartialPut(blob_name, page, p.blob_off_, ctx);
-        // bkt.PartialPut(blob_name, page, p.blob_off_, ctx);
+        // bkt.AsyncPartialPut(blob_name, page, p.blob_off_, ctx);
+        bkt.PartialPut(blob_name, page, p.blob_off_, ctx);
         data_offset += p.blob_size_;
       }
       if (opts.DoSeek()) {
@@ -428,6 +428,7 @@ public:
       // NOTE(llogan): only for the unit tests
       // Please don't enable synchronous flushing
       // stat.bkt_id_.Destroy();
+      CHI_ADMIN->Flush(HSHM_MCTX, chi::DomainQuery::GetGlobalBcast());
     }
     return 0;
   }

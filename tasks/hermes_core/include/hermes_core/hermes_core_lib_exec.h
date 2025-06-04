@@ -88,6 +88,10 @@ void Run(u32 method, Task *task, RunContext &rctx) override {
       GetBlob(reinterpret_cast<GetBlobTask *>(task), rctx);
       break;
     }
+    case Method::kAppendBlob: {
+      AppendBlob(reinterpret_cast<AppendBlobTask *>(task), rctx);
+      break;
+    }
     case Method::kTruncateBlob: {
       TruncateBlob(reinterpret_cast<TruncateBlobTask *>(task), rctx);
       break;
@@ -241,6 +245,10 @@ void Monitor(MonitorModeId mode, MethodId method, Task *task, RunContext &rctx) 
       MonitorGetBlob(mode, reinterpret_cast<GetBlobTask *>(task), rctx);
       break;
     }
+    case Method::kAppendBlob: {
+      MonitorAppendBlob(mode, reinterpret_cast<AppendBlobTask *>(task), rctx);
+      break;
+    }
     case Method::kTruncateBlob: {
       MonitorTruncateBlob(mode, reinterpret_cast<TruncateBlobTask *>(task), rctx);
       break;
@@ -392,6 +400,10 @@ void Del(const hipc::MemContext &mctx, u32 method, Task *task) override {
     }
     case Method::kGetBlob: {
       CHI_CLIENT->DelTask<GetBlobTask>(mctx, reinterpret_cast<GetBlobTask *>(task));
+      break;
+    }
+    case Method::kAppendBlob: {
+      CHI_CLIENT->DelTask<AppendBlobTask>(mctx, reinterpret_cast<AppendBlobTask *>(task));
       break;
     }
     case Method::kTruncateBlob: {
@@ -589,6 +601,12 @@ void CopyStart(u32 method, const Task *orig_task, Task *dup_task, bool deep) ove
         reinterpret_cast<GetBlobTask*>(dup_task), deep);
       break;
     }
+    case Method::kAppendBlob: {
+      chi::CALL_COPY_START(
+        reinterpret_cast<const AppendBlobTask*>(orig_task), 
+        reinterpret_cast<AppendBlobTask*>(dup_task), deep);
+      break;
+    }
     case Method::kTruncateBlob: {
       chi::CALL_COPY_START(
         reinterpret_cast<const TruncateBlobTask*>(orig_task), 
@@ -774,6 +792,10 @@ void NewCopyStart(u32 method, const Task *orig_task, FullPtr<Task> &dup_task, bo
       chi::CALL_NEW_COPY_START(reinterpret_cast<const GetBlobTask*>(orig_task), dup_task, deep);
       break;
     }
+    case Method::kAppendBlob: {
+      chi::CALL_NEW_COPY_START(reinterpret_cast<const AppendBlobTask*>(orig_task), dup_task, deep);
+      break;
+    }
     case Method::kTruncateBlob: {
       chi::CALL_NEW_COPY_START(reinterpret_cast<const TruncateBlobTask*>(orig_task), dup_task, deep);
       break;
@@ -927,6 +949,10 @@ void SaveStart(
     }
     case Method::kGetBlob: {
       ar << *reinterpret_cast<GetBlobTask*>(task);
+      break;
+    }
+    case Method::kAppendBlob: {
+      ar << *reinterpret_cast<AppendBlobTask*>(task);
       break;
     }
     case Method::kTruncateBlob: {
@@ -1125,6 +1151,12 @@ TaskPointer LoadStart(    u32 method, BinaryInputArchive<true> &ar) override {
       ar >> *reinterpret_cast<GetBlobTask*>(task_ptr.ptr_);
       break;
     }
+    case Method::kAppendBlob: {
+      task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<AppendBlobTask>(
+             HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
+      ar >> *reinterpret_cast<AppendBlobTask*>(task_ptr.ptr_);
+      break;
+    }
     case Method::kTruncateBlob: {
       task_ptr.ptr_ = CHI_CLIENT->NewEmptyTask<TruncateBlobTask>(
              HSHM_DEFAULT_MEM_CTX, task_ptr.shm_);
@@ -1311,6 +1343,10 @@ void SaveEnd(u32 method, BinaryOutputArchive<false> &ar, Task *task) override {
       ar << *reinterpret_cast<GetBlobTask*>(task);
       break;
     }
+    case Method::kAppendBlob: {
+      ar << *reinterpret_cast<AppendBlobTask*>(task);
+      break;
+    }
     case Method::kTruncateBlob: {
       ar << *reinterpret_cast<TruncateBlobTask*>(task);
       break;
@@ -1462,6 +1498,10 @@ void LoadEnd(u32 method, BinaryInputArchive<false> &ar, Task *task) override {
     }
     case Method::kGetBlob: {
       ar >> *reinterpret_cast<GetBlobTask*>(task);
+      break;
+    }
+    case Method::kAppendBlob: {
+      ar >> *reinterpret_cast<AppendBlobTask*>(task);
       break;
     }
     case Method::kTruncateBlob: {
