@@ -1200,30 +1200,39 @@ public:
     size_t page_size = tag.page_size_ > 0
                            ? tag.page_size_
                            : MEGABYTES(1); // Default to 1MB if not set
-    size_t current_size = tag.internal_size_;
 
     // Calculate number of pages needed
     size_t total_pages = (task->data_size_ + page_size - 1) / page_size;
 
+    /// Placement
+    size_t data_size = task->data_size_;
+    adapter::BlobPlacement placement;
+    placement.bucket_off_ = tag.internal_size_;
+    placement.page_ = placement.bucket_off_ / page_size;
+    placement.blob_off_ = placement.bucket_off_ % page_size;
+    placement.blob_size_ = std::min(page_size - placement.blob_off_, data_size);
+    hipc::Pointer data(task->data_ + placement.blob_off_);
+
     // Do partial puts for each page
     for (size_t i = 0; i < total_pages; i++) {
-      size_t offset = i * page_size;
-      size_t size = std::min(page_size, task->data_size_ - offset);
-
       // Create blob placement and name for this page
-      adapter::BlobPlacement placement;
-      placement.page_ = i;
-      placement.bucket_off_ = current_size + offset;
-      placement.blob_off_ = 0;
-      placement.blob_size_ = size;
       chi::string blob_name = placement.CreateBlobName();
 
       // Create a PutBlob task for this page
       client_.AsyncPutBlob(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
                            task->tag_id_, blob_name, BlobId::GetNull(),
-                           current_size + offset, size, task->data_ + offset,
+                           placement.blob_off_, placement.blob_size_, data,
                            task->score_, TASK_FIRE_AND_FORGET,
                            task->flags_.bits_);
+
+      // Shift placement
+      placement.bucket_off_ += placement.blob_size_;
+      placement.page_ = placement.bucket_off_ / page_size;
+      placement.blob_off_ = placement.bucket_off_ % page_size;
+      placement.blob_size_ =
+          std::min(page_size - placement.blob_off_, data_size);
+      data += placement.blob_size_;
+      data_size -= placement.blob_size_;
     }
   }
   void MonitorAppendBlob(MonitorModeId mode, AppendBlobTask *task,
