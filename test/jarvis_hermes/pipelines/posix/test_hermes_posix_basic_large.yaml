@@ -4,7 +4,7 @@ pkgs:
   - pkg_type: chimaera_run
     pkg_name: chimaera_run
     sleep: 5
-    do_dbg: true
+    do_dbg: false
     dbg_port: 4000
     modules: ['hermes_hermes_core']
   - pkg_type: hermes_run
@@ -15,5 +15,5 @@ pkgs:
     hermes: true
     size: large
     dbg_port: 4001
-    do_dbg: true
+    do_dbg: false
 

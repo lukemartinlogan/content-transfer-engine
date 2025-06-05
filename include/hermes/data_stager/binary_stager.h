@@ -65,7 +65,7 @@ public:
     // Get the position of the file to stage in
     adapter::BlobPlacement plcmnt;
     plcmnt.DecodeBlobName(blob_name, page_size_);
-    HILOG(kInfo,
+    HILOG(kDebug,
           "Attempting to stage {} bytes from the backend file {} at offset {}",
           page_size_, path_, plcmnt.bucket_off_);
     // Stage in the data from the file
@@ -88,7 +88,7 @@ public:
       return;
     }
     // Put the new blob into hermes
-    HILOG(kInfo, "Staged {} bytes from the backend file {}", real_size, path_);
+    HILOG(kDebug, "Staged {} bytes from the backend file {}", real_size, path_);
     client.PutBlob(mctx, chi::DomainQuery::GetDynamic(), tag_id,
                    chi::string(blob_name), hermes::BlobId::GetNull(), 0,
                    real_size, blob.shm_, score, TASK_DATA_OWNER, 0);

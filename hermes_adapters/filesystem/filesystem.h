@@ -198,7 +198,7 @@ public:
   template <bool ASYNC>
   size_t BaseRead(File &f, AdapterStat &stat, void *ptr, size_t off,
                   size_t total_size, size_t req_id,
-                  std::vector<FullPtr<GetBlobTask>> &tasks, IoStatus &io_status,
+                  std::vector<GetBlobAsyncTask> &tasks, IoStatus &io_status,
                   FsIoOptions opts = FsIoOptions()) {
     (void)f;
     hapi::Bucket &bkt = stat.bkt_id_;
@@ -215,6 +215,13 @@ public:
       io_status.size_ = 0;
       UpdateIoStatus(opts, io_status);
       return 0;
+    }
+
+    // Read bit must be set
+    if (!stat.hflags_.Any(HERMES_FS_READ)) {
+      io_status.size_ = 0;
+      UpdateIoStatus(opts, io_status);
+      return -1;
     }
 
     // Ensure the amount being read makes sense
@@ -256,11 +263,14 @@ public:
       Blob page((const char *)ptr + data_offset, p.blob_size_);
       std::string blob_name(p.CreateBlobName().str());
       if constexpr (ASYNC) {
-        FullPtr<GetBlobTask> task =
-            bkt.AsyncPartialGet(blob_name, page, p.blob_off_, ctx);
+        GetBlobAsyncTask task;
+        task.orig_data_ = (char *)ptr + data_offset;
+        task.orig_size_ = p.blob_size_;
+        task.task_ = bkt.AsyncPartialGet(blob_name, page, p.blob_off_, ctx);
         tasks.emplace_back(task);
       } else {
         bkt.PartialGet(blob_name, page, p.blob_off_, ctx);
+        memcpy((char *)ptr + data_offset, page.data(), page.size());
       }
       data_offset += page.size();
       if (page.size() != p.blob_size_) {
@@ -280,7 +290,7 @@ public:
   size_t Read(File &f, AdapterStat &stat, void *ptr, size_t off,
               size_t total_size, IoStatus &io_status,
               FsIoOptions opts = FsIoOptions()) {
-    std::vector<FullPtr<GetBlobTask>> tasks;
+    std::vector<GetBlobAsyncTask> tasks;
     return BaseRead<false>(f, stat, ptr, off, total_size, 0, tasks, io_status,
                            opts);
   }
@@ -319,10 +329,12 @@ public:
     // Update I/O status for gets
     if (!fstask->get_tasks_.empty()) {
       size_t get_size = 0;
-      for (FullPtr<GetBlobTask> &task : fstask->get_tasks_) {
-        task->Wait();
-        get_size += task->data_size_;
-        CHI_CLIENT->DelTask(HSHM_MCTX, task);
+      for (GetBlobAsyncTask &task : fstask->get_tasks_) {
+        task.task_->Wait();
+        get_size += task.task_->data_size_;
+        FullPtr<char> data(task.task_->data_);
+        memcpy(task.orig_data_, data.ptr_, task.orig_size_);
+        CHI_CLIENT->DelTask(HSHM_MCTX, task.task_);
       }
       fstask->io_status_.size_ = get_size;
       UpdateIoStatus(fstask->opts_, fstask->io_status_);

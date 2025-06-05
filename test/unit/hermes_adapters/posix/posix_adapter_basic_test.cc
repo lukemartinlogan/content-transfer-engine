@@ -1333,7 +1333,7 @@ TEST_CASE("BatchedReadSequentialTemporalVariable",
   }
 
   SECTION("read from existing file always at start") {
-    TESTER->test_open(TESTER->existing_file_, O_WRONLY);
+    TESTER->test_open(TESTER->existing_file_, O_RDONLY);
     REQUIRE(TESTER->fh_orig_ != -1);
 
     for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
@@ -1343,8 +1343,8 @@ TEST_CASE("BatchedReadSequentialTemporalVariable",
       usleep(TESTER->temporal_interval_ms_ * 1000);
       TESTER->test_seek(0, SEEK_SET);
       REQUIRE(TESTER->status_orig_ == 0);
-      TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
-      REQUIRE(TESTER->size_written_orig_ == TESTER->request_size_);
+      TESTER->test_read(TESTER->write_data_.data(), TESTER->request_size_);
+      REQUIRE(TESTER->size_read_orig_ == TESTER->request_size_);
     }
     TESTER->test_close();
     REQUIRE(TESTER->status_orig_ == 0);
@@ -1360,91 +1360,92 @@ TEST_CASE("BatchedMixedSequential",
               std::to_string(TESTER->num_iterations_) +
               "]"
               "[pattern=sequential][file=1]") {
-  TESTER->Pretest();
+  auto *TEST = TESTER;
+  TEST->Pretest();
   SECTION("read after write on new file") {
-    TESTER->test_open(TESTER->new_file_, O_RDWR | O_CREAT | O_EXCL, 0600);
-    REQUIRE(TESTER->fh_orig_ != -1);
+    TEST->test_open(TEST->new_file_, O_RDWR | O_CREAT | O_EXCL, 0600);
+    REQUIRE(TEST->fh_orig_ != -1);
     size_t last_offset = 0;
-    for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
-      REQUIRE(TESTER->size_written_orig_ == TESTER->request_size_);
-      TESTER->test_seek(last_offset, SEEK_SET);
-      REQUIRE(((size_t)TESTER->status_orig_) == last_offset);
-      TESTER->test_read(TESTER->read_data_.data(), TESTER->request_size_);
-      REQUIRE(TESTER->size_read_orig_ == TESTER->request_size_);
-      last_offset += TESTER->request_size_;
+    for (size_t i = 0; i < TEST->num_iterations_; ++i) {
+      TEST->test_write(TEST->write_data_.data(), TEST->request_size_);
+      REQUIRE(TEST->size_written_orig_ == TEST->request_size_);
+      TEST->test_seek(last_offset, SEEK_SET);
+      REQUIRE(((size_t)TEST->status_orig_) == last_offset);
+      TEST->test_read(TEST->read_data_.data(), TEST->request_size_);
+      REQUIRE(TEST->size_read_orig_ == TEST->request_size_);
+      last_offset += TEST->request_size_;
     }
-    TESTER->test_close();
-    REQUIRE(TESTER->status_orig_ == 0);
+    TEST->test_close();
+    REQUIRE(TEST->status_orig_ == 0);
   }
 
   SECTION("write and read alternative existing file") {
-    TESTER->test_open(TESTER->existing_file_, O_RDWR);
-    REQUIRE(TESTER->fh_orig_ != -1);
-    for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
+    TEST->test_open(TEST->existing_file_, O_RDWR);
+    REQUIRE(TEST->fh_orig_ != -1);
+    for (size_t i = 0; i < TEST->num_iterations_; ++i) {
       if (i % 2 == 0) {
-        TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
-        REQUIRE(TESTER->size_written_orig_ == TESTER->request_size_);
+        TEST->test_write(TEST->write_data_.data(), TEST->request_size_);
+        REQUIRE(TEST->size_written_orig_ == TEST->request_size_);
       } else {
-        TESTER->test_read(TESTER->read_data_.data(), TESTER->request_size_);
-        REQUIRE(TESTER->size_read_orig_ == TESTER->request_size_);
+        TEST->test_read(TEST->read_data_.data(), TEST->request_size_);
+        REQUIRE(TEST->size_read_orig_ == TEST->request_size_);
       }
     }
-    TESTER->test_close();
-    REQUIRE(TESTER->status_orig_ == 0);
+    TEST->test_close();
+    REQUIRE(TEST->status_orig_ == 0);
   }
   SECTION("update after read existing file") {
-    TESTER->test_open(TESTER->existing_file_, O_RDWR);
-    REQUIRE(TESTER->fh_orig_ != -1);
+    TEST->test_open(TEST->existing_file_, O_RDWR);
+    REQUIRE(TEST->fh_orig_ != -1);
     size_t last_offset = 0;
-    for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      TESTER->test_read(TESTER->read_data_.data(), TESTER->request_size_);
-      REQUIRE(TESTER->size_read_orig_ == TESTER->request_size_);
-      TESTER->test_seek(last_offset, SEEK_SET);
-      REQUIRE(((size_t)TESTER->status_orig_) == last_offset);
-      TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
-      REQUIRE(TESTER->size_written_orig_ == TESTER->request_size_);
-      last_offset += TESTER->request_size_;
+    for (size_t i = 0; i < TEST->num_iterations_; ++i) {
+      TEST->test_read(TEST->read_data_.data(), TEST->request_size_);
+      REQUIRE(TEST->size_read_orig_ == TEST->request_size_);
+      TEST->test_seek(last_offset, SEEK_SET);
+      REQUIRE(((size_t)TEST->status_orig_) == last_offset);
+      TEST->test_write(TEST->write_data_.data(), TEST->request_size_);
+      REQUIRE(TEST->size_written_orig_ == TEST->request_size_);
+      last_offset += TEST->request_size_;
     }
 
-    TESTER->test_close();
-    REQUIRE(TESTER->status_orig_ == 0);
+    TEST->test_close();
+    REQUIRE(TEST->status_orig_ == 0);
   }
   SECTION("read all after write all on new file in single open") {
-    TESTER->test_open(TESTER->new_file_, O_RDWR | O_CREAT | O_EXCL, 0600);
-    REQUIRE(TESTER->fh_orig_ != -1);
-    for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
-      REQUIRE(TESTER->size_written_orig_ == TESTER->request_size_);
+    TEST->test_open(TEST->new_file_, O_RDWR | O_CREAT | O_EXCL, 0600);
+    REQUIRE(TEST->fh_orig_ != -1);
+    for (size_t i = 0; i < TEST->num_iterations_; ++i) {
+      TEST->test_write(TEST->write_data_.data(), TEST->request_size_);
+      REQUIRE(TEST->size_written_orig_ == TEST->request_size_);
     }
-    TESTER->test_seek(0, SEEK_SET);
-    REQUIRE(TESTER->status_orig_ == 0);
-    for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      TESTER->test_read(TESTER->read_data_.data(), TESTER->request_size_);
-      REQUIRE(TESTER->size_read_orig_ == TESTER->request_size_);
+    TEST->test_seek(0, SEEK_SET);
+    REQUIRE(TEST->status_orig_ == 0);
+    for (size_t i = 0; i < TEST->num_iterations_; ++i) {
+      TEST->test_read(TEST->read_data_.data(), TEST->request_size_);
+      REQUIRE(TEST->size_read_orig_ == TEST->request_size_);
     }
-    TESTER->test_close();
-    REQUIRE(TESTER->status_orig_ == 0);
+    TEST->test_close();
+    REQUIRE(TEST->status_orig_ == 0);
   }
   SECTION("read all after write all on new file in different open") {
-    TESTER->test_open(TESTER->new_file_, O_RDWR | O_CREAT, S_IRWXU | S_IRWXG);
-    REQUIRE(TESTER->fh_orig_ != -1);
-    for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      TESTER->test_write(TESTER->write_data_.data(), TESTER->request_size_);
-      REQUIRE(TESTER->size_written_orig_ == TESTER->request_size_);
+    TEST->test_open(TEST->new_file_, O_RDWR | O_CREAT, S_IRWXU | S_IRWXG);
+    REQUIRE(TEST->fh_orig_ != -1);
+    for (size_t i = 0; i < TEST->num_iterations_; ++i) {
+      TEST->test_write(TEST->write_data_.data(), TEST->request_size_);
+      REQUIRE(TEST->size_written_orig_ == TEST->request_size_);
     }
-    TESTER->test_close();
-    REQUIRE(TESTER->status_orig_ == 0);
-    TESTER->test_open(TESTER->new_file_, O_RDWR);
-    REQUIRE(TESTER->fh_orig_ != -1);
-    for (size_t i = 0; i < TESTER->num_iterations_; ++i) {
-      TESTER->test_read(TESTER->read_data_.data(), TESTER->request_size_);
-      REQUIRE(TESTER->size_read_orig_ == TESTER->request_size_);
+    TEST->test_close();
+    REQUIRE(TEST->status_orig_ == 0);
+    TEST->test_open(TEST->new_file_, O_RDWR);
+    REQUIRE(TEST->fh_orig_ != -1);
+    for (size_t i = 0; i < TEST->num_iterations_; ++i) {
+      TEST->test_read(TEST->read_data_.data(), TEST->request_size_);
+      REQUIRE(TEST->size_read_orig_ == TEST->request_size_);
     }
-    TESTER->test_close();
-    REQUIRE(TESTER->status_orig_ == 0);
+    TEST->test_close();
+    REQUIRE(TEST->status_orig_ == 0);
   }
-  TESTER->Posttest();
+  TEST->Posttest();
 }
 
 TEST_CASE("SingleMixed", "[process=" + std::to_string(TESTER->comm_size_) +

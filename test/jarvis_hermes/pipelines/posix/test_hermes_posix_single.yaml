@@ -12,7 +12,7 @@ pkgs:
   - pkg_type: hermes_posix_tests
     pkg_name: hermes_posix_tests
     test_file: posix_basic
-    test_case: SingleWrite
+    test_case: BatchedReadSequentialTemporalVariable
     hermes: true 
     dbg_port: 4001
     do_dbg: true

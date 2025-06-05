@@ -958,10 +958,11 @@ public:
     chi::ScopedCoRwWriteLock blob_info_lock(blob_info.lock_);
 
     // Stage Blob
-    if (task->flags_.Any(HERMES_SHOULD_STAGE)) {
-      HILOG(kInfo, "Staging blob {} in tag {}", blob_info.name_, task->tag_id_);
+    if (blob_info.flags_.Any(HERMES_SHOULD_STAGE) &&
+        !blob_info.flags_.Any(HERMES_DID_STAGE_IN)) {
+      blob_info.flags_.SetBits(HERMES_DID_STAGE_IN);
       client_.StageIn(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
-                      task->tag_id_, blob_info.name_, 1); // OK
+                      task->tag_id_, blob_info.name_, 1);
     }
 
     // Determine amount of additional buffering space needed
@@ -1083,7 +1084,7 @@ public:
     io_pattern_.peek(stat, qtok);
     stat->id_ = qtok.id_;
 
-    HILOG(kInfo,
+    HILOG(kDebug,
           "(node {}) Put blob with ID {} data_size={} task_node={} "
           "mod_count={} last_flush={}",
           CHI_CLIENT->node_id_, task->blob_id_, task->data_size_,
@@ -1127,10 +1128,11 @@ public:
     BlobInfo &blob_info = blob_map[task->blob_id_];
 
     // Stage Blob
-    if (task->flags_.Any(HERMES_SHOULD_STAGE)) {
-      // TODO(llogan): Don't hardcore score = 1
+    if (blob_info.flags_.Any(HERMES_SHOULD_STAGE) &&
+        !blob_info.flags_.Any(HERMES_DID_STAGE_IN)) {
+      blob_info.flags_.SetBits(HERMES_DID_STAGE_IN);
       client_.StageIn(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
-                      task->tag_id_, blob_info.name_, 1); // OK
+                      task->tag_id_, blob_info.name_, 1);
     }
 
     // Get blob struct
@@ -1171,8 +1173,8 @@ public:
         IoType::kRead, task->blob_id_, task->tag_id_, task->data_size_, 0});
     io_pattern_.peek(stat, qtok);
     stat->id_ = qtok.id_;
-    // HILOG(kInfo, "Finished getting blob {} of size {} starting at offset {}",
-    //       task->blob_id_, task->data_size_, task->blob_off_);
+    HILOG(kDebug, "Finished getting blob {} of size {} starting at offset {}",
+          task->blob_id_, task->data_size_, task->blob_off_);
   }
   void MonitorGetBlob(MonitorModeId mode, GetBlobTask *task, RunContext &rctx) {
     switch (mode) {
@@ -1472,7 +1474,7 @@ public:
     if (!_BlobNeedsFlush(blob_info)) {
       return;
     }
-    HILOG(kInfo, "Flushing blob {} (mod_count={}, last_flush={})",
+    HILOG(kDebug, "Flushing blob {} (mod_count={}, last_flush={})",
           blob_info.blob_id_, flush_info.mod_count_, blob_info.last_flush_);
     FullPtr<char> data =
         CHI_CLIENT->AllocateBuffer(HSHM_MCTX, blob_info.blob_size_);
@@ -1520,7 +1522,7 @@ public:
       bool needs_flush = _AnyBlobNeedsFlush();
       rctx.flush_->count_ += needs_flush;
       if (needs_flush) {
-        HILOG(kInfo, "FlushData: needs_flush={}", needs_flush);
+        HILOG(kDebug, "FlushData: needs_flush={}", needs_flush);
       }
     }
     }
@@ -1674,7 +1676,7 @@ public:
     STAGER_MAP_T &stager_map = tls.stager_map_;
     std::string tag_name = task->tag_name_.str();
     std::string params = task->params_.str();
-    HILOG(kInfo, "Registering stager {}: {}", task->bkt_id_, tag_name);
+    HILOG(kDebug, "Registering stager {}: {}", task->bkt_id_, tag_name);
     std::shared_ptr<AbstractStager> stager =
         StagerFactory::Get(tag_name, params);
     stager->RegisterStager(HSHM_MCTX, task->tag_name_.str(),
@@ -1696,7 +1698,7 @@ public:
   CHI_BEGIN(UnregisterStager)
   /** The UnregisterStager method */
   void UnregisterStager(UnregisterStagerTask *task, RunContext &rctx) {
-    HILOG(kInfo, "Unregistering stager {}", task->bkt_id_);
+    HILOG(kDebug, "Unregistering stager {}", task->bkt_id_);
     HermesLane &tls = tls_[CHI_CUR_LANE->lane_id_];
     chi::ScopedCoMutex stager_map_lock(tls.stager_map_lock_);
     STAGER_MAP_T &stager_map = tls.stager_map_;
