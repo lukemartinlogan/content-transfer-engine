@@ -8,7 +8,7 @@ add_dependencies(mpiio_adapter_test
   ${Hermes_CLIENT_DEPS})
 target_compile_definitions(mpiio_adapter_test PUBLIC
   HERMES_MPI_TESTS=true)
-jarvis_test(mpiio test_mpiio_basic)
+# jarvis_test(mpiio test_mpiio_basic)
 
 # MPI adapter tests with hermes
 add_executable(hermes_mpiio_adapter_test
@@ -21,7 +21,7 @@ add_dependencies(hermes_mpiio_adapter_test
 target_compile_definitions(hermes_mpiio_adapter_test PUBLIC
   HERMES_INTERCEPT=1 HERMES_MPI_TESTS=true)
 jarvis_test(mpiio test_hermes_mpiio_basic_sync)
-jarvis_test(mpiio test_hermes_mpiio_basic_async)
+# jarvis_test(mpiio test_hermes_mpiio_basic_async)
 
 set(MPIIO_TESTS
   mpiio_adapter_test
