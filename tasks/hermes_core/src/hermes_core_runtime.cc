@@ -111,7 +111,7 @@ public:
       TargetInfo &target = targets_.back();
       target.client_ = tgt_pool;
       target.dom_query_ = DomainQuery::GetLocalHash(0);
-      target.id_ = target.client_.id_;
+      target.id_ = target.client_.pool_id_;
       target.id_.node_id_ = CHI_CLIENT->node_id_;
       if (target_map_.find(target.id_) != target_map_.end()) {
         targets_.pop_back();
@@ -138,7 +138,7 @@ public:
   void Create(CreateTask *task, RunContext &rctx) {
     // Create a set of lanes for holding tasks
     HERMES_CONF->ServerInit();
-    client_.Init(id_);
+    client_.Init(pool_id_);
     CreateLaneGroup(kDefaultGroup, HERMES_LANES, QUEUE_LOW_LATENCY);
     tls_.resize(HERMES_LANES);
     io_pattern_.resize(8192);

@@ -45,7 +45,7 @@ public:
   /** Destroy task state + queue */
   HSHM_INLINE
   void Destroy(const hipc::MemContext &mctx, const DomainQuery &dom_query) {
-    CHI_ADMIN->DestroyContainer(mctx, dom_query, id_);
+    CHI_ADMIN->DestroyContainer(mctx, dom_query, pool_id_);
   }
   CHI_TASK_METHODS(Destroy);
   CHI_END(Destroy)
