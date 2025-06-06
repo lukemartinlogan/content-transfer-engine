@@ -79,7 +79,8 @@ else()
     add_compile_definitions(HERMES_LOG_VERBOSITY=1)
 endif()
 
-add_compile_options(-march=native -fomit-frame-pointer)
+# Enable Position Independent Code globally
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # -----------------------------------------------------------------------------
 # Targets built within this project are exported at Install time for use

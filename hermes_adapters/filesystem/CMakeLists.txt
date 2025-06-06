@@ -6,10 +6,14 @@ include_directories(
         .)
 
 # Create the metadata manager singleton + FS base class
-add_library(hermes_fs_base INTERFACE)
+add_library(hermes_fs_base SHARED
+        filesystem.cc
+        filesystem.h
+        filesystem_io_client.h
+        filesystem_mdm.h)
 add_dependencies(hermes_fs_base
         ${Hermes_CLIENT_DEPS})
-target_link_libraries(hermes_fs_base INTERFACE
+target_link_libraries(hermes_fs_base
         MPI::MPI_CXX
         ${Hermes_CLIENT_DEPS})
 

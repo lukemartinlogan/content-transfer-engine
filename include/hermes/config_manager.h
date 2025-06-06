@@ -22,13 +22,13 @@
 namespace hermes {
 
 class ConfigurationManager {
- public:
+public:
   hermes::Client mdm_;
   ServerConfig server_config_;
   ClientConfig client_config_;
   bool is_initialized_ = false;
 
- public:
+public:
   ConfigurationManager() = default;
 
   void ClientInit() {
@@ -67,8 +67,9 @@ class ConfigurationManager {
   }
 };
 
-#define HERMES_CONF \
-  hshm::Singleton<::hermes::ConfigurationManager>::GetInstance()
+HSHM_DEFINE_GLOBAL_PTR_VAR_H((hermes::ConfigurationManager), hermes_conf)
+#define HERMES_CONF                                                            \
+  HSHM_GET_GLOBAL_PTR_VAR((hermes::ConfigurationManager), hermes::hermes_conf)
 #define HERMES_CLIENT_CONF HERMES_CONF->client_config_
 #define HERMES_SERVER_CONF HERMES_CONF->server_config_
 
@@ -84,9 +85,9 @@ static inline bool TRANSPARENT_HERMES() {
 /** Wrapper for client-side hermes init */
 static inline bool HERMES_INIT() { return TRANSPARENT_HERMES(); }
 
-}  // namespace hermes
+} // namespace hermes
 
 using hermes::HERMES_INIT;
 using hermes::TRANSPARENT_HERMES;
 
-#endif  // HRUN_TASKS_HERMES_INCLUDE_hermes_H_
+#endif // HRUN_TASKS_HERMES_INCLUDE_hermes_H_

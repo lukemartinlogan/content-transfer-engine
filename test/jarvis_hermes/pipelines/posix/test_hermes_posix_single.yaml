@@ -9,10 +9,11 @@ pkgs:
     modules: ['hermes_hermes_core']
   - pkg_type: hermes_run
     pkg_name: hermes_run
-  - pkg_type: hermes_posix_tests
-    pkg_name: hermes_posix_tests
-    test_file: posix_basic
-    test_case: BatchedReadSequentialTemporalVariable
+  - pkg_type: hermes_mpiio_tests
+    pkg_name: hermes_mpiio_tests
+    test_file: mpiio_basic 
+    sync: async
+    test_case: SingleAsyncRead
     hermes: true 
     dbg_port: 4001
     do_dbg: true

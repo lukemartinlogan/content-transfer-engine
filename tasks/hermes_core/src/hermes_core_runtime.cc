@@ -376,7 +376,7 @@ public:
       tag_id.unique_ = id_alloc_.fetch_add(1);
       tag_id.hash_ = HashTagName(tag_name);
       tag_id.node_id_ = CHI_CLIENT->node_id_;
-      HILOG(kDebug, "Creating tag for the first time: {} {}", tag_name.str(),
+      HILOG(kInfo, "Creating tag for the first time: {} {}", tag_name.str(),
             tag_id);
       tag_id_map.emplace(tag_name, tag_id);
       tag_map.emplace(tag_id, TagInfo());
@@ -393,10 +393,10 @@ public:
       }
     } else {
       if (tag_name.size()) {
-        HILOG(kDebug, "Found existing tag: {}", tag_name.str());
+        HILOG(kInfo, "Found existing tag: {}", tag_name.str());
         tag_id = tag_id_map[tag_name];
       } else {
-        HILOG(kDebug, "Found existing tag: {}", task->tag_id_);
+        HILOG(kInfo, "Found existing tag: {}", task->tag_id_);
         tag_id = task->tag_id_;
       }
     }

@@ -40,9 +40,10 @@ public:
   HSHM_CROSS_FUN explicit Bucket(const StringT &bkt_name,
                                  const Context &ctx = Context(),
                                  size_t backend_size = 0, u32 flags = 0) {
+    auto *hermes_conf = HERMES_CONF;
     mctx_ = ctx.mctx_;
     ctx_ = ctx;
-    mdm_ = HERMES_CONF->mdm_;
+    mdm_ = hermes_conf->mdm_;
     id_ = mdm_.GetOrCreateTag(mctx_, chi::DomainQuery::GetDynamic(),
                               chi::string(bkt_name), true, backend_size, flags,
                               ctx);
