@@ -144,8 +144,9 @@ public:
     io_pattern_.resize(8192);
     CreateTargetPools();
     CreateTargetNeighborhood();
-    client_.AsyncFlushData(HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
-                           5); // OK
+    client_.AsyncFlushData(
+        HSHM_MCTX, chi::DomainQuery::GetLocalHash(0),
+        HERMES_CONF->server_config_.borg_.flush_period_); // OK
   }
   void MonitorCreate(MonitorModeId mode, CreateTask *task, RunContext &rctx) {}
   CHI_END(Create)
