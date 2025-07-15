@@ -47,9 +47,9 @@ class HermesRun(Service):
             },
             {
                 'name': 'flush_period',
-                'msg': 'Period of time to check for flushing (milliseconds)',
+                'msg': 'Period of time to check for flushing (seconds)',
                 'type': int,
-                'default': 5000,
+                'default': 5,
                 'class': 'buffer organizer',
                 'rank': 1,
             },
